@@ -1,0 +1,850 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Struct Name="cEngine">
+    <Position X="26" Y="7.75" Width="2.5" />
+    <NestedTypes>
+      <Typedef Name="cEngine::RenderFramesList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\engine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAgEAAAAAABAgAAEAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\engine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderFrame">
+    <Position X="22.25" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAAAAAgIAAAAAAAABAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\render_system\render_frame.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mEngine" />
+      <Field Name="mPhysics" />
+      <Field Name="mRender" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="apRenderWindow">
+    <Position X="18.5" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAgEEBgEQAEwIBgAAAAAAhAAAAAAAiAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="apWindowsManager" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAkAAAAAgAAEAAAAAACAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\win32_platform\windows_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="apWindow" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAwAIAAgEEBgBUAE0IASEBAIBAgIAAAAAAiAAQ=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\win32_platform\simple_window.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cObject" Collapsed="true">
+    <Position X="30" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAIAAAACkIAAAAAAAAAAAAAAAAABAEEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\scene\object.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cObjectComponent" Collapsed="true">
+    <Position X="6.25" Y="17.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAIAAAAAEIAAAAAAAEAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\scene\object_component.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cScene" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAASJAAAAAAAAAAACIEACAAAAgAAAAAABAAAAAGAQA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\scene\scene.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cGraphicsObjectComponent" Collapsed="true">
+    <Position X="6" Y="18.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\scene\graphics_object_component.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AABB">
+    <Position X="23.5" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAEAAAAAABAIAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\aabb.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="color4" Collapsed="true">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAQApAAgAEAAAAAAAAAAAACoAYABAAAABAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\color.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="mat3x3" Collapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAgAAAAAAgQAAAEGEAAgAKkA4AgAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\matrix.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="mat4x4" Collapsed="true">
+    <Position X="23" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAQAAAAEEAQgACkAgAgAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\matrix.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="poly3" Collapsed="true">
+    <Position X="21.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAACgAQAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\mmath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="poly4" Collapsed="true">
+    <Position X="23" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAACkAQAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\mmath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="polygon" Collapsed="true">
+    <Position X="24.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAACgEQAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\mmath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="fRect" Collapsed="true">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAoEAAAAAAAAAAACBAgAEAIIAAAAgABBABAg=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\mmath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="quat" Collapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAQAgAAAAAAAQAAAgAAAAAAARghAAAAAAE=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\quat.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Cray" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAQAEIAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\ray.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cStackObject" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\stack.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="vec2" Collapsed="true">
+    <Position X="28.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAQAIAAAASIQQAAEAEAADAAAABgAAAAACA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vec2.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="vec3" Collapsed="true">
+    <Position X="30" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAWAAAAAARAIAAAASIQQAAAAEAALgAAABiAQAAACA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="fmas3" Collapsed="true">
+    <Position X="30" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="vertexTexNorm" Collapsed="true">
+    <Position X="21.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAIACAAAAAAAAAABQABgAQAAARA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="vertex" Collapsed="true">
+    <Position X="31.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAABgAQAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="vertex2d" Collapsed="true">
+    <Position X="19.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAABgAUAAAQA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\math\vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cDataObject" Collapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAADAAgAAAAAAgEACAAAAAoQQAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\other\data_object.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLogStream" Collapsed="true">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAACAACAAABACAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\log\log_stream.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLogStreamInConsole" Collapsed="true">
+    <Position X="1.25" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAASAACAAAIACAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\log\log_stream_console.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLogStreamInConsoleAndFile" Collapsed="true">
+    <Position X="3.75" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAACAAAIACAAAAAABgAAAAIAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\log\log_stream_console_and_file.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLogStreamInFile" Collapsed="true">
+    <Position X="6.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAABAEAAAAACAAAAACAAAAAABAAEAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\log\log_stream_in_file.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLogSystem" Collapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAgABAAgAAAAAAAACCAAAAAACAACIAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\log\log_system.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cFileBaseInterface" Collapsed="true">
+    <Position X="11" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAEAAAgAAACAAAAhACAAEAAAAAAAAJAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\file_system\file_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cFile" Collapsed="true">
+    <Position X="11" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAACgAAAAQAAAAAAAAEAAAAAABAIAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\file_system\file.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cFileSystem" Collapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAQABIACAAAABAQCBAAAAAAQAEEAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\file_system\file_system.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cFileBase" Collapsed="true">
+    <Position X="11" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQABEAAAgAAACgAAABACAAEAAAABAAAJAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\file_system\file_win.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cParameterComplexConnector" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\dynamics\parameter_complex_connector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cParameterConnector&lt;object&gt;" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\dynamics\parameter_connector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cParameterContainer&lt;object&gt;" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAACAAACIAAAAAAAAABIAAgAAgAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\dynamics\parameter_container.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cConfigObject" Collapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\config_reader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexBlock" Collapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexOperatorPrototype" Collapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexOperator" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexErrorPrototype" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexOperandsManager" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="cLexParser" Collapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAACAAAAAQAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\util\script\string_parser.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="phEngine">
+    <Position X="22.25" Y="11.75" Width="3" />
+    <NestedTypes>
+      <Typedef Name="phEngine::ScenesList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_engine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAhAABAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_engine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="phCollisionManager">
+    <Position X="31" Y="11.75" Width="2.75" />
+    <NestedTypes>
+      <Typedef Name="phCollisionManager::CollisionsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_manager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAIAAAAAIAgAAAAAAIAACAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_manager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mScene" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phBoxCollisionGeometry">
+    <Position X="25" Y="33.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AIAAACAAAAAAAAAAAAAAQAEAQIAAAAACAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\box_collision_geometry.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="phCollision">
+    <Position X="34.75" Y="11.75" Width="2.25" />
+    <NestedTypes>
+      <Typedef Name="phCollision::PointsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAABAAAAAAAAAAAAIAAAAAoAEAEAACAAAAAAAAABA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mObjectA" />
+      <Field Name="mObjectB" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phCollisionGeometry">
+    <Position X="26.75" Y="25.5" Width="4.25" />
+    <NestedTypes>
+      <Typedef Name="phCollisionGeometry::PartsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_geometry.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IIAAAAACAEAAAAAAAAEAAQMAQIABAAAAAgEAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_geometry.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mOldCollisions" />
+      <Field Name="mObject" />
+      <Field Name="mAABB" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phCollisionGeometryPart">
+    <Position X="26.75" Y="30.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAABQEAQIAAAAAgQAIAAgAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_geometry_part.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCollisionGeometry" />
+      <Field Name="mAABB" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phCollisionPoint">
+    <Position X="38.25" Y="11.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAQAAAACAAAEAEABQEAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\collision_point.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCollision" />
+      <Field Name="mPartObjectA" />
+      <Field Name="mPartObjectB" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phObject">
+    <Position X="30.25" Y="16.25" Width="2.5" />
+    <NestedTypes>
+      <Enum Name="phObject::phObjectType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_object.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAQCAAAEAAAAAADAAABAQAIAIARAAAAACgSAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_object.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mScene" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phRigidObject">
+    <Position X="33.25" Y="21.5" Width="3.25" />
+    <NestedTypes>
+      <Enum Name="phRigidObject::phSleepStage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\rigid_object.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAQGIAAGAAKAAQBAQAAIQAIBIARIAgAiCgQcUAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\rigid_object.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCollisionGeometry" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phStaticObject">
+    <Position X="26.75" Y="21.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACAAAAAAIAAABAAAAAAAIAMAAAAAAACAQEUAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\static_object.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCollisionGeometry" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="phScene">
+    <Position X="26.5" Y="11.75" Width="3.25" />
+    <NestedTypes>
+      <Typedef Name="phScene::ObjectsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_scene.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAYKACAAAAAAAIAAAEACAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\physics\physics_scene.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCollisionManager" />
+      <Field Name="mEngine" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grRenderBaseInterface">
+    <Position X="5.25" Y="29.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>EAIAAAAAAAAAAEBAAGAAQAAAAAABABCgAAAAAAAWAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_base_interface.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mCameras" />
+      <Field Name="mLights" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grRender">
+    <Position X="5.25" Y="23" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAgAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mFrame" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grCamera">
+    <Position X="15.25" Y="29.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAEAAAAAAAEAABAAAAIgAAAAAAAAAAAEBAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\camera.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mRenderBase" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grCamera3DMouse">
+    <Position X="16.75" Y="33.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>B6AQAIABBAAAAAAAAAEoBQAAAEAggAgAAAAACEEEAiA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\camera_3d_mouse.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grCamerasManager">
+    <Position X="10.5" Y="29.75" Width="3" />
+    <NestedTypes>
+      <Typedef Name="grCamerasManager::CamerasList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\cameras_manager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIAIAAAAQAAAAAAAAAAABEAAAAAAAACEBA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\cameras_manager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mActiveCamera" />
+      <Field Name="mRender" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grLight" Collapsed="true">
+    <Position X="11" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\light.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grLightBaseInterface" Collapsed="true">
+    <Position X="11" Y="9.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAgjQACBIAAIAAAEIAFAAAQUJAIQEAICAAAiIEAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\light_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grLightManager">
+    <Position X="9.25" Y="41" Width="2.5" />
+    <NestedTypes>
+      <Typedef Name="grLightManager::LightsList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\light_manager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAIAAAAAAAIAgAAAAAAAAAAAAABACAABAAAEEAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\light_manager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mRender" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="grMaterial" Collapsed="true">
+    <Position X="5.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAACAAABAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMaterialBaseInterface" Collapsed="true">
+    <Position X="5" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAgAAgABIAAAAAAEAAAAgAAAIABQEAIEAAAgAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\material_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMaterialManager" Collapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAQAIAAAAAAARAAAAAAAAAAADACAAAAAAEA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\material_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderObjectsManager" Collapsed="true">
+    <Position X="1.25" Y="15" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\object_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grObjectManagerBaseInterface" Collapsed="true">
+    <Position X="1" Y="12.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQIAAAAAAIgAAAAAAACAAAAAgAAAAAAAAAAAUEAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\object_manager_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderObject" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAABAAABAAAQAAAAAAAAAAAAAUAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_object.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderObjectBaseInterface" Collapsed="true">
+    <Position X="3" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_object_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObject" Collapsed="true">
+    <Position X="14" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_3d_object.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObjectBaseInterface" Collapsed="true">
+    <Position X="11.75" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgBAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEUAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_3d_object_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMeshPart" Collapsed="true">
+    <Position X="8.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\mesh_part.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMeshPartBaseInterface" Collapsed="true">
+    <Position X="8" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABBAAAAQAAAAAAAAAAAAAAAAAAAIABAAAEUAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\mesh_part_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObjectMesh" Collapsed="true">
+    <Position X="10.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_3d_object_mesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObjectMeshBaseInterface" Collapsed="true">
+    <Position X="10.25" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAgAAAAAgAAAAAIAAAAIAAAABAAAAAAAAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_3d_object_mesh_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="gr3DObjectConditionContainer" Collapsed="true">
+    <Position X="14" Y="9.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAEcAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\multi_3d_object_container.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderMultiObject&lt;RenderObject, ObjectContainer&gt;" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>IEAAAgIAAAIgAAAAAAAAACAAABAAAAAAAAgAAACUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\multi_object.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grObjectConditionContainer" Collapsed="true">
+    <Position X="14.25" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAACAAAIAAAAAAAAAAAKAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\multi_object_container.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grSceneManager" Collapsed="true">
+    <Position X="30" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIAAAAAhAABAAAAAAAAAAAAgAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\scene_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderSceneBaseInterface" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEQAAAAAAAAAAABAAAAAAAAAAQAAAAAAAAAAAWAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\render_scene_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grSurfaceMaterial" Collapsed="true">
+    <Position X="4.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAEAAABAAAAAAAAAIAAAgAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\surface_material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grSurfaceMaterialBaseInterface" Collapsed="true">
+    <Position X="4" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAiAAAAAQAApAAAAACAAAAAQBAAAAAAAAAICAQAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\surface_material_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grSurfaceMaterialManager" Collapsed="true">
+    <Position X="31.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAMAAAACBAACAIAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\surface_material_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grTexture" Collapsed="true">
+    <Position X="1.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAQAACAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\texture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grTextureBaseInterface" Collapsed="true">
+    <Position X="1" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAgAAAIAAAAAAAAAAAAAAAAAAQgAAAAAAEDAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\texture_base_interface.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grTextureManager" Collapsed="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIgBAAAAAACAAAIAAIAIAAAAAAIAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\texture_manager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRenderBase">
+    <Position X="5" Y="25.5" Width="3" />
+    <InheritanceLine Type="grRenderBaseInterface" FixedFromPoint="true">
+      <Path>
+        <Point X="6.5" Y="29.75" />
+        <Point X="6.5" Y="28.915" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>kAIAAAAAAAAEAEAAAAEAAAAAAIAAAAABAAAAAAAUAAg=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\render_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grCameraD3D">
+    <Position X="14" Y="33.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAACAAAAAAAAACAEAAAAAAAAAAAAAACAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\camera.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grLightBase" Collapsed="true">
+    <Position X="11" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAgiQECBIAAIAAAEAABAAAQUJAIQEAICAAAoIAgA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\light_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMaterialBase" Collapsed="true">
+    <Position X="5.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAgABIAAIAgIAAAAAAAAAIABQEAIEAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\material_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grObjectManagerBase" Collapsed="true">
+    <Position X="1.25" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\object_manager_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObjectBase" Collapsed="true">
+    <Position X="13.75" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\render_3d_object_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMeshDataPart" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\mesh_data_manager_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMeshDataManager" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAgAAACAgAAEAgAIAQAoAAAABAAAMEAJEpACCBQg=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\mesh_data_manager_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grMeshPartBase" Collapsed="true">
+    <Position X="8" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAiAAAAAAAAAABAAAABAABAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\mesh_part_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grRender3DObjectMeshBase" Collapsed="true">
+    <Position X="10.5" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAgAAAIAkAAAAAAAAAAAAAAADAAAgAIAAAAAUAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\render_3d_object_mesh_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grSurfaceMaterialBase" Collapsed="true">
+    <Position X="4.25" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\surface_material_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="grTextureBase" Collapsed="true">
+    <Position X="1.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAIAAAAAAAgABAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\texture_d3d8.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="grRenderMulti3DObject" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\andrey\андрей\с++\new\anphys\src\engine\engine_incl.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

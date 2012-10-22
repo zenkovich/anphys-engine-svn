@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="anphys">
+</Property><Property Name="Solution File" Value="C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\anphys.sln">
+</Property><Property Name="User Options File" Value="C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\anphys.suo">
+</Property><Property Name="Date" Value="8 ноября 2011 г.">
+</Property><Property Name="Time" Value="15:50">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="anphys.sln" Description="File successfully backed up as C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\anphys.sln.old">
+</Event><Event ErrorLevel="0" Project="" Source="anphys.suo" Description="File successfully backed up as C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\anphys.suo.old">
+</Event><Event ErrorLevel="0" Project="win32_app" Source="win32_app\win32_app.vcproj" Description="Converting project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\win32_app\win32_app.vcproj'.">
+</Event><Event ErrorLevel="1" Project="win32_app" Source="win32_app\win32_app.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="win32_app" Source="win32_app\win32_app.vcproj" Description="Done converting to new project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\win32_app\win32_app.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="win32_app" Source="win32_app\win32_app.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Converting project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\win32_platform\win32_platform.vcproj'.">
+</Event><Event ErrorLevel="1" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Done converting to new project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\win32_platform\win32_platform.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="engine" Source="engine\engine.vcproj" Description="Converting project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\engine\engine.vcproj'.">
+</Event><Event ErrorLevel="1" Project="engine" Source="engine\engine.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="engine" Source="engine\engine.vcproj" Description="Done converting to new project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\engine\engine.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="engine" Source="engine\engine.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="render" Source="render\render.vcproj" Description="Converting project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\render\render.vcproj'.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="render" Source="render\render.vcproj" Description="Done converting to new project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\render\render.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="render" Source="render\render.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Converting project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\render_d3d8\render_d3d8.vcproj'.">
+</Event><Event ErrorLevel="1" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Done converting to new project file 'C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\render_d3d8\render_d3d8.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="anphys.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="anphys.sln" Description="Converted">
+</Event></UpgradeLog>

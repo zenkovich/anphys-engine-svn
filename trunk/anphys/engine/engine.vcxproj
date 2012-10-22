@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{493220CD-0D1B-45F6-BBF3-C6299A936460}</ProjectGuid>
+    <RootNamespace>engine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib;d3dx8d.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\engine\scene\graphics_object_component.h" />
+    <ClInclude Include="..\src\engine\scene\object.h" />
+    <ClInclude Include="..\src\engine\scene\object_component.h" />
+    <ClInclude Include="..\src\engine\scene\scene.h" />
+    <ClInclude Include="..\src\physics\box_box_cd.h" />
+    <ClInclude Include="..\src\physics\box_collision_geometry.h" />
+    <ClInclude Include="..\src\physics\collision.h" />
+    <ClInclude Include="..\src\physics\collision_geometry.h" />
+    <ClInclude Include="..\src\physics\collision_geometry_part.h" />
+    <ClInclude Include="..\src\physics\collision_manager.h" />
+    <ClInclude Include="..\src\physics\collision_point.h" />
+    <ClInclude Include="..\src\physics\physics_engine.h" />
+    <ClInclude Include="..\src\physics\physics_object.h" />
+    <ClInclude Include="..\src\physics\physics_scene.h" />
+    <ClInclude Include="..\src\physics\rigid_object.h" />
+    <ClInclude Include="..\src\physics\static_object.h" />
+    <ClInclude Include="..\src\render\camera.h" />
+    <ClInclude Include="..\src\render\cameras_manager.h" />
+    <ClInclude Include="..\src\render\camera_3d_mouse.h" />
+    <ClInclude Include="..\src\render\d3d8\camera.h" />
+    <ClInclude Include="..\src\render\d3d8\light_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\material_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\mesh_data_manager_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\mesh_part_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\object_manager_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\render_3d_object_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\render_3d_object_mesh_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\render_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\surface_material_d3d8.h" />
+    <ClInclude Include="..\src\render\d3d8\texture_d3d8.h" />
+    <ClInclude Include="..\src\render\light.h" />
+    <ClInclude Include="..\src\render\light_base_interface.h" />
+    <ClInclude Include="..\src\render\light_manager.h" />
+    <ClInclude Include="..\src\render\material.h" />
+    <ClInclude Include="..\src\render\material_base_interface.h" />
+    <ClInclude Include="..\src\render\material_manager.h" />
+    <ClInclude Include="..\src\render\mesh_part.h" />
+    <ClInclude Include="..\src\render\mesh_part_base_interface.h" />
+    <ClInclude Include="..\src\render\multi_3d_object_container.h" />
+    <ClInclude Include="..\src\render\multi_object.h" />
+    <ClInclude Include="..\src\render\multi_object_container.h" />
+    <ClInclude Include="..\src\render\object_manager.h" />
+    <ClInclude Include="..\src\render\object_manager_base_interface.h" />
+    <ClInclude Include="..\src\render\render.h" />
+    <ClInclude Include="..\src\render\render_3d_object.h" />
+    <ClInclude Include="..\src\render\render_3d_object_base_interface.h" />
+    <ClInclude Include="..\src\render\render_3d_object_mesh.h" />
+    <ClInclude Include="..\src\render\render_3d_object_mesh_base_interface.h" />
+    <ClInclude Include="..\src\render\render_base_interface.h" />
+    <ClInclude Include="..\src\render\render_object.h" />
+    <ClInclude Include="..\src\render\render_object_base_interface.h" />
+    <ClInclude Include="..\src\render\render_scene_base_interface.h" />
+    <ClInclude Include="..\src\render\scene_manager.h" />
+    <ClInclude Include="..\src\render\surface_material.h" />
+    <ClInclude Include="..\src\render\surface_material_base_interface.h" />
+    <ClInclude Include="..\src\render\surface_material_manager.h" />
+    <ClInclude Include="..\src\render\texture.h" />
+    <ClInclude Include="..\src\render\texture_base_interface.h" />
+    <ClInclude Include="..\src\render\texture_manager.h" />
+    <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
+    <ClInclude Include="..\src\util\other\data_object.h" />
+    <ClInclude Include="..\src\util\script\config_reader.h" />
+    <ClInclude Include="..\src\util\script\string_parser.h" />
+    <ClInclude Include="..\src\util\utils.h" />
+    <ClInclude Include="..\src\util\math\aabb.h" />
+    <ClInclude Include="..\src\util\math\addMath.h" />
+    <ClInclude Include="..\src\util\math\color.h" />
+    <ClInclude Include="..\src\util\math\matrix.h" />
+    <ClInclude Include="..\src\util\math\mmath.h" />
+    <ClInclude Include="..\src\util\math\quat.h" />
+    <ClInclude Include="..\src\util\math\ray.h" />
+    <ClInclude Include="..\src\util\math\stack.h" />
+    <ClInclude Include="..\src\util\math\vec2.h" />
+    <ClInclude Include="..\src\util\math\vector.h" />
+    <ClInclude Include="..\src\util\math\vertex.h" />
+    <ClInclude Include="..\src\util\memory\mem_utils.h" />
+    <ClInclude Include="..\src\util\other\string_utils.h" />
+    <ClInclude Include="..\src\util\log\log_stream.h" />
+    <ClInclude Include="..\src\util\log\log_stream_console.h" />
+    <ClInclude Include="..\src\util\log\log_stream_console_and_file.h" />
+    <ClInclude Include="..\src\util\log\log_stream_in_file.h" />
+    <ClInclude Include="..\src\util\log\log_system.h" />
+    <ClInclude Include="..\src\util\file_system\file.h" />
+    <ClInclude Include="..\src\util\file_system\file_system.h" />
+    <ClInclude Include="..\src\util\file_system\file_win.h" />
+    <ClInclude Include="..\src\util\dynamics\parameter_complex_connector.h" />
+    <ClInclude Include="..\src\util\dynamics\parameter_connector.h" />
+    <ClInclude Include="..\src\util\dynamics\parameter_container.h" />
+    <ClInclude Include="..\src\util\input\input_keys.h" />
+    <ClInclude Include="..\src\util\debug\assert.h" />
+    <ClInclude Include="..\src\util\geometry\geometry_objects.h" />
+    <ClInclude Include="..\src\engine\render_system\render_frame.h" />
+    <ClInclude Include="..\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.h" />
+    <ClInclude Include="..\src\engine\engine.h" />
+    <ClInclude Include="..\src\engine\engine_incl.h" />
+    <ClInclude Include="..\src\engine\engine_options.h" />
+    <ClInclude Include="..\src\win32_platform\application.h" />
+    <ClInclude Include="..\src\win32_platform\simple_window.h" />
+    <ClInclude Include="..\src\win32_platform\windows_manager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\engine\scene\graphics_object_component.cpp" />
+    <ClCompile Include="..\src\engine\scene\object.cpp" />
+    <ClCompile Include="..\src\engine\scene\scene.cpp" />
+    <ClCompile Include="..\src\physics\box_collision_geometry.cpp" />
+    <ClCompile Include="..\src\physics\collision.cpp" />
+    <ClCompile Include="..\src\physics\collision_geometry.cpp" />
+    <ClCompile Include="..\src\physics\physics_engine.cpp" />
+    <ClCompile Include="..\src\physics\physics_scene.cpp" />
+    <ClCompile Include="..\src\physics\rigid_object.cpp" />
+    <ClCompile Include="..\src\physics\static_object.cpp" />
+    <ClCompile Include="..\src\render\cameras_manager.cpp" />
+    <ClCompile Include="..\src\render\camera_3d_mouse.cpp" />
+    <ClCompile Include="..\src\render\d3d8\camera_3d_mouse_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\light_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\material_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\mesh_data_manager_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\mesh_part_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\render_3d_object_mesh_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\render_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\surface_material_d3d8.cpp" />
+    <ClCompile Include="..\src\render\d3d8\texture_d3d8.cpp" />
+    <ClCompile Include="..\src\render\light_manager.cpp" />
+    <ClCompile Include="..\src\render\material_manager.cpp" />
+    <ClCompile Include="..\src\render\multi_object.cpp" />
+    <ClCompile Include="..\src\render\object_manager_base_interface.cpp" />
+    <ClCompile Include="..\src\render\render.cpp" />
+    <ClCompile Include="..\src\render\render_base_interface.cpp" />
+    <ClCompile Include="..\src\render\render_scene_base_interface.cpp" />
+    <ClCompile Include="..\src\render\scene_manager.cpp" />
+    <ClCompile Include="..\src\render\surface_material_base_interface.cpp" />
+    <ClCompile Include="..\src\render\surface_material_manager.cpp" />
+    <ClCompile Include="..\src\render\texture_manager.cpp" />
+    <ClCompile Include="..\src\util\file_system\file.cpp" />
+    <ClCompile Include="..\src\util\math\ray.cpp" />
+    <ClCompile Include="..\src\util\other\data_object.cpp" />
+    <ClCompile Include="..\src\util\other\string_utils.cpp" />
+    <ClCompile Include="..\src\util\log\log_system.cpp" />
+    <ClCompile Include="..\src\util\file_system\file_system.cpp" />
+    <ClCompile Include="..\src\util\file_system\file_win.cpp" />
+    <ClCompile Include="..\src\util\debug\assert.cpp" />
+    <ClCompile Include="..\src\util\geometry\geometry_objects.cpp" />
+    <ClCompile Include="..\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.cpp" />
+    <ClCompile Include="..\src\engine\engine.cpp" />
+    <ClCompile Include="..\src\engine\engine_win.cpp" />
+    <ClCompile Include="..\src\util\script\config_reader.cpp" />
+    <ClCompile Include="..\src\win32_platform\application.cpp" />
+    <ClCompile Include="..\src\win32_platform\simple_window.cpp" />
+    <ClCompile Include="..\src\win32_platform\windows_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

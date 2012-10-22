@@ -1,0 +1,78 @@
+d3dRenderLog: Initializing Direct3d8 render...
+d3dRenderLog: Direct3d8 render initialized.
+d3dRenderLog: added light b09120
+d3dRenderLog: can't find material redMaterial
+d3dRenderLog: add material b05c60 redMaterial
+d3dRenderLog: can't find material blueMaterial
+d3dRenderLog: add material b09328 blueMaterial
+d3dRenderLog: can't find material greenMaterial
+d3dRenderLog: add material b094a8 greenMaterial
+d3dRenderLog: added texture b09688
+d3dRenderLog: can't find texture: ../data/textures/white.jpg
+d3dRenderLog: loaded texture: ../data/textures/white.jpg
+d3dRenderLog: can't find Surface material redMaterial
+d3dRenderLog: add Surface material b09768 redMaterial
+d3dRenderLog: can't find Surface material blueMaterial
+d3dRenderLog: add Surface material b09878 blueMaterial
+d3dRenderLog: can't find Surface material greenMaterial
+d3dRenderLog: add Surface material b09a20 greenMaterial
+d3dRenderLog: can't find material whiteMaterial
+d3dRenderLog: add material b09b80 whiteMaterial
+d3dRenderLog: added texture b09e00
+d3dRenderLog: can't find texture: ../data/textures/wood.jpg
+d3dRenderLog: loaded texture: ../data/textures/wood.jpg
+d3dRenderLog: can't find Surface material 
+d3dRenderLog: add Surface material b09f70 
+windows_manager_log: added window[0] 'anPhys test'
+key = 83
+key = 68
+key = 68
+key = 68
+key = 68
+key = 68
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 65
+key = 68
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 87
+key = 68
+key = 87
+key = 65
+key = 87
+key = 65
+key = 87
+key = 87
+key = 65
+key = 65
+key = 87
+key = 65
+key = 83
+key = 68
+key = 87
+key = 68
