@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="anphys">
+</Property><Property Name="Solution File" Value="C:\Users\andrey\андрей\с++\new\anphys\anphys.sln">
+</Property><Property Name="User Options File" Value="C:\Users\andrey\андрей\с++\new\anphys\anphys.suo">
+</Property><Property Name="Date" Value="24 июня 2012 г.">
+</Property><Property Name="Time" Value="15:17">
+</Property><Property Name="Log Number" Value="2">
+</Property></Properties><Event ErrorLevel="2" Project="" Source="anphys.sln" Description="Error creating backup file: C:\Users\andrey\андрей\с++\new\anphys\anphys.sln.old">
+</Event><Event ErrorLevel="2" Project="" Source="anphys.suo" Description="Error creating backup file: C:\Users\andrey\андрей\с++\new\anphys\anphys.suo.old">
+</Event><Event ErrorLevel="3" Project="win32_app" Source="win32_app\win32_app.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\win32_platform\win32_platform.vcproj'.">
+</Event><Event ErrorLevel="1" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\win32_platform\win32_platform.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="win32_platform" Source="win32_platform\win32_platform.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="engine" Source="engine\engine.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\engine\engine.vcproj'.">
+</Event><Event ErrorLevel="1" Project="engine" Source="engine\engine.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="engine" Source="engine\engine.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\engine\engine.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="engine" Source="engine\engine.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="render" Source="render\render.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\render\render.vcproj'.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'CopyLocalDependencies' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'UseDependenciesInBuild' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'CopyLocalDependencies' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'UseDependenciesInBuild' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'CopyLocalDependencies' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'UseDependenciesInBuild' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'CopyLocalDependencies' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'UseDependenciesInBuild' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'CopyLocalDependencies' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="1" Project="render" Source="render\render.vcproj" Description="Attribute 'UseDependenciesInBuild' of 'AssemblyReference' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="0" Project="render" Source="render\render.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\render\render.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="render" Source="render\render.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\render_d3d8\render_d3d8.vcproj'.">
+</Event><Event ErrorLevel="1" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="1" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="VCConvertEngine could not convert attribute UseUnicodeResponseFiles = false under Tool VCCLCompilerTool.">
+</Event><Event ErrorLevel="1" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Attribute 'Detect64BitPortabilityProblems' of 'VCCLCompilerTool' is not supported in this version and has been removed during conversion.">
+</Event><Event ErrorLevel="0" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\render_d3d8\render_d3d8.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="render_d3d8" Source="render_d3d8\render_d3d8.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="physics_test" Source="physics_test\physics_test.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\physics_test\physics_test.vcproj'.">
+</Event><Event ErrorLevel="1" Project="physics_test" Source="physics_test\physics_test.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="physics_test" Source="physics_test\physics_test.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\physics_test\physics_test.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="physics_test" Source="physics_test\physics_test.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="physics" Source="physics\physics.vcproj" Description="Converting project file 'C:\Users\andrey\андрей\с++\new\anphys\physics\physics.vcproj'.">
+</Event><Event ErrorLevel="1" Project="physics" Source="physics\physics.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="physics" Source="physics\physics.vcproj" Description="Done converting to new project file 'C:\Users\andrey\андрей\с++\new\anphys\physics\physics.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="physics" Source="physics\physics.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="anphys.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="anphys.sln" Description="Converted">
+</Event></UpgradeLog>

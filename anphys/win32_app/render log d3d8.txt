@@ -1,0 +1,25 @@
+Initializing Direct3d8 render...
+Direct3d8 render initialized.
+added light b09120
+can't find material redMaterial
+add material b05c60 redMaterial
+can't find material blueMaterial
+add material b09328 blueMaterial
+can't find material greenMaterial
+add material b094a8 greenMaterial
+added texture b09688
+can't find texture: ../data/textures/white.jpg
+loaded texture: ../data/textures/white.jpg
+can't find Surface material redMaterial
+add Surface material b09768 redMaterial
+can't find Surface material blueMaterial
+add Surface material b09878 blueMaterial
+can't find Surface material greenMaterial
+add Surface material b09a20 greenMaterial
+can't find material whiteMaterial
+add material b09b80 whiteMaterial
+added texture b09e00
+can't find texture: ../data/textures/wood.jpg
+loaded texture: ../data/textures/wood.jpg
+can't find Surface material 
+add Surface material b09f70 
