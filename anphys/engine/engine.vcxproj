@@ -40,8 +40,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\andrey\андрей\с++\new\anphys\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,6 +76,8 @@
     <ClInclude Include="..\src\engine\scene\graphics_object_component.h" />
     <ClInclude Include="..\src\engine\scene\object.h" />
     <ClInclude Include="..\src\engine\scene\object_component.h" />
+    <ClInclude Include="..\src\engine\scene\physics_rigid_body_object_component.h" />
+    <ClInclude Include="..\src\engine\scene\render3d_object_component.h" />
     <ClInclude Include="..\src\engine\scene\scene.h" />
     <ClInclude Include="..\src\physics\box_box_cd.h" />
     <ClInclude Include="..\src\physics\box_collision_geometry.h" />
@@ -176,6 +178,8 @@
   <ItemGroup>
     <ClCompile Include="..\src\engine\scene\graphics_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\object.cpp" />
+    <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp" />
+    <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\scene.cpp" />
     <ClCompile Include="..\src\physics\box_collision_geometry.cpp" />
     <ClCompile Include="..\src\physics\collision.cpp" />

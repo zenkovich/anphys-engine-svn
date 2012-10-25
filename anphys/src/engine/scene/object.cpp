@@ -57,3 +57,11 @@ void cObject::updateComponentsDependencies()
 	for (ObjectComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); it++)
 		(*it)->updateDependencies();
 }
+
+cObjectComponent* cObject::getComponentByType( ObjectComponentType::types componentType )
+{
+	for (ObjectComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); it++)
+		if ((*it)->getType() == componentType) return *it;
+
+	return NULL;
+}

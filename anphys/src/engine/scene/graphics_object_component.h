@@ -15,6 +15,8 @@ struct cGraphicsObjectComponent:public cObjectComponent
 	cGraphicsObjectComponent(cObject* ownerObject);
 	cGraphicsObjectComponent(cObject* ownerObject, grRenderObject* renderObject);
 	virtual ~cGraphicsObjectComponent();
+
+	ObjectComponentType::types getType() { return ObjectComponentType::GraphicsObject; }
 };
 
 #endif //ENGINE_GRAPHICS_OBJECT_COMPONENT_H

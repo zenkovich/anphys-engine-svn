@@ -18,10 +18,14 @@ struct cScene
 	phScene*                    mPhysicsScene;
 	grRenderSceneBaseInterface* mRenderScene;
 
+	bool                        mReady;
+
 	
 	cScene();
 	cScene(grRenderFrame* renderFrameOwner);
 	~cScene();
+
+	void initialize();
 
 	cObject* addObject(cObject* newObject);
 	bool removeObject(cObject* object);
