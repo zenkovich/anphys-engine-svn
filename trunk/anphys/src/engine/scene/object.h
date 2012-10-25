@@ -2,8 +2,7 @@
 #define ENGINE_OBJECT_H
 
 #include <vector>
-
-struct cObjectComponent;
+#include "object_component.h"
 
 struct cObject
 {
@@ -20,6 +19,8 @@ struct cObject
 	cObjectComponent* addComponent(cObjectComponent* component);
 	bool removeComponent(cObjectComponent* component);
 	void removeAllComponents();
+
+	cObjectComponent* getComponentByType(ObjectComponentType::types componentType);
 
 	void updateComponentsDependencies();
 };

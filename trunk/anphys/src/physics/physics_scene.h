@@ -11,6 +11,7 @@ struct phSolver;
 struct phScene
 {
 	typedef std::vector<phObject*> ObjectsList;
+
 	ObjectsList mObjects;
 
 	phEngine* mEngine;
@@ -19,12 +20,15 @@ struct phScene
 
 	float mPerformance;
 
-	phScene(phEngine* engine);
+
+	phScene(phEngine* engine = NULL);
 	~phScene();
 
 	phObject* addObject(phObject* object);
 	bool removeObject(phObject* object);
 	void removeAllObjects();
+
+	void setupSolver(phSolver* solver);
 
 	void update(float dt);
 };

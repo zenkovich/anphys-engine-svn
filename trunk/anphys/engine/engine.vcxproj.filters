@@ -438,6 +438,12 @@
     <ClInclude Include="..\src\win32_platform\simple_window.h">
       <Filter>engine\frame_system\win32_framesystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\scene\physics_rigid_body_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\render3d_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -583,6 +589,12 @@
     </ClCompile>
     <ClCompile Include="..\src\win32_platform\windows_manager.cpp">
       <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

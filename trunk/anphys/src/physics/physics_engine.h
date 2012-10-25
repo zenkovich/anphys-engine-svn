@@ -8,7 +8,12 @@ struct phScene;
 struct phEngine
 {
 	typedef std::vector<phScene*> ScenesList;
+
 	ScenesList mScenes;
+
+
+	phEngine();
+	~phEngine();
 
 	phScene* addScene(phScene* scene);
 	bool removeScene(phScene* scene);

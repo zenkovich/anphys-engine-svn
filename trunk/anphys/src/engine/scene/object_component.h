@@ -3,6 +3,16 @@
 
 struct cObject;
 
+struct ObjectComponentType
+{
+	enum types{ 
+		none = 0, 
+		Render3DObject,
+		GraphicsObject,
+		PhysicsRigidBody
+	};
+};
+
 struct cObjectComponent
 {
 	cObject* mOwnerObject;
@@ -15,6 +25,8 @@ struct cObjectComponent
 	virtual void update(float dt) {}
 
 	virtual void updateDependencies() {}
+
+	virtual ObjectComponentType::types getType() { return ObjectComponentType::none; }
 };
 
 #endif

@@ -3,8 +3,16 @@
 
 #include "engine_options.h"
 
-
+//engine
 #include "engine.h"
+
+//engine scene
+#include "scene/scene.h"
+#include "scene/object.h"
+#include "scene/object_component.h"
+#include "scene/graphics_object_component.h"
+#include "scene/physics_rigid_body_object_component.h"
+#include "scene/render3d_object_component.h"
 
 //utils
 #include "../util/utils.h"
@@ -71,7 +79,7 @@
 extern cLogSystem* gLogSystem;
 //extern cLogStreamInConsoleAndFile* gLog;
 
-//objects
+//render objects
 typedef grRenderMultiObject<grRender3DObjectMesh, gr3DObjectConditionContainer> grRenderMulti3DObject;
 
 #endif //ENGINE_INCL_H
