@@ -14,5 +14,6 @@
 #include "geometry/geometry_objects.h"
 #include "script/config_reader.h"
 #include "other/data_object.h"
+#include "other/singleton.h"
 
 #endif //UTILS_H

@@ -2,15 +2,6 @@
 
 #include "../../src/engine/engine_incl.h"
 
-//debug tools
-grRenderMulti3DObject* gRedPointsDebug;
-grRenderMulti3DObject* gBluePointsDebug;
-grRenderMulti3DObject* gGreenPointsDebug;
-grRenderMulti3DObject* gRedArrowsDebug;
-grRenderMulti3DObject* gBlueArrowsDebug;
-grRenderMulti3DObject* gGreenArrowsDebug;
-
-
 apTestFrame::apTestFrame():apRenderWindow(), mMainEngineScene(NULL)
 {
 	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(vec2(0), mRender)));
@@ -55,9 +46,6 @@ void apTestFrame::onCreate(fRect inRect)
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,0), 0, 0, 0, 0, 0, 0, 0);
 	light->setLightActive(true);
 
-	createStdMaterials();
-	createDebugTools();
-
 	grTexture* tex = mRender->mTextures->createTexture("../data/textures/wood.jpg");
 	grSurfaceMaterial* smat = mRender->mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial());
 	smat->setMaterial(mRender->mMaterials->getMaterial("whiteMaterial"));
@@ -88,83 +76,6 @@ void apTestFrame::onCreate(fRect inRect)
 	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(320), 0, 0), vec3(10, 0, 0)));*/
 
 
-	safe_release_arr(verticies);
-	safe_release_arr(indexes);
-}
-
-void apTestFrame::createStdMaterials()
-{
-	mRender->mMaterials->addMaterial(new grMaterial("redMaterial", color4(1.0f,0.0f,0.0f,1.0f), 
-		color4(1.0f,0.0f,0.0f,1.0f), color4(1.0f,0.0f,0.0f,1.0f), color4(1.0f,0.0f,0.0f,1.0f), 1));
-	mRender->mMaterials->addMaterial(new grMaterial("blueMaterial", color4(0.0f,0.0f,1.0f,1.0f), 
-		color4(0.0f,0.0f,1.0f,1.0f), color4(0.0f,0.0f,1.0f,1.0f), color4(1.0f,0.0f,0.1f,1.0f), 1));
-	mRender->mMaterials->addMaterial(new grMaterial("greenMaterial", color4(0.0f,1.0f,0.0f,1.0f), 
-		color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), 1));
-
-	grTexture* tex = mRender->mTextures->createTexture("../data/textures/white.jpg");
-
-	grSurfaceMaterial* rmat = mRender->mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("redMaterial"));
-	rmat->setMaterial(mRender->mMaterials->getMaterial("redMaterial"));
-	rmat->pushTexture(tex);
-	rmat->setShadeModel(NULL);
-
-	grSurfaceMaterial* bmat = mRender->mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("blueMaterial"));
-	bmat->setMaterial(mRender->mMaterials->getMaterial("blueMaterial"));
-	bmat->pushTexture(tex);
-	bmat->setShadeModel(NULL);
-
-	grSurfaceMaterial* gmat = mRender->mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("greenMaterial"));
-	gmat->setMaterial(mRender->mMaterials->getMaterial("greenMaterial"));
-	gmat->pushTexture(tex);
-	gmat->setShadeModel(NULL);
-
-	mRender->mMaterials->addMaterial(new grMaterial("whiteMaterial", color4(1.0f,1.0f,1.0f,1.0f), 
-		color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), 1));
-}
-
-void apTestFrame::createDebugTools()
-{	
-	mToolsScene = mRender->mSceneManager->addScene(new grRenderSceneBaseInterface(mRender->mSceneManager));
-
-	vertexTexNorm* verticies = new vertexTexNorm[120];
-	int* indexes = new int[360];
-	int vertCount = 0;
-	int polyCount = 0;
-
-	arrowGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
-
-	gRedArrowsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gRedArrowsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gRedArrowsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("redMaterial"));
-
-	gGreenArrowsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gGreenArrowsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gGreenArrowsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("greenMaterial"));
-
-	gBlueArrowsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gBlueArrowsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gBlueArrowsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("blueMaterial"));
-	
-	boxGeometry(verticies, vertCount, indexes, polyCount, vec3(0.1f));	
-
-	gRedPointsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gRedPointsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gRedPointsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("redMaterial"));
-
-	gGreenPointsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gGreenPointsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gGreenPointsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("greenMaterial"));
-
-	gBluePointsDebug = static_cast<grRenderMulti3DObject*>(mToolsScene->mObjects->createObject(new grRenderMulti3DObject()));
-	gBluePointsDebug->setRenderObject(new grRender3DObjectMesh(mToolsScene->mObjects, vertCount, polyCount));
-	gBluePointsDebug->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
-		mRender->mSurfaceMaterials->getSurfaceMaterial("blueMaterial"));
-	
 	safe_release_arr(verticies);
 	safe_release_arr(indexes);
 }

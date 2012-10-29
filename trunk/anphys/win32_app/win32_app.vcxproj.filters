@@ -19,9 +19,6 @@
     <Filter Include="frame">
       <UniqueIdentifier>{9f1337ff-3da2-4516-9dbf-f75dc1c8fc3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="frame\tool_scene">
-      <UniqueIdentifier>{5ff2ec28-f175-40a0-bb8e-43656a035f7c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt">
@@ -46,9 +43,6 @@
     </ClInclude>
     <ClInclude Include="..\physics_test\src\test_frame.h">
       <Filter>frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\physics_test\src\tools_render_scene.h">
-      <Filter>frame\tool_scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
