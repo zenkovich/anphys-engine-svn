@@ -26,7 +26,8 @@ struct grRenderFrame:public pbFrame
 	phEngine*    mPhysics;
 	cEngine*     mEngine;
 
-	grRenderFrame():mRender(NULL), mEngine(NULL) {}
+	grRenderFrame();
+	virtual ~grRenderFrame();
 
 	cParameterContainer<fRect> mRect;
 };

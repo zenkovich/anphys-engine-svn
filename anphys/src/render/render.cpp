@@ -4,6 +4,10 @@
 #include "../engine/render_system/render_frame_win32_window/render_frame_win32_window.h"
 #endif //RENDER_D3D8
 
+//util
+#include "../util/debug/render_stuff.h"
+#include "../util/other/singleton.h"
+
 grRender::grRender():grRenderBase(), mFrame(NULL) {}
 
 grRender::grRender(grRenderFrame* frame, fRect outputRect)
@@ -14,6 +18,46 @@ grRender::grRender(grRenderFrame* frame, fRect outputRect)
 	grRenderBase::initialize(static_cast<apRenderWindow*>(frame)->mHWnd, outputRect);
 
 #endif //RENDER_D3D8
+
+
+	mRenderStuff = new cRenderStuff;
+	cRenderStuff::initializeSingleton();
+	grRenderSceneBaseInterface* scene = mSceneManager->addScene(new grRenderSceneBaseInterface());
+	mRenderStuff->initialize(scene);
+	createStdMaterials();
 }
 
-grRender::~grRender() {}
+grRender::~grRender() 
+{	
+	safe_release(mRenderStuff);
+}
+
+void grRender::createStdMaterials()
+{	
+	mMaterials->addMaterial(new grMaterial("redMaterial", color4(1.0f,0.0f,0.0f,1.0f), 
+		color4(1.0f,0.0f,0.0f,1.0f), color4(1.0f,0.0f,0.0f,1.0f), color4(1.0f,0.0f,0.0f,1.0f), 1));
+	mMaterials->addMaterial(new grMaterial("blueMaterial", color4(0.0f,0.0f,1.0f,1.0f), 
+		color4(0.0f,0.0f,1.0f,1.0f), color4(0.0f,0.0f,1.0f,1.0f), color4(1.0f,0.0f,0.1f,1.0f), 1));
+	mMaterials->addMaterial(new grMaterial("greenMaterial", color4(0.0f,1.0f,0.0f,1.0f), 
+		color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), 1));
+
+	grTexture* tex = mTextures->createTexture("../data/textures/white.jpg");
+
+	grSurfaceMaterial* rmat = mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("redMaterial"));
+	rmat->setMaterial(mMaterials->getMaterial("redMaterial"));
+	rmat->pushTexture(tex);
+	rmat->setShadeModel(NULL);
+
+	grSurfaceMaterial* bmat = mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("blueMaterial"));
+	bmat->setMaterial(mMaterials->getMaterial("blueMaterial"));
+	bmat->pushTexture(tex);
+	bmat->setShadeModel(NULL);
+
+	grSurfaceMaterial* gmat = mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial("greenMaterial"));
+	gmat->setMaterial(mMaterials->getMaterial("greenMaterial"));
+	gmat->pushTexture(tex);
+	gmat->setShadeModel(NULL);
+
+	mMaterials->addMaterial(new grMaterial("whiteMaterial", color4(1.0f,1.0f,1.0f,1.0f), 
+		color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), 1));
+}

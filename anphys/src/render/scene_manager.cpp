@@ -15,7 +15,7 @@ grSceneManager::grSceneManager(grRenderBaseInterface* render)
 grRenderSceneBaseInterface* grSceneManager::addScene(grRenderSceneBaseInterface* newScene)
 {
 	mScenes.push_back(newScene);
-	newScene->mSceneManager = this;
+	newScene->setSceneManager(this);
 	return newScene;
 }
 

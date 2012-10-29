@@ -25,6 +25,7 @@ void grRenderSceneBaseInterface::setSceneManager(grSceneManager* sceneManager)
 	grRender* render = NULL;
 	if (sceneManager) render = sceneManager->mRender;
 	mObjects->mRender = render;
+	mSceneManager = sceneManager;
 }
 
 void grRenderSceneBaseInterface::update(float dt)

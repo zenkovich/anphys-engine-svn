@@ -16,13 +16,13 @@ struct grSceneManager;
 
 struct grRenderBaseInterface
 {
-	grCamerasManager* mCameras;
-	cLogStreamInFile* mRenderLog;
-	grTextureManager* mTextures;
-	grLightManager* mLights;
-	grMaterialManager* mMaterials;
+	grCamerasManager*         mCameras;
+	cLogStreamInFile*         mRenderLog;
+	grTextureManager*         mTextures;
+	grLightManager*           mLights;
+	grMaterialManager*        mMaterials;
 	grSurfaceMaterialManager* mSurfaceMaterials;
-	grSceneManager* mSceneManager;
+	grSceneManager*           mSceneManager;
 
 	grRenderBaseInterface();
 	virtual ~grRenderBaseInterface();

@@ -9,15 +9,21 @@
 #endif //RENDER_D3D8
 
 struct grRenderFrame;
+struct cRenderStuff;
 
 struct grRender:public grRenderBase
 {
 	grRenderFrame* mFrame;
+	cRenderStuff*  mRenderStuff;
+
 
 	grRender();
 	grRender(grRenderFrame* frame, fRect outputRect);
 
 	virtual ~grRender();
+
+	
+	void createStdMaterials();
 };
 
 

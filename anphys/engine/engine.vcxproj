@@ -178,6 +178,7 @@
     <ClInclude Include="..\src\win32_platform\windows_manager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\engine\render_system\render_frame.cpp" />
     <ClCompile Include="..\src\engine\scene\graphics_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\object.cpp" />
     <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp" />

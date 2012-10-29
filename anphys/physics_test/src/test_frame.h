@@ -23,10 +23,6 @@ struct apTestFrame:public apRenderWindow
 
 	~apTestFrame();
 
-	void createStdMaterials();
-	void createDebugTools();
-
-
 	void onCreate(fRect inRect);
 	void onClose();
 	float onTimer();
