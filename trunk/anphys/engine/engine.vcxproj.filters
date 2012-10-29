@@ -444,6 +444,12 @@
     <ClInclude Include="..\src\engine\scene\render3d_object_component.h">
       <Filter>engine\scene\components</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\other\singleton.h">
+      <Filter>engine\util\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\debug\render_stuff.h">
+      <Filter>engine\util\debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -595,6 +601,12 @@
     </ClCompile>
     <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp">
       <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\collision_manager.cpp">
+      <Filter>physics\CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\debug\render_stuff.cpp">
+      <Filter>engine\util\debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

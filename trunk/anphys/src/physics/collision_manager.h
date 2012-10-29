@@ -3,19 +3,20 @@
 
 #include <vector>
 
-#define RESERVED_COLLISIONS 1000
-
 struct phCollision;
 struct phScene;
 struct phObject;
 
 struct phCollisionManager
 {
+	enum { nReservedCollisions = 1024 };
+
 	typedef std::vector<phCollision*> CollisionsList;
 
 	phScene* mScene;
 
 	CollisionsList mCollisions;
+
 
 	phCollisionManager();
 	phCollisionManager(phScene* scene);

@@ -11,29 +11,28 @@ grRenderMulti3DObject* gBlueArrowsDebug;
 grRenderMulti3DObject* gGreenArrowsDebug;
 
 
-apTestFrame::apTestFrame():apRenderWindow()
+apTestFrame::apTestFrame():apRenderWindow(), mMainEngineScene(NULL)
 {
 	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(vec2(0), mRender)));
 	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-	mMainScene = NULL;
 
 	onCreate(mInRect);
 }
 
-apTestFrame::apTestFrame(const std::string& title, fRect wndRect, fRect outputRect):apRenderWindow(title, wndRect, outputRect)
+apTestFrame::apTestFrame(const std::string& title, fRect wndRect, fRect outputRect):
+	apRenderWindow(title, wndRect, outputRect), mMainEngineScene(NULL)
 {
 	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(outputRect.getSize(), mRender)));
 	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-	mMainScene = NULL;
 
 	onCreate(mInRect);
 }
 
-apTestFrame::apTestFrame(const std::string& title, fRect wndRect):apRenderWindow(title, wndRect)
+apTestFrame::apTestFrame(const std::string& title, fRect wndRect):apRenderWindow(title, wndRect), mMainEngineScene(NULL)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(mInRect.getSize(), mRender)));
+	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(mInRect.getSize(), 
+		                                                                                            mRender)));
 	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-	mMainScene = NULL;
 
 	onCreate(mInRect);
 }
@@ -41,11 +40,16 @@ apTestFrame::apTestFrame(const std::string& title, fRect wndRect):apRenderWindow
 apTestFrame::~apTestFrame()
 {
 	mRender->mCameras->removeCamera(mCamera3dMouse);
-	mRender->mSceneManager->removeScene(mMainScene);
+	mRender->mSceneManager->removeScene(mToolsScene);
+
+	safe_release(mMainEngineScene);
 }
 
 void apTestFrame::onCreate(fRect inRect)
 {
+	//create main scene
+	mMainEngineScene = new cScene(this);
+
 	grLight* light = mRender->mLights->addLight(new grLight(NULL));
 	light->initialize(grLightBaseInterface::light_directional_type, color4(1.0f, 1.0f, 1.0f, 1.0f), color4(1.0f, 1.0f, 1.0f, 1.0f),
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,0), 0, 0, 0, 0, 0, 0, 0);
@@ -68,12 +72,11 @@ void apTestFrame::onCreate(fRect inRect)
 	arrowGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
 	//boxGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
 
-	mMainScene = mRender->mSceneManager->addScene(new grRenderSceneBaseInterface(mRender->mSceneManager));
 	/*grRender3DObjectMesh* obj = static_cast<grRender3DObjectMesh*>(mMainScene->mObjects->createObject(new grRender3DObjectMesh(NULL, vertCount, polyCount)));
 	obj->addPart(verticies, vertCount, indexes, polyCount, smat);
 	obj->mPosition = vec3(0,0,0);*/
 
-	grRender3DObjectMesh* obj = new grRender3DObjectMesh(mMainScene->mObjects, vertCount, polyCount);
+	/*grRender3DObjectMesh* obj = new grRender3DObjectMesh(mMainScene->mObjects, vertCount, polyCount);
 	obj->addPart(verticies, vertCount, indexes, polyCount, mRender->mSurfaceMaterials->getSurfaceMaterial("redMaterial"));
 
 	grRenderMulti3DObject* object = static_cast<grRenderMulti3DObject*>(mMainScene->mObjects->createObject(new grRenderMulti3DObject()));
@@ -82,7 +85,7 @@ void apTestFrame::onCreate(fRect inRect)
 	object->pushObject(grMultiVector(vec3(0), vec3(0, 0, 1)));
 	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(30), 0, 0), vec3(0, 4, 0)));
 	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(450), 0, rad(45)), vec3(0, 0, 30)));
-	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(320), 0, 0), vec3(10, 0, 0)));
+	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(320), 0, 0), vec3(10, 0, 0)));*/
 
 
 	safe_release_arr(verticies);
