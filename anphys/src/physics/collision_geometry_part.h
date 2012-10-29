@@ -30,7 +30,7 @@ struct phCollisionGeometryPart
 	void update(float dt) {}
 	void postUpdate(float dt) {}
 	
-	phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision) { return NULL; }
+	virtual phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision) { return NULL; }
 };
 
 #endif //COLLISION_GEOMETRY_PART_H

@@ -9,12 +9,13 @@
 
 struct grCamera3DMouse;
 struct grRenderSceneBaseInterface;
+struct cScene;
 
 struct apTestFrame:public apRenderWindow
 {
-	grCamera3DMouse* mCamera3dMouse;
-	grRenderSceneBaseInterface* mMainScene;
+	grCamera3DMouse*            mCamera3dMouse;
 	grRenderSceneBaseInterface* mToolsScene;
+	cScene*                     mMainEngineScene;
 
 	apTestFrame();
 	apTestFrame(const std::string& title, fRect wndRect, fRect outputRect);
@@ -45,8 +46,6 @@ struct apTestFrame:public apRenderWindow
 
 	void onActive();
 	void onDeActive();
-
-
 };
 
 
