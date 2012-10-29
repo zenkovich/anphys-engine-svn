@@ -450,6 +450,9 @@
     <ClInclude Include="..\src\util\debug\render_stuff.h">
       <Filter>engine\util\debug</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\scene\scene_stuff.h">
+      <Filter>engine\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -610,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="..\src\engine\render_system\render_frame.cpp">
       <Filter>engine\frame_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\scene_stuff.cpp">
+      <Filter>engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

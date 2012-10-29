@@ -15,6 +15,7 @@
 #include "../engine.h"
 #include "../render_system/render_frame.h"
 #include "object.h"
+#include "scene_stuff.h"
 
 cScene::cScene():mPhysicsScene(NULL), mRenderScene(NULL), mReady(false)
 {
@@ -28,6 +29,8 @@ cScene::cScene(grRenderFrame* renderFrameOwner):mRenderFrameOwner(renderFrameOwn
 cScene::~cScene()
 {
 	removeAllObjects();
+
+	safe_release(mSceneStuff);
 }
 
 cObject* cScene::addObject(cObject* newObject)
@@ -110,6 +113,8 @@ void cScene::initialize()
 	mPhysicsScene = mRenderFrameOwner->mPhysics->addScene(new phScene());
 
 	mRenderScene = mRenderFrameOwner->mRender->mSceneManager->addScene(new grRenderSceneBaseInterface());
+	
+	mSceneStuff = new cSceneStuff(this);
 
 	mReady = true;
 }
