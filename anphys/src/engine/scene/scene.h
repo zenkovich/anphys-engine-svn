@@ -7,6 +7,7 @@ struct cObject;
 struct phScene;
 struct grRenderSceneBaseInterface;
 struct grRenderFrame;
+struct cSceneStuff;
 
 struct cScene
 {
@@ -20,6 +21,7 @@ struct cScene
 
 	bool                        mReady;
 
+	cSceneStuff*                mSceneStuff;
 	
 	cScene();
 	cScene(grRenderFrame* renderFrameOwner);

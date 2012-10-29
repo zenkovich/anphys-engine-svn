@@ -79,6 +79,7 @@
     <ClInclude Include="..\src\engine\scene\physics_rigid_body_object_component.h" />
     <ClInclude Include="..\src\engine\scene\render3d_object_component.h" />
     <ClInclude Include="..\src\engine\scene\scene.h" />
+    <ClInclude Include="..\src\engine\scene\scene_stuff.h" />
     <ClInclude Include="..\src\physics\box_box_cd.h" />
     <ClInclude Include="..\src\physics\box_collision_geometry.h" />
     <ClInclude Include="..\src\physics\collision.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\scene.cpp" />
+    <ClCompile Include="..\src\engine\scene\scene_stuff.cpp" />
     <ClCompile Include="..\src\physics\box_collision_geometry.cpp" />
     <ClCompile Include="..\src\physics\collision.cpp" />
     <ClCompile Include="..\src\physics\collision_geometry.cpp" />
