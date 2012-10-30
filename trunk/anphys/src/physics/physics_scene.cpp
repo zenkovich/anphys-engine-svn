@@ -11,6 +11,7 @@ phScene::phScene( phEngine* engine /*= NULL*/ ):mEngine(engine), mPerformance(1.
 {
 	mCollisionManager = new phCollisionManager(this);
 	mSolver = NULL; //create solver
+	mGravity = vec3(0, -9.8f, 0);
 }
 
 phScene::~phScene()
@@ -50,8 +51,13 @@ void phScene::update( float dt )
 {
 	mCollisionManager->checkCollisions();
 	
+	vec3 gravityVec = mGravity*dt;
+
 	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
+	{
+		(*it)->addForce(gravityVec);
 		(*it)->preSolve(dt);
+	}
 
 	//mSolver->solveConstraints(mPerformance);
 

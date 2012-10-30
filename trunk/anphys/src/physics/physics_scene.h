@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "../util/math/mmath.h"
+
 struct phEngine;
 struct phObject;
 struct phCollisionManager;
@@ -12,11 +14,13 @@ struct phScene
 {
 	typedef std::vector<phObject*> ObjectsList;
 
-	ObjectsList mObjects;
+	ObjectsList         mObjects;
 
-	phEngine* mEngine;
+	phEngine*           mEngine;
 	phCollisionManager* mCollisionManager;
-	phSolver* mSolver;
+	phSolver*           mSolver;
+
+	vec3                mGravity;
 
 	float mPerformance;
 

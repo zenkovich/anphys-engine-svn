@@ -2,6 +2,7 @@
 
 //engine
 #include "object.h"
+#include "render3d_object_component.h"
 
 //render
 #include "../../render/render_3d_object.h"
@@ -41,7 +42,7 @@ cPhysicsRigidBodyObjectComponent::~cPhysicsRigidBodyObjectComponent()
 
 void cPhysicsRigidBodyObjectComponent::updateDependencies()
 {
-	if (mOwnerObject) mRenderObject = (grRender3DObject*)mOwnerObject->getComponentByType(ObjectComponentType::Render3DObject);
+	if (mOwnerObject) mRenderObject = ((cRender3DObjectComponent*)mOwnerObject->getComponentByType(ObjectComponentType::Render3DObject))->mRender3DObject;
 }
 
 void cPhysicsRigidBodyObjectComponent::update(float dt)

@@ -45,7 +45,7 @@ void apTestFrame::onCreate(fRect inRect)
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,0), 0, 0, 0, 0, 0, 0, 0);
 	light->setLightActive(true);
 
-	mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0, 0, 0), vec3(1, 2, 3));
+	mMainEngineScene->addObject(mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0, -3, 6), vec3(1, 2, 3)));
 }
 
 float apTestFrame::onTimer()
@@ -59,7 +59,9 @@ float apTestFrame::onTimer()
 	if (isKeyPressed(key_ctrl)) mCamera3dMouse->moveDown(isKeyPressed(key_shift));
 	if (isKeyPressed(key_space)) mCamera3dMouse->moveUp(isKeyPressed(key_shift));
 
+	mPhysics->update(dt);
 	mRender->update(dt);
+	mMainEngineScene->update(dt);
 	mRender->preRender();
 	mRender->render();
 	mRender->postRender();
