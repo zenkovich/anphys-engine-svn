@@ -8,6 +8,7 @@
 
 //engine scene
 #include "scene/scene.h"
+#include "scene/scene_stuff.h"
 #include "scene/object.h"
 #include "scene/object_component.h"
 #include "scene/graphics_object_component.h"

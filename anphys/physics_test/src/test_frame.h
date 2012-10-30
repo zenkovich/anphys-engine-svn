@@ -14,7 +14,6 @@ struct cScene;
 struct apTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*            mCamera3dMouse;
-	grRenderSceneBaseInterface* mToolsScene;
 	cScene*                     mMainEngineScene;
 
 	apTestFrame();

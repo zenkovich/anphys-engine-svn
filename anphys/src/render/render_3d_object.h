@@ -10,7 +10,8 @@
 
 struct grRender3DObject:public grRender3DObjectBase
 {
-
+	grRender3DObject():grRender3DObjectBase() {}
+	grRender3DObject(grRenderObjectsManager* objectsManager):grRender3DObjectBase(objectsManager) {}
 };
 
 #endif //RENDER_3D_OBJECT_H

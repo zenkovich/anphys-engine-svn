@@ -1,12 +1,12 @@
 #ifndef RENDER_3D_OBJECT_MESH_BASE_INTERFACE_H
 #define RENDER_3D_OBJECT_MESH_BASE_INTERFACE_H
 
-#include "render_3d_object_base_interface.h"
+#include "render_3d_object.h"
 #include <vector>
 
 struct grMeshPartBaseInterface;
 
-struct grRender3DObjectMeshBaseInterface:public grRender3DObjectBaseInterface
+struct grRender3DObjectMeshBaseInterface:public grRender3DObject
 {
 	/* from grRender3DObjectBaseInterface
 			{
@@ -58,8 +58,11 @@ struct grRender3DObjectMeshBaseInterface:public grRender3DObjectBaseInterface
 
 	PartsList mParts;
 
-	grRender3DObjectMeshBaseInterface():grRender3DObjectBaseInterface() {}
-	grRender3DObjectMeshBaseInterface(grRenderObjectsManager* objectsManager, int maxVerticies = 0, int maxPolygons = 0):grRender3DObjectBaseInterface(objectsManager) {}
+	grRender3DObjectMeshBaseInterface():
+		grRender3DObject() {}
+
+	grRender3DObjectMeshBaseInterface(grRenderObjectsManager* objectsManager, int maxVerticies = 0, int maxPolygons = 0):
+		grRender3DObject(objectsManager) {}
 
 	virtual void setObjectManager(grRenderObjectsManager* objectsManager) {}
 
