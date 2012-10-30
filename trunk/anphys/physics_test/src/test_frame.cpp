@@ -31,7 +31,6 @@ apTestFrame::apTestFrame(const std::string& title, fRect wndRect):apRenderWindow
 apTestFrame::~apTestFrame()
 {
 	mRender->mCameras->removeCamera(mCamera3dMouse);
-	mRender->mSceneManager->removeScene(mToolsScene);
 
 	safe_release(mMainEngineScene);
 }
@@ -46,38 +45,7 @@ void apTestFrame::onCreate(fRect inRect)
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,0), 0, 0, 0, 0, 0, 0, 0);
 	light->setLightActive(true);
 
-	grTexture* tex = mRender->mTextures->createTexture("../data/textures/wood.jpg");
-	grSurfaceMaterial* smat = mRender->mSurfaceMaterials->addSurfaceMaterial(new grSurfaceMaterial());
-	smat->setMaterial(mRender->mMaterials->getMaterial("whiteMaterial"));
-	smat->pushTexture(tex);
-	smat->setShadeModel(NULL);
-
-	vertexTexNorm* verticies = new vertexTexNorm[120];
-	int* indexes = new int[360];
-	int vertCount = 0;
-	int polyCount = 0;
-
-	arrowGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
-	//boxGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
-
-	/*grRender3DObjectMesh* obj = static_cast<grRender3DObjectMesh*>(mMainScene->mObjects->createObject(new grRender3DObjectMesh(NULL, vertCount, polyCount)));
-	obj->addPart(verticies, vertCount, indexes, polyCount, smat);
-	obj->mPosition = vec3(0,0,0);*/
-
-	/*grRender3DObjectMesh* obj = new grRender3DObjectMesh(mMainScene->mObjects, vertCount, polyCount);
-	obj->addPart(verticies, vertCount, indexes, polyCount, mRender->mSurfaceMaterials->getSurfaceMaterial("redMaterial"));
-
-	grRenderMulti3DObject* object = static_cast<grRenderMulti3DObject*>(mMainScene->mObjects->createObject(new grRenderMulti3DObject()));
-	object->setRenderObject(obj);
-
-	object->pushObject(grMultiVector(vec3(0), vec3(0, 0, 1)));
-	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(30), 0, 0), vec3(0, 4, 0)));
-	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(450), 0, rad(45)), vec3(0, 0, 30)));
-	object->pushObject(new gr3DObjectConditionContainer(RotatedMatrix(rad(320), 0, 0), vec3(10, 0, 0)));*/
-
-
-	safe_release_arr(verticies);
-	safe_release_arr(indexes);
+	mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0, 0, 0), vec3(1, 2, 3));
 }
 
 float apTestFrame::onTimer()

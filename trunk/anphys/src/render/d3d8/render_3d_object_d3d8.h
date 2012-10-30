@@ -5,6 +5,8 @@
 
 struct grRender3DObjectBase:public grRender3DObjectBaseInterface
 {
+	grRender3DObjectBase():grRender3DObjectBaseInterface() {}
+	grRender3DObjectBase(grRenderObjectsManager* objectsManager):grRender3DObjectBaseInterface(objectsManager) {}
 };
 
 
