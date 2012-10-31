@@ -82,6 +82,10 @@ extern cLogSystem* gLogSystem;
 
 //physics
 #include "../physics/physics_engine.h"
+#include "../physics/physics_object.h"
+#include "../physics/physics_scene.h"
+#include "../physics/rigid_object.h"
+#include "../physics/static_object.h"
 
 //render objects
 typedef grRenderMultiObject<grRender3DObjectMesh, gr3DObjectConditionContainer> grRenderMulti3DObject;

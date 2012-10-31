@@ -10,11 +10,16 @@
 struct grCamera3DMouse;
 struct grRenderSceneBaseInterface;
 struct cScene;
+struct cObject;
 
 struct apTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*            mCamera3dMouse;
 	cScene*                     mMainEngineScene;
+	cObject*                    mTestBox;
+
+	bool                        mPhysicsRunning;
+	bool                        mPhysicsRunByStep;
 
 	apTestFrame();
 	apTestFrame(const std::string& title, fRect wndRect, fRect outputRect);
@@ -41,6 +46,8 @@ struct apTestFrame:public apRenderWindow
 
 	void onActive();
 	void onDeActive();
+
+	void testConstraintSolve(float dt);
 };
 
 

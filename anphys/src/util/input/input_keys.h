@@ -11,6 +11,8 @@
 #define key_a 65
 #define key_d 68
 #define key_e 69
+#define key_t 84
+#define key_y 89
 #endif
 
 #endif //INPUT_KEYS_H
