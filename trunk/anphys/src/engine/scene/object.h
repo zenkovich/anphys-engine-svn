@@ -4,6 +4,8 @@
 #include <vector>
 #include "object_component.h"
 
+struct phRigidObject;
+
 struct cObject
 {
 	typedef std::vector<cObjectComponent*> ObjectComponentsList;
@@ -23,6 +25,8 @@ struct cObject
 	cObjectComponent* getComponentByType(ObjectComponentType::types componentType);
 
 	void updateComponentsDependencies();
+
+	phRigidObject* getPhysicsRigidBody();
 };
 
 #endif //ENGINE_OBJECT_H

@@ -46,7 +46,7 @@ void grMeshPartBase::render()
 	transf._41=mTransform[3][0]; transf._42=mTransform[3][1]; transf._43=mTransform[3][2]; transf._44=mTransform[3][3];
 	mMesh->mRenderObjectsManager->mRender->m_pDirect3DDevice->SetTransform(D3DTS_WORLD, &transf);
 
-	mSurfaceMaterial->setup();
+	if (mSurfaceMaterial) mSurfaceMaterial->setup();
 
 	mMesh->mMeshData->drawPart(mMeshDataPart, mMesh->mRenderObjectsManager->mRender->m_pDirect3DDevice);
 }

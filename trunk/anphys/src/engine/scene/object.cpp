@@ -5,6 +5,7 @@
 
 //engine
 #include "object_component.h"
+#include "physics_rigid_body_object_component.h"
 
 cObject::cObject()
 {
@@ -62,6 +63,15 @@ cObjectComponent* cObject::getComponentByType( ObjectComponentType::types compon
 {
 	for (ObjectComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); it++)
 		if ((*it)->getType() == componentType) return *it;
+
+	return NULL;
+}
+
+phRigidObject* cObject::getPhysicsRigidBody()
+{
+	cPhysicsRigidBodyObjectComponent* physicsComponent = 
+		static_cast<cPhysicsRigidBodyObjectComponent*>(getComponentByType(ObjectComponentType::PhysicsRigidBody));
+	if (physicsComponent) return physicsComponent->mRigidPhysicsBody;
 
 	return NULL;
 }
