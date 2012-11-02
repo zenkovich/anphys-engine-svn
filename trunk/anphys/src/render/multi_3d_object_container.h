@@ -40,6 +40,9 @@ struct gr3DObjectConditionContainer:public grObjectConditionContainer
 	}
 };
 
-inline gr3DObjectConditionContainer* grMultiVector(vec3 start, vec3 end) { return new gr3DObjectConditionContainer(scaledVectorOrient(end - start, 0.1f, 0.1f), start + (end - start)*0.5f); }
+inline gr3DObjectConditionContainer* grMultiVector(vec3 start, vec3 end) 
+{ 
+	return new gr3DObjectConditionContainer(scaledVectorOrient(end - start, 0.1f, 0.1f), start); 
+}
 
 #endif //MULTI_3D_OBJECT_CONTAINER_H

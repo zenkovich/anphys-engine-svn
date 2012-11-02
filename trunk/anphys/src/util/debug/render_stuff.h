@@ -24,6 +24,8 @@ struct cRenderStuff:public cSingleton<cRenderStuff>
 	gr3DObjectConditionContainer& addRedCube(const vec3& pos, const vec3& size = vec3(0.1f));
 	gr3DObjectConditionContainer& addGreenCube(const vec3& pos, const vec3& size = vec3(0.1f));
 	gr3DObjectConditionContainer& addBlueCube(const vec3& pos, const vec3& size = vec3(0.1f));
+
+	void reset();
 };
 
 #define getRenderStuff() cRenderStuff::instance()

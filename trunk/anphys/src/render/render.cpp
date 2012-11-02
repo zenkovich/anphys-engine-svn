@@ -22,9 +22,10 @@ grRender::grRender(grRenderFrame* frame, fRect outputRect)
 
 	mRenderStuff = new cRenderStuff;
 	cRenderStuff::initializeSingleton();
+
+	createStdMaterials();
 	grRenderSceneBaseInterface* scene = mSceneManager->addScene(new grRenderSceneBaseInterface());
 	mRenderStuff->initialize(scene);
-	createStdMaterials();
 }
 
 grRender::~grRender() 

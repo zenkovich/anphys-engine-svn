@@ -53,7 +53,7 @@ cObject* cSceneStuff::createRigidWoodBox( const vec3& pos, const vec3& size, con
 	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
 	res->addComponent(boxMeshComponent);
 
-	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, 200.0f, ScaledMatrix(150.0f, 150.0f, 150.0f));
+	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, 200.0f, ScaledMatrix(450.0f, 450.0f, 450.0f));
 	addBoxCollisionGeometry(rigidBoxObject, size);
 
 	cPhysicsRigidBodyObjectComponent* rigidBoxObjectComponent = new cPhysicsRigidBodyObjectComponent(rigidBoxObject);

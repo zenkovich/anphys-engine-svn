@@ -29,7 +29,7 @@ void cRenderStuff::initialize( grRenderSceneBaseInterface* scene )
 	mBlueArrows->mRenderObject->addPart(verticies, vertCount, indexes, polyCount, 
 		render->mSurfaceMaterials->getSurfaceMaterial("blueMaterial"));
 	
-	boxGeometry(verticies, vertCount, indexes, polyCount, vec3(0.1f));	
+	boxGeometry(verticies, vertCount, indexes, polyCount, vec3(0.05f));	
 
 	mRedCubes = static_cast<grRenderMulti3DObject*>(scene->mObjects->createObject(new grRenderMulti3DObject()));
 	mRedCubes->setRenderObject(new grRender3DObjectMesh(scene->mObjects, vertCount, polyCount));
@@ -90,4 +90,14 @@ gr3DObjectConditionContainer& cRenderStuff::addBlueCube( const vec3& pos, const 
 	gr3DObjectConditionContainer* condition = new gr3DObjectConditionContainer(nullMatr(), pos);
 	mBlueCubes->pushObject(condition);
 	return *condition;
+}
+
+void cRenderStuff::reset()
+{
+	mRedArrows->clear();
+	mGreenArrows->clear();
+	mBlueArrows->clear();
+	mRedCubes->clear();
+	mGreenCubes->clear();
+	mBlueCubes->clear();
 }
