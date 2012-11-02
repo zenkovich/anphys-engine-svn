@@ -64,13 +64,25 @@ float apTestFrame::onTimer()
 	if (isKeyPressed(key_ctrl)) mCamera3dMouse->moveDown(isKeyPressed(key_shift));
 	if (isKeyPressed(key_space)) mCamera3dMouse->moveUp(isKeyPressed(key_shift));
 
-	testConstraintSolve(dt);
-	if (mPhysicsRunning) mPhysics->update(dt);
+	
+	if (mPhysicsRunning) 
+	{
+		getRenderStuff().reset();
+		testConstraintSolve(dt, vec3(0.5f, 0.5f, 0.5f));
+		testConstraintSolve(dt, vec3(-0.5f, 0.5f, 0.5f));
+		//testConstraintSolve(dt, vec3(0.0f, 0.5f, -0.5f));
+		mPhysics->update(dt);
+		
+		getRenderStuff().addRedArrow(vec3(0), vec3(10, 0, 0));
+		getRenderStuff().addGreenArrow(vec3(0), vec3(0, 10, 0));
+		getRenderStuff().addBlueArrow(vec3(0), vec3(0, 0, 10));
+	}
 	mRender->update(dt);
 	mMainEngineScene->update(dt);
 	mRender->preRender();
 	mRender->render();
 	mRender->postRender();
+
 
 	if (mPhysicsRunByStep) mPhysicsRunning = false;
 
@@ -132,28 +144,46 @@ void apTestFrame::onDeActive()
 {
 }
 
-void apTestFrame::testConstraintSolve( float dt )
+void apTestFrame::testConstraintSolve( float dt, const vec3& attachPoint )
 {
-	vec3 attachPoint(1, 1.5f, 0);
+	//vec3 attachPoint(0.5f, 0.5f, 0.5f);
 	vec3 sceneAttachPoint(0);
-	float maxLength = 2.0f;
+	float maxLength = 4.0f;
 
-	if (dt < 0.000001) dt = 0.000001f;
+	if (dt < 0.000001) dt = 0.001f;
 
 	phRigidObject* rigidObject = mTestBox->getPhysicsRigidBody();
 	vec3 worldAttachPoint = attachPoint*rigidObject->mOrient + rigidObject->mPosition;
 
-	vec3 diff = worldAttachPoint - attachPoint;
+	vec3 diff = worldAttachPoint - sceneAttachPoint;
 	float diffLength = diff.len();
+	vec3 normDiff = diff/diffLength;
 
-	float force = fmax(0.0f, diffLength - maxLength);
-	vec3 forceImpulse = diff.normalize()*-force*0.7f*rigidObject->mMass;
+	vec3 pointSpeed = rigidObject->mVelocity + (rigidObject->mAngularVelocity^(worldAttachPoint - rigidObject->mPosition));
+
+	float pointSpeedNormalProj = pointSpeed*normDiff;
+
+	float pen = diffLength - maxLength;
+
+	float fr = 0;
+	if (pen > 0 && pointSpeedNormalProj > 0) fr = 1.0f;
+
+	float force = fmax(0.0f, ((pointSpeedNormalProj + pen/dt*0.5f)*rigidObject->mMass*2.0f*0.7f)*fr )/2.0f;
+	vec3 forceImpulse = normDiff*-force;
+
+	*gLog << formatStr("speed before impulse %.2f %.2f %.2f (%.2f)\n", pointSpeed.x, pointSpeed.y, pointSpeed.z, pointSpeed.len());
 
 	rigidObject->applyImpulse(worldAttachPoint, forceImpulse);
+
+	pointSpeed = rigidObject->mVelocity + (rigidObject->mAngularVelocity^(worldAttachPoint - rigidObject->mPosition));
+	*gLog << formatStr("speed after impulse %.2f %.2f %.2f (%.2f)\n", pointSpeed.x, pointSpeed.y, pointSpeed.z, pointSpeed.len());
 
 	*gLog << formatStr("impulse %.3f %.3f %.3f (%.3f)\n", forceImpulse.x, forceImpulse.y, forceImpulse.z, forceImpulse);
 
 	//dbg
 	
 	getRenderStuff().addRedCube(worldAttachPoint);
+	getRenderStuff().addRedArrow(worldAttachPoint, worldAttachPoint + forceImpulse*0.1f);
+	getRenderStuff().addBlueArrow(sceneAttachPoint, worldAttachPoint);
+	getRenderStuff().addGreenArrow(worldAttachPoint, worldAttachPoint + pointSpeed*dt*2.0f);
 }

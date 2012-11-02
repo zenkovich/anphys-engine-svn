@@ -47,7 +47,7 @@ struct apTestFrame:public apRenderWindow
 	void onActive();
 	void onDeActive();
 
-	void testConstraintSolve(float dt);
+	void testConstraintSolve(float dt, const vec3& attachPoint);
 };
 
 
