@@ -55,7 +55,7 @@
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d8.lib;d3dx8.lib;d3dx8d.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,6 +138,8 @@
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
     <ClInclude Include="..\src\util\other\data_object.h" />
+    <ClInclude Include="..\src\util\other\precreated_vector.h" />
+    <ClInclude Include="..\src\util\other\queue.h" />
     <ClInclude Include="..\src\util\other\singleton.h" />
     <ClInclude Include="..\src\util\script\config_reader.h" />
     <ClInclude Include="..\src\util\script\string_parser.h" />

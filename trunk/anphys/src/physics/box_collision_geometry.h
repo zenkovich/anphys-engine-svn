@@ -30,10 +30,10 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 		phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision) { return NULL; }
 	}; */
 
-	vec3 mSize;
+	vec3   mSize;
 	mat3x3 mSizeVectors;
 
-	vec3 mPoints[8];
+	vec3   mPoints[8];
 	//            ^ Y
 	//            |       Z
 	//            |      /

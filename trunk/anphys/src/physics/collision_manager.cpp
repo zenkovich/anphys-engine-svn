@@ -4,22 +4,17 @@
 
 phCollisionManager::phCollisionManager():mScene(NULL)
 {
-	for (unsigned int i = 0; i < nReservedCollisions; i++)
-		mCollisions.push_back(new phCollision);
+	mCollisions = new cArray<phCollision*>(nReservedCollisions);
 }
 
 phCollisionManager::phCollisionManager( phScene* scene ):mScene(scene)
 {	
-	for (unsigned int i = 0; i < nReservedCollisions; i++)
-		mCollisions.push_back(new phCollision);
+	mCollisions = new cArray<phCollision*>(nReservedCollisions);
 }
 
 phCollisionManager::~phCollisionManager()
 {	
-	for (CollisionsList::iterator it = mCollisions.begin(); it != mCollisions.end(); it++)
-		safe_release(*it);
-
-	mCollisions.clear();
+	safe_release(mCollisions);
 }
 
 void phCollisionManager::checkCollisions()

@@ -15,5 +15,7 @@
 #include "script/config_reader.h"
 #include "other/data_object.h"
 #include "other/singleton.h"
+#include "other/queue.h"
+#include "other/precreated_vector.h"
 
 #endif //UTILS_H

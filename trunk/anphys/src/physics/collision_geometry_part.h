@@ -13,11 +13,11 @@ struct phCollisionGeometryPart
 	mat3x3 mRotate;
 	vec3   mOffset;
 
-	vec3 mWorldPosition;
+	vec3   mWorldPosition;
 	mat3x3 mWorldOrient;
 
 	phCollisionGeometry* mCollisionGeometry;
-	AABB mAABB;
+	AABB   mAABB;
 
 	phCollisionGeometryPart(): mCollisionGeometry(NULL) {}
 	phCollisionGeometryPart(phCollisionGeometry* collisionGeometry): mCollisionGeometry(collisionGeometry) {}
@@ -26,7 +26,7 @@ struct phCollisionGeometryPart
 	phCollisionGeometryPart(mat3x3 rotate, vec3 offset):
 		mCollisionGeometry(NULL), mRotate(rotate), mOffset(offset) {}
 
-	void preUpdate(float dt) {  }
+	void preUpdate(float dt) {}
 	void update(float dt) {}
 	void postUpdate(float dt) {}
 	

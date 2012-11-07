@@ -13,13 +13,13 @@ struct phCollisionPoint;
 
 struct phCollision
 {
-	typedef std::vector<phCollisionPoint*> PointsList;
+	enum { nCollisionDataSize = 1024, nCollisionReservedPoints = 10 };
 
-	PointsList mPoints;
-	float* mCollisionData;
+	cArray<phCollisionPoint*>* mPoints;
+	char*     mCollisionData;
 
-	phObject* mObjectA;
-	phObject* mObjectB;
+	phObject*  mObjectA;
+	phObject*  mObjectB;
 
 	phCollision();
 	phCollision(phObject* objectA, phObject* objectB);

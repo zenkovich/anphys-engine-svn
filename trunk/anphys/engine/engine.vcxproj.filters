@@ -453,6 +453,12 @@
     <ClInclude Include="..\src\engine\scene\scene_stuff.h">
       <Filter>engine\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\other\queue.h">
+      <Filter>engine\util\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\other\precreated_vector.h">
+      <Filter>engine\util\other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
