@@ -50,6 +50,8 @@ void apTestFrame::onCreate(fRect inRect)
 	mTestBox = mMainEngineScene->addObject(mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0, 0, 0), vec3(1, 1, 1)));
 	//mTestBox->getPhysicsRigidBody()->applyImpulse(vec3(0, 0, 1), vec3(0, 10, 0));
 
+	cArray<int> atata(100);
+
 	mPhysicsRunning = false;
 }
 
@@ -168,7 +170,7 @@ void apTestFrame::testConstraintSolve( float dt, const vec3& attachPoint )
 	float fr = 0;
 	if (pen > 0 && pointSpeedNormalProj > 0) fr = 1.0f;
 
-	float force = fmax(0.0f, ((pointSpeedNormalProj + pen/dt*0.5f)*rigidObject->mMass*2.0f*0.7f)*fr )/2.0f;
+	float force = fmax(0.0f, ((pointSpeedNormalProj + pen/dt*0.3f)*rigidObject->mMass*2.0f*0.7f)*fr )/2.0f;
 	vec3 forceImpulse = normDiff*-force;
 
 	*gLog << formatStr("speed before impulse %.2f %.2f %.2f (%.2f)\n", pointSpeed.x, pointSpeed.y, pointSpeed.z, pointSpeed.len());

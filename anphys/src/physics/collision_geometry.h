@@ -19,9 +19,9 @@ struct phCollisionGeometry
 
 	phCollision* mOldCollisions[MAX_STORED_COLLISIONS];
 
-	AABB mAABB;
+	AABB      mAABB;
 
-	float mPerformance;
+	float     mPerformance;
 
 	phCollisionGeometry();
 	phCollisionGeometry(phObject* object);
