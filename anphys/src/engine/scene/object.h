@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "object_component.h"
+#include "../../util/math/vector.h"
+#include "../../util/math/matrix.h"
 
 struct phRigidObject;
 
@@ -27,6 +29,8 @@ struct cObject
 	void updateComponentsDependencies();
 
 	phRigidObject* getPhysicsRigidBody();
+	vec3& position();
+	mat3x3& orientation();
 };
 
 #endif //ENGINE_OBJECT_H

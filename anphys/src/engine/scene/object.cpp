@@ -6,6 +6,10 @@
 //engine
 #include "object_component.h"
 #include "physics_rigid_body_object_component.h"
+#include "render3d_object_component.h"
+
+//render
+#include "../../render/render_3d_object.h"
 
 cObject::cObject()
 {
@@ -74,4 +78,20 @@ phRigidObject* cObject::getPhysicsRigidBody()
 	if (physicsComponent) return physicsComponent->mRigidPhysicsBody;
 
 	return NULL;
+}
+
+vec3& cObject::position()
+{
+	cRender3DObjectComponent* renderObjectComponent = 
+		static_cast<cRender3DObjectComponent*>(getComponentByType(ObjectComponentType::Render3DObject));
+
+	return renderObjectComponent->mRender3DObject->mPosition;
+}
+
+mat3x3& cObject::orientation()
+{	
+	cRender3DObjectComponent* renderObjectComponent = 
+		static_cast<cRender3DObjectComponent*>(getComponentByType(ObjectComponentType::Render3DObject));
+
+	return renderObjectComponent->mRender3DObject->mOrient;
 }

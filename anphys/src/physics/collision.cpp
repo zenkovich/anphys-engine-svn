@@ -4,51 +4,41 @@
 
 phCollision::phCollision():mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL)
 { 
-	mPoints.reserve(COLLISION_RESERVED_POINTS); 
-	for (int i = 0; i < COLLISION_RESERVED_POINTS; i++)
-		mPoints.push_back(new phCollisionPoint(this, NULL, NULL));
+	mPoints = new cArray<phCollisionPoint*>(nCollisionReservedPoints);
 
-	mCollisionData = new float[COLLISION_DATA_SIZE];
+	mCollisionData = new char[nCollisionDataSize];
 }
 
 phCollision::phCollision(phObject* objectA, phObject* objectB):mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL)
 {
 	setObjects(objectA, objectB);
-	mPoints.reserve(COLLISION_RESERVED_POINTS);
+	mPoints = new cArray<phCollisionPoint*>(nCollisionReservedPoints);
 
-	mCollisionData = new float[COLLISION_DATA_SIZE];
+	mCollisionData = new char[nCollisionDataSize];
 }
 
 phCollision::~phCollision()
 {
-	for (PointsList::iterator it = mPoints.begin(); it != mPoints.end(); it++)
-		safe_release(*it);
-	clear();
+	safe_release(mPoints)
 	safe_release(mCollisionData);
 }
 
 void phCollision::setObjects(phObject* objectA, phObject* objectB)
 {
 	clear();
-	safe_release(mCollisionData);
 	mObjectA = objectA;
 	mObjectB = objectB;
-	mCollisionData = new float[COLLISION_DATA_SIZE];
+	memset(mCollisionData, 0, nCollisionDataSize);
 }
 
 phCollisionPoint* phCollision::addPoint()
 {
-	for (PointsList::iterator it = mPoints.begin(); it != mPoints.end(); it++)
-		if (!(*it)->mUses) return (*it);
-
-	phCollisionPoint* newPoint = new phCollisionPoint(this, NULL, NULL);
-	mPoints.push_back(newPoint);
+	phCollisionPoint* newPoint = *mPoints->push_back();
 
 	return newPoint;
 }
 
 void phCollision::clear()
 {
-	for (PointsList::iterator it = mPoints.begin(); it != mPoints.end(); it++)
-		(*it)->mUses = false;
+	mPoints->clear();
 }

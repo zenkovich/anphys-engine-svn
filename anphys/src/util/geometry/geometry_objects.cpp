@@ -54,9 +54,9 @@ void boxGeometry(vertexTexNorm* verticies, int &vertCount, int* indexes, int &po
 
 void arrowGeometry(vertexTexNorm* verticies, int &vertCount, int* indexes, int &polyCount, vec3 size)
 {
-	float bx = size.x*0.2f;
+	float bx = size.x*0.1f;
 	float by = size.y*0.9f;
-	float bz = size.z*0.2f;
+	float bz = size.z*0.1f;
 	
 	verticies[0]=vertexTexNorm(-bx, 0 , -bz,  0, -1 ,0,  0, 1);
 	verticies[1]=vertexTexNorm( bx, 0 , -bz,  0, -1, 0,  0, 1);

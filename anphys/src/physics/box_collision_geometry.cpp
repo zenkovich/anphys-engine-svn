@@ -5,6 +5,9 @@
 #include "collision_geometry.h"
 #include "box_box_cd.h"
 
+//utils
+#include "../util/debug/render_stuff.h"
+
 phBoxCollisionGeometry::phBoxCollisionGeometry():phCollisionGeometryPart() {}
 
 phBoxCollisionGeometry::phBoxCollisionGeometry(phCollisionGeometry* collisionGeometry):phCollisionGeometryPart(collisionGeometry) {}
@@ -28,26 +31,32 @@ void phBoxCollisionGeometry::preUpdate(float dt)
 			mWorldOrient = objOrient*mRotate;
 		}
 
-	vec3 axisX = vec3(mSize.x, 0, 0)*mWorldOrient;
-	vec3 axisY = vec3(0, mSize.y, 0)*mWorldOrient;
-	vec3 axisZ = vec3(0, 0, mSize.z)*mWorldOrient;
+	mHalfSize = mSize*0.5f;
 
-	vec3 hx = axisX*0.5f;
-	vec3 hy = axisY*0.5f;
-	vec3 hz = axisZ*0.5f;
+	vec3 axisX = vec3(mHalfSize.x, 0, 0)*mWorldOrient;
+	vec3 axisY = vec3(0, mHalfSize.y, 0)*mWorldOrient;
+	vec3 axisZ = vec3(0, 0, mHalfSize.z)*mWorldOrient;
 
 	mSizeVectors[0][0] = axisX.x; mSizeVectors[0][1] = axisX.y; mSizeVectors[0][2] = axisX.z;
 	mSizeVectors[1][0] = axisY.x; mSizeVectors[1][1] = axisY.y; mSizeVectors[1][2] = axisY.z;
 	mSizeVectors[2][0] = axisZ.x; mSizeVectors[2][1] = axisZ.y; mSizeVectors[2][2] = axisZ.z;
 
-	mPoints[0] = hx*-1.0f + hy - hz;
-	mPoints[1] = hx       + hy - hz;
-	mPoints[2] = hx       - hy - hz;
-	mPoints[3] = hx*-1.0f - hy - hz;
-	mPoints[4] = hx       + hy + hz;
-	mPoints[5] = hx*-1.0f + hy + hz;
-	mPoints[6] = hx*-1.0f - hy + hz;
-	mPoints[7] = hx       - hy + hz;
+	mPoints[0] = axisX*-1.0f + axisY - axisZ + mWorldPosition;
+	mPoints[1] = axisX       + axisY - axisZ + mWorldPosition;
+	mPoints[2] = axisX       - axisY - axisZ + mWorldPosition;
+	mPoints[3] = axisX*-1.0f - axisY - axisZ + mWorldPosition;
+	mPoints[4] = axisX       + axisY + axisZ + mWorldPosition;
+	mPoints[5] = axisX*-1.0f + axisY + axisZ + mWorldPosition;
+	mPoints[6] = axisX*-1.0f - axisY + axisZ + mWorldPosition;
+	mPoints[7] = axisX       - axisY + axisZ + mWorldPosition;
+
+	/*for (int i = 0; i < 8; i++)
+		getRenderStuff().addRedCube(mPoints[i]);
+
+	getRenderStuff().addGreenCube(mWorldPosition);
+	getRenderStuff().addRedArrow(mWorldPosition, mWorldPosition + axisX);
+	getRenderStuff().addGreenArrow(mWorldPosition, mWorldPosition + axisY);
+	getRenderStuff().addBlueArrow(mWorldPosition, mWorldPosition + axisZ);*/
 
 	mAABB.computeFromPoints(mPoints, 8);
 }
