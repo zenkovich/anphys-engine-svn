@@ -16,7 +16,7 @@ struct phCollision
 	enum { nCollisionDataSize = 1024, nCollisionReservedPoints = 10 };
 
 	cArray<phCollisionPoint*>* mPoints;
-	char*     mCollisionData;
+	char*      mCollisionData;
 
 	phObject*  mObjectA;
 	phObject*  mObjectB;

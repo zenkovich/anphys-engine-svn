@@ -27,6 +27,8 @@ struct cSceneStuff
 
 	cObject* createRigidWoodBox(const vec3& pos, const vec3& size, const mat3x3& orient = nullMatr() );
 
+	cObject* createBoxMesh(const vec3& pos, const vec3& size, const mat3x3& orient = nullMatr());
+
 
 	//other
 //render

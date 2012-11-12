@@ -122,3 +122,19 @@ phRigidObject* cSceneStuff::addBoxCollisionGeometry( phRigidObject* rigidObject,
 	rigidObject->mCollisionGeometry->addPart(boxCollisionGeom);
 	return rigidObject;
 }
+
+cObject* cSceneStuff::createBoxMesh( const vec3& pos, const vec3& size, const mat3x3& orient /*= nullMatr()*/ )
+{	
+	cObject* res = new cObject;
+
+	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
+	addBoxMesh(boxMesh, size, 
+		createSurfaceMaterial(createTexture("../data/textures/transparent.tga"), getMaterial("whiteMaterial")));
+
+	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
+	boxMeshComponent->mRender3DObject->mPosition = pos;
+	boxMeshComponent->mRender3DObject->mOrient = orient;
+	res->addComponent(boxMeshComponent);
+
+	return res;
+}

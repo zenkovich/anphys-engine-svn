@@ -16,7 +16,9 @@ struct apTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*            mCamera3dMouse;
 	cScene*                     mMainEngineScene;
-	cObject*                    mTestBox;
+
+	vec3 mBoxAPos, mBoxBPos, mBoxAAngles, mBoxBAngles, mBoxASize, mBoxBSize;
+	cObject* mBoxAObject, *mBoxBObject;
 
 	bool                        mPhysicsRunning;
 	bool                        mPhysicsRunByStep;
@@ -47,7 +49,8 @@ struct apTestFrame:public apRenderWindow
 	void onActive();
 	void onDeActive();
 
-	void testConstraintSolve(float dt, const vec3& attachPoint);
+	//void testConstraintSolve(float dt, const vec3& attachPoint);
+	void testBoxCD();
 };
 
 

@@ -26,9 +26,9 @@ struct phCollisionGeometryPart
 	phCollisionGeometryPart(mat3x3 rotate, vec3 offset):
 		mCollisionGeometry(NULL), mRotate(rotate), mOffset(offset) {}
 
-	void preUpdate(float dt) {}
-	void update(float dt) {}
-	void postUpdate(float dt) {}
+	virtual void preUpdate(float dt) {}
+	virtual void update(float dt) {}
+	virtual void postUpdate(float dt) {}
 	
 	virtual phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision) { return NULL; }
 };

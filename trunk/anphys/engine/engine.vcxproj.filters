@@ -19,42 +19,6 @@
     <Filter Include="engine\scene\components">
       <UniqueIdentifier>{039d65e2-af21-49c0-a8eb-0ff7d47689d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\util">
-      <UniqueIdentifier>{059e0fef-183c-403d-898d-edbf60d821d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\math">
-      <UniqueIdentifier>{4c06c7b7-65b8-47a6-a235-a24627a1ff48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\memory">
-      <UniqueIdentifier>{4037ff31-6b36-4057-9df6-7791d9c1d383}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\other">
-      <UniqueIdentifier>{c9e713cf-66f4-41a9-86be-9e08aa9750c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\log">
-      <UniqueIdentifier>{aff9fa5a-ee59-4ba0-b572-fee61e339408}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\file_system">
-      <UniqueIdentifier>{fd0e4a47-c095-4499-b90f-e3823cba99ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\dynamics">
-      <UniqueIdentifier>{25c4a306-a99a-4bd3-bd04-8e692262a1b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\controllers">
-      <UniqueIdentifier>{4f37d567-bc1a-48db-998f-640c75376b12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\input">
-      <UniqueIdentifier>{3d0d3166-fd0b-4c68-ad06-966cfff90ba3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\debug">
-      <UniqueIdentifier>{657e2eac-3e1c-4898-8988-ef2bae1ade96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\geometry">
-      <UniqueIdentifier>{83de0de3-11c1-4754-8a70-8fbd3a26c5b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util\script">
-      <UniqueIdentifier>{1010004b-1b11-4c04-8038-ecfa6f88a749}</UniqueIdentifier>
-    </Filter>
     <Filter Include="physics">
       <UniqueIdentifier>{df8719b1-8e42-49aa-9c14-5a211fab359e}</UniqueIdentifier>
     </Filter>
@@ -139,91 +103,127 @@
     <Filter Include="engine\frame_system\win32_framesystem">
       <UniqueIdentifier>{ad56f00d-4f51-4ba5-b52d-9963fad009a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{059e0fef-183c-403d-898d-edbf60d821d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\math">
+      <UniqueIdentifier>{4c06c7b7-65b8-47a6-a235-a24627a1ff48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\memory">
+      <UniqueIdentifier>{4037ff31-6b36-4057-9df6-7791d9c1d383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\other">
+      <UniqueIdentifier>{c9e713cf-66f4-41a9-86be-9e08aa9750c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\log">
+      <UniqueIdentifier>{aff9fa5a-ee59-4ba0-b572-fee61e339408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\file_system">
+      <UniqueIdentifier>{fd0e4a47-c095-4499-b90f-e3823cba99ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\dynamics">
+      <UniqueIdentifier>{25c4a306-a99a-4bd3-bd04-8e692262a1b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\controllers">
+      <UniqueIdentifier>{4f37d567-bc1a-48db-998f-640c75376b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\input">
+      <UniqueIdentifier>{3d0d3166-fd0b-4c68-ad06-966cfff90ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\debug">
+      <UniqueIdentifier>{657e2eac-3e1c-4898-8988-ef2bae1ade96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\geometry">
+      <UniqueIdentifier>{83de0de3-11c1-4754-8a70-8fbd3a26c5b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\script">
+      <UniqueIdentifier>{1010004b-1b11-4c04-8038-ecfa6f88a749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
-      <Filter>engine\util</Filter>
+      <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\aabb.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\addMath.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\color.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\matrix.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\mmath.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\quat.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\ray.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\stack.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\vec2.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\vector.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\vertex.h">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\memory\mem_utils.h">
-      <Filter>engine\util\memory</Filter>
+      <Filter>util\memory</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\string_utils.h">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\log\log_stream.h">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\log\log_stream_console.h">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\log\log_stream_console_and_file.h">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\log\log_stream_in_file.h">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\log\log_system.h">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\file_system\file.h">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\file_system\file_system.h">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\file_system\file_win.h">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\dynamics\parameter_complex_connector.h">
-      <Filter>engine\util\dynamics</Filter>
+      <Filter>util\dynamics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\dynamics\parameter_connector.h">
-      <Filter>engine\util\dynamics</Filter>
+      <Filter>util\dynamics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\dynamics\parameter_container.h">
-      <Filter>engine\util\dynamics</Filter>
+      <Filter>util\dynamics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\input\input_keys.h">
-      <Filter>engine\util\input</Filter>
+      <Filter>util\input</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\debug\assert.h">
-      <Filter>engine\util\debug</Filter>
+      <Filter>util\debug</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\geometry\geometry_objects.h">
-      <Filter>engine\util\geometry</Filter>
+      <Filter>util\geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\render_system\render_frame.h">
       <Filter>engine\frame_system</Filter>
@@ -232,16 +232,16 @@
       <Filter>engine\frame_system\render_frame_win</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\file_system\file_base_interface.h">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\script\config_reader.h">
-      <Filter>engine\util\script</Filter>
+      <Filter>util\script</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\data_object.h">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\script\string_parser.h">
-      <Filter>engine\util\script</Filter>
+      <Filter>util\script</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\scene\object.h">
       <Filter>engine\scene</Filter>
@@ -445,54 +445,57 @@
       <Filter>engine\scene\components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\singleton.h">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\debug\render_stuff.h">
-      <Filter>engine\util\debug</Filter>
+      <Filter>util\debug</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\scene\scene_stuff.h">
       <Filter>engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\queue.h">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\precreated_vector.h">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\cd_stuff.h">
+      <Filter>physics\CD\collision detection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
-      <Filter>engine\util\math</Filter>
+      <Filter>util\math</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\other\string_utils.cpp">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\log\log_system.cpp">
-      <Filter>engine\util\log</Filter>
+      <Filter>util\log</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\file_system\file_system.cpp">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\file_system\file_win.cpp">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\debug\assert.cpp">
-      <Filter>engine\util\debug</Filter>
+      <Filter>util\debug</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\geometry\geometry_objects.cpp">
-      <Filter>engine\util\geometry</Filter>
+      <Filter>util\geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.cpp">
       <Filter>engine\frame_system\render_frame_win</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\file_system\file.cpp">
-      <Filter>engine\util\file_system</Filter>
+      <Filter>util\file_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\script\config_reader.cpp">
-      <Filter>engine\util\script</Filter>
+      <Filter>util\script</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\other\data_object.cpp">
-      <Filter>engine\util\other</Filter>
+      <Filter>util\other</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\scene\object.cpp">
       <Filter>engine\scene</Filter>
@@ -615,13 +618,16 @@
       <Filter>physics\CD</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\debug\render_stuff.cpp">
-      <Filter>engine\util\debug</Filter>
+      <Filter>util\debug</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\render_system\render_frame.cpp">
       <Filter>engine\frame_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\scene\scene_stuff.cpp">
       <Filter>engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\box_box_cd.cpp">
+      <Filter>physics\CD\collision detection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,7 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	}; */
 
 	vec3   mSize;
+	vec3   mHalfSize;
 	mat3x3 mSizeVectors;
 
 	vec3   mPoints[8];
