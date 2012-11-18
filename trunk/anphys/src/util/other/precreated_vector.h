@@ -38,7 +38,7 @@ struct cArray
 		T* newValue = NULL;
 		if (mFreeValues.size() > 0)
 		{
-			ValuesList::iterator lastElement = mFreeValues.end() - 1;
+			ValuesList::iterator lastElement = mFreeValues.begin();
 			newValue = *lastElement;
 			mFreeValues.erase(lastElement);
 		}

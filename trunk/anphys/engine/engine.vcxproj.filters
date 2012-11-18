@@ -462,6 +462,9 @@
     <ClInclude Include="..\src\physics\cd_stuff.h">
       <Filter>physics\CD\collision detection</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\physics\support_geom.h">
+      <Filter>physics\CD\collision detection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -627,6 +630,9 @@
       <Filter>engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\src\physics\box_box_cd.cpp">
+      <Filter>physics\CD\collision detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\support_geom.cpp">
       <Filter>physics\CD\collision detection</Filter>
     </ClCompile>
   </ItemGroup>
