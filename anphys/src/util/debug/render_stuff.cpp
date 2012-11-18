@@ -11,7 +11,7 @@ void cRenderStuff::initialize( grRenderSceneBaseInterface* scene )
 	int vertCount = 0;
 	int polyCount = 0;
 
-	arrowGeometry(verticies, vertCount, indexes, polyCount, vec3(1));
+	arrowGeometry(verticies, vertCount, indexes, polyCount, vec3(0.3f, 1.0f, 0.3f));
 
 	mRedArrows = static_cast<grRenderMulti3DObject*>(scene->mObjects->createObject(new grRenderMulti3DObject()));
 	mRedArrows->setRenderObject(new grRender3DObjectMesh(scene->mObjects, vertCount, polyCount));

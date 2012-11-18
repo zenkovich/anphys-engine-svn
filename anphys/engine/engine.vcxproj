@@ -93,6 +93,7 @@
     <ClInclude Include="..\src\physics\physics_scene.h" />
     <ClInclude Include="..\src\physics\rigid_object.h" />
     <ClInclude Include="..\src\physics\static_object.h" />
+    <ClInclude Include="..\src\physics\support_geom.h" />
     <ClInclude Include="..\src\render\camera.h" />
     <ClInclude Include="..\src\render\cameras_manager.h" />
     <ClInclude Include="..\src\render\camera_3d_mouse.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="..\src\physics\physics_scene.cpp" />
     <ClCompile Include="..\src\physics\rigid_object.cpp" />
     <ClCompile Include="..\src\physics\static_object.cpp" />
+    <ClCompile Include="..\src\physics\support_geom.cpp" />
     <ClCompile Include="..\src\render\cameras_manager.cpp" />
     <ClCompile Include="..\src\render\camera_3d_mouse.cpp" />
     <ClCompile Include="..\src\render\d3d8\camera_3d_mouse_d3d8.cpp" />
