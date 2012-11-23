@@ -368,68 +368,16 @@ void apTestFrame::testBoxCD()
 	
 	mBoxBObject = mMainEngineScene->addObject(mMainEngineScene->mSceneStuff->createBoxMesh(mBoxBPos - offs, mBoxBSize, rotationMatrixB));
 	
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[0], boxAGeom->mPoints[1]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[1], boxAGeom->mPoints[2]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[2], boxAGeom->mPoints[3]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[3], boxAGeom->mPoints[0]);
-	
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[4], boxAGeom->mPoints[5]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[5], boxAGeom->mPoints[6]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[6], boxAGeom->mPoints[7]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[7], boxAGeom->mPoints[4]);
-	
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[0], boxAGeom->mPoints[5]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[1], boxAGeom->mPoints[4]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[2], boxAGeom->mPoints[7]);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[3], boxAGeom->mPoints[6]);
+	static int edges[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
+		                        { 0, 7 }, { 1, 6 }, { 2, 5 }, { 3, 4 },
+								{ 6, 7 }, { 7, 4 }, { 4, 5 }, { 5, 6 }	};
 
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[0], boxBGeom->mPoints[1]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[1], boxBGeom->mPoints[2]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[2], boxBGeom->mPoints[3]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[3], boxBGeom->mPoints[0]);
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[4], boxBGeom->mPoints[5]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[5], boxBGeom->mPoints[6]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[6], boxBGeom->mPoints[7]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[7], boxBGeom->mPoints[4]);
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[0], boxBGeom->mPoints[5]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[1], boxBGeom->mPoints[4]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[2], boxBGeom->mPoints[7]);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[3], boxBGeom->mPoints[6]);
-
-
-
-
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[0] + offs, boxAGeom->mPoints[1] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[1] + offs, boxAGeom->mPoints[2] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[2] + offs, boxAGeom->mPoints[3] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[3] + offs, boxAGeom->mPoints[0] + offs);
-	
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[4] + offs, boxAGeom->mPoints[5] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[5] + offs, boxAGeom->mPoints[6] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[6] + offs, boxAGeom->mPoints[7] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[7] + offs, boxAGeom->mPoints[4] + offs);
-	
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[0] + offs, boxAGeom->mPoints[5] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[1] + offs, boxAGeom->mPoints[4] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[2] + offs, boxAGeom->mPoints[7] + offs);
-	getRenderStuff().addRedArrow(boxAGeom->mPoints[3] + offs, boxAGeom->mPoints[6] + offs);
-
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[0] - offs, boxBGeom->mPoints[1] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[1] - offs, boxBGeom->mPoints[2] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[2] - offs, boxBGeom->mPoints[3] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[3] - offs, boxBGeom->mPoints[0] - offs);
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[4] - offs, boxBGeom->mPoints[5] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[5] - offs, boxBGeom->mPoints[6] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[6] - offs, boxBGeom->mPoints[7] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[7] - offs, boxBGeom->mPoints[4] - offs);
-	
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[0] - offs, boxBGeom->mPoints[5] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[1] - offs, boxBGeom->mPoints[4] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[2] - offs, boxBGeom->mPoints[7] - offs);
-	getRenderStuff().addGreenArrow(boxBGeom->mPoints[3] - offs, boxBGeom->mPoints[6] - offs);
+	for (int i = 0; i < 12; i++)
+	{
+		getRenderStuff().addRedArrow(boxAGeom->mPoints[edges[i][0]],   boxAGeom->mPoints[edges[i][1]]);
+		getRenderStuff().addGreenArrow(boxBGeom->mPoints[edges[i][0]], boxBGeom->mPoints[edges[i][1]]);
+		
+		getRenderStuff().addRedArrow(boxAGeom->mPoints[edges[i][0]] + offs,   boxAGeom->mPoints[edges[i][1]] + offs);
+		getRenderStuff().addGreenArrow(boxBGeom->mPoints[edges[i][0]] - offs, boxBGeom->mPoints[edges[i][1]] - offs);
+	}
 }

@@ -45,10 +45,10 @@ void phBoxCollisionGeometry::preUpdate(float dt)
 	mPoints[1] = axisX       + axisY - axisZ + mWorldPosition;
 	mPoints[2] = axisX       - axisY - axisZ + mWorldPosition;
 	mPoints[3] = axisX*-1.0f - axisY - axisZ + mWorldPosition;
-	mPoints[4] = axisX       + axisY + axisZ + mWorldPosition;
-	mPoints[5] = axisX*-1.0f + axisY + axisZ + mWorldPosition;
-	mPoints[6] = axisX*-1.0f - axisY + axisZ + mWorldPosition;
-	mPoints[7] = axisX       - axisY + axisZ + mWorldPosition;
+	mPoints[4] = axisX*-1.0f - axisY + axisZ + mWorldPosition;
+	mPoints[5] = axisX       - axisY + axisZ + mWorldPosition;
+	mPoints[6] = axisX       + axisY + axisZ + mWorldPosition;
+	mPoints[7] = axisX*-1.0f + axisY + axisZ + mWorldPosition;
 
 	/*for (int i = 0; i < 8; i++)
 		getRenderStuff().addRedCube(mPoints[i]);
