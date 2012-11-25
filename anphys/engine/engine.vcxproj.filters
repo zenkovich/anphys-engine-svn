@@ -635,6 +635,9 @@
     <ClCompile Include="..\src\physics\support_geom.cpp">
       <Filter>physics\CD\collision detection</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\physics\cd_stuff.cpp">
+      <Filter>physics\CD\collision detection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd">

@@ -192,6 +192,7 @@
     <ClCompile Include="..\src\engine\scene\scene_stuff.cpp" />
     <ClCompile Include="..\src\physics\box_box_cd.cpp" />
     <ClCompile Include="..\src\physics\box_collision_geometry.cpp" />
+    <ClCompile Include="..\src\physics\cd_stuff.cpp" />
     <ClCompile Include="..\src\physics\collision.cpp" />
     <ClCompile Include="..\src\physics\collision_geometry.cpp" />
     <ClCompile Include="..\src\physics\collision_manager.cpp" />

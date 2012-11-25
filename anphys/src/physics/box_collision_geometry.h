@@ -46,7 +46,6 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	//       |/      |/
 	//       3-------2 
 	//
-	//
 
 	phBoxCollisionGeometry();
 	phBoxCollisionGeometry(phCollisionGeometry* collisionGeometry);
