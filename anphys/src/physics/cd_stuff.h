@@ -8,60 +8,67 @@ struct phCollision;
 struct phCollisionGeometryElement
 {
 	enum ElementType { ET_VERTEX = 0, ET_EDGE, ET_POLYGON, ET_ELLIPSE };
+	
+	unsigned int       mIndexParam;
 
-	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision) {}
-	virtual float project(const vec3& axis, unsigned int indexParam) { return 0.0f; }
+	phCollisionGeometryElement():mIndexParam(0) {}
+
+	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam) {}
+	virtual float project(const vec3& axis, const vec3& origin, unsigned int indexParam) { return 0.0f; }
 	virtual ElementType getType () { return ET_VERTEX; }
 };
 
-struct phCollisionVertex
+struct phCollisionVertex:public phCollisionGeometryElement
 {
-	phCollisionVertex():mIndexParam(0) {}
-	phCollisionVertex(const vec3& vertex):mVertex(vertex), mIndexParam(0) {}
+	phCollisionVertex();
+	phCollisionVertex(const vec3& vertex);
 
 	vec3         mVertex;
-	unsigned int mIndexParam;
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(const vec3& axis, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
+	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	ElementType getType () { return ET_VERTEX; }
 };
 
-struct phCollisionEdge
+struct phCollisionEdge:public phCollisionGeometryElement
 {
 	phCollisionVertex* mFirstVertex;
 	phCollisionVertex* mSecondVertex;
 	vec3               mDirection;
 	vec3               mNormalizedDirection;
+	vec3               mDirectionNormal;
 	float              mLength;
 
-	phCollisionEdge():mFirstVertex(NULL), mSecondVertex(NULL) {}
-	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second):mFirstVertex(first), mSecondVertex(second)
-	{
-		mDirection = (mSecondVertex->mVertex - mFirstVertex->mVertex);
-		mLength = mDirection.len();
-		mNormalizedDirection = mDirection/mLength;
-	}
+	phCollisionEdge();
+	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(const vec3& axis, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
+	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	inline void calculateParametres();
+	ElementType getType () { return ET_EDGE; }
 };
 
 struct phCollisionPolygon:public phCollisionGeometryElement
 {
 	phCollisionEdge* mEdges[4];
-	int              mEdgesCount;
+	bool             mEdgeInvertion[4];
+	short            mEdgesCount;
 	vec3             mNormal;
 
 	phCollisionPolygon();
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c);
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c, phCollisionEdge* d);
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(const vec3& axis, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
+	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	inline void calculateParametres();
+	void calculateInvertions();
+	ElementType getType () { return ET_POLYGON; }
 };
 
-void isIntersect(phCollisionVertex* cvertex, phCollisionPolygon* cpolygon);
-void isIntersect(phCollisionPolygon* polygonA, phCollisionPolygon* polygonB);
-void isIntersect(phCollisionEdge* cedge, phCollisionPolygon* cpolygon);
+void isIntersect(phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCollision* collision, unsigned int indexParam);
+void isIntersect(phCollisionPolygon* polygonA, phCollisionPolygon* polygonB, phCollision* collision, unsigned int indexParam);
+void isIntersect(phCollisionEdge* cedge, phCollisionPolygon* cpolygon, phCollision* collision, unsigned int indexParam);
+void isIntersect(phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* collision, unsigned int indexParam);
 
 #endif //CD_STUFF_H

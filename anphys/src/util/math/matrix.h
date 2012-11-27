@@ -32,14 +32,14 @@ struct mat3x3
 		m[2][0] = m31;   m[2][1] = m32;   m[2][2] = m33;
 	}
 
-	inline void operator=(mat3x3 mt)
+	inline void operator=(mat3x3& mt)
 	{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				m[i][j] = mt.m[i][j];
 	}
 
-	inline mat3x3 operator+(mat3x3 mt)
+	inline mat3x3 operator+(mat3x3& mt)
 	{
 		mat3x3 r;
 
@@ -50,7 +50,7 @@ struct mat3x3
 		return r;
 	}
 
-	inline mat3x3 operator-(mat3x3 mt)
+	inline mat3x3 operator-(mat3x3& mt)
 	{
 		mat3x3 r;
 
@@ -74,7 +74,7 @@ struct mat3x3
 
 	inline mat3x3 operator/(float v) { return *this*(1.0f/v); } 
 
-	inline mat3x3 operator*(mat3x3 mt)
+	inline mat3x3 operator*(mat3x3& mt)
 	{
 		mat3x3 r;
 
@@ -87,7 +87,7 @@ struct mat3x3
 
 	inline float* operator[](int i) { return m[i]; }
 
-	inline bool operator==(mat3x3 mt)
+	inline bool operator==(mat3x3& mt)
 	{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
@@ -96,7 +96,7 @@ struct mat3x3
 		return true;
 	}
 
-	inline mat3x3 rotateAxis(vec3 axis, float rad)
+	inline mat3x3 rotateAxis(vec3& axis, float rad)
 	{
 		mat3x3 mt;
 
@@ -190,7 +190,7 @@ struct mat3x3
 
 	inline void SetScale(float scale) { SetScale(scale,scale,scale); }
 
-	inline vec3 transform(vec3 v)
+	inline vec3 transform(vec3& v)
 	{
 		vec3 r;
 
@@ -284,14 +284,14 @@ struct mat4x4
 		m[3][0] = m41;   m[3][1] = m42;   m[3][2] = m43;   m[3][3] = m44;
 	}
 
-	inline void operator=(mat4x4 mt)
+	inline void operator=(mat4x4& mt)
 	{
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
 				m[i][j] = mt.m[i][j];
 	}
 
-	inline mat4x4 operator+(mat4x4 mt)
+	inline mat4x4 operator+(mat4x4& mt)
 	{
 		mat4x4 r;
 
@@ -302,7 +302,7 @@ struct mat4x4
 		return r;
 	}
 
-	inline mat4x4 operator-(mat4x4 mt)
+	inline mat4x4 operator-(mat4x4& mt)
 	{
 		mat4x4 r;
 
@@ -326,7 +326,7 @@ struct mat4x4
 
 	inline mat4x4 operator/(float v) { return *this*(1.0f/v); } 
 
-	inline mat4x4 operator*(mat4x4 mt)
+	inline mat4x4 operator*(mat4x4& mt)
 	{
 		mat4x4 r;
 
@@ -339,7 +339,7 @@ struct mat4x4
 
 	inline float* operator[](int i) { return m[i]; }
 
-	inline bool operator==(mat4x4 mt)
+	inline bool operator==(mat4x4& mt)
 	{
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -369,11 +369,11 @@ struct mat4x4
 		mat4x4(sx,0,0,0,  0,sy,0,0,  0,0,sz,0,  0,0,0,1);
 	}
 
-	inline void SetScale(vec3 s) { SetScale(s.x, s.y, s.z); }
+	inline void SetScale(vec3& s) { SetScale(s.x, s.y, s.z); }
 
 	inline void SetScale(float scale) { SetScale(scale, scale, scale); }
 
-	inline vec3 transform(vec3 v)
+	inline vec3 transform(vec3& v)
 	{
 		vec3 r;
 
