@@ -237,7 +237,7 @@ inline float f3min(float a, float b, float c, int &i)
 	return a;
 }
 
-inline void DistLines(vec3 a1p, vec3 b1p, vec3 a2p, vec3 b2p, float *alpha, float *bet)
+inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, float *bet)
 {
 	vec3 l1orig = a1p, l1dir = b1p;
 	vec3 l2orig = a2p, l2dir = b2p;
@@ -266,7 +266,7 @@ inline void DistLines(vec3 a1p, vec3 b1p, vec3 a2p, vec3 b2p, float *alpha, floa
 	*bet = s1;
 }
 
-inline void DistLines(vec3 a1p, vec3 b1p, vec3 a2p, vec3 b2p, vec3 &pa, vec3 &pb,float &la, float &lb)
+inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, vec3 &pa, vec3 &pb,float &la, float &lb)
 {
 	vec3 l1orig = a1p, l1dir = b1p;
 	vec3 l2orig = a2p, l2dir = b2p;

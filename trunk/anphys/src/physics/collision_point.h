@@ -12,6 +12,7 @@ struct phCollisionPoint
 
 	vec3 mPoint;
 	vec3 mNormal;
+	float mDepth;
 
 	vec3 mImpulse;
 	vec3 mBiasImpulse;
