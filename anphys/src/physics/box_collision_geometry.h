@@ -3,6 +3,8 @@
 
 #include "collision_geometry_part.h"
 
+#include "cd_stuff.h"
+
 struct phBoxCollisionGeometry:public phCollisionGeometryPart
 {
 	/*from phCollisionGeometryPart
@@ -35,17 +37,35 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	mat3x3 mSizeVectors;
 
 	vec3   mPoints[8];	
-	//            ^ Y
-	//            |       Z
-	//            |      /
-	//         7-------6/  
-	//        /|      /| 
-	//       0-------1 |
-	//       | |  .  | |   ----> X
-	//       | 4- - -|-5
-	//       |/      |/
-	//       3-------2 
-	//
+
+	phCollisionSupportGeom mSupportGeom;
+	phCollisionVertex*     mVerticies[6];
+	
+	//                                                                                          
+	//                                                                                          
+	//                                                                                          
+	//                       (7)---------------------|4|--------------------(6)                 
+	//                       /|                                             /|                  
+	//                      /                                              / |                  
+	//                     /  |               /                           /  |                  
+	//                   |8|               -[3]-       |                |9|  |                  
+	//                   /    |             /        -[2]-              /   |5|                 
+	//                  /    |7|                       |               /     |                  
+	//                 /      |                                       /      |                  
+	//               (0)----------------------|0|------------------(1)       |               |/   
+	//      |/        |       |                                      |  ------------------- [4]
+	//     [5]-----------    (4)-- -- -- -- -- -- -- |6|-- -- -- -- -|- -- -(5)             /|  
+	//     /|         |       /                                      |       /                  
+	//                |                                              |      /                   
+	//                |     /                |                      |1|    /                    
+	//               |3|  |11|             -[0]-          /          |   |10|                   
+	//                |   /                  |         -[1]-         |   /                      
+	//                |                                 /            |  /                     
+	//                | /                                            | /                        
+	//                |                                              |/
+	//               (3)---------------------|2|--------------------(2)                        
+	//                                                                                          
+                                                                                  
 
 	phBoxCollisionGeometry();
 	phBoxCollisionGeometry(phCollisionGeometry* collisionGeometry);
@@ -57,6 +77,8 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	void postUpdate(float dt);
 	
 	phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision);
+
+	void initCollisionData();
 };
 
 

@@ -4,7 +4,7 @@ void findNearPoints( vec3* points, int pointsCount, vec3* result, int &resCount,
 	                float minProjection, float maxProjection )
 {
 	resCount = 0;
-	for (unsigned int i = 0; i < pointsCount; i++)
+	for (int i = 0; i < pointsCount; i++)
 	{
 		float project = (points[i] - orig)*dir;
 

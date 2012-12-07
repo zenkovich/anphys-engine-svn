@@ -9,13 +9,18 @@ struct phCollisionGeometryElement
 {
 	enum ElementType { ET_VERTEX = 0, ET_EDGE, ET_POLYGON, ET_ELLIPSE };
 	
-	unsigned int       mIndexParam;
+	unsigned int mIndexParam;
+	float        mProjection;
 
-	phCollisionGeometryElement():mIndexParam(0) {}
+	phCollisionGeometryElement():mIndexParam(0), mProjection(0.0f) {}
 
-	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam) {}
-	virtual float project(const vec3& axis, const vec3& origin, unsigned int indexParam) { return 0.0f; }
+	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision) {}
+	virtual float project(vec3& axis, vec3& origin, int index) { return 0.0f; }
 	virtual ElementType getType () { return ET_VERTEX; }
+	virtual void showDbgGraphics() {}
+	virtual void calculateParametres() {}
+	virtual void reindex(int index) { mIndexParam = index; }
+	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 };
 
 struct phCollisionVertex:public phCollisionGeometryElement
@@ -25,9 +30,10 @@ struct phCollisionVertex:public phCollisionGeometryElement
 
 	vec3         mVertex;
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
-	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
+	float project(vec3& axis, vec3& origin, int index);
 	ElementType getType () { return ET_VERTEX; }
+	void showDbgGraphics();
 };
 
 struct phCollisionEdge:public phCollisionGeometryElement
@@ -42,10 +48,13 @@ struct phCollisionEdge:public phCollisionGeometryElement
 	phCollisionEdge();
 	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
-	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
+	float project(vec3& axis, vec3& origin, int index);
 	inline void calculateParametres();
 	ElementType getType () { return ET_EDGE; }
+	void showDbgGraphics();
+	void reindex(int index);
+	bool isOnProjectionInterval(float minProj, float maxProj);
 };
 
 struct phCollisionPolygon:public phCollisionGeometryElement
@@ -59,16 +68,46 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c);
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c, phCollisionEdge* d);
 
-	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision, unsigned int indexParam);
-	float project(const vec3& axis, const vec3& origin, unsigned int indexParam);
+	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
+	float project(vec3& axis, vec3& origin, int index);
 	inline void calculateParametres();
 	void calculateInvertions();
 	ElementType getType () { return ET_POLYGON; }
+	void showDbgGraphics();
+	void reindex(int index);
+	bool isOnProjectionInterval(float minProj, float maxProj);
 };
 
-void isIntersect(phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCollision* collision, unsigned int indexParam);
-void isIntersect(phCollisionPolygon* polygonA, phCollisionPolygon* polygonB, phCollision* collision, unsigned int indexParam);
-void isIntersect(phCollisionEdge* cedge, phCollisionPolygon* cpolygon, phCollision* collision, unsigned int indexParam);
-void isIntersect(phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* collision, unsigned int indexParam);
+
+typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
+
+struct phCollisionSupportGeom
+{
+	typedef std::vector<float>                       ProjectionsList;
+
+	phCollisionElementsList mElements;
+	ProjectionsList         mProjectionsBuf;
+	ProjectionsList         mTempProjectionsBuf;
+	unsigned int            mIndexParam;
+
+	float projectOnAxis(vec3& axis, vec3& origin);
+	void showDbgGraphics();
+	void calculateParametres();
+	inline unsigned int generateNewIndexParam()
+	{ 
+		unsigned int r = mIndexParam + 1; 
+		if (r > 999999) r = 0; return r; 
+	}
+	void initProjectionBuffers();
+	void copyTempProjections();
+};
+
+void isIntersect(phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCollision* collision);
+void isIntersect(phCollisionPolygon* polygonA, phCollisionPolygon* polygonB, phCollision* collision);
+void isIntersect(phCollisionEdge* cedge, phCollisionPolygon* cpolygon, phCollision* collision);
+void isIntersect(phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* collision);
+
+void checkIntersection(phCollisionSupportGeom* geomA, float aProjection, phCollisionSupportGeom* geomB, float bProjection,
+	phCollision* collision);
 
 #endif //CD_STUFF_H

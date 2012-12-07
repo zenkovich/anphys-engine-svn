@@ -111,14 +111,14 @@ struct vec3
 };
 
 inline float len(vec3& a, vec3& b) { return (b - a).len(); }
-
+/*
 inline vec3 project(vec3& a, vec3& b) 
 { 
 	float aa = a*a; 
 	if ((float)fabs((double)aa) < MDif) aa = MDif; 
 
 	return (a^(a*b)/aa); 
-}
+}*/
 
 inline vec3 proj(vec3& a, vec3& b)
 {

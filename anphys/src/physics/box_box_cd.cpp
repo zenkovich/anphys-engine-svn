@@ -153,9 +153,17 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 	float d = 0.1f;
 
-	*gLog << formatStr("Separation axis id is %i:", separationAxisId);
+	*gLog << formatStr("Separation axis id is %i:\n", separationAxisId);
+
+	float dst = 9999999.0f;
+	dst = geomA->mSupportGeom.projectOnAxis(separationAxis, geomA->mWorldPosition);
+	dst = geomB->mSupportGeom.projectOnAxis(separationAxis*(-1.0f), geomB->mWorldPosition);
+	geomA->mSupportGeom.copyTempProjections();
+	geomB->mSupportGeom.copyTempProjections();
+
+	checkIntersection(&geomA->mSupportGeom, aAxisProjection, &geomB->mSupportGeom, bAxisProjection, collision);
 	
-	if (separationAxisId >= 0 && separationAxisId < 12) //face normal is separation axis
+	/*if (separationAxisId >= 0 && separationAxisId < 12) //face normal is separation axis
 	{
 		*gLog << "Face normal axis\n";
 
@@ -202,7 +210,7 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		
 		findNearPoints(geomB->mPoints, 8, supportB, supportBCount, separationAxis, geomB->mWorldPosition,
 				bAxisProjection - d, bAxisProjection + d);
-	}
+	}*/
 
 	for (int i = 0; i < supportACount; i++)
 	{
