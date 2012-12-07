@@ -372,12 +372,12 @@ void apTestFrame::testBoxCD()
 		                        { 0, 7 }, { 1, 6 }, { 2, 5 }, { 3, 4 },
 								{ 6, 7 }, { 7, 4 }, { 4, 5 }, { 5, 6 }	};
 
-	for (int i = 0; i < 12; i++)
+	/*for (int i = 0; i < 12; i++)
 	{
 		getRenderStuff().addRedArrow(boxAGeom->mPoints[edges[i][0]],   boxAGeom->mPoints[edges[i][1]]);
 		getRenderStuff().addGreenArrow(boxBGeom->mPoints[edges[i][0]], boxBGeom->mPoints[edges[i][1]]);
 		
 		getRenderStuff().addRedArrow(boxAGeom->mPoints[edges[i][0]] + offs,   boxAGeom->mPoints[edges[i][1]] + offs);
 		getRenderStuff().addGreenArrow(boxBGeom->mPoints[edges[i][0]] - offs, boxBGeom->mPoints[edges[i][1]] - offs);
-	}
+	}*/
 }

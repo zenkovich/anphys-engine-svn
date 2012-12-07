@@ -209,8 +209,8 @@ struct mat3x3
 		vec3 u3 = vec3(m[3][1], m[3][2], m[3][3]);
 
 		vec3 w1 = (u1).normalize();
-		vec3 w2 = (u2 - project(w1, u2)).normalize();
-		vec3 w3 = (u3 - project(w1, u3) - project(w2, u3)).normalize();
+		vec3 w2 = (u2 - proj(w1, u2)).normalize();
+		vec3 w3 = (u3 - proj(w1, u3) - proj(w2, u3)).normalize();
 
 		mat3x3 r;
 		r.m[1][1] = w1.x;	r.m[1][2] = w1.y;	r.m[1][3] = w1.z;

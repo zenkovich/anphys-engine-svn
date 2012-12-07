@@ -123,7 +123,7 @@ phRigidObject* cSceneStuff::addBoxCollisionGeometry( phRigidObject* rigidObject,
 	return rigidObject;
 }
 
-cObject* cSceneStuff::createBoxMesh( const vec3& pos, const vec3& size, const mat3x3& orient /*= nullMatr()*/ )
+cObject* cSceneStuff::createBoxMesh( vec3& pos, vec3& size, mat3x3& orient /*= nullMatr()*/ )
 {	
 	cObject* res = new cObject;
 
