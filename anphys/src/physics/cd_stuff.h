@@ -11,14 +11,12 @@ struct phCollisionGeometryElement
 	
 	float        mProjection;
 
-	phCollisionGeometryElement():mIndexParam(0), mProjection(0.0f) {}
+	phCollisionGeometryElement(): mProjection(0.0f) {}
 
-	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision) {}
-	virtual float project(vec3& axis, vec3& origin, int index) { return 0.0f; }
+	virtual float project(vec3& axis, vec3& origin) { return 0.0f; }
 	virtual ElementType getType () { return ET_VERTEX; }
 	virtual void showDbgGraphics() {}
 	virtual void calculateParametres() {}
-	virtual void reindex(int index) { mIndexParam = index; }
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 };
 
@@ -35,7 +33,7 @@ struct phCollisionVertex:public phCollisionGeometryElement
 	vec3         mVertex;
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin, int index);
+	float project(vec3& axis, vec3& origin);
 	ElementType getType () { return ET_VERTEX; }
 	void showDbgGraphics();
 };
@@ -53,11 +51,10 @@ struct phCollisionEdge:public phCollisionGeometryElement
 	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin, int index);
+	float project(vec3& axis, vec3& origin);
 	inline void calculateParametres();
 	ElementType getType () { return ET_EDGE; }
 	void showDbgGraphics();
-	void reindex(int index);
 	bool isOnProjectionInterval(float minProj, float maxProj);
 };
 
@@ -73,12 +70,11 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c, phCollisionEdge* d);
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin, int index);
+	float project(vec3& axis, vec3& origin);
 	inline void calculateParametres();
 	void calculateInvertions();
 	ElementType getType () { return ET_POLYGON; }
 	void showDbgGraphics();
-	void reindex(int index);
 	bool isOnProjectionInterval(float minProj, float maxProj);
 };
 
@@ -97,12 +93,6 @@ struct phCollisionSupportGeom
 	void copyTempProjections();
 	
 	void fillCollisionElementsList(phCollisionElementsList& elementsList, float projectionValue);
-
-	inline unsigned int generateNewIndexParam()
-	{ 
-		unsigned int r = mIndexParam + 1; 
-		if (r > 999999) r = 0; return r; 
-	}
 	
 	void showDbgGraphics();
 };

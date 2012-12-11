@@ -17,9 +17,8 @@ void phCollisionVertex::checkIntersection( phCollisionGeometryElement* object, p
 	if (object->getType() == ET_POLYGON) isIntersect(this, static_cast<phCollisionPolygon*>(object), collision);
 }
 
-float phCollisionVertex::project( vec3& axis, vec3& origin, int index )
+float phCollisionVertex::project( vec3& axis, vec3& origin )
 {
-	mIndexParam = index;
 	return (mVertex - origin)*axis;
 }
 
@@ -42,7 +41,7 @@ void phCollisionEdge::checkIntersection( phCollisionGeometryElement* object, phC
 	else if (object->getType() == ET_POLYGON) isIntersect(this, static_cast<phCollisionPolygon*>(object), collision);
 }
 
-float phCollisionEdge::project( vec3& axis, vec3& origin, int index )
+float phCollisionEdge::project( vec3& axis, vec3& origin )
 {	
 	float projFirst = (mFirstVertex->mIndexParam != index) ? mFirstVertex->project(axis, origin, index):0.0f;
 	float projSecond = (mSecondVertex->mIndexParam != index) ? mSecondVertex->project(axis, origin, index):0.0f;
@@ -355,6 +354,7 @@ float phCollisionSupportGeom::projectOnAxis( vec3& axis, vec3& origin, float *ma
 
 	if (currentMaxProjection > *maxProjection)
 	{
+		*maxProjection = currentMaxProjection;
 		float projDifference = 0.05f;
 		mProbablyIntersectingElements.clear();
 
