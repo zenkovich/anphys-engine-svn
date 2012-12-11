@@ -121,5 +121,5 @@ void phBoxCollisionGeometry::initCollisionData()
 		mSupportGeom.mElements.push_back(newCollisionPolygon);
 	}
 
-	mSupportGeom.initProjectionBuffers();
+	mSupportGeom.postInitialize();
 }

@@ -9,7 +9,6 @@ struct phCollisionGeometryElement
 {
 	enum ElementType { ET_VERTEX = 0, ET_EDGE, ET_POLYGON, ET_ELLIPSE };
 	
-	unsigned int mIndexParam;
 	float        mProjection;
 
 	phCollisionGeometryElement():mIndexParam(0), mProjection(0.0f) {}
@@ -22,6 +21,11 @@ struct phCollisionGeometryElement
 	virtual void reindex(int index) { mIndexParam = index; }
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 };
+
+inline bool phCollisionGeometryElementSortPred(phCollisionGeometryElement* a, phCollisionGeometryElement* b)
+{
+	return a->getType() > b->getType();
+}
 
 struct phCollisionVertex:public phCollisionGeometryElement
 {
@@ -78,28 +82,29 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	bool isOnProjectionInterval(float minProj, float maxProj);
 };
 
-
 typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
 
 struct phCollisionSupportGeom
 {
-	typedef std::vector<float>                       ProjectionsList;
-
 	phCollisionElementsList mElements;
-	ProjectionsList         mProjectionsBuf;
-	ProjectionsList         mTempProjectionsBuf;
-	unsigned int            mIndexParam;
+	phCollisionElementsList mProbablyIntersectingElements;
+	
+	void postInitialize();
 
-	float projectOnAxis(vec3& axis, vec3& origin);
-	void showDbgGraphics();
+	float projectOnAxis(vec3& axis, vec3& origin, float *maxProjection);
+
 	void calculateParametres();
+	void copyTempProjections();
+	
+	void fillCollisionElementsList(phCollisionElementsList& elementsList, float projectionValue);
+
 	inline unsigned int generateNewIndexParam()
 	{ 
 		unsigned int r = mIndexParam + 1; 
 		if (r > 999999) r = 0; return r; 
 	}
-	void initProjectionBuffers();
-	void copyTempProjections();
+	
+	void showDbgGraphics();
 };
 
 void isIntersect(phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCollision* collision);
@@ -107,7 +112,7 @@ void isIntersect(phCollisionPolygon* polygonA, phCollisionPolygon* polygonB, phC
 void isIntersect(phCollisionEdge* cedge, phCollisionPolygon* cpolygon, phCollision* collision);
 void isIntersect(phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* collision);
 
-void checkIntersection(phCollisionSupportGeom* geomA, float aProjection, phCollisionSupportGeom* geomB, float bProjection,
-	phCollision* collision);
+void checkIntersection(phCollisionElementsList& elementsListA, phCollisionElementsList& elementsListB,  
+	                   phCollision* collision);
 
-#endif //CD_STUFF_H
+#endif //CD_STUFF_H  

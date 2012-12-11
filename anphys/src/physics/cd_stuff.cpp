@@ -1,5 +1,7 @@
 #include "cd_stuff.h"
 
+#include <algorithm>
+
 #include "collision.h"
 #include "collision_point.h"
 
@@ -320,29 +322,55 @@ void checkIntersection( phCollisionSupportGeom* geomA, float aProjection,
 	geomB->mIndexParam = tempIndexParamB;
 }
 
-float phCollisionSupportGeom::projectOnAxis( vec3& axis, vec3& origin )
-{	
-	unsigned int tempIndexParam = generateNewIndexParam();
-
-	float maxProjection = 0.0f;
-
-	ProjectionsList::reverse_iterator jt = mTempProjectionsBuf.rbegin();
-	phCollisionElementsList::iterator lastVertexElement;
-	for(phCollisionElementsList::reverse_iterator it = mElements.rbegin(); it != mElements.rend(); it++, jt++)
+void checkIntersection( phCollisionElementsList& elementsListA, phCollisionElementsList& elementsListB,  
+	                   phCollision* collision )
+{
+	for (phCollisionElementsList::iterator ielement = elementsListA.begin(); ielement != elementsListA.end(); 
+		 ++ielement)
 	{
-	//	if ((*it)->getType() == phCollisionGeometryElement::ET_VERTEX) break;
-
-		if ((*it)->mIndexParam != tempIndexParam) 
+		phCollisionGeometryElement* elementA = *ielement;
+		for (phCollisionElementsList::iterator jelement = elementsListA.begin(); jelement != elementsListB.end(); 
+				++jelement)
 		{
-			(*it)->mIndexParam = tempIndexParam;
-			(*jt) = (*it)->project(axis, origin, tempIndexParam);
-			if ((*jt) > maxProjection) maxProjection = *jt;
+			phCollisionGeometryElement* elementB = *jelement;
+			
+			elementA->checkIntersection(elementB, collision);
 		}
 	}
+}
 
-	mIndexParam = tempIndexParam;
+float phCollisionSupportGeom::projectOnAxis( vec3& axis, vec3& origin, float *maxProjection )
+{	
+	float currentMaxProjection = 0.0f;
 
-	return maxProjection;
+	for(phCollisionElementsList::iterator it = mElements.begin(); it != mElements.end(); ++it)
+	{
+		if ((*it)->getType() != phCollisionGeometryElement::ET_VERTEX) continue;
+
+		(*it)->mProjection = (*it)->project(axis, origin);
+
+		if ((*it)->mProjection > currentMaxProjection)
+			currentMaxProjection = (*it)->mProjection;
+	}
+
+	if (currentMaxProjection > *maxProjection)
+	{
+		float projDifference = 0.05f;
+		mProbablyIntersectingElements.clear();
+
+		phCollisionElementsList::iterator jt = mProbablyIntersectingElements.begin();
+		for(phCollisionElementsList::iterator it = mElements.begin(); it != mElements.end(); ++it)
+		{
+			if ((*it)->isOnProjectionInterval())
+			{
+				(*jt) = *it;
+				++jt;
+			}
+		}
+		if (jt != mProbablyIntersectingElements.end()) (*jt) = NULL;
+	}
+
+	return;
 }
 
 void phCollisionSupportGeom::showDbgGraphics()
@@ -369,8 +397,10 @@ void phCollisionSupportGeom::calculateParametres()
 	mIndexParam = tempIndexParam;
 }
 
-void phCollisionSupportGeom::initProjectionBuffers()
+void phCollisionSupportGeom::postInitialize()
 {
+	std::sort(mElements.begin(), mElements.end(), phCollisionGeometryElementSortPred);
+
 	for(phCollisionElementsList::iterator it = mElements.begin(); it != mElements.end(); it++)
 	{
 		mTempProjectionsBuf.push_back(0.0f);
@@ -385,4 +415,22 @@ void phCollisionSupportGeom::copyTempProjections()
 	{
 		(*ielement)->mProjection = (*iproj);
 	}
+}
+
+void phCollisionSupportGeom::fillCollisionElementsList( phCollisionElementsList& elementsList, float projectionValue )
+{
+
+	int tempIndex = generateNewIndexParam();
+
+	elementsList.clear();
+	for (phCollisionElementsList::iterator ielement = mElements.begin(); ielement != mElements.end(); ++ielement)
+	{
+		float diff = (*ielement)->mProjection - projectionValue;
+		if ((*ielement)->mIndexParam != tempIndex && fabs(diff) > projDifference) continue;
+
+		(*ielement)->reindex(tempIndex);
+		elementsList.push_back(*ielement);
+	}
+
+	mIndexParam = tempIndex;
 }
