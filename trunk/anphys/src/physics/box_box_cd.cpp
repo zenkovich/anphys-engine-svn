@@ -119,11 +119,11 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 			
 			float depth = aProjection + bProjection - absf(distanceProjection);
 
-			if (depth < -0.001f) 
+			/*if (depth < -0.001f) 
 				getRenderStuff().addBlueArrow(geomA->mWorldPosition + axis*(aProjection - depth), geomA->mWorldPosition + axis*(aProjection));
 			else 
 				getRenderStuff().addGreenArrow(geomA->mWorldPosition + axis*(aProjection - depth), geomA->mWorldPosition + axis*(aProjection));
-			
+			*/
 			if (depth < -0.001f) 
 				return collision;
 
@@ -158,31 +158,32 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		phBoxCollisionGeometry* currGeomB = geomB;
 		float currbAxisProjection = bAxisProjection;
 		vec3 currSeparationAxis(-separationAxis.x, -separationAxis.y, -separationAxis.z);
+									  
+		static int aIndexes[6][9] = { {5, 9,  14, 13, 17, 18, 21, 22, 25 },
+									  {4, 7,  15, 11, 16, 19, 20, 23, 24 },
+									  {1, 8,  17, 12, 16, 20, 21, 22, 23 },
+									  {3, 6,  14, 10, 15, 18, 19, 24, 25 },
+									  {0, 6,  7,  8,  9,  18, 19, 20, 21 },
+									  {2, 10, 11, 12, 13, 22, 23, 24, 25 }, };
 
 		int currSeparationAxisId = separationAxisId;
 		if (currSeparationAxisId > 5)
 		{
 			currSeparationAxisId -= 6;
+			if (currSeparationAxisId % 2 != 0) currSeparationAxisId -= 1;
+			else                               currSeparationAxisId += 1;
 			currGeomA = geomB; currGeomB = geomA;
 			currbAxisProjection = aAxisProjection;
 			currSeparationAxis.x = -currSeparationAxis.x;
 			currSeparationAxis.y = -currSeparationAxis.y;
 			currSeparationAxis.z = -currSeparationAxis.z;
 		}
-		                                   //+6            +18
-		static int aIndexes[6][9] = { {4, 7,  15, 11, 16, 19, 20, 23, 24 },
-									  {5, 9,  14, 13, 17, 18, 21, 22, 25 },
-									  {3, 6,  14, 10, 15, 18, 19, 24, 25 },
-									  {1, 8,  17, 12, 16, 20, 21, 22, 23 },
-									  {2, 10, 11, 12, 13, 22, 23, 24, 25 },
-									  {0, 6,  7,  8,  9,  18, 19, 20, 21 }, };
 
 		int idx = 0;
-		phCollisionElementsList::iterator jt = currGeomA->mSupportGeom.mElements.begin();
 		for (phCollisionElementsList::iterator it = currGeomA->mSupportGeom.mProbablyIntersectingElements.begin();
-			 it != currGeomA->mSupportGeom.mProbablyIntersectingElements.end() && idx < 9; ++it, ++idx, ++jt)
+			 it != currGeomA->mSupportGeom.mProbablyIntersectingElements.end() && idx < 9; ++it, ++idx)
 		{
-			*it = *jt;
+			*it = currGeomA->mSupportGeom.mElements[aIndexes[currSeparationAxisId][idx]];
 		}
 		currGeomA->mSupportGeom.mProbablyIntersectingElements[9] = NULL;
 
