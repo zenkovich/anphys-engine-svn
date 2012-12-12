@@ -10,10 +10,12 @@ struct phCollisionGeometryElement
 	enum ElementType { ET_VERTEX = 0, ET_EDGE, ET_POLYGON, ET_ELLIPSE };
 	
 	float        mProjection;
+	unsigned int mIndex;
 
-	phCollisionGeometryElement(): mProjection(0.0f) {}
-
-	virtual float project(vec3& axis, vec3& origin) { return 0.0f; }
+	phCollisionGeometryElement(): mProjection(0.0f), mIndex(0) {}
+	
+	virtual void checkIntersection(phCollisionGeometryElement* object, phCollision* collision) {}
+	virtual void project(vec3& axis, vec3& origin, unsigned int index) { }
 	virtual ElementType getType () { return ET_VERTEX; }
 	virtual void showDbgGraphics() {}
 	virtual void calculateParametres() {}
@@ -33,7 +35,7 @@ struct phCollisionVertex:public phCollisionGeometryElement
 	vec3         mVertex;
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin);
+	void project(vec3& axis, vec3& origin, unsigned int index);
 	ElementType getType () { return ET_VERTEX; }
 	void showDbgGraphics();
 };
@@ -51,7 +53,7 @@ struct phCollisionEdge:public phCollisionGeometryElement
 	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin);
+	void project(vec3& axis, vec3& origin, unsigned int index);
 	inline void calculateParametres();
 	ElementType getType () { return ET_EDGE; }
 	void showDbgGraphics();
@@ -70,7 +72,7 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c, phCollisionEdge* d);
 
 	void checkIntersection(phCollisionGeometryElement* object, phCollision* collision);
-	float project(vec3& axis, vec3& origin);
+	void project(vec3& axis, vec3& origin, unsigned int index);
 	inline void calculateParametres();
 	void calculateInvertions();
 	ElementType getType () { return ET_POLYGON; }
@@ -84,16 +86,16 @@ struct phCollisionSupportGeom
 {
 	phCollisionElementsList mElements;
 	phCollisionElementsList mProbablyIntersectingElements;
+	unsigned int            mIndex;
 	
 	void postInitialize();
 
-	float projectOnAxis(vec3& axis, vec3& origin, float *maxProjection);
+	void projectOnAxis(vec3& axis, vec3& origin, float *maxProjection);
 
 	void calculateParametres();
-	void copyTempProjections();
 	
-	void fillCollisionElementsList(phCollisionElementsList& elementsList, float projectionValue);
-	
+	unsigned int generateNewIndexParam();
+
 	void showDbgGraphics();
 };
 

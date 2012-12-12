@@ -11,7 +11,6 @@
 #include "../util/debug/render_stuff.h"
 
 
-vec3 *supportA = new vec3[4], *supportB = new vec3[4];
 phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollisionGeometry* geomB, phCollision* collision )
 {
 	vec3 geometriesDistanceVec = geomB->mWorldPosition - geomA->mWorldPosition;
@@ -148,11 +147,7 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 			}
 		}
 	}
-
-	int supportACount = 0, supportBCount = 0;
-
-	float d = 0.1f;
-
+	
 	*gLog << formatStr("Separation axis id is %i:", separationAxisId);
 	
 	if (separationAxisId >= 0 && separationAxisId < 12) //face normal is separation axis
@@ -161,67 +156,62 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 		phBoxCollisionGeometry* currGeomA = geomA;
 		phBoxCollisionGeometry* currGeomB = geomB;
-		vec3* currSupportA = supportA;
-		vec3* currSupportB = supportB;
-		int*  currSupportACount = &supportACount;
-		int*  currSupportBCount = &supportBCount;
 		float currbAxisProjection = bAxisProjection;
+		vec3 currSeparationAxis(-separationAxis.x, -separationAxis.y, -separationAxis.z);
 
 		int currSeparationAxisId = separationAxisId;
 		if (currSeparationAxisId > 5)
 		{
 			currSeparationAxisId -= 6;
 			currGeomA = geomB; currGeomB = geomA;
-			currSupportA = supportB; currSupportB = supportA;
-			currSupportACount = &supportBCount; currSupportBCount = &supportACount;
 			currbAxisProjection = aAxisProjection;
+			currSeparationAxis.x = -currSeparationAxis.x;
+			currSeparationAxis.y = -currSeparationAxis.y;
+			currSeparationAxis.z = -currSeparationAxis.z;
 		}
+		                                   //+6            +18
+		static int aIndexes[6][9] = { {4, 7,  15, 11, 16, 19, 20, 23, 24 },
+									  {5, 9,  14, 13, 17, 18, 21, 22, 25 },
+									  {3, 6,  14, 10, 15, 18, 19, 24, 25 },
+									  {1, 8,  17, 12, 16, 20, 21, 22, 23 },
+									  {2, 10, 11, 12, 13, 22, 23, 24, 25 },
+									  {0, 6,  7,  8,  9,  18, 19, 20, 21 }, };
 
-		static int aIndexes[6][4] = { { 0, 3, 4, 7 },    //x positive
-		                              { 1, 6, 5, 2 },    //x negative
-		                              { 2, 3, 4, 5 },    //y positive
-		                              { 0, 7, 6, 1 },    //y negative
-		                              { 0, 1, 2, 3 },    //z positive
-		                              { 6, 7, 4, 5 } };  //z negative
+		int idx = 0;
+		phCollisionElementsList::iterator jt = currGeomA->mSupportGeom.mElements.begin();
+		for (phCollisionElementsList::iterator it = currGeomA->mSupportGeom.mProbablyIntersectingElements.begin();
+			 it != currGeomA->mSupportGeom.mProbablyIntersectingElements.end() && idx < 9; ++it, ++idx, ++jt)
+		{
+			*it = *jt;
+		}
+		currGeomA->mSupportGeom.mProbablyIntersectingElements[9] = NULL;
 
-		*currSupportACount = 4;
-		currSupportA[0] = currGeomA->mPoints[aIndexes[currSeparationAxisId][0]];
-		currSupportA[1] = currGeomA->mPoints[aIndexes[currSeparationAxisId][1]];
-		currSupportA[2] = currGeomA->mPoints[aIndexes[currSeparationAxisId][2]];
-		currSupportA[3] = currGeomA->mPoints[aIndexes[currSeparationAxisId][3]];
-
-		findNearPoints(currGeomB->mPoints, 8, currSupportB, *currSupportBCount, separationAxis, currGeomB->mWorldPosition,
-				       currbAxisProjection - d, currbAxisProjection + d);
+		float projB = 0.0f;
+		currGeomB->mSupportGeom.projectOnAxis(currSeparationAxis, currGeomB->mWorldPosition, &projB);
 	}
 	else //edge-edge cross product is separation axis
 	{
 		*gLog << "egde-edge\n";
 
-		findNearPoints(geomA->mPoints, 8, supportA, supportACount, separationAxis, geomA->mWorldPosition,
-			aAxisProjection - d, aAxisProjection + d);
+		float projA = 0.0f, projB = 0.0f;
+		geomA->mSupportGeom.projectOnAxis(separationAxis, geomA->mWorldPosition, &projA);
 		
-		findNearPoints(geomB->mPoints, 8, supportB, supportBCount, separationAxis, geomB->mWorldPosition,
-				bAxisProjection - d, bAxisProjection + d);
+		geomB->mSupportGeom.projectOnAxis(separationAxis*(-1.0f), geomB->mWorldPosition, &projB);
 	}
 
-	for (int i = 0; i < supportACount; i++)
+	for (phCollisionElementsList::iterator it = geomA->mSupportGeom.mProbablyIntersectingElements.begin();
+			 it != geomA->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
 	{
-		getRenderStuff().addBlueCube(supportA[i]);
-		if (supportACount > 2)
-		{
-			getRenderStuff().addBlueArrow(supportA[i], supportA[(i + 1)%supportACount]);
-		}
+		if (*it == NULL) break;
+		(*it)->showDbgGraphics();
 	}
 
-	for (int i = 0; i < supportBCount; i++)
+	for (phCollisionElementsList::iterator it = geomB->mSupportGeom.mProbablyIntersectingElements.begin();
+			 it != geomB->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
 	{
-		getRenderStuff().addBlueCube(supportB[i]);
-		if (supportBCount > 2)
-		{
-			getRenderStuff().addBlueArrow(supportB[i], supportB[(i + 1)%supportBCount]);
-		}
+		if (*it == NULL) break;
+		(*it)->showDbgGraphics();
 	}
-
 	
 
 	phCollisionPoint* pt = collision->addPoint();
