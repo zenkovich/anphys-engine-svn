@@ -20,7 +20,10 @@ struct phCollisionGeometryElement
 	virtual void showDbgGraphics() {}
 	virtual void calculateParametres() {}
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
+	virtual void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis) {}
 };
+
+typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
 
 inline bool phCollisionGeometryElementSortPred(phCollisionGeometryElement* a, phCollisionGeometryElement* b)
 {
@@ -40,14 +43,17 @@ struct phCollisionVertex:public phCollisionGeometryElement
 	void showDbgGraphics();
 };
 
+struct phCollisionPolygon;
+
 struct phCollisionEdge:public phCollisionGeometryElement
 {
-	phCollisionVertex* mFirstVertex;
-	phCollisionVertex* mSecondVertex;
-	vec3               mDirection;
-	vec3               mNormalizedDirection;
-	vec3               mDirectionNormal;
-	float              mLength;
+	phCollisionVertex*  mFirstVertex;
+	phCollisionVertex*  mSecondVertex;
+	phCollisionPolygon* mPolygons[2];
+	vec3                mDirection;
+	vec3                mNormalizedDirection;
+	vec3                mDirectionNormal;
+	float               mLength;
 
 	phCollisionEdge();
 	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
@@ -58,6 +64,7 @@ struct phCollisionEdge:public phCollisionGeometryElement
 	ElementType getType () { return ET_EDGE; }
 	void showDbgGraphics();
 	bool isOnProjectionInterval(float minProj, float maxProj);
+	void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis);
 };
 
 struct phCollisionPolygon:public phCollisionGeometryElement
@@ -79,8 +86,6 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	void showDbgGraphics();
 	bool isOnProjectionInterval(float minProj, float maxProj);
 };
-
-typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
 
 struct phCollisionSupportGeom
 {
