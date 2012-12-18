@@ -129,17 +129,17 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 			if (depth < 0.001f) continue;
 
-			float axisLength = axis.len();
-			depth /= axisLength;
+			float axisLength = 1.0f/axis.len();
+			depth *= axisLength;
 			if (depth < penetrationDepth)
 			{
 				penetrationDepth = depth;
 
 				float distanceProjectionSign = sign(distanceProjection);
-				separationAxis = axis/axisLength*(-distanceProjectionSign);
+				separationAxis = axis*axisLength*(-distanceProjectionSign);
 
-				aAxisProjection = aProjection/axisLength;
-				bAxisProjection = -bProjection/axisLength;
+				aAxisProjection = aProjection*axisLength;
+				bAxisProjection = -bProjection*axisLength;
 
 				apt = geomA->mWorldPosition + axis*(aProjection - depth);
 
@@ -193,6 +193,8 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 	else //edge-edge cross product is separation axis
 	{
 		*gLog << "egde-edge\n";
+
+		static int edgesIndexes[][2] = { {  } }
 
 		float projA = 0.0f, projB = 0.0f;
 		geomA->mSupportGeom.projectOnAxis(separationAxis, geomA->mWorldPosition, &projA);

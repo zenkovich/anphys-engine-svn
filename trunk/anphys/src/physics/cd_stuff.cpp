@@ -31,11 +31,16 @@ void phCollisionVertex::showDbgGraphics()
 	getRenderStuff().addRedCube(mVertex);
 }
 
-phCollisionEdge::phCollisionEdge():mFirstVertex(NULL), mSecondVertex(NULL), mLength(0.0f), phCollisionGeometryElement() {}
+phCollisionEdge::phCollisionEdge():
+	mFirstVertex(NULL), mSecondVertex(NULL), mLength(0.0f), phCollisionGeometryElement() 
+{
+	mPolygons[0] = mPolygons[1] = NULL;
+}
 
 phCollisionEdge::phCollisionEdge( phCollisionVertex* first, phCollisionVertex* second ):mFirstVertex(first),
 	mSecondVertex(second), phCollisionGeometryElement()
 {
+	mPolygons[0] = mPolygons[1] = NULL;
 	calculateParametres();
 }
 
@@ -85,6 +90,39 @@ bool phCollisionEdge::isOnProjectionInterval( float minProj, float maxProj )
 		   mSecondVertex->isOnProjectionInterval(minProj, maxProj);
 }
 
+void phCollisionEdge::fillSupportGeomData( phCollisionElementsList& elementsList, vec3& axis )
+{
+	elementsList.push_back(this);
+	
+	phCollisionVertex* vertexa = mFirstVertex;
+	phCollisionVertex* vertexb = mSecondVertex;
+	elementsList.push_back(vertexa);
+	elementsList.push_back(vertexb);
+
+	for (int i = 0; i < 2; i++)
+	{
+		phCollisionPolygon* poly = mPolygons[0];
+		if (!poly) return;
+
+		float axisProjection = axis*poly->mNormal;
+		if (axisProjection < 0.83f) continue;
+
+		elementsList.push_back(poly);
+		for (short j = 0; j < poly->mEdgesCount; j++)
+		{
+			phCollisionEdge* edge = poly->mEdges[j];
+			if (edge != this) elementsList.push_back(edge);
+
+			phCollisionVertex* pushVertex = NULL;
+			if (poly->mEdgeInvertion[j]) pushVertex = edge->mSecondVertex;
+			else                         pushVertex = edge->mFirstVertex;
+
+			if (!(pushVertex == vertexa || pushVertex == vertexb))
+				elementsList.push_back(pushVertex);
+		}
+	}
+}
+
 phCollisionPolygon::phCollisionPolygon():phCollisionGeometryElement(), mEdgesCount(0) { }
 
 phCollisionPolygon::phCollisionPolygon( phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c )
@@ -108,6 +146,8 @@ void phCollisionPolygon::calculateInvertions()
 	for (short i = 0; i < mEdgesCount; i++)
 	{
 		mEdgeInvertion[i] = (center*(mEdges[i]->mDirectionNormal^mNormal)) < 0.0f;
+		if (mEdges[i]->mPolygons[0] == NULL) mEdges[i]->mPolygons[0] = this;
+		else                                 mEdges[i]->mPolygons[1] = this;
 	}
 }
 
