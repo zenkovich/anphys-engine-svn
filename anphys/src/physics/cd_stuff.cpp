@@ -92,35 +92,41 @@ bool phCollisionEdge::isOnProjectionInterval( float minProj, float maxProj )
 
 void phCollisionEdge::fillSupportGeomData( phCollisionElementsList& elementsList, vec3& axis )
 {
-	elementsList.push_back(this);
+	phCollisionElementsList::iterator it = elementsList.begin();
+	while(*it != NULL) ++it;
+
+
+	(*it) = this; ++it;
 	
 	phCollisionVertex* vertexa = mFirstVertex;
 	phCollisionVertex* vertexb = mSecondVertex;
-	elementsList.push_back(vertexa);
-	elementsList.push_back(vertexb);
+	(*it) = vertexa; ++it;
+	(*it) = vertexb; ++it;
 
 	for (int i = 0; i < 2; i++)
 	{
-		phCollisionPolygon* poly = mPolygons[0];
+		phCollisionPolygon* poly = mPolygons[i];
 		if (!poly) return;
 
 		float axisProjection = axis*poly->mNormal;
 		if (axisProjection < 0.83f) continue;
-
-		elementsList.push_back(poly);
+		
+		(*it) = poly; ++it;
 		for (short j = 0; j < poly->mEdgesCount; j++)
 		{
 			phCollisionEdge* edge = poly->mEdges[j];
-			if (edge != this) elementsList.push_back(edge);
+			if (edge != this) (*it) = edge; ++it;
 
 			phCollisionVertex* pushVertex = NULL;
 			if (poly->mEdgeInvertion[j]) pushVertex = edge->mSecondVertex;
 			else                         pushVertex = edge->mFirstVertex;
 
 			if (!(pushVertex == vertexa || pushVertex == vertexb))
-				elementsList.push_back(pushVertex);
+				(*it) = pushVertex; ++it;
 		}
 	}
+
+	(*it) = NULL;
 }
 
 phCollisionPolygon::phCollisionPolygon():phCollisionGeometryElement(), mEdgesCount(0) { }
@@ -399,7 +405,7 @@ void phCollisionSupportGeom::calculateParametres()
 {
 	unsigned int tempIndexParam = generateNewIndexParam();
 
-	for(phCollisionElementsList::iterator it = mElements.begin(); it != mElements.end(); it++)
+	for(phCollisionElementsList::reverse_iterator it = mElements.rbegin(); it != mElements.rend(); it++)
 	{
 		if ((*it)->mIndex != tempIndexParam) (*it)->calculateParametres();
 	}
@@ -413,6 +419,8 @@ void phCollisionSupportGeom::postInitialize()
 
 	for (int i = 0; i < (int)mElements.size(); i++)
 		mProbablyIntersectingElements.push_back(NULL);
+
+	mIndex = 0;
 }
 
 unsigned int phCollisionSupportGeom::generateNewIndexParam()
