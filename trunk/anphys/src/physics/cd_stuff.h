@@ -4,6 +4,9 @@
 #include "../util/utils.h"
 
 struct phCollision;
+struct phCollisionGeometryElement;
+
+typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
 
 struct phCollisionGeometryElement
 {
@@ -22,8 +25,6 @@ struct phCollisionGeometryElement
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 	virtual void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis) {}
 };
-
-typedef std::vector<phCollisionGeometryElement*> phCollisionElementsList;
 
 inline bool phCollisionGeometryElementSortPred(phCollisionGeometryElement* a, phCollisionGeometryElement* b)
 {

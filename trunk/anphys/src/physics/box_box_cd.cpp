@@ -45,6 +45,7 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 	float penetrationDepth = 999999.0f;
 	float aAxisProjection, bAxisProjection;
 	unsigned int separationAxisId = 0;
+	unsigned int edgeAxisA = 0, edgeAxisB = 0;
 
 	vec3 apt;
 
@@ -143,7 +144,9 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 				apt = geomA->mWorldPosition + axis*(aProjection - depth);
 
-				separationAxisId = 12 + (i*3 + j)*2 + ( (distanceProjectionSign > 0) ? 1:0 );
+				separationAxisId = 12 + 1;
+				edgeAxisA = i;
+				edgeAxisB = j;
 			}
 		}
 	}
@@ -194,12 +197,43 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 	{
 		*gLog << "egde-edge\n";
 
-		static int edgesIndexes[][2] = { {  } }
+		vec3 invSeparationAxis(-separationAxis.x, -separationAxis.y, -separationAxis.z);
 
-		float projA = 0.0f, projB = 0.0f;
+		static int edgesIndexes[3][4] = { { 6, 8, 12, 10 }, { 7, 11, 13, 9 }, { 14, 15, 16, 17 } };
+
+		phCollisionEdge* edgeA, *edgeB;
+
+		float maxProjectionA = 0.0f, maxProjectionB = 0.0f;
+		for (short i = 0; i < 4; i++)
+		{
+			phCollisionEdge* currEdgeA = 
+				static_cast<phCollisionEdge*>(geomA->mSupportGeom.mElements[edgesIndexes[edgeAxisA][i]]);
+
+			phCollisionEdge* currEdgeB = 
+				static_cast<phCollisionEdge*>(geomA->mSupportGeom.mElements[edgesIndexes[edgeAxisB][i]]);
+			
+			float projA = (currEdgeA->mFirstVertex->mVertex - geomA->mWorldPosition)*separationAxis;
+			float projB = (currEdgeB->mFirstVertex->mVertex - geomB->mWorldPosition)*invSeparationAxis;
+			
+			if (projA > maxProjectionA)
+			{
+				maxProjectionA = projA;
+				edgeA = currEdgeA;
+			}
+			if (projB > maxProjectionB)
+			{
+				maxProjectionB = projB;
+				edgeB = currEdgeB;
+			}
+		}
+			
+		edgeA->fillSupportGeomData(geomA->mSupportGeom.mProbablyIntersectingElements, separationAxis);
+		edgeB->fillSupportGeomData(geomB->mSupportGeom.mProbablyIntersectingElements, invSeparationAxis);
+
+		/*float projA = 0.0f, projB = 0.0f;
 		geomA->mSupportGeom.projectOnAxis(separationAxis, geomA->mWorldPosition, &projA);
 		
-		geomB->mSupportGeom.projectOnAxis(separationAxis*(-1.0f), geomB->mWorldPosition, &projB);
+		geomB->mSupportGeom.projectOnAxis(separationAxis*(-1.0f), geomB->mWorldPosition, &projB);*/
 	}
 
 	for (phCollisionElementsList::iterator it = geomA->mSupportGeom.mProbablyIntersectingElements.begin();
