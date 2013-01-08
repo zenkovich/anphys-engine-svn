@@ -14,10 +14,11 @@ struct phCollisionGeometryElementAndPointLink
 {
 	phCollisionGeometryElement* mElement;
 	phCollisionPoint*           mPoint;
+	unsigned int                mIndex;
 
-	phCollisionGeometryElementAndPointLink(): mElement(NULL), mPoint(NULL) {}
+	phCollisionGeometryElementAndPointLink(): mElement(NULL), mPoint(NULL), mIndex(0) {}
 	phCollisionGeometryElementAndPointLink(phCollisionGeometryElement* element, phCollisionPoint* point):
-		mElement(element), mPoint(point) {}
+		mElement(element), mPoint(point), mIndex(0) {}
 };
 typedef std::vector<phCollisionGeometryElementAndPointLink> phCollisionGeometryElementAndPointLinksList;
 
@@ -31,9 +32,15 @@ struct phCollisionGeometryElement
 	unsigned int            mIndex;
 	phCollisionSupportGeom* mSupportGeom;
 
-	phCollisionGeometryElementAndPointLinksList mStoredPoints;
+	phCollisionGeometryElementAndPointLinksList  mStoredPoints[2];
+	phCollisionGeometryElementAndPointLinksList* mCurrentStoredPoints;
+	phCollisionGeometryElementAndPointLinksList* mOtherStoredPoints;
 
-	phCollisionGeometryElement(): mProjection(0.0f), mIndex(0) {}
+	phCollisionGeometryElement(): mProjection(0.0f), mIndex(0) 
+	{ 
+		mStoredPoints[0].reserve(16); mStoredPoints[1].reserve(16); 
+		mCurrentStoredPoints = &mStoredPoints[0]; mOtherStoredPoints = &mStoredPoints[1]; 
+	}
 	
 	virtual void project(vec3& axis, vec3& origin, unsigned int index) { }
 	virtual ElementType getType () { return ET_VERTEX; }
@@ -42,15 +49,29 @@ struct phCollisionGeometryElement
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 	virtual void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis) {}
 	virtual void postInitialize() {}
-	inline phCollisionPoint* findContactPoint(phCollisionGeometryElement* element)
+
+	inline void storeContactPoint(phCollisionGeometryElement* element, phCollisionPoint* point)
 	{
-		for (phCollisionGeometryElementAndPointLinksList::iterator it = mStoredPoints.begin();
-			 it != mStoredPoints.end(); ++it)
+		mCurrentStoredPoints->push_back(phCollisionGeometryElementAndPointLink(element, point));
+	}
+
+	inline phCollisionGeometryElementAndPointLink* findContactPoint(phCollisionGeometryElement* element)
+	{
+		for (phCollisionGeometryElementAndPointLinksList::iterator it = mOtherStoredPoints->begin();
+			 it != mOtherStoredPoints->end(); ++it)
 		{
-			if (it->mElement == element) return it->mPoint;
+			if (it->mElement == element) return &(*it);
 		}
 
 		return NULL;
+	}
+
+	inline void eraseUnavailableLinks()
+	{
+		mOtherStoredPoints->clear();
+		phCollisionGeometryElementAndPointLinksList* buf = mCurrentStoredPoints;
+		mCurrentStoredPoints = mOtherStoredPoints;
+		mOtherStoredPoints = buf;
 	}
 };
 
