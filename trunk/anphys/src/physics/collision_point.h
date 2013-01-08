@@ -19,16 +19,15 @@ struct phCollisionPoint
 
 	phCollisionGeometryPart* mPartObjectA;
 	phCollisionGeometryPart* mPartObjectB;
+	
 
-	bool mUses;
-
-	phCollisionPoint(): mCollision(NULL), mUses(false) {}
+	phCollisionPoint(): mCollision(NULL) {}
 
 	phCollisionPoint(phCollision* collision, phCollisionGeometryPart* partObjectA, phCollisionGeometryPart* partObjectB): 
-		mCollision(collision), mUses(false), mPartObjectA(partObjectA), mPartObjectB(partObjectB) {}
+		mCollision(collision), mPartObjectA(partObjectA), mPartObjectB(partObjectB) {}
 
 	phCollisionPoint(phCollision* collision, phCollisionGeometryPart* partObjectA, phCollisionGeometryPart* partObjectB, vec3 point, vec3 normal):
-		mCollision(collision), mPoint(point), mNormal(normal), mUses(true), mPartObjectA(partObjectA), mPartObjectB(partObjectB) {}
+		mCollision(collision), mPoint(point), mNormal(normal), mPartObjectA(partObjectA), mPartObjectB(partObjectB) {}
 };
 
 #endif //COLLISION_POINT_H

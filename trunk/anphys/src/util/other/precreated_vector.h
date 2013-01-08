@@ -2,6 +2,7 @@
 #define PRECREATED_ARRAY_H
 
 #include <vector>
+#include <algorithm>
 
 #include "../memory/mem_utils.h"
 
@@ -35,21 +36,42 @@ struct cArray
 
 	T* push_back()
 	{
+		T* newValue = getFreeValue();
+		acceptValue(newValue);
+
+		return newValue;
+	}
+
+	T* getFreeValue()
+	{
 		T* newValue = NULL;
 		if (mFreeValues.size() > 0)
 		{
 			ValuesList::iterator lastElement = mFreeValues.begin();
 			newValue = *lastElement;
-			mFreeValues.erase(lastElement);
 		}
 		else
 		{
 			newValue = new T;
 		}
 
-		mValues.push_back(newValue);
-
 		return newValue;
+	}
+
+	void acceptValue(T* value)
+	{
+		if (mFreeValues.size() > 0)
+		{
+			ValuesList::iterator itElement = mFreeValues.begin();
+			if (*itElement != value) 
+			{
+				itElement = std::find(mFreeValues.begin(), mFreeValues.end(), value);
+			}
+
+			if (itElement != mFreeValues.end()) mFreeValues.erase(itElement);
+		}
+
+		mValues.push_back(value);
 	}
 
 	bool erase(typename ValuesList::iterator& item)
@@ -65,8 +87,6 @@ struct cArray
 	typename ValuesList::iterator& begin() { return mValues.begin(); }
 	typename ValuesList::iterator& end() { return mValues.end(); }
 	unsigned int size() { return mValues.size(); }
-
-	typename ValuesList::iterator& iterator() { return ValuesList::iterator; }
 
 	void clear() 
 	{

@@ -210,7 +210,7 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 				static_cast<phCollisionEdge*>(geomA->mSupportGeom.mElements[edgesIndexes[edgeAxisA][i]]);
 
 			phCollisionEdge* currEdgeB = 
-				static_cast<phCollisionEdge*>(geomA->mSupportGeom.mElements[edgesIndexes[edgeAxisB][i]]);
+				static_cast<phCollisionEdge*>(geomB->mSupportGeom.mElements[edgesIndexes[edgeAxisB][i]]);
 			
 			float projA = (currEdgeA->mFirstVertex->mVertex - geomA->mWorldPosition)*separationAxis;
 			float projB = (currEdgeB->mFirstVertex->mVertex - geomB->mWorldPosition)*invSeparationAxis;
@@ -229,6 +229,9 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 			
 		edgeA->fillSupportGeomData(geomA->mSupportGeom.mProbablyIntersectingElements, separationAxis);
 		edgeB->fillSupportGeomData(geomB->mSupportGeom.mProbablyIntersectingElements, invSeparationAxis);
+
+	/*	edgeA->showDbgGraphics();
+		edgeB->showDbgGraphics();*/
 
 		/*float projA = 0.0f, projB = 0.0f;
 		geomA->mSupportGeom.projectOnAxis(separationAxis, geomA->mWorldPosition, &projA);
@@ -249,11 +252,17 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		if (*it == NULL) break;
 		(*it)->showDbgGraphics();
 	}
-	
 
-	phCollisionPoint* pt = collision->addPoint();
-	pt->mNormal = separationAxis*penetrationDepth;
-	getRenderStuff().addGreenArrow(apt, apt + separationAxis*penetrationDepth);
+	checkIntersection(geomA->mSupportGeom.mProbablyIntersectingElements, 
+		              geomB->mSupportGeom.mProbablyIntersectingElements, collision, separationAxis);
+
+	for (phCollision::CollisionPointsList::ValuesList::iterator it = collision->mPoints->mValues.begin();
+		 it != collision->mPoints->mValues.end(); it++)
+	{		
+		getRenderStuff().addGreenArrow((*it)->mPoint - (*it)->mNormal*(*it)->mDepth*0.5f, 
+			                           (*it)->mPoint + (*it)->mNormal*(*it)->mDepth*0.5f);
+		getRenderStuff().addGreenCube((*it)->mPoint);
+	}
 
 	return collision;
 }

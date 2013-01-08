@@ -43,8 +43,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/../bin/\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Таня&amp;Андрей©\андрей\с++\new\anphys\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\src\render\d3d8\sdk\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\src\render\d3d8\sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -92,12 +92,14 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\physics_test\src\test_frame.cpp" />
+    <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp" />
+    <ClCompile Include="..\physics_test\src\physics_test_frame.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="win32_app.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\physics_test\src\test_frame.h" />
+    <ClInclude Include="..\physics_test\src\box_collision_test_frame.h" />
+    <ClInclude Include="..\physics_test\src\physics_test_frame.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

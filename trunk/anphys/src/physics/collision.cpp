@@ -2,14 +2,15 @@
 
 #include "collision_point.h"
 
-phCollision::phCollision():mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL)
+phCollision::phCollision():mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL), mIndex(0), mTempIndex(0)
 { 
 	mPoints = new cArray<phCollisionPoint>(nCollisionReservedPoints);
 
 	mCollisionData = new char[nCollisionDataSize];
 }
 
-phCollision::phCollision(phObject* objectA, phObject* objectB):mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL)
+phCollision::phCollision(phObject* objectA, phObject* objectB):mObjectA(NULL), mObjectB(NULL), 
+	mCollisionData(NULL), mIndex(0), mTempIndex(0)
 {
 	setObjects(objectA, objectB);
 	mPoints = new cArray<phCollisionPoint>(nCollisionReservedPoints);
@@ -28,12 +29,12 @@ void phCollision::setObjects(phObject* objectA, phObject* objectB)
 	clear();
 	mObjectA = objectA;
 	mObjectB = objectB;
-	memset(mCollisionData, 0, nCollisionDataSize);
 }
 
 phCollisionPoint* phCollision::addPoint()
 {
 	phCollisionPoint* newPoint = mPoints->push_back();
+	newPoint->mCollision = this;
 
 	return newPoint;
 }
@@ -41,4 +42,5 @@ phCollisionPoint* phCollision::addPoint()
 void phCollision::clear()
 {
 	mPoints->clear();
+	memset(mCollisionData, 0, nCollisionDataSize);
 }

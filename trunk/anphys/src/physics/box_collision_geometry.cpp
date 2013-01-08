@@ -88,6 +88,8 @@ phCollision* phBoxCollisionGeometry::checkCollision(phCollisionGeometryPart* col
 
 void phBoxCollisionGeometry::initCollisionData()
 {
+	mSupportGeom.mCollisionPart = static_cast<phCollisionGeometryPart*>(this);
+
 	static int edgesIndexes[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
 	                            { 7, 6 }, { 6, 5 }, { 5, 4 }, { 4, 7 },
 	                            { 0, 7 }, { 1, 6 }, { 2, 5 }, { 3, 4 } };
@@ -102,7 +104,7 @@ void phBoxCollisionGeometry::initCollisionData()
 	for (int i = 0; i < 8; i++)
 	{
 		mVerticies[i] = new phCollisionVertex;
-		mSupportGeom.mElements.push_back(mVerticies[i]);
+		mSupportGeom.addElement(mVerticies[i]);
 	}
 
 	phCollisionEdge* edges[12];
@@ -110,7 +112,7 @@ void phBoxCollisionGeometry::initCollisionData()
 	for (int i = 0; i < 12; i++)
 	{
 		edges[i] = new phCollisionEdge(mVerticies[edgesIndexes[i][0]], mVerticies[edgesIndexes[i][1]]);		
-		mSupportGeom.mElements.push_back(edges[i]);
+		mSupportGeom.addElement(edges[i]);
 	}
 
 	for (int i = 0; i < 6; i++)
@@ -118,8 +120,10 @@ void phBoxCollisionGeometry::initCollisionData()
 		phCollisionPolygon* newCollisionPolygon = 
 			new phCollisionPolygon(edges[polygons[i][0]], edges[polygons[i][1]], edges[polygons[i][2]],
 			                       edges[polygons[i][3]]);
-		mSupportGeom.mElements.push_back(newCollisionPolygon);
+		mSupportGeom.addElement(newCollisionPolygon);
 	}
+
+	preUpdate(0.0f);
 
 	mSupportGeom.postInitialize();
 }

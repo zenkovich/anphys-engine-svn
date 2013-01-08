@@ -159,6 +159,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	 case WM_LBUTTONDOWN:
 		 {
+			 if (!mActiveWindow) break;
+
 			GetCursorPos(&ptt);
 			ScreenToClient(mHWnd, &ptt);
 
@@ -173,6 +175,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	 case WM_LBUTTONUP:
 		 {
+			 if (!mActiveWindow) break;
+
 			GetCursorPos(&ptt);
 			ScreenToClient(mHWnd, &ptt);
 
@@ -186,7 +190,9 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	 
 	 case WM_RBUTTONDOWN:
-		 {
+		 {			 
+			 if (!mActiveWindow) break;
+
 			GetCursorPos(&ptt);
 			ScreenToClient(mHWnd, &ptt);
 
@@ -200,6 +206,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	 case WM_RBUTTONUP:
 		 {
+			 if (!mActiveWindow) break;
+
 			GetCursorPos(&ptt);
 			ScreenToClient(mHWnd, &ptt);
 
