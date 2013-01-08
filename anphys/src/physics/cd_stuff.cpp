@@ -258,7 +258,11 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	}
 
 	//need find same point
-	phCollisionPoint* cPoint = cvertex->findContactPoint(cpolygon);
+	phCollisionPoint* cPoint = NULL;
+
+	phCollisionGeometryElementAndPointLink* link = cvertex->findContactPoint(cpolygon);
+	if (!link) link = cpolygon->findContactPoint(cvertex);
+	if (link) cPoint = link->mPoint;
 
 	bool storedPoint = true;
 	if (!cPoint) 
@@ -275,6 +279,16 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 
 	cPoint->mPartObjectA = cvertex->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = cpolygon->mSupportGeom->mCollisionPart;
+
+	if (!storedPoint) 
+	{
+		cvertex->storeContactPoint(static_cast<phCollisionGeometryElement*>(cpolygon), cPoint);
+		(*(cvertex->mCurrentStoredPoints->_Mylast)).mIndex = cPoint->mCollision->mTempIndex;
+	}
+	else
+	{
+		link->mIndex = cPoint->mCollision->mTempIndex;
+	}
 
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
 }
@@ -304,13 +318,39 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 	if (fabs(proj) < 0.95f) return;
 
 	//need find same point
-	phCollisionPoint* cPoint = edgeA->findContactPoint(edgeB);
-	if (!cPoint) cPoint = collision->addPoint();
+	phCollisionPoint* cPoint = NULL;
+
+	phCollisionGeometryElementAndPointLink* link = edgeA->findContactPoint(edgeB);
+	if (!link) link = edgeB->findContactPoint(edgeA);
+	if (link) cPoint = link->mPoint;
+
+	bool storedPoint = true;
+	if (!cPoint) 
+	{
+		cPoint = collision->addPoint();
+		storedPoint = false;
+	}
+
 	cPoint->mNormal = pointNormal;
 	cPoint->mDepth = length;
 	cPoint->mPoint = (bProjPoint + aProjPoint)*0.5f;
 	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = edgeB->mSupportGeom->mCollisionPart;
+	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
+
+	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
+	cPoint->mPartObjectB = edgeB->mSupportGeom->mCollisionPart;
+
+	if (!storedPoint) 
+	{
+		edgeA->storeContactPoint(static_cast<phCollisionGeometryElement*>(edgeB), cPoint);
+		(*(edgeA->mCurrentStoredPoints->_Mylast)).mIndex = cPoint->mCollision->mTempIndex;
+	}
+	else
+	{
+		link->mIndex = cPoint->mCollision->mTempIndex;
+	}
+
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
 }
 
@@ -395,26 +435,19 @@ void phCollisionSupportGeom::projectOnAxis( vec3& axis, vec3& origin, float *max
 
 void phCollisionSupportGeom::showDbgGraphics()
 {	
-	unsigned int tempIndexParam = generateNewIndexParam();
-
 	for(phCollisionElementsList::iterator it = mElements.begin(); it != mElements.end(); it++)
 	{
-		if ((*it)->mIndex != tempIndexParam) (*it)->showDbgGraphics();
+		(*it)->showDbgGraphics();
 	}
-
-	mIndex = tempIndexParam;
 }
 
 void phCollisionSupportGeom::calculateParametres()
 {
-	unsigned int tempIndexParam = generateNewIndexParam();
-
 	for(phCollisionElementsList::reverse_iterator it = mElements.rbegin(); it != mElements.rend(); it++)
 	{
-		if ((*it)->mIndex != tempIndexParam) (*it)->calculateParametres();
+		(*it)->calculateParametres();
+		(*it)->eraseUnavailableLinks();
 	}
-
-	mIndex = tempIndexParam;
 }
 
 void phCollisionSupportGeom::postInitialize()
