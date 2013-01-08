@@ -11,11 +11,11 @@ struct phObject;
 struct phCollisionManager
 {
 	enum { nReservedCollisions = 1024 };
-	typedef std::vector<phCollision*> CollisionsList;
+	typedef cArray<phCollision> CollisionsList;
 
-	phScene*       mScene;
-
-	cArray<phCollision*>* mCollisions;
+	phScene*        mScene;
+	CollisionsList* mCollisions;
+	unsigned int    mIndex;
 
 
 	phCollisionManager();

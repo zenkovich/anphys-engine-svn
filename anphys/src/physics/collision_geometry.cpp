@@ -69,5 +69,30 @@ void phCollisionGeometry::postUpdate(float dt)
 
 phCollision* phCollisionGeometry::checkCollision(phCollisionGeometry* collisionGeometry, phCollision* collision)
 {
+	for (PartsList::iterator it = mParts.begin(); it != mParts.end(); ++it)
+	{
+		phCollisionGeometryPart* partA = *it;
+
+		for (PartsList::iterator jt = collisionGeometry->mParts.begin(); jt != collisionGeometry->mParts.end(); ++jt)
+		{			
+			phCollisionGeometryPart* partB = *jt;
+
+			if (!partA->mAABB.isIntersect(partB->mAABB)) continue;
+
+			partA->checkCollision(partB, collision);
+		}
+	}
+
 	return collision;
+}
+
+void phCollisionGeometry::storeCollision( phCollision* collision )
+{
+	mStoredCollisions.push_back(collision);
+}
+
+void phCollisionGeometry::eraseStoredCollision( phCollision* collision )
+{
+	CollisionsList::iterator it = std::find(mStoredCollisions.begin(), mStoredCollisions.end(), collision);
+	if (it != mStoredCollisions.end()) mStoredCollisions.erase(it);
 }

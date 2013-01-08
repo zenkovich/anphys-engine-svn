@@ -4,20 +4,20 @@
 #include <vector>
 #include "../util/utils.h"
 
-#define MAX_STORED_COLLISIONS 10
-
 struct phObject;
 struct phCollisionGeometryPart;
 struct phCollision;
 
 struct phCollisionGeometry
 {
+	enum { nMaxStoredCollisions = 10 };
 	typedef std::vector<phCollisionGeometryPart*> PartsList;
+	typedef std::vector<phCollision*> CollisionsList;
 
 	phObject* mObject;
 	PartsList mParts;
 
-	phCollision* mOldCollisions[MAX_STORED_COLLISIONS];
+	CollisionsList mStoredCollisions;
 
 	AABB      mAABB;
 
@@ -38,6 +38,9 @@ struct phCollisionGeometry
 	void postUpdate(float dt);
 
 	phCollision* checkCollision(phCollisionGeometry* collisionGeometry, phCollision* collision);
+
+	void storeCollision(phCollision* collision);
+	void eraseStoredCollision(phCollision* collision);
 };
 
 #endif //COLLISION_GEOMETRY_H

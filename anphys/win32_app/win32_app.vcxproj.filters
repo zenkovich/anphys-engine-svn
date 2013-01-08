@@ -16,8 +16,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="frame">
+    <Filter Include="box_collision_test_frame">
       <UniqueIdentifier>{9f1337ff-3da2-4516-9dbf-f75dc1c8fc3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics_test">
+      <UniqueIdentifier>{29d1dd59-fc29-4592-a5ee-593f96e7c0a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,8 +33,11 @@
       <Filter>other</Filter>
     </ClCompile>
     <ClCompile Include="win32_app.cpp" />
-    <ClCompile Include="..\physics_test\src\test_frame.cpp">
-      <Filter>frame</Filter>
+    <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp">
+      <Filter>box_collision_test_frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\physics_test\src\physics_test_frame.cpp">
+      <Filter>physics_test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,8 +47,11 @@
     <ClInclude Include="targetver.h">
       <Filter>other</Filter>
     </ClInclude>
-    <ClInclude Include="..\physics_test\src\test_frame.h">
-      <Filter>frame</Filter>
+    <ClInclude Include="..\physics_test\src\box_collision_test_frame.h">
+      <Filter>box_collision_test_frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\physics_test_frame.h">
+      <Filter>physics_test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

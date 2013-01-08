@@ -237,7 +237,7 @@ inline float f3min(float a, float b, float c, int &i)
 	return a;
 }
 
-inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, float *bet)
+inline bool DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, float *bet)
 {
 	vec3 l1orig = a1p, l1dir = b1p;
 	vec3 l2orig = a2p, l2dir = b2p;
@@ -249,7 +249,7 @@ inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, 
 	float det = (float)fabs((1.0f - a01*a01));
 	float b1, s0, s1;
 	
-	if (det >= 0.000000001f)
+	if (det >= 0.001f)
 	{
 		b1 =- (diff*l2dir);
 		float InvDet = 1.0f/det;
@@ -258,12 +258,13 @@ inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, 
 	}
 	else
 	{
-		s0 =- b0;
-		s1 = 0;
+		return false;
 	}
 
 	*alpha = s0;
 	*bet = s1;
+
+	return true;
 }
 
 inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, vec3 &pa, vec3 &pb,float &la, float &lb)
