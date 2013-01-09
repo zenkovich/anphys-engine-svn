@@ -283,7 +283,7 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	if (!storedPoint) 
 	{
 		cvertex->storeContactPoint(static_cast<phCollisionGeometryElement*>(cpolygon), cPoint);
-		(*(cvertex->mCurrentStoredPoints->_Mylast)).mIndex = cPoint->mCollision->mTempIndex;
+		(cvertex->mCurrentStoredPoints->end() - 1)->mIndex = cPoint->mCollision->mTempIndex;
 	}
 	else
 	{
