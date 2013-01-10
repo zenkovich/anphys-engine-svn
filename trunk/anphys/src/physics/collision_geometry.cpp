@@ -28,6 +28,7 @@ phCollisionGeometryPart* phCollisionGeometry::addPart(phCollisionGeometryPart* n
 {
 	mParts.push_back(newPart);
 	newPart->mCollisionGeometry = this;
+	newPart->preUpdate(0.0f);
 	return newPart;
 }
 

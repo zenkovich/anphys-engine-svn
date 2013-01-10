@@ -10,6 +10,7 @@ struct grTexture;
 struct grMaterial;
 struct grSurfaceMaterial;
 struct phRigidObject;
+struct phStaticObject;
 
 struct cSceneStuff
 {
@@ -24,8 +25,9 @@ struct cSceneStuff
 	cSceneStuff(cScene* scene);
 	~cSceneStuff();
 
-
+	
 	cObject* createRigidWoodBox(const vec3& pos, const vec3& size, const mat3x3& orient = nullMatr() );
+	cObject* createStaticWoodBox(const vec3& pos, const vec3& size, const mat3x3& orient = nullMatr() );
 
 	cObject* createBoxMesh(vec3& pos, vec3& size, mat3x3& orient = nullMatr());
 
@@ -41,7 +43,10 @@ struct cSceneStuff
 
 //physics
 	phRigidObject* createPhysicsRigidBody(const vec3& pos, const mat3x3& orient, float mass, const mat3x3& inertia);
+	phStaticObject* createPhysicsStaticBody(const vec3& pos, const mat3x3& orient);
 	phRigidObject* addBoxCollisionGeometry(phRigidObject* rigidObject, const vec3& size, const vec3& offset = vec3(0),
+		                                   const mat3x3& orient = nullMatr());
+	phStaticObject* addBoxCollisionGeometry(phStaticObject* staticObject, const vec3& size, const vec3& offset = vec3(0),
 		                                   const mat3x3& orient = nullMatr());
 };
 

@@ -7,6 +7,7 @@
 //components
 #include "render3d_object_component.h"
 #include "physics_rigid_body_object_component.h"
+#include "physics_static_body_object_component.h"
 
 //render
 #include "../../render/render.h"
@@ -23,6 +24,7 @@
 
 //physics
 #include "../../physics/rigid_object.h"
+#include "../../physics/static_object.h"
 #include "../../physics/physics_engine.h"
 #include "../../physics/physics_scene.h"
 #include "../../physics/collision_geometry.h"
@@ -59,6 +61,27 @@ cObject* cSceneStuff::createRigidWoodBox( const vec3& pos, const vec3& size, con
 	cPhysicsRigidBodyObjectComponent* rigidBoxObjectComponent = new cPhysicsRigidBodyObjectComponent(rigidBoxObject);
 
 	res->addComponent(rigidBoxObjectComponent);
+
+	return res;
+}
+
+cObject* cSceneStuff::createStaticWoodBox( const vec3& pos, const vec3& size, const mat3x3& orient /*= nullMatr() */ )
+{
+	cObject* res = new cObject;
+
+	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
+	addBoxMesh(boxMesh, size, 
+		createSurfaceMaterial(createTexture("../data/textures/wood.jpg"), getMaterial("whiteMaterial")));
+
+	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
+	res->addComponent(boxMeshComponent);
+
+	phStaticObject* staticBoxObject = createPhysicsStaticBody(pos, orient);
+	addBoxCollisionGeometry(staticBoxObject, size);
+
+	cPhysicsStaticBodyObjectComponent* staticBoxObjectComponent = new cPhysicsStaticBodyObjectComponent(staticBoxObject);
+
+	res->addComponent(staticBoxObjectComponent);
 
 	return res;
 }
@@ -123,6 +146,13 @@ phRigidObject* cSceneStuff::addBoxCollisionGeometry( phRigidObject* rigidObject,
 	return rigidObject;
 }
 
+phStaticObject* cSceneStuff::addBoxCollisionGeometry( phStaticObject* staticObject, const vec3& size, const vec3& offset /*= vec3(0)*/, const mat3x3& orient /*= nullMatr()*/ )
+{
+	phBoxCollisionGeometry* boxCollisionGeom = new phBoxCollisionGeometry(orient, offset, size);
+	staticObject->mCollisionGeometry->addPart(boxCollisionGeom);
+	return staticObject;
+}
+
 cObject* cSceneStuff::createBoxMesh( vec3& pos, vec3& size, mat3x3& orient /*= nullMatr()*/ )
 {	
 	cObject* res = new cObject;
@@ -136,5 +166,13 @@ cObject* cSceneStuff::createBoxMesh( vec3& pos, vec3& size, mat3x3& orient /*= n
 	boxMeshComponent->mRender3DObject->mOrient = orient;
 	res->addComponent(boxMeshComponent);
 
+	return res;
+}
+
+phStaticObject* cSceneStuff::createPhysicsStaticBody( const vec3& pos, const mat3x3& orient )
+{	
+	phCollisionGeometry* collisionGeometry = new phCollisionGeometry;
+	phStaticObject* res = new phStaticObject(pos, orient, collisionGeometry);
+	mScene->mPhysicsScene->addObject(res);
 	return res;
 }

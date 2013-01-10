@@ -260,13 +260,20 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	//need find same point
 	phCollisionPoint* cPoint = NULL;
 
+	*gLog << formatStr("vertex-polygon collision: vertex %x, poly %x\n", cvertex, cpolygon);
+
 	phCollisionGeometryElementAndPointLink* link = cvertex->findContactPoint(cpolygon);
 	if (!link) link = cpolygon->findContactPoint(cvertex);
-	if (link) cPoint = link->mPoint;
+	if (link) 
+	{
+		cPoint = link->mPoint;
+		*gLog << "polygon--vertex stored contact point\n";
+	}
 
 	bool storedPoint = true;
 	if (!cPoint) 
 	{
+		*gLog << "polygon--vertex non stored contact point\n";
 		cPoint = collision->addPoint();
 		storedPoint = false;
 	}
@@ -279,16 +286,8 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 
 	cPoint->mPartObjectA = cvertex->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = cpolygon->mSupportGeom->mCollisionPart;
-
-	if (!storedPoint) 
-	{
-		cvertex->storeContactPoint(static_cast<phCollisionGeometryElement*>(cpolygon), cPoint);
-		(cvertex->mCurrentStoredPoints->end() - 1)->mIndex = cPoint->mCollision->mTempIndex;
-	}
-	else
-	{
-		link->mIndex = cPoint->mCollision->mTempIndex;
-	}
+	
+	cvertex->storeContactPoint(static_cast<phCollisionGeometryElement*>(cpolygon), cPoint);
 
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
 }
@@ -322,13 +321,18 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 
 	phCollisionGeometryElementAndPointLink* link = edgeA->findContactPoint(edgeB);
 	if (!link) link = edgeB->findContactPoint(edgeA);
-	if (link) cPoint = link->mPoint;
+	if (link) 
+	{
+		cPoint = link->mPoint;
+		*gLog << "edge--edge stored contact point\n";
+	}
 
 	bool storedPoint = true;
 	if (!cPoint) 
 	{
 		cPoint = collision->addPoint();
 		storedPoint = false;
+		*gLog << "edge--edge non stored contact point\n";
 	}
 
 	cPoint->mNormal = pointNormal;
@@ -340,16 +344,8 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 
 	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = edgeB->mSupportGeom->mCollisionPart;
-
-	if (!storedPoint) 
-	{
-		edgeA->storeContactPoint(static_cast<phCollisionGeometryElement*>(edgeB), cPoint);
-		(*(edgeA->mCurrentStoredPoints->_Mylast)).mIndex = cPoint->mCollision->mTempIndex;
-	}
-	else
-	{
-		link->mIndex = cPoint->mCollision->mTempIndex;
-	}
+	
+	edgeA->storeContactPoint(static_cast<phCollisionGeometryElement*>(edgeB), cPoint);
 
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
 }
