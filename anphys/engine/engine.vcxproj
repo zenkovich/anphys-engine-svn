@@ -80,6 +80,7 @@
     <ClInclude Include="..\src\engine\scene\object.h" />
     <ClInclude Include="..\src\engine\scene\object_component.h" />
     <ClInclude Include="..\src\engine\scene\physics_rigid_body_object_component.h" />
+    <ClInclude Include="..\src\engine\scene\physics_static_body_object_component.h" />
     <ClInclude Include="..\src\engine\scene\render3d_object_component.h" />
     <ClInclude Include="..\src\engine\scene\scene.h" />
     <ClInclude Include="..\src\engine\scene\scene_stuff.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="..\src\engine\scene\graphics_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\object.cpp" />
     <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp" />
+    <ClCompile Include="..\src\engine\scene\physics_static_body_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\scene.cpp" />
     <ClCompile Include="..\src\engine\scene\scene_stuff.cpp" />

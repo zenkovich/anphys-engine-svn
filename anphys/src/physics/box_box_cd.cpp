@@ -72,8 +72,8 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 			//vec3 originDbgPoint = faceGeomA->mWorldPosition
 
-			//getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition + axis*(aProjection - depth), faceGeomA->mWorldPosition + axis*aProjection);
-			/*getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition, faceGeomA->mWorldPosition + axis*100.0f);
+			/*getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition + axis*(aProjection - depth), faceGeomA->mWorldPosition + axis*aProjection);
+			getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition, faceGeomA->mWorldPosition + axis*100.0f);
 			getRenderStuff().addGreenCube(faceGeomA->mWorldPosition + axis*aProjection);
 			getRenderStuff().addRedCube(faceGeomA->mWorldPosition + axis*distanceProjection);
 			getRenderStuff().addBlueCube(faceGeomA->mWorldPosition + axis*(distanceProjection - bProjection));

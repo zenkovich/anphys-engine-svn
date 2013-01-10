@@ -9,7 +9,8 @@ struct ObjectComponentType
 		none = 0, 
 		Render3DObject,
 		GraphicsObject,
-		PhysicsRigidBody
+		PhysicsRigidBody,
+		PhysicsStaticBody
 	};
 };
 
