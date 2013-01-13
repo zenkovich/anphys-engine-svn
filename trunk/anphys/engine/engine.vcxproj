@@ -96,6 +96,8 @@
     <ClInclude Include="..\src\physics\physics_object.h" />
     <ClInclude Include="..\src\physics\physics_scene.h" />
     <ClInclude Include="..\src\physics\rigid_object.h" />
+    <ClInclude Include="..\src\physics\sequential_impulses_solver.h" />
+    <ClInclude Include="..\src\physics\solver_interface.h" />
     <ClInclude Include="..\src\physics\static_object.h" />
     <ClInclude Include="..\src\physics\support_geom.h" />
     <ClInclude Include="..\src\render\camera.h" />
@@ -204,6 +206,7 @@
     <ClCompile Include="..\src\physics\physics_engine.cpp" />
     <ClCompile Include="..\src\physics\physics_scene.cpp" />
     <ClCompile Include="..\src\physics\rigid_object.cpp" />
+    <ClCompile Include="..\src\physics\sequential_impulses_solver.cpp" />
     <ClCompile Include="..\src\physics\static_object.cpp" />
     <ClCompile Include="..\src\physics\support_geom.cpp" />
     <ClCompile Include="..\src\render\cameras_manager.cpp" />

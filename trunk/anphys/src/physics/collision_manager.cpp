@@ -69,6 +69,8 @@ void phCollisionManager::checkCollisions()
 				geometryA->mStoredCollisions.push_back(collision);
 				geometryB->mStoredCollisions.push_back(collision);
 			}
+				
+			collision->freeUnusedPoints();
 		}
 	}
 

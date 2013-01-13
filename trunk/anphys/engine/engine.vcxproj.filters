@@ -139,6 +139,9 @@
     <Filter Include="util\script">
       <UniqueIdentifier>{1010004b-1b11-4c04-8038-ecfa6f88a749}</UniqueIdentifier>
     </Filter>
+    <Filter Include="physics\solver">
+      <UniqueIdentifier>{39f89ed4-45e2-4468-adf4-68b33f0bd221}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -468,6 +471,12 @@
     <ClInclude Include="..\src\engine\scene\physics_static_body_object_component.h">
       <Filter>engine\scene\components</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\physics\solver_interface.h">
+      <Filter>physics\solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\sequential_impulses_solver.h">
+      <Filter>physics\solver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -643,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="..\src\engine\scene\physics_static_body_object_component.cpp">
       <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\sequential_impulses_solver.cpp">
+      <Filter>physics\solver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

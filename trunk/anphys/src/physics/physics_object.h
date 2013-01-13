@@ -29,11 +29,20 @@ struct phObject
 
 	virtual bool isSleep() { return false; }
 	virtual void setSleep(bool flag) {}
-
+	
 	virtual void applyImpulse(vec3 point, vec3 impulse) {}
+	virtual void applyImpulse(vec3 point, vec3 impulse, vec3 biasImpulse) {}
 	virtual void applyImpulse(phCollisionPoint* collisionPoint) {}
 	virtual void addForce(vec3 force) {}
 	virtual void addTorque(vec3 torque) {}
+
+	virtual vec3 getVelocity() { return vec3(0); }
+	virtual vec3 getVelocity(vec3& point) { return vec3(0); }
+	virtual vec3 getBiasVelocity(vec3& point) { return vec3(0); }
+	virtual mat3x3 retInvertedInertia() { return nullMatr(); }
+	virtual float getInvertedMass() { return 0; }
+
+	virtual float getMass() { return 0; }
 
 	virtual phCollision* checkCollision(phObject* object, phCollision* collision) { return NULL; }
 	virtual phCollisionGeometry* getCollisionGeometry() { return NULL; }

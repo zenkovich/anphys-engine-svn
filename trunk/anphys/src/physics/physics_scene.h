@@ -8,23 +8,25 @@
 struct phEngine;
 struct phObject;
 struct phCollisionManager;
-struct phSolver;
+struct phConstraintsSolverInterface;
 
 struct phScene
 {
+//types
 	typedef std::vector<phObject*> ObjectsList;
 
-	ObjectsList         mObjects;
+//parametres
+	ObjectsList                   mObjects;
 
-	phEngine*           mEngine;
-	phCollisionManager* mCollisionManager;
-	phSolver*           mSolver;
+	phEngine*                     mEngine;
+	phCollisionManager*           mCollisionManager;
+	phConstraintsSolverInterface* mSolver;
 
-	vec3                mGravity;
+	vec3                          mGravity;
 
-	float mPerformance;
+	float                         mPerformance;
 
-
+//functions
 	phScene(phEngine* engine = NULL);
 	~phScene();
 
@@ -32,7 +34,7 @@ struct phScene
 	bool removeObject(phObject* object);
 	void removeAllObjects();
 
-	void setupSolver(phSolver* solver);
+	void setupSolver(phConstraintsSolverInterface* solver);
 
 	void update(float dt);
 };

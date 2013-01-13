@@ -72,13 +72,16 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 			//vec3 originDbgPoint = faceGeomA->mWorldPosition
 
-			/*getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition + axis*(aProjection - depth), faceGeomA->mWorldPosition + axis*aProjection);
-			getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition, faceGeomA->mWorldPosition + axis*100.0f);
-			getRenderStuff().addGreenCube(faceGeomA->mWorldPosition + axis*aProjection);
-			getRenderStuff().addRedCube(faceGeomA->mWorldPosition + axis*distanceProjection);
-			getRenderStuff().addBlueCube(faceGeomA->mWorldPosition + axis*(distanceProjection - bProjection));
-			getRenderStuff().addGreenArrow(faceGeomA->mWorldPosition + axis*distanceProjection, 
-				faceGeomA->mWorldPosition + axis*(distanceProjection - bProjection));*/
+			if (getCDDebugLevel() >= 3)
+			{
+				getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition + axis*(aProjection - depth), faceGeomA->mWorldPosition + axis*aProjection);
+				getRenderStuff().addBlueArrow(faceGeomA->mWorldPosition, faceGeomA->mWorldPosition + axis*100.0f);
+				getRenderStuff().addGreenCube(faceGeomA->mWorldPosition + axis*aProjection);
+				getRenderStuff().addRedCube(faceGeomA->mWorldPosition + axis*distanceProjection);
+				getRenderStuff().addBlueCube(faceGeomA->mWorldPosition + axis*(distanceProjection - bProjection));
+				getRenderStuff().addGreenArrow(faceGeomA->mWorldPosition + axis*distanceProjection, 
+					faceGeomA->mWorldPosition + axis*(distanceProjection - bProjection));
+			}
 
 			if (depth > 0 && depth < penetrationDepth)
 			{
@@ -151,11 +154,11 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		}
 	}
 	
-	*gLog << formatStr("Separation axis id is %i:", separationAxisId);
+	if (getCDDebugLevel() >= 2) *gLog << formatStr("Separation axis id is %i:", separationAxisId);
 	
 	if (separationAxisId >= 0 && separationAxisId < 12) //face normal is separation axis
 	{
-		*gLog << "Face normal axis\n";
+		if (getCDDebugLevel() >= 2) *gLog << "Face normal axis\n";
 
 		phBoxCollisionGeometry* currGeomA = geomA;
 		phBoxCollisionGeometry* currGeomB = geomB;
@@ -195,7 +198,7 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 	}
 	else //edge-edge cross product is separation axis
 	{
-		*gLog << "egde-edge\n";
+		if (getCDDebugLevel() >= 2) *gLog << "egde-edge\n";
 
 		vec3 invSeparationAxis(-separationAxis.x, -separationAxis.y, -separationAxis.z);
 
@@ -239,29 +242,37 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		geomB->mSupportGeom.projectOnAxis(separationAxis*(-1.0f), geomB->mWorldPosition, &projB);*/
 	}
 
-	for (phCollisionElementsList::iterator it = geomA->mSupportGeom.mProbablyIntersectingElements.begin();
-			 it != geomA->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
+	if (getCDDebugLevel() >= 2)
 	{
-		if (*it == NULL) break;
-		(*it)->showDbgGraphics();
-	}
+		for (phCollisionElementsList::iterator it = geomA->mSupportGeom.mProbablyIntersectingElements.begin();
+				 it != geomA->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
+		{
+			if (*it == NULL) break;
+			(*it)->showDbgGraphics();
+		}
 
-	for (phCollisionElementsList::iterator it = geomB->mSupportGeom.mProbablyIntersectingElements.begin();
-			 it != geomB->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
-	{
-		if (*it == NULL) break;
-		(*it)->showDbgGraphics();
+		for (phCollisionElementsList::iterator it = geomB->mSupportGeom.mProbablyIntersectingElements.begin();
+				 it != geomB->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
+		{
+			if (*it == NULL) break;
+			(*it)->showDbgGraphics();
+		}
 	}
 
 	checkIntersection(geomA->mSupportGeom.mProbablyIntersectingElements, 
 		              geomB->mSupportGeom.mProbablyIntersectingElements, collision, separationAxis);
 
-	for (phCollision::CollisionPointsList::ValuesList::iterator it = collision->mPoints->mValues.begin();
-		 it != collision->mPoints->mValues.end(); it++)
-	{		
-		getRenderStuff().addGreenArrow((*it)->mPoint - (*it)->mNormal*(*it)->mDepth*0.5f, 
-			                           (*it)->mPoint + (*it)->mNormal*(*it)->mDepth*0.5f);
-		getRenderStuff().addGreenCube((*it)->mPoint);
+	if (getCDDebugLevel() >= 1)
+	{
+		for (phCollision::CollisionPointsList::ValuesList::iterator it = collision->mPoints->mValues.begin();
+			 it != collision->mPoints->mValues.end(); it++)
+		{		
+			getRenderStuff().addGreenArrow((*it)->mPoint - (*it)->mNormal*(*it)->mDepth*0.5f, 
+										   (*it)->mPoint + (*it)->mNormal*(*it)->mDepth*0.5f);
+			getRenderStuff().addGreenCube((*it)->mPoint);
+
+			getRenderStuff().addRedArrow((*it)->mPoint, (*it)->mPoint + (*it)->mNormal);
+		}
 	}
 
 	return collision;

@@ -22,7 +22,7 @@
 #define Pi 3.14159f
 #define Pi180 0.01745329251994f
 #define MDif 0.00000001f
-#define NULL 0
+//#define NULL 0
 
 
 inline float random(float min, float max)
@@ -239,7 +239,7 @@ inline float f3min(float a, float b, float c, int &i)
 
 inline bool DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, float *bet)
 {
-	vec3 l1orig = a1p, l1dir = b1p;
+	/*vec3 l1orig = a1p, l1dir = b1p;
 	vec3 l2orig = a2p, l2dir = b2p;
 
 	vec3 diff = l1orig - l2orig;
@@ -262,7 +262,50 @@ inline bool DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, 
 	}
 
 	*alpha = s0;
-	*bet = s1;
+	*bet = s1;*/
+	vec3 u = b1p, v = b2p;
+	vec3 w = a1p - a2p;
+	float a = u*u;
+	float b = u*v;
+	float c = v*v;
+	float d = u*w;
+	float e = v*w;
+	float D = a*c - b*b;
+	float sc, tc;
+
+	if (D < 0.00001f)
+	{
+		return false;
+	}
+	else
+	{
+		float invD = 1.0f/D;
+		sc = (b*e - c*d)*invD;
+		tc = (a*e - b*d)*invD;
+	}
+
+	*alpha = sc;
+	*bet = tc;
+	 /*Vector   u = L1.P1 - L1.P0;
+    Vector   v = L2.P1 - L2.P0;
+    Vector   w = L1.P0 - L2.P0;
+    float    a = dot(u,u);         // always >= 0
+    float    b = dot(u,v);
+    float    c = dot(v,v);         // always >= 0
+    float    d = dot(u,w);
+    float    e = dot(v,w);
+    float    D = a*c - b*b;        // always >= 0
+    float    sc, tc;
+
+    // compute the line parameters of the two closest points
+    if (D < SMALL_NUM) {          // the lines are almost parallel
+        sc = 0.0;
+        tc = (b>c ? d/b : e/c);    // use the largest denominator
+    }
+    else {
+        sc = (b*e - c*d) / D;
+        tc = (a*e - b*d) / D;
+    }*/
 
 	return true;
 }
