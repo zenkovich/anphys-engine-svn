@@ -4,6 +4,7 @@
 
 #include "collision.h"
 #include "collision_point.h"
+#include "collision_geometry_part.h"
 
 //utils
 #include "../util/debug/render_stuff.h"
@@ -23,7 +24,7 @@ void phCollisionVertex::project( vec3& axis, vec3& origin, unsigned int index )
 
 void phCollisionVertex::showDbgGraphics()
 {
-	getRenderStuff().addRedCube(mVertex);
+	//getRenderStuff().addRedCube(mVertex);
 }
 
 phCollisionEdge::phCollisionEdge():
@@ -80,8 +81,7 @@ bool phCollisionEdge::isOnProjectionInterval( float minProj, float maxProj )
 void phCollisionEdge::fillSupportGeomData( phCollisionElementsList& elementsList, vec3& axis )
 {
 	phCollisionElementsList::iterator it = elementsList.begin();
-	while(*it != NULL) ++it;
-
+	//while(*it != NULL) ++it;
 
 	(*it) = this; ++it;
 	
@@ -96,7 +96,7 @@ void phCollisionEdge::fillSupportGeomData( phCollisionElementsList& elementsList
 		if (!poly) return;
 
 		float axisProjection = axis*poly->mNormal;
-		if (axisProjection < 0.95f) continue;
+		if (axisProjection < 0.80f) continue;
 		
 		(*it) = poly; ++it;
 		for (short j = 0; j < poly->mEdgesCount; j++)
@@ -204,13 +204,13 @@ void phCollisionPolygon::showDbgGraphics()
 		vec3 centerAdd = mEdges[i]->mFirstVertex->mVertex + mEdges[i]->mSecondVertex->mVertex;
 		center = center + centerAdd;
 
-		getRenderStuff().addRedArrow(centerAdd*0.5f, centerAdd*0.5f + mEdgeDirectionNormal[i]*0.2f);
+		//getRenderStuff().addRedArrow(centerAdd*0.5f, centerAdd*0.5f + mEdgeDirectionNormal[i]*0.2f);
 	}
 	
 	center /= (float)(mEdgesCount*2);
 
 	getRenderStuff().addBlueCube(center);
-	getRenderStuff().addGreenArrow(center, center + mNormal*0.2f);
+	//getRenderStuff().addGreenArrow(center, center + mNormal*0.2f);
 }
 
 bool phCollisionPolygon::isOnProjectionInterval( float minProj, float maxProj )
@@ -239,20 +239,23 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 
 		//if (cpolygon->mEdgeInvertion[i]) projection = -projection;
 
-		/*if (projection > 0.0f)
+		if (getCDDebugLevel() >= 3)
 		{
-			vec3 cnt = cpolygon->mEdges[i]->mFirstVertex->mVertex + 
-				cpolygon->mEdges[i]->mNormalizedDirection*
-				 ((cvertex->mVertex - cpolygon->mEdges[i]->mFirstVertex->mVertex)*cpolygon->mEdges[i]->mNormalizedDirection);
-			getRenderStuff().addRedArrow(cnt, cnt + cpolygon->mEdgeDirectionNormal[i]*projection);
+			if (projection > 0.0f)
+			{
+				vec3 cnt = cpolygon->mEdges[i]->mFirstVertex->mVertex + 
+					cpolygon->mEdges[i]->mNormalizedDirection*
+					 ((cvertex->mVertex - cpolygon->mEdges[i]->mFirstVertex->mVertex)*cpolygon->mEdges[i]->mNormalizedDirection);
+				getRenderStuff().addRedArrow(cnt, cnt + cpolygon->mEdgeDirectionNormal[i]*projection);
+			}
+			else
+			{
+				vec3 cnt = cpolygon->mEdges[i]->mFirstVertex->mVertex + 
+					cpolygon->mEdges[i]->mNormalizedDirection*
+					 ((cvertex->mVertex - cpolygon->mEdges[i]->mFirstVertex->mVertex)*cpolygon->mEdges[i]->mNormalizedDirection);
+				getRenderStuff().addBlueArrow(cnt, cnt + cpolygon->mEdgeDirectionNormal[i]*projection);
+			}
 		}
-		else
-		{
-			vec3 cnt = cpolygon->mEdges[i]->mFirstVertex->mVertex + 
-				cpolygon->mEdges[i]->mNormalizedDirection*
-				 ((cvertex->mVertex - cpolygon->mEdges[i]->mFirstVertex->mVertex)*cpolygon->mEdges[i]->mNormalizedDirection);
-			getRenderStuff().addBlueArrow(cnt, cnt + cpolygon->mEdgeDirectionNormal[i]*projection);
-		}*/
 
 		if (projection > 0.0f) return;
 	}
@@ -260,29 +263,29 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	//need find same point
 	phCollisionPoint* cPoint = NULL;
 
-	*gLog << formatStr("vertex-polygon collision: vertex %x, poly %x\n", cvertex, cpolygon);
+	//*gLog << formatStr("vertex-polygon collision: vertex %x, poly %x\n", cvertex, cpolygon);
 
 	phCollisionGeometryElementAndPointLink* link = cvertex->findContactPoint(cpolygon);
 	if (!link) link = cpolygon->findContactPoint(cvertex);
 	if (link) 
 	{
 		cPoint = link->mPoint;
-		*gLog << "polygon--vertex stored contact point\n";
+		if (getCDDebugLevel() >= 2) *gLog << "polygon--vertex stored contact point\n";
 	}
 
 	bool storedPoint = true;
 	if (!cPoint) 
 	{
-		*gLog << "polygon--vertex non stored contact point\n";
+		if (getCDDebugLevel() >= 2) *gLog << "polygon--vertex non stored contact point\n";
 		cPoint = collision->addPoint();
 		storedPoint = false;
 	}
 
 	cPoint->mDepth = (cvertex->mVertex - cpolygon->mEdges[0]->mFirstVertex->mVertex)*cpolygon->mNormal;
-	cPoint->mPoint = cvertex->mVertex - cpolygon->mNormal*(cPoint->mDepth*0.5f);
+	cPoint->mPoint = cvertex->mVertex/* - cpolygon->mNormal*(cPoint->mDepth*0.5f)*/;
 	cPoint->mNormal = cpolygon->mNormal;
-	if (inv)  cPoint->mDepth *= -1.0f;
-	else      cPoint->mNormal *= -1.0f;
+	if (!inv)  cPoint->mDepth *= -1.0f;
+	else       cPoint->mNormal *= -1.0f;
 
 	cPoint->mPartObjectA = cvertex->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = cpolygon->mSupportGeom->mCollisionPart;
@@ -290,6 +293,7 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	cvertex->storeContactPoint(static_cast<phCollisionGeometryElement*>(cpolygon), cPoint);
 
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
+	cPoint->mIndex = cPoint->mCollision->mTempIndex;
 }
 
 void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* collision, vec3& normal )
@@ -299,13 +303,20 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 		           edgeB->mFirstVertex->mVertex, edgeB->mNormalizedDirection,
 			       &aProj, &bProj)) return;
 	
-	/*	
-	getRenderStuff().addRedCube(aProjPoint);
-	getRenderStuff().addRedCube(bProjPoint);
-	getRenderStuff().addRedArrow(aProjPoint, bProjPoint);*/
+	if (getCDDebugLevel() >= 2) 
+	{
+		vec3 aProjPoint = edgeA->mFirstVertex->mVertex + edgeA->mNormalizedDirection*aProj;
+		vec3 bProjPoint = edgeB->mFirstVertex->mVertex + edgeB->mNormalizedDirection*bProj;
+
+		/*getRenderStuff().addRedCube(aProjPoint);
+		getRenderStuff().addRedCube(bProjPoint);*/
+		getRenderStuff().addRedArrow(aProjPoint, edgeA->mFirstVertex->mVertex);
+		getRenderStuff().addRedArrow(aProjPoint, bProjPoint);
+		getRenderStuff().addRedArrow(edgeB->mFirstVertex->mVertex, bProjPoint);
+	}
 
 	if (aProj < 0.001f || aProj > edgeA->mLength || bProj < 0.001f || bProj > edgeB->mLength) return;
-
+	
 	vec3 aProjPoint = edgeA->mFirstVertex->mVertex + edgeA->mNormalizedDirection*aProj;
 	vec3 bProjPoint = edgeB->mFirstVertex->mVertex + edgeB->mNormalizedDirection*bProj;
 
@@ -314,17 +325,18 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 	pointNormal /= length;
 
 	float proj = pointNormal*normal;
-	if (fabs(proj) < 0.95f) return;
+	if (fabs(proj) < 0.90f) return;
 
 	//need find same point
 	phCollisionPoint* cPoint = NULL;
+
 
 	phCollisionGeometryElementAndPointLink* link = edgeA->findContactPoint(edgeB);
 	if (!link) link = edgeB->findContactPoint(edgeA);
 	if (link) 
 	{
 		cPoint = link->mPoint;
-		*gLog << "edge--edge stored contact point\n";
+		if (getCDDebugLevel() >= 2) *gLog << "edge--edge stored contact point\n";
 	}
 
 	bool storedPoint = true;
@@ -332,7 +344,7 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 	{
 		cPoint = collision->addPoint();
 		storedPoint = false;
-		*gLog << "edge--edge non stored contact point\n";
+		if (getCDDebugLevel() >= 2) *gLog << "edge--edge non stored contact point\n";
 	}
 
 	cPoint->mNormal = pointNormal;
@@ -341,6 +353,7 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = edgeB->mSupportGeom->mCollisionPart;
 	cPoint->mCollision->mIndex = cPoint->mCollision->mTempIndex;
+	cPoint->mIndex = cPoint->mCollision->mTempIndex;
 
 	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
 	cPoint->mPartObjectB = edgeB->mSupportGeom->mCollisionPart;

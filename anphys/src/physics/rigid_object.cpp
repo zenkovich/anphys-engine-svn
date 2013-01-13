@@ -118,6 +118,17 @@ void phRigidObject::applyImpulse(phCollisionPoint* collisionPoint)
 	mBiasAngularVelocity += (r^biasImpulse)*mInvWorldInertia;
 }
 
+void phRigidObject::applyImpulse( vec3 point, vec3 impulse, vec3 biasImpulse )
+{	
+	vec3 r = point - mPosition;
+
+	mVelocity += impulse*mInvMass;
+	mAngularVelocity += (r^impulse)*mInvWorldInertia;
+
+	mBiasVelocity += biasImpulse*mInvMass;
+	mBiasAngularVelocity += (r^biasImpulse)*mInvWorldInertia;
+}
+
 void phRigidObject::addForce(vec3 force)
 {
 	mForce += force;

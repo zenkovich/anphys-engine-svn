@@ -3,6 +3,7 @@
 
 #include "../util/utils.h"
 
+#define getCDDebugLevel() 2
 
 struct phCollisionGeometry;
 struct phCollision;

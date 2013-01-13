@@ -129,6 +129,9 @@ void grCamera3DMouse::update(float dt)
 
 	float speed = mSpeed.len();
 	mSpeed = mSpeed/speed*max(speed - mSpeedFriction*dt, 0);
+	
+	if (mAngleX > 75.0f) mAngleX = 75.0f;
+	if (mAngleX < -75.0f) mAngleX = -75.0f;
 
 	mOrient.Identity();
 	mat3x3 mx,my;

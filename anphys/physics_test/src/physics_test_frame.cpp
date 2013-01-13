@@ -148,11 +148,11 @@ void apPhysicsTestFrame::setupScene1()
 		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, 0.0f, 0.0f), vec3(10.0f, 1.0f, 10.0f)));
 
 	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 5.9f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 5.9f, 0.0f), vec3(4.0f, 1.0f, 1.0f)));
 
 	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 15.9f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
-
+		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.5f, 15.9f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+	
 	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 25.9f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 25.9f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
 }

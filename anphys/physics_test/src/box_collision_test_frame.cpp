@@ -57,7 +57,7 @@ void apBoxCollisionTestFrame::onCreate(fRect inRect)
 	//mTestBox->getPhysicsRigidBody()->applyImpulse(vec3(0, 0, 1), vec3(0, 10, 0));
 	
 	mBoxAPos = vec3(0.0f, 0.0f, 0.0f);
-	mBoxASize = vec3(1.0f, 2.0f, 3.0f);
+	mBoxASize = vec3(10.0f, 1.0f, 10.0f);
 	mBoxBAngles = vec3(0.0f, 0.0f, 0.0f);
 	
 	mBoxBPos = vec3(0.5f, 1.0f, 0.3f);

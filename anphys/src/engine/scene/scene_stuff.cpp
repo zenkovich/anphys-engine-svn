@@ -50,12 +50,12 @@ cObject* cSceneStuff::createRigidWoodBox( const vec3& pos, const vec3& size, con
 
 	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
 	addBoxMesh(boxMesh, size, 
-		createSurfaceMaterial(createTexture("../data/textures/wood.jpg"), getMaterial("whiteMaterial")));
+		createSurfaceMaterial(createTexture("../data/textures/transparent.tga"), getMaterial("whiteMaterial")));
 
 	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
 	res->addComponent(boxMeshComponent);
 
-	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, 200.0f, ScaledMatrix(450.0f, 450.0f, 450.0f));
+	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, 10.0f, ScaledMatrix(15.0f, 15.0f, 15.0f));
 	addBoxCollisionGeometry(rigidBoxObject, size);
 
 	cPhysicsRigidBodyObjectComponent* rigidBoxObjectComponent = new cPhysicsRigidBodyObjectComponent(rigidBoxObject);
@@ -71,7 +71,7 @@ cObject* cSceneStuff::createStaticWoodBox( const vec3& pos, const vec3& size, co
 
 	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
 	addBoxMesh(boxMesh, size, 
-		createSurfaceMaterial(createTexture("../data/textures/wood.jpg"), getMaterial("whiteMaterial")));
+		createSurfaceMaterial(createTexture("../data/textures/transparent.tga"), getMaterial("whiteMaterial")));
 
 	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
 	res->addComponent(boxMeshComponent);

@@ -58,3 +58,13 @@ phCollisionGeometry* phStaticObject::getCollisionGeometry()
 {
 	return mCollisionGeometry;
 }
+
+void phStaticObject::preSolve( float dt )
+{
+	mCollisionGeometry->preUpdate(dt);
+}
+
+void phStaticObject::postSolve( float dt )
+{
+	mCollisionGeometry->postUpdate(dt);
+}

@@ -74,8 +74,17 @@ struct phRigidObject:public phObject
 
 	void applyImpulse(vec3 point, vec3 impulse);
 	void applyImpulse(phCollisionPoint* collisionPoint);
+	void applyImpulse(vec3 point, vec3 impulse, vec3 biasImpulse);
 	void addForce(vec3 force);
 	void addTorque(vec3 torque);
+
+	vec3 getVelocity() { return mVelocity; }
+	vec3 getVelocity(vec3& point) { return mVelocity + (mAngularVelocity^(point - mPosition)); }
+	vec3 getBiasVelocity(vec3& point) { return mBiasVelocity + (mBiasAngularVelocity^(point - mPosition)); }
+	float getInvertedMass() { return mInvMass; }
+	mat3x3 retInvertedInertia() { return mInvWorldInertia; }
+	
+	float getMass() { return mMass; }
 
 	phCollision* checkCollision(phObject* object, phCollision* collision);
 	phCollisionGeometry* getCollisionGeometry();

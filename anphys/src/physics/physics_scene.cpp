@@ -6,11 +6,12 @@
 
 #include "collision_manager.h"
 #include "physics_object.h"
+#include "sequential_impulses_solver.h"
 
 phScene::phScene( phEngine* engine /*= NULL*/ ):mEngine(engine), mPerformance(1.0f)
 {
 	mCollisionManager = new phCollisionManager(this);
-	mSolver = NULL; //create solver
+	mSolver = new phSequentialImpulsesSolver(this);
 	mGravity = vec3(0, -9.8f, 0);
 }
 
@@ -49,8 +50,11 @@ void phScene::removeAllObjects()
 
 void phScene::update( float dt )
 {
-	mCollisionManager->checkCollisions();
-	
+	if (mSolver) mSolver->solveConstraints(mPerformance, dt);
+
+	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
+		(*it)->postSolve(dt);
+		
 	vec3 gravityVec = mGravity*dt;
 
 	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
@@ -59,13 +63,10 @@ void phScene::update( float dt )
 		(*it)->preSolve(dt);
 	}
 
-	//mSolver->solveConstraints(mPerformance);
-
-	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
-		(*it)->postSolve(dt);
+	mCollisionManager->checkCollisions();
 }
 
-void phScene::setupSolver( phSolver* solver )
+void phScene::setupSolver( phConstraintsSolverInterface* solver )
 {
 	safe_release(mSolver);
 	mSolver = solver;

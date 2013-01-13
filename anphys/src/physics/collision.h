@@ -13,9 +13,13 @@ struct phCollisionPoint;
 
 struct phCollision
 {
+//const values
 	enum { nCollisionDataSize = 1024, nCollisionReservedPoints = 10 };
+
+//types
 	typedef cArray<phCollisionPoint> CollisionPointsList;
 
+//parametres
 	CollisionPointsList* mPoints;
 	char*                mCollisionData;
 
@@ -25,6 +29,7 @@ struct phCollision
 	unsigned int         mIndex;
 	unsigned int         mTempIndex;
 
+//functions
 	phCollision();
 	phCollision(phObject* objectA, phObject* objectB);
 	~phCollision();
@@ -34,6 +39,8 @@ struct phCollision
 	phCollisionPoint* addPoint();
 
 	void clear();
+
+	void freeUnusedPoints();
 };
 
 

@@ -47,6 +47,9 @@ struct phStaticObject:public phObject
 
 	void update(float dt);
 
+	void preSolve(float dt);
+	void postSolve(float dt);
+
 	void setPos(vec3 pos);
 	void setOrient(mat3x3 orient);
 	vec3 getPos() { return mPosition; }
