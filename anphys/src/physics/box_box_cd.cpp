@@ -186,15 +186,15 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		}
 
 		int idx = 0;
-		for (phCollisionElementsList::iterator it = currGeomA->mSupportGeom.mProbablyIntersectingElements.begin();
-			 it != currGeomA->mSupportGeom.mProbablyIntersectingElements.end() && idx < 9; ++it, ++idx)
+		for (phCollisionElementsList::iterator it = currGeomA->mSupportGeom->mProbablyIntersectingElements.begin();
+			 it != currGeomA->mSupportGeom->mProbablyIntersectingElements.end() && idx < 9; ++it, ++idx)
 		{
-			*it = currGeomA->mSupportGeom.mElements[aIndexes[currSeparationAxisId][idx]];
+			*it = currGeomA->mSupportGeom->mElements[aIndexes[currSeparationAxisId][idx]];
 		}
-		currGeomA->mSupportGeom.mProbablyIntersectingElements[9] = NULL;
+		currGeomA->mSupportGeom->mProbablyIntersectingElements[9] = NULL;
 
 		float projB = 0.0f;
-		currGeomB->mSupportGeom.projectOnAxis(currSeparationAxis, currGeomB->mWorldPosition, &projB);
+		currGeomB->mSupportGeom->projectOnAxis(currSeparationAxis, currGeomB->mWorldPosition, &projB);
 	}
 	else //edge-edge cross product is separation axis
 	{
@@ -210,10 +210,10 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 		for (short i = 0; i < 4; i++)
 		{
 			phCollisionEdge* currEdgeA = 
-				static_cast<phCollisionEdge*>(geomA->mSupportGeom.mElements[edgesIndexes[edgeAxisA][i]]);
+				static_cast<phCollisionEdge*>(geomA->mSupportGeom->mElements[edgesIndexes[edgeAxisA][i]]);
 
 			phCollisionEdge* currEdgeB = 
-				static_cast<phCollisionEdge*>(geomB->mSupportGeom.mElements[edgesIndexes[edgeAxisB][i]]);
+				static_cast<phCollisionEdge*>(geomB->mSupportGeom->mElements[edgesIndexes[edgeAxisB][i]]);
 			
 			float projA = (currEdgeA->mFirstVertex->mVertex - geomA->mWorldPosition)*separationAxis;
 			float projB = (currEdgeB->mFirstVertex->mVertex - geomB->mWorldPosition)*invSeparationAxis;
@@ -230,8 +230,8 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 			}
 		}
 			
-		edgeA->fillSupportGeomData(geomA->mSupportGeom.mProbablyIntersectingElements, separationAxis);
-		edgeB->fillSupportGeomData(geomB->mSupportGeom.mProbablyIntersectingElements, invSeparationAxis);
+		edgeA->fillSupportGeomData(geomA->mSupportGeom->mProbablyIntersectingElements, separationAxis);
+		edgeB->fillSupportGeomData(geomB->mSupportGeom->mProbablyIntersectingElements, invSeparationAxis);
 
 	/*	edgeA->showDbgGraphics();
 		edgeB->showDbgGraphics();*/
@@ -244,23 +244,23 @@ phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollision
 
 	if (getCDDebugLevel() >= 2)
 	{
-		for (phCollisionElementsList::iterator it = geomA->mSupportGeom.mProbablyIntersectingElements.begin();
-				 it != geomA->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
+		for (phCollisionElementsList::iterator it = geomA->mSupportGeom->mProbablyIntersectingElements.begin();
+				 it != geomA->mSupportGeom->mProbablyIntersectingElements.end(); ++it)
 		{
 			if (*it == NULL) break;
 			(*it)->showDbgGraphics();
 		}
 
-		for (phCollisionElementsList::iterator it = geomB->mSupportGeom.mProbablyIntersectingElements.begin();
-				 it != geomB->mSupportGeom.mProbablyIntersectingElements.end(); ++it)
+		for (phCollisionElementsList::iterator it = geomB->mSupportGeom->mProbablyIntersectingElements.begin();
+				 it != geomB->mSupportGeom->mProbablyIntersectingElements.end(); ++it)
 		{
 			if (*it == NULL) break;
 			(*it)->showDbgGraphics();
 		}
 	}
 
-	checkIntersection(geomA->mSupportGeom.mProbablyIntersectingElements, 
-		              geomB->mSupportGeom.mProbablyIntersectingElements, collision, separationAxis);
+	checkIntersection(geomA->mSupportGeom->mProbablyIntersectingElements, 
+		              geomB->mSupportGeom->mProbablyIntersectingElements, collision, separationAxis);
 
 	if (getCDDebugLevel() >= 1)
 	{

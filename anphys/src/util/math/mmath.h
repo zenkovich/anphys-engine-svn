@@ -273,7 +273,7 @@ inline bool DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, float *alpha, 
 	float D = a*c - b*b;
 	float sc, tc;
 
-	if (D < 0.00001f)
+	if (D < 0.01f)
 	{
 		return false;
 	}

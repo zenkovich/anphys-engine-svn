@@ -30,6 +30,8 @@
 #include "../../physics/collision_geometry.h"
 #include "../../physics/collision_geometry_part.h"
 #include "../../physics/box_collision_geometry.h"
+#include "../../physics/inertia.h"
+
 
 
 cSceneStuff::cSceneStuff( cScene* scene ):mScene(scene)
@@ -46,43 +48,61 @@ cSceneStuff::~cSceneStuff()
 
 cObject* cSceneStuff::createRigidWoodBox( const vec3& pos, const vec3& size, const mat3x3& orient /*= nullMatr() */ )
 {
+	*gLog << "createStaticWoodBox \n";
 	cObject* res = new cObject;
-
+	
+	*gLog << "createStaticWoodBox1 \n";
 	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
+	*gLog << "createStaticWoodBox2 \n";
 	addBoxMesh(boxMesh, size, 
 		createSurfaceMaterial(createTexture("../data/textures/transparent.tga"), getMaterial("whiteMaterial")));
-
+	
+	*gLog << "createStaticWoodBox3 \n";
 	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
 	res->addComponent(boxMeshComponent);
-
-	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, 10.0f, ScaledMatrix(15.0f, 15.0f, 15.0f));
+	
+	*gLog << "createStaticWoodBox4 \n";
+	float mass = size.x*size.y*size.z*800.0f;
+	phRigidObject* rigidBoxObject = createPhysicsRigidBody(pos, orient, mass, getBoxInertia(mass, size));
+	*gLog << "createStaticWoodBox2432 \n";
 	addBoxCollisionGeometry(rigidBoxObject, size);
-
+	
+	*gLog << "createStaticWoodBox5 \n";
 	cPhysicsRigidBodyObjectComponent* rigidBoxObjectComponent = new cPhysicsRigidBodyObjectComponent(rigidBoxObject);
-
+	
+	*gLog << "createStaticWoodBox6 \n";
 	res->addComponent(rigidBoxObjectComponent);
-
+	
+	*gLog << "createStaticWoodBox7 \n";
 	return res;
 }
 
 cObject* cSceneStuff::createStaticWoodBox( const vec3& pos, const vec3& size, const mat3x3& orient /*= nullMatr() */ )
 {
-	cObject* res = new cObject;
+	*gLog << "createStaticWoodBox \n";
 
+	cObject* res = new cObject;
+	
+	*gLog << "createStaticWoodBox2 \n";
 	grRender3DObjectMesh* boxMesh = createMesh(128, 128);
 	addBoxMesh(boxMesh, size, 
 		createSurfaceMaterial(createTexture("../data/textures/transparent.tga"), getMaterial("whiteMaterial")));
-
+	
+	*gLog << "createStaticWoodBox3 \n";
 	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
 	res->addComponent(boxMeshComponent);
-
+	
+	*gLog << "createStaticWoodBox4 \n";
 	phStaticObject* staticBoxObject = createPhysicsStaticBody(pos, orient);
 	addBoxCollisionGeometry(staticBoxObject, size);
-
+	
+	*gLog << "createStaticWoodBox5 \n";
 	cPhysicsStaticBodyObjectComponent* staticBoxObjectComponent = new cPhysicsStaticBodyObjectComponent(staticBoxObject);
 
+	*gLog << "createStaticWoodBox6 \n";
 	res->addComponent(staticBoxObjectComponent);
-
+	
+	*gLog << "createStaticWoodBox7 \n";
 	return res;
 }
 
@@ -141,8 +161,11 @@ phRigidObject* cSceneStuff::createPhysicsRigidBody( const vec3& pos, const mat3x
 
 phRigidObject* cSceneStuff::addBoxCollisionGeometry( phRigidObject* rigidObject, const vec3& size, const vec3& offset /*= vec3(0)*/, const mat3x3& orient /*= nullMatr()*/ )
 {
+	*gLog << "n1 \n";
 	phBoxCollisionGeometry* boxCollisionGeom = new phBoxCollisionGeometry(orient, offset, size);
+	*gLog << "n2 \n";
 	rigidObject->mCollisionGeometry->addPart(boxCollisionGeom);
+	*gLog << "n3 \n";
 	return rigidObject;
 }
 

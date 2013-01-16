@@ -38,7 +38,7 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 
 	vec3   mPoints[8];	
 
-	phCollisionSupportGeom mSupportGeom;
+	phCollisionSupportGeom* mSupportGeom;
 	phCollisionVertex*     mVerticies[6];
 	
 	//                                                                                          
@@ -78,7 +78,7 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	
 	phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision);
 
-	void initCollisionData();
+	void postInitialize();
 };
 
 

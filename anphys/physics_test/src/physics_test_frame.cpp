@@ -128,6 +128,12 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	
 	if (key == key_t) mPhysicsRunning = !mPhysicsRunning;
 	if (key == key_y) mPhysicsRunByStep = !mPhysicsRunByStep;
+	if (key == key_f)
+	{		
+		mMainEngineScene->addObject(
+			mMainEngineScene->mSceneStuff->createRigidWoodBox(
+				mCamera3dMouse->mPosition + mCamera3dMouse->mOrientVec*2.0f, vec3(1.0f, 1.0f, 1.0f), mCamera3dMouse->mOrient));
+	}
 }
 
 void apPhysicsTestFrame::onKeyUp(int key)
@@ -144,15 +150,15 @@ void apPhysicsTestFrame::onDeActive()
 
 void apPhysicsTestFrame::setupScene1()
 {
-	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, 0.0f, 0.0f), vec3(10.0f, 1.0f, 10.0f)));
+	*gLog << "at1\n";
 
 	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 5.9f, 0.0f), vec3(4.0f, 1.0f, 1.0f)));
-
-	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.5f, 15.9f, 0.0f), vec3(1.0f, 1.0f, 1.0f)));
+		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, 0.0f, 0.0f), vec3(50.0f, 1.0f, 50.0f)));
 	
-	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 25.9f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
+	for (int i = 0; i < 10; i++)
+	{
+		mMainEngineScene->addObject(
+			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
+	}
+	*gLog << "at2\n";
 }

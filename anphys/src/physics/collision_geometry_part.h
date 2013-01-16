@@ -3,7 +3,7 @@
 
 #include "../util/utils.h"
 
-#define getCDDebugLevel() 2
+#define getCDDebugLevel() 0
 
 struct phCollisionGeometry;
 struct phCollision;
@@ -32,6 +32,8 @@ struct phCollisionGeometryPart
 	virtual void postUpdate(float dt) {}
 	
 	virtual phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision) { return NULL; }
+
+	virtual void postInitialize() {}
 };
 
 #endif //COLLISION_GEOMETRY_PART_H

@@ -11,26 +11,22 @@
 phBoxCollisionGeometry::phBoxCollisionGeometry():
 	phCollisionGeometryPart()
 {
-	initCollisionData();
 }
 
 phBoxCollisionGeometry::phBoxCollisionGeometry(phCollisionGeometry* collisionGeometry):
 	phCollisionGeometryPart(collisionGeometry)
 {
-	initCollisionData();
 }
 
 phBoxCollisionGeometry::phBoxCollisionGeometry(phCollisionGeometry* collisionGeometry, mat3x3 rotate, 
 											   vec3 offset, vec3 size):
 		phCollisionGeometryPart(collisionGeometry, rotate, offset), mSize(size)
 {
-	initCollisionData();
 }
 
 phBoxCollisionGeometry::phBoxCollisionGeometry(mat3x3 rotate, vec3 offset, vec3 size):
 		phCollisionGeometryPart(rotate, offset), mSize(size)
 {
-	initCollisionData();
 }
 
 void phBoxCollisionGeometry::preUpdate(float dt)
@@ -64,8 +60,18 @@ void phBoxCollisionGeometry::preUpdate(float dt)
 	mVerticies[6]->mVertex = axisX       + axisY + axisZ + mWorldPosition;
 	mVerticies[7]->mVertex = axisX*-1.0f + axisY + axisZ + mWorldPosition;
 
-	mSupportGeom.calculateParametres();
-
+	mSupportGeom->calculateParametres(mAABB);
+	
+	/*getRenderStuff().addRedArrow(vec3(mAABB.mMax.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMax.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMax.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMax.z), vec3(mAABB.mMax.x, mAABB.mMin.y, mAABB.mMax.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMax.x, mAABB.mMin.y, mAABB.mMax.z), vec3(mAABB.mMax.x, mAABB.mMax.y, mAABB.mMax.z));
+	
+	getRenderStuff().addRedArrow(vec3(mAABB.mMax.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMin.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMin.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMax.z), vec3(mAABB.mMax.x, mAABB.mMin.y, mAABB.mMin.z));
+	getRenderStuff().addRedArrow(vec3(mAABB.mMax.x, mAABB.mMin.y, mAABB.mMax.z), vec3(mAABB.mMax.x, mAABB.mMax.y, mAABB.mMin.z));
+	*/
 	/*for (int i = 0; i < 8; i++)
 		getRenderStuff().addRedCube(mPoints[i]);
 
@@ -73,8 +79,6 @@ void phBoxCollisionGeometry::preUpdate(float dt)
 	getRenderStuff().addRedArrow(mWorldPosition, mWorldPosition + axisX);
 	getRenderStuff().addGreenArrow(mWorldPosition, mWorldPosition + axisY);
 	getRenderStuff().addBlueArrow(mWorldPosition, mWorldPosition + axisZ);*/
-
-	mAABB.computeFromPoints(mPoints, 8);
 }
 
 void phBoxCollisionGeometry::update(float dt) {}
@@ -86,9 +90,11 @@ phCollision* phBoxCollisionGeometry::checkCollision(phCollisionGeometryPart* col
 	return checkCollisionBoxBox(this, static_cast<phBoxCollisionGeometry*>(collisionGeometryPart), collision);
 }
 
-void phBoxCollisionGeometry::initCollisionData()
-{
-	mSupportGeom.mCollisionPart = static_cast<phCollisionGeometryPart*>(this);
+void phBoxCollisionGeometry::postInitialize()
+{	
+	*gLog << "321 \n";
+	mSupportGeom = new phCollisionSupportGeom;
+	mSupportGeom->mCollisionPart = static_cast<phCollisionGeometryPart*>(this);
 
 	static int edgesIndexes[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
 	                            { 7, 6 }, { 6, 5 }, { 5, 4 }, { 4, 7 },
@@ -104,26 +110,35 @@ void phBoxCollisionGeometry::initCollisionData()
 	for (int i = 0; i < 8; i++)
 	{
 		mVerticies[i] = new phCollisionVertex;
-		mSupportGeom.addElement(mVerticies[i]);
+		mSupportGeom->addElement(mVerticies[i]);
 	}
-
+	
+	*gLog << "321 \n";
 	phCollisionEdge* edges[12];
 
 	for (int i = 0; i < 12; i++)
 	{
-		edges[i] = new phCollisionEdge(mVerticies[edgesIndexes[i][0]], mVerticies[edgesIndexes[i][1]]);		
-		mSupportGeom.addElement(edges[i]);
+		*gLog << formatStr("i = %i\n", i);
+		edges[i] = new phCollisionEdge(mVerticies[edgesIndexes[i][0]], mVerticies[edgesIndexes[i][1]]);	
+		
+		*gLog << formatStr("edge = %x\n", edges[i]);
+		mSupportGeom->addElement(edges[i]);
+		*gLog << formatStr("edge = %x\n", edges[i]);
 	}
-
+	
+	*gLog << "321 \n";
 	for (int i = 0; i < 6; i++)
 	{
 		phCollisionPolygon* newCollisionPolygon = 
 			new phCollisionPolygon(edges[polygons[i][0]], edges[polygons[i][1]], edges[polygons[i][2]],
 			                       edges[polygons[i][3]]);
-		mSupportGeom.addElement(newCollisionPolygon);
+		mSupportGeom->addElement(newCollisionPolygon);
 	}
-
+	
+	*gLog << "321 \n";
 	preUpdate(0.0f);
-
-	mSupportGeom.postInitialize();
+	
+	*gLog << "321 \n";
+	mSupportGeom->postInitialize(mAABB);
+	*gLog << "321 \n";
 }

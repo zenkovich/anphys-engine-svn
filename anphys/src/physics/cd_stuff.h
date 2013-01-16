@@ -45,10 +45,10 @@ struct phCollisionGeometryElement
 	virtual void project(vec3& axis, vec3& origin, unsigned int index) { }
 	virtual ElementType getType () { return ET_VERTEX; }
 	virtual void showDbgGraphics() {}
-	virtual void calculateParametres() {}
+	virtual void calculateParametres(AABB& aabb) {}
 	virtual bool isOnProjectionInterval(float minProj, float maxProj) { return (!(mProjection < minProj || mProjection > maxProj)); }
 	virtual void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis) {}
-	virtual void postInitialize() {}
+	virtual void postInitialize(AABB& aabb) {}
 
 	inline void storeContactPoint(phCollisionGeometryElement* element, phCollisionPoint* point)
 	{
@@ -90,6 +90,16 @@ struct phCollisionVertex:public phCollisionGeometryElement
 	void project(vec3& axis, vec3& origin, unsigned int index);
 	ElementType getType () { return ET_VERTEX; }
 	void showDbgGraphics();
+	void calculateParametres(AABB& aabb) 
+	{ 
+		if (mVertex.x > aabb.mMax.x) aabb.mMax.x = mVertex.x;
+		if (mVertex.y > aabb.mMax.y) aabb.mMax.y = mVertex.y;
+		if (mVertex.z > aabb.mMax.z) aabb.mMax.z = mVertex.z;
+		if (mVertex.x < aabb.mMin.x) aabb.mMin.x = mVertex.x;
+		if (mVertex.y < aabb.mMin.y) aabb.mMin.y = mVertex.y;
+		if (mVertex.z < aabb.mMin.z) aabb.mMin.z = mVertex.z;
+	}
+	void postInitialize(AABB& aabb) { calculateParametres(aabb); }
 };
 
 struct phCollisionPolygon;
@@ -107,12 +117,12 @@ struct phCollisionEdge:public phCollisionGeometryElement
 	phCollisionEdge(phCollisionVertex* first, phCollisionVertex* second);
 
 	void project(vec3& axis, vec3& origin, unsigned int index);
-	inline void calculateParametres();
+	inline void calculateParametres(AABB& aabb);
 	ElementType getType () { return ET_EDGE; }
 	void showDbgGraphics();
 	bool isOnProjectionInterval(float minProj, float maxProj);
 	void fillSupportGeomData(phCollisionElementsList& elementsList, vec3& axis);
-	void postInitialize() { calculateParametres(); }
+	void postInitialize(AABB& aabb) { calculateParametres(aabb); }
 };
 
 struct phCollisionPolygon:public phCollisionGeometryElement
@@ -128,12 +138,12 @@ struct phCollisionPolygon:public phCollisionGeometryElement
 	phCollisionPolygon(phCollisionEdge* a, phCollisionEdge* b, phCollisionEdge* c, phCollisionEdge* d);
 
 	void project(vec3& axis, vec3& origin, unsigned int index);
-	inline void calculateParametres();
+	inline void calculateParametres(AABB& aabb);
 	void calculateInvertions();
 	ElementType getType () { return ET_POLYGON; }
 	void showDbgGraphics();
 	bool isOnProjectionInterval(float minProj, float maxProj);
-	void postInitialize() { calculateInvertions(); calculateParametres(); }
+	void postInitialize(AABB& aabb) { calculateInvertions(); calculateParametres(aabb); }
 };  
 
 struct phCollisionSupportGeom
@@ -143,9 +153,9 @@ struct phCollisionSupportGeom
 	unsigned int             mIndex;
 	phCollisionGeometryPart* mCollisionPart;
 	
-	void postInitialize();
+	void postInitialize(AABB& aabb);
 	void projectOnAxis(vec3& axis, vec3& origin, float *maxProjection);
-	void calculateParametres();	
+	void calculateParametres(AABB& aabb);	
 	unsigned int generateNewIndexParam();
 	void showDbgGraphics();
 

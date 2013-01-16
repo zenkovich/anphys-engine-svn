@@ -92,6 +92,7 @@
     <ClInclude Include="..\src\physics\collision_geometry_part.h" />
     <ClInclude Include="..\src\physics\collision_manager.h" />
     <ClInclude Include="..\src\physics\collision_point.h" />
+    <ClInclude Include="..\src\physics\inertia.h" />
     <ClInclude Include="..\src\physics\physics_engine.h" />
     <ClInclude Include="..\src\physics\physics_object.h" />
     <ClInclude Include="..\src\physics\physics_scene.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\src\physics\collision.cpp" />
     <ClCompile Include="..\src\physics\collision_geometry.cpp" />
     <ClCompile Include="..\src\physics\collision_manager.cpp" />
+    <ClCompile Include="..\src\physics\inertia.cpp" />
     <ClCompile Include="..\src\physics\physics_engine.cpp" />
     <ClCompile Include="..\src\physics\physics_scene.cpp" />
     <ClCompile Include="..\src\physics\rigid_object.cpp" />
