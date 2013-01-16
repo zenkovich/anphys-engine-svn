@@ -2,6 +2,7 @@
 #define LOG_STREAM_H
 
 #include <string>
+#include <cstdarg>
 
 /** Поток лог-системы. Хранит в себе указатель на главный поток и флаг, используется ли главный поток. */
 struct cLogStream
@@ -17,6 +18,17 @@ struct cLogStream
 	virtual void output(const std::string& string)
 	{
 		if (mUsesMainStream) mMainStream->output(mStreamName + ": " + string);
+	}
+
+	inline void output(const char* format, ...)
+	{		
+		va_list vlist;
+		va_start(vlist, format);
+		char buf[1024]; 
+		vsprintf(buf, format, vlist);
+		va_end(vlist);
+
+		output(buf);
 	}
 
 	virtual void operator<<(const std::string& string) = 0;

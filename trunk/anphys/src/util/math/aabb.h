@@ -36,6 +36,12 @@ struct AABB
 			if (points[i].z > mMax.z) mMax.z = points[i].z;
 		}
 	}
+
+	inline void reset()
+	{
+		mMin = vec3(FLT_MAX);
+		mMax = vec3(-FLT_MAX);
+	}
 };
 
 #endif //AABB_H

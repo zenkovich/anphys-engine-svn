@@ -68,9 +68,14 @@ void phRigidObject::postSolve(float dt)
 
 	mBiasVelocity = mBiasAngularVelocity = vec3(0);
 
-	mInvWorldInertia = (mOrient.transpose())*mInvWorldInertia*mOrient;
+	mInvWorldInertia = (mOrient)*mInvInertia*(mOrient.transpose());
+	mInvWorldInertia = mInvInertia;
 
 	mCollisionGeometry->postUpdate(dt);
+
+	/**gLog << formatStr("rigid object %x: pos %.2f %.2f %.2f, orient (%.2f %.2f %.2f %.2f), vel %.2f %.2f %.2f, avel %.2f %.2f %.2f\n",
+		this, mPosition.x, mPosition.y, mPosition.z, mOrientQuat.v.x, mOrientQuat.v.y, mOrientQuat.v.z, mOrientQuat.w,
+		mVelocity.x, mVelocity.y, mVelocity.z, mAngularVelocity.x, mAngularVelocity.y, mAngularVelocity.z);*/
 }
 
 void phRigidObject::setPos(vec3 pos)

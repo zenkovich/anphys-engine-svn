@@ -39,7 +39,7 @@ struct phObject
 	virtual vec3 getVelocity() { return vec3(0); }
 	virtual vec3 getVelocity(vec3& point) { return vec3(0); }
 	virtual vec3 getBiasVelocity(vec3& point) { return vec3(0); }
-	virtual mat3x3 retInvertedInertia() { return nullMatr(); }
+	virtual mat3x3 getInvertedInertia() { return mat3x3(0, 0, 0, 0, 0, 0, 0, 0, 0); }
 	virtual float getInvertedMass() { return 0; }
 
 	virtual float getMass() { return 0; }

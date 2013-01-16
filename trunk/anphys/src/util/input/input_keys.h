@@ -19,6 +19,7 @@
 #define key_k 75
 #define key_n 78
 #define key_m 77
+#define key_f 70
 #define key_numpad_0 96
 #define key_numpad_1 97
 #define key_numpad_2 98

@@ -82,7 +82,7 @@ struct phRigidObject:public phObject
 	vec3 getVelocity(vec3& point) { return mVelocity + (mAngularVelocity^(point - mPosition)); }
 	vec3 getBiasVelocity(vec3& point) { return mBiasVelocity + (mBiasAngularVelocity^(point - mPosition)); }
 	float getInvertedMass() { return mInvMass; }
-	mat3x3 retInvertedInertia() { return mInvWorldInertia; }
+	mat3x3 getInvertedInertia() { return mInvWorldInertia; }
 	
 	float getMass() { return mMass; }
 

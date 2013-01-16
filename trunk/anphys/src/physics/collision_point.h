@@ -25,6 +25,8 @@ struct phCollisionPoint
 	
 	unsigned int mIndex;
 
+	bool mSolved;
+
 //functions
 	phCollisionPoint(): mCollision(NULL), mIndex(0), Kn(0), Kf(0), J(0), Jf(0), B(0) {}
 
