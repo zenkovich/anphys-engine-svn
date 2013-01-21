@@ -39,7 +39,7 @@ struct phBoxCollisionGeometry:public phCollisionGeometryPart
 	vec3   mPoints[8];	
 
 	phCollisionSupportGeom* mSupportGeom;
-	phCollisionVertex*     mVerticies[6];
+	phCollisionVertex*     mVerticies[8];
 	
 	//                                                                                          
 	//                                                                                          

@@ -18,7 +18,9 @@ struct phCollisionPoint
 	vec3 mImpulse;
 	float mBiasImpulse;
 
-	float Kn, Kf, J, Jf, B;
+	float Kn, Kf1, Kf2, J, Jf1, Jf2, B;
+
+	vec3 t1, t2;
 
 	phCollisionGeometryPart* mPartObjectA;
 	phCollisionGeometryPart* mPartObjectB;
@@ -28,18 +30,18 @@ struct phCollisionPoint
 	bool mSolved;
 
 //functions
-	phCollisionPoint(): mCollision(NULL), mIndex(0), Kn(0), Kf(0), J(0), Jf(0), B(0) {}
+	phCollisionPoint(): mCollision(NULL), mIndex(0), Kn(0), Kf1(0), Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
 
 	phCollisionPoint(phCollision* collision, phCollisionGeometryPart* partObjectA, 
 		             phCollisionGeometryPart* partObjectB):mCollision(collision), mPartObjectA(partObjectA), 
-		mPartObjectB(partObjectB), mIndex(0), Kn(0), Kf(0), J(0), Jf(0), B(0) {}
+		mPartObjectB(partObjectB), mIndex(0), Kn(0), Kf1(0), Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
 
 	phCollisionPoint(phCollision* collision, phCollisionGeometryPart* partObjectA, phCollisionGeometryPart* 
 		             partObjectB, vec3 point, vec3 normal):mCollision(collision), mPoint(point), 
-		mNormal(normal), mPartObjectA(partObjectA), mPartObjectB(partObjectB), mIndex(0), Kn(0), Kf(0), J(0), 
-		Jf(0), B(0) {}
+		mNormal(normal), mPartObjectA(partObjectA), mPartObjectB(partObjectB), mIndex(0), Kn(0), Kf1(0), 
+		Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
 
-	void reset() { Kn = Kf = J = Jf = B = 0; }
+	void reset() { Kn = Kf1 = Kf2 = J = Jf1 = Jf2 = B = 0; t1 = t2 = vec3(0); }
 };
 
 #endif //COLLISION_POINT_H
