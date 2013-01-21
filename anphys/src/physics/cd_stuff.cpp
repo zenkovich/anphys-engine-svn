@@ -284,7 +284,7 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 	cPoint->mNormal = cpolygon->mNormal;
 	/*if (!inv)  cPoint->mDepth *= -1.0f;
 	else       cPoint->mNormal *= -1.0f;*/
-	if (inv) { cPoint->mNormal *= -1.0f; }
+	if (!inv) { cPoint->mNormal *= -1.0f; }
 	cPoint->mDepth = fabs(cPoint->mDepth);
 
 	cPoint->mPartObjectA = cvertex->mSupportGeom->mCollisionPart;
@@ -347,7 +347,7 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 		if (getCDDebugLevel() >= 2) *gLog << "edge--edge non stored contact point\n";
 	}
 
-	cPoint->mNormal = pointNormal;
+	cPoint->mNormal = pointNormal*-1.0f;
 	cPoint->mDepth = length;
 	cPoint->mPoint = (bProjPoint + aProjPoint)*0.5f;
 	cPoint->mPartObjectA = edgeA->mSupportGeom->mCollisionPart;
@@ -483,9 +483,6 @@ unsigned int phCollisionSupportGeom::generateNewIndexParam()
 
 void phCollisionSupportGeom::addElement( phCollisionGeometryElement* element )
 {
-	*gLog << formatStr("1 elem %x, ct %i\n", element, mElements.size());
 	mElements.push_back(element);
-	*gLog << "2\n";
 	element->mSupportGeom = this;
-	*gLog << "3\n";
 }

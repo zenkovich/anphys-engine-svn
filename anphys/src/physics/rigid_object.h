@@ -72,15 +72,19 @@ struct phRigidObject:public phObject
 	bool isSleep();
 	void setSleep(bool flag);
 
-	void applyImpulse(vec3 point, vec3 impulse);
+	void applyImpulse(vec3& point, vec3& impulse);
 	void applyImpulse(phCollisionPoint* collisionPoint);
-	void applyImpulse(vec3 point, vec3 impulse, vec3 biasImpulse);
-	void addForce(vec3 force);
-	void addTorque(vec3 torque);
+	void applyImpulse(vec3& point, vec3& impulse, vec3& biasImpulse);
+	void applyBiasImpulse(vec3& point, vec3& impulse);
+	void addForce(vec3& force);
+	void addTorque(vec3& torque);
 
 	vec3 getVelocity() { return mVelocity; }
-	vec3 getVelocity(vec3& point) { return mVelocity + (mAngularVelocity^(point - mPosition)); }
-	vec3 getBiasVelocity(vec3& point) { return mBiasVelocity + (mBiasAngularVelocity^(point - mPosition)); }
+	vec3 getAngularVelocity() { return mAngularVelocity; }
+	vec3 getVelocity(vec3& point) { return mVelocity + ((point - mPosition)^mAngularVelocity); }
+	vec3 getBiasVelocity(vec3& point) { return mBiasVelocity + ((point - mPosition)^mBiasAngularVelocity); }
+	vec3 getBiasAngularVelocity() { return mBiasAngularVelocity; }
+	vec3 getBiasVelocity() { return mBiasVelocity; }
 	float getInvertedMass() { return mInvMass; }
 	mat3x3 getInvertedInertia() { return mInvWorldInertia; }
 	

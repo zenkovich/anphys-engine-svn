@@ -61,7 +61,7 @@ void phRigidObject::postSolve(float dt)
 {
 	mPosition += (mVelocity + mBiasVelocity)*dt;
 
-	mOrientQuat += mOrientQuat*((mAngularVelocity + mBiasAngularVelocity)*dt)*0.5f;
+	mOrientQuat -= mOrientQuat*((mAngularVelocity + mBiasAngularVelocity)*dt)*0.5f;
 	mOrientQuat = mOrientQuat.normalize();
 	mOrient = quat2matrix(mOrientQuat);
 	//mOrient = mOrient*((mAngularVelocity + mBiasAngularVelocity)*dt);
@@ -98,10 +98,10 @@ void phRigidObject::setSleep(bool flag)
 	if (flag) mSleeping = sleep_stage_sleep;
 }
 
-void phRigidObject::applyImpulse(vec3 point, vec3 impulse)
+void phRigidObject::applyImpulse(vec3& point, vec3& impulse)
 {
 	mVelocity += impulse*mInvMass;
-	mAngularVelocity += ((point - mPosition)^impulse)*mInvWorldInertia;
+	mAngularVelocity += (impulse^(point - mPosition))*mInvWorldInertia;
 }
 	
 void phRigidObject::applyImpulse(phCollisionPoint* collisionPoint)
@@ -117,29 +117,35 @@ void phRigidObject::applyImpulse(phCollisionPoint* collisionPoint)
 	vec3 r = collisionPoint->mPoint - mPosition;
 
 	mVelocity += impulse*mInvMass;
-	mAngularVelocity += (r^impulse)*mInvWorldInertia;
+	mAngularVelocity += (impulse^r)*mInvWorldInertia;
 
 	mBiasVelocity += biasImpulse*mInvMass;
-	mBiasAngularVelocity += (r^biasImpulse)*mInvWorldInertia;
+	mBiasAngularVelocity += (biasImpulse^r)*mInvWorldInertia;
 }
 
-void phRigidObject::applyImpulse( vec3 point, vec3 impulse, vec3 biasImpulse )
+void phRigidObject::applyImpulse( vec3& point, vec3& impulse, vec3& biasImpulse )
 {	
 	vec3 r = point - mPosition;
 
 	mVelocity += impulse*mInvMass;
-	mAngularVelocity += (r^impulse)*mInvWorldInertia;
+	mAngularVelocity += (impulse^r)*mInvWorldInertia;
 
 	mBiasVelocity += biasImpulse*mInvMass;
-	mBiasAngularVelocity += (r^biasImpulse)*mInvWorldInertia;
+	mBiasAngularVelocity += (biasImpulse^r)*mInvWorldInertia;
 }
 
-void phRigidObject::addForce(vec3 force)
+void phRigidObject::applyBiasImpulse( vec3& point, vec3& impulse )
+{
+	mBiasVelocity += impulse*mInvMass;
+	mBiasAngularVelocity += (impulse^(point - mPosition))*mInvWorldInertia;
+}
+
+void phRigidObject::addForce(vec3& force)
 {
 	mForce += force;
 }
 
-void phRigidObject::addTorque(vec3 torque)
+void phRigidObject::addTorque(vec3& torque)
 {
 	mTorque += torque;
 }
