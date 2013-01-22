@@ -234,7 +234,7 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 		}
 	}*/
 
-	float E = 0.3f, Mu = 0.5f, biasERP = 0.8f;
+	float E = 0.3f, Mu = 0.5f, biasERP = 0.1f;
 	int iterations = 10;
 
 	 //pre step
@@ -267,6 +267,62 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 			
 			objectA->applyImpulse(collisionPoint->mPoint, imp);
 			objectB->applyImpulse(collisionPoint->mPoint, imp*-1.0f);
+
+			vec3 ra = collisionPoint->mPoint - objectA->getPos();
+			vec3 rb = collisionPoint->mPoint - objectB->getPos();
+			
+			vec3 n1 = collisionPoint->mNormal;            collisionPoint->n1 = n1;
+			vec3 w1 = collisionPoint->mNormal^ra;         collisionPoint->w1 = w1;
+			vec3 n2 = collisionPoint->mNormal*-1.0f;      collisionPoint->n2 = n2;
+			vec3 w2 = (collisionPoint->mNormal^rb)*-1.0f; collisionPoint->w2 = w2;
+
+			float b = n1*n1*objectA->getInvertedMass() + w1*(w1*objectA->getInvertedInertia()) + 
+						n2*n2*objectB->getInvertedMass() + w2*(w2*objectB->getInvertedInertia());
+			collisionPoint->B = 1.0f/b;
+
+				
+			vec3 f1n1 = collisionPoint->t1;            collisionPoint->f1n1 = f1n1;
+			vec3 f1w1 = collisionPoint->t1^ra;         collisionPoint->f1w1 = f1w1;
+			vec3 f1n2 = collisionPoint->t1*-1.0f;      collisionPoint->f1n2 = f1n2;
+			vec3 f1w2 = (collisionPoint->t1^rb)*-1.0f; collisionPoint->f1w2 = f1w2;
+				
+			float f1b = f1n1*f1n1*objectA->getInvertedMass() + f1w1*(f1w1*objectA->getInvertedInertia()) + 
+						f1n2*f1n2*objectB->getInvertedMass() + f1w2*(f1w2*objectB->getInvertedInertia());
+			collisionPoint->Bf1 = 1.0f/f1b;
+				
+			vec3 f2n1 = collisionPoint->t2;            collisionPoint->f2n1 = f2n1;
+			vec3 f2w1 = collisionPoint->t2^ra;         collisionPoint->f2w1 = f2w1;
+			vec3 f2n2 = collisionPoint->t2*-1.0f;      collisionPoint->f2n2 = f2n2;
+			vec3 f2w2 = (collisionPoint->t2^rb)*-1.0f; collisionPoint->f2w2 = f2w2;
+
+			float f2b = f2n1*f2n1*objectA->getInvertedMass() + f2w1*(f2w1*objectA->getInvertedInertia()) + 
+						f2n2*f2n2*objectB->getInvertedMass() + f2w2*(f2w2*objectB->getInvertedInertia());
+			collisionPoint->Bf2 = 1.0f/f2b;
+
+			float contactDepth = collisionPoint->mDepth - 0.01f;
+			if (contactDepth > 0.0f)
+			{
+				collisionPoint->mBiasImpulse = contactDepth*invDt*biasERP;
+			}
+			else collisionPoint->mBiasImpulse = 0.0f;
+
+			/*float contactDepth = collisionPoint->mDepth - 0.01f;
+			if (contactDepth > 0.0f)
+			{
+				float biasA = n1*objectA->getBiasVelocity() + n2*objectB->getBiasVelocity() + 
+							  w1*objectA->getBiasAngularVelocity() + w2*objectB->getBiasAngularVelocity();
+
+
+				float biasLambda = -(biasA - contactDepth*invDt*biasERP)/b;
+
+				*gLog << formatStr("biasLambda = %.3f\n", biasLambda);
+
+				if (biasLambda > 0.0f)
+				{					
+					objectA->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*biasLambda);
+					objectB->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-biasLambda);
+				}
+			}*/
 		}
 	}
 
@@ -288,17 +344,16 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 				vec3 ra = collisionPoint->mPoint - objectA->getPos();
 				vec3 rb = collisionPoint->mPoint - objectB->getPos();
 			
-				vec3 n1 = collisionPoint->mNormal;
-				vec3 w1 = collisionPoint->mNormal^ra;
-				vec3 n2 = collisionPoint->mNormal*-1.0f;
-				vec3 w2 = (collisionPoint->mNormal^rb)*-1.0f;
+				vec3 n1 = collisionPoint->n1;
+				vec3 w1 = collisionPoint->w1;
+				vec3 n2 = collisionPoint->n2;
+				vec3 w2 = collisionPoint->w2;
 
 				float a = n1*objectA->getVelocity() + n2*objectB->getVelocity() + 
 						  w1*objectA->getAngularVelocity() + w2*objectB->getAngularVelocity();
-				float b = n1*n1*objectA->getInvertedMass() + w1*(w1*objectA->getInvertedInertia()) + 
-						  n2*n2*objectB->getInvertedMass() + w2*(w2*objectB->getInvertedInertia());
+				float b =collisionPoint->B;
 
-				float lambda = -a*(E + 1.0f)/b;
+				float lambda = -a*(E + 1.0f)*b;
 
 				collisionPoint->J += lambda;
 				if(collisionPoint->J < 0.0f)
@@ -310,29 +365,27 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 				objectA->applyImpulse(collisionPoint->mPoint, collisionPoint->mNormal*lambda);
 				objectB->applyImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-lambda);
 				
-				vec3 f1n1 = collisionPoint->t1;
-				vec3 f1w1 = collisionPoint->t1^ra;
-				vec3 f1n2 = collisionPoint->t1*-1.0f;
-				vec3 f1w2 = (collisionPoint->t1^rb)*-1.0f;
+				vec3 f1n1 = collisionPoint->f1n1;
+				vec3 f1w1 = collisionPoint->f1w1;
+				vec3 f1n2 = collisionPoint->f1n2;
+				vec3 f1w2 = collisionPoint->f1w2;
 				
 				float f1a = f1n1*objectA->getVelocity() + f1n2*objectB->getVelocity() + 
 						    f1w1*objectA->getAngularVelocity() + f1w2*objectB->getAngularVelocity();
-				float f1b = f1n1*f1n1*objectA->getInvertedMass() + f1w1*(f1w1*objectA->getInvertedInertia()) + 
-						    f1n2*f1n2*objectB->getInvertedMass() + f1w2*(f1w2*objectB->getInvertedInertia());
+				float f1b = collisionPoint->Bf1;
 
-				float f1lambda = -f1a/f1b;
+				float f1lambda = -f1a*f1b;
 				
-				vec3 f2n1 = collisionPoint->t2;
-				vec3 f2w1 = collisionPoint->t2^ra;
-				vec3 f2n2 = collisionPoint->t2*-1.0f;
-				vec3 f2w2 = (collisionPoint->t2^rb)*-1.0f;
+				vec3 f2n1 = collisionPoint->f2n1;
+				vec3 f2w1 = collisionPoint->f2w1;
+				vec3 f2n2 = collisionPoint->f2n2;
+				vec3 f2w2 = collisionPoint->f2w2;
 				
 				float f2a = f2n1*objectA->getVelocity() + f2n2*objectB->getVelocity() + 
 						    f2w1*objectA->getAngularVelocity() + f2w2*objectB->getAngularVelocity();
-				float f2b = f2n1*f2n1*objectA->getInvertedMass() + f2w1*(f2w1*objectA->getInvertedInertia()) + 
-						    f2n2*f2n2*objectB->getInvertedMass() + f2w2*(f2w2*objectB->getInvertedInertia());
+				float f2b = collisionPoint->Bf2;
 
-				float f2lambda = -f2a/f2b;
+				float f2lambda = -f2a*f2b;
 				
 				float f1accumulated = f1lambda + collisionPoint->Jf1;
 				float f2accumulated = f2lambda + collisionPoint->Jf2;
@@ -352,36 +405,19 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 
 				objectA->applyImpulse(collisionPoint->mPoint, Jf);
 				objectB->applyImpulse(collisionPoint->mPoint, Jf*-1.0f);
-				/*
-				if( ( CP.AccumulatedfImpuls1 + fImpulse1 ) * ( CP.AccumulatedfImpuls1 + fImpulse1 )
-    + ( CP.AccumulatedfImpuls2 + fImpulse2 ) * ( CP.AccumulatedfImpuls2 + fImpulse2 )
-  > ( CP.AccumulatednImpuls * mju ) * ( CP.AccumulatednImpuls * mju ) )
-  {
-    float len = sqrt( fImpulse1 * fImpulse1 + fImpulse2 * fImpulse2 );
-    fImpulse1 = fImpulse1 * nImpulse * mju / len - CP.AccumulatedfImpuls1;
-    fImpulse2 = fImpulse2 * nImpulse * mju / len - CP.AccumulatedfImpuls2;
-  }
 
-
-  CP.AccumulatedfImpuls1 += fImpulse1;
-  CP.AccumulatedfImpuls2 += fImpulse2;*/
-
-				float contactDepth = collisionPoint->mDepth - 0.01f;
-				if (contactDepth > 0.0f)
+				if (collisionPoint->mBiasImpulse > 0.0f)
 				{
 					float biasA = n1*objectA->getBiasVelocity() + n2*objectB->getBiasVelocity() + 
-								  w1*objectA->getBiasAngularVelocity() + w2*objectB->getBiasAngularVelocity();
+							      w1*objectA->getBiasAngularVelocity() + w2*objectB->getBiasAngularVelocity();
 
+					float biasLambda = -(biasA - collisionPoint->mBiasImpulse)*b;
 
-					float biasLambda = -(biasA - contactDepth*invDt*biasERP)/b;
-
-					*gLog << formatStr("biasLambda = %.3f\n", biasLambda);
-
-					if (biasLambda > 0.0f)
-					{					
-						objectA->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*biasLambda*0.1f);
-						objectB->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-biasLambda*0.1f);
-					}
+					getRenderStuff().addBlueArrow(collisionPoint->mPoint, collisionPoint->mPoint + 
+						collisionPoint->mNormal*biasLambda/dt);
+					
+					objectA->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*biasLambda);
+					objectB->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-biasLambda);
 				}
 			}
 		}
