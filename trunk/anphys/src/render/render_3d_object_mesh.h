@@ -1,6 +1,8 @@
 #ifndef RENDER_3D_OBJECT_MESH_H
 #define RENDER_3D_OBJECT_MESH_H
 
+#include "util/"
+
 #include "../engine/engine_options.h"
 #ifdef RENDER_D3D8
 #include "d3d8/render_3d_object_mesh_d3d8.h"

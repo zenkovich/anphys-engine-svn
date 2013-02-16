@@ -13,6 +13,10 @@
 
 phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollisionGeometry* geomB, phCollision* collision )
 {
+	/*geomA->mSupportGeom->showDbgGraphics();
+	geomB->mSupportGeom->showDbgGraphics();*/
+
+
 	vec3 geometriesDistanceVec = geomB->mWorldPosition - geomA->mWorldPosition;
 	float geometriesDistance = geometriesDistanceVec.len();
 

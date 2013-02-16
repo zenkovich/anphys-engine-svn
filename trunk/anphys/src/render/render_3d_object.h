@@ -2,6 +2,7 @@
 #define RENDER_3D_OBJECT_H
 
 #include "../util/math/mmath.h"
+#include "../util/other/type_intexation.h"
 
 #include "../engine/engine_options.h"
 #ifdef RENDER_D3D8

@@ -31,37 +31,6 @@ phBoxCollisionGeometry::phBoxCollisionGeometry(mat3x3 rotate, vec3 offset, vec3 
 
 void phBoxCollisionGeometry::preUpdate(float dt)
 {
-	if (mCollisionGeometry)
-		if (mCollisionGeometry->mObject)
-		{
-			vec3 objPos = mCollisionGeometry->mObject->getPos();
-			mat3x3 objOrient = mCollisionGeometry->mObject->getOrient();
-
-			mWorldPosition = objPos + mOffset*objOrient;
-			mWorldOrient = objOrient*mRotate;
-		}
-
-	mHalfSize = mSize*0.5f;
-
-	vec3 axisX = vec3(mHalfSize.x, 0, 0)*mWorldOrient;
-	vec3 axisY = vec3(0, mHalfSize.y, 0)*mWorldOrient;
-	vec3 axisZ = vec3(0, 0, mHalfSize.z)*mWorldOrient;
-
-	mSizeVectors[0][0] = axisX.x; mSizeVectors[0][1] = axisX.y; mSizeVectors[0][2] = axisX.z;
-	mSizeVectors[1][0] = axisY.x; mSizeVectors[1][1] = axisY.y; mSizeVectors[1][2] = axisY.z;
-	mSizeVectors[2][0] = axisZ.x; mSizeVectors[2][1] = axisZ.y; mSizeVectors[2][2] = axisZ.z;
-
-	mVerticies[0]->mVertex = axisX*-1.0f + axisY - axisZ + mWorldPosition;
-	mVerticies[1]->mVertex = axisX       + axisY - axisZ + mWorldPosition;
-	mVerticies[2]->mVertex = axisX       - axisY - axisZ + mWorldPosition;
-	mVerticies[3]->mVertex = axisX*-1.0f - axisY - axisZ + mWorldPosition;
-	mVerticies[4]->mVertex = axisX*-1.0f - axisY + axisZ + mWorldPosition;
-	mVerticies[5]->mVertex = axisX       - axisY + axisZ + mWorldPosition;
-	mVerticies[6]->mVertex = axisX       + axisY + axisZ + mWorldPosition;
-	mVerticies[7]->mVertex = axisX*-1.0f + axisY + axisZ + mWorldPosition;
-
-	mSupportGeom->calculateParametres(mAABB);
-	
 	/*getRenderStuff().addRedArrow(vec3(mAABB.mMax.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMax.z));
 	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMax.y, mAABB.mMax.z), vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMax.z));
 	getRenderStuff().addRedArrow(vec3(mAABB.mMin.x, mAABB.mMin.y, mAABB.mMax.z), vec3(mAABB.mMax.x, mAABB.mMin.y, mAABB.mMax.z));
@@ -83,7 +52,39 @@ void phBoxCollisionGeometry::preUpdate(float dt)
 
 void phBoxCollisionGeometry::update(float dt) {}
 
-void phBoxCollisionGeometry::postUpdate(float dt) {}
+void phBoxCollisionGeometry::postUpdate(float dt) 
+{
+	if (mCollisionGeometry)
+		if (mCollisionGeometry->mObject)
+		{
+			vec3 objPos = mCollisionGeometry->mObject->getPos();
+			mat3x3 objOrient = mCollisionGeometry->mObject->getOrient();
+
+			mWorldPosition = objPos + mOffset*objOrient;
+			mWorldOrient = objOrient*mRotate;
+		}
+
+		mHalfSize = mSize*0.5f;
+
+		vec3 axisX = vec3(mHalfSize.x, 0, 0)*mWorldOrient;
+		vec3 axisY = vec3(0, mHalfSize.y, 0)*mWorldOrient;
+		vec3 axisZ = vec3(0, 0, mHalfSize.z)*mWorldOrient;
+
+		mSizeVectors[0][0] = axisX.x; mSizeVectors[0][1] = axisX.y; mSizeVectors[0][2] = axisX.z;
+		mSizeVectors[1][0] = axisY.x; mSizeVectors[1][1] = axisY.y; mSizeVectors[1][2] = axisY.z;
+		mSizeVectors[2][0] = axisZ.x; mSizeVectors[2][1] = axisZ.y; mSizeVectors[2][2] = axisZ.z;
+
+		mVerticies[0]->mVertex = axisX*-1.0f + axisY - axisZ + mWorldPosition;
+		mVerticies[1]->mVertex = axisX       + axisY - axisZ + mWorldPosition;
+		mVerticies[2]->mVertex = axisX       - axisY - axisZ + mWorldPosition;
+		mVerticies[3]->mVertex = axisX*-1.0f - axisY - axisZ + mWorldPosition;
+		mVerticies[4]->mVertex = axisX*-1.0f - axisY + axisZ + mWorldPosition;
+		mVerticies[5]->mVertex = axisX       - axisY + axisZ + mWorldPosition;
+		mVerticies[6]->mVertex = axisX       + axisY + axisZ + mWorldPosition;
+		mVerticies[7]->mVertex = axisX*-1.0f + axisY + axisZ + mWorldPosition;
+
+		mSupportGeom->calculateParametres(mAABB);
+}
 
 phCollision* phBoxCollisionGeometry::checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision)
 {
@@ -92,7 +93,6 @@ phCollision* phBoxCollisionGeometry::checkCollision(phCollisionGeometryPart* col
 
 void phBoxCollisionGeometry::postInitialize()
 {	
-	*gLog << "321 \n";
 	mSupportGeom = new phCollisionSupportGeom;
 	mSupportGeom->mCollisionPart = static_cast<phCollisionGeometryPart*>(this);
 
@@ -113,20 +113,14 @@ void phBoxCollisionGeometry::postInitialize()
 		mSupportGeom->addElement(mVerticies[i]);
 	}
 	
-	*gLog << "321 \n";
 	phCollisionEdge* edges[12];
 
 	for (int i = 0; i < 12; i++)
 	{
-		*gLog << formatStr("i = %i\n", i);
 		edges[i] = new phCollisionEdge(mVerticies[edgesIndexes[i][0]], mVerticies[edgesIndexes[i][1]]);	
-		
-		*gLog << formatStr("edge = %x\n", edges[i]);
 		mSupportGeom->addElement(edges[i]);
-		*gLog << formatStr("edge = %x\n", edges[i]);
 	}
 	
-	*gLog << "321 \n";
 	for (int i = 0; i < 6; i++)
 	{
 		phCollisionPolygon* newCollisionPolygon = 
@@ -134,11 +128,9 @@ void phBoxCollisionGeometry::postInitialize()
 			                       edges[polygons[i][3]]);
 		mSupportGeom->addElement(newCollisionPolygon);
 	}
-	
-	*gLog << "321 \n";
+
 	preUpdate(0.0f);
+	postUpdate(0.0f);
 	
-	*gLog << "321 \n";
 	mSupportGeom->postInitialize(mAABB);
-	*gLog << "321 \n";
 }

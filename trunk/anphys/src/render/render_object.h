@@ -2,14 +2,16 @@
 #define RENDER_OBJECT_H
 
 #include "../util/math/mmath.h"
+#include "../util/other/type_intexation.h"
 
 struct grRenderObjectsManager;
 
 struct grRenderObject
 {
-	enum object_types {render_3d_object = 0, render_3d_object_mesh = 1 };
+	DEFINE_TYPE(grRenderObject)
+
 	grRenderObjectsManager* mRenderObjectsManager;
-	object_types mType;
+	UniqueType mType;
 
 	grRenderObject():mRenderObjectsManager(NULL) {}
 	grRenderObject(grRenderObjectsManager* objectsManager):mRenderObjectsManager(objectsManager) {}
@@ -18,8 +20,7 @@ struct grRenderObject
 
 	virtual void update(float dt) {  }
 	virtual void render() {  }
-
-	object_types getType() { return mType; }
 };
+
 
 #endif //RENDER_OBJECT_H

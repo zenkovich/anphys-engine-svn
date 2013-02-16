@@ -69,6 +69,8 @@ bool apWindow::initialize(const WNDCLASSEX& wndClass, std::string wndName, RECT 
 
 	onCreate(inRect);
 
+	mActiveWindow = false;
+
 	return true;
 }
 
@@ -100,7 +102,9 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		 }
 		
      case WM_KEYDOWN: 
-		{
+		 {
+			 if (!mActiveWindow) break;
+
 			int key = (int)(lParam);
 
 			for (int i = 0; i < 3; i++)
@@ -121,6 +125,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		
      case WM_KEYUP: 
 		{
+			if (!mActiveWindow) break;
+
 			int key = (int)(lParam);
 
 			for (int i = 0; i < 3; i++)
@@ -133,6 +139,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	 case WM_MOUSEMOVE:
 		 {
+			 if (!mActiveWindow) break;
+
 			GetCursorPos(&ptt);
 			ScreenToClient(mHWnd, &ptt);
 
@@ -149,11 +157,13 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				mActiveWindow = false;
 				onDeActive();
+				*gLog << "deactivate window\n";
 			}
 			else
 			{
 				mActiveWindow = true;
 				onActive();
+				*gLog << "activate window\n";
 			}
 		 }
 
@@ -220,6 +230,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		 }
 	 case WM_MOUSEWHEEL:
 		 {
+			 if (!mActiveWindow) break;
+
 			 float delta = GET_WHEEL_DELTA_WPARAM(lParam);
 			 onMouseWheel(delta);
 
@@ -239,6 +251,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		 }
 	 case WM_TIMER:
 		 {
+			 if (!mActiveWindow) break;
+
 			 onTimer();
 
 			 break;

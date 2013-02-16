@@ -145,6 +145,9 @@
     <Filter Include="physics\stuff">
       <UniqueIdentifier>{37e104d0-6c4a-46d2-9e28-1723e173e433}</UniqueIdentifier>
     </Filter>
+    <Filter Include="render\render objects\2d">
+      <UniqueIdentifier>{7e170c7a-be4a-402e-b718-33a635176e14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -483,6 +486,9 @@
     <ClInclude Include="..\src\physics\inertia.h">
       <Filter>physics\stuff</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\other\type_intexation.h">
+      <Filter>util\other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -664,6 +670,12 @@
     </ClCompile>
     <ClCompile Include="..\src\physics\inertia.cpp">
       <Filter>physics\stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\other\type_indexation.cpp">
+      <Filter>util\other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_object.cpp">
+      <Filter>render\render objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
