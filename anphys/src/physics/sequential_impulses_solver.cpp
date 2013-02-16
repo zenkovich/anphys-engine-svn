@@ -234,7 +234,7 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 		}
 	}*/
 
-	float E = 0.3f, Mu = 0.5f, biasERP = 0.1f;
+	float E = 0.3f, Mu = 0.5f, biasERP = 0.8f;
 	int iterations = 10;
 
 	 //pre step
@@ -250,6 +250,13 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 			 jt != collision->mPoints->mValues.end(); ++jt)
 		{
 			phCollisionPoint* collisionPoint = *jt;
+
+			float contactDepth = collisionPoint->mDepth - 0.05f;
+			if (contactDepth > 0.0f)
+			{
+				collisionPoint->mBiasImpulse = contactDepth*invDt*biasERP;
+			}
+			else collisionPoint->mBiasImpulse = 0.0f;
 
 			getRenderStuff().addRedArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->mNormal*0.5f);
 
@@ -298,14 +305,7 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 			float f2b = f2n1*f2n1*objectA->getInvertedMass() + f2w1*(f2w1*objectA->getInvertedInertia()) + 
 						f2n2*f2n2*objectB->getInvertedMass() + f2w2*(f2w2*objectB->getInvertedInertia());
 			collisionPoint->Bf2 = 1.0f/f2b;
-
-			float contactDepth = collisionPoint->mDepth - 0.01f;
-			if (contactDepth > 0.0f)
-			{
-				collisionPoint->mBiasImpulse = contactDepth*invDt*biasERP;
-			}
-			else collisionPoint->mBiasImpulse = 0.0f;
-
+			
 			/*float contactDepth = collisionPoint->mDepth - 0.01f;
 			if (contactDepth > 0.0f)
 			{
@@ -340,7 +340,7 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 				 jt != collision->mPoints->mValues.end(); ++jt)
 			{
 				phCollisionPoint* collisionPoint = *jt;
-
+				
 				vec3 ra = collisionPoint->mPoint - objectA->getPos();
 				vec3 rb = collisionPoint->mPoint - objectB->getPos();
 			
@@ -394,8 +394,8 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 				if (f1accumulated*f1accumulated + f2accumulated*f2accumulated > maxfriction*maxfriction)
 				{
 					float invLen = 1.0f/sqrtf(f1lambda*f1lambda + f2lambda*f2lambda);
-					f1lambda = f1lambda*invLen*collisionPoint->J*Mu - collisionPoint->Jf1;
-					f2lambda = f2lambda*invLen*collisionPoint->J*Mu - collisionPoint->Jf2;
+					f1lambda = f1lambda*invLen*maxfriction - collisionPoint->Jf1;
+					f2lambda = f2lambda*invLen*maxfriction - collisionPoint->Jf2;
 				}
 				
 				collisionPoint->Jf1 += f1lambda;
@@ -406,19 +406,21 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 				objectA->applyImpulse(collisionPoint->mPoint, Jf);
 				objectB->applyImpulse(collisionPoint->mPoint, Jf*-1.0f);
 
-				if (collisionPoint->mBiasImpulse > 0.0f)
-				{
+				/*if (collisionPoint->mBiasImpulse > 0.0f)
+				{*/
 					float biasA = n1*objectA->getBiasVelocity() + n2*objectB->getBiasVelocity() + 
 							      w1*objectA->getBiasAngularVelocity() + w2*objectB->getBiasAngularVelocity();
 
 					float biasLambda = -(biasA - collisionPoint->mBiasImpulse)*b;
 
+					//*gLog << formatStr("biasA %.3f bias imp %.3f lambda %.3f\n", biasA, collisionPoint->mBiasImpulse, biasLambda);
+
 					getRenderStuff().addBlueArrow(collisionPoint->mPoint, collisionPoint->mPoint + 
-						collisionPoint->mNormal*biasLambda/dt);
+						collisionPoint->mNormal*biasLambda*dt/b);
 					
 					objectA->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*biasLambda);
 					objectB->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-biasLambda);
-				}
+				//}
 			}
 		}
 	}

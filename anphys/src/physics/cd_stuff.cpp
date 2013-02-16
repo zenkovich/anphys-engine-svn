@@ -199,7 +199,7 @@ void phCollisionPolygon::showDbgGraphics()
 		vec3 centerAdd = mEdges[i]->mFirstVertex->mVertex + mEdges[i]->mSecondVertex->mVertex;
 		center = center + centerAdd;
 
-		//getRenderStuff().addRedArrow(centerAdd*0.5f, centerAdd*0.5f + mEdgeDirectionNormal[i]*0.2f);
+		getRenderStuff().addRedArrow(centerAdd*0.5f, centerAdd*0.5f + mEdgeDirectionNormal[i]*0.2f);
 	}
 	
 	center /= (float)(mEdgesCount*2);
@@ -237,7 +237,7 @@ void isIntersect( phCollisionVertex* cvertex, phCollisionPolygon* cpolygon, phCo
 
 		//if (cpolygon->mEdgeInvertion[i]) projection = -projection;
 
-		if (getCDDebugLevel() >= 3)
+		if (getCDDebugLevel() >= 2)
 		{
 			if (projection > 0.0f)
 			{
@@ -325,7 +325,7 @@ void isIntersect( phCollisionEdge* edgeA, phCollisionEdge* edgeB, phCollision* c
 	pointNormal /= length;
 
 	float proj = pointNormal*normal;
-	if (proj < 0.90f) return;
+	if (proj < 0.80f) return;
 
 	//need find same point
 	phCollisionPoint* cPoint = NULL;

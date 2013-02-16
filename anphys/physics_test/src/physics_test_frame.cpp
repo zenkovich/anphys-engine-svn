@@ -153,9 +153,18 @@ void apPhysicsTestFrame::setupScene1()
 	mMainEngineScene->addObject(
 		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, 0.0f, 0.0f), vec3(50.0f, 1.0f, 50.0f)));
 	
-	for (int i = 0; i < 10; i++)
+	/*for (int i = 0; i < 10; i++)
 	{
 		mMainEngineScene->addObject(
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(10.0f - 1.0f*i, 1.0f, 10.0f - 1.0f*i)));
-	}
+	}*/
+	mMainEngineScene->addObject(
+		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 0.7f, 0.5f), vec3(1.0f, 1.0f, 1.0f), 
+			RotatedMatrix(rad(45.0f), rad(25.0f), rad(45.0f))));
+	/*for (int i = 0; i < 10; i++)
+	{
+		mMainEngineScene->addObject(
+			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
+
+	}*/
 }
