@@ -7,9 +7,6 @@
     <Filter Include="engine\frame_system">
       <UniqueIdentifier>{955b6009-af82-484d-8dfc-55ad513c67da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\frame_system\render_frame_win">
-      <UniqueIdentifier>{0ac1ca30-eb60-4bfb-ad15-756c53f0ba0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="engine\frame_system\frame samples">
       <UniqueIdentifier>{6c2ae136-a0f6-4f8c-a2ed-542494b5cb69}</UniqueIdentifier>
     </Filter>
@@ -25,12 +22,6 @@
     <Filter Include="physics\CD">
       <UniqueIdentifier>{ca401a4e-3601-42ee-8483-bdacda6bf607}</UniqueIdentifier>
     </Filter>
-    <Filter Include="physics\CD\collision geometry">
-      <UniqueIdentifier>{ccb5d15a-9dbe-42a6-9147-a612cc386197}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="physics\CD\collision detection">
-      <UniqueIdentifier>{0121733c-4bee-4e0e-a875-0d4d8a9187ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="physics\objects">
       <UniqueIdentifier>{8c3844cc-9328-4b94-9a22-e009169e7123}</UniqueIdentifier>
     </Filter>
@@ -43,35 +34,11 @@
     <Filter Include="render\camera">
       <UniqueIdentifier>{f3326e76-87d7-4e5a-bafa-da616b12cd21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="render\light manager">
-      <UniqueIdentifier>{5bf288ce-83b4-486e-8ba3-8592f264168e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\material manager">
-      <UniqueIdentifier>{ab6fdbd9-3438-4eee-a97b-290c90b319bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\render objects">
-      <UniqueIdentifier>{fc0c59f0-d1e7-4c68-b4f5-fe571ebc312c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\render objects\3d">
-      <UniqueIdentifier>{3983a390-d0db-4da2-b3ab-e2c64bd1a391}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\render objects\3d\mesh">
-      <UniqueIdentifier>{511e36a7-5b54-49b5-9d36-dc12d65138ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\render objects\multi object">
-      <UniqueIdentifier>{8dd464b7-24ea-44e0-a9ae-69858ef38902}</UniqueIdentifier>
-    </Filter>
     <Filter Include="render\scenes">
       <UniqueIdentifier>{b2c31640-b38f-4b51-b046-17867c2c5bfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="render\scenes\simple scene">
-      <UniqueIdentifier>{d7729c29-07a7-4a14-bb39-5a6f9d61dae4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="render\surface">
       <UniqueIdentifier>{e01ca21d-9315-4461-8c29-4dd9f15b94a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="render\texture manager">
-      <UniqueIdentifier>{7c479e70-9759-4ba4-bc0e-6bcc784bdb59}</UniqueIdentifier>
     </Filter>
     <Filter Include="spec_render">
       <UniqueIdentifier>{9fafa0fe-82d1-406b-a406-4a794096d9dd}</UniqueIdentifier>
@@ -145,8 +112,41 @@
     <Filter Include="physics\stuff">
       <UniqueIdentifier>{37e104d0-6c4a-46d2-9e28-1723e173e433}</UniqueIdentifier>
     </Filter>
-    <Filter Include="render\render objects\2d">
+    <Filter Include="engine\frame_system\win32_render_frame">
+      <UniqueIdentifier>{0ac1ca30-eb60-4bfb-ad15-756c53f0ba0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics\CD\collision_detection">
+      <UniqueIdentifier>{0121733c-4bee-4e0e-a875-0d4d8a9187ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics\CD\collision_geometry">
+      <UniqueIdentifier>{ccb5d15a-9dbe-42a6-9147-a612cc386197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\light_manager">
+      <UniqueIdentifier>{5bf288ce-83b4-486e-8ba3-8592f264168e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\material_manager">
+      <UniqueIdentifier>{ab6fdbd9-3438-4eee-a97b-290c90b319bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_objects">
+      <UniqueIdentifier>{fc0c59f0-d1e7-4c68-b4f5-fe571ebc312c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_objects\3d">
+      <UniqueIdentifier>{3983a390-d0db-4da2-b3ab-e2c64bd1a391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_objects\3d\mesh">
+      <UniqueIdentifier>{511e36a7-5b54-49b5-9d36-dc12d65138ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_objects\2d">
       <UniqueIdentifier>{7e170c7a-be4a-402e-b718-33a635176e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\texture_manager">
+      <UniqueIdentifier>{7c479e70-9759-4ba4-bc0e-6bcc784bdb59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_objects\multi_object">
+      <UniqueIdentifier>{8dd464b7-24ea-44e0-a9ae-69858ef38902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\scenes\simple_scene">
+      <UniqueIdentifier>{d7729c29-07a7-4a14-bb39-5a6f9d61dae4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -234,12 +234,6 @@
     <ClInclude Include="..\src\util\geometry\geometry_objects.h">
       <Filter>util\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\render_system\render_frame.h">
-      <Filter>engine\frame_system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.h">
-      <Filter>engine\frame_system\render_frame_win</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\file_system\file_base_interface.h">
       <Filter>util\file_system</Filter>
     </ClInclude>
@@ -252,18 +246,6 @@
     <ClInclude Include="..\src\util\script\string_parser.h">
       <Filter>util\script</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\scene\object.h">
-      <Filter>engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\scene.h">
-      <Filter>engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\object_component.h">
-      <Filter>engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\graphics_object_component.h">
-      <Filter>engine\scene\components</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\engine.h">
       <Filter>engine</Filter>
     </ClInclude>
@@ -273,185 +255,14 @@
     <ClInclude Include="..\src\engine\engine_options.h">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\physics\collision_manager.h">
-      <Filter>physics\CD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\box_collision_geometry.h">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\collision.h">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\collision_geometry.h">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\collision_geometry_part.h">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\collision_point.h">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\box_box_cd.h">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\physics\physics_engine.h">
       <Filter>physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\physics_object.h">
-      <Filter>physics\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\rigid_object.h">
-      <Filter>physics\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\static_object.h">
-      <Filter>physics\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\physics_scene.h">
-      <Filter>physics\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\camera.h">
-      <Filter>render\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\camera_3d_mouse.h">
-      <Filter>render\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\cameras_manager.h">
-      <Filter>render\camera</Filter>
     </ClInclude>
     <ClInclude Include="..\src\render\render_base_interface.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\render\light.h">
-      <Filter>render\light manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\light_base_interface.h">
-      <Filter>render\light manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\light_manager.h">
-      <Filter>render\light manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\material.h">
-      <Filter>render\material manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\material_base_interface.h">
-      <Filter>render\material manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\material_manager.h">
-      <Filter>render\material manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\object_manager.h">
-      <Filter>render\render objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\object_manager_base_interface.h">
-      <Filter>render\render objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_object.h">
-      <Filter>render\render objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_object_base_interface.h">
-      <Filter>render\render objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_3d_object.h">
-      <Filter>render\render objects\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_3d_object_base_interface.h">
-      <Filter>render\render objects\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\mesh_part.h">
-      <Filter>render\render objects\3d\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\mesh_part_base_interface.h">
-      <Filter>render\render objects\3d\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_3d_object_mesh.h">
-      <Filter>render\render objects\3d\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_3d_object_mesh_base_interface.h">
-      <Filter>render\render objects\3d\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\multi_3d_object_container.h">
-      <Filter>render\render objects\multi object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\multi_object.h">
-      <Filter>render\render objects\multi object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\multi_object_container.h">
-      <Filter>render\render objects\multi object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\scene_manager.h">
-      <Filter>render\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\render_scene_base_interface.h">
-      <Filter>render\scenes\simple scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\surface_material.h">
-      <Filter>render\surface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\surface_material_base_interface.h">
-      <Filter>render\surface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\surface_material_manager.h">
-      <Filter>render\surface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\texture.h">
-      <Filter>render\texture manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\texture_base_interface.h">
-      <Filter>render\texture manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\texture_manager.h">
-      <Filter>render\texture manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\render\render.h">
       <Filter>render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\camera.h">
-      <Filter>spec_render\render_d3d8\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\render_d3d8.h">
-      <Filter>spec_render\render_d3d8</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\light_d3d8.h">
-      <Filter>spec_render\render_d3d8\light</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\material_d3d8.h">
-      <Filter>spec_render\render_d3d8\material</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\object_manager_d3d8.h">
-      <Filter>spec_render\render_d3d8\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\render_3d_object_d3d8.h">
-      <Filter>spec_render\render_d3d8\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\mesh_data_manager_d3d8.h">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\mesh_part_d3d8.h">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\render_3d_object_mesh_d3d8.h">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\surface_material_d3d8.h">
-      <Filter>spec_render\render_d3d8\surface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\render\d3d8\texture_d3d8.h">
-      <Filter>spec_render\render_d3d8\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32_platform\windows_manager.h">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32_platform\application.h">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32_platform\simple_window.h">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\physics_rigid_body_object_component.h">
-      <Filter>engine\scene\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\render3d_object_component.h">
-      <Filter>engine\scene\components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\singleton.h">
       <Filter>util\other</Filter>
@@ -459,35 +270,224 @@
     <ClInclude Include="..\src\util\debug\render_stuff.h">
       <Filter>util\debug</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\scene\scene_stuff.h">
-      <Filter>engine\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\other\queue.h">
       <Filter>util\other</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\other\precreated_vector.h">
       <Filter>util\other</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\physics\cd_stuff.h">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\support_geom.h">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\scene\physics_static_body_object_component.h">
-      <Filter>engine\scene\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\solver_interface.h">
-      <Filter>physics\solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\sequential_impulses_solver.h">
-      <Filter>physics\solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\physics\inertia.h">
-      <Filter>physics\stuff</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\other\type_intexation.h">
       <Filter>util\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\win32_render_frame\render_frame_win32_window.h">
+      <Filter>engine\frame_system\win32_render_frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\win32_framesystem\application.h">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\win32_framesystem\simple_window.h">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\win32_framesystem\windows_manager.h">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\render_frame.h">
+      <Filter>engine\frame_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\components\graphics_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\components\physics_rigid_body_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\components\physics_static_body_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\components\render3d_object_component.h">
+      <Filter>engine\scene\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\object.h">
+      <Filter>engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\object_component.h">
+      <Filter>engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\scene.h">
+      <Filter>engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\scene\scene_stuff.h">
+      <Filter>engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_detection\box_box_cd.h">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_detection\cd_stuff.h">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_detection\support_geom.h">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\box_collision_geometry.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\collision.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\collision_geometry.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\collision_geometry_part.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\collision_point.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_manager.h">
+      <Filter>physics\CD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\physics_object.h">
+      <Filter>physics\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\rigid_object.h">
+      <Filter>physics\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\static_object.h">
+      <Filter>physics\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\scenes\physics_scene.h">
+      <Filter>physics\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\solver\sequential_impulses_solver.h">
+      <Filter>physics\solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\solver\solver_interface.h">
+      <Filter>physics\solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\stuff\inertia.h">
+      <Filter>physics\stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\camera\camera.h">
+      <Filter>render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\camera\camera_3d_mouse.h">
+      <Filter>render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\camera\cameras_manager.h">
+      <Filter>render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\light_manager\light.h">
+      <Filter>render\light_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\light_manager\light_base_interface.h">
+      <Filter>render\light_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\light_manager\light_manager.h">
+      <Filter>render\light_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\material_manager\material.h">
+      <Filter>render\material_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\material_manager\material_base_interface.h">
+      <Filter>render\material_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\material_manager\material_manager.h">
+      <Filter>render\material_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part.h">
+      <Filter>render\render_objects\3d\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part_base_interface.h">
+      <Filter>render\render_objects\3d\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\mesh\render_3d_object_mesh.h">
+      <Filter>render\render_objects\3d\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\mesh\render_3d_object_mesh_base_interface.h">
+      <Filter>render\render_objects\3d\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\multi_object\multi_3d_object_container.h">
+      <Filter>render\render_objects\multi_object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\multi_object\multi_object.h">
+      <Filter>render\render_objects\multi_object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\multi_object\multi_object_container.h">
+      <Filter>render\render_objects\multi_object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\render_3d_object.h">
+      <Filter>render\render_objects\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\3d\render_3d_object_base_interface.h">
+      <Filter>render\render_objects\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\object_manager.h">
+      <Filter>render\render_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\object_manager_base_interface.h">
+      <Filter>render\render_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\render_object.h">
+      <Filter>render\render_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\render_object_base_interface.h">
+      <Filter>render\render_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\scenes\simple_scene\render_scene_base_interface.h">
+      <Filter>render\scenes\simple_scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\scenes\scene_manager.h">
+      <Filter>render\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\surface\surface_material.h">
+      <Filter>render\surface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\surface\surface_material_base_interface.h">
+      <Filter>render\surface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\surface\surface_material_manager.h">
+      <Filter>render\surface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\texture_manager\texture.h">
+      <Filter>render\texture_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\texture_manager\texture_base_interface.h">
+      <Filter>render\texture_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\texture_manager\texture_manager.h">
+      <Filter>render\texture_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_d3d8.h">
+      <Filter>spec_render\render_d3d8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\camera\camera.h">
+      <Filter>spec_render\render_d3d8\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\light\light_d3d8.h">
+      <Filter>spec_render\render_d3d8\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\material\material_d3d8.h">
+      <Filter>spec_render\render_d3d8\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\object_manager_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\render_3d_object_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\mesh\mesh_data_manager_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\mesh\mesh_part_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\mesh\render_3d_object_mesh_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h">
+      <Filter>spec_render\render_d3d8\surface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h">
+      <Filter>spec_render\render_d3d8\texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -512,9 +512,6 @@
     <ClCompile Include="..\src\util\geometry\geometry_objects.cpp">
       <Filter>util\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\engine\render_system\render_frame_win32_window\render_frame_win32_window.cpp">
-      <Filter>engine\frame_system\render_frame_win</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\util\file_system\file.cpp">
       <Filter>util\file_system</Filter>
     </ClCompile>
@@ -524,74 +521,14 @@
     <ClCompile Include="..\src\util\other\data_object.cpp">
       <Filter>util\other</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\engine\scene\object.cpp">
-      <Filter>engine\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\graphics_object_component.cpp">
-      <Filter>engine\scene\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\scene.cpp">
-      <Filter>engine\scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\engine\engine_win.cpp">
       <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\engine.cpp">
       <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\physics\box_collision_geometry.cpp">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\collision.cpp">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\collision_geometry.cpp">
-      <Filter>physics\CD\collision geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\rigid_object.cpp">
-      <Filter>physics\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\static_object.cpp">
-      <Filter>physics\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\physics_scene.cpp">
-      <Filter>physics\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\physics\physics_engine.cpp">
       <Filter>physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\camera_3d_mouse.cpp">
-      <Filter>render\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\cameras_manager.cpp">
-      <Filter>render\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\light_manager.cpp">
-      <Filter>render\light manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\material_manager.cpp">
-      <Filter>render\material manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\object_manager_base_interface.cpp">
-      <Filter>render\render objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\multi_object.cpp">
-      <Filter>render\render objects\multi object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\scene_manager.cpp">
-      <Filter>render\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\render_scene_base_interface.cpp">
-      <Filter>render\scenes\simple scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\surface_material_base_interface.cpp">
-      <Filter>render\surface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\surface_material_manager.cpp">
-      <Filter>render\surface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\texture_manager.cpp">
-      <Filter>render\texture manager</Filter>
     </ClCompile>
     <ClCompile Include="..\src\render\render.cpp">
       <Filter>render</Filter>
@@ -599,89 +536,152 @@
     <ClCompile Include="..\src\render\render_base_interface.cpp">
       <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\camera_3d_mouse_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\light_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\light</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\material_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\material</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\mesh_data_manager_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\mesh_part_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\render_3d_object_mesh_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\surface_material_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\surface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\texture_d3d8.cpp">
-      <Filter>spec_render\render_d3d8\texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\d3d8\render_d3d8.cpp">
-      <Filter>spec_render\render_d3d8</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32_platform\application.cpp">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32_platform\simple_window.cpp">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32_platform\windows_manager.cpp">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\physics_rigid_body_object_component.cpp">
-      <Filter>engine\scene\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\render3d_object_component.cpp">
-      <Filter>engine\scene\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\collision_manager.cpp">
-      <Filter>physics\CD</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\util\debug\render_stuff.cpp">
       <Filter>util\debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\render_system\render_frame.cpp">
-      <Filter>engine\frame_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\scene_stuff.cpp">
-      <Filter>engine\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\box_box_cd.cpp">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\support_geom.cpp">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\cd_stuff.cpp">
-      <Filter>physics\CD\collision detection</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\scene\physics_static_body_object_component.cpp">
-      <Filter>engine\scene\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\sequential_impulses_solver.cpp">
-      <Filter>physics\solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\physics\inertia.cpp">
-      <Filter>physics\stuff</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\other\type_indexation.cpp">
       <Filter>util\other</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\render\render_object.cpp">
-      <Filter>render\render objects</Filter>
+    <ClCompile Include="..\src\engine\frame_system\win32_render_frame\render_frame_win32_window.cpp">
+      <Filter>engine\frame_system\win32_render_frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\frame_system\win32_framesystem\application.cpp">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\frame_system\win32_framesystem\simple_window.cpp">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\frame_system\win32_framesystem\windows_manager.cpp">
+      <Filter>engine\frame_system\win32_framesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\frame_system\render_frame.cpp">
+      <Filter>engine\frame_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\components\graphics_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\components\physics_rigid_body_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\components\physics_static_body_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\components\render3d_object_component.cpp">
+      <Filter>engine\scene\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\object.cpp">
+      <Filter>engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\scene.cpp">
+      <Filter>engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\scene_stuff.cpp">
+      <Filter>engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_detection\box_box_cd.cpp">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_detection\cd_stuff.cpp">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_detection\support_geom.cpp">
+      <Filter>physics\CD\collision_detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_geometry\box_collision_geometry.cpp">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_geometry\collision.cpp">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_geometry\collision_geometry.cpp">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_manager.cpp">
+      <Filter>physics\CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\objects\rigid_object.cpp">
+      <Filter>physics\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\objects\static_object.cpp">
+      <Filter>physics\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\scenes\physics_scene.cpp">
+      <Filter>physics\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\solver\sequential_impulses_solver.cpp">
+      <Filter>physics\solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\stuff\inertia.cpp">
+      <Filter>physics\stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\camera\camera_3d_mouse.cpp">
+      <Filter>render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\camera\cameras_manager.cpp">
+      <Filter>render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\light_manager\light_manager.cpp">
+      <Filter>render\light_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\material_manager\material_manager.cpp">
+      <Filter>render\material_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\multi_object\multi_object.cpp">
+      <Filter>render\render_objects\multi_object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\object_manager_base_interface.cpp">
+      <Filter>render\render_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\render_object.cpp">
+      <Filter>render\render_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\render_object_base_interface.cpp">
+      <Filter>render\render_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\scenes\simple_scene\render_scene_base_interface.cpp">
+      <Filter>render\scenes\simple_scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\scenes\scene_manager.cpp">
+      <Filter>render\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\surface\surface_material_base_interface.cpp">
+      <Filter>render\surface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\surface\surface_material_manager.cpp">
+      <Filter>render\surface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\texture_manager\texture_manager.cpp">
+      <Filter>render\texture_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_d3d8.cpp">
+      <Filter>spec_render\render_d3d8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\camera\camera_3d_mouse_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\light\light_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\material\material_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\objects\mesh\mesh_data_manager_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\objects\mesh\mesh_part_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\objects\mesh\render_3d_object_mesh_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\objects\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\surface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd">
-      <Filter>engine</Filter>
-    </None>
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>
