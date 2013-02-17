@@ -1,10 +1,9 @@
 #include "scene_manager.h"
 
-#include "render.h"
-#include "render_base_interface.h"
-#include "render_scene_base_interface.h"
-
 #include <algorithm>
+
+#include "render/render.h"
+#include "render/scenes/simple_scene/render_scene_base_interface.h"
 
 
 grSceneManager::grSceneManager(grRenderBaseInterface* render)

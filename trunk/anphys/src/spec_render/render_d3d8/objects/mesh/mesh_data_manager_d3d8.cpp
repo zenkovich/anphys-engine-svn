@@ -1,8 +1,8 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "mesh_data_manager_d3d8.h"
-#include "../render.h"
+#include "render/render.h"
 
 #include <algorithm>
 

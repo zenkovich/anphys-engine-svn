@@ -1,15 +1,13 @@
 #include "render_base_interface.h"
 
-#include "cameras_manager.h"
-#include "texture_manager.h"
-#include "light_manager.h"
-#include "material_manager.h"
-#include "surface_material_manager.h"
-#include "scene_manager.h"
-
-#include "camera.h"
-
-#include "../util/memory/mem_utils.h"
+#include "camera/cameras_manager.h"
+#include "camera/camera.h"
+#include "texture_manager/texture_manager.h"
+#include "light_manager/light_manager.h"
+#include "material_manager/material_manager.h"
+#include "surface/surface_material_manager.h"
+#include "scenes/scene_manager.h"
+#include "util/memory/mem_utils.h"
 
 
 grRenderBaseInterface::grRenderBaseInterface()

@@ -1,11 +1,11 @@
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 
 #ifdef PLATFORM_WIN32
 #include "windows_manager.h"
 #include "simple_window.h"
-#include "../util/log/log_system.h"
-#include "../util/log/log_stream_in_file.h"
+#include "util/log/log_system.h"
+#include "util/log/log_stream_in_file.h"
 
 extern apWindowsManager *gWindowsManager = new apWindowsManager;
 extern cLogSystem* gLogSystem;

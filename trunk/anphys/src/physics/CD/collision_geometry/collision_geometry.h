@@ -2,7 +2,7 @@
 #define COLLISION_GEOMETRY_H
 
 #include <vector>
-#include "../util/utils.h"
+#include "util/utils.h"
 
 struct phObject;
 struct phCollisionGeometryPart;

@@ -2,9 +2,9 @@
 #define MATERIAL_BASE_INTRFACE_H
 
 
-#include "../util/math/mmath.h"
 #include <string>
-#include "../util/log/log_system.h"
+#include "util/math/mmath.h"
+#include "util/log/log_system.h"
 
 struct grMaterialManager;
 

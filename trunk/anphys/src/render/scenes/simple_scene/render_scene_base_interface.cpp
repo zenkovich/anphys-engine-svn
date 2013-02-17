@@ -1,11 +1,12 @@
 #include "render_scene_base_interface.h"
 
-#include "render_object.h"
-#include "object_manager.h"
-#include "render.h"
-#include "scene_manager.h"
-
 #include <algorithm>
+
+#include "render/render_objects/render_object.h"
+#include "render/render_objects/object_manager.h"
+#include "render/render.h"
+#include "render/scenes/scene_manager.h"
+
 
 grRenderSceneBaseInterface::grRenderSceneBaseInterface(grSceneManager* sceneManager):mSceneManager(sceneManager)
 {

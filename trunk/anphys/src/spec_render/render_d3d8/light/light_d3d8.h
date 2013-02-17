@@ -1,10 +1,10 @@
 #ifndef LIGHT_D3D8_H
 #define LIGHT_D3D8_H
 
-#include "../light_base_interface.h"
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "render/light_manager/light_base_interface.h"
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 struct grLightBase:public grLightBaseInterface
 {	

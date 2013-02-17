@@ -1,14 +1,14 @@
 #include "box_box_cd.h"
 
-#include "box_collision_geometry.h"
-#include "collision.h"
-#include "collision_point.h"
+#include "../collision_geometry/box_collision_geometry.h"
+#include "../collision_geometry/collision.h"
+#include "../collision_geometry/collision_point.h"
 #include "cd_stuff.h"
 #include "support_geom.h"
 
 //utils
-#include "../util/utils.h"
-#include "../util/debug/render_stuff.h"
+#include "util/utils.h"
+#include "util/debug/render_stuff.h"
 
 
 phCollision* checkCollisionBoxBox( phBoxCollisionGeometry* geomA, phBoxCollisionGeometry* geomB, phCollision* collision )

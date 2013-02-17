@@ -1,8 +1,8 @@
 #ifndef ENGINE_PHYSICS_STATIC_BODY_OBJECT_COMPONENT_H
 #define ENGINE_PHYSICS_STATIC_BODY_OBJECT_COMPONENT_H
 
-#include "object_component.h"
-#include "../../util/utils.h"
+#include "engine/scene/object_component.h"
+#include "util/utils.h"
 
 struct phStaticObject;
 struct grRender3DObject;

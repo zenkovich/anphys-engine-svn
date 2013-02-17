@@ -1,12 +1,10 @@
 #include "material_manager.h"
 
-#include "render_base_interface.h"
-#include "render.h"
-#include "material.h"
-
 #include <algorithm>
 
-#include "../util/memory/mem_utils.h"
+#include "render/render.h"
+#include "material.h"
+#include "util/memory/mem_utils.h"
 
 
 grMaterialManager::grMaterialManager(grRenderBaseInterface* render)

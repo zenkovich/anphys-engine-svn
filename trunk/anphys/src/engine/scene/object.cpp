@@ -1,15 +1,15 @@
 #include "object.h"
 
 #include <algorithm>
-#include "../../util/utils.h"
+#include "util/utils.h"
 
 //engine
 #include "object_component.h"
-#include "physics_rigid_body_object_component.h"
-#include "render3d_object_component.h"
+#include "components/physics_rigid_body_object_component.h"
+#include "components/render3d_object_component.h"
 
 //render
-#include "../../render/render_3d_object.h"
+#include "render/render_objects/3d/render_3d_object.h"
 
 cObject::cObject()
 {

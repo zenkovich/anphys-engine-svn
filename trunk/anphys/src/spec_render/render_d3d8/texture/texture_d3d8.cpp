@@ -1,9 +1,9 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "texture_d3d8.h"
-#include "../render.h"
-#include "../texture_manager.h"
+#include "render/render.h"
+#include "render/texture_manager/texture_manager.h"
 
 grTextureBase::grTextureBase(grTextureManager* textureManager):grTextureBaseInterface(textureManager)
 {

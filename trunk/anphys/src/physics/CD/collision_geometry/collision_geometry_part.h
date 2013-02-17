@@ -1,7 +1,7 @@
 #ifndef COLLISION_GEOMETRY_PART_H
 #define COLLISION_GEOMETRY_PART_H
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
 #define getCDDebugLevel() 0
 

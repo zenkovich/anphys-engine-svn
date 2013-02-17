@@ -1,10 +1,10 @@
 #include "surface_material_base_interface.h"
 
-#include "material.h"
-#include "texture.h"
-#include "render.h"
+#include "render/material_manager/material.h"
+#include "render/texture_manager/texture_manager.h"
+#include "render/texture_manager/texture.h"
+#include "render/render.h"
 #include "surface_material_manager.h"
-#include "texture_manager.h"
 
 
 grSurfaceMaterialBaseInterface::~grSurfaceMaterialBaseInterface()

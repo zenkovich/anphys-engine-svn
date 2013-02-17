@@ -2,8 +2,8 @@
 #define MULTI_3D_OBJECT_CONTAINER_H
 
 #include "multi_object_container.h"
-#include "../util/utils.h"
-#include "render_3d_object.h"
+#include "util/utils.h"
+#include "render/render_objects/3d/render_3d_object.h"
 
 struct gr3DObjectConditionContainer:public grObjectConditionContainer
 {

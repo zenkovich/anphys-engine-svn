@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 //#define camTypeMouseControl 0;
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 
 struct grRenderBase;
 

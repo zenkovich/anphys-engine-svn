@@ -1,11 +1,11 @@
 #pragma once
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef PLATFORM_WIN32
 
 #include <windows.h>
-
-#include "../util/math/mmath.h"
 #include <string>
+
+#include "util/math/mmath.h"
 
 #define apWindowStdIcon LoadIcon(NULL, IDI_APPLICATION)          //стандартная иконка
 #define apWindowStrCursor LoadCursor(NULL, IDC_ARROW)            //стандартный курсор

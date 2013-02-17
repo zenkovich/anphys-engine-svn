@@ -2,7 +2,7 @@
 #define COLLISION_MANAGER_H
 
 #include <vector>
-#include "../util/other/precreated_vector.h"
+#include "util/other/precreated_vector.h"
 
 struct phCollision;
 struct phScene;

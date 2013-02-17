@@ -1,8 +1,8 @@
 #include "rigid_object.h"
 
-#include "collision_geometry.h"
-#include "collision.h"
-#include "collision_point.h"
+#include "../CD/collision_geometry/collision_geometry.h"
+#include "../CD/collision_geometry/collision.h"
+#include "../CD/collision_geometry/collision_point.h"
 
 phRigidObject::phRigidObject():phObject(), mSleeping(sleep_stage_sleep)
 {

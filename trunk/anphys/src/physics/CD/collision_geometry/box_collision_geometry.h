@@ -3,7 +3,7 @@
 
 #include "collision_geometry_part.h"
 
-#include "cd_stuff.h"
+#include "../collision_detection/cd_stuff.h"
 
 struct phBoxCollisionGeometry:public phCollisionGeometryPart
 {

@@ -1,12 +1,12 @@
 #ifndef OBJECT_MANAGER_BASE_INTERFACE_H
 #define OBJECT_MANAGER_BASE_INTERFACE_H
 
-
-#include "../util/math/mmath.h"
-#include "../util/log/log_system.h"
-
 #include <string>
 #include <vector>
+
+#include "util/math/mmath.h"
+#include "util/log/log_system.h"
+
 
 struct grRender;
 struct grRenderObject;

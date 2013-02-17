@@ -1,8 +1,8 @@
 #ifndef RENDER_3D_OBJECT_BASE_INTERFACE_H
 #define RENDER_3D_OBJECT_BASE_INTERFACE_H
 
-#include "render_object_base_interface.h"
-#include "object_manager.h"
+#include "render/render_objects/render_object_base_interface.h"
+#include "render/render_objects/object_manager.h"
 
 struct grRender3DObjectBaseInterface:public grRenderObjectBaseInterface
 {

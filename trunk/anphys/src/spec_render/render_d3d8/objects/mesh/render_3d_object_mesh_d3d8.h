@@ -1,10 +1,10 @@
 #ifndef RENDER_3D_OBJECT_MESH_D3D8_H
 #define RENDER_3D_OBJECT_MESH_D3D8_H
 
-#include "../render_3d_object_mesh_base_interface.h"
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "render/render_objects/3d/mesh/render_3d_object_mesh_base_interface.h"
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 struct grMeshDataManager;
 struct grMeshDataPart;

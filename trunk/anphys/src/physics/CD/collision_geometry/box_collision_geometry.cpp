@@ -1,12 +1,12 @@
 #include "box_collision_geometry.h"
 
+#include "physics/objects/physics_object.h"
 #include "collision.h"
-#include "physics_object.h"
 #include "collision_geometry.h"
-#include "box_box_cd.h"
+#include "../collision_detection/box_box_cd.h"
 
 //utils
-#include "../util/debug/render_stuff.h"
+#include "util/debug/render_stuff.h"
 
 phBoxCollisionGeometry::phBoxCollisionGeometry():
 	phCollisionGeometryPart()

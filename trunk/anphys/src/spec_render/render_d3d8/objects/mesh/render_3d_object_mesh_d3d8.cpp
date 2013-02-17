@@ -1,11 +1,11 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "render_3d_object_mesh_d3d8.h"
 #include "mesh_data_manager_d3d8.h"
-#include "../mesh_part.h"
-#include "../render.h"
-#include "../object_manager.h"
+#include "render/render_objects/3d/mesh/mesh_part.h"
+#include "render/render.h"
+#include "render/render_objects/object_manager.h"
 #include <algorithm>
 
 grRender3DObjectMeshBase::grRender3DObjectMeshBase():grRender3DObjectMeshBaseInterface() 

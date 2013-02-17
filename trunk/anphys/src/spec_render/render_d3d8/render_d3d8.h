@@ -1,9 +1,9 @@
 #ifndef RENDER_D3D8_H
 #define RENDER_D3D8_H
 
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 #include <windows.h>
 
@@ -12,7 +12,7 @@
 //utils
 #include "../../util/math/mmath.h"
 
-#include "../render_base_interface.h"
+#include "render/render_base_interface.h"
 
 struct grRenderBase:public grRenderBaseInterface
 {	

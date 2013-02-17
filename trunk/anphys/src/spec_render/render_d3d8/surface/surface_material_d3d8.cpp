@@ -1,11 +1,11 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "surface_material_d3d8.h"
-#include "../render.h"
-#include "../material.h"
-#include "../texture.h"
-#include "../surface_material_manager.h"
+#include "render/render.h"
+#include "render/material_manager/material.h"
+#include "render/texture_manager/texture.h"
+#include "render/surface/surface_material_manager.h"
 
 void grSurfaceMaterialBase::setup()
 {

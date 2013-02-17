@@ -1,12 +1,10 @@
 #include "light_manager.h"
 
-#include "render_base_interface.h"
-#include "render.h"
-#include "light.h"
-
 #include <algorithm>
 
-#include "../util/memory/mem_utils.h"
+#include "render/render.h"
+#include "light.h"
+#include "util/memory/mem_utils.h"
 
 grLightManager::grLightManager(grRenderBaseInterface* render)
 {

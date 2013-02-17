@@ -1,7 +1,7 @@
 #ifndef COLLISION_POINT_H
 #define COLLISION_POINT_H
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
 struct phCollision;
 struct phCollisionGeometryPart;

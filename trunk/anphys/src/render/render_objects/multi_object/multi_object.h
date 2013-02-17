@@ -1,12 +1,11 @@
 #ifndef MULTI_OBJECT_H
 #define MULTI_OBJECT_H
 
-
-#include "render_object_base_interface.h"
-#include "object_manager.h"
-
 #include <vector>
 #include <algorithm>
+
+#include "render/render_objects/render_object_base_interface.h"
+#include "render/render_objects/object_manager.h"
 
 
 template<typename RenderObject, typename ObjectContainer>

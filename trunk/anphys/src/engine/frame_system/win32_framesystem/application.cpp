@@ -1,10 +1,9 @@
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef PLATFORM_WIN32
-
-#include "application.h"
 
 #include <windows.h>
 
+#include "application.h"
 #include "windows_manager.h"
 #include "simple_window.h"
 

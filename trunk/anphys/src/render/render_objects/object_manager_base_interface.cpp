@@ -1,11 +1,11 @@
 #include "object_manager_base_interface.h"
-#include "render.h"
-
-#include "render_object.h"
-#include "object_manager.h"
 
 #include <algorithm>
-#include "../util/utils.h"
+
+#include "render/render.h"
+#include "render/render_objects/render_object.h"
+#include "render/render_objects/object_manager.h"
+#include "util/utils.h"
 
 grObjectManagerBaseInterface::~grObjectManagerBaseInterface()
 {

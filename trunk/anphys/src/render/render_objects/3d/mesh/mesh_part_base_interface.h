@@ -1,7 +1,7 @@
 #ifndef MESH_PART_BASE_INTERFACE_H
 #define MESH_PART_BASE_INTERFACE_H
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
 struct grSurfaceMaterial;
 struct grRender3DObjectMeshBase;

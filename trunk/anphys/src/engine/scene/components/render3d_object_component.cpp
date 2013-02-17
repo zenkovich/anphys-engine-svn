@@ -1,8 +1,8 @@
 #include "render3d_object_component.h"
 
 //render
-#include "../../render/render_3d_object.h"
-#include "../../render/object_manager.h"
+#include "render/render_objects/3d/render_3d_object.h"
+#include "render/render_objects/object_manager.h"
 
 cRender3DObjectComponent::cRender3DObjectComponent():cObjectComponent(), mRender3DObject(NULL)
 {

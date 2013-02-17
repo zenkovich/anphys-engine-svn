@@ -1,6 +1,6 @@
 #include "camera_3d_mouse.h"
 
-#include "render.h"
+#include "render/render.h"
 
 
 grCamera3DMouse::grCamera3DMouse():grCamera(vec2(0), NULL) {}
