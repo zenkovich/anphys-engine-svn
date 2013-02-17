@@ -1,15 +1,15 @@
 #ifndef RENDER_FRAME_WIN32_WINDOW_H
 #define RENDER_FRAME_WIN32_WINDOW_H
 
-#include "../../engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef PLATFORM_WIN32
 
 #include <string>
 
 #include "../render_frame.h"
-#include "../../../win32_platform/simple_window.h"
-#include "../../../win32_platform/windows_manager.h"
+#include "engine/frame_system/win32_framesystem/simple_window.h"
+#include "engine/frame_system/win32_framesystem/windows_manager.h"
 
 struct apRenderWindow: public grRenderFrame
 {

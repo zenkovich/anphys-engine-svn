@@ -1,12 +1,8 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include "../util/utils.h"
-
 #include <vector>
-
-#define COLLISION_DATA_SIZE 1024
-#define COLLISION_RESERVED_POINTS 10
+#include "util/utils.h"
 
 struct phObject;
 struct phCollisionPoint;

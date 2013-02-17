@@ -1,7 +1,7 @@
 #ifndef ENGINE_GRAPHICS_OBJECT_COMPONENT_H
 #define ENGINE_GRAPHICS_OBJECT_COMPONENT_H
 
-#include "object_component.h"
+#include "../object_component.h"
 
 struct grRenderObject;
 

@@ -1,9 +1,9 @@
 #include "collision_manager.h"
 
-#include "collision.h"
-#include "physics_scene.h"
-#include "collision_geometry.h"
-#include "physics_object.h"
+#include "collision_geometry/collision.h"
+#include "collision_geometry/collision_geometry.h"
+#include "../scenes/physics_scene.h"
+#include "../objects/physics_object.h"
 
 phCollisionManager::phCollisionManager():mScene(NULL), mIndex(0)
 {

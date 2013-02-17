@@ -1,10 +1,10 @@
 #ifndef BOX_COLLISION_TEST_FRAME_H
 #define BOX_COLLISION_TEST_FRAME_H
 
-#include "../../src/engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef PLATFORM_WIN32
-#include "../../src/engine/render_system/render_frame_win32_window/render_frame_win32_window.h"
+#include "engine/frame_system/win32_render_frame/render_frame_win32_window.h"
 #endif //PLATFORM_WIN32
 
 struct grCamera3DMouse;

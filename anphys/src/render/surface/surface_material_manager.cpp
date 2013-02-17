@@ -1,12 +1,9 @@
 #include "surface_material_manager.h"
 
-#include "render_base_interface.h"
-#include "render.h"
-#include "surface_material.h"
-
 #include <algorithm>
-
-#include "../util/memory/mem_utils.h"
+#include "render/render.h"
+#include "render/surface/surface_material.h"
+#include "util/memory/mem_utils.h"
 
 
 grSurfaceMaterialManager::grSurfaceMaterialManager(grRenderBaseInterface* render)

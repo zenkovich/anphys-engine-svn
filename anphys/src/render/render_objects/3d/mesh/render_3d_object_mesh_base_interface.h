@@ -1,8 +1,8 @@
 #ifndef RENDER_3D_OBJECT_MESH_BASE_INTERFACE_H
 #define RENDER_3D_OBJECT_MESH_BASE_INTERFACE_H
 
-#include "render_3d_object.h"
 #include <vector>
+#include "render/render_objects/3d/render_3d_object.h"
 
 struct grMeshPartBaseInterface;
 

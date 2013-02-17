@@ -1,11 +1,11 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "mesh_part_d3d8.h"
 #include "render_3d_object_mesh_d3d8.h"
 #include "mesh_data_manager_d3d8.h"
-#include "../render.h"
-#include "../surface_material.h"
+#include "render/render.h"
+#include "render/surface/surface_material.h"
 
 grMeshPartBase::~grMeshPartBase()
 {

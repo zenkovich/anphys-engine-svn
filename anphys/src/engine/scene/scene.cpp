@@ -3,19 +3,19 @@
 #include <algorithm>
 
 //physics
-#include "../../physics/physics_engine.h"
-#include "../../physics/physics_scene.h"
+#include "physics/physics_engine.h"
+#include "physics/scenes/physics_scene.h"
 
 //render
-#include "../../render/render.h"
-#include "../../render/scene_manager.h"
-#include "../../render/render_scene_base_interface.h"
+#include "render/render.h"
+#include "render/scenes/scene_manager.h"
+#include "render/scenes/simple_scene/render_scene_base_interface.h"
 
 //engine
-#include "../engine.h"
-#include "../render_system/render_frame.h"
-#include "object.h"
-#include "scene_stuff.h"
+#include "engine/engine.h"
+#include "engine/frame_system/render_frame.h"
+#include "engine/scene/object.h"
+#include "engine/scene/scene_stuff.h"
 
 cScene::cScene():mPhysicsScene(NULL), mRenderScene(NULL), mReady(false)
 {

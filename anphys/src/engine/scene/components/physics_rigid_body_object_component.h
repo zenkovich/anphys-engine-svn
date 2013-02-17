@@ -1,8 +1,8 @@
 #ifndef ENGINE_PHYSICS_RIGID_BODY_OBJECT_COMPONENT_H
 #define ENGINE_PHYSICS_RIGID_BODY_OBJECT_COMPONENT_H
 
-#include "object_component.h"
-#include "../../util/utils.h"
+#include "../object_component.h"
+#include "util/utils.h"
 
 struct phRigidObject;
 struct grRender3DObject;

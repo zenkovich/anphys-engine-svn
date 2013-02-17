@@ -2,10 +2,10 @@
 #define MESH_PART_D3D8_H
 
 
-#include "../mesh_part_base_interface.h"
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "render/render_objects/3d/mesh/mesh_part_base_interface.h"
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 struct grMeshDataPart;
 

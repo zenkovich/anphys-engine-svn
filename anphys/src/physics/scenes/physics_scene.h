@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 
 struct phEngine;
 struct phObject;

@@ -1,11 +1,11 @@
 #pragma once
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef PLATFORM_WIN32
 
 #include <windows.h>
 #include <vector>
 #include <string>
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 
 struct apWindow;
 struct cLogStream;

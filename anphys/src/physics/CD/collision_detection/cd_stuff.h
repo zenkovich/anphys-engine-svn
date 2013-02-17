@@ -1,7 +1,7 @@
 #ifndef CD_STUFF_H
 #define CD_STUFF_H
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
 struct phCollision;
 struct phCollisionGeometryElement;

@@ -1,10 +1,10 @@
 #ifndef SURFASE_MATERIAL_BASE_INTERFACE_H
 #define SURFASE_MATERIAL_BASE_INTERFACE_H
 
-#include "../util/math/mmath.h"
 #include <string>
 #include <vector>
-#include "../util/log/log_system.h"
+#include "util/math/mmath.h"
+#include "util/log/log_system.h"
 
 struct grSurfaceMaterialManager;
 struct grMaterial;

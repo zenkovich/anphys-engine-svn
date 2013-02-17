@@ -1,13 +1,13 @@
 #include "box_collision_test_frame.h"
 
-#include "../../src/engine/engine_incl.h"
-#include "../../src/util/debug/render_stuff.h"
+#include "engine/engine_incl.h"
+#include "util/debug/render_stuff.h"
 
-#include "../../src/physics/box_box_cd.h"
-#include "../../src/physics/box_collision_geometry.h"
-#include "../../src/physics/collision_geometry.h"
-#include "../../src/physics/collision.h"
-#include "../../src/physics/collision_point.h"
+#include "physics/CD/collision_detection/box_box_cd.h"
+#include "physics/CD/collision_geometry/box_collision_geometry.h"
+#include "physics/CD/collision_geometry/collision_geometry.h"
+#include "physics/CD/collision_geometry/collision.h"
+#include "physics/CD/collision_geometry/collision_point.h"
 
 apBoxCollisionTestFrame::apBoxCollisionTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {

@@ -1,12 +1,10 @@
 #include "texture_manager.h"
 
-#include "render_base_interface.h"
-#include "render.h"
-#include "texture.h"
-
 #include <algorithm>
 
-#include "../util/memory/mem_utils.h"
+#include "render/render.h"
+#include "texture.h"
+#include "util/memory/mem_utils.h"
 
 grTextureManager::grTextureManager(grRenderBaseInterface* render)
 {

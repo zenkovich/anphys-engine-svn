@@ -1,9 +1,9 @@
 #ifndef SURFACE_MATERIAL_H
 #define SURFACE_MATERIAL_H
 
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef RENDER_D3D8
-#include "d3d8/surface_material_d3d8.h"
+#include "spec_render/render_d3d8/surface/surface_material_d3d8.h"
 #endif //RENDER_D3D8
 
 struct grSurfaceMaterial:public grSurfaceMaterialBase

@@ -2,9 +2,8 @@
 
 #include <algorithm>
 
-#include "../util/utils.h"
-
-#include "physics_scene.h"
+#include "util/utils.h"
+#include "scenes/physics_scene.h"
 
 phEngine::phEngine()
 {

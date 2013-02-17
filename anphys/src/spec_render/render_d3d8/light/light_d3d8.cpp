@@ -1,9 +1,9 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
 #include "light_d3d8.h"
-#include "../render.h"
-#include "../light_manager.h"
+#include "render/render.h"
+#include "render/light_manager/light_manager.h"
 
 grLightBase::grLightBase(grLightManager* lightManager):grLightBaseInterface(lightManager), mIdx(0) {}
 grLightBase::grLightBase():grLightBaseInterface(), mIdx(0) {}

@@ -5,33 +5,32 @@
 #include "object.h"
 
 //components
-#include "render3d_object_component.h"
-#include "physics_rigid_body_object_component.h"
-#include "physics_static_body_object_component.h"
+#include "components/render3d_object_component.h"
+#include "components/physics_rigid_body_object_component.h"
+#include "components/physics_static_body_object_component.h"
 
 //render
-#include "../../render/render.h"
-#include "../../render/render_3d_object_mesh.h"
-#include "../../render/render_scene_base_interface.h"
-#include "../../render/scene_manager.h"
-#include "../../render/object_manager.h"
-#include "../../render/texture.h"
-#include "../../render/texture_manager.h"
-#include "../../render/material.h"
-#include "../../render/material_manager.h"
-#include "../../render/surface_material.h"
-#include "../../render/surface_material_manager.h"
+#include "render/render.h"
+#include "render/render_objects/3d/mesh/render_3d_object_mesh.h"
+#include "render/scenes/simple_scene/render_scene_base_interface.h"
+#include "render/scenes/scene_manager.h"
+#include "render/render_objects/object_manager.h"
+#include "render/texture_manager/texture.h"
+#include "render/texture_manager/texture_manager.h"
+#include "render/material_manager/material.h"
+#include "render/material_manager/material_manager.h"
+#include "render/surface/surface_material.h"
+#include "render/surface/surface_material_manager.h"
 
 //physics
-#include "../../physics/rigid_object.h"
-#include "../../physics/static_object.h"
-#include "../../physics/physics_engine.h"
-#include "../../physics/physics_scene.h"
-#include "../../physics/collision_geometry.h"
-#include "../../physics/collision_geometry_part.h"
-#include "../../physics/box_collision_geometry.h"
-#include "../../physics/inertia.h"
-
+#include "physics/objects/rigid_object.h"
+#include "physics/objects/static_object.h"
+#include "physics/physics_engine.h"
+#include "physics/scenes/physics_scene.h"
+#include "physics/CD/collision_geometry/collision_geometry.h"
+#include "physics/CD/collision_geometry/collision_geometry_part.h"
+#include "physics/CD/collision_geometry/box_collision_geometry.h"
+#include "physics/stuff/inertia.h"
 
 
 cSceneStuff::cSceneStuff( cScene* scene ):mScene(scene)

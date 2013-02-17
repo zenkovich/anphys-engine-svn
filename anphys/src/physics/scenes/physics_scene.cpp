@@ -2,11 +2,11 @@
 
 #include <algorithm>
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
-#include "collision_manager.h"
-#include "physics_object.h"
-#include "sequential_impulses_solver.h"
+#include "../CD/collision_manager.h"
+#include "../objects/physics_object.h"
+#include "../solver/sequential_impulses_solver.h"
 
 phScene::phScene( phEngine* engine /*= NULL*/ ):mEngine(engine), mPerformance(1.0f)
 {

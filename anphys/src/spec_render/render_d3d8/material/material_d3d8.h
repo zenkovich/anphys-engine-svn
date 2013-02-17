@@ -1,12 +1,11 @@
 #ifndef MATERIAL_D3D8_H
 #define MATERIAL_D3D8_H
 
-
-#include "../material_base_interface.h"
-#include "../../util/memory/mem_utils.h"
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "render/material_manager/material_base_interface.h"
+#include "util/memory/mem_utils.h"
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 struct grMaterialBase:public grMaterialBaseInterface
 {

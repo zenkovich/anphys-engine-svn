@@ -1,7 +1,7 @@
 #ifndef OBJECT_MANAGER_D3D8_H
 #define OBJECT_MANAGER_D3D8_H
 
-#include "../object_manager_base_interface.h"
+#include "render/render_objects/object_manager_base_interface.h"
 
 struct grObjectManagerBase:public grObjectManagerBaseInterface
 {

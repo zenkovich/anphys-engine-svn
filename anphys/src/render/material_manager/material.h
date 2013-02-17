@@ -1,9 +1,9 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef RENDER_D3D8
-#include "d3d8/material_d3d8.h"
+#include "spec_render/render_d3d8/material/material_d3d8.h"
 #endif //RENDER_D3D8
 
 struct grMaterial:public grMaterialBase

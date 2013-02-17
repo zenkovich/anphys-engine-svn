@@ -1,7 +1,7 @@
 #include "render.h"
 
 #ifdef RENDER_D3D8
-#include "../engine/render_system/render_frame_win32_window/render_frame_win32_window.h"
+#include "engine/frame_system/win32_render_frame/render_frame_win32_window.h"
 #endif //RENDER_D3D8
 
 //util

@@ -1,9 +1,9 @@
 #ifndef RENDER_SCENE_BASE_INTERFACE_H
 #define RENDER_SCENE_BASE_INTERFACE_H
 
-#include "../util/utils.h"
-
 #include <vector>
+
+#include "util/utils.h"
 
 struct grRenderObject;
 struct grSceneManager;

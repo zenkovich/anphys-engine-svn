@@ -1,14 +1,14 @@
 #include "sequential_impulses_solver.h"
 
-#include "../util/debug/render_stuff.h"
+#include "util/debug/render_stuff.h"
 
-#include "physics_scene.h"
-#include "physics_object.h"
-#include "collision_manager.h"
-#include "collision.h"
-#include "collision_point.h"
-#include "collision_geometry.h"
-#include "collision_geometry_part.h"
+#include "physics/scenes/physics_scene.h"
+#include "physics/objects/physics_object.h"
+#include "physics/CD/collision_manager.h"
+#include "physics/CD/collision_geometry/collision.h"
+#include "physics/CD/collision_geometry/collision_point.h"
+#include "physics/CD/collision_geometry/collision_geometry.h"
+#include "physics/CD/collision_geometry/collision_geometry_part.h"
 
 int debugDepth = 0;
 

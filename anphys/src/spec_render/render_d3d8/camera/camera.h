@@ -1,9 +1,9 @@
 #ifndef CAMERAD3D8_H
 #define CAMERAD3D8_H
 
-#include "../../util/math/mmath.h"
-#include "../camera.h"
-#include "render_d3d8.h"
+#include "util/math/mmath.h"
+#include "render/camera/camera.h"
+#include "../render_d3d8.h"
 
 struct grCameraD3D:public grCamera
 {	

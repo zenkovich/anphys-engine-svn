@@ -1,8 +1,8 @@
 #ifndef RENDER_OBJECT_H
 #define RENDER_OBJECT_H
 
-#include "../util/math/mmath.h"
-#include "../util/other/type_intexation.h"
+#include "util/math/mmath.h"
+#include "util/other/type_intexation.h"
 
 struct grRenderObjectsManager;
 

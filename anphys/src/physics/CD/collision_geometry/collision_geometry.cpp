@@ -26,15 +26,10 @@ phCollisionGeometry::~phCollisionGeometry()
 
 phCollisionGeometryPart* phCollisionGeometry::addPart(phCollisionGeometryPart* newPart)
 {
-	*gLog << "1 \n";
 	mParts.push_back(newPart);
-	*gLog << "1 \n";
 	newPart->mCollisionGeometry = this;
-	*gLog << "1 \n";
 	newPart->postInitialize();
-	*gLog << "1 \n";
 	newPart->preUpdate(0.0f);
-	*gLog << "1 \n";
 	return newPart;
 }
 

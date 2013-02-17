@@ -1,11 +1,11 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef RENDER_D3D8
-#include "d3d8/texture_d3d8.h"
+#include "spec_render/render_d3d8/texture/texture_d3d8.h"
 #endif
 
 

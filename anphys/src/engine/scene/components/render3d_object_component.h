@@ -1,7 +1,7 @@
 #ifndef ENGINE_RENDER3D_OBJECT_COMPONENT_H
 #define ENGINE_RENDER3D_OBJECT_COMPONENT_H
 
-#include "object_component.h"
+#include "engine/scene/object_component.h"
 
 struct grRender3DObject;
 

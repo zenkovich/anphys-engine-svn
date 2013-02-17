@@ -1,13 +1,12 @@
 #ifndef MESH_DATA_MANAGER_D3D8_H
 #define MESH_DATA_MANAGER_D3D8_H
 
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
-
-#include "../../util/utils.h"
-
 #include <vector>
+
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
+#include "util/utils.h"
 
 #define MAX_VERTEX_COUNT 36000
 #define MAX_POLYGON_COUNT 36000

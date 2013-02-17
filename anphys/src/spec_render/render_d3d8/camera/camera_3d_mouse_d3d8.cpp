@@ -1,12 +1,11 @@
-#include "../../engine/engine_options.h"
+#include "engine/engine_options.h"
 
 #ifdef RENDER_D3D8
-#include "../camera_3d_mouse.h"
-#include "render_d3d8.h"
-
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
+#include "render/camera/camera_3d_mouse.h"
+#include "spec_render/render_d3d8/render_d3d8.h"
+#include "dependencies/dx8/include/d3d8.h"
+#include "dependencies/dx8/include/d3dx8.h"
+#include "dependencies/dx8/include/d3dx8core.h"
 
 void grCamera3DMouse::specRenderUpdate(float dt)
 {

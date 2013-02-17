@@ -1,8 +1,8 @@
 #include "graphics_object_component.h"
 
 //render
-#include "../../render/render_object.h"
-#include "../../render/object_manager.h"
+#include "render/render_objects/render_object.h"
+#include "render/render_objects/object_manager.h"
 
 cGraphicsObjectComponent::cGraphicsObjectComponent():cObjectComponent(), mRenderObject(NULL)
 {

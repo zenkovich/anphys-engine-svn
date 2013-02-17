@@ -1,7 +1,7 @@
 #ifndef PHYSICS_OBJECT_H
 #define PHYSICS_OBJECT_H
 
-#include "../util/utils.h"
+#include "util/utils.h"
 
 struct phScene;
 struct phCollision;

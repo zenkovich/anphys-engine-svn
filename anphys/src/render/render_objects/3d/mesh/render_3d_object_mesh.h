@@ -1,11 +1,10 @@
 #ifndef RENDER_3D_OBJECT_MESH_H
 #define RENDER_3D_OBJECT_MESH_H
 
-#include "util/"
 
-#include "../engine/engine_options.h"
+#include "engine/engine_options.h"
 #ifdef RENDER_D3D8
-#include "d3d8/render_3d_object_mesh_d3d8.h"
+#include "spec_render/render_d3d8/objects/mesh/render_3d_object_mesh_d3d8.h"
 #endif //RENDER_D3D8
 
 struct grRender3DObjectMesh:public grRender3DObjectMeshBase

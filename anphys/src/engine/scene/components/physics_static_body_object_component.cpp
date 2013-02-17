@@ -1,15 +1,15 @@
 #include "physics_static_body_object_component.h"
 
 //engine
-#include "object.h"
+#include "../object.h"
 #include "render3d_object_component.h"
 
 //render
-#include "../../render/render_3d_object.h"
+#include "render/render_objects/3d/render_3d_object.h"
 
 //physics
-#include "../../physics/static_object.h"
-#include "../../physics/physics_scene.h"
+#include "physics/objects/static_object.h"
+#include "physics/scenes/physics_scene.h"
 
 cPhysicsStaticBodyObjectComponent::cPhysicsStaticBodyObjectComponent():
 	mStaticPhysicsBody(NULL), mRenderObject(NULL), cObjectComponent()

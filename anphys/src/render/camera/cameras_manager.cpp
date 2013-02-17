@@ -1,11 +1,10 @@
 #include "cameras_manager.h"
 
-#include "camera.h"
-#include "render_base_interface.h"
-
-#include "../util/memory/mem_utils.h"
-
 #include <algorithm>
+
+#include "camera.h"
+#include "render/render_base_interface.h"
+#include "util/memory/mem_utils.h"
 
 
 grCamerasManager::grCamerasManager(grRenderBaseInterface* render):mRender(render)

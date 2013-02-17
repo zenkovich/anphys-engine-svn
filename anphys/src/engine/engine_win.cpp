@@ -3,11 +3,11 @@
 #ifdef PLATFORM_WIN32
 
 #include "engine.h"
-#include "render_system/render_frame.h"
-#include "../win32_platform/windows_manager.h"
-#include "../win32_platform/simple_window.h"
-#include "../win32_platform/application.h"
-#include "render_system/render_frame_win32_window/render_frame_win32_window.h"
+#include "engine/frame_system/render_frame.h"
+#include "engine/frame_system/win32_framesystem/windows_manager.h"
+#include "engine/frame_system/win32_framesystem/simple_window.h"
+#include "engine/frame_system/win32_framesystem/application.h"
+#include "engine/frame_system/win32_render_frame/render_frame_win32_window.h"
 
 void cEngine::initialize()
 {

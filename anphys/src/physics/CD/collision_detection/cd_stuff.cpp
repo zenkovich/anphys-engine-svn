@@ -2,12 +2,12 @@
 
 #include <algorithm>
 
-#include "collision.h"
-#include "collision_point.h"
-#include "collision_geometry_part.h"
+#include "../collision_geometry/collision.h"
+#include "../collision_geometry/collision_point.h"
+#include "../collision_geometry/collision_geometry_part.h"
 
 //utils
-#include "../util/debug/render_stuff.h"
+#include "util/debug/render_stuff.h"
 
 phCollisionVertex::phCollisionVertex():phCollisionGeometryElement() {}
 

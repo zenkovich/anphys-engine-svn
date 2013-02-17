@@ -1,7 +1,7 @@
 #ifndef CAMERA_3D_MOUSE_H
 #define CAMERA_3D_MOUSE_H
 
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 #include "camera.h"
 
 struct grCamera3DMouse:public grCamera
