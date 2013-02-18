@@ -489,6 +489,9 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h">
       <Filter>spec_render\render_d3d8\texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh  .h">
+      <Filter>render\render_objects\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
