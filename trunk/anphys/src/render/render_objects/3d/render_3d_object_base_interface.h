@@ -30,9 +30,8 @@ struct grRender3DObjectBaseInterface:public grRenderObjectBaseInterface
 			}		 
 	*/
 
-	vec3 mPosition;
+	vec3   mPosition;
 	mat3x3 mOrient;
-
 	mat4x4 mTransform;
 
 	grRender3DObjectBaseInterface():grRenderObjectBaseInterface() {}

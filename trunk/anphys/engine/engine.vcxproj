@@ -119,6 +119,7 @@
     <ClInclude Include="..\src\render\material_manager\material_manager.h" />
     <ClInclude Include="..\src\render\render.h" />
     <ClInclude Include="..\src\render\render_base_interface.h" />
+    <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh  .h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part.h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part_base_interface.h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\render_3d_object_mesh.h" />

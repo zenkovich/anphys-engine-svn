@@ -13,6 +13,7 @@ struct grRenderObject
 	grRenderObjectsManager* mRenderObjectsManager;
 	UniqueType mType;
 
+//functions
 	grRenderObject():mRenderObjectsManager(NULL) {}
 	grRenderObject(grRenderObjectsManager* objectsManager):mRenderObjectsManager(objectsManager) {}
 
