@@ -67,7 +67,7 @@ bool apWindow::initialize(const WNDCLASSEX& wndClass, std::string wndName, RECT 
 
 	onCreate(inRect);
 
-	mActiveWindow = false;
+	mActiveWindow = true;
 
 	return true;
 }
@@ -149,22 +149,6 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		 }
 
-	 case WM_ACTIVATE:
-		 {
-			if (LOWORD(lParam) == WA_INACTIVE)
-			{
-				mActiveWindow = false;
-				onDeActive();
-				*gLog << "deactivate window\n";
-			}
-			else
-			{
-				mActiveWindow = true;
-				onActive();
-				*gLog << "activate window\n";
-			}
-		 }
-
 	 case WM_LBUTTONDOWN:
 		 {
 			 if (!mActiveWindow) break;
@@ -225,6 +209,22 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			mCursorPos = cursor;
 			mRightMouseButton = false;
 			break;
+		 }
+
+	 case WM_ACTIVATE:
+		 {
+			 if (LOWORD(lParam) == WA_INACTIVE)
+			 {
+				 mActiveWindow = false;
+				 onDeActive();
+				 *gLog << "deactivate window\n";
+			 }
+			 else
+			 {
+				 mActiveWindow = true;
+				 onActive();
+				 *gLog << "activate window\n";
+			 }
 		 }
 	 case WM_MOUSEWHEEL:
 		 {

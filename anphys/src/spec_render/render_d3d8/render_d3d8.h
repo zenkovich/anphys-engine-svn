@@ -14,15 +14,18 @@
 
 #include "render/render_base_interface.h"
 
+#define D3DFVF_VERTEX_TEXTURE_LIGHT (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
+#define D3DFVF_VERTEX_2D (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
+#define D3DFVF_VERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
+
 struct grRenderBase:public grRenderBaseInterface
 {	
-	//d3d
 	LPDIRECT3D8 m_pDirect3d;
 	LPDIRECT3DDEVICE8 m_pDirect3DDevice;
 
 	bool mReady;
 
-	///-----------------------------------------///
+//functions
 	grRenderBase();
 	grRenderBase(HWND HWnd, fRect drawRect);
 	~grRenderBase();
@@ -35,7 +38,7 @@ struct grRenderBase:public grRenderBaseInterface
 	void render();
 	void postRender();
 
-	std::string getRenderName() { return "Direct3D8"; }
+	const char* getRenderName() { return "Direct3D8"; }
 };
 
 #endif //RENDER_D3D8_H

@@ -11,6 +11,7 @@ struct grCamera3DMouse;
 struct grRenderSceneBaseInterface;
 struct cScene;
 struct cObject;
+struct grRender2DObjectMesh;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -20,6 +21,10 @@ struct apPhysicsTestFrame:public apRenderWindow
 	bool                        mPhysicsRunning;
 	bool                        mPhysicsRunByStep;
 
+	//tests
+	grRender2DObjectMesh*       mTest2DMesh;
+
+//functions
 	apPhysicsTestFrame();
 	apPhysicsTestFrame(const std::string& title, fRect wndRect, fRect outputRect);
 	apPhysicsTestFrame(const std::string& title, fRect wndRect);
@@ -45,6 +50,8 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	void onActive();
 	void onDeActive();
+
+	void render2D();
 
 	void setupScene1();
 };

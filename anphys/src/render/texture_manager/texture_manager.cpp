@@ -57,7 +57,6 @@ grTexture* grTextureManager::getTexture(const std::string& fileName)
 	for (TexturesList::iterator it = mTextures.begin(); it != mTextures.end(); it++)
 		if ((*it)->mFileName == fileName) return (*it);
 
-	*mRender->mRenderLog << formatStr("can't find texture: %s\n", fileName.c_str());
 	return NULL;
 }
 

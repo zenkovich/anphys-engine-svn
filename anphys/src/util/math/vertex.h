@@ -8,17 +8,12 @@
 #include <Windows.h>
 #endif
 
-#ifdef RENDER_D3D8
-#define D3DFVF_VERTEX_TEXTURE_LIGHT (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
-#define D3DFVF_VERTEX_2D (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#define D3DFVF_VERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
-#endif
-
 struct vertexTexNorm/*: public vec3*/
 {
 	float x, y, z,
 		  nx, ny, nz,
 		  tu, tv;
+
 	inline vertexTexNorm() { x = y = z = nx = ny = nz = tu = tv = 0; }
 	inline vertexTexNorm(float px, float py, float pz) { x = px; y = py; z = pz; nx = ny = nz = tu = tv = 0; }
 	inline vertexTexNorm(float px, float py, float pz, float pnx, float pny, float pnz, float ptu, float ptv) { x = px; y = py; z = pz; nx = pnx; ny = pny; nz = pnz; tu = ptu; tv = ptv; }
@@ -51,6 +46,7 @@ struct vertex
 {
 	float x, y, z;
 	DWORD color;
+
 	inline vertex() {x = y = z = 0; color = 0; }
 	inline vertex(float px, float py, float pz, DWORD pcolor) { x = px; y = py; z = pz; color = pcolor; }
 };

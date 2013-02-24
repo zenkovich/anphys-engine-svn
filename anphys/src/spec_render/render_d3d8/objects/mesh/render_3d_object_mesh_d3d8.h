@@ -87,7 +87,7 @@ struct grRender3DObjectMeshBase:public grRender3DObjectMeshBaseInterface
 	void update(float dt);
 	void render();
 
-	std::string getStructRealization() { return "grRender3DObjectMeshBaseInterface"; }
+	std::string getStructRealization() { return "grRender3DObjectMeshBase D3D8"; }
 };
 
 #endif //RENDER_3D_OBJECT_MESH_D3D8_H

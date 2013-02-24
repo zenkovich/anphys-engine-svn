@@ -2,8 +2,10 @@
 
 #ifdef RENDER_D3D8
 
+//render
 #include "render_d3d8.h"
 #include "render/scenes/scene_manager.h"
+#include "render/2d_render/render_2d.h"
 
 
 grRenderBase::grRenderBase():grRenderBaseInterface(), m_pDirect3d(NULL), m_pDirect3DDevice(NULL)
@@ -48,7 +50,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	D3DPRESENT_PARAMETERS Direct3DParametr;
 	ZeroMemory(&Direct3DParametr, sizeof(Direct3DParametr));
 	Direct3DParametr.Windowed=true;
-	Direct3DParametr.SwapEffect = D3DSWAPEFFECT_COPY_VSYNC;
+	Direct3DParametr.SwapEffect = D3DSWAPEFFECT_COPY;
 	Direct3DParametr.BackBufferFormat = Display.Format;
 	Direct3DParametr.BackBufferHeight = (UINT)(int)(drawRect.rightDown.x-drawRect.leftTop.x);
 	Direct3DParametr.BackBufferWidth = (UINT)(int)(drawRect.rightDown.y-drawRect.leftTop.y);  
@@ -72,8 +74,9 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
     m_pDirect3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
 	*mRenderLog << "Direct3d8 render initialized.\n";
+
+	mRender2D->initialize();
 
 	mReady = true;
 }

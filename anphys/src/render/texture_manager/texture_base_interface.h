@@ -11,16 +11,16 @@ struct grTextureBaseInterface
 {
 	grTextureManager* mTextureManager;
 
-	vec2 mSize;
-	bool mLoaded;
-	std::string mFileName;
+	vec2              mSize;
+	bool              mLoaded;
+	std::string       mFileName;
 
 	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false) {  }
 	virtual ~grTextureBaseInterface() {}
 
-	virtual bool load(const std::string& fileName) { *gLog << formatStr("function load() in %s not released\n", getStructRealization().c_str()); return false; }
+	virtual bool load(const std::string& fileName) { *gLog << formatStr("function load() in %s not released\n", getStructRealization()); return false; }
 
-	virtual std::string getStructRealization() { return "base texture"; }
+	virtual const char* getStructRealization() { return "base texture"; }
 };
 
 #endif //TEXTURE_BASE_INTERFACE_H
