@@ -2,26 +2,28 @@
 
 #include "render/render.h"
 
+REGIST_TYPE(grCamera3DMouse)
 
-grCamera3DMouse::grCamera3DMouse():grCamera(vec2(0), NULL) {}
+grCamera3DMouse::grCamera3DMouse():grCamera() {}
 
-grCamera3DMouse::grCamera3DMouse(vec2 screenSize, grRenderBase* render)
+grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render)
 {
 	initialize(screenSize, render);
 }
 
-grCamera3DMouse::grCamera3DMouse(vec2 screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, float maxSpeed)
+grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
+	                             float axisSence, float maxSpeed)
 {
 	initialize(screenSize, render, sence, shiftSence, speedFriction, axisSence, maxSpeed);
 }
 	
-grCamera3DMouse::grCamera3DMouse(vec2 screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, float maxSpeed,
-		                                         vec3 pos, float angleX, float angleY)
+grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
+	                             float axisSence, float maxSpeed, vec3 pos, float angleX, float angleY)
 {
 	initialize(screenSize, render, sence, shiftSence, speedFriction, axisSence, maxSpeed, pos, angleX, angleY);
 }
 
-void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render)
+void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render)
 {
 	grCamera::initialize(screenSize, render);
 
@@ -40,7 +42,8 @@ void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render)
 	update(0);
 }
 
-void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, float maxSpeed)
+void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
+	                             float axisSence, float maxSpeed)
 {
 	grCamera::initialize(screenSize, render);
 
@@ -58,8 +61,8 @@ void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render, float se
 	update(0);
 }
 
-void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, float maxSpeed,
-		            vec3 pos, float angleX, float angleY)
+void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
+	                             float axisSence, float maxSpeed, vec3 pos, float angleX, float angleY)
 {
 	grCamera::initialize(screenSize, render);
 
@@ -78,7 +81,7 @@ void grCamera3DMouse::initialize(vec2 screenSize, grRenderBase* render, float se
 	update(0);
 }
 
-void grCamera3DMouse::mouseMove(vec2 diff)
+void grCamera3DMouse::mouseMove(const vec2& diff)
 {
 	mAngleX += diff.y*mAxisSence;
 	mAngleY += diff.x*mAxisSence;

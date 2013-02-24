@@ -13,9 +13,11 @@ struct grLightManager;
 struct grMaterialManager;
 struct grSurfaceMaterialManager;
 struct grSceneManager;
+struct grRender2D;
 
 struct grRenderBaseInterface
 {
+	grRender2D*               mRender2D;
 	grCamerasManager*         mCameras;
 	cLogStreamInFile*         mRenderLog;
 	grTextureManager*         mTextures;
@@ -32,9 +34,9 @@ struct grRenderBaseInterface
 	virtual void render();
 	virtual void postRender();
 
-	virtual void swapFullscreen() { *mRenderLog << formatStr("function swapFullscreen() in %s not released\n", getRenderName().c_str()); }
+	virtual void swapFullscreen() { *mRenderLog << formatStr("function swapFullscreen() in %s not released\n", getRenderName()); }
 
-	virtual std::string getRenderName() { return "render base"; }
+	virtual const char* getRenderName() { return "render base"; }
 };
 
 #endif //RENDER_BASE_INTERFACE_H

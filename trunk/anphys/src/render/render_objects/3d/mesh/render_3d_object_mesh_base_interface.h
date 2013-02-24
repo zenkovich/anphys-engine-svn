@@ -8,7 +8,8 @@ struct grMeshPartBaseInterface;
 
 struct grRender3DObjectMeshBaseInterface:public grRender3DObject
 {
-	/* from grRender3DObjectBaseInterface
+/*
+	from grRender3DObjectBaseInterface
 			{
 				grRenderObjectBaseInterface
 				{
@@ -52,7 +53,8 @@ struct grRender3DObjectMeshBaseInterface:public grRender3DObject
 				virtual void update(float dt) { mTransform = m3to4(mOrient, mPosition); }
 
 				virtual std::string getStructRealization() { return "grRender3DObjectBaseInterface"; }
-			}*/
+			}
+*/
 
 	typedef std::vector<grMeshPartBaseInterface*> PartsList;
 

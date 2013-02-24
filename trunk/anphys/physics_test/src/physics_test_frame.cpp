@@ -55,6 +55,17 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 
 	setupScene1();
 
+	grTexture* tex = mRender->mTextures->createTexture("../data/textures/wood.jpg");
+	mTest2DMesh = new grRender2DObjectMesh(4, 2);
+	mTest2DMesh->mVertexBuffer[0] = vertex2d(10.0f, 10.0f, 1.0f, 0.0f, 0.0f, 0xffffffff);
+	mTest2DMesh->mVertexBuffer[1] = vertex2d(100.0f, 10.0f, 1.0f, 1.0f, 0.0f, 0xffffffff);
+	mTest2DMesh->mVertexBuffer[2] = vertex2d(100.0f, 100.0f, 1.0f, 1.0f, 1.0f, 0xffffffff);
+	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 100.0f, 1.0f, 0.0f, 1.0f, 0xffffffff);
+	mTest2DMesh->mPolygonsBuffer[0] = poly3(0, 2, 1);
+	mTest2DMesh->mPolygonsBuffer[1] = poly3(0, 2, 3);
+	mTest2DMesh->pushTexture(tex);
+	mTest2DMesh->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
+
 	mPhysicsRunning = false;
 }
 
@@ -79,6 +90,7 @@ float apPhysicsTestFrame::onTimer()
 	mMainEngineScene->update(dt);
 	mRender->preRender();
 	mRender->render();
+	render2D();
 	mRender->postRender();
 
 
@@ -167,4 +179,9 @@ void apPhysicsTestFrame::setupScene1()
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
 
 	}*/
+}
+
+void apPhysicsTestFrame::render2D()
+{
+	mTest2DMesh->draw();
 }

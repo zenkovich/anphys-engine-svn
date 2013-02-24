@@ -23,9 +23,11 @@
 
 //render
 #include "render/render.h"
+#include "render/2d_render/render_2d.h"
 #include "render/camera/cameras_manager.h"
 #include "render/camera/camera.h"
 #include "render/camera/camera_3d_mouse.h"
+#include "render/camera/camera_2d.h"
 #include "render/light_manager/light_manager.h"
 #include "render/light_manager/light.h"
 #include "render/material_manager/material_manager.h"
@@ -39,6 +41,7 @@
 #include "render/render_objects/object_manager.h"
 #include "render/render_objects/3d/render_3d_object.h"
 #include "render/render_objects/3d/mesh/render_3d_object_mesh.h"
+#include "render/render_objects/2d/render_2d_object_mesh.h"
 #include "render/scenes/simple_scene/render_scene_base_interface.h"
 #include "render/scenes/scene_manager.h"
 #include "render/render_objects/multi_object/multi_object.h"

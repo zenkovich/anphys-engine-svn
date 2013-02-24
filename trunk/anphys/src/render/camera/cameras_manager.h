@@ -9,11 +9,13 @@ struct grRenderBaseInterface;
 struct grCamerasManager
 {
 	typedef std::vector<grCamera*> CamerasList;
-	CamerasList mCameras;
-	grCamera* mActiveCamera;
+
+	CamerasList            mCameras;
+	grCamera*              mActiveCamera;
 
 	grRenderBaseInterface* mRender;
 
+//functions
 	grCamerasManager(grRenderBaseInterface* render);
 	~grCamerasManager();
 

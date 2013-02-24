@@ -52,17 +52,17 @@ struct color4
 	inline float gf() { return g*n255; }
 	inline float bf() { return b*n255; }
 	inline float af() { return a*n255; }
-/*
-#ifdef RENDER_DIRECT3D9
+
+#ifdef RENDER_DIRECT3D8
 	inline void operator=(D3DCOLORVALUE cold3d)
 	{
 		*this = color4(cold3d.r, cold3d.g, cold3d.b, cold3d.a);
 	}
-#endif*/
+#endif
 
 };
-/*
-#ifdef RENDER_DIRECT3D9
+
+#ifdef RENDER_DIRECT3D8
 
 inline D3DCOLORVALUE color4f2D3Dcolor(color4 colr)
 {
@@ -75,6 +75,6 @@ inline D3DCOLORVALUE color4f2D3Dcolor(color4 colr)
 
 	return val;
 }
-#endif*/
+#endif
 
 #endif

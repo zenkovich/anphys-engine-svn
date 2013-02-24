@@ -148,6 +148,18 @@
     <Filter Include="render\scenes\simple_scene">
       <UniqueIdentifier>{d7729c29-07a7-4a14-bb39-5a6f9d61dae4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="spec_render\render_d3d8\objects\2d">
+      <UniqueIdentifier>{3cb0506c-cde7-4640-a204-d85a70a3e12b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\2d_render">
+      <UniqueIdentifier>{41a0f829-8dc6-4471-8bdb-a6e8b73b530f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spec_render\render_d3d8\2d_render">
+      <UniqueIdentifier>{e927ecbd-8051-4c83-9573-7b2d54e9d643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\image">
+      <UniqueIdentifier>{c472deb9-21fb-4d06-bc0b-98049b78476a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -459,9 +471,6 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\render_d3d8.h">
       <Filter>spec_render\render_d3d8</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\spec_render\render_d3d8\camera\camera.h">
-      <Filter>spec_render\render_d3d8\camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\spec_render\render_d3d8\light\light_d3d8.h">
       <Filter>spec_render\render_d3d8\light</Filter>
     </ClInclude>
@@ -489,8 +498,29 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h">
       <Filter>spec_render\render_d3d8\texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh  .h">
+    <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh_base_interface.h">
       <Filter>render\render_objects\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\objects\2d\render_2d_object_mesh_d3d8.h">
+      <Filter>spec_render\render_d3d8\objects\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\2d_render\render_2d_base_interface.h">
+      <Filter>render\2d_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\2d_render\render_2d_d3d8.h">
+      <Filter>spec_render\render_d3d8\2d_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\2d_render\render_2d.h">
+      <Filter>render\2d_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh.h">
+      <Filter>render\render_objects\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\camera\camera_2d.h">
+      <Filter>render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\image\image.h">
+      <Filter>util\image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +712,27 @@
     </ClCompile>
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp">
       <Filter>spec_render\render_d3d8\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\2d\render_2d_object_mesh_base_interface.cpp">
+      <Filter>render\render_objects\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\objects\2d\render_2d_object_mesh_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\objects\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\2d_render\render_2d_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\2d_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\2d_render\render_2d_base_interface.cpp">
+      <Filter>render\2d_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\camera\camera.cpp">
+      <Filter>render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\camera\camera_2d.cpp">
+      <Filter>render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\image\image.cpp">
+      <Filter>util\image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

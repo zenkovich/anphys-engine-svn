@@ -55,7 +55,8 @@ inline float Sqroot(float x)
 
 struct poly3
 {
-	int a, b, c;
+	unsigned int a, b, c;
+
 	inline poly3() { a = b = c = 0; }
 	inline poly3(int A, int B, int C) { a = A; b = B; c = C; }
 };

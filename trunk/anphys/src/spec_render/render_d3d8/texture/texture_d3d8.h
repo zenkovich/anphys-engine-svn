@@ -15,7 +15,7 @@ struct grTextureBase:public grTextureBaseInterface
 
 	bool load(const std::string& fileName);
 
-	std::string getStructRealization() { return "textureD3D8"; }
+	const char* getStructRealization() { return "textureD3D8"; }
 };
 
 #endif //TEXTURE_D3D8_H
