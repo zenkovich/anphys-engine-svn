@@ -17,5 +17,6 @@
 #include "other/singleton.h"
 #include "other/queue.h"
 #include "other/precreated_vector.h"
+#include "image/image.h"
 
 #endif //UTILS_H

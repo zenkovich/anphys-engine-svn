@@ -10,11 +10,14 @@ struct grRenderBaseInterface;
 
 struct grTextureManager
 {
-	grRender* mRender;
-
 	typedef std::vector<grTexture*> TexturesList;
+
+	grRender*    mRender;
 	TexturesList mTextures;
 
+	bool         mUsingStreaming;
+
+//functions
 	grTextureManager(grRenderBaseInterface* render);
 	~grTextureManager();
 
