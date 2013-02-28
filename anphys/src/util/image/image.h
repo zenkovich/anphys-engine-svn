@@ -22,7 +22,7 @@ struct cImage
 
 	void create(Format format, const vec2& size);
 
-	bool load(const char* filename);
+	bool load(const char* filename, ImageType type);
 	bool save(const char* filename, ImageType type);
 
 	void clear(const color4& color);
