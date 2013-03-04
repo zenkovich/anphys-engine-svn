@@ -18,7 +18,7 @@ bool cFileBase::openRead(const char* fileName)
 {
 	if (mFileType != FT_NONE) close();
 
-	mInFile.open(fileName);
+	mInFile.open(fileName, std::ios::binary);
 	
 	if (!mInFile.is_open()) return false;
 	
@@ -31,7 +31,7 @@ bool cFileBase::openWrite(const char* fileName)
 {
 	if (mFileType != FT_NONE) close();
 
-	mOutFile.open(fileName);
+	mOutFile.open(fileName, std::ios::binary);
 	
 	if (!mOutFile.is_open()) return false;
 	

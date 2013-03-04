@@ -6,22 +6,25 @@
 #include <vector>
 
 #include "file.h"
+#include "util/other/singleton.h"
 
 struct cLogStreamInFile;
 
-struct cFileSystem
+struct cFileSystem:public cSingleton<cFileSystem>
 {
 	typedef std::map<std::string, cFile*> FilesList;
+
 	enum FileType { FT_IMAGE = 0, FT_SCRIPT, FT_FILE };
 	enum { kFileTypesCount = 2 };
 
-	char				mFileTypesExtensions[kFileTypesCount][5][5];
-	char				mApplicationDirectory[256];
-	FilesList			mFiles;
+	char              mFileTypesExtensions[kFileTypesCount][5][5];
+	std::string       mApplicationDirectory;
+	std::string       mResourcesDirectory;
+	FilesList         mFiles;
 
-	cLogStreamInFile*	mFileSystemLog;
+	cLogStreamInFile* mLog;
 
-
+//functions
 	cFileSystem();
 	~cFileSystem();
 
@@ -35,6 +38,8 @@ struct cFileSystem
 
 	cFile* tryOpen(const std::string& fileName, cFile::FileType openingType);
 };
+
+#define getFileSystem() cFileSystem::instance()
 
 
 #endif //FILE_SYSTEM_H

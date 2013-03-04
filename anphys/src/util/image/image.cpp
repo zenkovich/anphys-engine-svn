@@ -39,6 +39,8 @@ bool cImage::load( const char* filename, ImageType type )
 
 bool cImage::save( const char* filename, ImageType type )
 {
+	if (type == IT_PNG) return savePngImage(filename, this);
+
 	return false;
 }
 

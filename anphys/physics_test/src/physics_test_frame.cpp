@@ -67,7 +67,8 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
 	cImage* img = new cImage;
-	img->load("../data/textures/pngtest.png", cImage::IT_PNG);
+	img->load("textures/pngtest", cImage::IT_PNG);
+	img->save("../atata.png", cImage::IT_PNG);
 
 	mPhysicsRunning = false;
 }

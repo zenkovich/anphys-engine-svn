@@ -11,6 +11,8 @@
 
 void cEngine::initialize()
 {
+	cFileSystem::initializeSingleton();
+
 	initializeWindowsSystem();
 }
 

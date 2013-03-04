@@ -9,6 +9,7 @@ struct cFileBaseInterface
 
 	FileType	mFileType;
 
+//functions
 	virtual bool openRead(const char* fileName) { return false; }
 	virtual bool openWrite(const char* fileName) { return false; }
 

@@ -10,21 +10,19 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	printf("%s\n", argv[0]);
+
 	gLogSystem = createLogSystem("log.txt");
 
-	cDataObject obj;
-	obj = vec3(1, 0, 3);
-	std::string str = obj.getString();
-	cDataObject obj2 = "123.321";
-	float vecf = obj2.getFloat();
+	cEngine::initializeSingleton();
+	getEngine().initialize();
+	getFileSystem().mResourcesDirectory = "../data/";
 
-	cEngine engine;
-	engine.initialize();
 	//engine.addFrame(new apBoxCollisionTestFrame("anPhys box collision test", fRect(0,0,800,600)));
-	engine.addFrame(new apPhysicsTestFrame("anPhys physics test", fRect(0,0,800,600)));
+	getEngine().addFrame(new apPhysicsTestFrame("anPhys physics test", fRect(0,0,800,600)));
 	//engine.addFrame(new apTestFrame("anPhys2 test", fRect(0,0,800,600)));
 
-	engine.run();
+	getEngine().run();
 
 	return 0;
 }

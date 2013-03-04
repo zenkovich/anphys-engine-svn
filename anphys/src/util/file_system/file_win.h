@@ -20,6 +20,7 @@ struct cFileBase:public cFileBaseInterface
 	std::ifstream mInFile;		/**< Файл чтения. */
 	std::ofstream mOutFile;		/**< Файл записи. */
 	
+//functions
 	cFileBase();	
 	cFileBase(const char* fileName, FileType type = FT_INPUT);
 	~cFileBase();

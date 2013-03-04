@@ -88,3 +88,20 @@ bool grTextureManager::removeAllTextures()
 	mTextures.clear();
 	return true;
 }
+
+void grTextureManager::processStreaming()
+{
+	if (!mUsingStreaming) return;
+
+	float streamingTime = 0;
+	const float maxStreamTime = 0.003f;
+
+	for (TexturesList::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
+	{
+		if ((*it)->mLoaded) continue;
+
+		streamingTime += (*it)->processStreaming();
+
+		if (streamingTime > maxStreamTime) break;
+	}
+}
