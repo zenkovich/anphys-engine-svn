@@ -5,15 +5,18 @@
 #include <vector>
 #include <string>
 
-#include "../util/math/mmath.h"
+#include "util/utils.h"
 
 struct grRenderFrame;
 
-struct cEngine
+struct cEngine:public cSingleton<cEngine>
 {
 	typedef std::vector<grRenderFrame*> RenderFramesList;
-	RenderFramesList mFrames;
 
+	RenderFramesList mFrames;
+	cFileSystem*     mFileSystem;
+
+//functions
 	void initialize();
 	void run();
 	void exitEngine();
@@ -22,5 +25,6 @@ struct cEngine
 	grRenderFrame* addFrame(grRenderFrame* newFrame);
 };
 
+#define getEngine() cEngine::instance()
 
 #endif //ENGINE_H

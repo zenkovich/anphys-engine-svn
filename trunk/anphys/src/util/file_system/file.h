@@ -12,6 +12,7 @@ struct cFile: public cFileBase
 	bool			mReady;	
 	unsigned int	mRefCount;
 	
+//functions
 	cFile();
 	cFile(const char* fileName, FileType type = FT_INPUT);
 	~cFile();

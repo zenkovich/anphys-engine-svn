@@ -28,6 +28,8 @@ struct grTextureManager
 
 	bool removeTexture(grTexture* texture);
 	bool removeAllTextures();
+
+	void processStreaming();
 };
 
 #endif //TEXTURE_MANAGER_H

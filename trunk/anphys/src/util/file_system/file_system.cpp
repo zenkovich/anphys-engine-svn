@@ -6,6 +6,8 @@
 
 #include <algorithm>
 
+DECLARE_SINGLETONE(cFileSystem)
+
 cFileSystem::cFileSystem()
 {
 	strcpy_s(mFileTypesExtensions[FT_IMAGE][0], "png");
@@ -19,9 +21,8 @@ cFileSystem::cFileSystem()
 	strcpy_s(mFileTypesExtensions[FT_SCRIPT][2], "scr");
 	strcpy_s(mFileTypesExtensions[FT_SCRIPT][3], "scr");
 	strcpy_s(mFileTypesExtensions[FT_SCRIPT][4], "scr");
-
 	
-	mFileSystemLog = static_cast<cLogStreamInFile*>(gLogSystem->addStream(new cLogStreamInFile("file system log.txt"), "fileSystemLog"));
+	mLog = static_cast<cLogStreamInFile*>(gLogSystem->addStream(new cLogStreamInFile("file system log.txt"), "fileSystemLog"));
 }
 
 cFileSystem::~cFileSystem()
@@ -42,7 +43,7 @@ cFile* cFileSystem::tryOpen(const std::string& fileName, cFile::FileType opening
 
 	if (fnd == mFiles.end())
 	{
-		cFile* newFile = new cFile(fileName.c_str(), openingType);
+		cFile* newFile = new cFile((mResourcesDirectory + fileName).c_str(), openingType);
 
 		if (!newFile->mReady) 
 		{
@@ -96,7 +97,7 @@ void cFileSystem::closeFile(cFile* file)
 
 	if (file->mRefCount < 1)
 	{
-		FilesList::iterator fnd;
+		FilesList::iterator fnd = mFiles.begin();
 		for(; fnd != mFiles.end(); fnd++)
 			if (fnd->second == file) break;
 
@@ -107,7 +108,7 @@ void cFileSystem::closeFile(cFile* file)
 		}
 		else
 		{
-			mFileSystemLog->output(formatStr("WARNING: Can't find file %x in files map. Not bad but not good.", file));
+			mLog->output(formatStr("WARNING: Can't find file %x in files map. Not bad but not good.", file));
 			safe_release(file);
 		}
 	}

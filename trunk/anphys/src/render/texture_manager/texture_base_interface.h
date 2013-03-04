@@ -15,10 +15,16 @@ struct grTextureBaseInterface
 	bool              mLoaded;
 	std::string       mFileName;
 
-	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false) {  }
+//functions
+	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false) {}
 	virtual ~grTextureBaseInterface() {}
 
-	virtual bool load(const std::string& fileName) { *gLog << formatStr("function load() in %s not released\n", getStructRealization()); return false; }
+	virtual bool load(const std::string& fileName) 
+	{ 
+		*gLog << formatStr("function load() in %s not released\n", getStructRealization()); return false; 
+	}
+
+	virtual void processStreaming(unsigned int maxStreamingData) {}
 
 	virtual const char* getStructRealization() { return "base texture"; }
 };

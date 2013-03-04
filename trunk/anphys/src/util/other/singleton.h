@@ -22,4 +22,7 @@ protected:
 	static T* mInstance;
 };
 
+
+#define DECLARE_SINGLETONE(T) template<> T* cSingleton<T>::mInstance = NULL;
+
 #endif // SINGLETON_H
