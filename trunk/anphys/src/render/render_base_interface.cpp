@@ -55,5 +55,7 @@ void grRenderBaseInterface::render()
 void grRenderBaseInterface::postRender()
 {
 	mRender2D->endRender();
+
+	mTextures->processStreaming();
 }
 

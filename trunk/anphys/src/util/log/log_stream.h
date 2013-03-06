@@ -20,7 +20,7 @@ struct cLogStream
 		if (mUsesMainStream) mMainStream->output(mStreamName + ": " + string);
 	}
 
-	inline void output(const char* format, ...)
+	virtual void foutput(const char* format, ...)
 	{		
 		va_list vlist;
 		va_start(vlist, format);

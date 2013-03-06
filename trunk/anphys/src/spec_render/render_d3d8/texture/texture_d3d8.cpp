@@ -69,7 +69,7 @@ void grTextureBase::processStreaming( unsigned int maxStreamingData )
 		if (!mTexturePtr)
 		{
 			if (FAILED(mTextureManager->mRender->m_pDirect3DDevice->CreateTexture((UINT)mSourceImage->mSize.x, (UINT)mSourceImage->mSize.y, 1, 
-				0, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &mTexturePtr)))
+				0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexturePtr)))
 			{
 				*mTextureManager->mRender->mRenderLog << formatStr("ERROR: Can't create texture %ix%i D3DFMT_A8R8G8B8",
 					(UINT)mSourceImage->mSize.x, (UINT)mSourceImage->mSize.y);
@@ -86,7 +86,19 @@ void grTextureBase::processStreaming( unsigned int maxStreamingData )
 			return;
 		}
 
+		unsigned char* psrc = (unsigned char*)mSourceImage->mData;
+		for (unsigned int y = 0; y < (unsigned int)mSize.y; ++y)
+		{
+			unsigned char* ptr = (unsigned char*)lockingRect.pBits + lockingRect.Pitch*((unsigned int)mSize.y - y - 1);
+			for (unsigned int i = 0; i < (unsigned int)mSize.x; ++i)
+			{
+				ptr[0] = psrc[2]; ptr[1] = psrc[1];
+				ptr[2] = psrc[0]; ptr[3] = psrc[3];
+				ptr+=4; psrc+=4;
+			}
+		}
 
+		mTexturePtr->UnlockRect(0);
 	}
 }
 

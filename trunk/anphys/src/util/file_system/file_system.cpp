@@ -32,6 +32,8 @@ cFileSystem::~cFileSystem()
 		safe_release(it->second);
 	}
 
+	gLogSystem->removeStream(mLog);
+
 	mFiles.clear();
 }
 

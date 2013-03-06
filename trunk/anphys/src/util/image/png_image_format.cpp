@@ -34,7 +34,7 @@ bool loadPngImage( const char* filename, cImage* image )
 	cFile* pngImageFile = getFileSystem().openFileRead(filename, cFileSystem::FT_IMAGE);
 	if (!pngImageFile)
 	{
-		*gLog << formatStr("ERROR: Can't load PNG file '%s'", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s'\n", filename);
 		return false;
 	}
 
@@ -50,7 +50,7 @@ bool loadPngImage( const char* filename, cImage* image )
 	{
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': not PNG", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': not PNG\n", filename);
 		return false;
 	}
 
@@ -60,7 +60,7 @@ bool loadPngImage( const char* filename, cImage* image )
 	{
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -72,7 +72,7 @@ bool loadPngImage( const char* filename, cImage* image )
 
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -84,7 +84,7 @@ bool loadPngImage( const char* filename, cImage* image )
 
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -95,7 +95,7 @@ bool loadPngImage( const char* filename, cImage* image )
 
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -133,7 +133,7 @@ bool loadPngImage( const char* filename, cImage* image )
 
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -147,7 +147,7 @@ bool loadPngImage( const char* filename, cImage* image )
 
 		getFileSystem().closeFile(pngImageFile);
 
-		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR", filename);
+		*gLog << formatStr("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", filename);
 		return false;
 	}
 
@@ -172,7 +172,7 @@ bool savePngImage( const char* filename, cImage* image )
 	cFile* pngImageFile = new cFile(filename, cFileBaseInterface::FT_OUTPUT);
 	if (!pngImageFile)
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s'", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s'\n", filename);
 		return false;
 	}
 
@@ -183,20 +183,20 @@ bool savePngImage( const char* filename, cImage* image )
 
 	if (!png_ptr)
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': png_create_write_struct failed", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': png_create_write_struct failed\n", filename);
 		return false;
 	}
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': png_create_info_struct failed", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': png_create_info_struct failed\n", filename);
 		return false;
 	}
 
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during init_io", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during init_io\n", filename);
 		return false;
 	}
 
@@ -207,7 +207,7 @@ bool savePngImage( const char* filename, cImage* image )
 	/* write header */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during writing header", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during writing header\n", filename);
 		return false;
 	}
 
@@ -223,7 +223,7 @@ bool savePngImage( const char* filename, cImage* image )
 	/* write bytes */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during writing bytes", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during writing bytes\n", filename);
 		return false;
 	}
 
@@ -242,7 +242,7 @@ bool savePngImage( const char* filename, cImage* image )
 	/* end write */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during end of write", filename);
+		*gLog << formatStr("ERROR: Can't save PNG file '%s': Error during end of write\n", filename);
 		return false;
 	}
 
