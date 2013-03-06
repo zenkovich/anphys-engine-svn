@@ -5,23 +5,33 @@
 #include "render/render.h"
 #include "texture.h"
 #include "util/memory/mem_utils.h"
+#include "util/log/log_system.h"
+#include "util/log/log_stream_in_file.h"
 
 grTextureManager::grTextureManager(grRenderBaseInterface* render)
 {
 	mRender = static_cast<grRender*>(render);
+
+	mLog = static_cast<cLogStreamInFile*>(gLogSystem->addStream(
+		new cLogStreamInFile("texture manager log.txt"), "textureManagerLog"));
 }
 
 grTextureManager::~grTextureManager()
 {
 	removeAllTextures();
-	*gLog << "grTextureManager destructor\n";
+	*mLog << "grTextureManager destructor\n";
+
+	gLogSystem->removeStream(mLog);
 }
 
 grTexture* grTextureManager::addTexture(grTexture* texture)
 {
 	mTextures.push_back(texture);
 	texture->mTextureManager = this;
+
+	mLog->foutput("added texture %x\n", texture);
 	*mRender->mRenderLog << formatStr("added texture %x\n", texture);
+
 	return *(mTextures.end() - 1);
 }
 
@@ -36,19 +46,19 @@ grTexture* grTextureManager::createTexture(const std::string& textureFileName, b
 		if (tex) 
 		{
 			tex->mRefCount++;			
-			*mRender->mRenderLog << formatStr("texture ref +1 %x\n", tex);
+			*mLog << formatStr("texture ref +1 %x\n", tex);
 			return tex;
 		}
 	}
 
 	if (!newTexture->load(textureFileName)) 
 	{
-		*mRender->mRenderLog << formatStr("can't load texture: %s\n", textureFileName.c_str());
+		*mLog << formatStr("can't load texture: %s\n", textureFileName.c_str());
 		return NULL;
 	}
 	newTexture->mCanCache = willBeMultiRef;
 
-	*mRender->mRenderLog << formatStr("loaded texture: %s\n", textureFileName.c_str());
+	*mLog << formatStr("loaded texture: %s\n", textureFileName.c_str());
 	return newTexture;
 }
 	
@@ -65,7 +75,7 @@ bool grTextureManager::removeTexture(grTexture* texture)
 	TexturesList::iterator it = std::find(mTextures.begin(), mTextures.end(), texture);
 	if (it == mTextures.end()) 
 	{
-		*mRender->mRenderLog << formatStr("can't find texture: %x\n", texture);
+		*mLog << formatStr("can't find texture: %x\n", texture);
 		return false;
 	}
 
@@ -100,8 +110,6 @@ void grTextureManager::processStreaming()
 	{
 		if ((*it)->mLoaded) continue;
 
-		streamingTime += (*it)->processStreaming();
-
-		if (streamingTime > maxStreamTime) break;
+		(*it)->processStreaming(0);
 	}
 }

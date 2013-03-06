@@ -7,15 +7,16 @@
 struct grTexture;
 struct grRender;
 struct grRenderBaseInterface;
+struct cLogStreamInFile;
 
 struct grTextureManager
 {
 	typedef std::vector<grTexture*> TexturesList;
 
-	grRender*    mRender;
-	TexturesList mTextures;
-
-	bool         mUsingStreaming;
+	grRender*         mRender;
+	TexturesList      mTextures;
+	bool              mUsingStreaming;
+	cLogStreamInFile* mLog;
 
 //functions
 	grTextureManager(grRenderBaseInterface* render);

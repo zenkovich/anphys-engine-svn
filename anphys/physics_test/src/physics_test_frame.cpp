@@ -55,12 +55,12 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 
 	setupScene1();
 
-	grTexture* tex = mRender->mTextures->createTexture("../data/textures/wood.jpg");
+	grTexture* tex = mRender->mTextures->createTexture("textures/pngtest");
 	mTest2DMesh = new grRender2DObjectMesh(4, 2);
 	mTest2DMesh->mVertexBuffer[0] = vertex2d(10.0f, 10.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[1] = vertex2d(100.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[2] = vertex2d(100.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 100.0f, 1.0f, 0.0f, 1.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[1] = vertex2d(100.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[2] = vertex2d(100.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 100.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mPolygonsBuffer[0] = poly3(0, 2, 1);
 	mTest2DMesh->mPolygonsBuffer[1] = poly3(0, 2, 3);
 	mTest2DMesh->pushTexture(tex);
