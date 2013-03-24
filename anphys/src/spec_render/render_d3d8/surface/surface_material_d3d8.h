@@ -15,7 +15,7 @@ struct grSurfaceMaterialBase:public grSurfaceMaterialBaseInterface
 
 	void setup();
 
-	std::string getStructRealization() { return "grSurfaceMaterialBaseD3d8"; }
+	const char* getStructRealization() { return "grSurfaceMaterialBaseD3d8"; }
 };
 
 

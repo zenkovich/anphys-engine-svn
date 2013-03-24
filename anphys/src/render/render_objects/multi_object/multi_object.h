@@ -4,43 +4,21 @@
 #include <vector>
 #include <algorithm>
 
-#include "render/render_objects/render_object_base_interface.h"
+#include "render/render_objects/render_object.h"
 #include "render/render_objects/object_manager.h"
 
 
 template<typename RenderObject, typename ObjectContainer>
-struct grRenderMultiObject:public grRenderObjectBaseInterface
+struct grRenderMultiObject:public grRenderObject
 {
-	/* from grRenderObjectBaseInterface
-	        {
-				grRenderObject
-				{
-					enum object_types {render_3d_object = 0, render_3d_object_mesh = 1 };
-					grRenderObjectsManager* mRenderObjectsManager;
-					object_types mType;
-
-					grRenderObject():mRenderObjectsManager(NULL) {}
-					grRenderObject(grRenderObjectsManager* objectsManager):mRenderObjectsManager(objectManager) {}
-
-					object_types getType() { return mType; }
-				}
-
-				grRenderObjectBaseInterface():grRenderObject() {}
-				grRenderObjectBaseInterface(grRenderObjectsManager* objectsManager):grRenderObject(objectsManager) {}
-
-				virtual void update(float dt) {  }
-				virtual void render() {  }
-
-				virtual std::string getStructRealization() { return "base render object"; }
-			}		 
-	*/
 	typedef std::vector<ObjectContainer*> ObjectConditionsList;
+
 	ObjectConditionsList mObjectConditions;
+	RenderObject*        mRenderObject;
 
-	RenderObject* mRenderObject;
-
-	grRenderMultiObject():grRenderObjectBaseInterface() {}
-	grRenderMultiObject(grRenderObjectsManager* objectsManager):grRenderObjectBaseInterface(objectsManager) {}
+//functions
+	grRenderMultiObject():grRenderObject() {}
+	grRenderMultiObject(grRenderObjectsManager* objectsManager):grRenderObject(objectsManager) {}
 	~grRenderMultiObject() { clear(); safe_release(mRenderObject); }
 	
 	virtual void setRenderObject(RenderObject* object)
@@ -95,8 +73,6 @@ struct grRenderMultiObject:public grRenderObjectBaseInterface
 
 		mObjectConditions.clear();
 	}
-
-	virtual std::string getStructRealization() { return "grRenderMultiObjectBaseInterface"; }
 };
 
 

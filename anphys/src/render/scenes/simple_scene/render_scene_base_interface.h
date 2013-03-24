@@ -11,14 +11,12 @@ struct grRenderObjectsManager;
 
 struct grRenderSceneBaseInterface
 {
-	grSceneManager* mSceneManager;
-
+	grSceneManager*         mSceneManager;
 	grRenderObjectsManager* mObjects;
 
-	//fuck yeah
-
+//functions
 	grRenderSceneBaseInterface(grSceneManager* sceneManager = NULL);
-	~grRenderSceneBaseInterface();
+	virtual ~grRenderSceneBaseInterface();
 
 	void setSceneManager(grSceneManager* sceneManager);
 

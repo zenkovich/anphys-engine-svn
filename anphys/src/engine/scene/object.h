@@ -3,8 +3,9 @@
 
 #include <vector>
 #include "object_component.h"
-#include "../../util/math/vector.h"
-#include "../../util/math/matrix.h"
+#include "util/math/vector.h"
+#include "util/math/matrix.h"
+#include "util/other/type_intexation.h"
 
 struct phRigidObject;
 
@@ -14,8 +15,9 @@ struct cObject
 
 	ObjectComponentsList mComponents;
 
+//functions
 	cObject();
-	~cObject();
+	virtual ~cObject();
 
 	void update(float dt);
 	void draw();
@@ -24,7 +26,8 @@ struct cObject
 	bool removeComponent(cObjectComponent* component);
 	void removeAllComponents();
 
-	cObjectComponent* getComponentByType(ObjectComponentType::types componentType);
+	template<typename T>
+	T* getComponent();
 
 	void updateComponentsDependencies();
 
@@ -32,5 +35,14 @@ struct cObject
 	vec3& position();
 	mat3x3& orientation();
 };
+
+template<typename T>
+T* cObject::getComponent()
+{
+	for (ObjectComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
+		if ((*it)->getType() == T::getStaticType()) return static_cast<T*>(*it);
+
+	return NULL;
+}
 
 #endif //ENGINE_OBJECT_H

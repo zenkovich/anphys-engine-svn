@@ -9,6 +9,7 @@ struct TypeIdxContainer
 
 #define DEFINE_TYPE(TYPENAME) public: \
 	static UniqueType TYPENAME ## Type; \
+	static UniqueType getStaticType() { return TYPENAME ## Type; } \
 	virtual UniqueType getType() { return TYPENAME ## Type; } 
 
 #define REGIST_TYPE(TYPENAME) UniqueType TYPENAME::TYPENAME ## Type = TypeIdxContainer::index++;

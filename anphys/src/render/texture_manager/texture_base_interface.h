@@ -19,10 +19,7 @@ struct grTextureBaseInterface
 	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false) {}
 	virtual ~grTextureBaseInterface() {}
 
-	virtual bool load(const std::string& fileName) 
-	{ 
-		*gLog << formatStr("function load() in %s not released\n", getStructRealization()); return false; 
-	}
+	virtual bool load(const std::string& fileName) {return false; }
 
 	virtual void processStreaming(unsigned int maxStreamingData) {}
 

@@ -11,6 +11,7 @@ struct grMaterialBase:public grMaterialBaseInterface
 {
 	D3DMATERIAL8* mMaterial;
 
+//functions
 	grMaterialBase(grMaterialManager* materialManager):grMaterialBaseInterface(materialManager) 
 	{ 
 		mMaterial = new D3DMATERIAL8;
@@ -41,7 +42,7 @@ struct grMaterialBase:public grMaterialBaseInterface
 	color4 getSpecular() const { return color4(mMaterial->Specular.r, mMaterial->Specular.g, mMaterial->Specular.b, mMaterial->Specular.a); }
 	float getPower() const { return mMaterial->Power; }
 
-	std::string getStructRealization() { return "materiald3d8"; }
+	const char* getStructRealization() { return "materiald3d8"; }
 
 };
 

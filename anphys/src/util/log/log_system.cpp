@@ -23,7 +23,7 @@ cLogSystem::~cLogSystem()
 cLogStream* cLogSystem::addStream(cLogStream* newStream, const std::string& streamName, bool usesMainStream)
 {
 	mStreams[streamName] = newStream;
-	newStream->mStreamName = streamName;
+	newStream->mStreamName = adjustStrSize(streamName, 20, 2, '-');
 
 	if (usesMainStream && mMainStream != NULL)
 	{
@@ -53,13 +53,16 @@ cLogStream* cLogSystem::getStream(const std::string& streamName)
 bool cLogSystem::removeStream(cLogStream* stream)
 {	
 	for (StreamsMap::iterator it = mStreams.begin(); it != mStreams.end(); it++)
+	{
 		if (it->second == stream)
 		{
-			safe_release(it->second);
 			it = mStreams.erase(it);
 
 			return true;
 		}
+	}	
+
+	safe_release(stream);
 
 	return false;
 }

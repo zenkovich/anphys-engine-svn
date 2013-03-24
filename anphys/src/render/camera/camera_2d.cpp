@@ -1,8 +1,6 @@
 #include "camera_2d.h"
 
-
 REGIST_TYPE(grCamera2D)
-
 
 grCamera2D::grCamera2D():grCamera(), mAngle(0), mScale(1.0f), mPosition(0.0f, 0.0f)
 {

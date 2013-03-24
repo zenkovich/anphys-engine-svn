@@ -52,7 +52,7 @@ void grTextureBase::processStreaming( unsigned int maxStreamingData )
 	{		
 		if (FAILED(D3DXCreateTextureFromFile(mTextureManager->mRender->m_pDirect3DDevice, mFileName.c_str(), &mTexturePtr)))
 		{
-			*mTextureManager->mRender->mRenderLog << formatStr("ERROR: Can't load texture '%s'\n", mFileName.c_str());
+			mTextureManager->mLog->fout(1, "ERROR: Can't load texture '%s'", mFileName.c_str());
 			mLoaded = true;
 			return;
 		}
@@ -71,7 +71,7 @@ void grTextureBase::processStreaming( unsigned int maxStreamingData )
 			if (FAILED(mTextureManager->mRender->m_pDirect3DDevice->CreateTexture((UINT)mSourceImage->mSize.x, (UINT)mSourceImage->mSize.y, 1, 
 				0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexturePtr)))
 			{
-				*mTextureManager->mRender->mRenderLog << formatStr("ERROR: Can't create texture %ix%i D3DFMT_A8R8G8B8",
+				mTextureManager->mLog->fout(1, "ERROR: Can't create texture %ix%i D3DFMT_A8R8G8B8",
 					(UINT)mSourceImage->mSize.x, (UINT)mSourceImage->mSize.y);
 				mLoaded = true;
 				return;
@@ -81,7 +81,7 @@ void grTextureBase::processStreaming( unsigned int maxStreamingData )
 		D3DLOCKED_RECT lockingRect;
 		if ( FAILED(mTexturePtr->LockRect(0, &lockingRect, 0, D3DLOCK_DISCARD)) )
 		{
-			*mTextureManager->mRender->mRenderLog << formatStr("ERROR: Failed to lock texture rect '%s'", mFileName.c_str());
+			mTextureManager->mLog->fout(1, "ERROR: Failed to lock texture rect '%s'", mFileName.c_str());
 			mLoaded = true;
 			return;
 		}

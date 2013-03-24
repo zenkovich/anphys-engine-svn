@@ -9,12 +9,23 @@
 grSceneManager::grSceneManager(grRenderBaseInterface* render)
 {
 	mRender = static_cast<grRender*>(render);
+	mLog = gLogSystem->addStream(new cLogStreamInFile("scenes_manager.txt"), "ScenesManager");
+	mLog->mLogLevel = STD_LOG_LEVEL;
+}
+
+grSceneManager::~grSceneManager()
+{
+	removeAllScenes();
+	gLogSystem->removeStream(mLog);
 }
 
 grRenderSceneBaseInterface* grSceneManager::addScene(grRenderSceneBaseInterface* newScene)
 {
 	mScenes.push_back(newScene);
 	newScene->setSceneManager(this);
+
+	mLog->fout(1, "Added scene %x", newScene);
+
 	return newScene;
 }
 
@@ -23,6 +34,8 @@ bool grSceneManager::removeScene(grRenderSceneBaseInterface* scene)
 	ScenesList::iterator it = std::find(mScenes.begin(), mScenes.end(), scene);
 
 	if (it == mScenes.end()) return false;
+
+	mLog->fout(1, "Removing scene %x", *it);
 
 	safe_release(scene);
 	mScenes.erase(it);
@@ -36,6 +49,8 @@ void grSceneManager::removeAllScenes()
 		safe_release(*it);
 
 	mScenes.clear();
+
+	mLog->fout(1, "Removed all scenes");
 }
 
 void grSceneManager::update(float dt)

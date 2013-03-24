@@ -11,27 +11,11 @@ struct grMeshDataPart;
 
 struct grMeshPartBase:public grMeshPartBaseInterface
 {
-	/* from grMeshPartBaseInterface
-			{
-				grSurfaceMaterial* mSurfaceMaterial;
-				grRender3DObjectMeshBase* mMesh;
-
-				vec3 mPosition;
-				mat3x3 mOrient;
-				mat4x4 mTransform;
-
-				grMeshPartBaseInterface(grRender3DObjectMeshBaseInterface* mesh):mMesh(mesh) {}
-
-				virtual bool create(vertexTexNorm* verticies, int vertCount, int* indexes, int polyCount, 
-									grSurfaceMaterial* surfaceMaterial) { return false; }
-
-				virtual void update(float dt) {}
-				virtual void render() {} 
-			}*/
 	
 	grMeshDataPart* mMeshDataPart;
-	bool mReady;
+	bool            mReady;
 
+//functions
 	grMeshPartBase(grRender3DObjectMeshBase* mesh):grMeshPartBaseInterface(mesh), mReady(false), mMeshDataPart(NULL) {}
 	~grMeshPartBase();
 

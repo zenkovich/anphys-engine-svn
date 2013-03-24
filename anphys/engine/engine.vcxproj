@@ -154,7 +154,6 @@
     <ClInclude Include="..\src\render\render_objects\object_manager.h" />
     <ClInclude Include="..\src\render\render_objects\object_manager_base_interface.h" />
     <ClInclude Include="..\src\render\render_objects\render_object.h" />
-    <ClInclude Include="..\src\render\render_objects\render_object_base_interface.h" />
     <ClInclude Include="..\src\render\scenes\scene_manager.h" />
     <ClInclude Include="..\src\render\scenes\simple_scene\render_scene_base_interface.h" />
     <ClInclude Include="..\src\render\surface\surface_material.h" />
@@ -262,6 +261,7 @@
     <ClCompile Include="..\src\engine\scene\components\physics_static_body_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\components\render3d_object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\object.cpp" />
+    <ClCompile Include="..\src\engine\scene\object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\scene.cpp" />
     <ClCompile Include="..\src\engine\scene\scene_stuff.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_detection\box_box_cd.cpp" />
@@ -290,7 +290,6 @@
     <ClCompile Include="..\src\render\render_objects\multi_object\multi_object.cpp" />
     <ClCompile Include="..\src\render\render_objects\object_manager_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_objects\render_object.cpp" />
-    <ClCompile Include="..\src\render\render_objects\render_object_base_interface.cpp" />
     <ClCompile Include="..\src\render\scenes\scene_manager.cpp" />
     <ClCompile Include="..\src\render\scenes\simple_scene\render_scene_base_interface.cpp" />
     <ClCompile Include="..\src\render\surface\surface_material_base_interface.cpp" />

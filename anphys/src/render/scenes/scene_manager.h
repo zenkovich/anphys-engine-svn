@@ -7,17 +7,19 @@
 struct grRender;
 struct grRenderBaseInterface;
 struct grRenderSceneBaseInterface;
+struct cLogStream;
 
 struct grSceneManager
 {
 	typedef std::vector<grRenderSceneBaseInterface*> ScenesList;
 
-	grRender* mRender;
+	grRender*   mRender;
+	ScenesList  mScenes;
+	cLogStream* mLog;
 
-	ScenesList mScenes;
-
+//functions
 	grSceneManager(grRenderBaseInterface* render);
-	~grSceneManager() { removeAllScenes(); }
+	~grSceneManager();
 
 	grRenderSceneBaseInterface* addScene(grRenderSceneBaseInterface* newScene);
 	bool removeScene(grRenderSceneBaseInterface* scene);

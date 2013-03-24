@@ -22,7 +22,9 @@ struct grMeshDataPart
 
 struct grMeshDataManager
 {
-	LPDIRECT3DDEVICE8 mDevicePtr;
+	typedef std::vector<grMeshDataPart*> PartsList;
+
+	LPDIRECT3DDEVICE8       mDevicePtr;
 	LPDIRECT3DVERTEXBUFFER8 mVertexBuffer;
 	LPDIRECT3DINDEXBUFFER8  mIndexBuffer;
 
@@ -33,12 +35,12 @@ struct grMeshDataManager
 	unsigned long int mAviableVertexCount;
 	unsigned long int mAviablePolygonsCount;
 
-	typedef std::vector<grMeshDataPart*> PartsList;
 	PartsList mParts;
 
-	bool mLocked;
-	bool mResizeIfNeed;
+	bool      mLocked;
+	bool      mResizeIfNeed;
 
+//functions
 	grMeshDataManager(LPDIRECT3DDEVICE8 devicePtr,
 					  unsigned long int maxVertexCount = MAX_VERTEX_COUNT, 
 		              unsigned long int maxPolygonsCount = MAX_POLYGON_COUNT,

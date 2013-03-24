@@ -6,6 +6,7 @@
 
 #include "../other/string_utils.h"
 #include "log_stream_console_and_file.h"
+#include "log_stream_in_file.h"
 
 struct cLogStream;
 

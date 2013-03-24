@@ -8,11 +8,12 @@
 
 struct grMaterial:public grMaterialBase
 {
-	int mRefCount;
-	bool mCanCache;
+	int         mRefCount;
+	bool        mCanCache;
 
 	std::string mName;
 
+//functions
 	grMaterial(grMaterialManager* materialManager):grMaterialBase(materialManager), mRefCount(1), mCanCache(true) {}
 
 	grMaterial(const std::string& name, const color4& ambient, const color4& diffuse, const color4& emissive, 

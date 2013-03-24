@@ -33,6 +33,7 @@ struct apWindow
 
 	bool mActiveWindow;          //активировано ли окно
 
+//functions
 	//базовая инициализация
 	bool initialize(WNDPROC winProc, HICON icon, HCURSOR cursor, HBRUSH backBrush, std::string className,  std::string wndName, RECT rect);
 

@@ -9,13 +9,14 @@
 struct grLightBase:public grLightBaseInterface
 {	
 	D3DLIGHT8 mLight;
-	int mIdx;
+	int       mIdx;
 
+//functions
 	grLightBase(grLightManager* lightManager);
 	grLightBase();
 	~grLightBase();
 
-	std::string getStructRealization() { return "lightD3D8"; }
+	const char* getStructRealization() { return "lightD3D8"; }
 
 	void initialize(const grLightBaseInterface& light);
 	void initialize(grLightType type, color4 diffuse, 

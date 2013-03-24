@@ -12,6 +12,7 @@ struct grMaterialBaseInterface
 {
 	grMaterialManager* mMaterialManager;
 
+//functions
 	grMaterialBaseInterface(grMaterialManager* materialManager):mMaterialManager(materialManager) {  }
 	grMaterialBaseInterface(grMaterialManager* materialManager, const color4& ambient, 
 		                    const color4& diffuse, const color4& emissive, const color4& specular,
@@ -28,19 +29,19 @@ struct grMaterialBaseInterface
 		setAmbient(ambient); setDiffuse(diffuse); setEmissive(emissive); setSpecular(specular); setPower(power);
 	}
 
-	virtual void setAmbient(color4 ambient) { *gLog << formatStr("function setAmbient in %s not released\n", getStructRealization().c_str()); }
-	virtual void setDiffuse(color4 diffuse) { *gLog << formatStr("function setDiffuse in %s not released\n", getStructRealization().c_str()); }
-	virtual void setEmissive(color4 emissive) { *gLog << formatStr("function setEmissive in %s not released\n", getStructRealization().c_str()); }
-	virtual void setSpecular(color4 specular) { *gLog << formatStr("function setSpecular in %s not released\n", getStructRealization().c_str()); }
-	virtual void setPower(float power) { *gLog << formatStr("function setPower in %s not released\n", getStructRealization().c_str()); }
+	virtual void setAmbient(color4 ambient) {}
+	virtual void setDiffuse(color4 diffuse) {}
+	virtual void setEmissive(color4 emissive) {}
+	virtual void setSpecular(color4 specular) {}
+	virtual void setPower(float power) {}
 
-	virtual color4 getAmbient() { *gLog << formatStr("function getAmbient in %s not released\n", getStructRealization().c_str()); return color4(); }
-	virtual color4 getDiffuse() { *gLog << formatStr("function getAmgetDiffusebient in %s not released\n", getStructRealization().c_str()); return color4(); }
-	virtual color4 getEmissive() { *gLog << formatStr("function getEmissive in %s not released\n", getStructRealization().c_str()); return color4(); }
-	virtual color4 getSpecular() { *gLog << formatStr("function getSpecular in %s not released\n", getStructRealization().c_str()); return color4(); }
-	virtual float getPower() { *gLog << formatStr("function getPower in %s not released\n", getStructRealization().c_str()); return 0; }
+	virtual color4 getAmbient() { return color4(0); }
+	virtual color4 getDiffuse() { return color4(0); }
+	virtual color4 getEmissive() {return color4(0); }
+	virtual color4 getSpecular() { return color4(0); }
+	virtual float getPower() { return 0; }
 
-	virtual std::string getStructRealization() { return "base material"; }
+	virtual const char* getStructRealization() { return "base material"; }
 };
 
 

@@ -63,18 +63,9 @@ void cObject::updateComponentsDependencies()
 		(*it)->updateDependencies();
 }
 
-cObjectComponent* cObject::getComponentByType( ObjectComponentType::types componentType )
-{
-	for (ObjectComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); it++)
-		if ((*it)->getType() == componentType) return *it;
-
-	return NULL;
-}
-
 phRigidObject* cObject::getPhysicsRigidBody()
 {
-	cPhysicsRigidBodyObjectComponent* physicsComponent = 
-		static_cast<cPhysicsRigidBodyObjectComponent*>(getComponentByType(ObjectComponentType::PhysicsRigidBody));
+	cPhysicsRigidBodyObjectComponent* physicsComponent = getComponent<cPhysicsRigidBodyObjectComponent>();
 	if (physicsComponent) return physicsComponent->mRigidPhysicsBody;
 
 	return NULL;
@@ -82,16 +73,14 @@ phRigidObject* cObject::getPhysicsRigidBody()
 
 vec3& cObject::position()
 {
-	cRender3DObjectComponent* renderObjectComponent = 
-		static_cast<cRender3DObjectComponent*>(getComponentByType(ObjectComponentType::Render3DObject));
+	cRender3DObjectComponent* renderObjectComponent = getComponent<cRender3DObjectComponent>();
 
 	return renderObjectComponent->mRender3DObject->mPosition;
 }
 
 mat3x3& cObject::orientation()
 {	
-	cRender3DObjectComponent* renderObjectComponent = 
-		static_cast<cRender3DObjectComponent*>(getComponentByType(ObjectComponentType::Render3DObject));
+	cRender3DObjectComponent* renderObjectComponent = getComponent<cRender3DObjectComponent>();
 
 	return renderObjectComponent->mRender3DObject->mOrient;
 }

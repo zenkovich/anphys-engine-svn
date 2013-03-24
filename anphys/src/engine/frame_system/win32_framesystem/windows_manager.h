@@ -13,9 +13,14 @@ struct cLogStream;
 /** Менеджер окон. */
 struct apWindowsManager
 {
-	std::vector<apWindow*> mWindows; /**< Список окон. */
+	typedef std::vector<apWindow*> WindowsList;
 
-	cLogStream* mManageLog;          /**< Лог. */
+	WindowsList mWindows; /**< Список окон. */
+	cLogStream* mLog;     /**< Лог. */
+
+//functions
+	apWindowsManager();
+	~apWindowsManager();
 
 	void initialize();
 

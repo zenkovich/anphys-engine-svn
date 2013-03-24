@@ -8,6 +8,7 @@ struct phScene;
 struct grRenderSceneBaseInterface;
 struct grRenderFrame;
 struct cSceneStuff;
+struct cLogStream;
 
 struct cScene
 {
@@ -21,11 +22,15 @@ struct cScene
 
 	bool                        mReady;
 
+	std::string                 mSceneId;
+	cLogStream*                 mLog;
+
 	cSceneStuff*                mSceneStuff;
-	
+
+//functions	
 	cScene();
-	cScene(grRenderFrame* renderFrameOwner);
-	~cScene();
+	cScene(grRenderFrame* renderFrameOwner, const std::string& sceneId = "default");
+	virtual ~cScene();
 
 	void initialize();
 

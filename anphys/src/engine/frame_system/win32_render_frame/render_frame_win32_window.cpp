@@ -38,8 +38,6 @@ void apRenderWindow::onCreate(fRect inRect)
 	SetTimer(mHWnd, 0, 10, NULL);
 	mTime = 0;
 	mLastTickCount = GetTickCount();
-
-	grRenderFrame::mRect.setPtr(&mInRect);
 }
 
 float apRenderWindow::onTimer()

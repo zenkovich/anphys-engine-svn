@@ -15,8 +15,11 @@ struct cEngine:public cSingleton<cEngine>
 
 	RenderFramesList mFrames;
 	cFileSystem*     mFileSystem;
+	cLogStream*      mLog;
 
 //functions
+	virtual ~cEngine();
+
 	void initialize();
 	void run();
 	void exitEngine();

@@ -5,6 +5,7 @@
 
 struct grCamera;
 struct grRenderBaseInterface;
+struct cLogStream;
 
 struct grCamerasManager
 {
@@ -14,6 +15,8 @@ struct grCamerasManager
 	grCamera*              mActiveCamera;
 
 	grRenderBaseInterface* mRender;
+
+	cLogStream*            mLog;
 
 //functions
 	grCamerasManager(grRenderBaseInterface* render);

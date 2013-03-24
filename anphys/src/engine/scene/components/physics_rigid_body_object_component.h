@@ -9,11 +9,13 @@ struct grRender3DObject;
 
 struct cPhysicsRigidBodyObjectComponent:public cObjectComponent
 {
+	DEFINE_TYPE(cPhysicsRigidBodyObjectComponent)
+
 	phRigidObject*    mRigidPhysicsBody;
 
 	grRender3DObject* mRenderObject;
 
-
+//functions
 	cPhysicsRigidBodyObjectComponent();
 	cPhysicsRigidBodyObjectComponent(phRigidObject* physicsObject);
 	cPhysicsRigidBodyObjectComponent(cObject* ownerObject);
@@ -23,8 +25,6 @@ struct cPhysicsRigidBodyObjectComponent:public cObjectComponent
 	void updateDependencies();
 
 	void update(float dt);
-
-	ObjectComponentType::types getType() { return ObjectComponentType::PhysicsRigidBody; }
 };
 
 #endif //ENGINE_PHYSICS_RIGID_BODY_OBJECT_COMPONENT_H

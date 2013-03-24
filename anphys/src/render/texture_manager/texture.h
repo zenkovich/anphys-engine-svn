@@ -11,9 +11,10 @@
 
 struct grTexture:public grTextureBase
 {
-	int mRefCount;
+	int  mRefCount;
 	bool mCanCache;
 
+//functions
 	grTexture(grTextureManager* textureManager = NULL):grTextureBase(textureManager), mRefCount(1), mCanCache(true) {}
 	virtual ~grTexture() {}
 };

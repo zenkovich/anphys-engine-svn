@@ -10,8 +10,6 @@
 
 grRenderBase::grRenderBase():grRenderBaseInterface(), m_pDirect3d(NULL), m_pDirect3DDevice(NULL)
 {
-	mRenderLog = static_cast<cLogStreamInFile*>(gLogSystem->addStream(new cLogStreamInFile("render log d3d8.txt"), "d3dRenderLog"));
-
 	mReady = false;
 }
 
@@ -24,26 +22,24 @@ grRenderBase::~grRenderBase()
 {
 	m_pDirect3DDevice->Release();
 	m_pDirect3d->Release();
-
-	grRenderBaseInterface::~grRenderBaseInterface();
 }
 
 void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 {
 	mReady = false;
 
-	*mRenderLog << "Initializing Direct3d8 render...\n";
+		mLog->fout(1, "Initializing Direct3d8 render...");
 
 	if(NULL == (m_pDirect3d = Direct3DCreate8(D3D_SDK_VERSION)))
 	{
-		*mRenderLog << "Direct3DCreate8 failed!\n";
+		mLog->fout(1, "ERROR: Direct3DCreate8 failed!");
 		return;
 	}
 
 	D3DDISPLAYMODE Display;
 	if(FAILED(m_pDirect3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &Display)))
 	{
-		*mRenderLog << "GetAdapterDisplayMode failed\n";
+		mLog->fout(1, "ERROR: GetAdapterDisplayMode failed");
 		return;
 	}
 
@@ -59,7 +55,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	if(FAILED(m_pDirect3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, HWnd, 
 		      D3DCREATE_HARDWARE_VERTEXPROCESSING, &Direct3DParametr, &m_pDirect3DDevice)))
 	{
-		*mRenderLog << "CreateDevice failed\n";
+		mLog->fout(1, "ERROR: CreateDevice failed");
 		return ;
 	}
 	m_pDirect3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
@@ -74,7 +70,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
     m_pDirect3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     m_pDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	*mRenderLog << "Direct3d8 render initialized.\n";
+	mLog->fout(1, "Direct3d8 render initialized");
 
 	mRender2D->initialize();
 

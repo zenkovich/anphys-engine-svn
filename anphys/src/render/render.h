@@ -16,10 +16,9 @@ struct grRender:public grRenderBase
 	grRenderFrame* mFrame;
 	cRenderStuff*  mRenderStuff;
 
-
+//functions
 	grRender();
 	grRender(grRenderFrame* frame, fRect outputRect);
-
 	virtual ~grRender();
 
 	

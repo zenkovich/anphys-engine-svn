@@ -34,7 +34,6 @@ struct grRender2DBase:public grRender2DBaseInterface
 	unsigned int            mFrameIdx;
 
 //functions
-
 	grRender2DBase(grRenderBaseInterface* render);
 	~grRender2DBase();
 

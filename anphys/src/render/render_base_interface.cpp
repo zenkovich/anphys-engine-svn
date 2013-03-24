@@ -13,6 +13,8 @@
 
 grRenderBaseInterface::grRenderBaseInterface()
 {
+	mLog = gLogSystem->addStream(new cLogStreamInFile("render log.txt"), "RenderLog");
+
 	mCameras = new grCamerasManager(this);
 	mTextures = new grTextureManager(this);
 	mLights = new grLightManager(this);
@@ -31,6 +33,8 @@ grRenderBaseInterface::~grRenderBaseInterface()
 	safe_release(mSurfaceMaterials);
 	safe_release(mSceneManager);
 	safe_release(mRender2D);
+
+	gLogSystem->removeStream(mLog);
 }
 
 void grRenderBaseInterface::update(float dt)
@@ -57,5 +61,10 @@ void grRenderBaseInterface::postRender()
 	mRender2D->endRender();
 
 	mTextures->processStreaming();
+}
+
+void grRenderBaseInterface::swapFullscreen()
+{
+	mLog->fout(0, "WARNING: swapFullscreen() in %s not implemented", getRenderName());
 }
 

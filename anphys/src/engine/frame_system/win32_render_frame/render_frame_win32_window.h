@@ -16,11 +16,10 @@ struct apRenderWindow: public grRenderFrame
 	float mTime;
 	DWORD mLastTickCount;
 
-////////////////////////////////////////////////////
+//functions
 	apRenderWindow();
 	apRenderWindow(const std::string& title, fRect wndRect, fRect outputRect);
 	apRenderWindow(const std::string& title, fRect wndRect);
-
 	virtual ~apRenderWindow();
 
 	virtual void onCreate(fRect inRect);

@@ -81,7 +81,6 @@
 
 //log system
 extern cLogSystem* gLogSystem;
-//extern cLogStreamInConsoleAndFile* gLog;
 
 //physics
 #include "physics/physics_engine.h"

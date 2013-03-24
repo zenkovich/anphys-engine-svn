@@ -22,6 +22,7 @@ struct grCamera3DMouse:public grCamera
 	float  mMaxSpeed;
 	float  mDt;
 
+//functions
 	grCamera3DMouse();
 	grCamera3DMouse(const vec2& screenSize, grRenderBase* render);	
 	grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, 
