@@ -9,24 +9,26 @@
 grSurfaceMaterialManager::grSurfaceMaterialManager(grRenderBaseInterface* render)
 {	
 	mRender = static_cast<grRender*>(render);
+	mLog = gLogSystem->addStream(new cLogStreamInFile("surface_material_manager.txt"), "Surfaces");
+	mLog->mLogLevel = INITIAL_TEXTURES_MANAGER_LOG_LEVEL;
 }
 
 grSurfaceMaterialManager::~grSurfaceMaterialManager()
 {
 	removeAllSurfaceMaterials();
-	*gLog << "grSurfaceTextureManager destructor\n";
+	gLogSystem->removeStream(mLog);
 }
 
 grSurfaceMaterial* grSurfaceMaterialManager::addSurfaceMaterial(grSurfaceMaterial* material, bool canLoadMultiRef, bool willBeMultiRef)
 {
 	if (canLoadMultiRef)
 	{
-		grSurfaceMaterial* mat = getSurfaceMaterial(material->mName);
+		grSurfaceMaterial* mat = getSurfaceMaterial(material->mName, false);
 
 		if (mat)
 		{
 			mat->mRefCount++;
-			*mRender->mRenderLog << formatStr("material ref +1 %x %s\n", mat, material->mName.c_str());
+			mLog->fout(1, "Surface ref +1 = %i %x %s", mat->mRefCount, mat, material->mName.c_str());
 			return mat;
 		}
 	}
@@ -37,17 +39,18 @@ grSurfaceMaterial* grSurfaceMaterialManager::addSurfaceMaterial(grSurfaceMateria
 	newMaterial->mSurfaceMaterialManager = this;
 	newMaterial->mCanCache = willBeMultiRef;
 
-	*mRender->mRenderLog << formatStr("add Surface material %x %s\n", newMaterial, newMaterial->mName.c_str());
+	mLog->fout(1, "Add material %x %s", newMaterial, newMaterial->mName.c_str());
 
 	return newMaterial;
 }
 
-grSurfaceMaterial* grSurfaceMaterialManager::getSurfaceMaterial(const std::string& name)
+grSurfaceMaterial* grSurfaceMaterialManager::getSurfaceMaterial( const std::string& name, bool warnings /*= true*/ )
 {
 	for (SurfaceMaterialsList::iterator it = mSurfaceMaterials.begin(); it != mSurfaceMaterials.end(); it++)
 		if ((*it)->mName == name) return *it;
 
-	*mRender->mRenderLog << formatStr("can't find Surface material %s\n", name.c_str());
+	if (warnings)
+		mLog->fout(1, "Can't find surface material %s", name.c_str());
 
 	return NULL;
 }
@@ -57,16 +60,21 @@ bool grSurfaceMaterialManager::removeSurfaceMaterial(grSurfaceMaterial* material
 	SurfaceMaterialsList::iterator it = std::find(mSurfaceMaterials.begin(), mSurfaceMaterials.end(), material);
 	if (it == mSurfaceMaterials.end())
 	{
-		*mRender->mRenderLog << formatStr("can't remove Surface material %x %s\n", material, material->mName.c_str());
+		mLog->fout(1, "Can't remove surface material %x %s", material, material->mName.c_str());
 		return false;
 	}
 
-	if ((*it)->mRefCount < 2)
+	if ((*it)->mRefCount < 1)
 	{
+		mLog->fout(1, "Removing surface material %x %s", material, material->mName.c_str());
 		safe_release(*it);
 		mSurfaceMaterials.erase(it);
 	}
-	else (*it)->mRefCount--;
+	else 
+	{
+		mLog->fout(1, "Decraise surface material %x %s -ref = %i", material, material->mName.c_str(), material->mRefCount);
+		(*it)->mRefCount--;
+	}
 
 	return true;
 }
@@ -78,6 +86,8 @@ bool grSurfaceMaterialManager::removeAllSurfaceMaterials()
 		safe_release(*it);
 
 	mSurfaceMaterials.clear();
+
+	mLog->fout(1, "Removed all surface materials");
 
 	return true;
 }

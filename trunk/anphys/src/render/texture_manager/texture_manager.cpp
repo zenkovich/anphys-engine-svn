@@ -12,15 +12,13 @@ grTextureManager::grTextureManager(grRenderBaseInterface* render)
 {
 	mRender = static_cast<grRender*>(render);
 
-	mLog = static_cast<cLogStreamInFile*>(gLogSystem->addStream(
-		new cLogStreamInFile("texture manager log.txt"), "textureManagerLog"));
+	mLog = gLogSystem->addStream(new cLogStreamInFile("tetxures_manager.txt"), "Textures");
+	mLog->mLogLevel = INITIAL_TEXTURES_MANAGER_LOG_LEVEL;
 }
 
 grTextureManager::~grTextureManager()
 {
 	removeAllTextures();
-	*mLog << "grTextureManager destructor\n";
-
 	gLogSystem->removeStream(mLog);
 }
 
@@ -29,8 +27,7 @@ grTexture* grTextureManager::addTexture(grTexture* texture)
 	mTextures.push_back(texture);
 	texture->mTextureManager = this;
 
-	mLog->foutput("added texture %x\n", texture);
-	*mRender->mRenderLog << formatStr("added texture %x\n", texture);
+	mLog->fout(1, "Add texture %x (%s)", texture, texture->mFileName.c_str());
 
 	return *(mTextures.end() - 1);
 }
@@ -41,31 +38,34 @@ grTexture* grTextureManager::createTexture(const std::string& textureFileName, b
 
 	if (canLoadMultiRef)
 	{
-		grTexture* tex = getTexture(textureFileName);
+		grTexture* tex = getTexture(textureFileName, false);
 
 		if (tex) 
 		{
 			tex->mRefCount++;			
-			*mLog << formatStr("texture ref +1 %x\n", tex);
+			mLog->fout(1, "Texture %x %s +ref = %i", tex, tex->mFileName.c_str(), tex->mRefCount);
 			return tex;
 		}
 	}
 
 	if (!newTexture->load(textureFileName)) 
 	{
-		*mLog << formatStr("can't load texture: %s\n", textureFileName.c_str());
+		mLog->fout(1, "Can't load texture: %s", textureFileName.c_str());
 		return NULL;
 	}
 	newTexture->mCanCache = willBeMultiRef;
 
-	*mLog << formatStr("loaded texture: %s\n", textureFileName.c_str());
+	mLog->fout(1, "Loaded texture: %s", textureFileName.c_str());
 	return newTexture;
 }
 	
-grTexture* grTextureManager::getTexture(const std::string& fileName)
+grTexture* grTextureManager::getTexture( const std::string& fileName, bool warnings /*= true*/ )
 {
 	for (TexturesList::iterator it = mTextures.begin(); it != mTextures.end(); it++)
 		if ((*it)->mFileName == fileName) return (*it);
+
+	if (warnings)
+		mLog->fout(1, "Can't find texture %s", fileName.c_str());
 
 	return NULL;
 }
@@ -75,16 +75,21 @@ bool grTextureManager::removeTexture(grTexture* texture)
 	TexturesList::iterator it = std::find(mTextures.begin(), mTextures.end(), texture);
 	if (it == mTextures.end()) 
 	{
-		*mLog << formatStr("can't find texture: %x\n", texture);
+		mLog->fout(1, "Can't find texture: %x", texture);
 		return false;
 	}
 
 	if ((*it)->mRefCount < 2)
 	{
+		mLog->fout(1, "Removing texture %x %s", texture, texture->mFileName);
 		safe_release(*it);
 		mTextures.erase(it);
 	}
-	else (*it)->mRefCount--;
+	else
+	{
+		(*it)->mRefCount--;
+		mLog->fout(1, "Texture %x %s -ref = %i", texture, texture->mFileName, texture->mRefCount);
+	}
 
 	return true;
 }
@@ -94,6 +99,8 @@ bool grTextureManager::removeAllTextures()
 	if (mTextures.size() == 0) return false;
  	for (TexturesList::iterator it = mTextures.begin(); it != mTextures.end(); it++)
 		safe_release(*it);
+
+	mLog->fout(1, "Removed all textures");
 
 	mTextures.clear();
 	return true;

@@ -33,7 +33,8 @@ void apWindowsManager::allUpdate()
 
 void apWindowsManager::initialize()
 {
-	mManageLog = gLogSystem->addStream(new cLogStreamInFile("windows_manager_log.txt"), "windows_manager_log");
+	mLog = gLogSystem->addStream(new cLogStreamInFile("windows_manager_log.txt"), "windowsManager");
+	mLog->mLogLevel = INITIAL_WINDOWS_MANAGER_LOG_LEVEL;
 }
 
 apWindow* apWindowsManager::addWindow(apWindow* window)
@@ -41,7 +42,7 @@ apWindow* apWindowsManager::addWindow(apWindow* window)
 	window->mpManager = this;
 	mWindows.push_back(window);
 
-	*mManageLog << formatStr("added window[%i] '%s'\n", mWindows.size() - 1, window->mWndName.c_str());
+	mLog->fout(1, "added window[%i] '%s'", mWindows.size() - 1, window->mWndName.c_str());
 
 	return mWindows[mWindows.size() - 1];
 }
@@ -58,12 +59,20 @@ apWindow* apWindowsManager::addStdWindow(fRect windowRect, std::string title)
 	rt.bottom = (LONG)windowRect.rightDown.y;
 
 	newWnd->initializeStd(NULL, title, rt);
-	newWnd->mpManager = this;
+	newWnd->mpManager = this;	
 	
-	
-	*mManageLog << formatStr("added std window[%i] '%s'\n", mWindows.size() - 1, newWnd->mWndName.c_str());
+	mLog->fout(1, "added std window[%i] '%s'", mWindows.size() - 1, newWnd->mWndName.c_str());
 
 	return mWindows[mWindows.size() - 1];
+}
+
+apWindowsManager::apWindowsManager()
+{
+}
+
+apWindowsManager::~apWindowsManager()
+{
+	gLogSystem->removeStream(mLog);
 }
 
 #endif

@@ -11,11 +11,11 @@ struct grRenderObject
 	DEFINE_TYPE(grRenderObject)
 
 	grRenderObjectsManager* mRenderObjectsManager;
-	UniqueType mType;
 
 //functions
 	grRenderObject():mRenderObjectsManager(NULL) {}
 	grRenderObject(grRenderObjectsManager* objectsManager):mRenderObjectsManager(objectsManager) {}
+	virtual ~grRenderObject() {}
 
 	virtual void setObjectManager(grRenderObjectsManager* objectsManager) {}
 

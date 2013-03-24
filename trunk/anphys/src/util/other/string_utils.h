@@ -18,4 +18,7 @@ std::string toStr(int val);
 
 inline bool isNumber(char c) { return !(c < '0' || c > '9'); }
 
+/** adjust string size, alig: 0 - left 1 - center 2 - right */
+std::string adjustStrSize(const std::string& str, unsigned int size, short alig = 0, char space = ' ');
+
 #endif //STRING_UTILS_H

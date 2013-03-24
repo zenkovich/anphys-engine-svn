@@ -7,6 +7,8 @@
 #include "render/render_objects/object_manager.h"
 #include "util/utils.h"
 
+grObjectManagerBaseInterface::grObjectManagerBaseInterface( grRender* render ): mRender(render) {}
+
 grObjectManagerBaseInterface::~grObjectManagerBaseInterface()
 {
 	removeAllObjects();
@@ -50,3 +52,4 @@ void grObjectManagerBaseInterface::render()
 	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
 		(*it)->render();
 }
+

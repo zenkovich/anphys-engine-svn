@@ -450,9 +450,6 @@
     <ClInclude Include="..\src\render\render_objects\render_object.h">
       <Filter>render\render_objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\render\render_objects\render_object_base_interface.h">
-      <Filter>render\render_objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\render\scenes\simple_scene\render_scene_base_interface.h">
       <Filter>render\scenes\simple_scene</Filter>
     </ClInclude>
@@ -731,9 +728,6 @@
     <ClCompile Include="..\src\render\render_objects\render_object.cpp">
       <Filter>render\render_objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\render\render_objects\render_object_base_interface.cpp">
-      <Filter>render\render_objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\render\scenes\simple_scene\render_scene_base_interface.cpp">
       <Filter>render\scenes\simple_scene</Filter>
     </ClCompile>
@@ -898,6 +892,9 @@
     </ClCompile>
     <ClCompile Include="..\src\dependencies\zlib\zutil.c">
       <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\scene\object_component.cpp">
+      <Filter>engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

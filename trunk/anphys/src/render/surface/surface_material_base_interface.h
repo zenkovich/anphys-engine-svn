@@ -16,10 +16,11 @@ struct grSurfaceMaterialBaseInterface
 	typedef std::vector<grTexture*> TexturesList;
 
 	grSurfaceMaterialManager* mSurfaceMaterialManager;
-	TexturesList mTextures;
-	grMaterial* mMaterial;
-	grShadeModel* mShadeModel;
+	TexturesList              mTextures;
+	grMaterial*               mMaterial;
+	grShadeModel*             mShadeModel;
 
+//functions
 	grSurfaceMaterialBaseInterface(grSurfaceMaterialManager* surfaceMaterialManager):
 		mSurfaceMaterialManager(surfaceMaterialManager), mMaterial(NULL), mShadeModel(NULL) {  }
 	~grSurfaceMaterialBaseInterface();
@@ -32,7 +33,7 @@ struct grSurfaceMaterialBaseInterface
 
 	virtual void removeAllTextures();
 
-	virtual std::string getStructRealization() { return "base surface material"; }
+	virtual const char* getStructRealization() { return "base surface material"; }
 };
 
 

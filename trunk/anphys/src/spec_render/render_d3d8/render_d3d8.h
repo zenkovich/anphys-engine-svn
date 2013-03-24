@@ -20,10 +20,10 @@
 
 struct grRenderBase:public grRenderBaseInterface
 {	
-	LPDIRECT3D8 m_pDirect3d;
+	LPDIRECT3D8       m_pDirect3d;
 	LPDIRECT3DDEVICE8 m_pDirect3DDevice;
 
-	bool mReady;
+	bool              mReady;
 
 //functions
 	grRenderBase();

@@ -1,23 +1,18 @@
 #ifndef ENGINE_OBJECT_COMPONENT_H
 #define ENGINE_OBJECT_COMPONENT_H
 
+#include "util/other/type_intexation.h"
+
 struct cObject;
 
-struct ObjectComponentType
-{
-	enum types{ 
-		none = 0, 
-		Render3DObject,
-		GraphicsObject,
-		PhysicsRigidBody,
-		PhysicsStaticBody
-	};
-};
 
 struct cObjectComponent
 {
 	cObject* mOwnerObject;
 
+	DEFINE_TYPE(cObjectComponent)
+
+//functions
 	cObjectComponent():mOwnerObject(0) {}
 	cObjectComponent(cObject* ownerObject):mOwnerObject(ownerObject) {}
 	virtual ~cObjectComponent() {}
@@ -26,8 +21,6 @@ struct cObjectComponent
 	virtual void update(float dt) {}
 
 	virtual void updateDependencies() {}
-
-	virtual ObjectComponentType::types getType() { return ObjectComponentType::none; }
 };
 
 #endif

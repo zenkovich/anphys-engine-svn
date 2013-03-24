@@ -78,3 +78,42 @@ std::string toStr(int val)
 {
 	return formatStr("%i", val);
 }
+
+std::string adjustStrSize( const std::string& str, unsigned int size, short alig /*= 0*/, char space )
+{
+	std::string res = "";
+
+	if (size == str.size()) return str;
+
+	if (size < str.size())
+	{ 
+		res = str;
+		res[size] = '\0'; 
+		return str; 
+	}
+
+	unsigned int diffSize = size - str.size();
+	unsigned int beforeStrSpaces = 0, afterStrSpaces = 0;
+
+	if (alig == 0) 
+	{
+		beforeStrSpaces = 0; afterStrSpaces = diffSize; 
+	}
+	else if (alig == 1)
+	{
+		if (diffSize%2 == 0) beforeStrSpaces = afterStrSpaces = diffSize/2;
+		else { beforeStrSpaces = diffSize/2 + 1; afterStrSpaces = diffSize/2; }
+	}
+	else 
+	{
+		beforeStrSpaces = diffSize; afterStrSpaces = 0;
+	}
+
+	for (unsigned int i = 0; i < beforeStrSpaces ; i++)		res = res + space;
+
+	res = res + str;
+
+	for (unsigned int i = 0; i < afterStrSpaces ; i++)		res = res + space;
+
+	return res;
+}

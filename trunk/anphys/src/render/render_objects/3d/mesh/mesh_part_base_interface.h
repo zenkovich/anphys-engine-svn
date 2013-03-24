@@ -8,13 +8,14 @@ struct grRender3DObjectMeshBase;
 
 struct grMeshPartBaseInterface
 {
-	grSurfaceMaterial* mSurfaceMaterial;
+	grSurfaceMaterial*        mSurfaceMaterial;
 	grRender3DObjectMeshBase* mMesh;
 
 	vec3 mPosition;
 	mat3x3 mOrient;
 	mat4x4 mTransform;
 
+//functions
 	grMeshPartBaseInterface(grRender3DObjectMeshBase* mesh):mMesh(mesh) {}
 
 	virtual bool create(vertexTexNorm* verticies, int vertCount, int* indexes, int polyCount, 

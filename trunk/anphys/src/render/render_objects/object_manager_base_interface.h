@@ -18,7 +18,8 @@ struct grObjectManagerBaseInterface
 	grRender* mRender;
 	ObjectsList mObjects;
 
-	grObjectManagerBaseInterface(grRender* render): mRender(render) {}
+//functions
+	grObjectManagerBaseInterface(grRender* render);
 	~grObjectManagerBaseInterface();
 
 	grRenderObject* createObject(grRenderObject* newObject);

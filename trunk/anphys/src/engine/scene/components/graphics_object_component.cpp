@@ -4,6 +4,8 @@
 #include "render/render_objects/render_object.h"
 #include "render/render_objects/object_manager.h"
 
+REGIST_TYPE(cGraphicsObjectComponent)
+
 cGraphicsObjectComponent::cGraphicsObjectComponent():cObjectComponent(), mRenderObject(NULL)
 {
 }

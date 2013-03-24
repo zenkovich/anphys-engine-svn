@@ -7,16 +7,16 @@
 struct grTexture;
 struct grRender;
 struct grRenderBaseInterface;
-struct cLogStreamInFile;
+struct cLogStream;
 
 struct grTextureManager
 {
 	typedef std::vector<grTexture*> TexturesList;
 
-	grRender*         mRender;
-	TexturesList      mTextures;
-	bool              mUsingStreaming;
-	cLogStreamInFile* mLog;
+	grRender*    mRender;
+	TexturesList mTextures;
+	bool         mUsingStreaming;
+	cLogStream*  mLog;
 
 //functions
 	grTextureManager(grRenderBaseInterface* render);
@@ -25,7 +25,7 @@ struct grTextureManager
 	grTexture* addTexture(grTexture* texture);
 	grTexture* createTexture(const std::string& textureFileName, bool canLoadMultiRef = true, bool willBeMultiRef = true);
 
-	grTexture* getTexture(const std::string& fileName);
+	grTexture* getTexture(const std::string& fileName, bool warnings = true);
 
 	bool removeTexture(grTexture* texture);
 	bool removeAllTextures();

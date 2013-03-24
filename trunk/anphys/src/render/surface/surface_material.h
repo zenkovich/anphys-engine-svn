@@ -8,11 +8,11 @@
 
 struct grSurfaceMaterial:public grSurfaceMaterialBase
 {
-	int mRefCount;
-	bool mCanCache;
-
+	int         mRefCount;
+	bool        mCanCache;
 	std::string mName;
 
+//functions
 	grSurfaceMaterial(grSurfaceMaterialManager* materialManager = NULL):grSurfaceMaterialBase(materialManager), mRefCount(1), mCanCache(true) {}
 
 	grSurfaceMaterial(const std::string& name, grSurfaceMaterialManager* materialManager = NULL):

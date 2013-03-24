@@ -3,11 +3,9 @@
 
 #include "../util/math/mmath.h"
 #include <string>
-#include "../util/log/log_system.h"
-#include "../util/log/log_stream_in_file.h"
 
 struct grCamerasManager;
-struct cLogStreamInFile;
+struct cLogStream;
 struct grTextureManager;
 struct grLightManager;
 struct grMaterialManager;
@@ -19,13 +17,15 @@ struct grRenderBaseInterface
 {
 	grRender2D*               mRender2D;
 	grCamerasManager*         mCameras;
-	cLogStreamInFile*         mRenderLog;
 	grTextureManager*         mTextures;
 	grLightManager*           mLights;
 	grMaterialManager*        mMaterials;
 	grSurfaceMaterialManager* mSurfaceMaterials;
 	grSceneManager*           mSceneManager;
 
+	cLogStream*               mLog;
+
+//functions
 	grRenderBaseInterface();
 	virtual ~grRenderBaseInterface();
 
@@ -34,7 +34,7 @@ struct grRenderBaseInterface
 	virtual void render();
 	virtual void postRender();
 
-	virtual void swapFullscreen() { *mRenderLog << formatStr("function swapFullscreen() in %s not released\n", getRenderName()); }
+	virtual void swapFullscreen();
 
 	virtual const char* getRenderName() { return "render base"; }
 };

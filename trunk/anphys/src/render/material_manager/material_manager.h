@@ -8,21 +8,24 @@
 struct grMaterial;
 struct grRender;
 struct grRenderBaseInterface;
+struct cLogStream;
 
 struct grMaterialManager
 {
-	grRender* mRender;
-
 	typedef std::vector<grMaterial*> MaterialsList;
-	MaterialsList mMaterials;
 
+	grRender*     mRender;
+	MaterialsList mMaterials;
+	cLogStream*   mLog;
+
+//functions
 	grMaterialManager(grRenderBaseInterface* render);
 	~grMaterialManager();
 
 	grMaterial* addMaterial(grMaterial* material, bool canLoadMultiRef = true, bool willBeMultiRef = true);
 	grMaterial* createMaterial(const std::string& materialFileName, bool canLoadMultiRef = true, bool willBeMultiRef = true) {}
 
-	grMaterial* getMaterial(const std::string& name);
+	grMaterial* getMaterial(const std::string& name, bool warnings = true);
 
 	bool removeMaterial(grMaterial* material);
 	bool removeAllMaterials();

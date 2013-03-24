@@ -7,14 +7,17 @@
 struct grLight;
 struct grRender;
 struct grRenderBaseInterface;
+struct cLogStream;
 
 struct grLightManager
 {
-	grRender* mRender;
-
 	typedef std::vector<grLight*> LightsList;
-	LightsList mLights;
 
+	grRender*   mRender;
+	LightsList  mLights;
+	cLogStream* mLog;
+
+//functions
 	grLightManager(grRenderBaseInterface* render);
 	~grLightManager();
 
@@ -22,7 +25,7 @@ struct grLightManager
 
 	void activeLight(int idx, bool active);
 
-	grLight* getLight(int idx);
+	grLight* getLight(int idx, bool warnings = true);
 
 	bool removeLight(grLight* light);
 	bool removeLight(int idx);

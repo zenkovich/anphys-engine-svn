@@ -1,6 +1,5 @@
 #include "camera.h"
 
-
 REGIST_TYPE(grCamera)
 
 grCamera::grCamera():mRenderBase(NULL) {}

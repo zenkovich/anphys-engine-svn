@@ -7,24 +7,12 @@
 
 struct gr3DObjectConditionContainer:public grObjectConditionContainer
 {
-	/* from grObjectConditionContainer
-	{
-	bool mDraw;
-
-	grObjectConditionContainer():mDraw(true) {}
-	~grObjectConditionContainer() {}
-
-	virtual void setObject(grRenderObject* obj) = 0;
-
-	virtual void setDrawing(bool flag) { mDraw = flag; }
-	virtual void update(float dt) = 0;
-	virtual void render() = 0;
-	}; */
 	
 	mat3x3 mOrient;
 	vec3 mPosition;
 	grRender3DObject* mObject;
 
+//functions
 	gr3DObjectConditionContainer(mat3x3 orient, vec3 position):mOrient(orient), mPosition(position) { mDraw = true; }
 	
 	void setObject(grRenderObject* obj) { mObject = static_cast<grRender3DObject*>(obj); }

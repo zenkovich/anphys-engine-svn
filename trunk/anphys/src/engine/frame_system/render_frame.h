@@ -21,15 +21,13 @@ struct phEngine;
 
 struct grRenderFrame:public pbFrame
 {
-	unsigned int mType;
 	grRender*    mRender;
 	phEngine*    mPhysics;
 	cEngine*     mEngine;
 
+//functions
 	grRenderFrame();
 	virtual ~grRenderFrame();
-
-	cParameterContainer<fRect> mRect;
 };
 
 #endif //RENDER_FRAME_H

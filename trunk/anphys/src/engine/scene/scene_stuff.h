@@ -21,7 +21,7 @@ struct cSceneStuff
 	vertexTexNorm* mVertexBuffer;
 	int*           mIndexesBuffer;
 
-
+//functions
 	cSceneStuff(cScene* scene);
 	~cSceneStuff();
 
@@ -31,8 +31,6 @@ struct cSceneStuff
 
 	cObject* createBoxMesh(vec3& pos, vec3& size, mat3x3& orient = nullMatr());
 
-
-	//other
 //render
 	grRender3DObjectMesh* createMesh(unsigned int vertexCount, unsigned int polyCount);
 	grRender3DObjectMesh* addBoxMesh(grRender3DObjectMesh* mesh, const vec3& size, grSurfaceMaterial* material, 

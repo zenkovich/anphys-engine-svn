@@ -9,6 +9,7 @@ struct grObjectConditionContainer
 {
 	bool mDraw;
 
+//functions
 	grObjectConditionContainer():mDraw(true) {}
 	~grObjectConditionContainer() {}
 

@@ -11,6 +11,8 @@
 #include "physics/objects/rigid_object.h"
 #include "physics/scenes/physics_scene.h"
 
+REGIST_TYPE(cPhysicsRigidBodyObjectComponent)
+
 cPhysicsRigidBodyObjectComponent::cPhysicsRigidBodyObjectComponent():
 	mRigidPhysicsBody(NULL), mRenderObject(NULL), cObjectComponent()
 {
@@ -42,7 +44,8 @@ cPhysicsRigidBodyObjectComponent::~cPhysicsRigidBodyObjectComponent()
 
 void cPhysicsRigidBodyObjectComponent::updateDependencies()
 {
-	if (mOwnerObject) mRenderObject = ((cRender3DObjectComponent*)mOwnerObject->getComponentByType(ObjectComponentType::Render3DObject))->mRender3DObject;
+	if (mOwnerObject) 
+		mRenderObject = mOwnerObject->getComponent<cRender3DObjectComponent>()->mRender3DObject;
 }
 
 void cPhysicsRigidBodyObjectComponent::update(float dt)
