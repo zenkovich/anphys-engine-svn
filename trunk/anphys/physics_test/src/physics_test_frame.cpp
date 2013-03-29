@@ -66,9 +66,18 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh->pushTexture(tex);
 	mTest2DMesh->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
-	cImage* img = new cImage;
-	img->load("textures/pngtest", cImage::IT_PNG);
-	img->save("../atata.png", cImage::IT_PNG);
+	mRenderTexture = mRender->mTextures->createRenderTexture(inRect.getSize());
+	mTest2DMesh2 = new grRender2DObjectMesh(4, 2);
+	mTest2DMesh2->mVertexBuffer[0] = vertex2d(100.0f, 100.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[1] = vertex2d(200.0f, 100.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[2] = vertex2d(200.0f, 200.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[3] = vertex2d(100.0f, 200.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mPolygonsBuffer[0] = poly3(0, 2, 1);
+	mTest2DMesh2->mPolygonsBuffer[1] = poly3(0, 2, 3);
+	mTest2DMesh2->pushTexture(mRenderTexture);
+	mTest2DMesh2->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
+
+	mTextureRenderTarget = new grTextureRenderTarget(mRender, mRenderTexture);
 
 	mPhysicsRunning = false;
 }
@@ -187,5 +196,9 @@ void apPhysicsTestFrame::setupScene1()
 
 void apPhysicsTestFrame::render2D()
 {
+	assert(mRender->setupRenderTarget(mTextureRenderTarget), "");
 	mTest2DMesh->draw();
+	assert(mRender->completeRenderTarget(mTextureRenderTarget), "");
+
+	mTest2DMesh2->draw();
 }

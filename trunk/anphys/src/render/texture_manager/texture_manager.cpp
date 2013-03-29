@@ -34,8 +34,6 @@ grTexture* grTextureManager::addTexture(grTexture* texture)
 
 grTexture* grTextureManager::createTexture(const std::string& textureFileName, bool canLoadMultiRef, bool willBeMultiRef)
 {
-	grTexture* newTexture = addTexture(new grTexture(this));
-
 	if (canLoadMultiRef)
 	{
 		grTexture* tex = getTexture(textureFileName, false);
@@ -48,6 +46,7 @@ grTexture* grTextureManager::createTexture(const std::string& textureFileName, b
 		}
 	}
 
+	grTexture* newTexture = addTexture(new grTexture(this));
 	if (!newTexture->load(textureFileName)) 
 	{
 		mLog->fout(1, "Can't load texture: %s", textureFileName.c_str());
@@ -119,4 +118,19 @@ void grTextureManager::processStreaming()
 
 		(*it)->processStreaming(0);
 	}
+}
+
+grTexture* grTextureManager::createRenderTexture(const vec2& size)
+{
+	grTexture* newRenderTexture = new grTexture(this);
+	newRenderTexture->mFileName = "render target texture";
+	newRenderTexture->mSize = size;
+
+	addTexture(newRenderTexture);
+
+	newRenderTexture->mUsage = grTexture::TU_RENDER_TEXTURE;
+
+	mLog->fout(1, "Created render texture %x", newRenderTexture);
+
+	return newRenderTexture;
 }

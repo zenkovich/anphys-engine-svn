@@ -169,6 +169,12 @@
     <Filter Include="dependencies\zlib">
       <UniqueIdentifier>{7c4be468-6f29-44f7-8786-d0fab46d4a7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="render\render_target">
+      <UniqueIdentifier>{98bdba2d-8e48-4963-b80b-c39d33133e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spec_render\render_d3d8\render_target">
+      <UniqueIdentifier>{fdf923ab-f9cd-4440-aae2-45eb7dd54d16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -582,6 +588,27 @@
     <ClInclude Include="..\src\dependencies\zlib\zutil.h">
       <Filter>dependencies\zlib</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render\render_target\render_target_interface.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_target\texture_render_target_base_interface.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.h">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_target\backbuffer_render_target.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_target\backbuffer_render_target_base_interface.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.h">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_target\texture_render_target.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -895,6 +922,15 @@
     </ClCompile>
     <ClCompile Include="..\src\engine\scene\object_component.cpp">
       <Filter>engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_target\render_target_interface.cpp">
+      <Filter>render\render_target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

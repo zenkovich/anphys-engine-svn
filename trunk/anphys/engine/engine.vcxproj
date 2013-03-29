@@ -154,6 +154,11 @@
     <ClInclude Include="..\src\render\render_objects\object_manager.h" />
     <ClInclude Include="..\src\render\render_objects\object_manager_base_interface.h" />
     <ClInclude Include="..\src\render\render_objects\render_object.h" />
+    <ClInclude Include="..\src\render\render_target\backbuffer_render_target.h" />
+    <ClInclude Include="..\src\render\render_target\backbuffer_render_target_base_interface.h" />
+    <ClInclude Include="..\src\render\render_target\render_target_interface.h" />
+    <ClInclude Include="..\src\render\render_target\texture_render_target.h" />
+    <ClInclude Include="..\src\render\render_target\texture_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\scenes\scene_manager.h" />
     <ClInclude Include="..\src\render\scenes\simple_scene\render_scene_base_interface.h" />
     <ClInclude Include="..\src\render\surface\surface_material.h" />
@@ -172,6 +177,8 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\objects\object_manager_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\objects\render_3d_object_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\render_d3d8.h" />
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.h" />
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
@@ -290,6 +297,7 @@
     <ClCompile Include="..\src\render\render_objects\multi_object\multi_object.cpp" />
     <ClCompile Include="..\src\render\render_objects\object_manager_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_objects\render_object.cpp" />
+    <ClCompile Include="..\src\render\render_target\render_target_interface.cpp" />
     <ClCompile Include="..\src\render\scenes\scene_manager.cpp" />
     <ClCompile Include="..\src\render\scenes\simple_scene\render_scene_base_interface.cpp" />
     <ClCompile Include="..\src\render\surface\surface_material_base_interface.cpp" />
@@ -304,6 +312,8 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\objects\mesh\mesh_part_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\objects\mesh\render_3d_object_mesh_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\render_d3d8.cpp" />
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.cpp" />
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
     <ClCompile Include="..\src\util\debug\render_stuff.cpp" />

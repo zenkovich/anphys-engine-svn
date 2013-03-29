@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "util/math/mmath.h"
 
 struct grTexture;
 struct grRender;
@@ -24,6 +25,7 @@ struct grTextureManager
 
 	grTexture* addTexture(grTexture* texture);
 	grTexture* createTexture(const std::string& textureFileName, bool canLoadMultiRef = true, bool willBeMultiRef = true);
+	grTexture* createRenderTexture(const vec2& size);
 
 	grTexture* getTexture(const std::string& fileName, bool warnings = true);
 

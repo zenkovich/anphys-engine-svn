@@ -12,6 +12,8 @@ struct grRenderSceneBaseInterface;
 struct cScene;
 struct cObject;
 struct grRender2DObjectMesh;
+struct grTexture;
+struct grTextureRenderTarget;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -23,6 +25,10 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	//tests
 	grRender2DObjectMesh*       mTest2DMesh;
+	grRender2DObjectMesh*       mTest2DMesh2;
+
+	grTexture*                  mRenderTexture;
+	grTextureRenderTarget*      mTextureRenderTarget;
 
 //functions
 	apPhysicsTestFrame();

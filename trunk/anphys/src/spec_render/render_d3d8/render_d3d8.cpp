@@ -6,6 +6,7 @@
 #include "render_d3d8.h"
 #include "render/scenes/scene_manager.h"
 #include "render/2d_render/render_2d.h"
+#include "render/render_target/backbuffer_render_target.h"
 
 
 grRenderBase::grRenderBase():grRenderBaseInterface(), m_pDirect3d(NULL), m_pDirect3DDevice(NULL)
@@ -73,6 +74,8 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	mLog->fout(1, "Direct3d8 render initialized");
 
 	mRender2D->initialize();
+
+	mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
 
 	mReady = true;
 }
