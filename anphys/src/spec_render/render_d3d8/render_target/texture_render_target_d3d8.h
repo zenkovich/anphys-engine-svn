@@ -10,6 +10,7 @@ struct grTextureRenderTargetBase:public grTextureRenderTargetInterface
 	grTextureRenderTargetBase(grRenderBase* render, grTexture* texture):grTextureRenderTargetInterface(render, texture) {}
 
 	bool setup();
+	bool complete();
 };
 
 #endif //TEXTURE_RENDER_TARGET_D3D8_H

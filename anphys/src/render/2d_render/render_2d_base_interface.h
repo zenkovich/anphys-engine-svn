@@ -22,6 +22,8 @@ struct grRender2DBaseInterface
 	virtual void endRender() {}
 
 	virtual void drawMesh(grRender2DObjectMeshBase* renderMesh) {}
+
+	virtual void drawPrimitives() {}
 };
 
 #endif //RENDER_2D_BASE_INTERFACE_H
