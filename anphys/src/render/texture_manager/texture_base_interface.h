@@ -9,14 +9,17 @@ struct grTextureManager;
 
 struct grTextureBaseInterface
 {
+	enum TextureUsage { TU_DEFAULT = 0, TU_RENDER_TEXTURE };
+
 	grTextureManager* mTextureManager;
 
+	TextureUsage      mUsage;
 	vec2              mSize;
 	bool              mLoaded;
 	std::string       mFileName;
 
 //functions
-	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false) {}
+	grTextureBaseInterface(grTextureManager* textureManager = NULL):mTextureManager(textureManager), mLoaded(false), mUsage(TU_DEFAULT) {}
 	virtual ~grTextureBaseInterface() {}
 
 	virtual bool load(const std::string& fileName) {return false; }

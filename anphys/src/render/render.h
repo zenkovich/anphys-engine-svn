@@ -20,7 +20,6 @@ struct grRender:public grRenderBase
 	grRender();
 	grRender(grRenderFrame* frame, fRect outputRect);
 	virtual ~grRender();
-
 	
 	void createStdMaterials();
 };

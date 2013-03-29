@@ -1,8 +1,9 @@
 #ifndef RENDER_BASE_INTERFACE_H
 #define RENDER_BASE_INTERFACE_H
 
-#include "../util/math/mmath.h"
 #include <string>
+#include <vector>
+#include "../util/math/mmath.h"
 
 struct grCamerasManager;
 struct cLogStream;
@@ -12,9 +13,13 @@ struct grMaterialManager;
 struct grSurfaceMaterialManager;
 struct grSceneManager;
 struct grRender2D;
+struct grRenderTarget;
+struct grBackbufferRenderTarget;
 
 struct grRenderBaseInterface
 {
+	typedef std::vector<grRenderTarget*> RenderTargetsList;
+
 	grRender2D*               mRender2D;
 	grCamerasManager*         mCameras;
 	grTextureManager*         mTextures;
@@ -22,6 +27,9 @@ struct grRenderBaseInterface
 	grMaterialManager*        mMaterials;
 	grSurfaceMaterialManager* mSurfaceMaterials;
 	grSceneManager*           mSceneManager;
+
+	RenderTargetsList         mRenderTargetsStack;
+	grBackbufferRenderTarget* mBackbufferRenderTarget;
 
 	cLogStream*               mLog;
 
@@ -35,6 +43,9 @@ struct grRenderBaseInterface
 	virtual void postRender();
 
 	virtual void swapFullscreen();
+
+	bool setupRenderTarget(grRenderTarget* renderTarget);
+	bool completeRenderTarget(grRenderTarget* renderTarget);
 
 	virtual const char* getRenderName() { return "render base"; }
 };

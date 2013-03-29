@@ -9,6 +9,8 @@
 #include "scenes/scene_manager.h"
 #include "util/memory/mem_utils.h"
 #include "2d_render/render_2d.h"
+#include "render_target/render_target_interface.h"
+#include "render_target/backbuffer_render_target.h"
 
 
 grRenderBaseInterface::grRenderBaseInterface()
@@ -35,6 +37,8 @@ grRenderBaseInterface::~grRenderBaseInterface()
 	safe_release(mRender2D);
 
 	gLogSystem->removeStream(mLog);
+
+	safe_release(mBackbufferRenderTarget);
 }
 
 void grRenderBaseInterface::update(float dt)
@@ -46,7 +50,7 @@ void grRenderBaseInterface::update(float dt)
 
 void grRenderBaseInterface::preRender()
 {
-	
+	setupRenderTarget(mBackbufferRenderTarget);
 }
 
 void grRenderBaseInterface::render()
@@ -61,10 +65,37 @@ void grRenderBaseInterface::postRender()
 	mRender2D->endRender();
 
 	mTextures->processStreaming();
+
+	completeRenderTarget(mBackbufferRenderTarget);
 }
 
 void grRenderBaseInterface::swapFullscreen()
 {
 	mLog->fout(0, "WARNING: swapFullscreen() in %s not implemented", getRenderName());
+}
+
+bool grRenderBaseInterface::setupRenderTarget( grRenderTarget* renderTarget )
+{
+	mRenderTargetsStack.push_back(renderTarget);
+
+	return renderTarget->setup();
+}
+
+bool grRenderBaseInterface::completeRenderTarget( grRenderTarget* renderTarget )
+{
+	bool res = true;
+	for (RenderTargetsList::reverse_iterator it = mRenderTargetsStack.rbegin(); it != mRenderTargetsStack.rend(); )
+	{
+		res = res && (*it)->complete();
+		grRenderTarget* curr = *it;
+
+		mRenderTargetsStack.erase(--it.base());
+
+		if (curr == renderTarget) break;
+	}
+
+	if (mRenderTargetsStack.size() > 0) res = res && mRenderTargetsStack[mRenderTargetsStack.size() - 1]->setup();
+
+	return res;
 }
 
