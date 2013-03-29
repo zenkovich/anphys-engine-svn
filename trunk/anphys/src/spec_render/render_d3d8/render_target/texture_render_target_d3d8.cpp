@@ -4,12 +4,15 @@
 #include "texture_render_target_d3d8.h"
 
 #include "render/render.h"
+#include "render/2d_render/render_2d.h"
 #include "render/texture_manager/texture.h"
 
 
 bool grTextureRenderTargetBase::setup()
 {
 	if (!mTexture->mTexturePtr) return true;
+
+	mRender->mRender2D->drawPrimitives();
 
 	LPDIRECT3DSURFACE8 renderTargetSurface;
 	LPDIRECT3DTEXTURE8 renderTargetTexture = mTexture->mTexturePtr;
@@ -26,7 +29,14 @@ bool grTextureRenderTargetBase::setup()
 		return false;
 	}
 
-	mRender->m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0F, 0);
+	mRender->m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA(200, 200, 200, 255), 1.0f, 0);
+
+	return true;
+}
+
+bool grTextureRenderTargetBase::complete()
+{
+	mRender->mRender2D->drawPrimitives();
 
 	return true;
 }
