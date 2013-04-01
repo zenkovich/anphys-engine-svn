@@ -14,7 +14,7 @@ struct grBackbufferRenderTargetBase:public grBackbufferRenderTargetBaseInterface
 	grBackbufferRenderTargetBase();
 	grBackbufferRenderTargetBase(grRenderBase* render);
 
-	bool setup();
+	bool begin();
 };
 
 #endif //BACKBUFFER_RENDER_TARGET_D3D8_H

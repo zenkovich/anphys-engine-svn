@@ -50,7 +50,7 @@ void grRenderBaseInterface::update(float dt)
 
 void grRenderBaseInterface::preRender()
 {
-	setupRenderTarget(mBackbufferRenderTarget);
+	bindRenderTarget(mBackbufferRenderTarget);
 }
 
 void grRenderBaseInterface::render()
@@ -66,7 +66,7 @@ void grRenderBaseInterface::postRender()
 
 	mTextures->processStreaming();
 
-	completeRenderTarget(mBackbufferRenderTarget);
+	unbindRenderTarget(mBackbufferRenderTarget);
 }
 
 void grRenderBaseInterface::swapFullscreen()
@@ -74,19 +74,19 @@ void grRenderBaseInterface::swapFullscreen()
 	mLog->fout(0, "WARNING: swapFullscreen() in %s not implemented", getRenderName());
 }
 
-bool grRenderBaseInterface::setupRenderTarget( grRenderTarget* renderTarget )
+bool grRenderBaseInterface::bindRenderTarget( grRenderTarget* renderTarget )
 {
 	mRenderTargetsStack.push_back(renderTarget);
 
-	return renderTarget->setup();
+	return renderTarget->begin();
 }
 
-bool grRenderBaseInterface::completeRenderTarget( grRenderTarget* renderTarget )
+bool grRenderBaseInterface::unbindRenderTarget( grRenderTarget* renderTarget )
 {
 	bool res = true;
 	for (RenderTargetsList::reverse_iterator it = mRenderTargetsStack.rbegin(); it != mRenderTargetsStack.rend(); )
 	{
-		res = res && (*it)->complete();
+		res = res && (*it)->finish();
 		grRenderTarget* curr = *it;
 
 		mRenderTargetsStack.erase(--it.base());
@@ -94,8 +94,20 @@ bool grRenderBaseInterface::completeRenderTarget( grRenderTarget* renderTarget )
 		if (curr == renderTarget) break;
 	}
 
-	if (mRenderTargetsStack.size() > 0) res = res && mRenderTargetsStack[mRenderTargetsStack.size() - 1]->setup();
+	if (mRenderTargetsStack.size() > 0) res = res && mRenderTargetsStack[mRenderTargetsStack.size() - 1]->begin();
 
 	return res;
+}
+
+grRenderTarget* grRenderBaseInterface::getCurrentRenderTarget()
+{
+	if (mRenderTargetsStack.size() < 1) return NULL;
+
+	return mRenderTargetsStack[mRenderTargetsStack.size() - 1];
+}
+
+void grRenderBaseInterface::resize( const vec2& size )
+{
+	mBackbufferRenderTarget->mSize = size;
 }
 

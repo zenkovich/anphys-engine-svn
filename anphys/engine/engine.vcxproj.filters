@@ -175,6 +175,12 @@
     <Filter Include="spec_render\render_d3d8\render_target">
       <UniqueIdentifier>{fdf923ab-f9cd-4440-aae2-45eb7dd54d16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="render\render_state">
+      <UniqueIdentifier>{3d9eef52-2462-461c-9737-8553527ce2ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spec_render\render_d3d8\render_state">
+      <UniqueIdentifier>{f7717a6d-60fc-4b7e-a049-a0da24a34b44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -609,6 +615,15 @@
     <ClInclude Include="..\src\render\render_target\texture_render_target.h">
       <Filter>render\render_target</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render\render_state\render_state_interface.h">
+      <Filter>render\render_state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_state\simple_3d_render_state_d3d8.h">
+      <Filter>spec_render\render_d3d8\render_state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_state\simple_3d_render_state_base_interface.h">
+      <Filter>render\render_state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -931,6 +946,12 @@
     </ClCompile>
     <ClCompile Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.cpp">
       <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_state\simple_3d_render_state_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\render_state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_state\simple_3d_render_state_base_interface.cpp">
+      <Filter>render\render_state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -44,17 +44,16 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 		return;
 	}
 
-	D3DPRESENT_PARAMETERS Direct3DParametr;
-	ZeroMemory(&Direct3DParametr, sizeof(Direct3DParametr));
-	Direct3DParametr.Windowed=true;
-	Direct3DParametr.SwapEffect = D3DSWAPEFFECT_COPY;
-	Direct3DParametr.BackBufferFormat = Display.Format;
-	Direct3DParametr.BackBufferHeight = (UINT)(int)(drawRect.rightDown.x-drawRect.leftTop.x);
-	Direct3DParametr.BackBufferWidth = (UINT)(int)(drawRect.rightDown.y-drawRect.leftTop.y);  
-	Direct3DParametr.EnableAutoDepthStencil = true;
-	Direct3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
+	ZeroMemory(&mDirect3DParametr, sizeof(mDirect3DParametr));
+	mDirect3DParametr.Windowed=true;
+	mDirect3DParametr.SwapEffect = D3DSWAPEFFECT_COPY;
+	mDirect3DParametr.BackBufferFormat = Display.Format;
+	mDirect3DParametr.BackBufferHeight = (unsigned int)(drawRect.rightDown.x-drawRect.leftTop.x);
+	mDirect3DParametr.BackBufferWidth = (unsigned int)(drawRect.rightDown.y-drawRect.leftTop.y);  
+	mDirect3DParametr.EnableAutoDepthStencil = true;
+	mDirect3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
 	if(FAILED(m_pDirect3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, HWnd, 
-		      D3DCREATE_HARDWARE_VERTEXPROCESSING, &Direct3DParametr, &m_pDirect3DDevice)))
+		      D3DCREATE_HARDWARE_VERTEXPROCESSING, &mDirect3DParametr, &m_pDirect3DDevice)))
 	{
 		mLog->fout(1, "ERROR: CreateDevice failed");
 		return ;
@@ -76,6 +75,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	mRender2D->initialize();
 
 	mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
+	mBackbufferRenderTarget->mSize = drawRect.getSize();
 
 	mReady = true;
 }
@@ -112,6 +112,16 @@ void grRenderBase::postRender()
 
 	m_pDirect3DDevice->EndScene();
 	m_pDirect3DDevice->Present(NULL, NULL, NULL, NULL);
+}
+
+void grRenderBase::resize( const vec2& size )
+{
+	grRenderBaseInterface::resize(size);
+
+	mDirect3DParametr.BackBufferWidth = size.x;
+	mDirect3DParametr.BackBufferHeight = size.y;
+
+	m_pDirect3DDevice->Reset(&mDirect3DParametr);
 }
 
 #endif //RENDER_D3D8
