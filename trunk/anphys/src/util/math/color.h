@@ -2,11 +2,11 @@
 #define COLOR_H
 
 #include "../../engine/engine_options.h"
-#ifdef RENDER_DIRECT3D9
-#include <d3d9.h>
-#include <d3dx9.h>
-#include <d3dx9core.h>
-#endif*/
+#ifdef RENDER_D3D8
+#include <d3d8.h>
+#include <d3dx8.h>
+#include <d3dx8core.h>
+#endif
 
 #define n255 0.00392156862745f
 

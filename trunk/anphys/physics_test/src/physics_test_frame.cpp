@@ -120,6 +120,7 @@ void apPhysicsTestFrame::onClose()
 void apPhysicsTestFrame::onSize(fRect inRect)
 {
 	mCamera3dMouse->mScreenSize = inRect.getSize();
+	mRender->resize(inRect.getSize());
 }
 
 void apPhysicsTestFrame::onMouseLeftButtonDown(vec2 point)
@@ -196,9 +197,9 @@ void apPhysicsTestFrame::setupScene1()
 
 void apPhysicsTestFrame::render2D()
 {
-	assert(mRender->setupRenderTarget(mTextureRenderTarget), "");
+	assert(mRender->bindRenderTarget(mTextureRenderTarget), "");
 	mTest2DMesh->draw();
-	assert(mRender->completeRenderTarget(mTextureRenderTarget), "");
+	assert(mRender->unbindRenderTarget(mTextureRenderTarget), "");
 
 	mTest2DMesh2->draw();
 }

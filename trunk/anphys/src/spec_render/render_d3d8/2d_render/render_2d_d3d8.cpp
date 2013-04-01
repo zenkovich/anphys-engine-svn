@@ -109,7 +109,7 @@ void grRender2DBase::drawMesh( grRender2DObjectMeshBase* renderMesh )
 		}
 	}
 
-	memcpy(mVertexData, renderMesh->mVertexBuffer, sizeof(vertex2d)*renderMesh->mVertexCount);
+	memcpy(mVertexData + mLastDrawingVertex*sizeof(vertex2d), renderMesh->mVertexBuffer, sizeof(vertex2d)*renderMesh->mVertexCount);
 
 	for (unsigned int i = 0; i < renderMesh->mPolygonsCount; i++)
 	{

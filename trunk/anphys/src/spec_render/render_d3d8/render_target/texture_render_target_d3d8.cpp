@@ -8,9 +8,11 @@
 #include "render/texture_manager/texture.h"
 
 
-bool grTextureRenderTargetBase::setup()
+bool grTextureRenderTargetBase::begin()
 {
 	if (!mTexture->mTexturePtr) return true;
+
+	mSize = mTexture->mSize;
 
 	mRender->mRender2D->drawPrimitives();
 
@@ -34,7 +36,7 @@ bool grTextureRenderTargetBase::setup()
 	return true;
 }
 
-bool grTextureRenderTargetBase::complete()
+bool grTextureRenderTargetBase::finish()
 {
 	mRender->mRender2D->drawPrimitives();
 

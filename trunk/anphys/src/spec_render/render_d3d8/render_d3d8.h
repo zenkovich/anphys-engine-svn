@@ -20,8 +20,9 @@
 
 struct grRenderBase:public grRenderBaseInterface
 {	
-	LPDIRECT3D8       m_pDirect3d;
-	LPDIRECT3DDEVICE8 m_pDirect3DDevice;
+	LPDIRECT3D8           m_pDirect3d;
+	LPDIRECT3DDEVICE8     m_pDirect3DDevice;
+	D3DPRESENT_PARAMETERS mDirect3DParametr;
 
 	bool              mReady;
 
@@ -37,6 +38,8 @@ struct grRenderBase:public grRenderBaseInterface
 	void preRender();
 	void render();
 	void postRender();
+
+	void resize(const vec2& size);
 
 	const char* getRenderName() { return "Direct3D8"; }
 };

@@ -14,8 +14,8 @@ struct grTextureRenderTargetInterface:public grRenderTarget
 	grTextureRenderTargetInterface(grRenderBase* render, grTexture* texture):grRenderTarget(render), mTexture(texture) {}
 	~grTextureRenderTargetInterface() {}
 
-	virtual bool setup() { return true; }
-	virtual bool complete() { return true; }
+	virtual bool begin() { return true; }
+	virtual bool finish() { return true; }
 };
 
 #endif //TEXTURE_RENDER_TARGET_BASE_INTERFACE_H

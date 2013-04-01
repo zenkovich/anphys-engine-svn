@@ -44,8 +44,11 @@ struct grRenderBaseInterface
 
 	virtual void swapFullscreen();
 
-	bool setupRenderTarget(grRenderTarget* renderTarget);
-	bool completeRenderTarget(grRenderTarget* renderTarget);
+	virtual void resize(const vec2& size);
+
+	bool bindRenderTarget(grRenderTarget* renderTarget);
+	bool unbindRenderTarget(grRenderTarget* renderTarget);
+	grRenderTarget* getCurrentRenderTarget();
 
 	virtual const char* getRenderName() { return "render base"; }
 };

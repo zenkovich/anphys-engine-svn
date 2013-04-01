@@ -17,7 +17,7 @@ grBackbufferRenderTargetBase::grBackbufferRenderTargetBase( grRenderBase* render
 		render->mLog->fout(1, "ERROR: Can't initialize backbuffer render target: GetDepthStencilSurface failed");
 }
 
-bool grBackbufferRenderTargetBase::setup()
+bool grBackbufferRenderTargetBase::begin()
 {
 	return !(FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(mRenderTargetSurface, mDepthStencilSurface)));
 }
