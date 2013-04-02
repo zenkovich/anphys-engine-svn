@@ -929,6 +929,15 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\render_state\2d_render_state_d3d8.cpp">
       <Filter>spec_render\render_d3d8\render_state</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\render\render_state\render_state_interface.cpp">
+      <Filter>render\render_state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_state\simple_3d_render_state.cpp">
+      <Filter>render\render_state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_state\2d_render_state.cpp">
+      <Filter>render\render_state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />

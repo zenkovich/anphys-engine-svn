@@ -11,10 +11,13 @@ struct grCamera3DMouse;
 struct grRenderSceneBaseInterface;
 struct cScene;
 struct cObject;
+struct grSimple3DRenderState;
 
 struct apBoxCollisionTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*            mCamera3dMouse;
+	grSimple3DRenderState*      m3DRenderState;
+
 	cScene*                     mMainEngineScene;
 
 	vec3 mBoxAPos, mBoxBPos, mBoxAAngles, mBoxBAngles, mBoxASize, mBoxBSize;

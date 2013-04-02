@@ -33,11 +33,11 @@
       <Filter>other</Filter>
     </ClCompile>
     <ClCompile Include="win32_app.cpp" />
-    <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp">
-      <Filter>box_collision_test_frame</Filter>
-    </ClCompile>
     <ClCompile Include="..\physics_test\src\physics_test_frame.cpp">
       <Filter>physics_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp">
+      <Filter>box_collision_test_frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,11 +47,11 @@
     <ClInclude Include="targetver.h">
       <Filter>other</Filter>
     </ClInclude>
-    <ClInclude Include="..\physics_test\src\box_collision_test_frame.h">
-      <Filter>box_collision_test_frame</Filter>
-    </ClInclude>
     <ClInclude Include="..\physics_test\src\physics_test_frame.h">
       <Filter>physics_test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\box_collision_test_frame.h">
+      <Filter>box_collision_test_frame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

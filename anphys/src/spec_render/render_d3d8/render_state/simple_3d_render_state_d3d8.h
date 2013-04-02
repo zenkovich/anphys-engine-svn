@@ -16,6 +16,10 @@ struct grSimple3DRenderStateBase:public grSimple3DRenderStateBaseInterface
 	virtual ~grSimple3DRenderStateBase() {}
 
 	void begin();
+
+	void updateTransformations();
+
+	void bindCamera(grCamera3D* camera);
 };
 
 #endif //SIMPLE_3D_RENDER_STATE_D3D8_H

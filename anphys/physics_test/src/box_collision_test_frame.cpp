@@ -11,8 +11,7 @@
 
 apBoxCollisionTestFrame::apBoxCollisionTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(vec2(0), mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
+	mCamera3dMouse = new grCamera3DMouse;
 
 	onCreate(mInRect);
 }
@@ -20,8 +19,7 @@ apBoxCollisionTestFrame::apBoxCollisionTestFrame():apRenderWindow(), mMainEngine
 apBoxCollisionTestFrame::apBoxCollisionTestFrame(const std::string& title, fRect wndRect, fRect outputRect):
 	apRenderWindow(title, wndRect, outputRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(outputRect.getSize(), mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
+	mCamera3dMouse = new grCamera3DMouse;
 
 	onCreate(mInRect);
 }
@@ -29,22 +27,24 @@ apBoxCollisionTestFrame::apBoxCollisionTestFrame(const std::string& title, fRect
 apBoxCollisionTestFrame::apBoxCollisionTestFrame(const std::string& title, fRect wndRect):
 	apRenderWindow(title, wndRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(mInRect.getSize(), 
-		                                                                                            mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
+	mCamera3dMouse = new grCamera3DMouse;
 
 	onCreate(mInRect);
 }
 
 apBoxCollisionTestFrame::~apBoxCollisionTestFrame()
 {
-	mRender->mCameras->removeCamera(mCamera3dMouse);
-
+	safe_release(m3DRenderState);
+	safe_release(mCamera3dMouse);
 	safe_release(mMainEngineScene);
 }
 
 void apBoxCollisionTestFrame::onCreate(fRect inRect)
 {
+	m3DRenderState = new grSimple3DRenderState(mRender);
+	mRender->bindRenderState(m3DRenderState);
+	m3DRenderState->bindCamera(mCamera3dMouse);
+
 	//create main scene
 	mMainEngineScene = new cScene(this);
 
@@ -85,14 +85,14 @@ float apBoxCollisionTestFrame::onTimer()
 	
 	if (mPhysicsRunning) 
 	{
-		//getRenderStuff().reset();
-		
+		//getRenderStuff().reset();		
 	}
 	mRender->update(dt);
 	mMainEngineScene->update(dt);
-	mRender->preRender();
+
+	mRender->beginRender();
 	mRender->render();
-	mRender->postRender();
+	mRender->endRender();
 
 
 	if (mPhysicsRunByStep) mPhysicsRunning = false;
@@ -107,7 +107,6 @@ void apBoxCollisionTestFrame::onClose()
 
 void apBoxCollisionTestFrame::onSize(fRect inRect)
 {
-	mCamera3dMouse->mScreenSize = inRect.getSize();
 }
 
 void apBoxCollisionTestFrame::onMouseLeftButtonDown(vec2 point)
@@ -128,7 +127,7 @@ void apBoxCollisionTestFrame::onMouseRightButtonUp(vec2 point)
 
 void apBoxCollisionTestFrame::onMouseMove(vec2 point)
 {
-	if (mLeftMouseButton) mCamera3dMouse->mouseMove(point - mCursorPos);
+	if (mLeftMouseButton) mCamera3dMouse->mouseMoved(point - mCursorPos);
 }
 
 void apBoxCollisionTestFrame::onMouseWheel(float delta)

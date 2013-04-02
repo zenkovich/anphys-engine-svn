@@ -11,40 +11,41 @@
 
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(vec2(0), mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::apPhysicsTestFrame(const std::string& title, fRect wndRect, fRect outputRect):
 	apRenderWindow(title, wndRect, outputRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(outputRect.getSize(), mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::apPhysicsTestFrame(const std::string& title, fRect wndRect):
 	apRenderWindow(title, wndRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
-	mCamera3dMouse = static_cast<grCamera3DMouse*>(mRender->mCameras->addCamera(new grCamera3DMouse(mInRect.getSize(), 
-		                                                                                            mRender)));
-	mRender->mCameras->setActiveCamera(mCamera3dMouse);
-
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::~apPhysicsTestFrame()
 {
-	mRender->mCameras->removeCamera(mCamera3dMouse);
-
+	safe_release(m2DRenderState);
+	safe_release(m3DRenderState);
+	safe_release(mTextureRenderTarget);
+	safe_release(mCamera3dMouse);
+	safe_release(m2DCamera);
 	safe_release(mMainEngineScene);
 }
 
 void apPhysicsTestFrame::onCreate(fRect inRect)
 {
+	mCamera3dMouse = new grCamera3DMouse;
+	m2DCamera = new grCamera2D;
+	m3DRenderState = new grSimple3DRenderState(mRender);
+	m2DRenderState = new gr2DRenderState(mRender);
+
+	m3DRenderState->bindCamera(mCamera3dMouse);
+	m2DRenderState->bindCamera(m2DCamera);
+
 	//create main scene
 	mMainEngineScene = new cScene(this);
 
@@ -61,7 +62,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh->mVertexBuffer[1] = vertex2d(300.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mVertexBuffer[2] = vertex2d(300.0f, 300.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 300.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mPolygonsBuffer[0] = poly3(0, 2, 1);
+	mTest2DMesh->mPolygonsBuffer[0] = poly3(0, 1, 2);
 	mTest2DMesh->mPolygonsBuffer[1] = poly3(0, 2, 3);
 	mTest2DMesh->pushTexture(tex);
 	mTest2DMesh->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
@@ -72,7 +73,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh2->mVertexBuffer[1] = vertex2d(200.0f, 100.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mVertexBuffer[2] = vertex2d(200.0f, 200.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mVertexBuffer[3] = vertex2d(100.0f, 200.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
-	mTest2DMesh2->mPolygonsBuffer[0] = poly3(0, 2, 1);
+	mTest2DMesh2->mPolygonsBuffer[0] = poly3(0, 1, 2);
 	mTest2DMesh2->mPolygonsBuffer[1] = poly3(0, 2, 3);
 	mTest2DMesh2->pushTexture(mRenderTexture);
 	mTest2DMesh2->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
@@ -99,7 +100,23 @@ float apPhysicsTestFrame::onTimer()
 		getRenderStuff().reset();	
 		mMainEngineScene->mPhysicsScene->update(dt);
 	}
+
+	mMainEngineScene->update(dt);
 	mRender->update(dt);
+	mCamera3dMouse->update(dt);
+
+	mRender->beginRender();
+
+	mRender->bindRenderState(m3DRenderState);
+
+	mRender->render();
+
+	mRender->bindRenderState(m2DRenderState);
+
+	render2D();
+
+	mRender->endRender();
+	/*mRender->update(dt);
 	mMainEngineScene->update(dt);
 	mRender->preRender();
 	mRender->render();
@@ -152,7 +169,7 @@ void apPhysicsTestFrame::onClose()
 
 void apPhysicsTestFrame::onSize(fRect inRect)
 {
-	mCamera3dMouse->mScreenSize = inRect.getSize();
+	//mCamera3dMouse->mScreenSize = inRect.getSize();
 	mRender->resize(inRect.getSize());
 }
 
@@ -174,7 +191,7 @@ void apPhysicsTestFrame::onMouseRightButtonUp(vec2 point)
 
 void apPhysicsTestFrame::onMouseMove(vec2 point)
 {
-	if (mLeftMouseButton) mCamera3dMouse->mouseMove(point - mCursorPos);
+	if (mLeftMouseButton) mCamera3dMouse->mouseMoved(point - mCursorPos);
 }
 
 void apPhysicsTestFrame::onMouseWheel(float delta)
@@ -191,7 +208,8 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	{		
 		mMainEngineScene->addObject(
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(
-				mCamera3dMouse->mPosition + mCamera3dMouse->mOrientVec*2.0f, vec3(1.0f, 1.0f, 1.0f), mCamera3dMouse->mOrient));
+				mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, vec3(1.0f, 1.0f, 1.0f), 
+				vectorOrient(mCamera3dMouse->mDirection)));
 	}
 }
 

@@ -1,5 +1,5 @@
-#ifndef SIMPLE_3D_RENDER_STATE_H
-#define SIMPLE_3D_RENDER_STATE_H
+#ifndef SIMPLE_3D_RENDER_STATE_BASE_INTERFACE_H
+#define SIMPLE_3D_RENDER_STATE_BASE_INTERFACE_H
 
 #include "render_state_interface.h"
 #include "util/math/color.h"
@@ -24,4 +24,4 @@ struct grSimple3DRenderStateBaseInterface:public grRenderState
 	virtual void bindCamera(grCamera3D* camera) { mCamera = camera; }
 };
 
-#endif //SIMPLE_3D_RENDER_STATE_H
+#endif //SIMPLE_3D_RENDER_STATE_BASE_INTERFACE_H

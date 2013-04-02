@@ -17,7 +17,7 @@ struct grCamera3DMouse:public grCamera3D
 	vec3  mDirection;
 
 //functions
-	grCamera3DMouse(const vec3& position = vec3(0, 0, 0), float xMinAngle = -80.0f, float xMaxAngle = 80.0f, float speed = 20.0f, float shiftSpeed = 60.0f);
+	grCamera3DMouse(const vec3& position = vec3(0, 0, 0), float xMinAngle = -80.0f, float xMaxAngle = 80.0f, float speed = 2.0f, float shiftSpeed = 30.0f);
 
 	void mouseMoved(const vec2& diff);
 	void move(const vec3& movingDirection,bool shifting);

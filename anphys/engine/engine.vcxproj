@@ -295,7 +295,10 @@
     <ClCompile Include="..\src\render\render_objects\multi_object\multi_object.cpp" />
     <ClCompile Include="..\src\render\render_objects\object_manager_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_objects\render_object.cpp" />
+    <ClCompile Include="..\src\render\render_state\2d_render_state.cpp" />
     <ClCompile Include="..\src\render\render_state\2d_render_state_base_interface.cpp" />
+    <ClCompile Include="..\src\render\render_state\render_state_interface.cpp" />
+    <ClCompile Include="..\src\render\render_state\simple_3d_render_state.cpp" />
     <ClCompile Include="..\src\render\render_state\simple_3d_render_state_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_target\render_target_interface.cpp" />
     <ClCompile Include="..\src\render\scenes\scene_manager.cpp" />

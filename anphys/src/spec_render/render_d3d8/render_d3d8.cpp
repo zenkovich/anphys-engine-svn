@@ -84,14 +84,14 @@ void grRenderBase::update(float dt)
 	grRenderBaseInterface::update(dt);
 }
 
-void grRenderBase::preRender()
+void grRenderBase::beginRender()
 {
 	if (!mReady) return;
 
 	m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(220,255,220), 1.0F, 0);
 	m_pDirect3DDevice->BeginScene();
 
-	grRenderBaseInterface::preRender();
+	grRenderBaseInterface::beginRender();
 }
 
 void grRenderBase::render()
@@ -101,11 +101,11 @@ void grRenderBase::render()
 	grRenderBaseInterface::render();
 }
 
-void grRenderBase::postRender()
+void grRenderBase::endRender()
 {
 	if (!mReady) return;
 
-	grRenderBaseInterface::postRender();
+	grRenderBaseInterface::endRender();
 
 	m_pDirect3DDevice->EndScene();
 	m_pDirect3DDevice->Present(NULL, NULL, NULL, NULL);
@@ -117,11 +117,11 @@ void grRenderBase::resize( const vec2& size )
 
 	//safe_release(mBackbufferRenderTarget);
 
-	mDirect3DParametr.BackBufferWidth = size.x;
-	mDirect3DParametr.BackBufferHeight = size.y;
+	mDirect3DParametr.BackBufferWidth = (UINT)size.x;
+	mDirect3DParametr.BackBufferHeight = (UINT)size.y;
 
-	HRESULT hr;
-	/*if (FAILED(hr = m_pDirect3DDevice->Reset(&mDirect3DParametr)))
+	/*HRESULT hr;
+	if (FAILED(hr = m_pDirect3DDevice->Reset(&mDirect3DParametr)))
 	{
 		mLog->fout(1, "ERROR: Failed to reset direct 3d device");
 

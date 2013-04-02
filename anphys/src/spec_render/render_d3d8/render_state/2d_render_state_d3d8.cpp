@@ -8,7 +8,7 @@
 #include "render/camera/camera_2d.h"
 #include "spec_render/render_d3d8/objects/2d/render_2d_object_mesh_d3d8.h"
 
-gr2DRenderStateBase::gr2DRenderStateBase()
+gr2DRenderStateBase::gr2DRenderStateBase():gr2DRenderStateBaseInterface()
 {
 	mLastDrawingIndex = mLastDrawingVertex = mTrianglesCount = 0;
 	mLastDrawingTexture = NULL;
@@ -19,7 +19,7 @@ gr2DRenderStateBase::gr2DRenderStateBase()
 	mRendering = false;
 }
 
-gr2DRenderStateBase::gr2DRenderStateBase( grRenderBase* render )
+gr2DRenderStateBase::gr2DRenderStateBase( grRenderBase* render ):gr2DRenderStateBaseInterface(render)
 {
 	mLastDrawingIndex = mLastDrawingVertex = mTrianglesCount = 0;
 	mLastDrawingTexture = NULL;
@@ -50,7 +50,11 @@ void gr2DRenderStateBase::begin()
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);	
 
-	setupMatrix();
+	mRender->m_pDirect3DDevice->SetVertexShader(D3DFVF_VERTEX_2D);
+	mRender->m_pDirect3DDevice->SetStreamSource(0, mVertexBuffer, sizeof(vertex2d));
+	mRender->m_pDirect3DDevice->SetIndices(mIndexBuffer, 0);
+
+	updateTransformations();
 
 	mLastDrawingTexture = NULL;	
 	mFrameTrianglesCount = 0;
@@ -92,7 +96,11 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 		}
 	}
 
-	memcpy(mVertexData + mLastDrawingVertex*sizeof(vertex2d), mesh->mVertexBuffer, sizeof(vertex2d)*mesh->mVertexCount);
+	//memcpy(mVertexData + mLastDrawingVertex*sizeof(vertex2d), mesh->mVertexBuffer, sizeof(vertex2d)*mesh->mVertexCount);
+	for (unsigned int i = 0; i < mesh->mVertexCount; i++)
+	{
+		mVertexData[i + mLastDrawingVertex] = mesh->mVertexBuffer[i];
+	}
 
 	for (unsigned int i = 0; i < mesh->mPolygonsCount; i++)
 	{
@@ -107,9 +115,6 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 
 void gr2DRenderStateBase::drawPrimitives()
 {
-	mRender->m_pDirect3DDevice->SetVertexShader(D3DFVF_VERTEX_2D);
-	mRender->m_pDirect3DDevice->SetStreamSource(0, mVertexBuffer, sizeof(vertex2d));
-	mRender->m_pDirect3DDevice->SetIndices(mIndexBuffer, 0);
 	mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
 }
 
@@ -146,8 +151,11 @@ void gr2DRenderStateBase::unlockBuffers()
 	}
 }
 
-void gr2DRenderStateBase::setupMatrix()
+void gr2DRenderStateBase::updateTransformations()
 {
+	if (!mRender->getCurrentRenderTarget()) 
+		return;
+
 	D3DXMATRIX tmp, matView;
 	D3DXMATRIX m0, m00, m1, m2, m3, m4;
 
@@ -189,6 +197,7 @@ void gr2DRenderStateBase::setupMatrix()
 void gr2DRenderStateBase::setTexture( grTexture* texture )
 {
 	mRender->m_pDirect3DDevice->SetTexture(0, texture->mTexturePtr);
+	mLastDrawingTexture = texture;
 }
 
 void gr2DRenderStateBase::initialize()
@@ -211,6 +220,20 @@ void gr2DRenderStateBase::initialize()
 
 	mFrameIdx = 0;
 	mFrameTrianglesCount = 0;
+}
+
+void gr2DRenderStateBase::bindCamera( grCamera2D* camera )
+{
+	gr2DRenderStateBaseInterface::bindCamera(camera);
+
+	updateTransformations();
+}
+
+void gr2DRenderStateBase::flush()
+{
+	unlockBuffers();
+	drawPrimitives();
+	lockBuffers();
 }
 
 #endif //RENDER_D3D8

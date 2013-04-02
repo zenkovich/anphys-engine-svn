@@ -35,9 +35,9 @@ struct grRenderBase:public grRenderBaseInterface
 
 	void update(float dt);
 
-	void preRender();
+	void beginRender();
 	void render();
-	void postRender();
+	void endRender();
 
 	void resize(const vec2& size);
 

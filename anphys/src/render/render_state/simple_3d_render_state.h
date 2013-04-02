@@ -9,6 +9,8 @@
 
 struct grSimple3DRenderState:public grSimple3DRenderStateBase
 {
+	DEFINE_TYPE(grSimple3DRenderState)
+
 	grSimple3DRenderState():grSimple3DRenderStateBase() {}
 	grSimple3DRenderState(grRenderBase* render):grSimple3DRenderStateBase(render) {}
 };

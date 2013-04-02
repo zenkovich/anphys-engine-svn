@@ -6,6 +6,7 @@
 //render
 #include "render/render.h"
 #include "render/render_objects/object_manager.h"
+#include "render/render_state/2d_render_state.h"
 
 grRender2DObjectMeshBase::grRender2DObjectMeshBase():grRender2DObjectMeshBaseInterface(), mLastUsedVertexDataIndex(0),
 	mLastDrawingFrameIndex(0)
@@ -24,7 +25,10 @@ grRender2DObjectMeshBase::~grRender2DObjectMeshBase()
 
 void grRender2DObjectMeshBase::draw()
 {
-	//mRenderObjectsManager->mRender->mRender2D->drawMesh(this);
+	if (mRenderObjectsManager->mRender->mCurrentRenderState->getType() == gr2DRenderState::getStaticType())
+	{
+		static_cast<gr2DRenderState*>(mRenderObjectsManager->mRender->mCurrentRenderState)->drawMesh(this);
+	}
 }
 
 #endif //RENDER_D3D8
