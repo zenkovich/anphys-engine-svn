@@ -26,7 +26,19 @@ void grSimple3DRenderStateBase::begin()
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	//camera
-	if (mCamera)
+	updateTransformations();
+}
+
+void grSimple3DRenderStateBase::bindCamera( grCamera3D* camera )
+{
+	grSimple3DRenderStateBaseInterface::bindCamera(camera);
+
+	updateTransformations();
+}
+
+void grSimple3DRenderStateBase::updateTransformations()
+{
+	if (mCamera && mRender->getCurrentRenderTarget())
 	{
 		D3DXMATRIX projectMatrix, viewMatrix;
 
@@ -38,8 +50,8 @@ void grSimple3DRenderStateBase::begin()
 
 		D3DXMatrixPerspectiveFovLH(&projectMatrix, mCamera->mFov, renderTargetSize.x/renderTargetSize.y, 0.1f, 100000.0f);
 		D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(cameraPos.x, cameraPos.y, cameraPos.z),
-			                            &D3DXVECTOR3(lookPoint.x, lookPoint.y, lookPoint.z), 
-			                            &D3DXVECTOR3(upVector.x, upVector.y, upVector.z) );
+			&D3DXVECTOR3(lookPoint.x, lookPoint.y, lookPoint.z), 
+			&D3DXVECTOR3(upVector.x, upVector.y, upVector.z) );
 
 		mRender->m_pDirect3DDevice->SetTransform(D3DTS_PROJECTION, &projectMatrix);
 		mRender->m_pDirect3DDevice->SetTransform(D3DTS_VIEW, &viewMatrix);

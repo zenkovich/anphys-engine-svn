@@ -39,16 +39,17 @@ struct gr2DRenderStateBase:gr2DRenderStateBaseInterface
 	void begin();
 	void finish();
 
+	void bindCamera(grCamera2D* camera);
+	void updateTransformations();
+
 	void drawMesh(grRender2DObjectMeshBase* mesh);
+
+	void flush();
 
 	void drawPrimitives();
 
 	void lockBuffers();
 	void unlockBuffers();
-
-	void updateMatrix();
-	void setupMatrix();
-	void revertMatrix();
 
 	void setTexture(grTexture* texture);
 

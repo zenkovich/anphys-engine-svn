@@ -2,11 +2,6 @@
 #define COLOR_H
 
 #include "../../engine/engine_options.h"
-#ifdef RENDER_D3D8
-#include <d3d8.h>
-#include <d3dx8.h>
-#include <d3dx8core.h>
-#endif
 
 #define n255 0.00392156862745f
 
@@ -53,7 +48,7 @@ struct color4
 	inline float bf() { return b*n255; }
 	inline float af() { return a*n255; }
 
-	DWORD dwordARGB() const { return (DWORD)( (a << 24) | (r << 16) | (g << 8) | b ); }
+	unsigned long dwordARGB() const { return (unsigned long)( (a << 24) | (r << 16) | (g << 8) | b ); }
 
 #ifdef RENDER_DIRECT3D8
 	inline void operator=(D3DCOLORVALUE cold3d)

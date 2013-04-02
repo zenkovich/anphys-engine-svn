@@ -20,6 +20,10 @@ struct gr2DRenderStateBaseInterface:public grRenderState
 	virtual void finish() {}
 
 	virtual void drawMesh(grRender2DObjectMeshBase* mesh) {}
+
+	virtual void bindCamera(grCamera2D* camera) { mCamera = camera; }
+
+	virtual void flush() {}
 };
 
 #endif //2D_RENDER_STATE_BASE_INTERFACE_H

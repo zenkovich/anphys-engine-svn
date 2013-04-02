@@ -13,6 +13,7 @@ struct grSurfaceMaterialManager;
 struct grSceneManager;
 struct grRenderTarget;
 struct grBackbufferRenderTarget;
+struct grRenderState;
 
 struct grRenderBaseInterface
 {
@@ -27,6 +28,8 @@ struct grRenderBaseInterface
 	RenderTargetsList         mRenderTargetsStack;
 	grBackbufferRenderTarget* mBackbufferRenderTarget;
 
+	grRenderState*            mCurrentRenderState;
+
 	cLogStream*               mLog;
 
 //functions
@@ -34,9 +37,10 @@ struct grRenderBaseInterface
 	virtual ~grRenderBaseInterface();
 
 	virtual void update(float dt);
-	virtual void preRender();
+
+	virtual void beginRender();
 	virtual void render();
-	virtual void postRender();
+	virtual void endRender();
 
 	virtual void swapFullscreen();
 
@@ -45,6 +49,9 @@ struct grRenderBaseInterface
 	bool bindRenderTarget(grRenderTarget* renderTarget);
 	bool unbindRenderTarget(grRenderTarget* renderTarget);
 	grRenderTarget* getCurrentRenderTarget();
+
+	void bindRenderState(grRenderState* renderState);
+	void unbindRenderState();
 
 	virtual const char* getRenderName() { return "render base"; }
 };

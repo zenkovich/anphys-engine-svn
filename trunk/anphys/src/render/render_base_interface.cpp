@@ -1,13 +1,14 @@
 #include "render_base_interface.h"
 
-#include "texture_manager/texture_manager.h"
 #include "light_manager/light_manager.h"
 #include "material_manager/material_manager.h"
-#include "surface/surface_material_manager.h"
-#include "scenes/scene_manager.h"
-#include "util/memory/mem_utils.h"
-#include "render_target/render_target_interface.h"
+#include "render_state/render_state_interface.h"
 #include "render_target/backbuffer_render_target.h"
+#include "render_target/render_target_interface.h"
+#include "scenes/scene_manager.h"
+#include "surface/surface_material_manager.h"
+#include "texture_manager/texture_manager.h"
+#include "util/memory/mem_utils.h"
 
 
 grRenderBaseInterface::grRenderBaseInterface()
@@ -19,6 +20,8 @@ grRenderBaseInterface::grRenderBaseInterface()
 	mMaterials = new grMaterialManager(this);
 	mSurfaceMaterials = new grSurfaceMaterialManager(this);
 	mSceneManager = new grSceneManager(this);
+
+	mCurrentRenderState = NULL;
 }
 
 grRenderBaseInterface::~grRenderBaseInterface()
@@ -39,7 +42,7 @@ void grRenderBaseInterface::update(float dt)
 	mSceneManager->update(dt);
 }
 
-void grRenderBaseInterface::preRender()
+void grRenderBaseInterface::beginRender()
 {
 	bindRenderTarget(mBackbufferRenderTarget);
 }
@@ -49,7 +52,7 @@ void grRenderBaseInterface::render()
 	mSceneManager->render();
 }
 
-void grRenderBaseInterface::postRender()
+void grRenderBaseInterface::endRender()
 {
 	mTextures->processStreaming();
 
@@ -65,7 +68,12 @@ bool grRenderBaseInterface::bindRenderTarget( grRenderTarget* renderTarget )
 {
 	mRenderTargetsStack.push_back(renderTarget);
 
-	return renderTarget->begin();
+	if (!renderTarget->begin()) return false;
+
+	if (mCurrentRenderState)
+		mCurrentRenderState->updateTransformations();
+
+	return true;
 }
 
 bool grRenderBaseInterface::unbindRenderTarget( grRenderTarget* renderTarget )
@@ -73,15 +81,25 @@ bool grRenderBaseInterface::unbindRenderTarget( grRenderTarget* renderTarget )
 	bool res = true;
 	for (RenderTargetsList::reverse_iterator it = mRenderTargetsStack.rbegin(); it != mRenderTargetsStack.rend(); )
 	{
-		res = res && (*it)->finish();
-		grRenderTarget* curr = *it;
+		grRenderTarget* currentRenderTarget = *it;
+
+		if (mCurrentRenderState)
+			mCurrentRenderState->flush();
+
+		res = res && currentRenderTarget->finish();
 
 		mRenderTargetsStack.erase(--it.base());
 
-		if (curr == renderTarget) break;
+		if (currentRenderTarget == renderTarget) break;
 	}
 
-	if (mRenderTargetsStack.size() > 0) res = res && mRenderTargetsStack[mRenderTargetsStack.size() - 1]->begin();
+	if (mRenderTargetsStack.size() > 0)
+	{
+		res = res && mRenderTargetsStack[mRenderTargetsStack.size() - 1]->begin();
+
+		if (mCurrentRenderState)
+			mCurrentRenderState->updateTransformations();
+	}
 
 	return res;
 }
@@ -96,5 +114,20 @@ grRenderTarget* grRenderBaseInterface::getCurrentRenderTarget()
 void grRenderBaseInterface::resize( const vec2& size )
 {
 	mBackbufferRenderTarget->mSize = size;
+}
+
+void grRenderBaseInterface::bindRenderState( grRenderState* renderState )
+{
+	mCurrentRenderState = renderState;
+
+	mCurrentRenderState->begin();
+}
+
+void grRenderBaseInterface::unbindRenderState()
+{
+	if (mCurrentRenderState)
+		mCurrentRenderState->finish();
+
+	mCurrentRenderState = NULL;
 }
 

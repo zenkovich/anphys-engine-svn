@@ -14,10 +14,17 @@ struct cObject;
 struct grRender2DObjectMesh;
 struct grTexture;
 struct grTextureRenderTarget;
+struct grSimple3DRenderState;
+struct gr2DRenderState;
+struct grCamera2D;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*            mCamera3dMouse;
+	grCamera2D*                 m2DCamera;
+	grSimple3DRenderState*      m3DRenderState;
+	gr2DRenderState*            m2DRenderState;
+
 	cScene*                     mMainEngineScene;
 	
 	bool                        mPhysicsRunning;
