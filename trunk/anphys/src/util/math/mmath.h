@@ -103,9 +103,12 @@ inline int imin(int a, int b) { if(a<b) return a; return b; }
 inline int imax(int a, int b) { if(a>b) return a; return b; }
 inline void swap(int &a, int &b) { int c=a; a=b; b=c; }
 
-inline float fclamp(float a, float b, float c) 
+inline float fclamp(float clampValue, float minValue, float maxValue) 
 {
-	return fmax(b, fmin(a, c));
+	if (clampValue < minValue) return minValue;
+	if (clampValue > maxValue) return maxValue;
+
+	return clampValue;
 }
 
 inline mat3x3 RotatedMatrix(float rx, float ry, float rz)

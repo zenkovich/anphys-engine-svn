@@ -1,27 +1,21 @@
-#ifndef RENDER_2D_D3D8_H
-#define RENDER_2D_D3D8_H
+#ifndef _2D_RENDER_STATE_D3D8_H
+#define _2D_RENDER_STATE_D3D8_H
 
+#include "render/render_state/2d_render_state_base_interface.h"
 #include "util/math/mmath.h"
-
-#include "render/2d_render/render_2d_base_interface.h"
-
 #include "dependencies/dx8/include/d3d8.h"
 #include "dependencies/dx8/include/d3dx8.h"
 #include "dependencies/dx8/include/d3dx8core.h"
 
 struct grTexture;
 
-struct grRender2DBase:public grRender2DBaseInterface
+struct gr2DRenderStateBase:gr2DRenderStateBaseInterface
 {
 	enum { nVertexBufferSize = 16384, nIndexBufferSize = 49152 };
 
 	LPDIRECT3DVERTEXBUFFER8 mVertexBuffer;
 	LPDIRECT3DINDEXBUFFER8  mIndexBuffer;
-	D3DXMATRIX              mProjMatrix;
-	D3DXMATRIX              mViewMatrix;
-	D3DXMATRIX              mLastProjMatrix;
-	D3DXMATRIX              mLastViewMatrix;
-
+	
 	grTexture*              mLastDrawingTexture;
 	unsigned int            mLastDrawingVertex;
 	unsigned int            mLastDrawingIndex;
@@ -33,16 +27,20 @@ struct grRender2DBase:public grRender2DBaseInterface
 
 	unsigned int            mFrameIdx;
 
+	bool                    mRendering;
+
 //functions
-	grRender2DBase(grRenderBaseInterface* render);
-	~grRender2DBase();
+	gr2DRenderStateBase();
+	gr2DRenderStateBase(grRenderBase* render);
+	virtual ~gr2DRenderStateBase();
 
 	void initialize();
 
-	void beginRender();
-	void endRender();
+	void begin();
+	void finish();
 
-	void drawMesh(grRender2DObjectMeshBase* renderMesh);
+	void drawMesh(grRender2DObjectMeshBase* mesh);
+
 	void drawPrimitives();
 
 	void lockBuffers();
@@ -58,4 +56,4 @@ struct grRender2DBase:public grRender2DBaseInterface
 	void resetFrameIdx() { mFrameIdx = 0; }
 };
 
-#endif //RENDER_2D_D3D8_H
+#endif //2D_RENDER_STATE_D3D8_H

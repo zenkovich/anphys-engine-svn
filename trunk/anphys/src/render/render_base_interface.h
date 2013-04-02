@@ -5,14 +5,12 @@
 #include <vector>
 #include "../util/math/mmath.h"
 
-struct grCamerasManager;
 struct cLogStream;
 struct grTextureManager;
 struct grLightManager;
 struct grMaterialManager;
 struct grSurfaceMaterialManager;
 struct grSceneManager;
-struct grRender2D;
 struct grRenderTarget;
 struct grBackbufferRenderTarget;
 
@@ -20,8 +18,6 @@ struct grRenderBaseInterface
 {
 	typedef std::vector<grRenderTarget*> RenderTargetsList;
 
-	grRender2D*               mRender2D;
-	grCamerasManager*         mCameras;
 	grTextureManager*         mTextures;
 	grLightManager*           mLights;
 	grMaterialManager*        mMaterials;

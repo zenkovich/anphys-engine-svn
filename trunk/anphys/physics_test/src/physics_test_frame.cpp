@@ -106,6 +106,39 @@ float apPhysicsTestFrame::onTimer()
 	render2D();
 	mRender->postRender();
 
+	/*
+	 mRender->update(dt);
+	 mMainEngineScene->update(dt);
+	 mCamera1->update(dt);
+	 mCamera2->update(dt);
+	 m2DCamera->update(dt);
+
+	 mRender->beginRender();
+
+	 mRender->bindRenderState(m3DRenderState);
+	 mRender->bindRenderTarget(mCamera1RenderTarget);
+
+	 m3DRenderState->bindCamera(mCamera1);
+
+	 mMainEngineScene->draw();
+
+	 mRender->unbindRenderTarget(mCamera1RenderTarget);
+	 mRender->bindRenderTarget(mCamera2RenderTarget);
+
+	 m3DRenderState->bindCamera(mCamera2);
+
+	 mMainEngineScene->draw();
+
+	 mRender->unbindRenderTarget(mCamera2RenderTarget);
+
+	 mRender->bindRenderState(m2DRenderState);
+
+	 call2DDrawing();  //where drawing two cameras render targets and other 2D Geometry
+
+	 mRender->endRender();
+	 
+	 **/
+
 
 	if (mPhysicsRunByStep) mPhysicsRunning = false;
 

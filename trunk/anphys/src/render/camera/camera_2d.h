@@ -3,24 +3,15 @@
 
 #include "util/math/mmath.h"
 
-#include "camera.h"
-
-struct grCamera2D:public grCamera
+struct grCamera2D
 {
-	DEFINE_TYPE(grCamera2D)
-
 	vec2  mPosition;
 	vec2  mScale;
 	float mAngle;
 
 //functions
-	grCamera2D();
-	grCamera2D(const vec2& screenSize, grRenderBase* render);
-	grCamera2D(const vec2& screenSize, grRenderBase* render, const vec2& pos, const vec2& scale, float angle);
-	~grCamera2D(); 
-
-	void initialize(const vec2& screenSize, grRenderBase* render);
-	void initialize(const vec2& screenSize, grRenderBase* render, const vec2& pos, const vec2& scale, float angle);
+	grCamera2D(const vec2& position = vec2(0, 0), const vec2& scale = vec2(1, 1), float angle = 0):
+		mPosition(position), mScale(scale), mAngle(angle) {}
 };
 
 #endif //CAMERA_2D_H

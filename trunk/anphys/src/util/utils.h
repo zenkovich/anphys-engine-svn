@@ -13,7 +13,6 @@
 #include "input/input_keys.h"
 #include "geometry/geometry_objects.h"
 #include "script/config_reader.h"
-#include "other/data_object.h"
 #include "other/singleton.h"
 #include "other/queue.h"
 #include "other/precreated_vector.h"

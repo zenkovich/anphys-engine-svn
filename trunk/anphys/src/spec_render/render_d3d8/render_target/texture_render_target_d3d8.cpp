@@ -4,7 +4,6 @@
 #include "texture_render_target_d3d8.h"
 
 #include "render/render.h"
-#include "render/2d_render/render_2d.h"
 #include "render/texture_manager/texture.h"
 
 
@@ -14,7 +13,7 @@ bool grTextureRenderTargetBase::begin()
 
 	mSize = mTexture->mSize;
 
-	mRender->mRender2D->drawPrimitives();
+	//mRender->mRender2D->drawPrimitives();
 
 	LPDIRECT3DSURFACE8 renderTargetSurface;
 	LPDIRECT3DTEXTURE8 renderTargetTexture = mTexture->mTexturePtr;
@@ -38,7 +37,7 @@ bool grTextureRenderTargetBase::begin()
 
 bool grTextureRenderTargetBase::finish()
 {
-	mRender->mRender2D->drawPrimitives();
+//	mRender->mRender2D->drawPrimitives();
 
 	return true;
 }

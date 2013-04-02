@@ -1,152 +1,60 @@
 #include "camera_3d_mouse.h"
 
-#include "render/render.h"
 
-REGIST_TYPE(grCamera3DMouse)
-
-grCamera3DMouse::grCamera3DMouse():grCamera() {}
-
-grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render)
+grCamera3DMouse::grCamera3DMouse( const vec3& position /*= vec3(0, 0, 0)*/, float xMinAngle /*= -80.0f*/, float xMaxAngle /*= 80.0f*/, 
+	                              float speed /*= 20.0f*/, float shiftSpeed /*= 60.0f*/ ) :
+	grCamera3D(position), mXAngle(0), mYAngle(0), mXMinAngle(xMinAngle), mXMaxAngle(xMaxAngle), mSpeed(speed), mShiftSpeed(shiftSpeed)
 {
-	initialize(screenSize, render);
+	update(0.0f);
 }
 
-grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
-	                             float axisSence, float maxSpeed)
+void grCamera3DMouse::mouseMoved( const vec2& diff )
 {
-	initialize(screenSize, render, sence, shiftSence, speedFriction, axisSence, maxSpeed);
-}
-	
-grCamera3DMouse::grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
-	                             float axisSence, float maxSpeed, vec3 pos, float angleX, float angleY)
-{
-	initialize(screenSize, render, sence, shiftSence, speedFriction, axisSence, maxSpeed, pos, angleX, angleY);
+	float xSense = 1.0f, ySense = 1.0f;
+
+	mXAngle = fclamp( mXAngle + diff.y*xSense, mXMinAngle, mXMaxAngle );
+	mYAngle += diff.x*ySense;
 }
 
-void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render)
+void grCamera3DMouse::move( const vec3& movingDirection, bool shifting )
 {
-	grCamera::initialize(screenSize, render);
-
-	mPosition = vec3(0);
-	mOrient = nullMatr();
-	mAngleX = mAngleY = 0;
-
-	mSence = 30;
-	mSenceShift = 100;
-	mSpeed = 0;
-	mSpeedFriction = 20;
-	mAxisSence = 0.2f;
-	mMaxSpeed = 20;
-	mDt = 0;
-
-	update(0);
+	mPosition += movingDirection*( shifting ? mShiftSpeed:mSpeed );
 }
 
-void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
-	                             float axisSence, float maxSpeed)
+void grCamera3DMouse::update( float dt )
 {
-	grCamera::initialize(screenSize, render);
+	mDirection = vec3(0, 0, 1);
+	mDirection.RotateXYZ(rad(mXAngle), rad(mYAngle), 0);
 
-	mPosition = vec3(0);
-	mOrient = nullMatr();
-	mAngleX = mAngleY = 0;
-
-	mSence = sence;
-	mSenceShift = shiftSence;
-	mSpeed = 0;
-	mSpeedFriction = speedFriction;
-	mAxisSence = axisSence;
-	mDt = 0;
-
-	update(0);
+	mLookPoint = mPosition + mDirection;
 }
 
-void grCamera3DMouse::initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, 
-	                             float axisSence, float maxSpeed, vec3 pos, float angleX, float angleY)
+void grCamera3DMouse::moveForward( bool shifting )
 {
-	grCamera::initialize(screenSize, render);
-
-	mPosition = pos;
-	mOrient = nullMatr();
-	mAngleX = angleX;
-	mAngleY = angleY;
-
-	mSence = sence;
-	mSenceShift = shiftSence;
-	mSpeed = 0;
-	mSpeedFriction = speedFriction;
-	mAxisSence = axisSence;
-	mDt = 0;
-
-	update(0);
+	move(mDirection, shifting);
 }
 
-void grCamera3DMouse::mouseMove(const vec2& diff)
+void grCamera3DMouse::moveBack( bool shifting )
 {
-	mAngleX += diff.y*mAxisSence;
-	mAngleY += diff.x*mAxisSence;
+	move(mDirection*-1.0f, shifting);
 }
 
-void grCamera3DMouse::moveForward(bool shift)
+void grCamera3DMouse::moveLeft( bool shifting )
 {
-	mSpeed += vec3(0,0,1)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
+	move(mDirection^vec3(0, 1, 0), shifting);
 }
 
-void grCamera3DMouse::moveBack(bool shift)
+void grCamera3DMouse::moveRight( bool shifting )
 {
-	mSpeed += vec3(0,0,-1)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
+	move(mDirection^vec3(0, -1, 0), shifting);
 }
 
-void grCamera3DMouse::moveLeft(bool shift)
+void grCamera3DMouse::moveUp( bool shifting )
 {
-	mSpeed += vec3(-1,0,0)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
+	move(vec3(0, 1, 0), shifting);
 }
 
-void grCamera3DMouse::moveRight(bool shift)
+void grCamera3DMouse::moveDown( bool shifting )
 {
-	mSpeed += vec3(1,0,0)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
-}
-
-void grCamera3DMouse::moveUp(bool shift)
-{
-	mSpeed += vec3(0,1,0)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
-}
-
-void grCamera3DMouse::moveDown(bool shift)
-{
-	mSpeed += vec3(0,-1,0)*((shift) ? mSenceShift:mSence)*mDt*mOrient;
-}
-
-void grCamera3DMouse::moveVec(vec3 vec)
-{
-	mPosition += vec;
-}
-
-void grCamera3DMouse::update(float dt)
-{
-	mDt = dt;
-
-	if (mSpeed.len() > mMaxSpeed) mSpeed = mSpeed.normalize()*mMaxSpeed;
-
-	mPosition += mSpeed*dt;
-
-	float speed = mSpeed.len();
-	mSpeed = mSpeed/speed*max(speed - mSpeedFriction*dt, 0);
-	
-	if (mAngleX > 75.0f) mAngleX = 75.0f;
-	if (mAngleX < -75.0f) mAngleX = -75.0f;
-
-	mOrient.Identity();
-	mat3x3 mx,my;
-	my.SetRotationY(rad(mAngleY));
-	mx.SetRotationX(rad(mAngleX));
-
-	mOrient = mx*my;
-
-	mOrientVec = vec3(0,0,1)*mOrient;
-	mLookPoint = mPosition + mOrientVec;
-
-	specRenderUpdate(dt);
-	
-	grCamera::update(dt);
+	move(vec3(0, -1, 0), shifting);
 }
