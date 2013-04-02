@@ -5,7 +5,6 @@
 //render
 #include "render_d3d8.h"
 #include "render/scenes/scene_manager.h"
-#include "render/2d_render/render_2d.h"
 #include "render/render_target/backbuffer_render_target.h"
 
 
@@ -71,9 +70,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
     m_pDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	mLog->fout(1, "Direct3d8 render initialized");
-
-	mRender2D->initialize();
-
+	
 	mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
 	mBackbufferRenderTarget->mSize = drawRect.getSize();
 
@@ -116,12 +113,30 @@ void grRenderBase::postRender()
 
 void grRenderBase::resize( const vec2& size )
 {
-	grRenderBaseInterface::resize(size);
+	//grRenderBaseInterface::resize(size);
+
+	//safe_release(mBackbufferRenderTarget);
 
 	mDirect3DParametr.BackBufferWidth = size.x;
 	mDirect3DParametr.BackBufferHeight = size.y;
 
-	m_pDirect3DDevice->Reset(&mDirect3DParametr);
+	HRESULT hr;
+	/*if (FAILED(hr = m_pDirect3DDevice->Reset(&mDirect3DParametr)))
+	{
+		mLog->fout(1, "ERROR: Failed to reset direct 3d device");
+
+		if (hr == D3DERR_OUTOFVIDEOMEMORY)
+			mLog->fout(1, "error code: D3DERR_OUTOFVIDEOMEMORY");
+		else if (hr == D3DERR_INVALIDCALL)
+			mLog->fout(1, "error code: D3DERR_INVALIDCALL");
+		else if (hr == E_OUTOFMEMORY)
+			mLog->fout(1, "error code: E_OUTOFMEMORY");
+		else 
+			mLog->fout(1, "error code: %i", hr);
+	}*/
+
+	//mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
+	mBackbufferRenderTarget->mSize = size;
 }
 
 #endif //RENDER_D3D8

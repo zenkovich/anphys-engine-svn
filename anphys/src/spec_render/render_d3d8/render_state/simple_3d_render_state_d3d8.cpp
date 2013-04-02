@@ -4,6 +4,8 @@
 #include "simple_3d_render_state_d3d8.h"
 
 #include "render/render.h"
+#include "render/camera/camera_3d.h"
+#include "render/render_target/render_target_interface.h"
 
 void grSimple3DRenderStateBase::begin()
 {
@@ -22,6 +24,26 @@ void grSimple3DRenderStateBase::begin()
 
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//camera
+	if (mCamera)
+	{
+		D3DXMATRIX projectMatrix, viewMatrix;
+
+		vec2 renderTargetSize = mRender->getCurrentRenderTarget()->mSize;
+		vec3 cameraPos = mCamera->mPosition;
+		vec3 lookPoint = mCamera->mLookPoint;
+		vec3 upVector = vec3(0, 1, 0);
+		upVector.RotateZ(rad(mCamera->mAngle));
+
+		D3DXMatrixPerspectiveFovLH(&projectMatrix, mCamera->mFov, renderTargetSize.x/renderTargetSize.y, 0.1f, 100000.0f);
+		D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(cameraPos.x, cameraPos.y, cameraPos.z),
+			                            &D3DXVECTOR3(lookPoint.x, lookPoint.y, lookPoint.z), 
+			                            &D3DXVECTOR3(upVector.x, upVector.y, upVector.z) );
+
+		mRender->m_pDirect3DDevice->SetTransform(D3DTS_PROJECTION, &projectMatrix);
+		mRender->m_pDirect3DDevice->SetTransform(D3DTS_VIEW, &viewMatrix);
+	}
 }
 
 #endif //RENDER_D3D8

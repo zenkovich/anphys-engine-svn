@@ -36,34 +36,100 @@ struct vec3
 	//inline vec3(float v[3]) { x=v[0];y=v[1];z=v[2]; }
 	//inline vec3(vec3 v) { x=v.x;y=v.y;z=v.z; }
 
-	inline virtual vec3 operator+(vec3& v) { return vec3(x + v.x, y + v.y, z + v.z); }
-	inline virtual vec3 operator+=(vec3& v) { *this = *this + v; return *this; }
-	inline virtual vec3 operator-(vec3& v) { return vec3(x - v.x, y - v.y, z - v.z); }
-	inline virtual vec3 operator-=(vec3& v) { *this = *this - v; return *this; }
-	inline virtual vec3 operator*(float v) { return vec3(x*v, y*v, z*v); }
-	inline virtual vec3 operator*=(float v) { *this = *this*v; return *this; }
-	inline virtual vec3 operator/(float v) { return *this*(1.0f/v); }
-	inline virtual vec3 operator/=(float v) { *this = *this/v; return *this; }
-	inline virtual float operator*(vec3& v) { return (x*v.x + y*v.y + z*v.z); }
-	inline virtual float operator*=(vec3& v) { return *this*v; }
-	inline virtual vec3 operator^(vec3& v) { return vec3(v.y*z - y*v.z, v.z*x - z*v.x, v.x*y - x*v.y); }
-	inline virtual bool operator==(vec3& v) { if (x != v.x || y != v.y || z != v.z) return false; else return true; }
-	inline virtual bool operator!=(vec3& v) { if (x != v.x || y != v.y || z != v.z) return true; else return false; }
-	inline float& operator[](int idx) { if (idx == 0) return x; if (idx == 1) return y; return z; }
+	inline virtual vec3 operator+(const vec3& v) const 
+	{ 
+		return vec3(x + v.x, y + v.y, z + v.z); 
+	}
 
-	inline virtual vec3 umnoj(vec3& v) { return vec3(x*v.x, y*v.y, z*v.z); }
+	inline virtual vec3 operator+=(const vec3& v) 
+	{ 
+		*this = *this + v; return *this; 
+	}
 
-	//inline virtual bool near(vec3 v, float maxDiff) { if (fabs(x - v.x) > maxDiff || fabs(y - v.y) > maxDiff || fabs(z - v.z) > maxDiff) return false; return true; }
+	inline virtual vec3 operator-(const vec3& v) const 
+	{ 
+		return vec3(x - v.x, y - v.y, z - v.z); 
+	}
+
+	inline virtual vec3 operator-=(const vec3& v)
+	{ 
+		*this = *this - v; return *this; 
+	}
+
+	inline virtual vec3 operator*(const float v) const 
+	{
+		return vec3(x*v, y*v, z*v); 
+	}
+
+	inline virtual vec3 operator*=(const float v) 
+	{
+		*this = *this*v; return *this;
+	}
+
+	inline virtual vec3 operator/(const float v) const 
+	{ 
+		return *this*(1.0f/v); 
+	}
+
+	inline virtual vec3 operator/=(const float v) 
+	{
+		*this = *this/v; return *this;
+	}
+
+	inline virtual float operator*(const vec3& v) const 
+	{ 
+		return (x*v.x + y*v.y + z*v.z);
+	}
+
+	inline virtual float operator*=(const vec3& v) const 
+	{ 
+		return *this*v; 
+	}
+
+	inline virtual vec3 operator^(const vec3& v) const 	
+	{ 
+		return vec3(v.y*z - y*v.z, v.z*x - z*v.x, v.x*y - x*v.y); 
+	}
 	
+	inline virtual bool operator==(const vec3& v) const 
+	{ 
+		if (x != v.x || y != v.y || z != v.z) return false; 
+		return true; 
+	}
 
-	inline virtual float get(int i) { if (i == 0) return x; if (i == 1) return y; if (i == 2) return z; return x; }
-	inline virtual void  set(int i, float n) { if (i == 0) x = n; if (i == 1) y = n; if (i == 2) z = n; }
+	inline virtual bool operator!=(const vec3& v) const
+	{ 
+		if (x != v.x || y != v.y || z != v.z) return true; 
+		return false; 
+	}
 
-	inline virtual float dot(vec3& v) { return *this*v; }
-	inline virtual vec3  cross(vec3& v) {return *this^v; }
+	inline float& operator[](const int idx)
+	{
+		if (idx == 0) return x; if (idx == 1) return y; return z; 
+	}
 
-	inline virtual float len() { return fssqrt((*this)*(*this)); }
-	inline virtual vec3 normalize() { float ln = len(); if (ln > MDif) return *this/ln; else return vec3(0); }
+	inline virtual vec3 scale(const vec3& v) const 
+	{ 
+		return vec3(x*v.x, y*v.y, z*v.z);
+	}
+
+	inline virtual float get(int i) const
+	{ 
+		if (i == 0) return x; if (i == 1) return y; return z;  
+	}
+
+	inline virtual void set(int i, float n)
+	{ 
+		if (i == 0) x = n;
+		else if (i == 1) y = n; 
+		else if (i == 2) z = n; 
+	}
+
+	inline virtual float dot(const vec3& v) const { return *this*v; }
+	inline virtual vec3  cross(const vec3& v) const {return *this^v; }
+
+	inline virtual float len() const { return fssqrt((*this)*(*this)); }
+	inline virtual vec3 normalize() const { float ln = len(); if (ln > MDif) return *this/ln; else return vec3(0); }
 
 	inline virtual void RotateX(float rad)
 	{
@@ -103,30 +169,25 @@ struct vec3
 
 	inline virtual void RotateXYZ(float rx, float ry, float rz, vec3 c) { *this -= c; RotateXYZ(rx, ry, rz); *this += c; }
 
-	inline virtual vec3 Inv(bool bx, bool by, bool bz) { vec3 r = *this; if (bx) r.x = -r.x; if (by) r.y = -r.y; if (bz) r.z = -r.z; return r; } 
+	inline virtual vec3 Inv(bool bx, bool by, bool bz) const
+	{ 
+		vec3 r = *this; if (bx) r.x = -r.x; if (by) r.y = -r.y; if (bz) r.z = -r.z; return r; 
+	} 
 
-	inline virtual vec3 InvX() { vec3 r = *this; r.x = -r.x; return r; }
-	inline virtual vec3 InvY() { vec3 r = *this; r.y = -r.y; return r; }
-	inline virtual vec3 InvZ() { vec3 r = *this; r.z = -r.z; return r; }
+	inline virtual vec3 InvX() const { vec3 r = *this; r.x = -r.x; return r; }
+	inline virtual vec3 InvY() const { vec3 r = *this; r.y = -r.y; return r; }
+	inline virtual vec3 InvZ() const { vec3 r = *this; r.z = -r.z; return r; }
 };
 
-inline float len(vec3& a, vec3& b) { return (b - a).len(); }
-/*
-inline vec3 project(vec3& a, vec3& b) 
-{ 
-	float aa = a*a; 
-	if ((float)fabs((double)aa) < MDif) aa = MDif; 
+inline float len(const vec3& a, const vec3& b) { return (b - a).len(); }
 
-	return (a^(a*b)/aa); 
-}*/
-
-inline vec3 proj(vec3& a, vec3& b)
+inline vec3 proj(const vec3& a, const vec3& b)
 {
 	vec3 n = b.normalize();
 	return n*(n*a);
 }
 
-inline vec3 projectPoint2Plane(vec3& p, vec3&& pn, vec3 pp)
+inline vec3 projectPoint2Plane(const vec3& p, const vec3&& pn, const vec3 pp)
 {
 	float prj = (p - pp)*pn;
 	vec3 r = (p - (pn*prj));
@@ -135,23 +196,12 @@ inline vec3 projectPoint2Plane(vec3& p, vec3&& pn, vec3 pp)
 }
 
 
-inline vec3 scale(vec3& a, vec3& b)
+inline vec3 scale(const vec3& a, const vec3& b)
 {
 	return vec3(a.x*b.x, a.y*b.y, a.z*b.z);
 }
-inline vec3 rotateVecX(float rad, vec3& v) { v.RotateX(rad); return v; }
-inline vec3 rotateVecY(float rad, vec3& v) { v.RotateY(rad); return v; }
-inline vec3 rotateVecZ(float rad, vec3& v) { v.RotateZ(rad); return v; }
-inline vec3 v(float f[3]) { return vec3(f[0],f[1],f[2]); }
-inline void v(vec3 v, float *f) { f[0]=v.x; f[1]=v.y; f[2]=v.z; }
-//inline float[3] v(vec3 v) { float f[3]; v(v, f); return f; }
-
-struct fmas3
-{
-	float m[3];
-
-	inline fmas3() { m[0]=0;m[1]=0;m[2]=0; }
-	inline fmas3(vec3 v) { m[0]=v.x;m[1]=v.y;m[2]=v.z; }
-};
+inline vec3 rotateVecX(float rad, const vec3& v) { vec3 res = v; res.RotateX(rad); return res; }
+inline vec3 rotateVecY(float rad, const vec3& v) { vec3 res = v; res.RotateY(rad); return res; }
+inline vec3 rotateVecZ(float rad, const vec3& v) { vec3 res = v; res.RotateZ(rad); return res; }
 
 #endif

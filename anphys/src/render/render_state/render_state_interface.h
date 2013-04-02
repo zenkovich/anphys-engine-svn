@@ -5,6 +5,8 @@ struct grRenderBase;
 
 struct grRenderState
 {
+	enum PolygonCullMode { PCM_NONE = 0, PCM_CLOCKWISE, PCM_COUNETRCLOCKWISE };
+
 	grRenderBase* mRender;
 
 //functions

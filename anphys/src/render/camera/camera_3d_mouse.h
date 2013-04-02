@@ -1,53 +1,34 @@
 #ifndef CAMERA_3D_MOUSE_H
 #define CAMERA_3D_MOUSE_H
 
-#include "util/math/mmath.h"
-#include "camera.h"
+#include "camera_3d.h"
 
-struct grCamera3DMouse:public grCamera
-{	
-	DEFINE_TYPE(grCamera3DMouse)
+struct grCamera3DMouse:public grCamera3D
+{
+	float mSpeed;
+	float mShiftSpeed;
 
-	float  mAngleX;
-	float  mAngleY;
-	vec3   mPosition;
-	vec3   mLookPoint;
-	vec3   mSpeed;
-	vec3   mOrientVec;
-	mat3x3 mOrient;
-	float  mSence;
-	float  mSenceShift; 
-	float  mSpeedFriction;
-	float  mAxisSence;
-	float  mMaxSpeed;
-	float  mDt;
+	float mXAngle;
+	float mYAngle;
+
+	float mXMinAngle;
+	float mXMaxAngle;
+
+	vec3  mDirection;
 
 //functions
-	grCamera3DMouse();
-	grCamera3DMouse(const vec2& screenSize, grRenderBase* render);	
-	grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, 
-		            float maxSpeed);	
-	grCamera3DMouse(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence,
-		            float maxSpeed, vec3 pos, float angleX = 0, float angleY = 0);
+	grCamera3DMouse(const vec3& position = vec3(0, 0, 0), float xMinAngle = -80.0f, float xMaxAngle = 80.0f, float speed = 20.0f, float shiftSpeed = 60.0f);
 
-	void initialize(const vec2& screenSize, grRenderBase* render);
-	void initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, 
-		            float maxSpeed);
-	void initialize(const vec2& screenSize, grRenderBase* render, float sence, float shiftSence, float speedFriction, float axisSence, 
-		            float maxSpeed, vec3 pos, float angleX = 0, float angleY = 0);
+	void mouseMoved(const vec2& diff);
+	void move(const vec3& movingDirection,bool shifting);
+	void moveForward(bool shifting);
+	void moveBack(bool shifting);
+	void moveLeft(bool shifting);
+	void moveRight(bool shifting);
+	void moveUp(bool shifting);
+	void moveDown(bool shifting);
 
-	void mouseMove(const vec2& diff);
-	void moveForward(bool shift);
-	void moveBack(bool shift);
-	void moveLeft(bool shift);
-	void moveRight(bool shift);
-	void moveUp(bool shift);
-	void moveDown(bool shift);
-	void moveVec(vec3 vec);
-
-	void specRenderUpdate(float dt);
-
-	void update(float dt);	
+	void update(float dt);
 };
 
 #endif //CAMERA_3D_MOUSE_H

@@ -11,9 +11,6 @@
 
 struct grSimple3DRenderStateBase:public grSimple3DRenderStateBaseInterface
 {
-	D3DXMATRIX mProjectionMatrix;
-
-//functions
 	grSimple3DRenderStateBase():grSimple3DRenderStateBaseInterface(0) {}
 	grSimple3DRenderStateBase(grRenderBase* render):grSimple3DRenderStateBaseInterface(render) {}
 	virtual ~grSimple3DRenderStateBase() {}

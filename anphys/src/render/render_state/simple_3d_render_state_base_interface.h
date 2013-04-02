@@ -4,12 +4,14 @@
 #include "render_state_interface.h"
 #include "util/math/color.h"
 
+struct grCamera3D;
+
 struct grSimple3DRenderStateBaseInterface:public grRenderState
 {
-	enum PolygonCullMode { PCM_NONE = 0, PCM_CLOCKWISE, PCM_COUNETRCLOCKWISE };
-
 	color4          mAmbientColor;
 	PolygonCullMode mPolygonCullMode;
+
+	grCamera3D*     mCamera;
 
 //functions
 	grSimple3DRenderStateBaseInterface();
@@ -18,6 +20,8 @@ struct grSimple3DRenderStateBaseInterface:public grRenderState
 
 	virtual void begin() {}
 	virtual void finish() {}
+
+	virtual void bindCamera(grCamera3D* camera) { mCamera = camera; }
 };
 
 #endif //SIMPLE_3D_RENDER_STATE_H

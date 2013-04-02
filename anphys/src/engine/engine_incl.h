@@ -22,11 +22,9 @@
 #include "frame_system/render_frame.h"
 
 //render
-#include "render/2d_render/render_2d.h"
-#include "render/camera/camera.h"
 #include "render/camera/camera_2d.h"
+#include "render/camera/camera_3d.h"
 #include "render/camera/camera_3d_mouse.h"
-#include "render/camera/cameras_manager.h"
 #include "render/light_manager/light.h"
 #include "render/light_manager/light_manager.h"
 #include "render/material_manager/material.h"
@@ -44,6 +42,9 @@
 #include "render/render_target/backbuffer_render_target.h"
 #include "render/render_target/render_target_interface.h"
 #include "render/render_target/texture_render_target.h"
+#include "render/render_state/render_state_interface.h"
+#include "render/render_state/2d_render_state.h"
+#include "render/render_state/simple_3d_render_state.h"
 #include "render/scenes/scene_manager.h"
 #include "render/scenes/simple_scene/render_scene_base_interface.h"
 #include "render/surface/surface_material.h"
@@ -54,7 +55,6 @@
 //spec render
 #ifdef RENDER_D3D8
 
-#include "spec_render/render_d3d8/camera/camera.h"
 #include "spec_render/render_d3d8/light/light_d3d8.h"
 #include "spec_render/render_d3d8/material/material_d3d8.h"
 #include "spec_render/render_d3d8/objects/mesh/mesh_data_manager_d3d8.h"
