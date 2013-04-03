@@ -57,11 +57,12 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	setupScene1();
 
 	grTexture* tex = mRender->mTextures->createTexture("textures/pngtest");
+	grTexture* tex2 = mRender->mTextures->createTexture("textures/pngtest2");
 	mTest2DMesh = new grRender2DObjectMesh(4, 2);
-	mTest2DMesh->mVertexBuffer[0] = vertex2d(10.0f, 10.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[1] = vertex2d(300.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[2] = vertex2d(300.0f, 300.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
-	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 300.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[0] = vertex2d(10.0f, 10.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[1] = vertex2d(100.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[2] = vertex2d(100.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh->mVertexBuffer[3] = vertex2d(10.0f, 100.0f, 1.0f, 0.0f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mPolygonsBuffer[0] = poly3(0, 1, 2);
 	mTest2DMesh->mPolygonsBuffer[1] = poly3(0, 2, 3);
 	mTest2DMesh->pushTexture(tex);
@@ -69,13 +70,13 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 
 	mRenderTexture = mRender->mTextures->createRenderTexture(inRect.getSize());
 	mTest2DMesh2 = new grRender2DObjectMesh(4, 2);
-	mTest2DMesh2->mVertexBuffer[0] = vertex2d(100.0f, 100.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 0.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh2->mVertexBuffer[1] = vertex2d(200.0f, 100.0f, 1.0f, 1.0f, 0.0f, color4(0.0f, 1.0f, 0.0f, 1.0f).dwordARGB());
-	mTest2DMesh2->mVertexBuffer[2] = vertex2d(200.0f, 200.0f, 1.0f, 1.0f, 1.0f, color4(0.0f, 0.0f, 1.0f, 1.0f).dwordARGB());
-	mTest2DMesh2->mVertexBuffer[3] = vertex2d(100.0f, 200.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[0] = vertex2d(110.0f, 10.0f, 1.0f, 0.5f, 0.5f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[1] = vertex2d(200.0f, 10.0f, 1.0f, 1.0f, 0.5f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[2] = vertex2d(200.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
+	mTest2DMesh2->mVertexBuffer[3] = vertex2d(110.0f, 100.0f, 1.0f, 0.5f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mPolygonsBuffer[0] = poly3(0, 1, 2);
 	mTest2DMesh2->mPolygonsBuffer[1] = poly3(0, 2, 3);
-	mTest2DMesh2->pushTexture(tex);
+	mTest2DMesh2->pushTexture(tex2);
 	mTest2DMesh2->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
 	mTextureRenderTarget = new grTextureRenderTarget(mRender, mRenderTexture);
@@ -107,9 +108,9 @@ float apPhysicsTestFrame::onTimer()
 
 	mRender->beginRender();
 
-	//mRender->bindRenderState(m3DRenderState);
+	mRender->bindRenderState(m3DRenderState);
 
-	//mRender->render();
+	mRender->render();
 
 	mRender->bindRenderState(m2DRenderState);
 
@@ -248,11 +249,43 @@ void apPhysicsTestFrame::setupScene1()
 
 void apPhysicsTestFrame::render2D()
 {
-	gLog->fout(1, "drawing mesh 1\n");
+	//gLog->fout(1, "drawing mesh 1\n");
 	//assert(mRender->bindRenderTarget(mTextureRenderTarget), "");
-	mTest2DMesh->draw();
+	//mTest2DMesh->draw();
 	//assert(mRender->unbindRenderTarget(mTextureRenderTarget), "");
 
-	gLog->fout(1, "drawing mesh 2\n");
-	mTest2DMesh2->draw();
+	//gLog->fout(1, "drawing mesh 2\n");
+	//mTest2DMesh2->draw();
+	//mTest2DMesh2->draw();
+	//
+	vec2 dist(40, 40), size(30, 30), pos(10, 10), pos2(20, 10);
+	for (int x = 0; x < 10; x++)
+	{
+		for (int y = 0; y < 10; y++)
+		{
+			drawMesh(pos + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh);
+			drawMesh(pos2 + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh2);
+		}
+	}
+
+	pos = vec2(450, 10);
+	for (int x = 0; x < 10; x++)
+	{
+		for (int y = 0; y < 10; y++)
+		{
+			drawMesh(pos + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh2);
+		}
+	}
+}
+
+void apPhysicsTestFrame::drawMesh( vec2& pos, vec2& size, grRender2DObjectMesh* mesh )
+{
+	vec2 halfSize = size*0.5f;
+
+	mesh->mVertexBuffer[0].x = pos.x - halfSize.x; mesh->mVertexBuffer[0].y = pos.y - halfSize.y;
+	mesh->mVertexBuffer[1].x = pos.x + halfSize.x; mesh->mVertexBuffer[1].y = pos.y - halfSize.y;
+	mesh->mVertexBuffer[2].x = pos.x + halfSize.x; mesh->mVertexBuffer[2].y = pos.y + halfSize.y;
+	mesh->mVertexBuffer[3].x = pos.x - halfSize.x; mesh->mVertexBuffer[3].y = pos.y + halfSize.y;
+
+	mesh->draw();
 }

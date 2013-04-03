@@ -101,8 +101,8 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 	{
 		mVertexData[i + mLastDrawingVertex] = mesh->mVertexBuffer[i];
 
-		gLog->fout(1, "vertex %.2f %.2f %.2f  # %i\n", mVertexData[i + mLastDrawingVertex].x, mVertexData[i + mLastDrawingVertex].y,
-			mVertexData[i + mLastDrawingVertex].z, i + mLastDrawingVertex);
+		/*gLog->fout(1, "vertex %.2f %.2f %.2f  # %i\n", mVertexData[i + mLastDrawingVertex].x, mVertexData[i + mLastDrawingVertex].y,
+			mVertexData[i + mLastDrawingVertex].z, i + mLastDrawingVertex);*/
 	}
 	for (unsigned int i = 0; i < mesh->mPolygonsCount; i++)
 	{
@@ -117,9 +117,9 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 
 void gr2DRenderStateBase::drawPrimitives()
 {
-	gLog->fout(1, "primitives 1\n");
+	//gLog->fout(1, "primitives 1\n");
 	mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
-	gLog->fout(1, "primitives 2\n");
+	//gLog->fout(1, "primitives 2\n");
 }
 
 void gr2DRenderStateBase::lockBuffers()
@@ -130,7 +130,7 @@ void gr2DRenderStateBase::lockBuffers()
 		return;
 	}
 
-	if (FAILED(mIndexBuffer->Lock(0, 0, (BYTE**)&mIndexData, D3DLOCK_DISCARD)))
+	if (FAILED(mIndexBuffer->Lock(0, 0, (BYTE**)&mIndexData, 0)))
 	{
 		assert(0, "Failed to lock Direct3D8 index buffer");
 		return;
@@ -142,6 +142,14 @@ void gr2DRenderStateBase::lockBuffers()
 
 void gr2DRenderStateBase::unlockBuffers()
 {
+	/*gLog->fout(1, "Unlocking buffers: %i verticies, % indexes, %i polygons:\n", mLastDrawingVertex, mLastDrawingIndex, mTrianglesCount);
+
+	for (unsigned int i = 0; i < mLastDrawingVertex; i++)
+		gLog->fout(1, "  v %i: %.2f %.2f %.2f\n", i, mVertexData[i].x, mVertexData[i].y, mVertexData[i].z);
+
+	for (unsigned int i = 0; i < mLastDrawingIndex; i++)
+		gLog->fout(1, "  p %i: %i\n", i, mIndexData[i]);*/
+
 	if (FAILED(mVertexBuffer->Unlock()))
 	{
 		assert(0, "Failed to unlock Direct3D8 vertex buffer");
@@ -215,7 +223,7 @@ void gr2DRenderStateBase::initialize()
 	}
 
 	//create index buffer
-	if (FAILED(mRender->m_pDirect3DDevice->CreateIndexBuffer(nIndexBufferSize*sizeof(WORD), D3DUSAGE_WRITEONLY, 
+	if (FAILED(mRender->m_pDirect3DDevice->CreateIndexBuffer(nIndexBufferSize*sizeof(WORD), D3DUSAGE_DYNAMIC, 
 		D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer)))
 	{
 		assert(0, "Failed to create Direct3D8 index buffer");

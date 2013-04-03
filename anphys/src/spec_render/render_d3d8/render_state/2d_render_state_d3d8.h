@@ -11,7 +11,7 @@ struct grTexture;
 
 struct gr2DRenderStateBase:gr2DRenderStateBaseInterface
 {
-	enum { nVertexBufferSize = 16384, nIndexBufferSize = 49152 };
+	enum { nVertexBufferSize = 4000, nIndexBufferSize = 5000 };
 
 	LPDIRECT3DVERTEXBUFFER8 mVertexBuffer;
 	LPDIRECT3DINDEXBUFFER8  mIndexBuffer;
