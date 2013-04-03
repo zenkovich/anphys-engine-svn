@@ -67,6 +67,8 @@ struct apPhysicsTestFrame:public apRenderWindow
 	void render2D();
 
 	void setupScene1();
+
+	void drawMesh(vec2& pos, vec2& size, grRender2DObjectMesh* mesh);
 };
 
 
