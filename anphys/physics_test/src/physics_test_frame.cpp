@@ -75,7 +75,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh2->mVertexBuffer[3] = vertex2d(100.0f, 200.0f, 1.0f, 0.0f, 1.0f, color4(0.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mPolygonsBuffer[0] = poly3(0, 1, 2);
 	mTest2DMesh2->mPolygonsBuffer[1] = poly3(0, 2, 3);
-	mTest2DMesh2->pushTexture(mRenderTexture);
+	mTest2DMesh2->pushTexture(tex);
 	mTest2DMesh2->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
 	mTextureRenderTarget = new grTextureRenderTarget(mRender, mRenderTexture);
@@ -107,9 +107,9 @@ float apPhysicsTestFrame::onTimer()
 
 	mRender->beginRender();
 
-	mRender->bindRenderState(m3DRenderState);
+	//mRender->bindRenderState(m3DRenderState);
 
-	mRender->render();
+	//mRender->render();
 
 	mRender->bindRenderState(m2DRenderState);
 
@@ -248,9 +248,11 @@ void apPhysicsTestFrame::setupScene1()
 
 void apPhysicsTestFrame::render2D()
 {
-	assert(mRender->bindRenderTarget(mTextureRenderTarget), "");
+	gLog->fout(1, "drawing mesh 1\n");
+	//assert(mRender->bindRenderTarget(mTextureRenderTarget), "");
 	mTest2DMesh->draw();
-	assert(mRender->unbindRenderTarget(mTextureRenderTarget), "");
+	//assert(mRender->unbindRenderTarget(mTextureRenderTarget), "");
 
+	gLog->fout(1, "drawing mesh 2\n");
 	mTest2DMesh2->draw();
 }

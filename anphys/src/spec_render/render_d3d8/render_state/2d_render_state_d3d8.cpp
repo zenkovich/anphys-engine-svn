@@ -100,8 +100,10 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 	for (unsigned int i = 0; i < mesh->mVertexCount; i++)
 	{
 		mVertexData[i + mLastDrawingVertex] = mesh->mVertexBuffer[i];
-	}
 
+		gLog->fout(1, "vertex %.2f %.2f %.2f  # %i\n", mVertexData[i + mLastDrawingVertex].x, mVertexData[i + mLastDrawingVertex].y,
+			mVertexData[i + mLastDrawingVertex].z, i + mLastDrawingVertex);
+	}
 	for (unsigned int i = 0; i < mesh->mPolygonsCount; i++)
 	{
 		mIndexData[mLastDrawingIndex++] = mesh->mPolygonsBuffer[i].a + mLastDrawingVertex;
@@ -115,7 +117,9 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 
 void gr2DRenderStateBase::drawPrimitives()
 {
+	gLog->fout(1, "primitives 1\n");
 	mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
+	gLog->fout(1, "primitives 2\n");
 }
 
 void gr2DRenderStateBase::lockBuffers()
