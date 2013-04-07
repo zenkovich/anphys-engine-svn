@@ -91,7 +91,7 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 
 		if (diffTexture) 
 		{
-			if (mesh->mTextures.empty()) mLastDrawingTexture = NULL;
+			if (mesh->mTextures.empty()) setTexture(NULL);
 			else                         setTexture(mesh->mTextures[0]);
 		}
 	}

@@ -175,6 +175,12 @@
     <Filter Include="spec_render\render_d3d8\render_state">
       <UniqueIdentifier>{f7717a6d-60fc-4b7e-a049-a0da24a34b44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\serialization">
+      <UniqueIdentifier>{adca674f-8c99-4a79-9665-e2f644b0c79b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\pugixml">
+      <UniqueIdentifier>{a6697459-b88b-4af4-80c7-33a24b9d449c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -615,6 +621,27 @@
     <ClInclude Include="..\src\render\render_state\2d_render_state.h">
       <Filter>render\render_state</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\serialization\serialization.h">
+      <Filter>util\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\serialization\data_object.h">
+      <Filter>util\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dependencies\pugixml\pugiconfig.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dependencies\pugixml\pugixml.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\render_objects\2d\sprite.h">
+      <Filter>render\render_objects\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\rect.h">
+      <Filter>util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\serialization\data_objects_manager.h">
+      <Filter>util\serialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -937,6 +964,21 @@
     </ClCompile>
     <ClCompile Include="..\src\render\render_state\2d_render_state.cpp">
       <Filter>render\render_state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\serialization\data_object.cpp">
+      <Filter>util\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dependencies\pugixml\pugixml.cpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\serialization\serialization.cpp">
+      <Filter>util\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render\render_objects\2d\sprite.cpp">
+      <Filter>render\render_objects\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\serialization\data_objects_manager.cpp">
+      <Filter>util\serialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

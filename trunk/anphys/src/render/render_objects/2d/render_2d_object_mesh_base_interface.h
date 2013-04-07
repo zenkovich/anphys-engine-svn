@@ -8,6 +8,7 @@
 #include "util/math/mmath.h"
 
 struct grTexture;
+struct grRender;
 
 struct grRender2DObjectMeshBaseInterface:public grRenderObject
 {
@@ -21,11 +22,13 @@ struct grRender2DObjectMeshBaseInterface:public grRenderObject
 	unsigned int mPolygonsCount;
 	bool         mDataUpdated;
 
+	grRender*    mRender;
+
 	TexturesList mTextures;
 
 //functions
-	grRender2DObjectMeshBaseInterface();
-	grRender2DObjectMeshBaseInterface(unsigned int vertexCount, unsigned int polyCount);
+	grRender2DObjectMeshBaseInterface(grRender* render);
+	grRender2DObjectMeshBaseInterface(grRender* render, unsigned int vertexCount, unsigned int polyCount);
 	virtual ~grRender2DObjectMeshBaseInterface();
 
 	virtual void draw() {}
@@ -34,6 +37,7 @@ struct grRender2DObjectMeshBaseInterface:public grRenderObject
 
 	virtual void pushTexture(grTexture* texture);
 	virtual void removeTexture(grTexture* texture);
+	virtual void removeAllTextures();
 };
 
 #endif //RENDER_2D_OBJECT_MESH_BASE_INTERFACE_H

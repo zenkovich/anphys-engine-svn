@@ -6,7 +6,6 @@
 
 
 #define Pi 3.14159f
-#define Pi180 0.01745329251994f
 #define MDif 0.00000001f
 #define NULL 0
 
@@ -54,7 +53,7 @@ struct vec2
 	inline float operator^(vec2 v) { return v.x*y - v.y*x; }
 	inline float& operator[](int idx) { if (idx == 0) return x; return y; }
 
-	inline vec2 umnoj(vec2 v) { return vec2(x*v.x, y*v.y); }	
+	inline vec2 scale(vec2 v) { return vec2(x*v.x, y*v.y); }	
 
 	inline float get(int i) { if (i == 0) return x; if (i == 1) return y; return x; }
 	inline void  set(int i, float n) { if (i == 0) x = n; if (i == 1) y=n; }
@@ -110,7 +109,7 @@ inline vec2 scale(vec2 a, vec2 b)
 
 inline vec2 rotateVec(float rad, vec2 v) { v.Rotate(rad); return v; }
 
-inline float rad(float deg) { return deg*Pi180; }
-inline float deg(float rad) { return rad/Pi180; }
+inline float rad(float deg) { return deg*0.01745329251994329576f; }
+inline float deg(float rad) { return rad*57.2957795130823208767f; }
 
 #endif

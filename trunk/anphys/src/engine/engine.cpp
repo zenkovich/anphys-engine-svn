@@ -1,4 +1,4 @@
 #include "engine.h"
 
-DECLARE_SINGLETONE(cEngine)
+DECLARE_SINGLETON(cEngine)
 

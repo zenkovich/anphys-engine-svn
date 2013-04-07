@@ -13,13 +13,14 @@
 
 REGIST_TYPE(grRender2DObjectMeshBaseInterface)
 
-grRender2DObjectMeshBaseInterface::grRender2DObjectMeshBaseInterface()
-	:mVertexBuffer(NULL), mVertexCount(0), mPolygonsBuffer(NULL), mPolygonsCount(0), mDataUpdated(true)
+grRender2DObjectMeshBaseInterface::grRender2DObjectMeshBaseInterface(grRender* render)
+	:mVertexBuffer(NULL), mVertexCount(0), mPolygonsBuffer(NULL), mPolygonsCount(0), mDataUpdated(true), mRender(render)
 {
 }
 
-grRender2DObjectMeshBaseInterface::grRender2DObjectMeshBaseInterface( unsigned int vertexCount, unsigned int polyCount )
-	:mVertexBuffer(NULL), mVertexCount(0), mPolygonsBuffer(NULL), mPolygonsCount(0), mDataUpdated(true)
+grRender2DObjectMeshBaseInterface::grRender2DObjectMeshBaseInterface( grRender* render, unsigned int vertexCount, 
+	                                                                  unsigned int polyCount )
+	:mVertexBuffer(NULL), mVertexCount(0), mPolygonsBuffer(NULL), mPolygonsCount(0), mDataUpdated(true), mRender(render)
 {
 	resize(vertexCount, polyCount);
 }
@@ -61,7 +62,19 @@ void grRender2DObjectMeshBaseInterface::removeTexture( grTexture* texture )
 	if (fnd == mTextures.end()) return;
 	mTextures.erase(fnd);
 
-	mRenderObjectsManager->mRender->mTextures->removeTexture(texture);
+	mRender->mTextures->removeTexture(texture);
+
+	mDataUpdated = true;
+}
+
+void grRender2DObjectMeshBaseInterface::removeAllTextures()
+{
+	for (TexturesList::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
+	{
+		mRender->mTextures->removeTexture(*it);
+	}
+
+	mTextures.clear();
 
 	mDataUpdated = true;
 }

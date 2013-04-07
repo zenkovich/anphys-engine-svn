@@ -8,14 +8,14 @@
 #include "render/render_objects/object_manager.h"
 #include "render/render_state/2d_render_state.h"
 
-grRender2DObjectMeshBase::grRender2DObjectMeshBase():grRender2DObjectMeshBaseInterface(), mLastUsedVertexDataIndex(0),
-	mLastDrawingFrameIndex(0)
+grRender2DObjectMeshBase::grRender2DObjectMeshBase(grRender* render):grRender2DObjectMeshBaseInterface(render), 
+	mLastUsedVertexDataIndex(0), mLastDrawingFrameIndex(0)
 {
 
 }
 
-grRender2DObjectMeshBase::grRender2DObjectMeshBase( unsigned int vertexCount, unsigned int polyCount )
-	:grRender2DObjectMeshBaseInterface(vertexCount, polyCount), mLastUsedVertexDataIndex(0), mLastDrawingFrameIndex(0)
+grRender2DObjectMeshBase::grRender2DObjectMeshBase( grRender* render, unsigned int vertexCount, unsigned int polyCount )
+	:grRender2DObjectMeshBaseInterface(render, vertexCount, polyCount), mLastUsedVertexDataIndex(0), mLastDrawingFrameIndex(0)
 {
 }
 
@@ -25,9 +25,9 @@ grRender2DObjectMeshBase::~grRender2DObjectMeshBase()
 
 void grRender2DObjectMeshBase::draw()
 {
-	if (mRenderObjectsManager->mRender->mCurrentRenderState->getType() == gr2DRenderState::getStaticType())
+	if (mRender->mCurrentRenderState->getType() == gr2DRenderState::getStaticType())
 	{
-		static_cast<gr2DRenderState*>(mRenderObjectsManager->mRender->mCurrentRenderState)->drawMesh(this);
+		static_cast<gr2DRenderState*>(mRender->mCurrentRenderState)->drawMesh(this);
 	}
 }
 
