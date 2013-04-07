@@ -9,8 +9,8 @@ struct grRender2DObjectMeshBase:public grRender2DObjectMeshBaseInterface
 	unsigned int mLastDrawingFrameIndex;
 
 //functions
-	grRender2DObjectMeshBase();
-	grRender2DObjectMeshBase(unsigned int vertexCount, unsigned int polyCount);
+	grRender2DObjectMeshBase(grRender* render);
+	grRender2DObjectMeshBase(grRender* render, unsigned int vertexCount, unsigned int polyCount);
 	virtual ~grRender2DObjectMeshBase();
 
 	virtual void draw();

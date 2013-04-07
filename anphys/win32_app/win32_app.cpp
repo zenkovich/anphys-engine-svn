@@ -3,13 +3,16 @@
 
 #include "stdafx.h"
 
-#include "../src/engine/engine_incl.h"
+#include "engine/engine_incl.h"
 #include "../physics_test/src/box_collision_test_frame.h"
 #include "../physics_test/src/physics_test_frame.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	testDataObject();
+
+
 	printf("%s\n", argv[0]);
 
 	gLogSystem = createLogSystem("log.txt");

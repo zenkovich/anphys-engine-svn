@@ -9,8 +9,9 @@
 
 struct grRender2DObjectMesh:grRender2DObjectMeshBase
 {
-	grRender2DObjectMesh():grRender2DObjectMeshBase() {}
-	grRender2DObjectMesh(unsigned int vertexCount, unsigned int polyCount):grRender2DObjectMeshBase(vertexCount, polyCount) {}
+	grRender2DObjectMesh(grRender* render):grRender2DObjectMeshBase(render) {}
+	grRender2DObjectMesh(grRender* render, unsigned int vertexCount, unsigned int polyCount):
+		grRender2DObjectMeshBase(render, vertexCount, polyCount) {}
 };
 
 #endif //RENDER_2D_OBJECT_MESH_H

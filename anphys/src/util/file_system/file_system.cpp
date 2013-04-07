@@ -6,7 +6,7 @@
 
 #include <algorithm>
 
-DECLARE_SINGLETONE(cFileSystem)
+DECLARE_SINGLETON(cFileSystem)
 
 cFileSystem::cFileSystem()
 {

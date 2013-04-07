@@ -45,6 +45,7 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\src\dependencies\libpng;..\src\dependencies\dx8\include;..\src\dependencies\zlib;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\src\dependencies\libpng;..\src\dependencies\zlib;..\src\dependencies\dx8\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -81,6 +82,8 @@
   <ItemGroup>
     <ClInclude Include="..\src\dependencies\libpng\png.h" />
     <ClInclude Include="..\src\dependencies\libpng\pngconf.h" />
+    <ClInclude Include="..\src\dependencies\pugixml\pugiconfig.hpp" />
+    <ClInclude Include="..\src\dependencies\pugixml\pugixml.hpp" />
     <ClInclude Include="..\src\dependencies\zlib\crc32.h" />
     <ClInclude Include="..\src\dependencies\zlib\crypt.h" />
     <ClInclude Include="..\src\dependencies\zlib\deflate.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="..\src\render\render_base_interface.h" />
     <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh.h" />
     <ClInclude Include="..\src\render\render_objects\2d\render_2d_object_mesh_base_interface.h" />
+    <ClInclude Include="..\src\render\render_objects\2d\sprite.h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part.h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\mesh_part_base_interface.h" />
     <ClInclude Include="..\src\render\render_objects\3d\mesh\render_3d_object_mesh.h" />
@@ -188,12 +192,16 @@
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
     <ClInclude Include="..\src\util\image\image.h" />
     <ClInclude Include="..\src\util\image\png_image_format.h" />
+    <ClInclude Include="..\src\util\math\rect.h" />
     <ClInclude Include="..\src\util\other\precreated_vector.h" />
     <ClInclude Include="..\src\util\other\queue.h" />
     <ClInclude Include="..\src\util\other\singleton.h" />
     <ClInclude Include="..\src\util\other\type_intexation.h" />
     <ClInclude Include="..\src\util\script\config_reader.h" />
     <ClInclude Include="..\src\util\script\string_parser.h" />
+    <ClInclude Include="..\src\util\serialization\data_object.h" />
+    <ClInclude Include="..\src\util\serialization\data_objects_manager.h" />
+    <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\utils.h" />
     <ClInclude Include="..\src\util\math\aabb.h" />
     <ClInclude Include="..\src\util\math\addMath.h" />
@@ -245,6 +253,7 @@
     <ClCompile Include="..\src\dependencies\libpng\pngwrite.c" />
     <ClCompile Include="..\src\dependencies\libpng\pngwtran.c" />
     <ClCompile Include="..\src\dependencies\libpng\pngwutil.c" />
+    <ClCompile Include="..\src\dependencies\pugixml\pugixml.cpp" />
     <ClCompile Include="..\src\dependencies\zlib\adler32.c" />
     <ClCompile Include="..\src\dependencies\zlib\compress.c" />
     <ClCompile Include="..\src\dependencies\zlib\crc32.c" />
@@ -292,6 +301,7 @@
     <ClCompile Include="..\src\render\render.cpp" />
     <ClCompile Include="..\src\render\render_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_objects\2d\render_2d_object_mesh_base_interface.cpp" />
+    <ClCompile Include="..\src\render\render_objects\2d\sprite.cpp" />
     <ClCompile Include="..\src\render\render_objects\multi_object\multi_object.cpp" />
     <ClCompile Include="..\src\render\render_objects\object_manager_base_interface.cpp" />
     <ClCompile Include="..\src\render\render_objects\render_object.cpp" />
@@ -334,6 +344,9 @@
     <ClCompile Include="..\src\engine\engine_win.cpp" />
     <ClCompile Include="..\src\util\other\type_indexation.cpp" />
     <ClCompile Include="..\src\util\script\config_reader.cpp" />
+    <ClCompile Include="..\src\util\serialization\data_object.cpp" />
+    <ClCompile Include="..\src\util\serialization\data_objects_manager.cpp" />
+    <ClCompile Include="..\src\util\serialization\serialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />

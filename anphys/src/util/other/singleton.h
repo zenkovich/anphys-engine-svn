@@ -23,6 +23,7 @@ protected:
 };
 
 
-#define DECLARE_SINGLETONE(T) template<> T* cSingleton<T>::mInstance = NULL;
+#define DECLARE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = NULL;
+#define CREATE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = new T;
 
 #endif // SINGLETON_H

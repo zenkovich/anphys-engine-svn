@@ -9,6 +9,8 @@
 #include "physics/CD/collision_geometry/collision.h"
 #include "physics/CD/collision_geometry/collision_point.h"
 
+#include "render/render_objects/2d/sprite.h"
+
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
 	onCreate(mInRect);
@@ -34,6 +36,7 @@ apPhysicsTestFrame::~apPhysicsTestFrame()
 	safe_release(mCamera3dMouse);
 	safe_release(m2DCamera);
 	safe_release(mMainEngineScene);
+	safe_release(mTestSprite);
 }
 
 void apPhysicsTestFrame::onCreate(fRect inRect)
@@ -58,7 +61,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 
 	grTexture* tex = mRender->mTextures->createTexture("textures/pngtest");
 	grTexture* tex2 = mRender->mTextures->createTexture("textures/pngtest2");
-	mTest2DMesh = new grRender2DObjectMesh(4, 2);
+	mTest2DMesh = new grRender2DObjectMesh(mRender, 4, 2);
 	mTest2DMesh->mVertexBuffer[0] = vertex2d(10.0f, 10.0f, 1.0f, 0.0f, 0.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mVertexBuffer[1] = vertex2d(100.0f, 10.0f, 1.0f, 1.0f, 0.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh->mVertexBuffer[2] = vertex2d(100.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
@@ -69,7 +72,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
 	mRenderTexture = mRender->mTextures->createRenderTexture(inRect.getSize());
-	mTest2DMesh2 = new grRender2DObjectMesh(4, 2);
+	mTest2DMesh2 = new grRender2DObjectMesh(mRender, 4, 2);
 	mTest2DMesh2->mVertexBuffer[0] = vertex2d(110.0f, 10.0f, 1.0f, 0.5f, 0.5f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mVertexBuffer[1] = vertex2d(200.0f, 10.0f, 1.0f, 1.0f, 0.5f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
 	mTest2DMesh2->mVertexBuffer[2] = vertex2d(200.0f, 100.0f, 1.0f, 1.0f, 1.0f, color4(1.0f, 1.0f, 1.0f, 1.0f).dwordARGB());
@@ -80,6 +83,18 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mTest2DMesh2->mRenderObjectsManager = mMainEngineScene->mRenderScene->mObjects;
 
 	mTextureRenderTarget = new grTextureRenderTarget(mRender, mRenderTexture);
+
+	mTestSprite = new grSprite(mRender, tex);
+	mTestSprite->setSize(vec2(100, 200)).setPosition(vec2(300, 400)).setRotationCenter(vec2(50, 100));
+
+	cDataObject dataObj;
+	mTestSprite->serialize(dataObj, AT_OUTPUT, "sprite");
+
+	getDataObjectsManager().saveDataObject("../spriteTest.xml", cDataObjectsManager::DOT_XML, dataObj);
+
+	safe_release(mTestSprite);
+
+	mTestSprite = new grSprite(mRender, "../spriteTest", "sprite");
 
 	mPhysicsRunning = false;
 }
@@ -117,46 +132,6 @@ float apPhysicsTestFrame::onTimer()
 	render2D();
 
 	mRender->endRender();
-	/*mRender->update(dt);
-	mMainEngineScene->update(dt);
-	mRender->preRender();
-	mRender->render();
-	render2D();
-	mRender->postRender();
-
-	/*
-	 mRender->update(dt);
-	 mMainEngineScene->update(dt);
-	 mCamera1->update(dt);
-	 mCamera2->update(dt);
-	 m2DCamera->update(dt);
-
-	 mRender->beginRender();
-
-	 mRender->bindRenderState(m3DRenderState);
-	 mRender->bindRenderTarget(mCamera1RenderTarget);
-
-	 m3DRenderState->bindCamera(mCamera1);
-
-	 mMainEngineScene->draw();
-
-	 mRender->unbindRenderTarget(mCamera1RenderTarget);
-	 mRender->bindRenderTarget(mCamera2RenderTarget);
-
-	 m3DRenderState->bindCamera(mCamera2);
-
-	 mMainEngineScene->draw();
-
-	 mRender->unbindRenderTarget(mCamera2RenderTarget);
-
-	 mRender->bindRenderState(m2DRenderState);
-
-	 call2DDrawing();  //where drawing two cameras render targets and other 2D Geometry
-
-	 mRender->endRender();
-	 
-	 **/
-
 
 	if (mPhysicsRunByStep) mPhysicsRunning = false;
 
@@ -258,24 +233,21 @@ void apPhysicsTestFrame::render2D()
 	//mTest2DMesh2->draw();
 	//mTest2DMesh2->draw();
 	//
-	vec2 dist(40, 40), size(30, 30), pos(10, 10), pos2(20, 10);
-	for (int x = 0; x < 10; x++)
+	/*vec2 dist(4, 4), size(30, 30), pos(10, 10), pos2(20, 10);
+	for (int x = 0; x < 1000; x++)
 	{
-		for (int y = 0; y < 10; y++)
-		{
-			drawMesh(pos + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh);
-			drawMesh(pos2 + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh2);
-		}
+		drawMesh(vec2(rand()%500, rand()%500), size, mTest2DMesh);
 	}
+	for (int x = 0; x < 1000; x++)
+	{
+		drawMesh(vec2(rand()%500, rand()%500), size, mTest2DMesh2);
+	}*/
+	/*for (int i = 0; i < 1000; i++)
+	{
+		mTestSprite->setPosition(vec2(rand()%500, rand()%500)).setAngle(rand()%360).setSize(vec2(10)).draw();
+	}*/
 
-	pos = vec2(450, 10);
-	for (int x = 0; x < 10; x++)
-	{
-		for (int y = 0; y < 10; y++)
-		{
-			drawMesh(pos + vec2((float)x*dist.x, (float)y*dist.y), size, mTest2DMesh2);
-		}
-	}
+	mTestSprite->setAngle(mTestSprite->getAngle() + 360.0f/50.0f*0.017f).draw();
 }
 
 void apPhysicsTestFrame::drawMesh( vec2& pos, vec2& size, grRender2DObjectMesh* mesh )

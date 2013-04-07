@@ -17,6 +17,7 @@ struct grTextureRenderTarget;
 struct grSimple3DRenderState;
 struct gr2DRenderState;
 struct grCamera2D;
+struct grSprite;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -36,6 +37,8 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	grTexture*                  mRenderTexture;
 	grTextureRenderTarget*      mTextureRenderTarget;
+
+	grSprite*                   mTestSprite;
 
 //functions
 	apPhysicsTestFrame();
