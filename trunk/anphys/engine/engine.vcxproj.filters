@@ -181,6 +181,9 @@
     <Filter Include="dependencies\pugixml">
       <UniqueIdentifier>{a6697459-b88b-4af4-80c7-33a24b9d449c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{2e28e645-1af8-4797-a15f-add145ab7761}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -642,6 +645,12 @@
     <ClInclude Include="..\src\util\serialization\data_objects_manager.h">
       <Filter>util\serialization</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\widget.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\sprite_widget.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -979,6 +988,12 @@
     </ClCompile>
     <ClCompile Include="..\src\util\serialization\data_objects_manager.cpp">
       <Filter>util\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\widget.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\sprite_widget.cpp">
+      <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
