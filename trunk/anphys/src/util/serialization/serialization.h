@@ -4,21 +4,25 @@
 #include "data_object.h"
 #include "util/other/string_utils.h"
 
-#define autoSerialize(obj)               serializeType(dataArchieve, achieveType, obj, #obj)
+#define autoSerialize(obj)                  serializeType(dataArchieve, achieveType, obj, #obj)
+										   
+#define serializeId(obj, id)                serializeType(dataArchieve, achieveType, obj, id)
+										   
+#define autoSerializeObj(obj)               (obj).serialize(dataArchieve, achieveType, #obj)
+										   
+#define serializeObjId(obj, id)             (obj).serialize(dataArchieve, achieveType, id)
+										   
+#define autoSerializeArr(obj, size)         serializeTypeArr(dataArchieve, achieveType, obj, size, #obj)
+										   
+#define serializeArrId(obj, size, id)       serializeTypeArr(dataArchieve, achieveType, obj, size, id)
+										   
+#define autoSerializeObjArr(obj, size)      serializeObjArr(dataArchieve, achieveType, obj, size, #obj)
+										   
+#define serializeObjArrId(obj, size, id)    serializeObjArr(dataArchieve, achieveType, obj, size, id)
 
-#define serializeId(obj, id)             serializeType(dataArchieve, achieveType, obj, id)
+#define autoSerializeObjPtrArr(obj, size)   serializeObjPtrArr(dataArchieve, achieveType, obj, size, #obj)
 
-#define autoSerializeObj(obj)            (obj).serialize(dataArchieve, achieveType, #obj)
-
-#define serializeObjId(obj, id)          (obj).serialize(dataArchieve, achieveType, id)
-
-#define autoSerializeArr(obj, size)      serializeTypeArr(dataArchieve, achieveType, obj, size, #obj)
-
-#define serializeArrId(obj, size, id)    serializeTypeArr(dataArchieve, achieveType, obj, size, id)
-
-#define autoSerializeObjArr(obj, size)   serializeObjArr(dataArchieve, achieveType, obj, size, #obj)
-
-#define serializeObjArrId(obj, size, id) serializeObjArr(dataArchieve, achieveType, obj, size, id)
+#define serializeObjPtrArrId(obj, size, id) serializeObjPtrArr(dataArchieve, achieveType, obj, size, id)
 
 
 #define serializeMethodDecl(obj) \

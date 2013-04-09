@@ -2,10 +2,13 @@
 
 #include <algorithm>
 
+#include "ui_manager.h"
+
 REGIST_TYPE(uiWidget)
 
-uiWidget::uiWidget( const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/ )
+uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/ )
 {
+	mWidgetsManager = widgetsManager;
 	mId = id;
 	if (parent) parent->addChild(this);
 	mTransparency = 0;
@@ -15,6 +18,7 @@ uiWidget::uiWidget( const std::string& id /*= "noName"*/, uiWidget* parent /*= N
 
 uiWidget::uiWidget( const uiWidget& widget )
 {
+	mWidgetsManager = widget.mWidgetsManager;
 	mId = widget.mId;
 	mParent = NULL;
 	mTransparency = widget.mTransparency;
@@ -80,9 +84,15 @@ uiWidget* uiWidget::getWidget( const std::string& id ) const
 void uiWidget::update( float dt )
 {
 	if (mParent) 
+	{
 		mResTransparency = mParent->mResTransparency*mTransparency;
+		mGlobalPosition = mParent->mGlobalPosition + mPosition + mOffset;
+	}
 	else
+	{
 		mResTransparency = mTransparency;
+		mGlobalPosition = mPosition + mOffset;
+	}
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
@@ -106,6 +116,45 @@ uiWidget* uiWidget::clone() const
 serializeMethodImpl(uiWidget)
 {
 	serializeId(mId, "id");
+
+	if (!serializeId(mPosition, "position"))
+		mPosition = vec2(0);
+
+	if (!serializeId(mOffset, "offset"))
+		mOffset = vec2(0);
+
+	if (!serializeId(mModal, "modal"))
+		mModal = false;
+
+	if (achieveType == AT_OUTPUT)
+	{
+		cDataObject* childsWidgetsObject = dataArchieve.addChild("childs");
+
+		for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
+		{
+			cDataObject* childObject = childsWidgetsObject->addChild("child");
+
+			childObject->addChild((*it)->getTypeName(), "widgetType");
+
+			(*it)->serialize(*childObject, AT_OUTPUT, "");
+		}
+	}
+	else //AT_INPUT
+	{
+		cDataObject* childObject = dataArchieve.getChild("childs");
+		if (childObject)
+		{
+			for (cDataObject::DataObjectsList::iterator it = childObject->mChilds.begin();
+				 it != childObject->mChilds.end(); ++it)
+			{
+				if ((*it)->mId != "child") 
+					continue;
+
+				uiWidget* newChild = mWidgetsManager->createWidget((*it));
+				addChild(newChild);
+			}
+		}
+	}
 
 	return true;
 }

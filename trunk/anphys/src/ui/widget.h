@@ -8,26 +8,35 @@
 #include "util/other/type_intexation.h"
 #include "util/serialization/serialization.h"
 
+struct uiWidgetsManager;
+struct uiState;
+
 struct uiWidget
 {
 	typedef std::vector<uiWidget*> WidgetsList;
+	typedef std::vector<uiState*> StatesList;
 
 	DEFINE_TYPE(uiWidget)
 
+	uiWidgetsManager* mWidgetsManager;
 
-	std::string mId;
+	std::string       mId;
 
-	uiWidget*   mParent;
-	WidgetsList mChilds;
+	uiWidget*         mParent;
+	WidgetsList       mChilds;
 
-	vec2        mPosition;
-	vec2        mOffset;
-	float       mTransparency;
-	float       mResTransparency;
-	bool        mModal;
+	vec2              mPosition;
+	vec2              mGlobalPosition;
+	vec2              mOffset;
+	float             mTransparency;
+	float             mResTransparency;
+	bool              mModal;
+
+	StatesList        mStates;
+	uiState*          mCurrentState;
 
 //functions
-	uiWidget(const std::string& id = "noName", uiWidget* parent = NULL);
+	uiWidget(uiWidgetsManager* widgetsManager, const std::string& id = "noName", uiWidget* parent = NULL);
 	uiWidget(const uiWidget& widget);
 	virtual ~uiWidget();
 

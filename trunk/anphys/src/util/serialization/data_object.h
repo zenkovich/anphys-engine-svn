@@ -235,7 +235,24 @@ bool serializeObjArr(cDataObject& dataObject, ArchieveType archType, T& object, 
 	if (!targetDataObject) return false;
 
 	for (unsigned int i = 0; i < size; i++)
-		if (!object[i].serialize(*targetDataObject, archType, value[i], "v" + toStr(i))) res = false;
+		if (!object[i].serialize(*targetDataObject, archType, "v" + toStr((int)i))) res = false;
+
+	return res;
+}
+
+template<typename T>
+bool serializeObjPtrArr(cDataObject& dataObject, ArchieveType archType, T& object, unsigned int size, const std::string& id)
+{
+	bool res = true;
+
+	cDataObject* targetDataObject = NULL;
+	if (archType == AT_INPUT) targetDataObject = dataObject.getChild(id);
+	else                      targetDataObject = dataObject.addChild(id);
+
+	if (!targetDataObject) return false;
+
+	for (unsigned int i = 0; i < size; i++)
+		if (!object[i]->serialize(*targetDataObject, archType, "v" + toStr((int)i))) res = false;
 
 	return res;
 }
