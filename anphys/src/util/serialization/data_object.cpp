@@ -33,6 +33,8 @@ cDataObject* cDataObject::addChild( cDataObject* child )
 
 cDataObject* cDataObject::addChild(const std::string& id /* = ""*/)
 {
+	if (id == "") return this;
+
 	cDataObject* newChild = new cDataObject(id);
 
 	mChilds.push_back(newChild);
@@ -68,6 +70,8 @@ cDataObject* cDataObject::clone() const
 
 cDataObject* cDataObject::getChild(const std::string& id)
 {
+	if (id == "") return this;
+
 	int slashPos = id.find('/');
 
 	std::string searchId;

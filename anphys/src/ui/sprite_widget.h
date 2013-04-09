@@ -9,14 +9,22 @@ struct uiSpriteWidget:public uiWidget
 {
 	DEFINE_TYPE(uiSpriteWidget)
 
-	grSprite* mSprite;
-	bool      mOwnSprite;
+	grSprite*   mSprite;
+	bool        mOwnSprite;
+
+	std::string mSpriteSrcFile;
+	std::string mSpriteSrcObjectPath;
 
 //functions
-	uiSpriteWidget(grSprite* sprite = NULL, bool ownSprite = true, const std::string& id = "noName", uiWidget* parent = NULL);
-	uiSpriteWidget(const std::string& spriteSrcFile, const std::string& spriteSrcObjectpath,
+	uiSpriteWidget(uiWidgetsManager* widgetsManager, grSprite* sprite = NULL, bool ownSprite = true, 
 		           const std::string& id = "noName", uiWidget* parent = NULL);
-	uiSpriteWidget(cDataObject* dataObject, uiWidget* parent = NULL);
+
+	uiSpriteWidget(uiWidgetsManager* widgetsManager, 
+		           const std::string& spriteSrcFile, const std::string& spriteSrcObjectpath,
+		           const std::string& id = "noName", uiWidget* parent = NULL);
+
+	uiSpriteWidget(uiWidgetsManager* widgetsManager, cDataObject* dataObject, uiWidget* parent = NULL);
+
 	uiSpriteWidget(const uiSpriteWidget& spriteWidget);
 	~uiSpriteWidget();
 
@@ -24,6 +32,8 @@ struct uiSpriteWidget:public uiWidget
 	virtual void draw();
 
 	virtual uiWidget* clone() const;
+
+	derivedSerializeMethodDecl(uiWidget, uiSpriteWidget);
 };
 
 #endif //SPRITE_WIDGET_H
