@@ -23,6 +23,7 @@ struct uiState
 //functions
 	uiState(uiWidget* targetWidget, const std::string& id);
 	uiState(uiWidget* targetWidget, cDataObject* dataObject);
+	uiState(const uiState& state);
 	~uiState();
 
 	void        activate(bool forcible = false);

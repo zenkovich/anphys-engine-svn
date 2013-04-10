@@ -49,10 +49,8 @@ uiSpriteWidget::~uiSpriteWidget()
 		safe_release(mSprite);
 }
 
-void uiSpriteWidget::update( float dt )
+void uiSpriteWidget::derivedUpdate( float dt )
 {
-	uiWidget::update(dt);
-
 	if (mSprite)
 		mSprite->setPosition(mGlobalPosition).setColor(color4(1.0f, 1.0f, 1.0f, mResTransparency));
 }
@@ -61,6 +59,8 @@ void uiSpriteWidget::draw()
 {
 	if (mOwnSprite) 
 		mSprite->draw();
+
+	uiWidget::draw();
 }
 
 uiWidget* uiSpriteWidget::clone() const

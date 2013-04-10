@@ -18,6 +18,8 @@ struct grSimple3DRenderState;
 struct gr2DRenderState;
 struct grCamera2D;
 struct grSprite;
+struct uiWidget;
+struct uiWidgetsManager;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -32,13 +34,8 @@ struct apPhysicsTestFrame:public apRenderWindow
 	bool                        mPhysicsRunByStep;
 
 	//tests
-	grRender2DObjectMesh*       mTest2DMesh;
-	grRender2DObjectMesh*       mTest2DMesh2;
-
-	grTexture*                  mRenderTexture;
-	grTextureRenderTarget*      mTextureRenderTarget;
-
-	grSprite*                   mTestSprite;
+	uiWidgetsManager*           mTestWidgetsManager;
+	uiWidget*                   mTestWidget;
 
 //functions
 	apPhysicsTestFrame();
@@ -71,7 +68,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	void setupScene1();
 
-	void drawMesh(vec2& pos, vec2& size, grRender2DObjectMesh* mesh);
+	void createTestWidgets();
 };
 
 

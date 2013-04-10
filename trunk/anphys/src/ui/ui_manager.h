@@ -22,6 +22,7 @@ struct uiWidgetsManager
 	uiWidgetsManager(grRender* render);
 	~uiWidgetsManager();
 
+	uiWidget* addWidget(uiWidget* widget);
 	uiWidget* addWidget(const std::string& dataObjectFile, const std::string& dataObjectPath);
 	void      removeWidget(uiWidget* widget);
 

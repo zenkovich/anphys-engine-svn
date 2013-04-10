@@ -28,6 +28,7 @@ struct uiWidget
 	vec2              mPosition;
 	vec2              mGlobalPosition;
 	vec2              mOffset;
+	vec2              mSize;
 	float             mTransparency;
 	float             mResTransparency;
 	bool              mModal;
@@ -53,10 +54,24 @@ struct uiWidget
 		return static_cast<T*>(getWidget(id));
 	}
 
+	void addState(uiState* state);
+	void removeState(uiState* state);
+	void removeAllStates();
+
+	uiState* getState(const std::string& id);
+
+	void setState(const std::string& id, bool forcible = false);
+
+	void show(bool forcible = false);
+	void hide(bool forcible = false);
+
 	virtual void update(float dt);
+	virtual void derivedUpdate(float dt) {}
 	virtual void draw();
 
 	virtual uiWidget* clone() const;
+
+	void createStdStates();
 
 	serializeMethodDecl(uiWidget);
 };

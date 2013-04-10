@@ -651,6 +651,15 @@
     <ClInclude Include="..\src\ui\sprite_widget.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_manager.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_property.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_state.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -993,6 +1002,12 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\sprite_widget.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_manager.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_state.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

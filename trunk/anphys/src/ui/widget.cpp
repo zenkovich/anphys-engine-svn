@@ -3,17 +3,26 @@
 #include <algorithm>
 
 #include "ui_manager.h"
+#include "render/render.h"
+#include "render/render_state/2d_render_state.h"
+#include "ui_state.h"
+#include "ui_property.h"
 
 REGIST_TYPE(uiWidget)
 
 uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/ )
 {
 	mWidgetsManager = widgetsManager;
+	mParent = parent;
 	mId = id;
 	if (parent) parent->addChild(this);
 	mTransparency = 0;
 	mResTransparency = 0;
 	mModal = false;
+
+	mCurrentState = NULL;
+
+	createStdStates();
 }
 
 uiWidget::uiWidget( const uiWidget& widget )
@@ -27,6 +36,11 @@ uiWidget::uiWidget( const uiWidget& widget )
 
 	for (WidgetsList::const_iterator it = widget.mChilds.cbegin(); it != widget.mChilds.cend(); ++it)
 		addChild((*it)->clone());
+
+	for (StatesList::const_iterator it = widget.mStates.cbegin(); it != widget.mStates.cend(); ++it)
+		addState(new uiState(*(*it)));
+
+	mCurrentState = NULL;
 }
 
 uiWidget::~uiWidget()
@@ -83,6 +97,9 @@ uiWidget* uiWidget::getWidget( const std::string& id ) const
 
 void uiWidget::update( float dt )
 {
+	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
+		(*it)->update(dt);
+
 	if (mParent) 
 	{
 		mResTransparency = mParent->mResTransparency*mTransparency;
@@ -94,6 +111,8 @@ void uiWidget::update( float dt )
 		mGlobalPosition = mPosition + mOffset;
 	}
 
+	derivedUpdate(dt);
+
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
 		(*it)->update(dt);
@@ -102,6 +121,16 @@ void uiWidget::update( float dt )
 
 void uiWidget::draw()
 {
+	gr2DRenderStateBase* renderState = 
+		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
+
+	color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
+	fRect rt(mGlobalPosition, mGlobalPosition + mSize);
+	renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
+	renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
+	renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
+	renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);
+
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
 		(*it)->draw();
@@ -125,6 +154,9 @@ serializeMethodImpl(uiWidget)
 
 	if (!serializeId(mModal, "modal"))
 		mModal = false;
+
+	if (!serializeId(mSize, "size"))
+		mSize = vec2(0);
 
 	if (achieveType == AT_OUTPUT)
 	{
@@ -156,5 +188,91 @@ serializeMethodImpl(uiWidget)
 		}
 	}
 
+	serializeObjPtrArrId(mStates, mStates.size(), "states");
+
 	return true;
+}
+
+void uiWidget::addState( uiState* state )
+{
+	mStates.push_back(state);
+	state->mTargetWidget = this;
+}
+
+void uiWidget::removeState( uiState* state )
+{
+	StatesList::iterator fnd = std::find(mStates.begin(), mStates.end(), state);
+
+	if (fnd == mStates.end())
+		return;
+
+	if (mCurrentState == state)
+	{
+		state->deactivate(true);
+		mCurrentState = NULL;
+	}
+
+	safe_release(state);
+
+	mStates.erase(fnd);
+}
+
+void uiWidget::removeAllStates()
+{
+	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
+		safe_release(*it);
+
+	mCurrentState = NULL;
+
+	mStates.clear();
+}
+
+uiState* uiWidget::getState( const std::string& id )
+{
+	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
+		if ((*it)->mId == id) return *it;
+
+	return NULL;
+}
+
+void uiWidget::setState( const std::string& id, bool forcible /*= false*/ )
+{
+	uiState* state = getState(id);
+
+	if (!state) 
+	{
+		mWidgetsManager->mLog->fout(1, "WARNING: Can't find state '%s' in widget '%s'", id.c_str(), mId.c_str());
+		return;
+	}
+
+	if (state == mCurrentState)
+		return;
+
+	if (mCurrentState)
+		mCurrentState->deactivate(forcible);
+
+	state->activate(forcible);
+
+	mCurrentState = state;
+}
+
+void uiWidget::show( bool forcible /*= false*/ )
+{
+	setState("idle");
+}
+
+void uiWidget::hide( bool forcible /*= false*/ )
+{
+	setState("hide");
+}
+
+void uiWidget::createStdStates()
+{
+	uiState* idleState = new uiState(this, "idle");
+	idleState->addProperty(new uiParameterProperty<float>(&mTransparency, 1.0f));
+	addState(idleState);
+
+	uiState* hideState = new uiState(this, "hide");
+	hideState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f));
+	addState(hideState);
 }

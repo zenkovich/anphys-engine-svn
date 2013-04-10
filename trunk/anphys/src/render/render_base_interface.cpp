@@ -131,3 +131,8 @@ void grRenderBaseInterface::unbindRenderState()
 	mCurrentRenderState = NULL;
 }
 
+grRenderState* grRenderBaseInterface::getCurrentRenderState()
+{
+	return mCurrentRenderState;
+}
+

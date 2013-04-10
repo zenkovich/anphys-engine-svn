@@ -55,6 +55,8 @@ struct gr2DRenderStateBase:gr2DRenderStateBaseInterface
 
 	void incFrameIdx() { mFrameIdx += 1; if (mFrameIdx > 999999) mFrameIdx = 0; }
 	void resetFrameIdx() { mFrameIdx = 0; }
+
+	void renderDebugData();
 };
 
 #endif //2D_RENDER_STATE_D3D8_H

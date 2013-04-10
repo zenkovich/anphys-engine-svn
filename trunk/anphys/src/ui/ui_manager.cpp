@@ -22,6 +22,13 @@ uiWidgetsManager::~uiWidgetsManager()
 	gLogSystem->removeStream(mLog);
 }
 
+uiWidget* uiWidgetsManager::addWidget(uiWidget* widget)
+{
+	mWidgets.push_back(widget);
+	widget->mWidgetsManager = this;
+	return widget;
+}
+
 uiWidget* uiWidgetsManager::addWidget( const std::string& dataObjectFile, const std::string& dataObjectPath )
 {
 	cDataObject* dataObject = 
