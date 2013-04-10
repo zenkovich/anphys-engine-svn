@@ -52,6 +52,7 @@ struct grRenderBaseInterface
 
 	void bindRenderState(grRenderState* renderState);
 	void unbindRenderState();
+	grRenderState* getCurrentRenderState();
 
 	virtual const char* getRenderName() { return "render base"; }
 };

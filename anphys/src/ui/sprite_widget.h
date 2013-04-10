@@ -28,7 +28,7 @@ struct uiSpriteWidget:public uiWidget
 	uiSpriteWidget(const uiSpriteWidget& spriteWidget);
 	~uiSpriteWidget();
 
-	virtual void update(float dt);
+	virtual void derivedUpdate(float dt);
 	virtual void draw();
 
 	virtual uiWidget* clone() const;

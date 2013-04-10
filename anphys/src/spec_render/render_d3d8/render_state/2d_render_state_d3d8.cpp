@@ -72,6 +72,8 @@ void gr2DRenderStateBase::finish()
 	unlockBuffers();
 	drawPrimitives();
 
+	renderDebugData();
+
 	incFrameIdx();
 
 	mRendering = false;
@@ -208,7 +210,8 @@ void gr2DRenderStateBase::updateTransformations()
 
 void gr2DRenderStateBase::setTexture( grTexture* texture )
 {
-	mRender->m_pDirect3DDevice->SetTexture(0, texture->mTexturePtr);
+	if (texture) mRender->m_pDirect3DDevice->SetTexture(0, texture->mTexturePtr);
+	else         mRender->m_pDirect3DDevice->SetTexture(0, NULL);
 	mLastDrawingTexture = texture;
 }
 
@@ -246,6 +249,25 @@ void gr2DRenderStateBase::flush()
 	unlockBuffers();
 	drawPrimitives();
 	lockBuffers();
+
+	renderDebugData();
+}
+
+void gr2DRenderStateBase::renderDebugData()
+{
+	memcpy(mVertexData, mDebugVertexBuffer, sizeof(vertex2d)*mDebugLinesCount);
+
+	unlockBuffers();
+
+	mRender->m_pDirect3DDevice->SetTexture(0, NULL);
+
+	mRender->m_pDirect3DDevice->DrawPrimitive(D3DPT_LINELIST, 0, mDebugLinesCount/2);
+
+	setTexture(mLastDrawingTexture);
+
+	lockBuffers();
+
+	mDebugLinesCount = 0;
 }
 
 #endif //RENDER_D3D8

@@ -19,12 +19,13 @@ struct uiProperty
 //functions
 	uiProperty(InterpolationType interpolationType = IT_LINEAR, float duration = 0.5f):
 		mInterpolationType(interpolationType), mDuration(duration), mCurrentTime(0), mChangeState(CS_NONE) {}
-
 	virtual ~uiProperty() {}
 
 	virtual void activate(bool forcible = false) { mChangeState = CS_ACTIVATING; }
 	virtual void deactivate(bool forcible = false) { mChangeState = CS_DEACTIVATING; }
 	virtual void update(float dt) { mChangeState = CS_NONE; }
+
+	virtual uiProperty* clone() const { return new uiProperty(*this); }
 };
 
 template<typename T>
@@ -59,16 +60,22 @@ struct uiParameterProperty:public uiProperty
 
 	void update(float dt)
 	{
-		mCurrentTime = 0;
+		mCurrentTime += dt;
+
 		float coef = 1.0f;
 		if (mDuration > FLT_EPSILON)
-			coef = mCurrentTime/mDuration;
+			coef = fclamp(mCurrentTime/mDuration, 0.0f, 1.0f);
 
 		if (mChangeState == CS_ACTIVATING)
 		{
 			*mParameterPtr = mBeginInterpolationValue + (mTargetValue - mBeginInterpolationValue)*coef;
 		}
+
+		if (mCurrentTime > mDuration)
+			mChangeState = uiProperty::CS_NONE;
 	}
+
+	virtual uiProperty* clone() const { return new uiParameterProperty<T>(*this); }
 };
 
 #endif //UI_PROPERTY_H

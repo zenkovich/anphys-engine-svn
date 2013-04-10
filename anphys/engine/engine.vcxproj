@@ -189,6 +189,9 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
     <ClInclude Include="..\src\ui\sprite_widget.h" />
+    <ClInclude Include="..\src\ui\ui_manager.h" />
+    <ClInclude Include="..\src\ui\ui_property.h" />
+    <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\widget.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
@@ -332,6 +335,8 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
     <ClCompile Include="..\src\ui\sprite_widget.cpp" />
+    <ClCompile Include="..\src\ui\ui_manager.cpp" />
+    <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\widget.cpp" />
     <ClCompile Include="..\src\util\debug\render_stuff.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />

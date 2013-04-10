@@ -16,6 +16,16 @@ uiState::uiState( uiWidget* targetWidget, cDataObject* dataObject ):
 {
 	serialize(*dataObject, AT_INPUT, "");
 }
+	
+uiState::uiState(const uiState& state)
+{
+	mTargetWidget = state.mTargetWidget;
+	mId = state.mId;
+	mActive = false;
+
+	for (PropertiesList::const_iterator it = state.mProperties.cbegin(); it != state.mProperties.cend(); ++it)
+		mProperties.push_back((*it)->clone());
+}
 
 uiState::~uiState()
 {
@@ -72,5 +82,7 @@ void uiState::update( float dt )
 
 serializeMethodImpl(uiState)
 {
+	//if (achieveType == AT_OUTPUT)
+
 	return true;
 }
