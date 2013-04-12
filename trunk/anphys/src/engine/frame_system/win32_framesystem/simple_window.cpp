@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "simple_window.h"
 #include "windows_manager.h"
-
+#include "input/input_messenger.h"
 
 extern apWindowsManager *gWindowsManager;
 
@@ -14,6 +14,16 @@ LRESULT CALLBACK WinProc2(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	gWindowsManager->procWindows(hwnd, msg, lparam, wparam);
 
 	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+
+apWindow::apWindow()
+{
+	mInputMessenger = new cInputMessenger;
+}
+
+apWindow::~apWindow()
+{
+	safe_release(mInputMessenger);
 }
 
 bool apWindow::initialize(WNDPROC winProc, HICON icon, HCURSOR cursor, HBRUSH backBrush, std::string className,  std::string wndName, RECT rect)
@@ -57,14 +67,10 @@ bool apWindow::initialize(const WNDCLASSEX& wndClass, std::string wndName, RECT 
 	mRect = rect;
 	RECT rt;
 	GetClientRect(mHWnd, &rt);
-
 	fRect inRect(rt);
-	mInRect = inRect;
-
-
-	mLeftMouseButton = mRightMouseButton = false;
-	mPressedKeys[0] = mPressedKeys[1] = mPressedKeys[2] = -1;
-
+	mInRect = rt;
+	mInRect.rightDown += vec2(2, 2);
+	
 	onCreate(inRect);
 
 	mActiveWindow = true;
@@ -105,17 +111,7 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			int key = (int)(lParam);
 
-			for (int i = 0; i < 3; i++)
-			{
-				if (mPressedKeys[i] == key) break;
-
-				if (mPressedKeys[i] < 0) 
-				{
-					mPressedKeys[i] = key;
-					break;
-				}
-
-			}
+			mInputMessenger->mInputMessage.keyPressed(key);
 
 			onKeyDown(key);
 			break;
@@ -127,8 +123,7 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			int key = (int)(lParam);
 
-			for (int i = 0; i < 3; i++)
-				if (mPressedKeys[i] == key) mPressedKeys[i] = -1;
+			mInputMessenger->mInputMessage.keyReleased(key);
 
 			onKeyUp(key);
 			break;
@@ -145,7 +140,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			vec2 cursor((float)ptt.x, (float)ptt.y);
 			onMouseMove(cursor);
 			
-			mCursorPos = cursor;
+			mInputMessenger->mInputMessage.mCursorPosition = cursor;
+
 			break;
 		 }
 
@@ -159,8 +155,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			vec2 cursor((float)ptt.x, (float)ptt.y);
 			onMouseLeftButtonDown(cursor);
 
-			mCursorPos = cursor;
-			mLeftMouseButton = true;
+			mInputMessenger->mInputMessage.keyPressed(CURSOR_BUTTON);
+			mInputMessenger->mInputMessage.mCursorPosition = cursor;
 
 			break;
 		 }
@@ -175,8 +171,9 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			vec2 cursor((float)ptt.x, (float)ptt.y);
 			onMouseLeftButtonUp(cursor);
 
-			mCursorPos = cursor;
-			mLeftMouseButton = false;
+			mInputMessenger->mInputMessage.keyReleased(CURSOR_BUTTON);
+			mInputMessenger->mInputMessage.mCursorPosition = cursor;
+
 			break;
 		 }
 
@@ -191,8 +188,9 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			vec2 cursor((float)ptt.x, (float)ptt.y);
 			onMouseRightButtonDown(cursor);
 
-			mCursorPos = cursor;
-			mRightMouseButton = true;
+			mInputMessenger->mInputMessage.keyPressed(RM_BUTTON);
+			mInputMessenger->mInputMessage.mCursorPosition = cursor;
+
 			break;
 		 }
 
@@ -206,8 +204,9 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			vec2 cursor((float)ptt.x, (float)ptt.y);
 			onMouseRightButtonUp(cursor);
 
-			mCursorPos = cursor;
-			mRightMouseButton = false;
+			mInputMessenger->mInputMessage.keyReleased(RM_BUTTON);
+			mInputMessenger->mInputMessage.mCursorPosition = cursor;
+
 			break;
 		 }
 
@@ -252,6 +251,7 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			 if (!mActiveWindow) break;
 
 			 onTimer();
+			 mInputMessenger->mInputMessage.update();
 
 			 break;
 		 }
@@ -288,17 +288,9 @@ void apWindow::onDeActive() {}
 
 float apWindow::onTimer() { return 0; }
 
-bool apWindow::isKeyPressed(int key)
+bool apWindow::isKeyDown(int key)
 {
-	for (int i = 0; i < 3; i++)
-		if (mPressedKeys[i] == key) return true;
-
-	return false;
-}
-
-int apWindow::pressedKey(int idx)
-{
-	return mPressedKeys[idx];
+	return mInputMessenger->mInputMessage.isKeyDown(key);
 }
 
 

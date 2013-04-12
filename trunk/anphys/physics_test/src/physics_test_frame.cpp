@@ -15,6 +15,8 @@
 #include "ui/ui_state.h"
 #include "ui/sprite_widget.h"
 
+#include "input/input_messenger.h"
+
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
 	onCreate(mInRect);
@@ -71,12 +73,12 @@ float apPhysicsTestFrame::onTimer()
 {
 	float dt = apRenderWindow::onTimer();
 
-	if (isKeyPressed(key_w)) mCamera3dMouse->moveForward(isKeyPressed(key_shift));
-	if (isKeyPressed(key_s)) mCamera3dMouse->moveBack(isKeyPressed(key_shift));
-	if (isKeyPressed(key_a)) mCamera3dMouse->moveLeft(isKeyPressed(key_shift));
-	if (isKeyPressed(key_d)) mCamera3dMouse->moveRight(isKeyPressed(key_shift));
-	if (isKeyPressed(key_ctrl)) mCamera3dMouse->moveDown(isKeyPressed(key_shift));
-	if (isKeyPressed(key_space)) mCamera3dMouse->moveUp(isKeyPressed(key_shift));
+	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
+	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
+	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
+	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
+	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
+	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
 
 	
 	if (mPhysicsRunning) 
@@ -136,7 +138,8 @@ void apPhysicsTestFrame::onMouseRightButtonUp(vec2 point)
 
 void apPhysicsTestFrame::onMouseMove(vec2 point)
 {
-	if (mLeftMouseButton) mCamera3dMouse->mouseMoved(point - mCursorPos);
+	if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
+		mCamera3dMouse->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
 }
 
 void apPhysicsTestFrame::onMouseWheel(float delta)

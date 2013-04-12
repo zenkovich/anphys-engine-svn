@@ -112,6 +112,9 @@
     <ClInclude Include="..\src\engine\scene\object_component.h" />
     <ClInclude Include="..\src\engine\scene\scene.h" />
     <ClInclude Include="..\src\engine\scene\scene_stuff.h" />
+    <ClInclude Include="..\src\input\input_listener.h" />
+    <ClInclude Include="..\src\input\input_message.h" />
+    <ClInclude Include="..\src\input\input_messenger.h" />
     <ClInclude Include="..\src\physics\CD\collision_detection\box_box_cd.h" />
     <ClInclude Include="..\src\physics\CD\collision_detection\cd_stuff.h" />
     <ClInclude Include="..\src\physics\CD\collision_detection\support_geom.h" />
@@ -189,6 +192,7 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
     <ClInclude Include="..\src\ui\sprite_widget.h" />
+    <ClInclude Include="..\src\ui\ui_font.h" />
     <ClInclude Include="..\src\ui\ui_manager.h" />
     <ClInclude Include="..\src\ui\ui_property.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
@@ -287,6 +291,8 @@
     <ClCompile Include="..\src\engine\scene\object_component.cpp" />
     <ClCompile Include="..\src\engine\scene\scene.cpp" />
     <ClCompile Include="..\src\engine\scene\scene_stuff.cpp" />
+    <ClCompile Include="..\src\input\input_message.cpp" />
+    <ClCompile Include="..\src\input\input_messenger.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_detection\box_box_cd.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_detection\cd_stuff.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_detection\support_geom.cpp" />
@@ -335,6 +341,7 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
     <ClCompile Include="..\src\ui\sprite_widget.cpp" />
+    <ClCompile Include="..\src\ui\ui_font.cpp" />
     <ClCompile Include="..\src\ui\ui_manager.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\widget.cpp" />

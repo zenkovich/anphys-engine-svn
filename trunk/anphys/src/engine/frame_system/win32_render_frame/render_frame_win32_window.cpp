@@ -35,7 +35,7 @@ apRenderWindow::~apRenderWindow()
 
 void apRenderWindow::onCreate(fRect inRect)
 {
-	SetTimer(mHWnd, 0, 10, NULL);
+	SetTimer(mHWnd, 0, 1, NULL);
 	mTime = 0;
 	mLastTickCount = GetTickCount();
 }

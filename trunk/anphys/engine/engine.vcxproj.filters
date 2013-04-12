@@ -184,6 +184,9 @@
     <Filter Include="ui">
       <UniqueIdentifier>{2e28e645-1af8-4797-a15f-add145ab7761}</UniqueIdentifier>
     </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{9c7a774e-acb9-45ee-a407-279bb95d1dc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -660,6 +663,18 @@
     <ClInclude Include="..\src\ui\ui_state.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\input\input_messenger.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\input\input_message.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\input\input_listener.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_font.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -1008,6 +1023,15 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_state.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\input\input_message.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\input\input_messenger.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_font.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
