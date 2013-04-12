@@ -12,28 +12,27 @@
 #define apWindowStrBackBrush (HBRUSH)GetStockObject(GRAY_BRUSH)  //стандартный фон
 
 struct apWindowsManager;
+struct cInputMessenger;
 
 //базовое окно
 struct apWindow
 {
-	HWND mHWnd;                  //окно
-	fRect mRect;                 //пр€моугольник окна
-	fRect mInRect;               //внутренн€€ часть окна
+	HWND              mHWnd;                  //окно
+	fRect             mRect;                 //пр€моугольник окна
+	fRect             mInRect;               //внутренн€€ часть окна
 
-	std::string mWndName;        //им€ окна
+	std::string       mWndName;        //им€ окна
 
 	apWindowsManager *mpManager; //менеджер окон
 
-	int mPressedKeys[3];         //индексы нажатых клавиш
+	cInputMessenger*  mInputMessenger;
 
-	bool mLeftMouseButton;       //лева€ кнопка мышы
-	bool mRightMouseButton;      //права€ кнопка мышы
-
-	vec2 mCursorPos;             //позици€ курсора
-
-	bool mActiveWindow;          //активировано ли окно
+	bool              mActiveWindow;          //активировано ли окно
 
 //functions
+	apWindow();
+	virtual ~apWindow();
+
 	//базова€ инициализаци€
 	bool initialize(WNDPROC winProc, HICON icon, HCURSOR cursor, HBRUSH backBrush, std::string className,  std::string wndName, RECT rect);
 
@@ -73,9 +72,7 @@ struct apWindow
 	//------------------------------//
 
 	//нажата ли кнопка с индексом
-	bool isKeyPressed(int key); 
-
-	int pressedKey(int idx);
+	bool isKeyDown(int key); 
 };
 
 #endif

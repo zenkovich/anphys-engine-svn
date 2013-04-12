@@ -8,6 +8,8 @@
 #include "util/other/type_intexation.h"
 #include "util/serialization/serialization.h"
 
+#include "input/input_message.h"
+
 struct uiWidgetsManager;
 struct uiState;
 
@@ -68,6 +70,8 @@ struct uiWidget
 	virtual void update(float dt);
 	virtual void derivedUpdate(float dt) {}
 	virtual void draw();
+
+	virtual int processInputMessage(const cInputMessage& message) { return 0; }
 
 	virtual uiWidget* clone() const;
 

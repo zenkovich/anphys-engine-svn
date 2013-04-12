@@ -9,6 +9,8 @@
 #include "physics/CD/collision_geometry/collision.h"
 #include "physics/CD/collision_geometry/collision_point.h"
 
+#include "input/input_messenger.h"
+
 apBoxCollisionTestFrame::apBoxCollisionTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
 {
 	mCamera3dMouse = new grCamera3DMouse;
@@ -75,12 +77,12 @@ float apBoxCollisionTestFrame::onTimer()
 {
 	float dt = apRenderWindow::onTimer();
 
-	if (isKeyPressed(key_w)) mCamera3dMouse->moveForward(isKeyPressed(key_shift));
-	if (isKeyPressed(key_s)) mCamera3dMouse->moveBack(isKeyPressed(key_shift));
-	if (isKeyPressed(key_a)) mCamera3dMouse->moveLeft(isKeyPressed(key_shift));
-	if (isKeyPressed(key_d)) mCamera3dMouse->moveRight(isKeyPressed(key_shift));
-	if (isKeyPressed(key_ctrl)) mCamera3dMouse->moveDown(isKeyPressed(key_shift));
-	if (isKeyPressed(key_space)) mCamera3dMouse->moveUp(isKeyPressed(key_shift));
+	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
+	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
+	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
+	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
+	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
+	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
 
 	
 	if (mPhysicsRunning) 
@@ -127,7 +129,8 @@ void apBoxCollisionTestFrame::onMouseRightButtonUp(vec2 point)
 
 void apBoxCollisionTestFrame::onMouseMove(vec2 point)
 {
-	if (mLeftMouseButton) mCamera3dMouse->mouseMoved(point - mCursorPos);
+	if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
+		mCamera3dMouse->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
 }
 
 void apBoxCollisionTestFrame::onMouseWheel(float delta)
@@ -143,84 +146,84 @@ void apBoxCollisionTestFrame::onKeyDown(int key)
 
 	if (key == key_u)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.x -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.x -= 0.03f;
 		else                         mBoxBPos.x -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_i)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.x += 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.x += 0.03f;
 		else                         mBoxBPos.x += 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_j)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.y -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.y -= 0.03f;
 		else                         mBoxBPos.y -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_k)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.y += 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.y += 0.03f;
 		else                         mBoxBPos.y += 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_n)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.z -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.z -= 0.03f;
 		else                         mBoxBPos.z -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_m)
 	{
-		if (isKeyPressed(key_shift)) mBoxAPos.z += 0.03f;
+		if (isKeyDown(key_shift)) mBoxAPos.z += 0.03f;
 		else                         mBoxBPos.z += 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_7)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.x -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.x -= 0.03f;
 		else                         mBoxBSize.x -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_8)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.x += 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.x += 0.03f;
 		else                         mBoxBSize.x += 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_4)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.y -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.y -= 0.03f;
 		else                         mBoxBSize.y -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_5)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.y += 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.y += 0.03f;
 		else                         mBoxBSize.y += 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_1)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.z -= 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.z -= 0.03f;
 		else                         mBoxBSize.z -= 0.03f;
 		testBoxCD();
 	}
 
 	if (key == key_numpad_2)
 	{
-		if (isKeyPressed(key_shift)) mBoxASize.z += 0.03f;
+		if (isKeyDown(key_shift)) mBoxASize.z += 0.03f;
 		else                         mBoxBSize.z += 0.03f;
 		testBoxCD();
 	}
@@ -228,8 +231,8 @@ void apBoxCollisionTestFrame::onKeyDown(int key)
 	if (key == key_numpad_3)
 	{
 		float d = 1.0f;
-		if (isKeyPressed(key_numpad_0)) d = -d;
-		if (isKeyPressed(key_shift)) mBoxAAngles.z += d;
+		if (isKeyDown(key_numpad_0)) d = -d;
+		if (isKeyDown(key_shift)) mBoxAAngles.z += d;
 		else                         mBoxBAngles.z += d;
 		testBoxCD();
 	}
@@ -237,8 +240,8 @@ void apBoxCollisionTestFrame::onKeyDown(int key)
 	if (key == key_numpad_6)
 	{
 		float d = 1.0f;
-		if (isKeyPressed(key_numpad_0)) d = -d;
-		if (isKeyPressed(key_shift)) mBoxAAngles.y += d;
+		if (isKeyDown(key_numpad_0)) d = -d;
+		if (isKeyDown(key_shift)) mBoxAAngles.y += d;
 		else                         mBoxBAngles.y += d;
 		testBoxCD();
 	}
@@ -246,8 +249,8 @@ void apBoxCollisionTestFrame::onKeyDown(int key)
 	if (key == key_numpad_9)
 	{
 		float d = 1.0f;
-		if (isKeyPressed(key_numpad_0)) d = -d;
-		if (isKeyPressed(key_shift)) mBoxAAngles.x += d;
+		if (isKeyDown(key_numpad_0)) d = -d;
+		if (isKeyDown(key_shift)) mBoxAAngles.x += d;
 		else                         mBoxBAngles.x += d;
 		testBoxCD();
 	}
@@ -361,7 +364,7 @@ void apBoxCollisionTestFrame::testBoxCD()
 	checkCollisionBoxBox(boxAGeom, boxBGeom, &collision);
 	
 	vec3 offs;
-	if (collision.mPoints->size() > 0 && isKeyPressed(key_numpad_0)) 
+	if (collision.mPoints->size() > 0 && isKeyDown(key_numpad_0)) 
 		offs = (*collision.mPoints->mValues[0]).mNormal*(*collision.mPoints->mValues[0]).mDepth*-0.5f;
 
 	mBoxAObject = mMainEngineScene->addObject(mMainEngineScene->mSceneStuff->createBoxMesh(mBoxAPos + offs, mBoxASize, rotationMatrixA));
