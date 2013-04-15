@@ -7,21 +7,38 @@
 #include "util/serialization/data_objects_manager.h"
 #include "util/serialization/serialization.h"
 
+#include "util/file_system/file_system.h"
+#include "util/file_system/file.h"
+
 
 uiFont::uiFont(grRender* render):mMesh(NULL), mRender(render)
 {
 	createMesh();
-	mCharactedIdList.reserve(255);
+	for (unsigned int i = 0; i < nMaxCharId; i++)
+		mCharactedIdList[i] = 0;
 	mNeedUpdateMesh = false;
+
+	mTextArea = fRect(0, 0, 0, 0);
+	mClippingArea = fRect(0, 0, 0, 0);
+	mClipping = false;
+	mWordWrap = true;
+	mHorAlign = AL_CENTER;
+	mVerAlign = AL_MIDDLE;
+	mDistCoef = vec2(0, 0);
+	mColor = color4(1.0f, 1.0f, 1.0f, 1.0f);
+	mScale = vec2(1, 1);
 }
 
 uiFont::uiFont( const uiFont& font )
 {
+	mRender = font.mRender;
+
 	createMesh();
 	mMesh->pushTexture(font.mMesh->mTextures[0]);
 
 	mCharacters      = font.mCharacters;
-	mCharactedIdList = font.mCharactedIdList;
+	for (unsigned int i = 0; i < nMaxCharId; i++)
+		mCharactedIdList[i] = font.mCharactedIdList[i];
 
 	mText            = font.mText;
 	mTextArea        = font.mTextArea;
@@ -30,6 +47,9 @@ uiFont::uiFont( const uiFont& font )
 	mWordWrap        = font.mWordWrap;
 	mHorAlign        = font.mHorAlign;
 	mVerAlign        = font.mVerAlign;
+	mDistCoef        = font.mDistCoef;
+	mScale           = font.mScale;
+	mColor           = font.mColor;
 
 	mNeedUpdateMesh = true;
 }
@@ -42,7 +62,7 @@ uiFont::~uiFont()
 void uiFont::load( const std::string& file, const std::string& objectPath )
 {
 	cDataObject* dataObject = getDataObjectsManager().loadDataObject(file, cDataObjectsManager::DOT_XML);
-	load(dataObject);
+	load(dataObject->getChild(objectPath));
 }
 
 void uiFont::load( cDataObject* dataObject )
@@ -71,8 +91,8 @@ void uiFont::load( cDataObject* dataObject )
 		if (!(*it)->getChildValue("texRect", texSrcRect))
 			continue;
 
-		texSrcRect.leftTop.scale(invTexSize);
-		texSrcRect.rightDown.scale(invTexSize);
+		/*texSrcRect.leftTop.scale(invTexSize);
+		texSrcRect.rightDown.scale(invTexSize);*/
 
 		mCharacters.push_back(texSrcRect);
 		mCharactedIdList[charId] = characterIdx;
@@ -121,13 +141,47 @@ uiFont::VerAlign uiFont::getVerAlign() const
 
 uiFont& uiFont::setPosition( const vec2& position )
 {
+	vec2 center;
+	if (mHorAlign == AL_LEFT)
+		center.x = mTextArea.leftTop.x;
+	else if (mHorAlign == AL_CENTER)
+		center.x = (mTextArea.leftTop.x + mTextArea.rightDown.x)*0.5f;
+	else if (mHorAlign == AL_RIGHT)
+		center.y = mTextArea.rightDown.x;
+
+	if (mVerAlign == AL_TOP)
+		center.y = mTextArea.leftTop.y;
+	else if (mVerAlign == AL_MIDDLE)
+		center.y = (mTextArea.leftTop.y + mTextArea.rightDown.y)*0.5f;
+	else if (mVerAlign == AL_BOTTOM)
+		center.y = mTextArea.rightDown.y;
+
+	vec2 diff = position - center;
+
+	mTextArea.plusVector(diff);
+
 	mNeedUpdateMesh = true;
 	return *this;
 }
 
 vec2 uiFont::getPosition()
 {
-	return mTextArea.leftTop;
+	vec2 center;
+	if (mHorAlign == AL_LEFT)
+		center.x = mTextArea.leftTop.x;
+	else if (mHorAlign == AL_CENTER)
+		center.x = (mTextArea.leftTop.x + mTextArea.rightDown.x)*0.5f;
+	else if (mHorAlign == AL_RIGHT)
+		center.y = mTextArea.rightDown.x;
+
+	if (mVerAlign == AL_TOP)
+		center.y = mTextArea.leftTop.y;
+	else if (mVerAlign == AL_MIDDLE)
+		center.y = (mTextArea.leftTop.y + mTextArea.rightDown.y)*0.5f;
+	else if (mVerAlign == AL_BOTTOM)
+		center.y = mTextArea.rightDown.y;
+
+	return center;
 }
 
 uiFont& uiFont::setTextArea( const fRect& rect )
@@ -202,7 +256,6 @@ color4 uiFont::getColor() const
 	return mColor;
 }
 
-
 void uiFont::draw()
 {
 	if (mNeedUpdateMesh)
@@ -218,7 +271,122 @@ uiFont* uiFont::clone()
 
 void uiFont::updateMesh()
 {
+	std::vector<vec2> lineSize;
 
+	float currentLineWidth = 0;
+	float currentLineHeight = 0;
+	float totalLinesHeight = 0;
+	float totalLinesWidth = 0;
+
+	unsigned int length = mText.length();
+	for (unsigned int i = 0; i < length + 1; i++)
+	{
+		char symbol = mText[min(i, length - 1)];
+
+		if (symbol == '\n' || i == length)
+		{
+			totalLinesWidth = max(totalLinesWidth, currentLineWidth);
+			totalLinesHeight += currentLineHeight;
+
+			lineSize.push_back(vec2(currentLineWidth, currentLineHeight));
+			currentLineWidth = 0;
+
+			continue;
+		}
+
+		unsigned int symbolId = mCharactedIdList[symbol];
+		vec2 symbolSize = mCharacters[symbolId].getSize().scale(mScale);
+
+		currentLineHeight = max(symbolSize.y + mDistCoef.y, currentLineHeight);
+		currentLineWidth += symbolSize.x + mDistCoef.x;
+	}
+
+	float lineYPos = 0;
+	if (mVerAlign == AL_TOP)
+		lineYPos = mTextArea.leftTop.y + lineSize[0].y;
+	else if (mVerAlign == AL_MIDDLE)
+		lineYPos = (mTextArea.leftTop.y + mTextArea.rightDown.y)*0.5f - totalLinesHeight*0.5f +  + lineSize[0].y;
+	else if (mVerAlign == AL_BOTTOM)
+		lineYPos = mTextArea.rightDown.y - totalLinesHeight + lineSize[0].y;
+
+	vec2 invTexSize(1.0f/mMesh->mTextures[0]->mSize.x, 1.0f/mMesh->mTextures[0]->mSize.y);
+
+	float lineXPos = 0;
+	int lineIdx = -1;
+	vec2 currentLineSize;
+	unsigned long color = mColor.dwordARGB();
+	mMesh->mVertexCount = 0;
+	mMesh->mPolygonsCount = 0;
+	for (unsigned int i = 0; i < length + 1; i++)
+	{
+		char symbol = mText[min(i, length - 1)];
+
+		if (symbol == '\n' || i == length || i == 0)
+		{
+			lineIdx++;
+
+			if (i < length - 1)
+				currentLineSize = lineSize[lineIdx];
+
+			if (mHorAlign == AL_LEFT)
+				lineXPos = mTextArea.leftTop.x;
+			else if (mHorAlign == AL_CENTER)
+				lineXPos = (mTextArea.leftTop.x + mTextArea.rightDown.x)*0.5f - currentLineSize.x*0.5f;
+			else if (mHorAlign == AL_RIGHT)
+				lineXPos = mTextArea.rightDown.x - currentLineSize.x;
+
+			if (i != 0)
+			{
+				lineYPos += currentLineSize.y + mDistCoef.y;
+				continue;
+			}
+		}
+
+		unsigned int symbolId = mCharactedIdList[symbol];
+		fRect symbolRect = mCharacters[symbolId];
+		vec2 symbolSize = symbolRect.getSize().scale(mScale);
+
+		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
+			vertex2d(lineXPos, lineYPos - symbolSize.y, 1.0f, 
+			symbolRect.leftTop.x*invTexSize.x, symbolRect.leftTop.y*invTexSize.y, color);
+
+		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
+			vertex2d(lineXPos + symbolSize.x, lineYPos - symbolSize.y, 1.0f, 
+			symbolRect.rightDown.x*invTexSize.x, symbolRect.leftTop.y*invTexSize.y, color);
+
+		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
+			vertex2d(lineXPos + symbolSize.x, lineYPos, 1.0f, 
+			symbolRect.rightDown.x*invTexSize.x, symbolRect.rightDown.y*invTexSize.y, color);
+
+		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
+			vertex2d(lineXPos, lineYPos, 1.0f, 
+			symbolRect.leftTop.x*invTexSize.x, symbolRect.rightDown.y*invTexSize.y, color);
+
+		mMesh->mPolygonsCount += 2;
+
+		lineXPos += symbolSize.x + mDistCoef.x;
+	}
+
+	if (mMesh->mVertexCount > 0)
+	{
+		mRealTextRect = fRect(mMesh->mVertexBuffer[0].x, mMesh->mVertexBuffer[0].y, 
+			                  mMesh->mVertexBuffer[0].x, mMesh->mVertexBuffer[0].y);
+
+		for (unsigned int i = 0; i < mMesh->mVertexCount; i++)
+		{
+			vertex2d* vertex = &mMesh->mVertexBuffer[i];
+
+			mRealTextRect.leftTop.x = min(mRealTextRect.leftTop.x, vertex->x);
+			mRealTextRect.leftTop.y = min(mRealTextRect.leftTop.y, vertex->y);
+
+			mRealTextRect.rightDown.x = max(mRealTextRect.rightDown.x, vertex->x);
+			mRealTextRect.rightDown.y = max(mRealTextRect.rightDown.y, vertex->y);
+		}
+	}
+	else
+	{
+		mRealTextRect = fRect(0, 0, 0, 0);
+	}
 }
 
 void uiFont::createMesh()
@@ -231,4 +399,66 @@ void uiFont::createMesh()
 		mMesh->mPolygonsBuffer[i*2]     = poly3(vertexId, vertexId + 1, vertexId + 2);
 		mMesh->mPolygonsBuffer[i*2 + 1] = poly3(vertexId, vertexId + 2, vertexId + 3);
 	}
+}
+
+void uiFont::loadWelloreFormat( const std::string& filename )
+{
+	cFile* file = getFileSystem().openFileRead(filename);
+
+	char* data = new char[file->getDataSize()];
+	file->readFullData(data);
+
+	std::string str = data;
+
+	safe_release_arr(data);
+
+	getFileSystem().closeFile(file);
+
+	unsigned int caret = 0;
+	unsigned int ccaret = 0;
+
+	cDataObject dataObj;
+	cDataObject* child = dataObj.addChild("font");
+
+	ccaret = str.find("\"");
+	caret = ccaret;
+	ccaret = str.find("\"", caret + 1);
+
+	std::string textureStr = str.substr(caret + 1, ccaret - caret - 1);
+
+	child->addChild(textureStr, "texture");
+
+	cDataObject* symbolsChild = child->addChild("symbols");
+
+	caret = ccaret;
+	ccaret = str.find("{", caret); caret = ccaret;
+
+	while(true)
+	{
+		ccaret = str.find("{", caret + 1); caret = ccaret;
+		if (caret ==  str.npos) break;
+		ccaret = str.find("}", caret);
+		std::string dt = str.substr(caret + 1, ccaret - caret - 1);
+
+		unsigned int n1, n2, n3, n4, n5;
+		unsigned int c = 0, cc = 0;
+		cc = dt.find(",");
+		n1 = StrToInt(dt.substr(c, cc - c).c_str()); c = cc + 1;
+		cc = dt.find(",", c);
+		n2 = StrToInt(dt.substr(c, cc - c).c_str()); c = cc + 1;
+		cc = dt.find(",", c);
+		n3 = StrToInt(dt.substr(c, cc - c).c_str()); c = cc + 1;
+		cc = dt.find(",", c);
+		n4 = StrToInt(dt.substr(c, cc - c).c_str()); c = cc + 1;
+		cc = dt.find(",", c);
+		n5 = StrToInt(dt.substr(c, cc - c).c_str()); c = cc + 1;
+
+		cDataObject* symbolc = symbolsChild->addChild("symbol");
+		symbolc->addChild(n1, "charId");
+
+		fRect rt(n2, n3, n2 + n4, n3 + n5);
+		symbolc->addChild(rt, "texRect");
+	}
+
+	getDataObjectsManager().saveDataObject("../data/fonts/test_font.xml", cDataObjectsManager::DOT_XML, dataObj);
 }

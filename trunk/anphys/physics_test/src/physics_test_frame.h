@@ -20,6 +20,7 @@ struct grCamera2D;
 struct grSprite;
 struct uiWidget;
 struct uiWidgetsManager;
+struct uiFont;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -36,6 +37,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 	//tests
 	uiWidgetsManager*           mTestWidgetsManager;
 	uiWidget*                   mTestWidget;
+	uiFont*                     mTestFont;
 
 //functions
 	apPhysicsTestFrame();

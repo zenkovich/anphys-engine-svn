@@ -2,7 +2,7 @@
 
 #include "png_image_format.h"
 
-cImage::cImage():mFormat(FMT_NONE), mData(NULL), mSize(0)
+cImage::cImage():mFormat(FMT_NONE), mData(NULL), mSize(0, 0)
 {
 	mFilename[0] = '\0';
 }

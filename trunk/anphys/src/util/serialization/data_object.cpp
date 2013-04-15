@@ -78,6 +78,14 @@ cDataObject* cDataObject::getChild(const std::string& id)
 	if (slashPos == id.npos) searchId = id;
 	else                     searchId = id.substr(0, slashPos);
 
+	if (searchId == "..")
+	{
+		if (!mParent)
+			return NULL;
+		else
+			return mParent->getChild(id.substr(slashPos + 1));
+	}
+
 	for (DataObjectsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
 		if ((*it)->mId == searchId) 
@@ -124,10 +132,12 @@ void cDataObject::loadDataFrom( pugi::xml_node& xmlNode )
 		else if (valueType == "vec2")   newChild = new cDataObjectContainer<vec2>(name);
 		else if (valueType == "vec3")   newChild = new cDataObjectContainer<vec3>(name);
 		else if (valueType == "color4") newChild = new cDataObjectContainer<color4>(name);
+		else if (valueType == "rect")   newChild = new cDataObjectContainer<fRect>(name);
 		else continue;
 
 		newChild->loadDataFrom(*it);
 		mChilds.push_back(newChild);
+		newChild->mParent = this;
 	}
 }
 

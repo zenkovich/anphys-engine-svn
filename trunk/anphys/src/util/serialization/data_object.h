@@ -27,11 +27,11 @@ struct cDataObject
 	virtual ~cDataObject();
 	
 //adding childs
-	cDataObject* addChild(const std::string& id = "default");
+	cDataObject* addChild(const std::string& id);
 	cDataObject* addChild(cDataObject* child);
 
 	template<typename T>
-	cDataObjectContainer<T>* addChild(const T& object, const std::string& id = "default")
+	cDataObjectContainer<T>* addChild(const T& object, const std::string& id)
 	{
 		cDataObjectContainer<T>* newObject = new cDataObjectContainer<T>(object, id);
 
@@ -42,7 +42,7 @@ struct cDataObject
 	}
 
 	template<typename T>
-	cDataObjectContainer<T>* addChild(const std::string& id = "default")
+	cDataObjectContainer<T>* addChild(const std::string& id)
 	{
 		cDataObjectContainer<T>* newObject = new cDataObjectContainer<T>(id);
 
@@ -52,7 +52,7 @@ struct cDataObject
 		return newObject;
 	}
 
-	cDataObjectContainer<std::string>* addChild(const char* str, const std::string& id = "default")
+	cDataObjectContainer<std::string>* addChild(const char* str, const std::string& id)
 	{
 		return addChild<std::string>(str, id);
 	}

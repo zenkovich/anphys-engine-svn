@@ -48,8 +48,8 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	mDirect3DParametr.SwapEffect = D3DSWAPEFFECT_COPY;
 	mDirect3DParametr.BackBufferFormat = Display.Format;
 	mDirect3DParametr.BackBufferCount = 1;
-	mDirect3DParametr.BackBufferHeight = (unsigned int)(drawRect.rightDown.x-drawRect.leftTop.x);
-	mDirect3DParametr.BackBufferWidth = (unsigned int)(drawRect.rightDown.y-drawRect.leftTop.y);  
+	mDirect3DParametr.BackBufferWidth = (unsigned int)(drawRect.rightDown.x-drawRect.leftTop.x);
+	mDirect3DParametr.BackBufferHeight = (unsigned int)(drawRect.rightDown.y-drawRect.leftTop.y);  
 	mDirect3DParametr.EnableAutoDepthStencil = true;
 	mDirect3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
 	if(FAILED(m_pDirect3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, HWnd, 

@@ -7,23 +7,25 @@
 REGIST_TYPE(uiSpriteWidget)
 
 uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, grSprite* sprite /*= NULL*/, bool ownSprite /*= true*/, 
-	                           const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/):
-	uiWidget(widgetsManager, id, parent), mSprite(sprite), mOwnSprite(ownSprite)
+	                           const std::string& id /*= "noName"*/):
+	uiWidget(widgetsManager, id), mSprite(sprite), mOwnSprite(ownSprite)
 {
+	mSize = mSprite->getSize().scale(mSprite->getScale());
 }
 
 uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, 
 	                           const std::string& spriteSrcFile, const std::string& spriteSrcObjectpath,
-	                           const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/):
-	uiWidget(widgetsManager, id, parent), mSprite(NULL), mOwnSprite(false), mSpriteSrcFile(spriteSrcFile), 
+	                           const std::string& id /*= "noName"*/):
+	uiWidget(widgetsManager, id), mSprite(NULL), mOwnSprite(false), mSpriteSrcFile(spriteSrcFile), 
 	mSpriteSrcObjectPath(mSpriteSrcObjectPath)
 {
 	mSprite = new grSprite(widgetsManager->mRender, spriteSrcFile, spriteSrcObjectpath);
+	mSize = mSprite->getSize().scale(mSprite->getScale());
 	mOwnSprite = true;
 }
 
-uiSpriteWidget::uiSpriteWidget( uiWidgetsManager* widgetsManager, cDataObject* dataObject, uiWidget* parent /*= NULL*/ ):
-	uiWidget(widgetsManager, "noname", parent)
+uiSpriteWidget::uiSpriteWidget( uiWidgetsManager* widgetsManager, cDataObject* dataObject):
+	uiWidget(widgetsManager, "noname")
 {
 	serialize(*dataObject, AT_INPUT, "");
 }
@@ -52,7 +54,11 @@ uiSpriteWidget::~uiSpriteWidget()
 void uiSpriteWidget::derivedUpdate( float dt )
 {
 	if (mSprite)
-		mSprite->setPosition(mGlobalPosition).setColor(color4(1.0f, 1.0f, 1.0f, mResTransparency));
+	{
+		color4 spriteColor = mSprite->getColor();
+		mSprite->setPosition(mGlobalPosition).
+			     setColor(color4(spriteColor.r, spriteColor.g, spriteColor.b, (int)(255.0f*mResTransparency)));
+	}
 }
 
 void uiSpriteWidget::draw()
@@ -112,4 +118,11 @@ serializeMethodImpl(uiSpriteWidget)
 	}
 
 	return true;
+}
+
+uiSpriteWidget* uiSpriteWidget::setSize( const vec2& size )
+{
+	mSize = size;
+	mSprite->setSize(size);
+	return this;
 }

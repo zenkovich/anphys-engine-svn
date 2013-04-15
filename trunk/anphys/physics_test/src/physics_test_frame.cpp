@@ -14,6 +14,9 @@
 #include "ui/ui_manager.h"
 #include "ui/ui_state.h"
 #include "ui/sprite_widget.h"
+#include "ui/ui_font.h"
+#include "ui/ui_label.h"
+#include "ui/ui_simple_stuff.h"
 
 #include "input/input_messenger.h"
 
@@ -167,6 +170,24 @@ void apPhysicsTestFrame::onKeyDown(int key)
 				mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, vec3(1.0f, 1.0f, 1.0f), 
 				vectorOrient(mCamera3dMouse->mDirection)));
 	}
+
+	if (key == 'Q') mTestFont->setHorAlign(uiFont::AL_LEFT);
+	if (key == 'W') mTestFont->setHorAlign(uiFont::AL_CENTER);
+	if (key == 'E') mTestFont->setHorAlign(uiFont::AL_RIGHT);
+
+	if (key == 'A') mTestFont->setVerAlign(uiFont::AL_TOP);
+	if (key == 'S') mTestFont->setVerAlign(uiFont::AL_MIDDLE);
+	if (key == 'D') mTestFont->setVerAlign(uiFont::AL_BOTTOM);
+
+	if (key == 'Z') mTestFont->setScale(vec2(mTestFont->getScale().x + 0.01f, mTestFont->getScale().y));
+	if (key == 'X') mTestFont->setScale(vec2(mTestFont->getScale().x - 0.01f, mTestFont->getScale().y));
+	if (key == 'C') mTestFont->setScale(vec2(mTestFont->getScale().x, mTestFont->getScale().y + 0.01f));
+	if (key == 'V') mTestFont->setScale(vec2(mTestFont->getScale().x, mTestFont->getScale().y - 0.01f));
+
+	if (key == 'G') mTestFont->setDistCoef(vec2(mTestFont->getDistCoef().x + 0.01f, mTestFont->getDistCoef().y));
+	if (key == 'H') mTestFont->setDistCoef(vec2(mTestFont->getDistCoef().x - 0.01f, mTestFont->getDistCoef().y));
+	if (key == 'J') mTestFont->setDistCoef(vec2(mTestFont->getDistCoef().x, mTestFont->getDistCoef().y + 0.01f));
+	if (key == 'K') mTestFont->setDistCoef(vec2(mTestFont->getDistCoef().x, mTestFont->getDistCoef().y - 0.01f));
 }
 
 void apPhysicsTestFrame::onKeyUp(int key)
@@ -205,17 +226,37 @@ void apPhysicsTestFrame::setupScene1()
 void apPhysicsTestFrame::render2D()
 {
 	mTestWidgetsManager->draw();
+
+	mTestFont->draw();
+	m2DRenderState->pushLine(mTestFont->getTextArea().getltCorner(), mTestFont->getTextArea().getrtCorner());
+	m2DRenderState->pushLine(mTestFont->getTextArea().getrtCorner(), mTestFont->getTextArea().getrdCorner());
+	m2DRenderState->pushLine(mTestFont->getTextArea().getrdCorner(), mTestFont->getTextArea().getldCorner());
+	m2DRenderState->pushLine(mTestFont->getTextArea().getldCorner(), mTestFont->getTextArea().getltCorner());
 }
 
 void apPhysicsTestFrame::createTestWidgets()
 {
 	mTestWidgetsManager = new uiWidgetsManager(mRender);
 
-	mTestWidget = new uiWidget(mTestWidgetsManager, "testWidget");
+	mTestWidget = uiSimpleStuff::createSpriteWidget(mTestWidgetsManager, color4(0.7f, 0.7f, 0.7f, 1.0f), vec2(0, 0),
+		vec2(100, 100), "main");
+
+	uiSpriteWidget* childSprite = uiSimpleStuff::createSpriteWidget(mTestWidgetsManager, color4(0.8f, 0.8f, 0.8f, 1.0f),
+		vec2(10, 10), vec2(50, 40), "child1");
+
+	mTestWidget->addChild(childSprite);
+	childSprite->show(true);
+
+	uiLabel* label = uiSimpleStuff::createLabel(mTestWidgetsManager, vec2(30, 30), vec2(100, 100), "label", "label");
+	mTestWidget->addChild(label);
+	label->show(true);
+	
+	mTestWidgetsManager->addWidget(mTestWidget);
+	/*mTestWidget = new uiWidget(mTestWidgetsManager, "testWidget");
 	mTestWidgetsManager->addWidget(mTestWidget);
 
-	mTestWidget->mPosition = vec2(10, 10);
-	mTestWidget->mSize = vec2(100, 100);
+	mTestWidget->setPosition(vec2(10, 10));
+	mTestWidget->setSize(vec2(100, 100));
 
 	grTexture* tex1 = mRender->mTextures->createTexture("textures/pngtest");
 	grSprite* testSprite = new grSprite(mRender, tex1);
@@ -223,6 +264,15 @@ void apPhysicsTestFrame::createTestWidgets()
 
 	mTestWidget->addChild(spriteWidget);
 
-	spriteWidget->mPosition = vec2(20, 20);
-	spriteWidget->show(true);
+	spriteWidget->setPosition(vec2(20, 20));
+	spriteWidget->show(true);*/
+
+	mTestFont = new uiFont(mRender);
+	//mTestFont->loadWelloreFormat("fonts/wellore_test.txt");
+	mTestFont->load("fonts/system_font", "font");
+
+	mTestFont->setTextArea(fRect(100, 100, 300, 300));
+	mTestFont->setText("Some text\nwith\nmany\nlines\na\na\n\na\n12345678.8765432234523423452342352345\n1231231\n12123123");
+	mTestFont->setHorAlign(uiFont::AL_LEFT);
+	mTestFont->setVerAlign(uiFont::AL_MIDDLE);
 }

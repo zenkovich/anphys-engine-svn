@@ -69,7 +69,6 @@ bool apWindow::initialize(const WNDCLASSEX& wndClass, std::string wndName, RECT 
 	GetClientRect(mHWnd, &rt);
 	fRect inRect(rt);
 	mInRect = rt;
-	mInRect.rightDown += vec2(2, 2);
 	
 	onCreate(inRect);
 

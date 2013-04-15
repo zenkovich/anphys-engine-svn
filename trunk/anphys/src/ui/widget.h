@@ -27,6 +27,7 @@ struct uiWidget
 	uiWidget*         mParent;
 	WidgetsList       mChilds;
 
+protected:
 	vec2              mPosition;
 	vec2              mGlobalPosition;
 	vec2              mOffset;
@@ -38,11 +39,13 @@ struct uiWidget
 	StatesList        mStates;
 	uiState*          mCurrentState;
 
+public:
 //functions
-	uiWidget(uiWidgetsManager* widgetsManager, const std::string& id = "noName", uiWidget* parent = NULL);
+	uiWidget(uiWidgetsManager* widgetsManager, const std::string& id = "noName");
 	uiWidget(const uiWidget& widget);
 	virtual ~uiWidget();
 
+//childs
 	void addChild(uiWidget* widget);
 
 	void removeChild(uiWidget* widget);
@@ -56,6 +59,7 @@ struct uiWidget
 		return static_cast<T*>(getWidget(id));
 	}
 
+//states
 	void addState(uiState* state);
 	void removeState(uiState* state);
 	void removeAllStates();
@@ -67,12 +71,25 @@ struct uiWidget
 	void show(bool forcible = false);
 	void hide(bool forcible = false);
 
+//system funcs
 	virtual void update(float dt);
 	virtual void derivedUpdate(float dt) {}
 	virtual void draw();
 
 	virtual int processInputMessage(const cInputMessage& message) { return 0; }
 
+//parametres
+    virtual uiWidget* setPosition(const vec2& position);
+	vec2              getPosition() const;
+	vec2              getGlobalPosition() const;
+
+	virtual uiWidget* setOffset(const vec2& offset);
+	vec2              getOffset() const;
+
+	virtual uiWidget* setSize(const vec2& size);
+	vec2              getSize() const;
+
+//other
 	virtual uiWidget* clone() const;
 
 	void createStdStates();

@@ -10,12 +10,11 @@
 
 REGIST_TYPE(uiWidget)
 
-uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= "noName"*/, uiWidget* parent /*= NULL*/ )
+uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= "noName"*/)
 {
 	mWidgetsManager = widgetsManager;
-	mParent = parent;
+	mParent = NULL;
 	mId = id;
-	if (parent) parent->addChild(this);
 	mTransparency = 0;
 	mResTransparency = 0;
 	mModal = false;
@@ -147,16 +146,16 @@ serializeMethodImpl(uiWidget)
 	serializeId(mId, "id");
 
 	if (!serializeId(mPosition, "position"))
-		mPosition = vec2(0);
+		mPosition = vec2(0, 0);
 
 	if (!serializeId(mOffset, "offset"))
-		mOffset = vec2(0);
+		mOffset = vec2(0, 0);
 
 	if (!serializeId(mModal, "modal"))
 		mModal = false;
 
 	if (!serializeId(mSize, "size"))
-		mSize = vec2(0);
+		mSize = vec2(0, 0);
 
 	if (achieveType == AT_OUTPUT)
 	{
@@ -275,4 +274,42 @@ void uiWidget::createStdStates()
 	uiState* hideState = new uiState(this, "hide");
 	hideState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f));
 	addState(hideState);
+}
+
+uiWidget* uiWidget::setPosition( const vec2& position )
+{
+	mPosition = position;
+	return this;
+}
+
+vec2 uiWidget::getPosition() const
+{
+	return mPosition;
+}
+
+vec2 uiWidget::getGlobalPosition() const
+{
+	return mGlobalPosition;
+}
+
+uiWidget* uiWidget::setOffset( const vec2& offset )
+{
+	mOffset = offset;
+	return this;
+}
+
+vec2 uiWidget::getOffset() const
+{
+	return mOffset;
+}
+
+uiWidget* uiWidget::setSize( const vec2& size )
+{
+	mSize = size;
+	return this;
+}
+
+vec2 uiWidget::getSize() const
+{
+	return mSize;
 }

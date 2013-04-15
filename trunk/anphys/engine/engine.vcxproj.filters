@@ -187,6 +187,9 @@
     <Filter Include="input">
       <UniqueIdentifier>{9c7a774e-acb9-45ee-a407-279bb95d1dc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="physics\objects\vehicle">
+      <UniqueIdentifier>{68982d4c-ea8b-4375-ba50-8a5c77fa5a20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -675,6 +678,24 @@
     <ClInclude Include="..\src\ui\ui_font.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_component.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_simple_stuff.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_hor_layout_widget.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_label.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_button.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -1032,6 +1053,18 @@
       <Filter>input</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_font.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\objects\vehicle\vehicle.cpp">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\objects\vehicle\vehicle_component.cpp">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_simple_stuff.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_label.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
