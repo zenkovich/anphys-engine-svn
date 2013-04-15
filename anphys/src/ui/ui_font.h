@@ -19,36 +19,39 @@ struct uiFont
 	enum HorAlign { AL_LEFT = 0, AL_CENTER, AL_RIGHT, AL_WIDEH };
 	enum VerAlign { AL_TOP = 0, AL_MIDDLE, AL_BOTTOM, AL_WIDEV };
 
-	enum { nMaxSymbols = 2048 };
+	enum { nMaxSymbols = 2048, nMaxCharId = 255 };
 
 protected:
-	RectsList mCharacters;
-	IdList    mCharactedIdList;
+	RectsList             mCharacters;
+	unsigned int          mCharactedIdList[nMaxCharId];
 
 	grRender2DObjectMesh* mMesh;
 
-	std::string mText;
-	fRect       mTextArea;
-	fRect       mClippingArea;
-	bool        mClipping;
-	bool        mWordWrap;
-	HorAlign    mHorAlign;
-	VerAlign    mVerAlign;
-	vec2        mDistCoef;
-	vec2        mScale;
-	color4      mColor;
-
-	bool        mNeedUpdateMesh;
-
-	grRender*   mRender;
+	std::string           mText;
+	fRect                 mTextArea;
+	fRect                 mClippingArea;
+	bool                  mClipping;
+	bool                  mWordWrap;
+	HorAlign              mHorAlign;
+	VerAlign              mVerAlign;
+	vec2                  mDistCoef;
+	vec2                  mScale;
+	color4                mColor;
+				          
+	bool                  mNeedUpdateMesh;
+				          
+	grRender*             mRender;
 
 public:
+	fRect                 mRealTextRect;
+
 	uiFont(grRender* render);
 	uiFont(const uiFont& font);
 	~uiFont();
 
 	void        load(cDataObject* dataObject);
 	void        load(const std::string& file, const std::string& objectPath);
+	void        loadWelloreFormat(const std::string& file);
 
 	uiFont&     setText(const std::string& text);
 	std::string getText() const;

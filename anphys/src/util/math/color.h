@@ -31,6 +31,13 @@ struct color4
 		b = (int)(cb*255);
 		a = (int)(ca*255);
 	}
+
+	inline bool operator==(const color4& color)
+	{
+		if (abs(r - color.r) > 0 || abs(g - color.g) > 0 || abs(b - color.b) > 0 || abs(a - color.a) > 0)
+			return false;
+		return true;
+	}
 	
 	inline float rf() const
 	{

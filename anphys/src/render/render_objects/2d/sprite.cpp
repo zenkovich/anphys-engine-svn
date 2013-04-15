@@ -289,7 +289,7 @@ void grSprite::updateMeshVerticies()
 	}
 	else
 	{
-		vec2 realSize = mSize*mScale;
+		vec2 realSize = mSize.scale(mScale);
 
 		mMesh->mVertexBuffer[0].x = mPosition.x;              mMesh->mVertexBuffer[0].y = mPosition.y;
 		mMesh->mVertexBuffer[1].x = mPosition.x + realSize.x; mMesh->mVertexBuffer[1].y = mPosition.y;
@@ -323,16 +323,16 @@ void grSprite::updateMeshTexCoords()
 serializeMethodImpl(grSprite)
 {
 	if (!serializeId(mPosition, "position"))
-		mPosition = vec2(0);
+		mPosition = vec2(0, 0);
 
 	if (!serializeId(mScale, "scale"))
-		mScale = vec2(1);
+		mScale = vec2(1, 1);
 
 	if (!serializeId(mAngle, "angle"))
 		mAngle = 0;
 
 	if (!serializeId(mRotationCenter, "rotationCenter"))
-		mRotationCenter = vec2(0);
+		mRotationCenter = vec2(0, 0);
 
 	if (achieveType == AT_OUTPUT) 
 	{
@@ -353,7 +353,7 @@ serializeMethodImpl(grSprite)
 			mMesh->pushTexture(texture);
 
 			if (!serializeId(mTextureSrcRect, "textureSrcRect"))
-				mTextureSrcRect = fRect(vec2(0), texture->mSize);
+				mTextureSrcRect = fRect(vec2(0, 0), texture->mSize);
 		}
 	}
 

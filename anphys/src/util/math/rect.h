@@ -17,7 +17,7 @@ struct fRect
 
 	inline fRect() 
 	{ 
-		leftTop = rightDown = vec2(0); 
+		leftTop = rightDown = vec2(0, 0); 
 	}
 
 	inline fRect(vec2 lt, vec2 rd) 
@@ -35,6 +35,20 @@ struct fRect
 	{
 		leftTop = rect.leftTop;
 		rightDown = rect.rightDown;
+	}
+
+	inline bool operator==(const fRect& rt)
+	{
+		if (fabs(leftTop.x - rt.leftTop.x) > FLT_EPSILON || fabs(leftTop.y - rt.leftTop.y) > FLT_EPSILON ||
+            fabs(rightDown.x - rt.rightDown.x) > FLT_EPSILON || fabs(rightDown.y - rt.rightDown.y) > FLT_EPSILON)
+			return false;
+
+		return true;
+	}
+
+	inline bool operator!=(const fRect& rt)
+	{
+		return !(*this == rt);
 	}
 
 	inline fRect& operator=(const fRect& rt)

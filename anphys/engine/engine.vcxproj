@@ -127,6 +127,8 @@
     <ClInclude Include="..\src\physics\objects\physics_object.h" />
     <ClInclude Include="..\src\physics\objects\rigid_object.h" />
     <ClInclude Include="..\src\physics\objects\static_object.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_component.h" />
     <ClInclude Include="..\src\physics\physics_engine.h" />
     <ClInclude Include="..\src\physics\scenes\physics_scene.h" />
     <ClInclude Include="..\src\physics\solver\sequential_impulses_solver.h" />
@@ -192,9 +194,13 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
     <ClInclude Include="..\src\ui\sprite_widget.h" />
+    <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_font.h" />
+    <ClInclude Include="..\src\ui\ui_hor_layout_widget.h" />
+    <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_manager.h" />
     <ClInclude Include="..\src\ui\ui_property.h" />
+    <ClInclude Include="..\src\ui\ui_simple_stuff.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\widget.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
@@ -302,6 +308,8 @@
     <ClCompile Include="..\src\physics\CD\collision_manager.cpp" />
     <ClCompile Include="..\src\physics\objects\rigid_object.cpp" />
     <ClCompile Include="..\src\physics\objects\static_object.cpp" />
+    <ClCompile Include="..\src\physics\objects\vehicle\vehicle.cpp" />
+    <ClCompile Include="..\src\physics\objects\vehicle\vehicle_component.cpp" />
     <ClCompile Include="..\src\physics\physics_engine.cpp" />
     <ClCompile Include="..\src\physics\scenes\physics_scene.cpp" />
     <ClCompile Include="..\src\physics\solver\sequential_impulses_solver.cpp" />
@@ -342,7 +350,9 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
     <ClCompile Include="..\src\ui\sprite_widget.cpp" />
     <ClCompile Include="..\src\ui\ui_font.cpp" />
+    <ClCompile Include="..\src\ui\ui_label.cpp" />
     <ClCompile Include="..\src\ui\ui_manager.cpp" />
+    <ClCompile Include="..\src\ui\ui_simple_stuff.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\widget.cpp" />
     <ClCompile Include="..\src\util\debug\render_stuff.cpp" />
