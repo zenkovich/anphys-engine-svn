@@ -3,6 +3,8 @@
 
 #include "widget.h"
 
+#include "util/math/color.h"
+
 struct grSprite;
 
 struct uiSpriteWidget:public uiWidget
@@ -11,6 +13,7 @@ struct uiSpriteWidget:public uiWidget
 
 	grSprite*   mSprite;
 	bool        mOwnSprite;
+	color4      mSpriteColor;
 
 	std::string mSpriteSrcFile;
 	std::string mSpriteSrcObjectPath;

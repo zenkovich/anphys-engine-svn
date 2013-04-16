@@ -3,8 +3,27 @@
 
 #include "widget.h"
 
+struct cCallbackInterface;
+
 struct uiButton:public uiWidget
 {
+	DEFINE_TYPE(uiButton)
+
+protected:
+	cCallbackInterface* mOnClickCallback;
+	bool                mPressed;
+	bool                mSelected;
+
+public:
+
+//functions
+	uiButton(uiWidgetsManager* widgetsManager, const std::string& id, cCallbackInterface* callback = NULL);
+	uiButton(const uiButton& button);
+	~uiButton();
+
+	void setCallback(cCallbackInterface* callback);
+
+	int processInputMessageDerived(const cInputMessage& message);
 };
 
 #endif //UI_BUTTON_H

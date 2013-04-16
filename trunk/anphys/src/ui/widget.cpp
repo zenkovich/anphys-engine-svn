@@ -7,6 +7,7 @@
 #include "render/render_state/2d_render_state.h"
 #include "ui_state.h"
 #include "ui_property.h"
+#include "ui_button.h"
 
 REGIST_TYPE(uiWidget)
 
@@ -51,6 +52,9 @@ void uiWidget::addChild( uiWidget* widget )
 {
 	mChilds.push_back(widget);
 	widget->mParent = this;
+
+	if (getType() == uiWidget::getStaticType())
+		adjustSizeByChilds();
 }
 
 void uiWidget::removeChild( uiWidget* widget )
@@ -123,12 +127,12 @@ void uiWidget::draw()
 	gr2DRenderStateBase* renderState = 
 		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
 
-	color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
+	/*color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
 	fRect rt(mGlobalPosition, mGlobalPosition + mSize);
 	renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
 	renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
 	renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
-	renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);
+	renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);*/
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
@@ -234,46 +238,74 @@ uiState* uiWidget::getState( const std::string& id )
 	return NULL;
 }
 
-void uiWidget::setState( const std::string& id, bool forcible /*= false*/ )
+void uiWidget::setState( const std::string& id, bool forcible /*= false*/, bool recursive /*= false*/ )
 {
 	uiState* state = getState(id);
 
-	if (!state) 
+	if (!state && !recursive) 
 	{
-		mWidgetsManager->mLog->fout(1, "WARNING: Can't find state '%s' in widget '%s'", id.c_str(), mId.c_str());
-		return;
+		//mWidgetsManager->mLog->fout(1, "WARNING: Can't find state '%s' in widget '%s'", id.c_str(), mId.c_str());
+		//return;
 	}
 
-	if (state == mCurrentState)
+	if (state == mCurrentState && !recursive)
 		return;
 
-	if (mCurrentState)
+	if (mCurrentState && state)
 		mCurrentState->deactivate(forcible);
 
-	state->activate(forcible);
+	if (state) 
+	{
+		state->activate(forcible);
+		mCurrentState = state;
 
-	mCurrentState = state;
+		if (state->mId == "visible")
+		{
+			if (!mParent)
+				mWidgetsManager->showedWidget(this);
+
+			mVisible = true;
+		}
+
+		if (state->mId == "invisible")
+		{
+			if (!mParent)
+				mWidgetsManager->hidedWidget(this);
+
+			mVisible = false;
+		}
+	}
+
+	if (recursive)
+	{
+		for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
+		{
+			(*it)->setState(id, forcible, true);
+		}
+	}
 }
 
 void uiWidget::show( bool forcible /*= false*/ )
 {
-	setState("idle");
+	setState("visible");
 }
 
 void uiWidget::hide( bool forcible /*= false*/ )
 {
-	setState("hide");
+	setState("invisible");
 }
 
 void uiWidget::createStdStates()
 {
-	uiState* idleState = new uiState(this, "idle");
+	uiState* idleState = new uiState(this, "visible");
 	idleState->addProperty(new uiParameterProperty<float>(&mTransparency, 1.0f));
 	addState(idleState);
 
-	uiState* hideState = new uiState(this, "hide");
+	uiState* hideState = new uiState(this, "invisible");
 	hideState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f));
 	addState(hideState);
+
+	show(true);
 }
 
 uiWidget* uiWidget::setPosition( const vec2& position )
@@ -312,4 +344,89 @@ uiWidget* uiWidget::setSize( const vec2& size )
 vec2 uiWidget::getSize() const
 {
 	return mSize;
+}
+
+bool uiWidget::isPointInside( const vec2& point )
+{
+	if (isPointInsideDerived(point))
+		return true;
+
+	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
+	{
+		if ((*it)->isPointInside(point))
+			return true;
+	}
+
+	return false;
+}
+
+bool uiWidget::isPointInsideDerived( const vec2& point )
+{
+	if (point.x < mGlobalPosition.x || point.x > mGlobalPosition.x + mSize.x ||
+		point.y < mGlobalPosition.y || point.y > mGlobalPosition.y + mSize.y)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool uiWidget::isModal() const
+{
+	return mModal;
+}
+
+uiWidget* uiWidget::setModal( bool modal )
+{
+	mModal = modal;
+	return this;
+}
+
+int uiWidget::processInputMessageDerived( const cInputMessage& message )
+{
+	if (isPointInsideDerived(message.mCursorPosition))
+		return 1;
+
+	return 0;
+}
+
+int uiWidget::processInputMessage( const cInputMessage& message )
+{
+	if (getType() == uiButton::getStaticType())
+	{
+		volatile int i = 0;
+		i++;
+	}
+
+	if (processInputMessageDerived(message) == 0) 
+		return 0;
+
+	int res = 0;
+	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); it++)
+	{
+		int widgetRes = (*it)->processInputMessage(message);
+		if (widgetRes != 0)
+			res = widgetRes;
+	}
+
+	return res;
+}
+
+void uiWidget::adjustSizeByChilds()
+{
+	vec2 vmin = mGlobalPosition, vmax = mGlobalPosition + mSize;
+
+	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
+	{
+		vec2 cmin = (*it)->mGlobalPosition;
+		vec2 cmax = cmin + (*it)->mSize;
+
+		if (cmin.x < vmin.x) vmin.x = cmin.x;
+		if (cmin.y < vmin.y) vmin.y = cmin.y;
+		if (cmax.x > vmax.x) vmax.x = cmax.x;
+		if (cmax.y > vmax.y) vmax.y = cmax.y;
+	}
+
+	mPosition += vmin - mGlobalPosition;
+	mSize = vmax - vmin;
 }

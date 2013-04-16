@@ -11,6 +11,7 @@ uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, grSprite* sprit
 	uiWidget(widgetsManager, id), mSprite(sprite), mOwnSprite(ownSprite)
 {
 	mSize = mSprite->getSize().scale(mSprite->getScale());
+	mSpriteColor = sprite->getColor();
 }
 
 uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, 
@@ -21,6 +22,7 @@ uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager,
 {
 	mSprite = new grSprite(widgetsManager->mRender, spriteSrcFile, spriteSrcObjectpath);
 	mSize = mSprite->getSize().scale(mSprite->getScale());
+	mSpriteColor = mSprite->getColor();
 	mOwnSprite = true;
 }
 
@@ -43,6 +45,8 @@ uiSpriteWidget::uiSpriteWidget(const uiSpriteWidget& spriteWidget):
 	{
 		mSprite = spriteWidget.mSprite;
 	}
+
+	mSpriteColor = mSprite->getColor();
 }
 
 uiSpriteWidget::~uiSpriteWidget()
@@ -55,9 +59,8 @@ void uiSpriteWidget::derivedUpdate( float dt )
 {
 	if (mSprite)
 	{
-		color4 spriteColor = mSprite->getColor();
 		mSprite->setPosition(mGlobalPosition).
-			     setColor(color4(spriteColor.r, spriteColor.g, spriteColor.b, (int)(255.0f*mResTransparency)));
+			     setColor(color4(mSpriteColor.r, mSpriteColor.g, mSpriteColor.b, (int)(255.0f*mResTransparency)));
 	}
 }
 

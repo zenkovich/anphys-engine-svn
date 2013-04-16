@@ -15,6 +15,8 @@ struct uiState;
 
 struct uiWidget
 {
+	friend struct uiSimpleStuff;
+
 	typedef std::vector<uiWidget*> WidgetsList;
 	typedef std::vector<uiState*> StatesList;
 
@@ -26,6 +28,8 @@ struct uiWidget
 
 	uiWidget*         mParent;
 	WidgetsList       mChilds;
+
+	bool              mVisible;
 
 protected:
 	vec2              mPosition;
@@ -59,6 +63,8 @@ public:
 		return static_cast<T*>(getWidget(id));
 	}
 
+	void adjustSizeByChilds();
+
 //states
 	void addState(uiState* state);
 	void removeState(uiState* state);
@@ -66,7 +72,7 @@ public:
 
 	uiState* getState(const std::string& id);
 
-	void setState(const std::string& id, bool forcible = false);
+	void setState(const std::string& id, bool forcible = false, bool recursive = false);
 
 	void show(bool forcible = false);
 	void hide(bool forcible = false);
@@ -76,7 +82,11 @@ public:
 	virtual void derivedUpdate(float dt) {}
 	virtual void draw();
 
-	virtual int processInputMessage(const cInputMessage& message) { return 0; }
+	int processInputMessage(const cInputMessage& message);
+	virtual int processInputMessageDerived(const cInputMessage& message);
+
+	bool isPointInside(const vec2& point);
+	virtual bool isPointInsideDerived(const vec2& point);
 
 //parametres
     virtual uiWidget* setPosition(const vec2& position);
@@ -88,6 +98,9 @@ public:
 
 	virtual uiWidget* setSize(const vec2& size);
 	vec2              getSize() const;
+
+	uiWidget*         setModal(bool modal);
+	bool              isModal() const;
 
 //other
 	virtual uiWidget* clone() const;

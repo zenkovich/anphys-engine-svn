@@ -26,6 +26,7 @@ uiWidget* uiWidgetsManager::addWidget(uiWidget* widget)
 {
 	mWidgets.push_back(widget);
 	widget->mWidgetsManager = this;
+	widget->hide(true);
 	return widget;
 }
 
@@ -98,4 +99,59 @@ uiWidget* uiWidgetsManager::createWidget(cDataObject* dataObject)
 	newWidget->serialize(*dataObject, AT_INPUT, "");
 
 	return newWidget;
+}
+
+int uiWidgetsManager::processInputMessage( const cInputMessage& message )
+{
+	int res = 0;
+
+	if (mModalWidgets.size() > 0)
+	{
+		uiWidget* modalWidget = mModalWidgets.back();
+		res = modalWidget->processInputMessage(message);
+	}
+	else
+	{
+		for (WidgetsList::reverse_iterator it = mVisibleWidgets.rbegin(); it != mVisibleWidgets.rend(); ++it)
+		{
+			int widgetRes = (*it)->processInputMessage(message);
+			if (widgetRes != 0)
+			{
+				res = widgetRes;
+				break;
+			}
+		}
+	}
+
+	return res;
+}
+
+void uiWidgetsManager::showedWidget( uiWidget* widget )
+{
+	WidgetsList::iterator fnd = std::find(mWidgets.begin(), mWidgets.end(), widget);
+	if (fnd == mWidgets.end())
+		return;
+
+	if (widget->isModal())
+		mModalWidgets.push_back(widget);
+	else
+		mVisibleWidgets.push_back(widget);
+}
+
+void uiWidgetsManager::hidedWidget( uiWidget* widget )
+{
+	if (widget->isModal())
+	{
+		WidgetsList::iterator fnd = std::find(mModalWidgets.begin(), mModalWidgets.end(), widget);
+		if (fnd != mModalWidgets.end())
+			mModalWidgets.erase(fnd);
+
+		mVisibleWidgets.push_back(widget);
+	}
+	else
+	{
+		WidgetsList::iterator fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), widget);
+		if (fnd != mVisibleWidgets.end())
+			mVisibleWidgets.erase(fnd);
+	}
 }

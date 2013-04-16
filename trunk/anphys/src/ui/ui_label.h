@@ -7,6 +7,8 @@ struct uiFont;
 
 struct uiLabel:public uiWidget
 {
+	DEFINE_TYPE(uiLabel)
+
 	enum HorAlign { AL_LEFT = 0, AL_CENTER, AL_RIGHT };
 	enum VerAlign { AL_TOP = 0, AL_MIDDLE, AL_BOTTOM };
 

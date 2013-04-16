@@ -3,6 +3,7 @@
 #include "ui_font.h"
 #include "ui_manager.h"
 
+REGIST_TYPE(uiLabel)
 
 uiLabel::uiLabel( uiWidgetsManager* widgetsManager, uiFont* font, const std::string& id ):
 	uiWidget(widgetsManager, id), mFont(font)
