@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include "../../engine/engine_options.h"
+#include <math.h>
 
 #define n255 0.00392156862745f
 
@@ -30,6 +31,60 @@ struct color4
 		g = (int)(cg*255);
 		b = (int)(cb*255);
 		a = (int)(ca*255);
+	}
+
+	inline color4 operator+(const color4& v) const
+	{ 
+		return color4(r + v.r, g + v.g, b + v.g, a + v.a);
+	}
+
+	inline color4 operator+=(const color4& v) 
+	{
+		*this = *this + v; 
+		return *this;
+	}
+
+	inline color4 operator-(const color4& v) const
+	{
+		return color4(r - v.r, g - v.g, b - v.g, a - v.a);
+	}
+
+	inline color4 operator-=(const color4& v) 
+	{ 
+		*this = *this - v; 
+		return *this; 
+	}
+
+	inline color4 operator*(float v) const
+	{ 
+		return color4((int)((float)r*v), (int)((float)g*v), (int)((float)b*v), (int)((float)a*v)); 
+	}
+
+	inline color4 operator*=(float v)
+	{ 
+		*this = (*this)*v; 
+		return *this;
+	}
+
+	inline color4 operator/(float v) const
+	{
+		return *this*(1.0f/v);
+	}
+
+	inline color4 operator/=(float v) 
+	{ 
+		*this = *this/v; 
+		return *this; 
+	}
+
+	inline color4 operator*(const color4& v) const
+	{ 
+		return color4(r*v.r, g*v.g, b*v.g, a*v.a);
+	}
+
+	inline color4 operator*=(const color4& v) const
+	{
+		return *this*v; 
 	}
 
 	inline bool operator==(const color4& color)

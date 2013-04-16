@@ -17,7 +17,7 @@ struct uiProperty
 	ChangeState       mChangeState;
 
 //functions
-	uiProperty(InterpolationType interpolationType = IT_LINEAR, float duration = 0.5f):
+	uiProperty(InterpolationType interpolationType = IT_LINEAR, float duration = 0.15f):
 		mInterpolationType(interpolationType), mDuration(duration), mCurrentTime(0), mChangeState(CS_NONE) {}
 	virtual ~uiProperty() {}
 
@@ -37,7 +37,7 @@ struct uiParameterProperty:public uiProperty
 	T  mBeginInterpolationValue;
 
 //functions
-	uiParameterProperty(T* parameter, const T& targetValue, InterpolationType interpolationType = IT_LINEAR, float duration = 0.5f):
+	uiParameterProperty(T* parameter, const T& targetValue, InterpolationType interpolationType = IT_LINEAR, float duration = 0.15f):
 		uiProperty(interpolationType, duration), mParameterPtr(parameter), mTargetValue(targetValue) {}
 
 	~uiParameterProperty() {}

@@ -4,17 +4,21 @@
 #include <string>
 #include <vector>
 
+#include "input/input_listener.h"
+
 struct uiWidget;
 struct grRender;
 struct cDataObject;
 struct cLogStream;
 
-struct uiWidgetsManager
+struct uiWidgetsManager:public cInputListener
 {
 	typedef std::vector<uiWidget*> WidgetsList;
 
 	grRender*   mRender;
 	WidgetsList mWidgets;
+	WidgetsList mVisibleWidgets;
+	WidgetsList mModalWidgets;
 
 	cLogStream* mLog;
 
@@ -31,10 +35,14 @@ struct uiWidgetsManager
 	void      update(float dt);
 	void      draw();
 
+	int processInputMessage(const cInputMessage& message);
+
 private:
 	friend struct uiWidget;
 
 	uiWidget* createWidget(cDataObject* dataObject);
+	void showedWidget(uiWidget* widget);
+	void hidedWidget(uiWidget* widget);
 };
 
 #endif //UI_MANAGER_H
