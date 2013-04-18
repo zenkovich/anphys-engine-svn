@@ -205,6 +205,7 @@
     <ClInclude Include="..\src\ui\widget.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
+    <ClInclude Include="..\src\util\graphic\fixed_intervals_graphic.h" />
     <ClInclude Include="..\src\util\image\image.h" />
     <ClInclude Include="..\src\util\image\png_image_format.h" />
     <ClInclude Include="..\src\util\math\rect.h" />
