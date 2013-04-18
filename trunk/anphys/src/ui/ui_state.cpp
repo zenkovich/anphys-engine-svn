@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "util/serialization/data_object.h"
-#include "widget.h"
+#include "ui_widget.h"
 #include "ui_property.h"
 
 uiState::uiState(uiWidget* targetWidget, const std::string& id):
@@ -48,15 +48,23 @@ void uiState::deactivate( bool forcible /*= false*/ )
 	mActive = false;
 }
 
-uiProperty* uiState::addProperty( uiProperty* uiproperty )
+uiProperty* uiState::addProperty( uiProperty* uiproperty, uiWidget* targetWidget /*= NULL*/ )
 {
 	uiproperty->mState = this;
 	mProperties.push_back(uiproperty);
+
+	if (targetWidget)
+		targetWidget->registProperty(uiproperty);
+	else
+		mTargetWidget->registProperty(uiproperty);
+
 	return uiproperty;
 }
 
 void uiState::removeProperty( uiProperty* uiproperty )
 {
+	mTargetWidget->unregistProperty(uiproperty);
+
 	PropertiesList::iterator fnd = std::find(mProperties.begin(), mProperties.end(), uiproperty);
 
 	if (fnd == mProperties.end()) 
@@ -69,15 +77,12 @@ void uiState::removeProperty( uiProperty* uiproperty )
 void uiState::removeAllProperties()
 {
 	for (PropertiesList::iterator it = mProperties.begin(); it != mProperties.end(); ++it)
+	{
+		mTargetWidget->unregistProperty(*it);
 		safe_release(*it);
+	}
 
 	mProperties.clear();
-}
-
-void uiState::update( float dt )
-{
-	for (PropertiesList::iterator it = mProperties.begin(); it != mProperties.end(); ++it)
-		(*it)->update(dt);
 }
 
 serializeMethodImpl(uiState)

@@ -29,11 +29,9 @@ struct uiState
 	void        activate(bool forcible = false);
 	void        deactivate(bool forcible = false);
 
-	uiProperty* addProperty(uiProperty* uiproperty);
+	uiProperty* addProperty(uiProperty* uiproperty, uiWidget* targetWidget = NULL);
 	void        removeProperty(uiProperty* uiproperty);
 	void        removeAllProperties();
-
-	void        update(float dt);
 
 	serializeMethodDecl(uiState);
 };

@@ -12,13 +12,15 @@
 
 struct uiWidgetsManager;
 struct uiState;
+struct uiProperty;
 
 struct uiWidget
 {
 	friend struct uiSimpleStuff;
+	friend struct uiState;
 
 	typedef std::vector<uiWidget*> WidgetsList;
-	typedef std::vector<uiState*> StatesList;
+	typedef std::vector<uiProperty*> PropertyList;
 
 	DEFINE_TYPE(uiWidget)
 
@@ -30,18 +32,19 @@ struct uiWidget
 	WidgetsList       mChilds;
 
 	bool              mVisible;
+	uiState*          mVisibleState;
 
 protected:
 	vec2              mPosition;
 	vec2              mGlobalPosition;
 	vec2              mOffset;
 	vec2              mSize;
+	vec2              mResSize;
 	float             mTransparency;
 	float             mResTransparency;
 	bool              mModal;
 
-	StatesList        mStates;
-	uiState*          mCurrentState;
+	PropertyList      mPropertyList;
 
 public:
 //functions
@@ -66,14 +69,6 @@ public:
 	void adjustSizeByChilds();
 
 //states
-	void addState(uiState* state);
-	void removeState(uiState* state);
-	void removeAllStates();
-
-	uiState* getState(const std::string& id);
-
-	void setState(const std::string& id, bool forcible = false, bool recursive = false);
-
 	void show(bool forcible = false);
 	void hide(bool forcible = false);
 
@@ -108,6 +103,11 @@ public:
 	void createStdStates();
 
 	serializeMethodDecl(uiWidget);
+
+protected:
+	void registProperty(uiProperty* property);
+	void unregistProperty(uiProperty* property);
+	virtual void setupInitialProperties();
 };
 
 #endif //WIDGET_H

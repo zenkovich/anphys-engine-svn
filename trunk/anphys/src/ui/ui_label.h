@@ -1,7 +1,7 @@
 #ifndef UI_LABEL_H
 #define UI_LABEL_H
 
-#include "widget.h"
+#include "ui_widget.h"
 
 struct uiFont;
 

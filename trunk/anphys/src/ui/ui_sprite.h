@@ -1,7 +1,7 @@
 #ifndef SPRITE_WIDGET_H
 #define SPRITE_WIDGET_H
 
-#include "widget.h"
+#include "ui_widget.h"
 
 #include "util/math/color.h"
 
@@ -14,6 +14,7 @@ struct uiSpriteWidget:public uiWidget
 	grSprite*   mSprite;
 	bool        mOwnSprite;
 	color4      mSpriteColor;
+	color4      mInitialSpriteColor;
 
 	std::string mSpriteSrcFile;
 	std::string mSpriteSrcObjectPath;
@@ -39,6 +40,9 @@ struct uiSpriteWidget:public uiWidget
 	virtual uiWidget* clone() const;
 
 	derivedSerializeMethodDecl(uiWidget, uiSpriteWidget);
+
+protected:
+	void setupInitialProperties();
 };
 
 #endif //SPRITE_WIDGET_H

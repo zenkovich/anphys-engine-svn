@@ -82,6 +82,11 @@ struct color4
 		return color4(r*v.r, g*v.g, b*v.g, a*v.a);
 	}
 
+	inline color4 operator/(const color4& v) const
+	{ 
+		return color4(r/v.r, g/v.g, b/v.g, a/v.a);
+	}
+
 	inline color4 operator*=(const color4& v) const
 	{
 		return *this*v; 

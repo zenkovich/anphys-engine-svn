@@ -80,6 +80,11 @@ struct vec2
 		return *this*(1.0f/v);
 	}
 
+	inline vec2 operator/(const vec2& v) const
+	{
+		return vec2(x/v.x, y/v.y);
+	}
+
 	inline vec2 operator/=(float v) 
 	{ 
 		*this = *this/v; 

@@ -1,7 +1,7 @@
 #ifndef UI_BUTTON_H
 #define UI_BUTTON_H
 
-#include "widget.h"
+#include "ui_widget.h"
 
 struct cCallbackInterface;
 
@@ -15,6 +15,8 @@ protected:
 	bool                mSelected;
 
 public:
+	uiState*            mSelectedState;
+	uiState*            mPressedState;
 
 //functions
 	uiButton(uiWidgetsManager* widgetsManager, const std::string& id, cCallbackInterface* callback = NULL);
