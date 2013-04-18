@@ -1,4 +1,4 @@
-#include "sprite_widget.h"
+#include "ui_sprite.h"
 
 #include "render/render_objects/2d/sprite.h"
 #include "util/serialization/data_objects_manager.h"
@@ -12,6 +12,7 @@ uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, grSprite* sprit
 {
 	mSize = mSprite->getSize().scale(mSprite->getScale());
 	mSpriteColor = sprite->getColor();
+	mInitialSpriteColor = mSpriteColor;
 }
 
 uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager, 
@@ -23,6 +24,7 @@ uiSpriteWidget::uiSpriteWidget(uiWidgetsManager* widgetsManager,
 	mSprite = new grSprite(widgetsManager->mRender, spriteSrcFile, spriteSrcObjectpath);
 	mSize = mSprite->getSize().scale(mSprite->getScale());
 	mSpriteColor = mSprite->getColor();
+	mInitialSpriteColor = mSpriteColor;
 	mOwnSprite = true;
 }
 
@@ -47,6 +49,7 @@ uiSpriteWidget::uiSpriteWidget(const uiSpriteWidget& spriteWidget):
 	}
 
 	mSpriteColor = mSprite->getColor();
+	mInitialSpriteColor = mSpriteColor;
 }
 
 uiSpriteWidget::~uiSpriteWidget()
@@ -128,4 +131,10 @@ uiSpriteWidget* uiSpriteWidget::setSize( const vec2& size )
 	mSize = size;
 	mSprite->setSize(size);
 	return this;
+}
+
+void uiSpriteWidget::setupInitialProperties()
+{
+	mSpriteColor = mInitialSpriteColor;
+	uiWidget::setupInitialProperties();
 }

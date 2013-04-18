@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "ui_widget.h"
 
 #include <algorithm>
 
@@ -20,8 +20,6 @@ uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= 
 	mResTransparency = 0;
 	mModal = false;
 
-	mCurrentState = NULL;
-
 	createStdStates();
 }
 
@@ -37,14 +35,12 @@ uiWidget::uiWidget( const uiWidget& widget )
 	for (WidgetsList::const_iterator it = widget.mChilds.cbegin(); it != widget.mChilds.cend(); ++it)
 		addChild((*it)->clone());
 
-	for (StatesList::const_iterator it = widget.mStates.cbegin(); it != widget.mStates.cend(); ++it)
-		addState(new uiState(*(*it)));
-
-	mCurrentState = NULL;
+	mVisibleState = new uiState(*widget.mVisibleState);
 }
 
 uiWidget::~uiWidget()
 {
+	safe_release(mVisibleState);
 	removeAllChilds();
 }
 
@@ -67,6 +63,9 @@ void uiWidget::removeChild( uiWidget* widget )
 	mChilds.erase(fnd);
 
 	safe_release(widget);
+
+	if (getType() == uiWidget::getStaticType())
+		adjustSizeByChilds();
 }
 
 void uiWidget::removeAllChilds()
@@ -75,6 +74,9 @@ void uiWidget::removeAllChilds()
 		safe_release(*it);
 
 	mChilds.clear();
+
+	if (getType() == uiWidget::getStaticType())
+		adjustSizeByChilds();
 }
 
 uiWidget* uiWidget::getWidget( const std::string& id ) const
@@ -84,6 +86,14 @@ uiWidget* uiWidget::getWidget( const std::string& id ) const
 	std::string searchId;
 	if (slashPos == id.npos) searchId = id;
 	else                     searchId = id.substr(0, slashPos);
+
+	if (searchId == "..")
+	{
+		if (mParent)
+			return mParent->getWidget(id.substr(slashPos + 1));
+		else
+			return NULL;
+	}
 
 	for (WidgetsList::const_iterator it = mChilds.cbegin(); it != mChilds.cend(); ++it)
 	{
@@ -100,8 +110,11 @@ uiWidget* uiWidget::getWidget( const std::string& id ) const
 
 void uiWidget::update( float dt )
 {
-	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
+	setupInitialProperties();
+	for (PropertyList::iterator it = mPropertyList.begin(); it != mPropertyList.end(); ++it)
+	{
 		(*it)->update(dt);
+	}
 
 	if (mParent) 
 	{
@@ -127,12 +140,15 @@ void uiWidget::draw()
 	gr2DRenderStateBase* renderState = 
 		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
 
-	/*color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
-	fRect rt(mGlobalPosition, mGlobalPosition + mSize);
-	renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
-	renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
-	renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
-	renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);*/
+	if (getType() == uiWidget::getStaticType())
+	{
+		color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
+		fRect rt(mGlobalPosition, mGlobalPosition + mSize);
+		renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
+		renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
+		renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
+		renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);
+	}
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
@@ -191,120 +207,30 @@ serializeMethodImpl(uiWidget)
 		}
 	}
 
-	serializeObjPtrArrId(mStates, mStates.size(), "states");
-
 	return true;
-}
-
-void uiWidget::addState( uiState* state )
-{
-	mStates.push_back(state);
-	state->mTargetWidget = this;
-}
-
-void uiWidget::removeState( uiState* state )
-{
-	StatesList::iterator fnd = std::find(mStates.begin(), mStates.end(), state);
-
-	if (fnd == mStates.end())
-		return;
-
-	if (mCurrentState == state)
-	{
-		state->deactivate(true);
-		mCurrentState = NULL;
-	}
-
-	safe_release(state);
-
-	mStates.erase(fnd);
-}
-
-void uiWidget::removeAllStates()
-{
-	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
-		safe_release(*it);
-
-	mCurrentState = NULL;
-
-	mStates.clear();
-}
-
-uiState* uiWidget::getState( const std::string& id )
-{
-	for (StatesList::iterator it = mStates.begin(); it != mStates.end(); ++it)
-		if ((*it)->mId == id) return *it;
-
-	return NULL;
-}
-
-void uiWidget::setState( const std::string& id, bool forcible /*= false*/, bool recursive /*= false*/ )
-{
-	uiState* state = getState(id);
-
-	if (!state && !recursive) 
-	{
-		//mWidgetsManager->mLog->fout(1, "WARNING: Can't find state '%s' in widget '%s'", id.c_str(), mId.c_str());
-		//return;
-	}
-
-	if (state == mCurrentState && !recursive)
-		return;
-
-	if (mCurrentState && state)
-		mCurrentState->deactivate(forcible);
-
-	if (state) 
-	{
-		state->activate(forcible);
-		mCurrentState = state;
-
-		if (state->mId == "visible")
-		{
-			if (!mParent)
-				mWidgetsManager->showedWidget(this);
-
-			mVisible = true;
-		}
-
-		if (state->mId == "invisible")
-		{
-			if (!mParent)
-				mWidgetsManager->hidedWidget(this);
-
-			mVisible = false;
-		}
-	}
-
-	if (recursive)
-	{
-		for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
-		{
-			(*it)->setState(id, forcible, true);
-		}
-	}
 }
 
 void uiWidget::show( bool forcible /*= false*/ )
 {
-	setState("visible");
+	mVisibleState->activate(forcible);
+	mVisible = true;
+	mWidgetsManager->showedWidget(this);
 }
 
 void uiWidget::hide( bool forcible /*= false*/ )
 {
-	setState("invisible");
+	mVisibleState->deactivate(forcible);
+	mVisible = false;
+	mWidgetsManager->hidedWidget(this);
 }
 
 void uiWidget::createStdStates()
 {
-	uiState* idleState = new uiState(this, "visible");
-	idleState->addProperty(new uiParameterProperty<float>(&mTransparency, 1.0f));
-	addState(idleState);
+	mVisibleState = new uiState(this, "visible");
+	mVisibleState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f, 1.0f, uiProperty::IT_LINEAR, 0.15f, 
+		uiParameterProperty<float>::OP_MULTIPLICATION));
 
-	uiState* hideState = new uiState(this, "invisible");
-	hideState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f));
-	addState(hideState);
-
+	setupInitialProperties();
 	show(true);
 }
 
@@ -362,8 +288,8 @@ bool uiWidget::isPointInside( const vec2& point )
 
 bool uiWidget::isPointInsideDerived( const vec2& point )
 {
-	if (point.x < mGlobalPosition.x || point.x > mGlobalPosition.x + mSize.x ||
-		point.y < mGlobalPosition.y || point.y > mGlobalPosition.y + mSize.y)
+	if (point.x < mGlobalPosition.x || point.x > mGlobalPosition.x + mResSize.x ||
+		point.y < mGlobalPosition.y || point.y > mGlobalPosition.y + mResSize.y)
 	{
 		return false;
 	}
@@ -414,12 +340,12 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 
 void uiWidget::adjustSizeByChilds()
 {
-	vec2 vmin = mGlobalPosition, vmax = mGlobalPosition + mSize;
+	vec2 vmin = mGlobalPosition, vmax = mGlobalPosition + mResSize;
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
 		vec2 cmin = (*it)->mGlobalPosition;
-		vec2 cmax = cmin + (*it)->mSize;
+		vec2 cmax = cmin + (*it)->mResSize;
 
 		if (cmin.x < vmin.x) vmin.x = cmin.x;
 		if (cmin.y < vmin.y) vmin.y = cmin.y;
@@ -429,4 +355,29 @@ void uiWidget::adjustSizeByChilds()
 
 	mPosition += vmin - mGlobalPosition;
 	mSize = vmax - vmin;
+}
+
+bool compareProperties( uiProperty* a, uiProperty* b )
+{
+	return a->mPriority < b->mPriority;
+}
+
+void uiWidget::registProperty( uiProperty* property )
+{
+	mPropertyList.push_back(property);
+	std::sort(mPropertyList.begin(), mPropertyList.end(), compareProperties);
+}
+
+void uiWidget::unregistProperty( uiProperty* property )
+{
+	PropertyList::iterator fnd = std::find(mPropertyList.begin(), mPropertyList.end(), property);
+	if (fnd != mPropertyList.end())
+		mPropertyList.erase(fnd);
+}
+
+void uiWidget::setupInitialProperties()
+{
+	mTransparency = 1.0f;
+	mOffset = vec2(0, 0);
+	mResSize = mSize;
 }

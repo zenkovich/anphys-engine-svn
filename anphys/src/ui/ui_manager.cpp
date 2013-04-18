@@ -4,8 +4,8 @@
 
 #include "render/render.h"
 #include "util/serialization/data_object.h"
-#include "widget.h"
-#include "sprite_widget.h"
+#include "ui_widget.h"
+#include "ui_sprite.h"
 #include "util/log/log_stream_in_file.h"
 #include "util/log/log_system.h"
 #include "engine/engine_options.h"

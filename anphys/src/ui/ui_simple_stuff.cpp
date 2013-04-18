@@ -1,6 +1,6 @@
 #include "ui_simple_stuff.h"
 
-#include "sprite_widget.h"
+#include "ui_sprite.h"
 #include "ui_manager.h"
 #include "render/render_objects/2d/sprite.h"
 #include "ui_label.h"
@@ -47,18 +47,18 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 	uiLabel* label = createLabel(widgetManager, vec2(0, 0), size - diff, "label", caption);
 	panelSprite->addChild(label);
 
-	uiState* visibleState = panelSprite->getState("visible");
-	uiState* selectedState = addWidgetState(panelSprite, "selected");
-	uiState* pressedState = addWidgetState(panelSprite, "pressed");
+	button->mSelectedState->addProperty(
+		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		                                uiProperty::IT_LINEAR, 0.1f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), panelSprite);
 
-	addStateProperty(visibleState, &panelSprite->mSpriteColor, mColor2, 0.15f);
-	addStateProperty(visibleState, &panelSprite->mOffset, vec2(0, 0), 0.15f);
+	button->mPressedState->addProperty(
+		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.25f), 
+		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f), panelSprite);
 
-	addStateProperty(selectedState, &panelSprite->mSpriteColor, (mColor1 + mColor2)*0.5f, 0.15f);
-	addStateProperty(selectedState, &panelSprite->mOffset, vec2(0, 0), 0.05f);
-
-	addStateProperty(pressedState, &panelSprite->mSpriteColor, (mColor3 + mColor2)*0.5f, 0.05f);
-	addStateProperty(pressedState, &panelSprite->mOffset, press, 0.05f);
+	button->mPressedState->addProperty(
+		new uiParameterProperty<vec2>(&panelSprite->mOffset, vec2(0, 0), press, 
+		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<vec2>::OP_ADDITION, 1.5f), panelSprite);
+	
 
 	button->addChild(bkSprite);
 	button->addChild(panelSprite);
@@ -66,24 +66,6 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 	return button;
 }
 
-void uiSimpleStuff::addWidgetState( uiWidget* widget, const std::string& id, float transparency, 
-	                                const vec2& offs, float duration )
-{
-	widget->removeState(widget->getState(id));
-	uiState* newState = new uiState(widget, id);
-	newState->addProperty(new uiParameterProperty<float>(&widget->mTransparency, transparency, uiProperty::IT_LINEAR, duration));
-	newState->addProperty(new uiParameterProperty<vec2>(&widget->mOffset, offs, uiProperty::IT_LINEAR, duration));
-	widget->addState(newState);
-}
-
-uiState* uiSimpleStuff::addWidgetState( uiWidget* widget, const std::string& id )
-{
-	widget->removeState(widget->getState(id));
-	uiState* newState = new uiState(widget, id);
-	widget->addState(newState);
-
-	return newState;
-}
 
 color4 uiSimpleStuff::mColor4 = color4(0.5f, 0.5f, 0.5f, 1.0f);
 color4 uiSimpleStuff::mColor3 = color4(0.6f, 0.6f, 0.6f, 1.0f);

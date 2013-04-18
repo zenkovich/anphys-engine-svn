@@ -1,23 +1,30 @@
 #include "ui_button.h"
 
 #include "util/other/callback.h"
+#include "ui_state.h"
 
 REGIST_TYPE(uiButton)
 
 uiButton::uiButton(uiWidgetsManager* widgetsManager, const std::string& id, cCallbackInterface* callback /*= NULL*/):
 	uiWidget(widgetsManager, id), mOnClickCallback(callback), mPressed(false), mSelected(false)
-{
+	{
+		mSelectedState = new uiState(this, "");
+		mPressedState = new uiState(this, "");
 }
 
 uiButton::uiButton( const uiButton& button ):
 	uiWidget(button), mPressed(false), mSelected(false)
 {
 	mOnClickCallback = button.mOnClickCallback;
+	mSelectedState = new uiState(*button.mSelectedState);
+	mPressedState = new uiState(*button.mPressedState);
 }
 
 uiButton::~uiButton()
 {
 	safe_release(mOnClickCallback);
+	safe_release(mSelectedState);
+	safe_release(mPressedState);
 }
 
 void uiButton::setCallback( cCallbackInterface* callback )
@@ -35,12 +42,14 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 		if (mSelected && !isPointInside(message.mCursorPosition))
 		{
 			mSelected = false;
-			setState("visible", false, true);
+			mSelectedState->deactivate();
+			//setState("visible", false, true);
 		}
 		if (!mSelected && isPointInside(message.mCursorPosition))
 		{
 			mSelected = true;
-			setState("selected", false, true);
+			mSelectedState->activate();
+			//setState("selected", false, true);
 			res = 1;
 		}
 	}
@@ -48,7 +57,9 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 	{
 		mPressed = true;
 		mSelected = false;
-		setState("pressed", false, true);
+		mSelectedState->deactivate();
+		mPressedState->activate();
+		//setState("pressed", false, true);
 		res = 1;
 	}
 	if (message.isKeyReleased(CURSOR_BUTTON) && mPressed)
@@ -62,9 +73,12 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 			res = 1;
 		}
 
-		setState("visible", false, true);
+		//setState("visible", false, true);
 		mPressed = false;
 		mSelected = false;
+
+		mSelectedState->deactivate();
+		mPressedState->deactivate();
 	}
 
 	return res;
