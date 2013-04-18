@@ -190,6 +190,9 @@
     <Filter Include="physics\objects\vehicle">
       <UniqueIdentifier>{68982d4c-ea8b-4375-ba50-8a5c77fa5a20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\graphic">
+      <UniqueIdentifier>{c72c5bad-8084-42af-82c7-5e66fed03881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -695,6 +698,9 @@
     </ClInclude>
     <ClInclude Include="..\src\ui\ui_button.h">
       <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\graphic\fixed_intervals_graphic.h">
+      <Filter>util\graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

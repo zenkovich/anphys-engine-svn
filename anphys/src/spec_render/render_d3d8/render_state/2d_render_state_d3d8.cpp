@@ -120,7 +120,11 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 void gr2DRenderStateBase::drawPrimitives()
 {
 	//gLog->fout(1, "primitives 1\n");
-	mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
+	HRESULT hr = mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
+	if (FAILED(hr))
+	{
+		gLog->fout(1, "FUCK ERROR\n");
+	}
 	//gLog->fout(1, "primitives 2\n");
 }
 
