@@ -269,6 +269,11 @@ uiFont* uiFont::clone()
 	return new uiFont(*this);
 }
 
+void clipRect(const fRect& clippingRect, vertex2d* verticies)
+{
+
+}
+
 void uiFont::updateMesh()
 {
 	std::vector<vec2> lineSize;

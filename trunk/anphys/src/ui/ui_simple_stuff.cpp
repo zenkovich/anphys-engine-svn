@@ -7,6 +7,7 @@
 #include "ui_button.h"
 #include "ui_state.h"
 #include "ui_property.h"
+#include "ui_font.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -45,6 +46,7 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 
 	uiSpriteWidget* panelSprite = createSpriteWidget(widgetManager, mColor2, diff, size - diff, "panel");
 	uiLabel* label = createLabel(widgetManager, vec2(0, 0), size - diff, "label", caption);
+	label->mFont->setClipping(true);
 	panelSprite->addChild(label);
 
 	button->mSelectedState->addProperty(
