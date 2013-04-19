@@ -168,6 +168,7 @@
     <ClInclude Include="..\src\render\render_target\backbuffer_render_target.h" />
     <ClInclude Include="..\src\render\render_target\backbuffer_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\render_target\render_target_interface.h" />
+    <ClInclude Include="..\src\render\render_target\stencil_buffer_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\render_target\texture_render_target.h" />
     <ClInclude Include="..\src\render\render_target\texture_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\scenes\scene_manager.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\render_state\2d_render_state_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\render_state\simple_3d_render_state_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.h" />
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\stencil_buffer_render_target_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
