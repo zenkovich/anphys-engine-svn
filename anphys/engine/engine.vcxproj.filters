@@ -705,6 +705,12 @@
     <ClInclude Include="..\src\util\other\callback.h">
       <Filter>util\other</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render\render_target\stencil_buffer_render_target_base_interface.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\spec_render\render_d3d8\render_target\stencil_buffer_render_target_d3d8.h">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
