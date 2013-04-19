@@ -654,12 +654,6 @@
     <ClInclude Include="..\src\util\serialization\data_objects_manager.h">
       <Filter>util\serialization</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ui\widget.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ui\sprite_widget.h">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ui\ui_manager.h">
       <Filter>ui</Filter>
     </ClInclude>
@@ -701,6 +695,15 @@
     </ClInclude>
     <ClInclude Include="..\src\util\graphic\fixed_intervals_graphic.h">
       <Filter>util\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_widget.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_sprite.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\other\callback.h">
+      <Filter>util\other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1040,12 +1043,6 @@
     <ClCompile Include="..\src\util\serialization\data_objects_manager.cpp">
       <Filter>util\serialization</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ui\widget.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ui\sprite_widget.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ui\ui_manager.cpp">
       <Filter>ui</Filter>
     </ClCompile>
@@ -1071,6 +1068,15 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_label.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_button.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_sprite.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_widget.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

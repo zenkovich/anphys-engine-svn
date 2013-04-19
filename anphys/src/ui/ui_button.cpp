@@ -64,7 +64,6 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 	}
 	if (message.isKeyReleased(CURSOR_BUTTON) && mPressed)
 	{
-		gLog->fout(1, "12\n");
 		if (isPointInside(message.mCursorPosition))
 		{
 			if (mOnClickCallback)

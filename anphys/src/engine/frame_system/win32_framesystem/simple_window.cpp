@@ -144,6 +144,8 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		 }
 
+	 case WM_LBUTTONDBLCLK:
+
 	 case WM_LBUTTONDOWN:
 		 {
 			 if (!mActiveWindow) break;
@@ -250,7 +252,6 @@ LRESULT apWindow::windowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			 if (!mActiveWindow) break;
 
 			 onTimer();
-			 mInputMessenger->mInputMessage.update();
 
 			 break;
 		 }

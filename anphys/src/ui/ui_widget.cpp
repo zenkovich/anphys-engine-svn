@@ -140,15 +140,17 @@ void uiWidget::draw()
 	gr2DRenderStateBase* renderState = 
 		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
 
-	if (getType() == uiWidget::getStaticType())
+	if (getType() == uiWidget::getStaticType() || true)
 	{
-		color4 color(0.0f, 1.0f, 0.0f, mResTransparency);
+		color4 color(0.4f, 0.4f, 0.4f, mResTransparency);
 		fRect rt(mGlobalPosition, mGlobalPosition + mSize);
 		renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
 		renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
 		renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
 		renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);
+		renderState->flush();
 	}
+
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
@@ -318,6 +320,7 @@ int uiWidget::processInputMessageDerived( const cInputMessage& message )
 
 int uiWidget::processInputMessage( const cInputMessage& message )
 {
+
 	if (getType() == uiButton::getStaticType())
 	{
 		volatile int i = 0;
