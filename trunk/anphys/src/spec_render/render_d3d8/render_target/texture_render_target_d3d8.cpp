@@ -24,11 +24,13 @@ bool grTextureRenderTargetBase::begin()
 	}
 	if (renderTargetSurface) renderTargetSurface->Release();
 
-	if (FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(renderTargetSurface, NULL)))
+	if (FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(renderTargetSurface, mRender->mCurrentRenderTargetDepthStencilSurface)))
 	{
 		mRender->mLog->fout(1, "ERROR: Can't setup render target %x: failed SetRenderTarget", this);
 		return false;
 	}
+
+	mRender->mCurrentRenderTargetSurface = renderTargetSurface;
 
 	mRender->m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA(200, 200, 200, 255), 1.0f, 0);
 

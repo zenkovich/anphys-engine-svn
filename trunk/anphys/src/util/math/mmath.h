@@ -112,6 +112,8 @@ inline float fclamp(float clampValue, float minValue, float maxValue)
 	return clampValue;
 }
 
+#define clamp(v, minv, maxv) { if (v < minv) return minv; if (v > maxv) return maxv; return v; }
+
 inline mat3x3 RotatedMatrix(float rx, float ry, float rz)
 {
 	mat3x3 rt;
@@ -347,11 +349,11 @@ inline void DistLines(vec3& a1p, vec3& b1p, vec3& a2p, vec3& b2p, vec3 &pa, vec3
 
 inline float absf(float f) { if (f < 0) return -f; else return f; }
 
-inline vec3 operator*(vec3 v, mat3x3 m) { return m.transform(v); }
-inline vec3 operator*=(vec3 v, mat3x3 m) { return m.transform(v); }
-inline vec3 operator*(vec3 v, mat4x4 m) { return m.transform(v); }
-inline vec3 operator*=(vec3 v, mat4x4 m) { return m.transform(v); }
-inline vec3 operator*(vec3 v, quat q) 
+inline vec3 operator*(const vec3& v, const mat3x3& m) { return m.transform(v); }
+inline vec3 operator*=(const vec3& v, const mat3x3& m) { return m.transform(v); }
+inline vec3 operator*(const vec3& v, const mat4x4& m) { return m.transform(v); }
+inline vec3 operator*=(const vec3& v, const mat4x4& m) { return m.transform(v); }
+inline vec3 operator*(const vec3& v, const quat& q) 
 {
 	quat qv(v, 0);
 	quat r = q*qv*q.inverse();

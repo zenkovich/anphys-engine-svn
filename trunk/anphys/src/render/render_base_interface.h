@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "../util/math/mmath.h"
+#include "util/math/mmath.h"
 
 struct cLogStream;
 struct grTextureManager;
@@ -14,6 +14,7 @@ struct grSceneManager;
 struct grRenderTarget;
 struct grBackbufferRenderTarget;
 struct grRenderState;
+struct grStencilBufferRenderTarget;
 
 struct grRenderBaseInterface
 {
@@ -53,6 +54,9 @@ struct grRenderBaseInterface
 	void bindRenderState(grRenderState* renderState);
 	void unbindRenderState();
 	grRenderState* getCurrentRenderState();
+
+	virtual void bindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer) {}
+	virtual void unbindStencilBuffer() {}
 
 	virtual const char* getRenderName() { return "render base"; }
 };

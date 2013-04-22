@@ -76,11 +76,9 @@ void uiLabel::derivedUpdate( float dt )
 	}
 }
 
-void uiLabel::draw()
+void uiLabel::derivedDraw()
 {
 	mFont->draw();
-
-	uiWidget::draw();
 }
 
 uiLabel* uiLabel::clone() const

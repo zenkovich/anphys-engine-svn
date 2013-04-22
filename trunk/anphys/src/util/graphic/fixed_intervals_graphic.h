@@ -2,9 +2,9 @@
 #define FIXED_INTERVALS_GRAPHIC_H
 
 #include "util/memory/mem_utils.h"
+#include "util/math/mmath.h"
 #include <math.h>
 
-#define clamp(v, minv, maxv) { if (v < minv) return minv; if (v > maxv) return maxv; return v; }
 
 struct cFixedIntervalsGraphic
 {

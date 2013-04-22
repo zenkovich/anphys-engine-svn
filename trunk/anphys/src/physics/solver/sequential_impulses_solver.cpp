@@ -258,17 +258,17 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 			}
 			else collisionPoint->mBiasImpulse = 0.0f;
 
-			getRenderStuff().addRedArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->mNormal*0.5f);
-
+			/*getRenderStuff().addRedArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->mNormal*0.5f);
+			*/
 			collisionPoint->t1 = collisionPoint->mNormal^vec3(0, 0, 1);
 			if (collisionPoint->t1*collisionPoint->t1 < 0.0001f)
 				collisionPoint->t1 = collisionPoint->mNormal^vec3(0, 1, 0);
 
 			collisionPoint->t2 = collisionPoint->mNormal^collisionPoint->t1;
 			
-			getRenderStuff().addBlueArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->t1*0.5f);
+			/*getRenderStuff().addBlueArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->t1*0.5f);
 			getRenderStuff().addGreenArrow(collisionPoint->mPoint, collisionPoint->mPoint + collisionPoint->t2*0.5f);
-
+			*/
 			vec3 imp = collisionPoint->mNormal*collisionPoint->J + collisionPoint->t1*collisionPoint->Jf1 + 
 				                                                   collisionPoint->t2*collisionPoint->Jf2;
 			
@@ -413,10 +413,11 @@ void phSequentialImpulsesSolver::solveConstraints( float performance, float dt )
 
 					float biasLambda = -(biasA - collisionPoint->mBiasImpulse)*b;
 
-					//*gLog << formatStr("biasA %.3f bias imp %.3f lambda %.3f\n", biasA, collisionPoint->mBiasImpulse, biasLambda);
+					/**gLog << formatStr("biasA %.3f bias imp %.3f lambda %.3f dt %f\n", 
+						biasA, collisionPoint->mBiasImpulse, biasLambda, dt);
 
 					getRenderStuff().addBlueArrow(collisionPoint->mPoint, collisionPoint->mPoint + 
-						collisionPoint->mNormal*biasLambda*dt/b);
+						collisionPoint->mNormal*biasLambda*dt/b);*/
 					
 					objectA->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*biasLambda);
 					objectB->applyBiasImpulse(collisionPoint->mPoint, collisionPoint->mNormal*-biasLambda);

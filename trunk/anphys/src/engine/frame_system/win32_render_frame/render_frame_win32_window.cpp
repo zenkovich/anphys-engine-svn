@@ -46,7 +46,7 @@ float apRenderWindow::onTimer()
 	DWORD dt = currTickCount - mLastTickCount;
 
 	float fdt = (float)dt*0.001f;
-	if (fdt < 0.00001f) fdt = 0.00001f;
+	if (fdt < 1.0f/100.0f) fdt = 1.0f/100.0f;
 	if (fdt > 1.0f/10.0f) fdt = 1.0f/10.0f;
 
 	//fdt = 1.0f/60.0f;

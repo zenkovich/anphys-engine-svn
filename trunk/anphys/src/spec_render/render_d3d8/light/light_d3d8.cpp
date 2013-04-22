@@ -46,6 +46,7 @@ void grLightBase::setLightActive(bool active)
 {
 	mActive = active;
 
+	mLightManager->mRender->m_pDirect3DDevice->SetLight(mIdx, &mLight);
 	mLightManager->mRender->m_pDirect3DDevice->LightEnable(mIdx, active);
 }
 

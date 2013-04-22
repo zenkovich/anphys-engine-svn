@@ -36,6 +36,7 @@ void uiButton::setCallback( cCallbackInterface* callback )
 int uiButton::processInputMessageDerived( const cInputMessage& message )
 {
 	int res = 0;
+	if (!mVisible) return res;
 
 	if (!mPressed && !message.isKeyDown(CURSOR_BUTTON))
 	{

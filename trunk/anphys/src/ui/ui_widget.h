@@ -13,6 +13,7 @@
 struct uiWidgetsManager;
 struct uiState;
 struct uiProperty;
+struct grStencilBufferRenderTarget;
 
 struct uiWidget
 {
@@ -46,6 +47,9 @@ protected:
 
 	PropertyList      mPropertyList;
 
+	grStencilBufferRenderTarget* mClippingStencilBuffer;
+	bool              mIsClipping;
+
 public:
 //functions
 	uiWidget(uiWidgetsManager* widgetsManager, const std::string& id = "noName");
@@ -53,10 +57,10 @@ public:
 	virtual ~uiWidget();
 
 //childs
-	void addChild(uiWidget* widget);
+	virtual void addChild(uiWidget* widget);
 
-	void removeChild(uiWidget* widget);
-	void removeAllChilds();
+	virtual void removeChild(uiWidget* widget);
+	virtual void removeAllChilds();
 
 	uiWidget* getWidget(const std::string& id) const;
 
@@ -75,7 +79,9 @@ public:
 //system funcs
 	virtual void update(float dt);
 	virtual void derivedUpdate(float dt) {}
+
 	virtual void draw();
+	virtual void derivedDraw() {}
 
 	int processInputMessage(const cInputMessage& message);
 	virtual int processInputMessageDerived(const cInputMessage& message);
@@ -96,6 +102,9 @@ public:
 
 	uiWidget*         setModal(bool modal);
 	bool              isModal() const;
+
+	uiWidget*         setClipping(bool flag);
+	bool              isClipping() const;
 
 //other
 	virtual uiWidget* clone() const;

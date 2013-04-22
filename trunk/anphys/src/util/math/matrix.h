@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define MDif 0.00000001f
+
 //матрица 3х3
 struct mat3x3
 {
@@ -32,36 +33,36 @@ struct mat3x3
 		m[2][0] = m31;   m[2][1] = m32;   m[2][2] = m33;
 	}
 
-	inline void operator=(mat3x3& mt)
+	inline void operator=(const mat3x3& mt)
 	{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				m[i][j] = mt.m[i][j];
 	}
 
-	inline mat3x3 operator+(mat3x3& mt)
+	inline mat3x3 operator+(const mat3x3& mt) const
 	{
 		mat3x3 r;
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				r[i][j] = m[i][j] + mt[i][j];
+				r[i][j] = m[i][j] + mt.m[i][j];
 
 		return r;
 	}
 
-	inline mat3x3 operator-(mat3x3& mt)
+	inline mat3x3 operator-(const mat3x3& mt) const
 	{
 		mat3x3 r;
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				r[i][j] = m[i][j] + mt[i][j];
+				r[i][j] = m[i][j] + mt.m[i][j];
 
 		return r;
 	}
 
-	inline mat3x3 operator*(float v)
+	inline mat3x3 operator*(float v) const
 	{
 		mat3x3 r;
 
@@ -72,31 +73,34 @@ struct mat3x3
 		return r;
 	}
 
-	inline mat3x3 operator/(float v) { return *this*(1.0f/v); } 
+	inline mat3x3 operator/(float v) const
+	{ 
+		return *this*(1.0f/v); 
+	} 
 
-	inline mat3x3 operator*(mat3x3& mt)
+	inline mat3x3 operator*(const mat3x3& mt) const
 	{
 		mat3x3 r;
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				r[i][j] = m[i][0]*mt[0][j] + m[i][1]*mt[1][j] + m[i][2]*mt[2][j];
+				r[i][j] = m[i][0]*mt.m[0][j] + m[i][1]*mt.m[1][j] + m[i][2]*mt.m[2][j];
 
 		return r;
 	}
 
 	inline float* operator[](int i) { return m[i]; }
 
-	inline bool operator==(mat3x3& mt)
+	inline bool operator==(const mat3x3& mt) const
 	{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				if (m[i][j] !=mt [i][j]) return false;
+				if (m[i][j] !=mt.m[i][j]) return false;
 
 		return true;
 	}
 
-	inline mat3x3 rotateAxis(vec3& axis, float rad)
+	inline mat3x3 rotateAxis(const vec3& axis, float rad) const
 	{
 		mat3x3 mt;
 
@@ -118,28 +122,28 @@ struct mat3x3
 		return ret;
 	}
 
-	inline mat3x3 invX()
+	inline mat3x3 invX() const
 	{
 		return mat3x3(-m[0][0], -m[0][1], -m[0][2],
 			           m[1][0],  m[1][1],  m[1][2],
 					   m[2][0],  m[2][1],  m[2][2]);
 	}
 
-	inline mat3x3 invY()
+	inline mat3x3 invY() const
 	{
 		return mat3x3( m[0][0],  m[0][1],  m[0][2],
 			          -m[1][0], -m[1][1], -m[1][2],
 					   m[2][0],  m[2][1],  m[2][2]);
 	}
 
-	inline mat3x3 invZ()
+	inline mat3x3 invZ() const
 	{
 		return mat3x3 (m[0][0],  m[0][1],  m[0][2],
 			           m[1][0],  m[1][1],  m[1][2],
 					  -m[2][0], -m[2][1], -m[2][2]);
 	}
 
-	inline mat3x3 transpose()
+	inline mat3x3 transpose() const
 	{
 		mat3x3 r;
 
@@ -150,19 +154,14 @@ struct mat3x3
 		return r;		
 	}
 
-	inline float det()
+	inline float det() const
 	{
 		return (m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) -
 			    m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) +
 			    m[0][2]*(m[1][0]*m[2][1]-m[2][0]*m[1][1]));
 	}
 
-	inline void Identity()
-	{
-		mat3x3(1,0,0,0,1,0,0,0,1);
-	}
-
-	inline mat3x3 inverse()
+	inline mat3x3 inverse() const
 	{
 		float invdet = 1.0f/det();
 		mat3x3 old = *this, ret;   
@@ -190,7 +189,7 @@ struct mat3x3
 
 	inline void SetScale(float scale) { SetScale(scale,scale,scale); }
 
-	inline vec3 transform(vec3& v)
+	inline vec3 transform(const vec3& v) const
 	{
 		vec3 r;
 
@@ -201,7 +200,7 @@ struct mat3x3
 		return r;
 	}
 
-	inline mat3x3 orthonormalize()
+	inline mat3x3 orthonormalize() const
 	{
 		mat3x3 m = transpose();
 		vec3 u1 = vec3(m[1][1], m[1][2], m[1][3]);
@@ -284,36 +283,36 @@ struct mat4x4
 		m[3][0] = m41;   m[3][1] = m42;   m[3][2] = m43;   m[3][3] = m44;
 	}
 
-	inline void operator=(mat4x4& mt)
+	inline void operator=(const mat4x4& mt)
 	{
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
 				m[i][j] = mt.m[i][j];
 	}
 
-	inline mat4x4 operator+(mat4x4& mt)
+	inline mat4x4 operator+(const mat4x4& mt) const
 	{
 		mat4x4 r;
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
-				r[i][j] = m[i][j] + mt[i][j];
+				r[i][j] = m[i][j] + mt.m[i][j];
 
 		return r;
 	}
 
-	inline mat4x4 operator-(mat4x4& mt)
+	inline mat4x4 operator-(const mat4x4& mt) const
 	{
 		mat4x4 r;
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
-				r[i][j] = m[i][j] + mt[i][j];
+				r[i][j] = m[i][j] + mt.m[i][j];
 
 		return r;
 	}
 
-	inline mat4x4 operator*(float v)
+	inline mat4x4 operator*(float v) const
 	{
 		mat4x4 r;
 
@@ -324,31 +323,34 @@ struct mat4x4
 		return r;
 	}
 
-	inline mat4x4 operator/(float v) { return *this*(1.0f/v); } 
+	inline mat4x4 operator/(float v) const
+	{
+		return *this*(1.0f/v); 
+	} 
 
-	inline mat4x4 operator*(mat4x4& mt)
+	inline mat4x4 operator*(const mat4x4& mt) const
 	{
 		mat4x4 r;
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
-				r[i][j] = m[i][0]*mt[0][j] + m[i][1]*mt[1][j] + m[i][2]*mt[2][j] + m[i][3]*mt[3][j];
+				r[i][j] = m[i][0]*mt.m[0][j] + m[i][1]*mt.m[1][j] + m[i][2]*mt.m[2][j] + m[i][3]*mt.m[3][j];
 
 		return r;
 	}
 
 	inline float* operator[](int i) { return m[i]; }
 
-	inline bool operator==(mat4x4& mt)
+	inline bool operator==(const mat4x4& mt) const
 	{
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
-				if (m[i][j] != mt[i][j]) return false;
+				if (m[i][j] != mt.m[i][j]) return false;
 
 		return true;
 	}
 
-	inline mat4x4 transpose()
+	inline mat4x4 transpose() const
 	{
 		mat4x4 r;
 
@@ -373,7 +375,7 @@ struct mat4x4
 
 	inline void SetScale(float scale) { SetScale(scale, scale, scale); }
 
-	inline vec3 transform(vec3& v)
+	inline vec3 transform(const vec3& v) const
 	{
 		vec3 r;
 

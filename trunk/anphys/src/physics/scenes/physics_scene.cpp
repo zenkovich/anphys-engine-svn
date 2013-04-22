@@ -50,9 +50,6 @@ void phScene::removeAllObjects()
 
 void phScene::update( float dt )
 {	
-	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
-		(*it)->postSolve(dt);
-
 	mCollisionManager->checkCollisions();
 
 	vec3 gravityVec = mGravity*dt;
@@ -64,6 +61,9 @@ void phScene::update( float dt )
 	}
 
 	if (mSolver) mSolver->solveConstraints(mPerformance, dt);
+
+	for (ObjectsList::iterator it = mObjects.begin(); it != mObjects.end(); it++)
+		(*it)->postSolve(dt);
 }
 
 void phScene::setupSolver( phConstraintsSolverInterface* solver )

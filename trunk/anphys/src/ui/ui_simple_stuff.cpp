@@ -8,6 +8,7 @@
 #include "ui_state.h"
 #include "ui_property.h"
 #include "ui_font.h"
+#include "ui_scrollbar.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -51,7 +52,7 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 
 	button->mSelectedState->addProperty(
 		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
-		                                uiProperty::IT_LINEAR, 0.1f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), panelSprite);
+		                                uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), panelSprite);
 
 	button->mPressedState->addProperty(
 		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.25f), 
@@ -66,6 +67,53 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 	button->addChild(panelSprite);
 
 	return button;
+}
+
+void uiSimpleStuff::createSizeEffect( uiWidget* widget, float duration /*= 0.5f*/ )
+{
+	widget->mVisibleState->removeAllProperties();
+
+	widget->setClipping(true);
+
+	widget->mVisibleState->addProperty(
+		new uiParameterProperty<float>(&widget->mTransparency, 0.0f, 1.0f, uiProperty::IT_SMOOTH, 
+		duration*0.3f, duration, duration*0.8f,
+		uiProperty::OP_MULTIPLICATION, 1.5f));
+
+	widget->mVisibleState->addProperty(
+		new uiParameterProperty<float>(&widget->mResSize.x, 0.0f, 1.0f, uiProperty::IT_SMOOTH, 
+		duration*0.3f, duration, duration*0.6f,
+		uiProperty::OP_MULTIPLICATION, 1.5f));
+
+	widget->mVisibleState->addProperty(
+		new uiParameterProperty<float>(&widget->mResSize.y, 0.1f, 1.0f, uiProperty::IT_SMOOTH, 
+		duration*0.6f, duration, duration,
+		uiProperty::OP_MULTIPLICATION, 1.5f));
+}
+
+uiScrollbar* uiSimpleStuff::createScrollbar( uiWidgetsManager* widgetManager, const vec2& pos, const vec2& size, 
+	const std::string& id, int type, float minv /*= 0.0f*/, float maxv /*= 1.0f*/ )
+{
+	grSprite* bkSprite = new grSprite(widgetManager->mRender, NULL);
+	grSprite* scrollerSprite = new grSprite(widgetManager->mRender, NULL);
+
+	bkSprite->setColor(mColor1);
+	scrollerSprite->setColor(mColor2);
+
+	uiScrollbar* scrollbar = new uiScrollbar(widgetManager, id, (uiScrollbar::ScrollbarType)type, size, bkSprite,
+		scrollerSprite, minv, maxv,minv, -1.0f);
+
+	scrollbar->setPosition(pos);
+
+	scrollbar->mSelectedState->addProperty(
+		new uiParameterProperty<color4>(&scrollbar->mResScrollerColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f));
+
+	scrollbar->mPressedState->addProperty(
+		new uiParameterProperty<color4>(&scrollbar->mResScrollerColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.25f), 
+		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f));
+
+	return scrollbar;
 }
 
 
