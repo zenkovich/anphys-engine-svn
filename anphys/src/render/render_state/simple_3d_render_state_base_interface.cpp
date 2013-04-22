@@ -3,13 +3,13 @@
 #include "render/camera/camera_3d.h"
 
 grSimple3DRenderStateBaseInterface::grSimple3DRenderStateBaseInterface():
-	grRenderState(), mAmbientColor(0.0f, 0.0f, 0.0f, 0.0f), mPolygonCullMode(PCM_COUNETRCLOCKWISE), mCamera(NULL)
+	grRenderState(), mAmbientColor(0.0f, 0.0f, 0.0f, 0.0f), mPolygonCullMode(PCM_CLOCKWISE), mCamera(NULL)
 {
 
 }
 
 grSimple3DRenderStateBaseInterface::grSimple3DRenderStateBaseInterface( grRenderBase* render ):
-	grRenderState(render), mAmbientColor(0.0f, 0.0f, 0.0f, 0.0f), mPolygonCullMode(PCM_COUNETRCLOCKWISE), mCamera(NULL)
+	grRenderState(render), mAmbientColor(0.0f, 0.0f, 0.0f, 0.0f), mPolygonCullMode(PCM_CLOCKWISE), mCamera(NULL)
 {
 
 }

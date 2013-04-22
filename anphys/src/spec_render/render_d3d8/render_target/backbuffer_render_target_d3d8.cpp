@@ -19,7 +19,15 @@ grBackbufferRenderTargetBase::grBackbufferRenderTargetBase( grRenderBase* render
 
 bool grBackbufferRenderTargetBase::begin()
 {
-	return !(FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(mRenderTargetSurface, mDepthStencilSurface)));
+	bool res = !(FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(mRenderTargetSurface, mDepthStencilSurface)));
+
+	if (res)
+	{
+		mRender->mCurrentRenderTargetSurface = mRenderTargetSurface;
+		mRender->mCurrentRenderTargetDepthStencilSurface = mDepthStencilSurface;
+	}
+
+	return res;
 }
 
 #endif //RENDER_D3D8

@@ -21,6 +21,9 @@ struct grSprite;
 struct uiWidget;
 struct uiWidgetsManager;
 struct uiFont;
+struct grStencilBufferRenderTarget;
+struct uiScrollbar;
+struct uiLabel;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -37,7 +40,14 @@ struct apPhysicsTestFrame:public apRenderWindow
 	//tests
 	uiWidgetsManager*           mTestWidgetsManager;
 	uiWidget*                   mTestWidget;
+	uiLabel*                    mTestLabel;
+	uiScrollbar*                mScrollbar;
 	uiFont*                     mTestFont;
+
+	grSprite*                   mTestSprite;
+
+	grStencilBufferRenderTarget* mStencilTest1;
+	grStencilBufferRenderTarget* mStencilTest2;
 
 //functions
 	apPhysicsTestFrame();

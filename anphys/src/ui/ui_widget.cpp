@@ -2,12 +2,13 @@
 
 #include <algorithm>
 
-#include "ui_manager.h"
 #include "render/render.h"
 #include "render/render_state/2d_render_state.h"
-#include "ui_state.h"
-#include "ui_property.h"
+#include "render/render_target/stencil_buffer_render_target.h"
 #include "ui_button.h"
+#include "ui_manager.h"
+#include "ui_property.h"
+#include "ui_state.h"
 
 REGIST_TYPE(uiWidget)
 
@@ -19,8 +20,12 @@ uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= 
 	mTransparency = 0;
 	mResTransparency = 0;
 	mModal = false;
+	mIsClipping = false;
+	mClippingStencilBuffer = NULL;
 
 	createStdStates();
+
+	update(0.0f);
 }
 
 uiWidget::uiWidget( const uiWidget& widget )
@@ -31,11 +36,16 @@ uiWidget::uiWidget( const uiWidget& widget )
 	mTransparency = widget.mTransparency;
 	mResTransparency = widget.mResTransparency;
 	mModal = widget.mModal;
+	mIsClipping = false;
+	setClipping(widget.isClipping());
+	mClippingStencilBuffer = NULL;
 
 	for (WidgetsList::const_iterator it = widget.mChilds.cbegin(); it != widget.mChilds.cend(); ++it)
 		addChild((*it)->clone());
 
 	mVisibleState = new uiState(*widget.mVisibleState);
+
+	update(0.0f);
 }
 
 uiWidget::~uiWidget()
@@ -51,6 +61,8 @@ void uiWidget::addChild( uiWidget* widget )
 
 	if (getType() == uiWidget::getStaticType())
 		adjustSizeByChilds();
+
+	update(0.0f);
 }
 
 void uiWidget::removeChild( uiWidget* widget )
@@ -66,6 +78,8 @@ void uiWidget::removeChild( uiWidget* widget )
 
 	if (getType() == uiWidget::getStaticType())
 		adjustSizeByChilds();
+
+	update(0.0f);
 }
 
 void uiWidget::removeAllChilds()
@@ -77,6 +91,8 @@ void uiWidget::removeAllChilds()
 
 	if (getType() == uiWidget::getStaticType())
 		adjustSizeByChilds();
+
+	update(0.0f);
 }
 
 uiWidget* uiWidget::getWidget( const std::string& id ) const
@@ -137,13 +153,25 @@ void uiWidget::update( float dt )
 
 void uiWidget::draw()
 {
+	if (mIsClipping)
+	{
+		mWidgetsManager->mRender->bindRenderTarget(mClippingStencilBuffer);
+		mClippingStencilBuffer->clear();
+		mClippingStencilBuffer->fillRect(fRect(mGlobalPosition - vec2(1.0f, 1.0f), mGlobalPosition + mResSize));
+		mWidgetsManager->mRender->unbindRenderTarget(mClippingStencilBuffer);
+
+		mWidgetsManager->mRender->bindStencilBuffer(mClippingStencilBuffer);
+	}
+
+	derivedDraw();
+
 	gr2DRenderStateBase* renderState = 
 		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
 
 	if (getType() == uiWidget::getStaticType() || true)
 	{
 		color4 color(0.4f, 0.4f, 0.4f, mResTransparency);
-		fRect rt(mGlobalPosition, mGlobalPosition + mSize);
+		fRect rt(mGlobalPosition, mGlobalPosition + mResSize);
 		renderState->pushLine(rt.getltCorner(), rt.getrtCorner(), color);
 		renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
 		renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
@@ -151,10 +179,14 @@ void uiWidget::draw()
 		renderState->flush();
 	}
 
-
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
 	{
 		(*it)->draw();
+	}
+
+	if (mClippingStencilBuffer)
+	{
+		mWidgetsManager->mRender->unbindStencilBuffer();
 	}
 }
 
@@ -225,11 +257,12 @@ void uiWidget::hide( bool forcible /*= false*/ )
 	mVisible = false;
 	mWidgetsManager->hidedWidget(this);
 }
-
+ 
 void uiWidget::createStdStates()
 {
 	mVisibleState = new uiState(this, "visible");
-	mVisibleState->addProperty(new uiParameterProperty<float>(&mTransparency, 0.0f, 1.0f, uiProperty::IT_LINEAR, 0.15f, 
+	mVisibleState->addProperty(
+		new uiParameterProperty<float>(&mTransparency, 0.0f, 1.0f, uiProperty::IT_SMOOTH, 0.15f, 
 		uiParameterProperty<float>::OP_MULTIPLICATION));
 
 	setupInitialProperties();
@@ -239,6 +272,7 @@ void uiWidget::createStdStates()
 uiWidget* uiWidget::setPosition( const vec2& position )
 {
 	mPosition = position;
+	update(0.0f);
 	return this;
 }
 
@@ -266,6 +300,7 @@ vec2 uiWidget::getOffset() const
 uiWidget* uiWidget::setSize( const vec2& size )
 {
 	mSize = size;
+	update(0.0f);
 	return this;
 }
 
@@ -383,4 +418,23 @@ void uiWidget::setupInitialProperties()
 	mTransparency = 1.0f;
 	mOffset = vec2(0, 0);
 	mResSize = mSize;
+}
+
+uiWidget* uiWidget::setClipping( bool flag )
+{
+	if (flag == mIsClipping)
+		return this;
+
+	mIsClipping = flag;
+	if (flag && !mClippingStencilBuffer)
+	{
+		mClippingStencilBuffer = new grStencilBufferRenderTarget(mWidgetsManager->mRender);
+	}
+
+	return this;
+}
+
+bool uiWidget::isClipping() const
+{
+	return mIsClipping;
 }

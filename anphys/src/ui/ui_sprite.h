@@ -33,7 +33,7 @@ struct uiSpriteWidget:public uiWidget
 	~uiSpriteWidget();
 
 	virtual void derivedUpdate(float dt);
-	virtual void draw();
+	virtual void derivedDraw();
 
 	uiSpriteWidget* setSize(const vec2& size);
 

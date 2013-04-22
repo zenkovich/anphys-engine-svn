@@ -17,6 +17,7 @@
 #include "ui/ui_font.h"
 #include "ui/ui_label.h"
 #include "ui/ui_simple_stuff.h"
+#include "ui/ui_scrollbar.h"
 
 #include "util/other/callback.h"
 
@@ -56,6 +57,12 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	m3DRenderState = new grSimple3DRenderState(mRender);
 	m2DRenderState = new gr2DRenderState(mRender);
 
+	mStencilTest1 = new grStencilBufferRenderTarget(mRender);
+	mStencilTest2 = new grStencilBufferRenderTarget(mRender, vec2(200, 200));
+
+	mTestSprite = new grSprite(mRender, NULL);
+	mTestSprite->setSize(vec2(100, 200)).setPosition(vec2(30, 50));
+
 	m3DRenderState->bindCamera(mCamera3dMouse);
 	m2DRenderState->bindCamera(m2DCamera);
 
@@ -63,8 +70,9 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mMainEngineScene = new cScene(this);
 
 	grLight* light = mRender->mLights->addLight(new grLight(NULL));
-	light->initialize(grLightBaseInterface::light_directional_type, color4(1.0f, 1.0f, 1.0f, 1.0f), color4(1.0f, 1.0f, 1.0f, 1.0f),
-		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,0), 0, 0, 0, 0, 0, 0, 0);
+	light->initialize(grLightBaseInterface::light_directional_type, color4(0.5f, 0.5f, 0.5f, 1.0f), 
+		color4(1.0f, 1.0f, 1.0f, 1.0f),
+		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,1), 0, 0, 0, 0, 0, 0, 0);
 	light->setLightActive(true);
 
 	setupScene1();
@@ -94,6 +102,8 @@ float apPhysicsTestFrame::onTimer()
 
 	mInputMessenger->sendInputMessage();
 	mInputMessenger->mInputMessage.update();
+
+	mTestLabel->setText(formatStr("progress = %.3f", mScrollbar->mCurrentValue));
 
 	mMainEngineScene->update(dt);
 	mRender->update(dt);
@@ -170,10 +180,14 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	}
 	if (key == key_f)
 	{		
-		mMainEngineScene->addObject(
+		cObject* newObj = 
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(
-				mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, vec3(1.0f, 1.0f, 1.0f), 
-				vectorOrient(mCamera3dMouse->mDirection)));
+			mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, vec3(1.0f, 1.0f, 1.0f), 
+			vectorOrient(mCamera3dMouse->mDirection));
+
+		mMainEngineScene->addObject(newObj);
+
+		newObj->getPhysicsRigidBody()->mVelocity = mCamera3dMouse->mDirection*10.0f;
 	}
 
 	/*if (key == 'Q') mTestFont->setHorAlign(uiFont::AL_LEFT);
@@ -231,7 +245,10 @@ void apPhysicsTestFrame::setupScene1()
 
 void apPhysicsTestFrame::render2D()
 {
+
+	mRender->bindStencilBuffer(mStencilTest2);
 	mTestWidgetsManager->draw();
+	mRender->unbindStencilBuffer();
 
 	/*mTestFont->draw();
 	m2DRenderState->pushLine(mTestFont->getTextArea().getltCorner(), mTestFont->getTextArea().getrtCorner());
@@ -256,7 +273,22 @@ void apPhysicsTestFrame::createTestWidgets()
 	uiButton* testButton = uiSimpleStuff::createButton(mTestWidgetsManager, vec2(30, 40), vec2(200, 50),
 		"button1", "Test button adad fasdfa sdf asdf", new cCallback<>(&click));
 
+	/*mScrollbar = uiSimpleStuff::createScrollbar(mTestWidgetsManager, vec2(10, 150),
+		vec2(200, 15), "scroller", (int)uiScrollbar::ST_HORISONTAL, -10.0f, 10.0f);*/
+
+	
+	mScrollbar = uiSimpleStuff::createScrollbar(mTestWidgetsManager, vec2(250, 150),
+	vec2(15, 200), "scroller", (int)uiScrollbar::ST_VERTICAL, -10.0f, 10.0f);
+	
+
+	mScrollbar->setScrollerSize(5.0f);
+
+	mTestLabel = uiSimpleStuff::createLabel(mTestWidgetsManager, vec2(10, 200), vec2(200, 30), "tl", "no text");
+
 	mTestWidget->addChild((uiWidget*)testButton);
+	mTestWidget->addChild((uiWidget*)mScrollbar);
+	mTestWidget->addChild((uiWidget*)mTestLabel);
+	uiSimpleStuff::createSizeEffect(mTestWidget, 1.0f);
 	
 	mTestWidgetsManager->addWidget(mTestWidget);
 

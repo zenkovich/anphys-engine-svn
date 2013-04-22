@@ -127,8 +127,12 @@
     <ClInclude Include="..\src\physics\objects\physics_object.h" />
     <ClInclude Include="..\src\physics\objects\rigid_object.h" />
     <ClInclude Include="..\src\physics\objects\static_object.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\chassis_vehicle_component.h" />
     <ClInclude Include="..\src\physics\objects\vehicle\vehicle.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_chassis_gas_shock.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_chassis_spring.h" />
     <ClInclude Include="..\src\physics\objects\vehicle\vehicle_component.h" />
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_wheel.h" />
     <ClInclude Include="..\src\physics\physics_engine.h" />
     <ClInclude Include="..\src\physics\scenes\physics_scene.h" />
     <ClInclude Include="..\src\physics\solver\sequential_impulses_solver.h" />
@@ -168,6 +172,7 @@
     <ClInclude Include="..\src\render\render_target\backbuffer_render_target.h" />
     <ClInclude Include="..\src\render\render_target\backbuffer_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\render_target\render_target_interface.h" />
+    <ClInclude Include="..\src\render\render_target\stencil_buffer_render_target.h" />
     <ClInclude Include="..\src\render\render_target\stencil_buffer_render_target_base_interface.h" />
     <ClInclude Include="..\src\render\render_target\texture_render_target.h" />
     <ClInclude Include="..\src\render\render_target\texture_render_target_base_interface.h" />
@@ -195,6 +200,8 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
+    <ClInclude Include="..\src\ui\ui_scrollbar.h" />
+    <ClInclude Include="..\src\ui\ui_scroll_area.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_font.h" />
@@ -312,6 +319,7 @@
     <ClCompile Include="..\src\physics\CD\collision_manager.cpp" />
     <ClCompile Include="..\src\physics\objects\rigid_object.cpp" />
     <ClCompile Include="..\src\physics\objects\static_object.cpp" />
+    <ClCompile Include="..\src\physics\objects\vehicle\chassis_vehicle_component.cpp" />
     <ClCompile Include="..\src\physics\objects\vehicle\vehicle.cpp" />
     <ClCompile Include="..\src\physics\objects\vehicle\vehicle_component.cpp" />
     <ClCompile Include="..\src\physics\physics_engine.cpp" />
@@ -349,9 +357,12 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\render_state\2d_render_state_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\render_state\simple_3d_render_state_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\render_target\backbuffer_render_target_d3d8.cpp" />
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\stencil_buffer_render_target_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
+    <ClCompile Include="..\src\ui\ui_scrollbar.cpp" />
+    <ClCompile Include="..\src\ui\ui_scroll_area.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />
     <ClCompile Include="..\src\ui\ui_button.cpp" />
     <ClCompile Include="..\src\ui\ui_font.cpp" />

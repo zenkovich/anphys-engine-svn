@@ -5,8 +5,9 @@ struct uiState;
 
 struct uiProperty
 {
-	enum InterpolationType { IT_FORCIBLE = 0, IT_LINEAR };
+	enum InterpolationType { IT_FORCIBLE = 0, IT_LINEAR, IT_SMOOTH };
 	enum ChangeState { CS_NONE = 0, CS_ACTIVATING, CS_DEACTIVATING };
+	enum OperationType { OP_FORCIBLE_SET = 0, OP_ADDITION, OP_SUBSTRACT, OP_MULTIPLICATION, OP_DIVISION };
 
 	uiState*          mState;
 
@@ -34,37 +35,58 @@ struct uiProperty
 template<typename T>
 struct uiParameterProperty:public uiProperty
 {
-	enum OperationType { OP_FORCIBLE_SET = 0, OP_ADDITION, OP_SUBSTRACT, OP_MULTIPLICATION, OP_DIVISION };
-
 	T*            mParameterPtr;
 
 	T             mDisabledValue;
-	T             mEnabledvalue;
+	T             mEnabledValue;
 	T             mDifference;
 	T             mCurrentValue;
 
 	OperationType mOperationType;
 	float         mInvDuration;
 
-//functions
+	float         mBeginTime;
+	float         mEndTime;
+
+	//functions
 	uiParameterProperty(T* parameter, const T& disabledValue, const T& enabledvalue,
 		                InterpolationType interpolationType = IT_LINEAR, float duration = 0.15f,
-						OperationType operationType = OP_FORCIBLE_SET, float priority = 1.0f):
+		                OperationType operationType = OP_FORCIBLE_SET, float priority = 1.0f):
 		uiProperty(interpolationType, duration, priority), mParameterPtr(parameter), mDisabledValue(disabledValue),
-		mEnabledvalue(enabledvalue), mCurrentValue(disabledValue), mOperationType(operationType) 
+		mEnabledValue(enabledvalue), mCurrentValue(disabledValue), mOperationType(operationType) 
 	{
 		mInvDuration = 1.0f/mDuration;
-		mDifference = mEnabledvalue - mDisabledValue;
+		mDifference = mEnabledValue - mDisabledValue;
+		mBeginTime = 0;
+		mEndTime = mBeginTime + mDuration;
+	}
+
+	uiParameterProperty(T* parameter, const T& disabledValue, const T& enabledvalue,
+		                InterpolationType interpolationType = IT_LINEAR, float beginTime = 0.0f, 
+						float duration = 0.15f, float endTime = 0.15f,
+		                OperationType operationType = OP_FORCIBLE_SET, float priority = 1.0f):
+		uiProperty(interpolationType, duration, priority), mParameterPtr(parameter), mDisabledValue(disabledValue),
+		mEnabledValue(enabledvalue), mCurrentValue(disabledValue), mOperationType(operationType) 
+	{
+		mDifference = mEnabledValue - mDisabledValue;
+		mBeginTime = beginTime;
+		mEndTime = endTime;
+
+		mDuration = max(mDuration, mEndTime);
+
+		mInvDuration = 1.0f/(mEndTime - mBeginTime);
 	}
 
 	uiParameterProperty(const uiParameterProperty<T>& property):uiProperty(property)
 	{
 		mParameterPtr  = property.mParameterPtr;
 		mDisabledValue = property.mDisabledValue;
-		mEnabledvalue  = property.mEnabledvalue;
+		mEnabledValue  = property.mEnabledValue;
 		mOperationType = property.mOperationType;
 		mInvDuration   = property.mInvDuration;
 		mDifference    = property.mDifference;
+		mBeginTime     = property.mBeginTime;
+		mEndTime       = property.mEndTime;
 	}
 
 	~uiParameterProperty() {}
@@ -73,7 +95,7 @@ struct uiParameterProperty:public uiProperty
 	{
 		if (forcible)
 		{
-			mCurrentValue = mEnabledvalue;
+			mCurrentValue = mEnabledValue;
 			mCurrentTime = mDuration;
 			applyOperation();
 			mChangeState = CS_NONE;
@@ -101,27 +123,48 @@ struct uiParameterProperty:public uiProperty
 
 	void update(float dt)
 	{
+		ChangeState prevChangeState = mChangeState;
+
 		if (mChangeState == CS_ACTIVATING)
 		{
 			mCurrentTime += dt;
-			if (mCurrentTime > mDuration || mInterpolationType == uiProperty::IT_FORCIBLE)
+			if (mCurrentTime > mEndTime)
 			{
 				mCurrentTime = mDuration;
 				mChangeState = CS_NONE;
 			}
 		}
-		else if (mChangeState == CS_DEACTIVATING)
+		if (mChangeState == CS_DEACTIVATING)
 		{
 			mCurrentTime -= dt;
-			if (mCurrentTime < 0.0f || mInterpolationType == uiProperty::IT_FORCIBLE)
+			if (mCurrentTime < 0.0f)
 			{
-				mCurrentTime = 0;
+				mCurrentTime = 0.0f;
 				mChangeState = CS_NONE;
 			}
 		}
 
-		float coef = mCurrentTime*mInvDuration;
-		mCurrentValue = mDisabledValue + mDifference*coef;
+		if (mInterpolationType == IT_LINEAR)
+		{
+			float coef = fclamp((mCurrentTime - mBeginTime)*mInvDuration, 0.0f, 1.0f);
+			mCurrentValue = mDisabledValue + mDifference*coef;
+		}
+		else if (mInterpolationType == IT_SMOOTH)
+		{
+			float coef = fclamp((mCurrentTime - mBeginTime)*mInvDuration, 0.0f, 1.0f);
+			//sin((x - 0.5)*3.1415926)*0.5 + 0.5
+			float smoothCoef = sinf((coef - 0.5f)*3.1415926f)*0.5f + 0.5f;
+			mCurrentValue = mDisabledValue + mDifference*smoothCoef;
+		}
+		else if (mInterpolationType == IT_FORCIBLE)
+		{
+			/*gLog->fout(1, "Forcible prop %s time %f %.3f-%.3f/%.3f\n", 
+				mState->mTargetWidget->mId.c_str(), mCurrentTime, mBeginTime, mEndTime, mDuration);*/
+			if (mCurrentTime <= mBeginTime)
+				mCurrentValue = mDisabledValue;
+			else
+				mCurrentValue = mEnabledValue;
+		}
 
 		applyOperation();
 	}

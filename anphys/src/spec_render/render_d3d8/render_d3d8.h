@@ -24,6 +24,9 @@ struct grRenderBase:public grRenderBaseInterface
 	LPDIRECT3DDEVICE8     m_pDirect3DDevice;
 	D3DPRESENT_PARAMETERS mDirect3DParametr;
 
+	LPDIRECT3DSURFACE8    mCurrentRenderTargetSurface;
+	LPDIRECT3DSURFACE8    mCurrentRenderTargetDepthStencilSurface;
+
 	bool              mReady;
 
 //functions
@@ -40,6 +43,9 @@ struct grRenderBase:public grRenderBaseInterface
 	void endRender();
 
 	void resize(const vec2& size);
+
+	void bindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer);
+	void unbindStencilBuffer();
 
 	const char* getRenderName() { return "Direct3D8"; }
 };

@@ -63,16 +63,15 @@ void uiSpriteWidget::derivedUpdate( float dt )
 	if (mSprite)
 	{
 		mSprite->setPosition(mGlobalPosition).
-			     setColor(color4(mSpriteColor.r, mSpriteColor.g, mSpriteColor.b, (int)(255.0f*mResTransparency)));
+			     setColor(color4(mSpriteColor.r, mSpriteColor.g, mSpriteColor.b, (int)(255.0f*mResTransparency))).
+				 setSize(mResSize);
 	}
 }
 
-void uiSpriteWidget::draw()
+void uiSpriteWidget::derivedDraw()
 {
 	if (mOwnSprite) 
 		mSprite->draw();
-
-	uiWidget::draw();
 }
 
 uiWidget* uiSpriteWidget::clone() const

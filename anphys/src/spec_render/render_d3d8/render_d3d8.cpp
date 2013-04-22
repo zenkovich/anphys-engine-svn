@@ -6,6 +6,8 @@
 #include "render_d3d8.h"
 #include "render/scenes/scene_manager.h"
 #include "render/render_target/backbuffer_render_target.h"
+#include "render/render_target/stencil_buffer_render_target.h"
+#include "render/render_state/render_state_interface.h"
 
 
 grRenderBase::grRenderBase():grRenderBaseInterface(), m_pDirect3d(NULL), m_pDirect3DDevice(NULL)
@@ -138,6 +140,25 @@ void grRenderBase::resize( const vec2& size )
 
 	//mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
 	mBackbufferRenderTarget->mSize = size;
+}
+
+void grRenderBase::bindStencilBuffer( grStencilBufferRenderTarget* stencilBuffer )
+{
+	if (mCurrentRenderState)
+		mCurrentRenderState->flush();
+
+	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, stencilBuffer->mDepthStencilSurface);
+	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+}
+
+void grRenderBase::unbindStencilBuffer()
+{
+	if (mCurrentRenderState)
+		mCurrentRenderState->flush();
+
+	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, mCurrentRenderTargetDepthStencilSurface);
+	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
 #endif //RENDER_D3D8

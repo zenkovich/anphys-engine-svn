@@ -711,6 +711,27 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\render_target\stencil_buffer_render_target_d3d8.h">
       <Filter>spec_render\render_d3d8\render_target</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render\render_target\stencil_buffer_render_target.h">
+      <Filter>render\render_target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_scrollbar.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\chassis_vehicle_component.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_wheel.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_chassis_spring.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\physics\objects\vehicle\vehicle_chassis_gas_shock.h">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_scroll_area.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -1083,6 +1104,18 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_widget.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\spec_render\render_d3d8\render_target\stencil_buffer_render_target_d3d8.cpp">
+      <Filter>spec_render\render_d3d8\render_target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_scrollbar.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\objects\vehicle\chassis_vehicle_component.cpp">
+      <Filter>physics\objects\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_scroll_area.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,6 +12,7 @@ struct uiLabel;
 struct uiButton;
 struct cCallbackInterface;
 struct uiWidget;
+struct uiScrollbar;
 
 struct uiSimpleStuff
 {
@@ -26,6 +27,11 @@ struct uiSimpleStuff
 	static uiButton* createButton(uiWidgetsManager* widgetManager, const vec2& pos, const vec2& size,
 		                          const std::string& id, const std::string& caption, 
 								  cCallbackInterface* callback);
+
+	static void createSizeEffect(uiWidget* widget, float duration = 0.5f);
+
+	static uiScrollbar* createScrollbar(uiWidgetsManager* widgetManager, const vec2& pos, const vec2& size,
+		                                const std::string& id, int type, float minv = 0.0f, float maxv = 1.0f);
 };
 
 #endif //UI_SIMPLE_STUFF_H

@@ -31,7 +31,7 @@ struct uiLabel:public uiWidget
 	VerAlign     getVerAlign() const;
 
 	void         derivedUpdate(float dt);
-	void         draw();
+	void         derivedDraw();
 
 	uiLabel*     clone() const;
 };
