@@ -18,20 +18,24 @@ struct grStencilBufferRenderTarget;
 
 struct grRenderBaseInterface
 {
-	typedef std::vector<grRenderTarget*> RenderTargetsList;
+	typedef std::vector<grRenderTarget*>              RenderTargetsList;
+	typedef std::vector<grStencilBufferRenderTarget*> StencilBuffersList;
 
-	grTextureManager*         mTextures;
-	grLightManager*           mLights;
-	grMaterialManager*        mMaterials;
-	grSurfaceMaterialManager* mSurfaceMaterials;
-	grSceneManager*           mSceneManager;
+	grTextureManager*            mTextures;
+	grLightManager*              mLights;
+	grMaterialManager*           mMaterials;
+	grSurfaceMaterialManager*    mSurfaceMaterials;
+	grSceneManager*              mSceneManager;
+							     
+	RenderTargetsList            mRenderTargetsStack;
+	grBackbufferRenderTarget*    mBackbufferRenderTarget;
+							     
+	grRenderState*               mCurrentRenderState;
 
-	RenderTargetsList         mRenderTargetsStack;
-	grBackbufferRenderTarget* mBackbufferRenderTarget;
+	StencilBuffersList           mStencilBuffersStack;
+	grStencilBufferRenderTarget* mCurrentStencilBuffer;
 
-	grRenderState*            mCurrentRenderState;
-
-	cLogStream*               mLog;
+	cLogStream*                  mLog;
 
 //functions
 	grRenderBaseInterface();
@@ -56,7 +60,7 @@ struct grRenderBaseInterface
 	grRenderState* getCurrentRenderState();
 
 	virtual void bindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer) {}
-	virtual void unbindStencilBuffer() {}
+	virtual void unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer = NULL) {}
 
 	virtual const char* getRenderName() { return "render base"; }
 };

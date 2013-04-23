@@ -46,7 +46,7 @@ struct cCallback1Param:public cCallbackInterface
 
 	cCallback1Param(T* object, void (T::*function)(ArgT)):mObject(object), mObjectFunction(function) {}
 	cCallback1Param(void (*function)(ArgT)):mObject(NULL), mObjectFunction(NULL), mFunction(function) {}
-	cCallback1Param(const cCallback& callback)
+	cCallback1Param(const cCallback1Param<ArgT, T>& callback)
 	{
 		mObject = callback.mObject;
 		mObjectFunction = callback.mObjectFunction;

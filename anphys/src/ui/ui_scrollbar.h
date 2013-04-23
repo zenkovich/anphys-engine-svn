@@ -36,7 +36,7 @@ struct uiScrollbar:public uiWidget
 	color4              mScrollerColor;
 	color4              mResScrollerColor;
 
-	cCallbackInterface* mChangeValueCallback;
+	cCallbackInterface* mOnChangeValueCallback;
 
 //functions
 	uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id, ScrollbarType type, 

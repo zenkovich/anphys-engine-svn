@@ -45,7 +45,7 @@ struct grRenderBase:public grRenderBaseInterface
 	void resize(const vec2& size);
 
 	void bindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer);
-	void unbindStencilBuffer();
+	void unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer = NULL);
 
 	const char* getRenderName() { return "Direct3D8"; }
 };
