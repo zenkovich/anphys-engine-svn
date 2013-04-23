@@ -7,14 +7,18 @@ struct uiScrollbar;
 
 struct uiScrollArea:public uiWidget
 {
-	vec2 mScrollingArea;
-	vec2 mViewArea;
+	DEFINE_TYPE(uiScrollArea)
+
+	vec2         mScrollingArea;
+	vec2         mViewArea;
 
 	uiScrollbar* mHorScrollbar;
 	uiScrollbar* mVerScrollbar;
 
-	float mLastHorScrolling;
-	float mLastVerScrolling;
+	float        mLastHorScrolling;
+	float        mLastVerScrolling;
+
+	uiWidget*    mContentWidget;
 
 //functions
 	uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& size);
@@ -25,12 +29,18 @@ struct uiScrollArea:public uiWidget
 	void derivedDraw();
 
 	void addChild(uiWidget* widget);
+
 	void removeChild(uiWidget* widget);
 	void removeAllChilds();
+
+	void setHorScrollbar(uiScrollbar* scrollbar);
+	void setVerScrollbar(uiScrollbar* scrollbar);
 
 protected:
 	void horScrollbarChanged(float value);
 	void verScrollbarChanged(float value);
+
+	void recalculateScrollingArea();
 };
 
 #endif //UI_SCROLL_AREA_H

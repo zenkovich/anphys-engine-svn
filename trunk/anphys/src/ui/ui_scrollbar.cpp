@@ -12,7 +12,7 @@ uiScrollbar::uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id
 						 float scollSize /*= -1*/):
 	uiWidget(widgetsManager, id), mType(type), mBkSprite(bkSprite), mScrollerSprite(scrollerSprite),
 	mMinValue(minValue), mMaxValue(maxValue), mCurrentValue(currentValue), mScorllerSize(scollSize),
-	mChangeValueCallback(NULL)
+	mOnChangeValueCallback(NULL)
 {
 	mSize = size;
 	mSelectedState = new uiState(this, "");
@@ -50,6 +50,7 @@ uiScrollbar::~uiScrollbar()
 	safe_release(mScrollerSprite);
 	safe_release(mSelectedState);
 	safe_release(mPressedState);
+	safe_release(mOnChangeValueCallback);
 }
 
 void uiScrollbar::derivedUpdate( float dt )
@@ -231,10 +232,10 @@ void uiScrollbar::mouseMoved( const vec2& point )
 
 	mCurrentValue = fclamp(mCurrentValue, mMinValue, mMaxValue);
 
-	if (mChangeValueCallback)
+	if (mOnChangeValueCallback)
 	{
-		static_cast< cCallback1Param<float>* >(mChangeValueCallback)->mArg = mCurrentValue;
-		mChangeValueCallback->call();
+		static_cast< cCallback1Param<float>* >(mOnChangeValueCallback)->mArg = mCurrentValue;
+		mOnChangeValueCallback->call();
 	}
 
 	mLastCursorPos = point;
@@ -262,7 +263,7 @@ float uiScrollbar::getScrollerSize() const
 
 void uiScrollbar::setChangeValueCallback( cCallbackInterface* callback )
 {
-	safe_release(mChangeValueCallback);
+	safe_release(mOnChangeValueCallback);
 
-	mChangeValueCallback = callback;
+	mOnChangeValueCallback = callback;
 }

@@ -147,15 +147,27 @@ void grRenderBase::bindStencilBuffer( grStencilBufferRenderTarget* stencilBuffer
 	if (mCurrentRenderState)
 		mCurrentRenderState->flush();
 
+	mStencilBuffersStack.push_back(stencilBuffer);
+
 	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, stencilBuffer->mDepthStencilSurface);
 	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
 }
 
-void grRenderBase::unbindStencilBuffer()
+void grRenderBase::unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer)
 {
 	if (mCurrentRenderState)
 		mCurrentRenderState->flush();
+
+	LPDIRECT3DSURFACE8 settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
+	if (stencilBuffer != NULL)
+	{
+		for (StencilBuffersList::reverse_iterator it = mStencilBuffersStack.rbegin();
+			 it != mStencilBuffersStack.rend(); it++)
+		{
+
+		}
+	}
 
 	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, mCurrentRenderTargetDepthStencilSurface);
 	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);

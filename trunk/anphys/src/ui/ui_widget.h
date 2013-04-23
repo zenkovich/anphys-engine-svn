@@ -48,6 +48,7 @@ protected:
 	PropertyList      mPropertyList;
 
 	grStencilBufferRenderTarget* mClippingStencilBuffer;
+	fRect             mClippingRect;
 	bool              mIsClipping;
 
 public:
@@ -117,6 +118,7 @@ protected:
 	void registProperty(uiProperty* property);
 	void unregistProperty(uiProperty* property);
 	virtual void setupInitialProperties();
+	virtual void calcClippingRect();
 };
 
 #endif //WIDGET_H

@@ -9,6 +9,7 @@
 #include "ui_property.h"
 #include "ui_font.h"
 #include "ui_scrollbar.h"
+#include "ui_scroll_area.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -66,6 +67,8 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 	button->addChild(bkSprite);
 	button->addChild(panelSprite);
 
+	button->setSize(size);
+
 	return button;
 }
 
@@ -114,6 +117,22 @@ uiScrollbar* uiSimpleStuff::createScrollbar( uiWidgetsManager* widgetManager, co
 		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f));
 
 	return scrollbar;
+}
+
+uiScrollArea* uiSimpleStuff::createScrollarea( uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size, const std::string& id )
+{
+	uiScrollbar* horScrollbar = createScrollbar(widgetsManager, vec2(0.0f, 0.0f), vec2(15.0f, 15.0f), "horScrollbar",
+		(int)uiScrollbar::ST_HORISONTAL);
+
+	uiScrollbar* verScrollbar = createScrollbar(widgetsManager, vec2(0.0f, 0.0f), vec2(15.0f, 15.0f), "verScrollbar",
+		(int)uiScrollbar::ST_VERTICAL);
+
+	uiScrollArea* scrollarea = new uiScrollArea(widgetsManager, id, size);
+	scrollarea->setPosition(pos);
+	scrollarea->setHorScrollbar(horScrollbar);
+	scrollarea->setVerScrollbar(verScrollbar);
+
+	return scrollarea;
 }
 
 

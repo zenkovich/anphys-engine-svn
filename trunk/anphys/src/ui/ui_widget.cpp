@@ -25,6 +25,8 @@ uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= 
 
 	createStdStates();
 
+	setClipping(true);
+
 	update(0.0f);
 }
 
@@ -58,6 +60,8 @@ void uiWidget::addChild( uiWidget* widget )
 {
 	mChilds.push_back(widget);
 	widget->mParent = this;
+
+	widget->mGlobalPosition = mGlobalPosition + widget->mPosition + widget->mOffset;
 
 	if (getType() == uiWidget::getStaticType())
 		adjustSizeByChilds();
@@ -153,11 +157,28 @@ void uiWidget::update( float dt )
 
 void uiWidget::draw()
 {
+	calcClippingRect();
+
+	if (mParent && mParent->isClipping())
+	{
+		if (mParent->mClippingRect.leftTop.x > mClippingRect.leftTop.x) 
+			mClippingRect.leftTop.x = mParent->mClippingRect.leftTop.x;
+
+		if (mParent->mClippingRect.leftTop.y > mClippingRect.leftTop.y) 
+			mClippingRect.leftTop.y = mParent->mClippingRect.leftTop.y;
+
+		if (mParent->mClippingRect.rightDown.x < mClippingRect.rightDown.x) 
+			mClippingRect.rightDown.x = mParent->mClippingRect.rightDown.x;
+
+		if (mParent->mClippingRect.rightDown.y < mClippingRect.rightDown.y) 
+			mClippingRect.rightDown.y = mParent->mClippingRect.rightDown.y;
+	}
+
 	if (mIsClipping)
 	{
 		mWidgetsManager->mRender->bindRenderTarget(mClippingStencilBuffer);
 		mClippingStencilBuffer->clear();
-		mClippingStencilBuffer->fillRect(fRect(mGlobalPosition - vec2(1.0f, 1.0f), mGlobalPosition + mResSize));
+		mClippingStencilBuffer->fillRect(mClippingRect);
 		mWidgetsManager->mRender->unbindRenderTarget(mClippingStencilBuffer);
 
 		mWidgetsManager->mRender->bindStencilBuffer(mClippingStencilBuffer);
@@ -437,4 +458,10 @@ uiWidget* uiWidget::setClipping( bool flag )
 bool uiWidget::isClipping() const
 {
 	return mIsClipping;
+}
+
+void uiWidget::calcClippingRect()
+{
+	mClippingRect.leftTop = mGlobalPosition - vec2(1.0f, 1.0f);
+	mClippingRect.rightDown = mGlobalPosition + mResSize + vec2(1.0f, 1.0f);
 }
