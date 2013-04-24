@@ -17,6 +17,7 @@ struct phVehicleChassisComponent:public phVehicleComponent
 
 	vec3                      mLocalPosition;
 	mat3x3                    mLocalAxis;
+	mat3x3                    mInitialLocalAxis;
 	float                     mMaxPosition;
 	float                     mMinPosition;
 	float                     mWheelAngle;

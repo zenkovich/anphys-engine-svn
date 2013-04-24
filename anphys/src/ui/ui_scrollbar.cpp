@@ -225,9 +225,9 @@ void uiScrollbar::mouseMoved( const vec2& point )
 	else
 	{
 		if (mType == ST_HORISONTAL)
-			mCurrentValue += (point.x - mLastCursorPos.x)/mResSize.x*(mMaxValue - mMinValue + mScorllerSize);
+			mCurrentValue += (point.x - mLastCursorPos.x)/mResSize.x*(mMaxValue - mMinValue);
 		else
-			mCurrentValue += (point.y - mLastCursorPos.y)/mResSize.y*(mMaxValue - mMinValue + mScorllerSize);
+			mCurrentValue += (point.y - mLastCursorPos.y)/mResSize.y*(mMaxValue - mMinValue);
 	}
 
 	mCurrentValue = fclamp(mCurrentValue, mMinValue, mMaxValue);

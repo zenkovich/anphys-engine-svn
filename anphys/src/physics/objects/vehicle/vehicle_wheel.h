@@ -2,18 +2,14 @@
 #define VEHICLE_WHEEL_H
 
 #include "util/math/mmath.h"
+#include "../rigid_object.h"
 
 struct cFixedIntervalsGraphic;
 
-struct phVehicleWheel
+struct phVehicleWheel:public phRigidObject
 {
-	vec3  mGlobalPosition;
-	mat3x3 mGlobalOrient;
-
 	float mRadius;
-	float mAngle;
-	float mRPM;
-	float mTorque;
+	vec3  mGroundNormal;
 
 	cFixedIntervalsGraphic* mTyreFrictionGraphic;
 

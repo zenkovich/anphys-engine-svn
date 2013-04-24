@@ -159,18 +159,27 @@ void grRenderBase::unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffe
 	if (mCurrentRenderState)
 		mCurrentRenderState->flush();
 
-	LPDIRECT3DSURFACE8 settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
+	LPDIRECT3DSURFACE8 settingStencilBuffer = NULL;
 	if (stencilBuffer != NULL)
 	{
-		for (StencilBuffersList::reverse_iterator it = mStencilBuffersStack.rbegin();
-			 it != mStencilBuffersStack.rend(); it++)
-		{
+		StencilBuffersList::iterator fnd = std::find(mStencilBuffersStack.begin(), mStencilBuffersStack.end(),
+			stencilBuffer);
 
+		mStencilBuffersStack.erase(fnd, mStencilBuffersStack.end());
+
+		if (mStencilBuffersStack.size() != 0)
+		{
+			settingStencilBuffer = mStencilBuffersStack.back()->mDepthStencilSurface;
 		}
 	}
+	else
+	{
+		settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
+		mStencilBuffersStack.clear();
+		m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	}
 
-	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, mCurrentRenderTargetDepthStencilSurface);
-	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, settingStencilBuffer);
 }
 
 #endif //RENDER_D3D8
