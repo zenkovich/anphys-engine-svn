@@ -243,6 +243,21 @@ struct mat3x3
 		x.SetRotationX(rx); y.SetRotationY(ry); z.SetRotationZ(rz);
 		*this = x*y*z;
 	}
+
+	inline vec3 getXVector() const
+	{
+		return vec3(m[0][0], m[0][1], m[0][2]);
+	}
+
+	inline vec3 getYVector() const
+	{
+		return vec3(m[1][0], m[1][1], m[1][2]);
+	}
+
+	inline vec3 getZVector() const
+	{
+		return vec3(m[2][0], m[2][1], m[2][2]);
+	}
 };
 
 inline mat3x3 m(float f[9]) { return mat3x3(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8]); }

@@ -121,6 +121,27 @@ inline mat3x3 RotatedMatrix(float rx, float ry, float rz)
 	return rt;
 }
 
+inline mat3x3 rotatedXMatrix(float angle)
+{
+	mat3x3 rt;
+	rt.SetRotationX(angle);
+	return rt;
+}
+
+inline mat3x3 rotatedYMatrix(float angle)
+{
+	mat3x3 rt;
+	rt.SetRotationY(angle);
+	return rt;
+}
+
+inline mat3x3 rotatedZMatrix(float angle)
+{
+	mat3x3 rt;
+	rt.SetRotationZ(angle);
+	return rt;
+}
+
 inline mat3x3 ScaledMatrix(float sx, float sy, float sz)
 {
 	mat3x3 rt;

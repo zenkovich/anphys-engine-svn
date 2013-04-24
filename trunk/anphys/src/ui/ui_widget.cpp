@@ -25,7 +25,7 @@ uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= 
 
 	createStdStates();
 
-	setClipping(true);
+	//setClipping(true);
 
 	update(0.0f);
 }
@@ -159,7 +159,7 @@ void uiWidget::draw()
 {
 	calcClippingRect();
 
-	if (mParent && mParent->isClipping())
+	if (mParent)
 	{
 		if (mParent->mClippingRect.leftTop.x > mClippingRect.leftTop.x) 
 			mClippingRect.leftTop.x = mParent->mClippingRect.leftTop.x;
@@ -207,7 +207,7 @@ void uiWidget::draw()
 
 	if (mClippingStencilBuffer)
 	{
-		mWidgetsManager->mRender->unbindStencilBuffer();
+		mWidgetsManager->mRender->unbindStencilBuffer(mClippingStencilBuffer);
 	}
 }
 

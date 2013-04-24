@@ -5,7 +5,7 @@ struct phVehicleChassisGasShock
 {
 	float mForce;
 
-	float getForce(float velocity) { return mForce*velocity; }
+	float getForce(float velocity) { return -mForce*velocity; }
 };
 
 #endif //VEHICLE_CHASSIS_GAS_SHOCK_H
