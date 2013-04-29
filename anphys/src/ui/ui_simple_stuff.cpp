@@ -10,6 +10,7 @@
 #include "ui_font.h"
 #include "ui_scrollbar.h"
 #include "ui_scroll_area.h"
+#include "ui_text_edit.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -133,6 +134,28 @@ uiScrollArea* uiSimpleStuff::createScrollarea( uiWidgetsManager* widgetsManager,
 	scrollarea->setVerScrollbar(verScrollbar);
 
 	return scrollarea;
+}
+
+uiTextEdit* uiSimpleStuff::createTextEdit( uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size, const std::string& id )
+{
+	uiLabel* label = createLabel(widgetsManager, vec2(0, 0), size, "label", "");
+
+	uiSpriteWidget* backWidget = createSpriteWidget(widgetsManager, mColor1, vec2(0, 0), size, "bk");
+
+	uiTextEdit* textEdit = new uiTextEdit(widgetsManager, id, label, backWidget);
+	textEdit->setPosition(pos);
+	textEdit->setText("Edit text");
+	textEdit->setSize(size);
+
+	textEdit->mSelectedState->addProperty(
+		new uiParameterProperty<color4>(&backWidget->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), backWidget);
+
+	textEdit->mFocusedState->addProperty(
+		new uiParameterProperty<color4>(&backWidget->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), backWidget);
+
+	return textEdit;
 }
 
 

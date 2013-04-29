@@ -19,6 +19,7 @@
 #include "ui/ui_simple_stuff.h"
 #include "ui/ui_scrollbar.h"
 #include "ui/ui_scroll_area.h"
+#include "ui/ui_text_edit.h"
 
 #include "util/other/callback.h"
 
@@ -272,7 +273,7 @@ void apPhysicsTestFrame::createTestWidgets()
 		                                            vec2(20, 30), vec2(300, 500), "main");
 	
 	uiButton* testButton = uiSimpleStuff::createButton(mTestWidgetsManager, vec2(30, 40), vec2(200, 50),
-		"button1", "Test button adad fasdfa sdf asdf", new cCallback<>(&click));
+		"button1", "Test button", new cCallback<>(&click));
 
 	mScrollbar = uiSimpleStuff::createScrollbar(mTestWidgetsManager, vec2(10, 150),
 		vec2(200, 15), "scroller", (int)uiScrollbar::ST_HORISONTAL, -10.0f, 10.0f);
@@ -286,12 +287,15 @@ void apPhysicsTestFrame::createTestWidgets()
 
 	mTestLabel = uiSimpleStuff::createLabel(mTestWidgetsManager, vec2(10, 200), vec2(200, 30), "tl", "no text");
 
+	mTestTextEdit = uiSimpleStuff::createTextEdit(mTestWidgetsManager, vec2(10, 240), vec2(200, 30), "testEditText");
+
 	mTestScrollarea = uiSimpleStuff::createScrollarea(mTestWidgetsManager, vec2(10, 10), vec2(280, 150), 
 		"testScrollarea");
 
 	mTestScrollarea->addChild((uiWidget*)testButton);
 	mTestScrollarea->addChild((uiWidget*)mScrollbar);
 	mTestScrollarea->addChild((uiWidget*)mTestLabel);
+	mTestScrollarea->addChild((uiWidget*)mTestTextEdit);
 	mTestWidget->addChild((uiWidget*)mTestScrollarea);
 	uiSimpleStuff::createSizeEffect(mTestWidget, 1.0f);
 	

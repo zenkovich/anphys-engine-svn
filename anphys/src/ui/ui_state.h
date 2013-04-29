@@ -9,16 +9,21 @@
 struct uiWidget;
 struct uiProperty;
 struct cDataObject;
+struct cCallbackInterface;
 
 struct uiState
 {
 	typedef std::vector<uiProperty*> PropertiesList;
 
-	std::string    mId;
-	uiWidget*      mTargetWidget;
-	bool           mActive;
+	std::string         mId;
+	uiWidget*           mTargetWidget;
+	bool                mActive;
+	bool                mChangeStateStarted;
 
-	PropertiesList mProperties;
+	cCallbackInterface* mOnActivatedCallback;
+	cCallbackInterface* mOnDeactivatedCallback;
+
+	PropertiesList      mProperties;
 
 //functions
 	uiState(uiWidget* targetWidget, const std::string& id);
@@ -29,9 +34,14 @@ struct uiState
 	void        activate(bool forcible = false);
 	void        deactivate(bool forcible = false);
 
+	void        update();
+
 	uiProperty* addProperty(uiProperty* uiproperty, uiWidget* targetWidget = NULL);
 	void        removeProperty(uiProperty* uiproperty);
 	void        removeAllProperties();
+
+	void setOnActivatedCallback(cCallbackInterface* callback);
+	void setOnDeactivatedCallback(cCallbackInterface* callback);
 
 	serializeMethodDecl(uiState);
 };

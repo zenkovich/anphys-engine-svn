@@ -330,9 +330,6 @@
     <ClInclude Include="..\src\engine\frame_system\win32_framesystem\simple_window.h">
       <Filter>engine\frame_system\win32_framesystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\frame_system\win32_framesystem\windows_manager.h">
-      <Filter>engine\frame_system\win32_framesystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\frame_system\render_frame.h">
       <Filter>engine\frame_system</Filter>
     </ClInclude>
@@ -732,6 +729,12 @@
     <ClInclude Include="..\src\ui\ui_scroll_area.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\frame_system\win32_framesystem\windows_manager.h">
+      <Filter>engine\frame_system\win32_render_frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_text_edit.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -1116,6 +1119,9 @@
       <Filter>physics\objects\vehicle</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_scroll_area.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_text_edit.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

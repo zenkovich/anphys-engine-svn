@@ -3,6 +3,7 @@
 #include "render/render_objects/2d/sprite.h"
 #include "ui_state.h"
 #include "util/other/callback.h"
+#include "ui_manager.h"
 
 REGIST_TYPE(uiScrollbar)
 
@@ -81,6 +82,7 @@ void uiScrollbar::derivedDraw()
 int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
 {
 	int res = 0;
+
 	if (!mVisible)
 		return res;
 
@@ -106,6 +108,8 @@ int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
 		mSelectedState->deactivate();
 		mPressedState->activate();
 
+		mWidgetsManager->setWidgetFocused(this);
+
 		pressed(message.mCursorPosition);
 
 		res = 1;
@@ -114,6 +118,8 @@ int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
 	{
 		mPressed = false;
 		mSelected = false;
+
+		mWidgetsManager->unfocusWidget(this);
 
 		mSelectedState->deactivate();
 		mPressedState->deactivate();
@@ -126,6 +132,8 @@ int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
 		{
 			mouseMoved(message.mCursorPosition);
 		}
+
+		res = 1;
 	}
 
 	return res;

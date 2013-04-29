@@ -26,6 +26,8 @@ struct cInputMessage
 	bool isKeyPressed(int key) const;
 	bool isKeyDown(int key) const;
 	bool isKeyReleased(int key) const;
+
+	bool isCharacter(int character) const;
 };
 
 #endif //INPUT_MESSAGE_H

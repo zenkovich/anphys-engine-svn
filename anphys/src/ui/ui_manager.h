@@ -19,6 +19,7 @@ struct uiWidgetsManager:public cInputListener
 	WidgetsList mWidgets;
 	WidgetsList mVisibleWidgets;
 	WidgetsList mModalWidgets;
+	uiWidget*   mFocusWidget;
 
 	cLogStream* mLog;
 
@@ -36,6 +37,9 @@ struct uiWidgetsManager:public cInputListener
 	void      draw();
 
 	int processInputMessage(const cInputMessage& message);
+
+	void setWidgetFocused(uiWidget* widget);
+	void unfocusWidget(uiWidget* widget);
 
 private:
 	friend struct uiWidget;

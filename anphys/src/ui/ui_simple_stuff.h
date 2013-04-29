@@ -14,6 +14,7 @@ struct cCallbackInterface;
 struct uiWidget;
 struct uiScrollbar;
 struct uiScrollArea;
+struct uiTextEdit;
 
 struct uiSimpleStuff
 {
@@ -36,6 +37,9 @@ struct uiSimpleStuff
 
 	static uiScrollArea* createScrollarea(uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size,
 		                                  const std::string& id);
+
+	static uiTextEdit* createTextEdit(uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size,
+		                              const std::string& id);
 };
 
 #endif //UI_SIMPLE_STUFF_H

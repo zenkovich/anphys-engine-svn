@@ -35,7 +35,7 @@ uiLabel* uiLabel::setText( const std::string& text )
 	return this;
 }
 
-std::string uiLabel::getText() const
+std::string& uiLabel::getText()
 {
 	return mFont->getText();
 }

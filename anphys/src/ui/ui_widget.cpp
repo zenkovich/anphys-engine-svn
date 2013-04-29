@@ -9,6 +9,7 @@
 #include "ui_manager.h"
 #include "ui_property.h"
 #include "ui_state.h"
+#include "util/other/callback.h"
 
 REGIST_TYPE(uiWidget)
 
@@ -135,6 +136,8 @@ void uiWidget::update( float dt )
 	{
 		(*it)->update(dt);
 	}
+
+	mVisibleState->update();
 
 	if (mParent) 
 	{
@@ -276,12 +279,19 @@ void uiWidget::hide( bool forcible /*= false*/ )
 {
 	mVisibleState->deactivate(forcible);
 	mVisible = false;
-	mWidgetsManager->hidedWidget(this);
+	//mWidgetsManager->hidedWidget(this);
 }
  
 void uiWidget::createStdStates()
 {
 	mVisibleState = new uiState(this, "visible");
+
+	cCallback1Param< uiWidget*, uiWidgetsManager>* onDeactivatedCallback = 
+		new cCallback1Param< uiWidget*, uiWidgetsManager>(mWidgetsManager, &uiWidgetsManager::hidedWidget);
+	onDeactivatedCallback->mArg = this;
+
+	mVisibleState->setOnDeactivatedCallback(onDeactivatedCallback);
+
 	mVisibleState->addProperty(
 		new uiParameterProperty<float>(&mTransparency, 0.0f, 1.0f, uiProperty::IT_SMOOTH, 0.15f, 
 		uiParameterProperty<float>::OP_MULTIPLICATION));
@@ -310,6 +320,7 @@ vec2 uiWidget::getGlobalPosition() const
 uiWidget* uiWidget::setOffset( const vec2& offset )
 {
 	mOffset = offset;
+	update(0.0f);
 	return this;
 }
 
@@ -383,10 +394,11 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 		i++;
 	}
 
-	if (processInputMessageDerived(message) == 0) 
+	int res = processInputMessageDerived(message);
+
+	if (res == 0) 
 		return 0;
 
-	int res = 0;
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); it++)
 	{
 		int widgetRes = (*it)->processInputMessage(message);

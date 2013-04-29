@@ -11,6 +11,7 @@ struct cCallbackInterface
 {
 	virtual ~cCallbackInterface() {}
 	virtual void call() = 0;
+	virtual cCallbackInterface* clone() = 0;
 };
 
 template<typename T = Dummy>
@@ -33,6 +34,11 @@ struct cCallback:public cCallbackInterface
 	{
 		if (mObject && mObjectFunction) (mObject->*mObjectFunction)();
 		else if (mFunction) (*mFunction)();
+	}
+
+	cCallbackInterface* clone() 
+	{
+		return new cCallback<T>(*this);
 	}
 };
 
@@ -58,6 +64,11 @@ struct cCallback1Param:public cCallbackInterface
 	{
 		if (mObject && mObjectFunction) (mObject->*mObjectFunction)(mArg);
 		else if (mFunction) (*mFunction)(mArg);
+	}
+	
+	cCallbackInterface* clone() 
+	{
+		return new cCallback1Param<ArgT, T>(*this);
 	}
 };
 

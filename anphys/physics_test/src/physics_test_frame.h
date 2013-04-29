@@ -25,6 +25,7 @@ struct grStencilBufferRenderTarget;
 struct uiScrollbar;
 struct uiLabel;
 struct uiScrollArea;
+struct uiTextEdit;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -45,6 +46,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 	uiScrollbar*                mScrollbar;
 	uiFont*                     mTestFont;
 	uiScrollArea*               mTestScrollarea;
+	uiTextEdit*                 mTestTextEdit;
 
 	void addScrollareaWidget();
 
