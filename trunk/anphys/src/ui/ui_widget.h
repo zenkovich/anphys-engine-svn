@@ -19,6 +19,7 @@ struct uiWidget
 {
 	friend struct uiSimpleStuff;
 	friend struct uiState;
+	friend struct uiWidgetsManager;
 
 	typedef std::vector<uiWidget*> WidgetsList;
 	typedef std::vector<uiProperty*> PropertyList;
@@ -44,6 +45,7 @@ protected:
 	float             mTransparency;
 	float             mResTransparency;
 	bool              mModal;
+	bool              mFocused;
 
 	PropertyList      mPropertyList;
 
@@ -90,6 +92,9 @@ public:
 	bool isPointInside(const vec2& point);
 	virtual bool isPointInsideDerived(const vec2& point);
 
+	virtual void onFocused() {}
+	virtual void onUnfocused() {}
+	bool isInFocus() { return mFocused; }
 //parametres
     virtual uiWidget* setPosition(const vec2& position);
 	vec2              getPosition() const;

@@ -110,7 +110,7 @@ uiFont& uiFont::setText( const std::string& text )
 	return *this;
 }
 
-std::string uiFont::getText() const
+std::string& uiFont::getText()
 {
 	return mText;
 }
@@ -141,7 +141,11 @@ uiFont::VerAlign uiFont::getVerAlign() const
 
 uiFont& uiFont::setPosition( const vec2& position )
 {
-	vec2 center;
+	vec2 size = mTextArea.getSize();
+	mTextArea.leftTop = position;
+	mTextArea.rightDown = position + size;
+
+	/*vec2 center;
 	if (mHorAlign == AL_LEFT)
 		center.x = mTextArea.leftTop.x;
 	else if (mHorAlign == AL_CENTER)
@@ -158,7 +162,7 @@ uiFont& uiFont::setPosition( const vec2& position )
 
 	vec2 diff = position - center;
 
-	mTextArea.plusVector(diff);
+	mTextArea.plusVector(diff);*/
 
 	mNeedUpdateMesh = true;
 	return *this;
@@ -166,7 +170,7 @@ uiFont& uiFont::setPosition( const vec2& position )
 
 vec2 uiFont::getPosition()
 {
-	vec2 center;
+	/*vec2 center;
 	if (mHorAlign == AL_LEFT)
 		center.x = mTextArea.leftTop.x;
 	else if (mHorAlign == AL_CENTER)
@@ -181,7 +185,9 @@ vec2 uiFont::getPosition()
 	else if (mVerAlign == AL_BOTTOM)
 		center.y = mTextArea.rightDown.y;
 
-	return center;
+	return center;*/
+
+	return mTextArea.leftTop;
 }
 
 uiFont& uiFont::setTextArea( const fRect& rect )
@@ -276,6 +282,14 @@ void clipRect(const fRect& clippingRect, vertex2d* verticies)
 
 void uiFont::updateMesh()
 {
+	if (mText.length() == 0)
+	{
+		mMesh->mVertexCount = 0;
+		mMesh->mPolygonsCount = 0;
+		mNeedUpdateMesh = false;
+		return;
+	}
+
 	std::vector<vec2> lineSize;
 
 	float currentLineWidth = 0;
@@ -392,6 +406,8 @@ void uiFont::updateMesh()
 	{
 		mRealTextRect = fRect(0, 0, 0, 0);
 	}
+
+	mNeedUpdateMesh = false;
 }
 
 void uiFont::createMesh()
@@ -466,4 +482,9 @@ void uiFont::loadWelloreFormat( const std::string& filename )
 	}
 
 	getDataObjectsManager().saveDataObject("../data/fonts/test_font.xml", cDataObjectsManager::DOT_XML, dataObj);
+}
+
+uiFont& uiFont::setTextAreaSize( const vec2& size )
+{
+	return setTextArea(fRect(mTextArea.leftTop, mTextArea.leftTop + size));
 }

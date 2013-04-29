@@ -40,3 +40,16 @@ bool cInputMessage::isKeyReleased( int key ) const
 {
 	return std::find(mReleasedKeys.cbegin(), mReleasedKeys.cend(), key) != mReleasedKeys.cend();
 }
+
+bool cInputMessage::isCharacter( int character ) const
+{
+	int possibleRanges[4][2] = { {'A', 'Z'}, {'1', '9'}, {'a', 'z'}, {'.', '.'} };
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (!(character < possibleRanges[i][0] || character > possibleRanges[i][1]))
+			return true;
+	}
+
+	return false;
+}

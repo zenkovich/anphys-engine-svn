@@ -22,7 +22,7 @@ struct uiLabel:public uiWidget
 	~uiLabel();
 
 	uiLabel*     setText(const std::string& text);
-	std::string  getText() const;
+	std::string& getText();
 
 	uiLabel*     setHorAlign(HorAlign align);
 	HorAlign     getHorAlign() const;

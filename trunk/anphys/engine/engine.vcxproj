@@ -211,6 +211,7 @@
     <ClInclude Include="..\src\ui\ui_property.h" />
     <ClInclude Include="..\src\ui\ui_simple_stuff.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
+    <ClInclude Include="..\src\ui\ui_text_edit.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
@@ -370,6 +371,7 @@
     <ClCompile Include="..\src\ui\ui_manager.cpp" />
     <ClCompile Include="..\src\ui\ui_simple_stuff.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
+    <ClCompile Include="..\src\ui\ui_text_edit.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />
     <ClCompile Include="..\src\util\debug\render_stuff.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />

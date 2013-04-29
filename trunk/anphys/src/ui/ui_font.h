@@ -49,46 +49,48 @@ public:
 	uiFont(const uiFont& font);
 	~uiFont();
 
-	void        load(cDataObject* dataObject);
-	void        load(const std::string& file, const std::string& objectPath);
-	void        loadWelloreFormat(const std::string& file);
+	void         load(cDataObject* dataObject);
+	void         load(const std::string& file, const std::string& objectPath);
+	void         loadWelloreFormat(const std::string& file);
 
-	uiFont&     setText(const std::string& text);
-	std::string getText() const;
+	uiFont&      setText(const std::string& text);
+	std::string& getText();
 
-	uiFont&     setHorAlign(HorAlign align);
-	HorAlign    getHorAlign() const;
+	uiFont&      setHorAlign(HorAlign align);
+	HorAlign     getHorAlign() const;
 
-	uiFont&     setVerAlign(VerAlign align);
-	VerAlign    getVerAlign() const;
+	uiFont&      setVerAlign(VerAlign align);
+	VerAlign     getVerAlign() const;
 
-	uiFont&     setPosition(const vec2& position);
-	vec2        getPosition();
+	uiFont&      setPosition(const vec2& position);
+	vec2         getPosition();
 
-	uiFont&     setTextArea(const fRect& rect);
-	fRect       getTextArea() const;
+	uiFont&      setTextAreaSize(const vec2& size);
 
-	uiFont&     setClippingArea(const fRect& rect);
-	fRect       getClippingArea() const;
-	uiFont&     setClipping(bool flag);
-	bool        isClipping() const;
+	uiFont&      setTextArea(const fRect& rect);
+	fRect        getTextArea() const;
 
-	uiFont&     setDistCoef(const vec2& coef);
-	vec2        getDistCoef() const;
+	uiFont&      setClippingArea(const fRect& rect);
+	fRect        getClippingArea() const;
+	uiFont&      setClipping(bool flag);
+	bool         isClipping() const;
 
-	uiFont&     setScale(const vec2& scale);
-	vec2        getScale() const;
+	uiFont&      setDistCoef(const vec2& coef);
+	vec2         getDistCoef() const;
 
-	uiFont&     setColor(const color4& color);
-	color4      getColor() const;
+	uiFont&      setScale(const vec2& scale);
+	vec2         getScale() const;
 
-	void        draw();
+	uiFont&      setColor(const color4& color);
+	color4       getColor() const;
 
-	uiFont*     clone();
+	void         draw();
 
-protected:
-	void        updateMesh();
-	void        createMesh();
+	uiFont*      clone();
+
+protected:		 
+	void         updateMesh();
+	void         createMesh();
 };
 
 #endif //UI_FONT_H

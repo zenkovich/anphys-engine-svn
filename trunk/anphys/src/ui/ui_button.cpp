@@ -2,6 +2,7 @@
 
 #include "util/other/callback.h"
 #include "ui_state.h"
+#include "ui_manager.h"
 
 REGIST_TYPE(uiButton)
 
@@ -60,6 +61,9 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 		mSelected = false;
 		mSelectedState->deactivate();
 		mPressedState->activate();
+
+		mWidgetsManager->setWidgetFocused(this);
+
 		//setState("pressed", false, true);
 		res = 1;
 	}
@@ -76,6 +80,8 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 		//setState("visible", false, true);
 		mPressed = false;
 		mSelected = false;
+
+		mWidgetsManager->unfocusWidget(this);
 
 		mSelectedState->deactivate();
 		mPressedState->deactivate();

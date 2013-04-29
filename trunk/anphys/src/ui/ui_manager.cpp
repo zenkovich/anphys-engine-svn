@@ -10,7 +10,7 @@
 #include "util/log/log_system.h"
 #include "engine/engine_options.h"
 
-uiWidgetsManager::uiWidgetsManager( grRender* render ):mRender(render)
+uiWidgetsManager::uiWidgetsManager( grRender* render ):mRender(render), mFocusWidget(NULL)
 {
 	mLog = gLogSystem->addStream(new cLogStreamInFile("ui_manager.txt"), "ui manager");
 	mLog->mLogLevel = INITIAL_UI_MANAGER_LOG_LEVEL;
@@ -73,7 +73,7 @@ void uiWidgetsManager::update( float dt )
 
 void uiWidgetsManager::draw()
 {
-	for (WidgetsList::iterator it = mWidgets.begin(); it != mWidgets.end(); ++it)
+	for (WidgetsList::iterator it = mVisibleWidgets.begin(); it != mVisibleWidgets.end(); ++it)
 	{
 		(*it)->draw();
 	}
@@ -105,6 +105,20 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 {
 	int res = 0;
 
+	if (mFocusWidget)
+	{
+		res = mFocusWidget->processInputMessage(message);
+
+		if (res != 0)
+		{
+			return res;
+		}
+		else
+		{
+			unfocusWidget(mFocusWidget);
+		}
+	}
+
 	if (mModalWidgets.size() > 0)
 	{
 		uiWidget* modalWidget = mModalWidgets.back();
@@ -112,7 +126,7 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 	}
 	else
 	{
-		for (WidgetsList::reverse_iterator it = mVisibleWidgets.rbegin(); it != mVisibleWidgets.rend(); ++it)
+		for (WidgetsList::iterator it = mVisibleWidgets.begin(); it != mVisibleWidgets.end(); ++it)
 		{
 			int widgetRes = (*it)->processInputMessage(message);
 			if (widgetRes != 0)
@@ -133,9 +147,21 @@ void uiWidgetsManager::showedWidget( uiWidget* widget )
 		return;
 
 	if (widget->isModal())
+	{
+		fnd = std::find(mModalWidgets.begin(), mModalWidgets.end(), widget);
+		if (fnd !=  mModalWidgets.end())
+			mModalWidgets.erase(fnd);
+
 		mModalWidgets.push_back(widget);
+	}
 	else
+	{
+		fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), widget);
+		if (fnd !=  mVisibleWidgets.end())
+			mVisibleWidgets.erase(fnd);
+
 		mVisibleWidgets.push_back(widget);
+	}
 }
 
 void uiWidgetsManager::hidedWidget( uiWidget* widget )
@@ -154,4 +180,38 @@ void uiWidgetsManager::hidedWidget( uiWidget* widget )
 		if (fnd != mVisibleWidgets.end())
 			mVisibleWidgets.erase(fnd);
 	}
+}
+
+void uiWidgetsManager::setWidgetFocused( uiWidget* widget )
+{
+	mFocusWidget = widget;
+	widget->mFocused = true;
+	widget->onFocused();
+
+	WidgetsList::iterator fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), widget);
+	if (fnd != mVisibleWidgets.end())
+	{
+		mVisibleWidgets.erase(fnd);
+		mVisibleWidgets.push_back(widget);
+	}
+}
+
+void uiWidgetsManager::unfocusWidget( uiWidget* widget )
+{
+	if (widget)
+	{
+		widget->mFocused = false;
+		widget->onUnfocused();
+	}
+	else
+	{
+		if (mFocusWidget) 
+		{
+			mFocusWidget->mFocused = false;
+			mFocusWidget->onUnfocused();
+		}
+	}
+
+	if (widget == mFocusWidget)
+		mFocusWidget = NULL;
 }
