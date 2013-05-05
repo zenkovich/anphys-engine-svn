@@ -2,6 +2,7 @@
 
 #include "render/render.h"
 #include "render/render_objects/2d/render_2d_object_mesh.h"
+#include "render/render_state/2d_render_state.h"
 #include "render/texture_manager/texture.h"
 #include "render/texture_manager/texture_manager.h"
 #include "util/serialization/data_objects_manager.h"
@@ -105,14 +106,14 @@ void uiFont::load( cDataObject* dataObject )
 
 uiFont& uiFont::setText( const std::string& text )
 {
-	mText = text;
+	mText = convertStringToWide(text);
 	mNeedUpdateMesh = true;
 	return *this;
 }
 
-std::string& uiFont::getText()
+std::string uiFont::getText()
 {
-	return mText;
+	return convertWideToString(mText);
 }
 
 uiFont& uiFont::setHorAlign( HorAlign align )
@@ -268,6 +269,18 @@ void uiFont::draw()
 		updateMesh();
 
 	mMesh->draw();
+
+	gr2DRenderState* renderState = static_cast<gr2DRenderState*>(mRender->getCurrentRenderState());
+
+	for (CacheLinesList::iterator it = mCahcedLines.begin(); it != mCahcedLines.end(); ++it)
+	{
+		/*for (RectsList::iterator jt = it->mCharactersGeometry.begin(); jt != it->mCharactersGeometry.end(); ++jt)
+		{
+			renderState->pushRect(jt->leftTop, jt->rightDown);
+		}*/
+
+		renderState->pushRect(it->mRect.leftTop, it->mRect.rightDown);
+	}
 }
 
 uiFont* uiFont::clone()
@@ -282,6 +295,8 @@ void clipRect(const fRect& clippingRect, vertex2d* verticies)
 
 void uiFont::updateMesh()
 {
+	mCahcedLines.clear();
+
 	if (mText.length() == 0)
 	{
 		mMesh->mVertexCount = 0;
@@ -297,12 +312,18 @@ void uiFont::updateMesh()
 	float totalLinesHeight = 0;
 	float totalLinesWidth = 0;
 
+	unsigned int lastDelimer = 0;
+
 	unsigned int length = mText.length();
 	for (unsigned int i = 0; i < length + 1; i++)
 	{
-		char symbol = mText[min(i, length - 1)];
+		char16_t symbol = mText[min(i, length - 1)];
 
+
+		bool breakSymbol = false;
 		if (symbol == '\n' || i == length)
+
+		/*if (symbol == '\n' || i == length)
 		{
 			totalLinesWidth = max(totalLinesWidth, currentLineWidth);
 			totalLinesHeight += currentLineHeight;
@@ -311,7 +332,10 @@ void uiFont::updateMesh()
 			currentLineWidth = 0;
 
 			continue;
-		}
+		}*/
+
+		if (symbol > nMaxCharId)
+			continue;
 
 		unsigned int symbolId = mCharactedIdList[symbol];
 		vec2 symbolSize = mCharacters[symbolId].getSize().scale(mScale);
@@ -338,14 +362,16 @@ void uiFont::updateMesh()
 	mMesh->mPolygonsCount = 0;
 	for (unsigned int i = 0; i < length + 1; i++)
 	{
-		char symbol = mText[min(i, length - 1)];
+		char16_t symbol = mText[min(i, length - 1)];
 
 		if (symbol == '\n' || i == length || i == 0)
 		{
 			lineIdx++;
 
 			if (i < length - 1)
+			{
 				currentLineSize = lineSize[lineIdx];
+			}
 
 			if (mHorAlign == AL_LEFT)
 				lineXPos = mTextArea.leftTop.x;
@@ -354,6 +380,19 @@ void uiFont::updateMesh()
 			else if (mHorAlign == AL_RIGHT)
 				lineXPos = mTextArea.rightDown.x - currentLineSize.x;
 
+			if (i < length - 1 || i == 0)
+			{
+				mCahcedLines.push_back(StrLineCache());
+
+				mCahcedLines.back().mStartSymbol = i;
+				if (i != 0) 
+					mCahcedLines.back().mStartSymbol += 1;
+				mCahcedLines.back().mEndSymbol = mCahcedLines.back().mStartSymbol;
+
+				mCahcedLines.back().mRect.leftTop = vec2(lineXPos, lineYPos);
+				mCahcedLines.back().mRect.rightDown = vec2(lineXPos, lineYPos);
+			}
+
 			if (i != 0)
 			{
 				lineYPos += currentLineSize.y + mDistCoef.y;
@@ -361,29 +400,55 @@ void uiFont::updateMesh()
 			}
 		}
 
+		if (symbol > nMaxCharId)
+			continue;
+
 		unsigned int symbolId = mCharactedIdList[symbol];
 		fRect symbolRect = mCharacters[symbolId];
 		vec2 symbolSize = symbolRect.getSize().scale(mScale);
 
+		fRect symbolMeshRect(vec2(lineXPos, lineYPos - symbolSize.y), vec2(lineXPos + symbolSize.x, lineYPos));
+
 		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
-			vertex2d(lineXPos, lineYPos - symbolSize.y, 1.0f, 
+			vertex2d(symbolMeshRect.leftTop.x, symbolMeshRect.leftTop.y, 1.0f, 
 			symbolRect.leftTop.x*invTexSize.x, symbolRect.leftTop.y*invTexSize.y, color);
 
 		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
-			vertex2d(lineXPos + symbolSize.x, lineYPos - symbolSize.y, 1.0f, 
+			vertex2d(symbolMeshRect.rightDown.x, symbolMeshRect.leftTop.y, 1.0f, 
 			symbolRect.rightDown.x*invTexSize.x, symbolRect.leftTop.y*invTexSize.y, color);
 
 		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
-			vertex2d(lineXPos + symbolSize.x, lineYPos, 1.0f, 
+			vertex2d(symbolMeshRect.rightDown.x, symbolMeshRect.rightDown.y, 1.0f, 
 			symbolRect.rightDown.x*invTexSize.x, symbolRect.rightDown.y*invTexSize.y, color);
 
 		mMesh->mVertexBuffer[mMesh->mVertexCount++] = 
-			vertex2d(lineXPos, lineYPos, 1.0f, 
+			vertex2d(symbolMeshRect.leftTop.x, symbolMeshRect.rightDown.y, 1.0f, 
 			symbolRect.leftTop.x*invTexSize.x, symbolRect.rightDown.y*invTexSize.y, color);
+
+		if (lineYPos - symbolSize.y < mCahcedLines.back().mRect.leftTop.y)
+			mCahcedLines.back().mRect.leftTop.y = symbolMeshRect.leftTop.y;
+
+		mCahcedLines.back().mCharactersGeometry.push_back(symbolMeshRect);
+		mCahcedLines.back().mEndSymbol = i;
 
 		mMesh->mPolygonsCount += 2;
 
 		lineXPos += symbolSize.x + mDistCoef.x;
+	}
+
+	fRect spaceSymbolRect = mCharacters[mCharactedIdList[' ']];
+
+	for (CacheLinesList::iterator it = mCahcedLines.begin(); it != mCahcedLines.end(); it++)
+	{
+		vec2 lastCharacterLeftTop = it->mRect.getltCorner();
+
+		if (it->mCharactersGeometry.size() > 0)
+			lastCharacterLeftTop = it->mCharactersGeometry.back().getrtCorner();
+
+		it->mCharactersGeometry.push_back(fRect(lastCharacterLeftTop, lastCharacterLeftTop + spaceSymbolRect.getSize()));
+
+		it->mRect.rightDown = it->mCharactersGeometry.back().rightDown;
+		it->mEndSymbol++;
 	}
 
 	if (mMesh->mVertexCount > 0)
@@ -477,7 +542,7 @@ void uiFont::loadWelloreFormat( const std::string& filename )
 		cDataObject* symbolc = symbolsChild->addChild("symbol");
 		symbolc->addChild(n1, "charId");
 
-		fRect rt(n2, n3, n2 + n4, n3 + n5);
+		fRect rt((float)n2, (float)n3, (float)(n2 + n4), (float)(n3 + n5));
 		symbolc->addChild(rt, "texRect");
 	}
 
@@ -487,4 +552,17 @@ void uiFont::loadWelloreFormat( const std::string& filename )
 uiFont& uiFont::setTextAreaSize( const vec2& size )
 {
 	return setTextArea(fRect(mTextArea.leftTop, mTextArea.leftTop + size));
+}
+
+wstring& uiFont::getWText( bool textWillChange /*= true*/ )
+{
+	mNeedUpdateMesh = textWillChange;
+	return mText;
+}
+
+uiFont& uiFont::setText( const wstring& text )
+{
+	mText = text;
+	mNeedUpdateMesh = true;
+	return *this;
 }
