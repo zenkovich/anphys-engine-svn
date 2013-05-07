@@ -93,7 +93,7 @@ struct fRect
 		return rightDown; 
 	}
 
-	inline bool inRect(vec2 p) const
+	inline bool inRect(const vec2& p) const
 	{
 		if (p.x < leftTop.x || p.x > rightDown.x ||
 			p.y < leftTop.y || p.y > rightDown.y) return false;

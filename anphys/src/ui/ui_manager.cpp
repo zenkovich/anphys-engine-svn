@@ -109,11 +109,7 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 	{
 		res = mFocusWidget->processInputMessage(message);
 
-		if (res != 0)
-		{
-			return res;
-		}
-		else
+		if (res == 0)
 		{
 			unfocusWidget(mFocusWidget);
 		}
@@ -128,6 +124,9 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 	{
 		for (WidgetsList::iterator it = mVisibleWidgets.begin(); it != mVisibleWidgets.end(); ++it)
 		{
+			if ((*it)->isInFocus()) 
+				continue;
+
 			int widgetRes = (*it)->processInputMessage(message);
 			if (widgetRes != 0)
 			{

@@ -6,6 +6,10 @@
 #define key_shift 16
 #define key_ctrl 17
 #define key_space 32
+#define key_backspace 8
+#define key_del 46
+#define key_end 35
+#define key_home 36
 #define key_w 87
 #define key_s 83
 #define key_a 65
@@ -20,6 +24,10 @@
 #define key_n 78
 #define key_m 77
 #define key_f 70
+#define key_left 37
+#define key_right 39
+#define key_up 38
+#define key_down 40
 #define key_numpad_0 96
 #define key_numpad_1 97
 #define key_numpad_2 98

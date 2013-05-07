@@ -6,6 +6,7 @@
 
 #include "util/math/rect.h"
 #include "util/math/color.h"
+#include "util/types.h"
 
 struct grRender2DObjectMesh;
 struct cDataObject;
@@ -16,10 +17,46 @@ struct uiFont
 	typedef std::vector<fRect> RectsList;
 	typedef std::vector<unsigned int> IdList;
 
+	struct StrLineCache
+	{
+		struct Character
+		{
+			char16_t     mCharacter;
+			fRect        mGeometry;
+			fRect        mTextureCoords;
+
+			Character() {}
+			Character(char16_t character, const fRect& geometry, const fRect& textureCoords):
+				mCharacter(character), mGeometry(geometry), mTextureCoords(textureCoords) {}
+
+			Character(const Character& charc)
+			{
+				mCharacter     = charc.mCharacter;
+				mGeometry      = charc.mGeometry;
+				mTextureCoords = charc.mTextureCoords;
+			}
+		};
+		typedef std::vector<Character> CharactersList;
+
+		fRect          mRect;
+
+		CharactersList mCharacters;
+
+		unsigned int   mStartSymbol;
+		unsigned int   mEndSymbol;
+		unsigned int   mSpacesCount;
+
+		wstring        mStr;
+
+		void pushCharacter(const Character& charc, int symbolIdx, bool isSpace, float diffCoef);
+		void reset(unsigned int startSymbol);
+	};
+	typedef std::vector<StrLineCache> CacheLinesList;
+
 	enum HorAlign { AL_LEFT = 0, AL_CENTER, AL_RIGHT, AL_WIDEH };
 	enum VerAlign { AL_TOP = 0, AL_MIDDLE, AL_BOTTOM, AL_WIDEV };
 
-	enum { nMaxSymbols = 2048, nMaxCharId = 255 };
+	enum { nMaxSymbols = 2048, nMaxCharId = 512 };
 
 protected:
 	RectsList             mCharacters;
@@ -27,7 +64,7 @@ protected:
 
 	grRender2DObjectMesh* mMesh;
 
-	std::string           mText;
+	wstring               mText;
 	fRect                 mTextArea;
 	fRect                 mClippingArea;
 	bool                  mClipping;
@@ -44,6 +81,7 @@ protected:
 
 public:
 	fRect                 mRealTextRect;
+	CacheLinesList        mCachedLines;
 
 	uiFont(grRender* render);
 	uiFont(const uiFont& font);
@@ -54,7 +92,10 @@ public:
 	void         loadWelloreFormat(const std::string& file);
 
 	uiFont&      setText(const std::string& text);
-	std::string& getText();
+	std::string  getText();
+
+	uiFont&      setText(const wstring& text);
+	wstring&     getWText(bool textWillChange = true);
 
 	uiFont&      setHorAlign(HorAlign align);
 	HorAlign     getHorAlign() const;
@@ -83,6 +124,9 @@ public:
 
 	uiFont&      setColor(const color4& color);
 	color4       getColor() const;
+
+	uiFont&      setWordWrap(bool wordWrap);
+	bool         isWordWrap() const;
 
 	void         draw();
 

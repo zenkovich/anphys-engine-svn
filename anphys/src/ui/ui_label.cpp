@@ -35,7 +35,7 @@ uiLabel* uiLabel::setText( const std::string& text )
 	return this;
 }
 
-std::string& uiLabel::getText()
+std::string uiLabel::getText()
 {
 	return mFont->getText();
 }
@@ -84,4 +84,15 @@ void uiLabel::derivedDraw()
 uiLabel* uiLabel::clone() const
 {
 	return new uiLabel(*this);
+}
+
+uiLabel* uiLabel::setText( const wstring& text )
+{
+	mFont->setText(text);
+	return this;
+}
+
+wstring& uiLabel::getWText()
+{
+	return mFont->getWText();
 }

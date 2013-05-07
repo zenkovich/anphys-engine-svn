@@ -138,13 +138,15 @@ uiScrollArea* uiSimpleStuff::createScrollarea( uiWidgetsManager* widgetsManager,
 
 uiTextEdit* uiSimpleStuff::createTextEdit( uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size, const std::string& id )
 {
-	uiLabel* label = createLabel(widgetsManager, vec2(0, 0), size, "label", "");
+	uiFont* font = new uiFont(widgetsManager->mRender);
+	font->load("fonts/system_font", "font");
+	font->setWordWrap(true);
 
 	uiSpriteWidget* backWidget = createSpriteWidget(widgetsManager, mColor1, vec2(0, 0), size, "bk");
 
-	uiTextEdit* textEdit = new uiTextEdit(widgetsManager, id, label, backWidget);
+	uiTextEdit* textEdit = new uiTextEdit(widgetsManager, id, font, backWidget);
 	textEdit->setPosition(pos);
-	textEdit->setText("Edit text");
+	textEdit->setText("000 111 222 333 444\n\n\n000\n123");
 	textEdit->setSize(size);
 
 	textEdit->mSelectedState->addProperty(

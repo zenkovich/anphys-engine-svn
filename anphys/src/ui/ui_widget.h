@@ -85,6 +85,7 @@ public:
 
 	virtual void draw();
 	virtual void derivedDraw() {}
+	virtual void afterDraw() {}
 
 	int processInputMessage(const cInputMessage& message);
 	virtual int processInputMessageDerived(const cInputMessage& message);
@@ -95,6 +96,7 @@ public:
 	virtual void onFocused() {}
 	virtual void onUnfocused() {}
 	bool isInFocus() { return mFocused; }
+
 //parametres
     virtual uiWidget* setPosition(const vec2& position);
 	vec2              getPosition() const;
