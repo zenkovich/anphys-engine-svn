@@ -103,14 +103,13 @@ struct vec2
 
 	inline bool operator==(const vec2& v) const
 	{ 
-		if (x != v.x || y != v.y) return false; 		
+		if (fabs(x - v.x) > 0.0001f || fabs(y - v.y) > 0.0001f) return false; 		
 		return true; 
 	}
 
-	inline bool operator!=(const vec2& v) 
+	inline bool operator!=(const vec2& v) const
 	{ 
-		if (x != v.x || y != v.y) return true; 
-		return false;
+		return !(v == *this);
 	}
 
 	inline vec2 operator^(float s) const

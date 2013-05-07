@@ -21,3 +21,20 @@ void gr2DRenderStateBaseInterface::pushLine( const vec2& start, const vec2& end,
 	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(start.x, start.y, 1.0f, 0.0f, 0.0f, color.dwordARGB());
 	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(end.x, end.y, 1.0f, 0.0f, 0.0f, color.dwordARGB());
 }
+
+void gr2DRenderStateBaseInterface::pushRect( const vec2& leftTop, const vec2& rightDown, const color4& color /*= color4(0, 255, 0, 255)*/ )
+{
+	unsigned long colr = color.dwordARGB();
+
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(leftTop.x, leftTop.y, 1.0f, 0.0f, 0.0f, colr);
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(rightDown.x, leftTop.y, 1.0f, 0.0f, 0.0f, colr);
+
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(rightDown.x, leftTop.y, 1.0f, 0.0f, 0.0f, colr);
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(rightDown.x, rightDown.y, 1.0f, 0.0f, 0.0f, colr);
+
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(rightDown.x, rightDown.y, 1.0f, 0.0f, 0.0f, colr);
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(leftTop.x, rightDown.y, 1.0f, 0.0f, 0.0f, colr);
+
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(leftTop.x, rightDown.y, 1.0f, 0.0f, 0.0f, colr);
+	mDebugVertexBuffer[mDebugLinesCount++] = vertex2d(leftTop.x, leftTop.y, 1.0f, 0.0f, 0.0f, colr);
+}

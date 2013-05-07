@@ -735,6 +735,12 @@
     <ClInclude Include="..\src\ui\ui_text_edit.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\other\text_manager.h">
+      <Filter>util\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\types.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">

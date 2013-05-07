@@ -1,6 +1,11 @@
 #include "string_utils.h"
 
 #include <cstdarg>
+#include "engine/engine_options.h"
+
+#ifdef PLATFORM_WIN32
+#include <Windows.h>
+#endif
 
 std::string formatStr(const char* str, ...)
 {
@@ -117,3 +122,46 @@ std::string adjustStrSize( const std::string& str, unsigned int size, short alig
 
 	return res;
 }
+
+#ifdef PLATFORM_WIN32
+wstring convertStringToWide( const std::string& str )
+{
+	int len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.size(), 0, 0);
+
+	wstring retvalue;
+	retvalue.resize(len, 0);
+	wchar_t* retvalueptr = reinterpret_cast<wchar_t*>(const_cast<uint16*>(retvalue.data()));
+
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.size(), retvalueptr, len);
+
+	return retvalue;
+}
+
+std::string convertWideToString( const wstring& wide )
+{
+	const wchar_t* wideptr = reinterpret_cast<const wchar_t*>(wide.data());
+
+	int len =  WideCharToMultiByte(CP_ACP, 0, wideptr, wide.size(), NULL, 0, 0, 0);
+
+	std::string retvalue;
+	retvalue.resize(len, 0);
+	char* retvalueptr = const_cast<char*>(retvalue.data());
+
+	WideCharToMultiByte(CP_ACP, 0, wideptr, wide.size(), retvalueptr, len + 1, 0, 0);
+
+	return retvalue;
+}
+
+uint16 getUnicodeFromVirtualCode( uint8 code )
+{
+	HKL layout=GetKeyboardLayout(0); 
+
+	BYTE allKeys[256];
+	GetKeyboardState(allKeys);
+
+	uint16 unicode;
+	ToUnicodeEx(code, 0, allKeys, reinterpret_cast<wchar_t*>(&unicode), 1, 0, layout);
+	return unicode;
+}
+
+#endif //PLATFORM_WIN32

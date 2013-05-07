@@ -223,12 +223,14 @@
     <ClInclude Include="..\src\util\other\precreated_vector.h" />
     <ClInclude Include="..\src\util\other\queue.h" />
     <ClInclude Include="..\src\util\other\singleton.h" />
+    <ClInclude Include="..\src\util\other\text_manager.h" />
     <ClInclude Include="..\src\util\other\type_intexation.h" />
     <ClInclude Include="..\src\util\script\config_reader.h" />
     <ClInclude Include="..\src\util\script\string_parser.h" />
     <ClInclude Include="..\src\util\serialization\data_object.h" />
     <ClInclude Include="..\src\util\serialization\data_objects_manager.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
+    <ClInclude Include="..\src\util\types.h" />
     <ClInclude Include="..\src\util\utils.h" />
     <ClInclude Include="..\src\util\math\aabb.h" />
     <ClInclude Include="..\src\util\math\addMath.h" />

@@ -287,14 +287,14 @@ void apPhysicsTestFrame::createTestWidgets()
 
 	mTestLabel = uiSimpleStuff::createLabel(mTestWidgetsManager, vec2(10, 200), vec2(200, 30), "tl", "no text");
 
-	mTestTextEdit = uiSimpleStuff::createTextEdit(mTestWidgetsManager, vec2(10, 240), vec2(200, 30), "testEditText");
+	mTestTextEdit = uiSimpleStuff::createTextEdit(mTestWidgetsManager, vec2(10, 240), vec2(200, 130), "testEditText");
 
 	mTestScrollarea = uiSimpleStuff::createScrollarea(mTestWidgetsManager, vec2(10, 10), vec2(280, 150), 
 		"testScrollarea");
 
-	mTestScrollarea->addChild((uiWidget*)testButton);
-	mTestScrollarea->addChild((uiWidget*)mScrollbar);
-	mTestScrollarea->addChild((uiWidget*)mTestLabel);
+	//mTestScrollarea->addChild((uiWidget*)testButton);
+	//mTestScrollarea->addChild((uiWidget*)mScrollbar);
+	//mTestScrollarea->addChild((uiWidget*)mTestLabel);
 	mTestScrollarea->addChild((uiWidget*)mTestTextEdit);
 	mTestWidget->addChild((uiWidget*)mTestScrollarea);
 	uiSimpleStuff::createSizeEffect(mTestWidget, 1.0f);

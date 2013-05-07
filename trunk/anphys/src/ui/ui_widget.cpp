@@ -21,6 +21,7 @@ uiWidget::uiWidget( uiWidgetsManager* widgetsManager, const std::string& id /*= 
 	mTransparency = 0;
 	mResTransparency = 0;
 	mModal = false;
+	mFocused = false;
 	mIsClipping = false;
 	mClippingStencilBuffer = NULL;
 
@@ -42,6 +43,7 @@ uiWidget::uiWidget( const uiWidget& widget )
 	mIsClipping = false;
 	setClipping(widget.isClipping());
 	mClippingStencilBuffer = NULL;
+	mFocused = false;
 
 	for (WidgetsList::const_iterator it = widget.mChilds.cbegin(); it != widget.mChilds.cend(); ++it)
 		addChild((*it)->clone());
@@ -207,6 +209,8 @@ void uiWidget::draw()
 	{
 		(*it)->draw();
 	}
+
+	afterDraw();
 
 	if (mClippingStencilBuffer)
 	{
@@ -387,13 +391,6 @@ int uiWidget::processInputMessageDerived( const cInputMessage& message )
 
 int uiWidget::processInputMessage( const cInputMessage& message )
 {
-
-	if (getType() == uiButton::getStaticType())
-	{
-		volatile int i = 0;
-		i++;
-	}
-
 	int res = processInputMessageDerived(message);
 
 	if (res == 0) 
@@ -401,6 +398,9 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); it++)
 	{
+		if ((*it)->isInFocus())
+			continue;
+
 		int widgetRes = (*it)->processInputMessage(message);
 		if (widgetRes != 0)
 			res = widgetRes;

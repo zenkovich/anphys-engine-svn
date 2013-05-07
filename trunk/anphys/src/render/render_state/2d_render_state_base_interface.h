@@ -31,6 +31,7 @@ struct gr2DRenderStateBaseInterface:public grRenderState
 	virtual void flush() {}
 
 	virtual void pushLine(const vec2& start, const vec2& end, const color4& color = color4(0, 255, 0, 255));
+	virtual void pushRect(const vec2& leftTop, const vec2& rightDown, const color4& color = color4(0, 255, 0, 255));
 };
 
 #endif //2D_RENDER_STATE_BASE_INTERFACE_H
