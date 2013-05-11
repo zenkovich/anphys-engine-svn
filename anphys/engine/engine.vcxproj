@@ -65,14 +65,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -200,12 +201,16 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.h" />
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
+    <ClInclude Include="..\src\ui\ui_binding_values.h" />
+    <ClInclude Include="..\src\ui\ui_border.h" />
+    <ClInclude Include="..\src\ui\ui_lines_geometry.h" />
     <ClInclude Include="..\src\ui\ui_scrollbar.h" />
     <ClInclude Include="..\src\ui\ui_scroll_area.h" />
+    <ClInclude Include="..\src\ui\ui_solid_rect.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_font.h" />
-    <ClInclude Include="..\src\ui\ui_hor_layout_widget.h" />
+    <ClInclude Include="..\src\ui\ui_layout_widgets.h" />
     <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_manager.h" />
     <ClInclude Include="..\src\ui\ui_property.h" />
@@ -213,6 +218,7 @@
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\ui_text_edit.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
+    <ClInclude Include="..\src\ui\ui_window.h" />
     <ClInclude Include="..\src\util\debug\render_stuff.h" />
     <ClInclude Include="..\src\util\file_system\file_base_interface.h" />
     <ClInclude Include="..\src\util\graphic\fixed_intervals_graphic.h" />
@@ -364,8 +370,12 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\render_target\texture_render_target_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
+    <ClCompile Include="..\src\ui\ui_border.cpp" />
+    <ClCompile Include="..\src\ui\ui_layout_widgets.cpp" />
+    <ClCompile Include="..\src\ui\ui_lines_geometry.cpp" />
     <ClCompile Include="..\src\ui\ui_scrollbar.cpp" />
     <ClCompile Include="..\src\ui\ui_scroll_area.cpp" />
+    <ClCompile Include="..\src\ui\ui_solid_rect.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />
     <ClCompile Include="..\src\ui\ui_button.cpp" />
     <ClCompile Include="..\src\ui\ui_font.cpp" />
@@ -375,6 +385,7 @@
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_text_edit.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />
+    <ClCompile Include="..\src\ui\ui_window.cpp" />
     <ClCompile Include="..\src\util\debug\render_stuff.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\image\image.cpp" />

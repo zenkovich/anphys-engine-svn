@@ -96,3 +96,25 @@ wstring& uiLabel::getWText()
 {
 	return mFont->getWText();
 }
+
+uiLabel* uiLabel::setColor( const color4& color )
+{
+	mFont->setColor(color);
+	return this;
+}
+
+color4 uiLabel::getColor() const
+{
+	return mFont->getColor();
+}
+
+uiLabel* uiLabel::setDistCoef( const vec2& coef )
+{
+	mFont->setDistCoef(coef);
+	return this;
+}
+
+vec2 uiLabel::getDistCoef()
+{
+	return mFont->getDistCoef();
+}

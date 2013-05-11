@@ -13,8 +13,10 @@ grBackbufferRenderTargetBase::grBackbufferRenderTargetBase( grRenderBase* render
 	if (FAILED(mRender->m_pDirect3DDevice->GetRenderTarget(&mRenderTargetSurface)))
 		render->mLog->fout(1, "ERROR: Can't initialize backbuffer render target: GetRenderTarget failed");
 
-	if (FAILED(mRender->m_pDirect3DDevice->GetDepthStencilSurface(&mDepthStencilSurface)))
-		render->mLog->fout(1, "ERROR: Can't initialize backbuffer render target: GetDepthStencilSurface failed");
+	//createDepthStencilSurface();
+
+	/*if (FAILED(mRender->m_pDirect3DDevice->GetDepthStencilSurface(&mDepthStencilSurface)))
+		render->mLog->fout(1, "ERROR: Can't initialize backbuffer render target: GetDepthStencilSurface failed");*/
 }
 
 bool grBackbufferRenderTargetBase::begin()
@@ -28,6 +30,12 @@ bool grBackbufferRenderTargetBase::begin()
 	}
 
 	return res;
+}
+
+void grBackbufferRenderTargetBase::createDepthStencilSurface()
+{	
+	mRender->m_pDirect3DDevice->CreateDepthStencilSurface((UINT)mSize.x, (UINT)mSize.y, D3DFMT_D24S8,
+		D3DMULTISAMPLE_NONE, &mDepthStencilSurface);
 }
 
 #endif //RENDER_D3D8

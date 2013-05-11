@@ -22,7 +22,7 @@ uiFont::uiFont(grRender* render):mMesh(NULL), mRender(render)
 	mTextArea = fRect(0, 0, 0, 0);
 	mClippingArea = fRect(0, 0, 0, 0);
 	mClipping = false;
-	mWordWrap = true;
+	mWordWrap = false;
 	mHorAlign = AL_CENTER;
 	mVerAlign = AL_MIDDLE;
 	mDistCoef = vec2(0, 0);
@@ -96,6 +96,12 @@ void uiFont::load( cDataObject* dataObject )
 		texSrcRect.rightDown.scale(invTexSize);*/
 
 		mCharacters.push_back(texSrcRect);
+		if (charId > nMaxCharId)
+		{
+			characterIdx++;
+			continue;
+		}
+
 		mCharactedIdList[charId] = characterIdx;
 
 		characterIdx++;
@@ -118,6 +124,9 @@ std::string uiFont::getText()
 
 uiFont& uiFont::setHorAlign( HorAlign align )
 {
+	if (mHorAlign == align)
+		return *this;
+
 	mHorAlign = align;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -130,6 +139,9 @@ uiFont::HorAlign uiFont::getHorAlign() const
 
 uiFont& uiFont::setVerAlign( VerAlign align )
 {
+	if (mVerAlign == align)
+		return *this;
+
 	mVerAlign = align;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -142,6 +154,9 @@ uiFont::VerAlign uiFont::getVerAlign() const
 
 uiFont& uiFont::setPosition( const vec2& position )
 {
+	if (mTextArea.leftTop == position)
+		return *this;
+
 	vec2 size = mTextArea.getSize();
 	mTextArea.leftTop = position;
 	mTextArea.rightDown = position + size;
@@ -193,6 +208,9 @@ vec2 uiFont::getPosition()
 
 uiFont& uiFont::setTextArea( const fRect& rect )
 {
+	if (mTextArea == rect)
+		return *this;
+
 	mTextArea = rect;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -205,6 +223,9 @@ fRect uiFont::getTextArea() const
 
 uiFont& uiFont::setClippingArea( const fRect& rect )
 {
+	if (mClippingArea == rect)
+		return *this;
+
 	mClippingArea = rect;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -217,6 +238,9 @@ fRect uiFont::getClippingArea() const
 
 uiFont& uiFont::setClipping( bool flag )
 {
+	if (mClipping == flag)
+		return *this;
+
 	mClipping = flag;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -229,6 +253,9 @@ bool uiFont::isClipping() const
 
 uiFont& uiFont::setDistCoef( const vec2& coef )
 {
+	if (mDistCoef == coef)
+		return *this;
+
 	mDistCoef = coef;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -241,6 +268,9 @@ vec2 uiFont::getDistCoef() const
 
 uiFont& uiFont::setScale( const vec2& scale )
 {
+	if (mScale == scale)
+		return *this;
+
 	mScale = scale;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -253,6 +283,9 @@ vec2 uiFont::getScale() const
 
 uiFont& uiFont::setColor( const color4& color )
 {
+	if (mColor == color)
+		return *this;
+
 	mColor = color;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -272,15 +305,15 @@ void uiFont::draw()
 
 	gr2DRenderState* renderState = static_cast<gr2DRenderState*>(mRender->getCurrentRenderState());
 
-	for (CacheLinesList::iterator it = mCachedLines.begin(); it != mCachedLines.end(); ++it)
+	/*for (CacheLinesList::iterator it = mCachedLines.begin(); it != mCachedLines.end(); ++it)
 	{
-		/*for (RectsList::iterator jt = it->mCharactersGeometry.begin(); jt != it->mCharactersGeometry.end(); ++jt)
+		for (StrLineCache::CharactersList::iterator jt = it->mCharacters.begin(); jt != it->mCharacters.end(); ++jt)
 		{
-			renderState->pushRect(jt->leftTop, jt->rightDown);
-		}*/
+			renderState->pushRect(jt->mGeometry.leftTop, jt->mGeometry.rightDown);
+		}
 
-		renderState->pushRect(it->mRect.leftTop, it->mRect.rightDown);
-	}
+		renderState->pushRect(it->mInitialRect.leftTop, it->mInitialRect.rightDown);
+	}*/
 }
 
 uiFont* uiFont::clone()
@@ -297,16 +330,22 @@ void uiFont::updateMesh()
 {
 	mCachedLines.clear();
 
-	if (mText.length() == 0)
+	mMesh->mVertexCount = 0;
+	mMesh->mPolygonsCount = 0;
+
+	/*if (mText.length() == 0)
 	{
 		mMesh->mVertexCount = 0;
 		mMesh->mPolygonsCount = 0;
 		mNeedUpdateMesh = false;
 		return;
-	}
+	}*/
+
+	vec2 texSize = mMesh->mTextures[0]->mSize;
+	vec2 invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
 
 	vec2 textAreaSize = mTextArea.getSize();
-	textAreaSize = vec2(50, 100);
+	//textAreaSize = vec2(50, 100);
 
 	float totalLinesHeight = 0;
 	float totalLinesWidth = 0;
@@ -321,6 +360,7 @@ void uiFont::updateMesh()
 	for (unsigned int i = 0; i < length + 1; i++)
 	{
 		bool breakLine = false;
+		bool breakByWordWith = false;
 
 		char16_t character = ' ';
 		bool isSpace = false;
@@ -342,44 +382,67 @@ void uiFont::updateMesh()
 				character = ' ';
 			}
 		}
-
-		unsigned int symbolId = mCharactedIdList[character];
-
-		fRect* symbolRect = &mCharacters[symbolId];
-		vec2 symbolSize = symbolRect->getSize().scale(mScale);
-
-		currentCacheLine->pushCharacter(
-			StrLineCache::Character(character, 
-			fRect(currentCacheLine->mRect.rightDown.x, -symbolSize.y, 
-			currentCacheLine->mRect.rightDown.x + symbolSize.x, 0.0f),
-			*symbolRect), 
-			i, isSpace, mDistCoef.x);
-
-		currentCacheLine->mStr = currentCacheLine->mStr + character;
-
-		if (mWordWrap && currentCacheLine->mRect.rightDown.x > textAreaSize.x)
+		else
 		{
 			breakLine = true;
 		}
 
+		if (character >= nMaxCharId)
+			character = nMaxCharId - 1;
+
+		unsigned int symbolId = mCharactedIdList[character];
+
+		fRect* symbolRect = &mCharacters[symbolId];
+
+		vec2 symbolSize = symbolRect->getSize().scale(mScale);
+		fRect textureCoords(symbolRect->leftTop.x*invTexSize.x, symbolRect->leftTop.y*invTexSize.y,
+			                symbolRect->rightDown.x*invTexSize.x, symbolRect->rightDown.y*invTexSize.y);
+
+		currentCacheLine->pushCharacter(
+			StrLineCache::Character(character, 
+			fRect(currentCacheLine->mInitialRect.rightDown.x, -symbolSize.y, 
+			currentCacheLine->mInitialRect.rightDown.x + symbolSize.x, 0.0f),
+			textureCoords, isSpace, breakLine), 
+			i, isSpace, breakLine, mDistCoef.x);
+
+		currentCacheLine->mStr = currentCacheLine->mStr + character;
+
+		if (mWordWrap && currentCacheLine->mInitialRect.rightDown.x > textAreaSize.x)
+		{
+			breakLine = true;
+			breakByWordWith = true;
+		}
+
 		if (breakLine)
 		{
+			totalLinesHeight += currentCacheLine->mInitialRect.getSizeY() + mDistCoef.y;
+			totalLinesWidth = fmax(totalLinesWidth, currentCacheLine->mInitialRect.getSizeX());
+
 			mCachedLines.push_back(StrLineCache());
 
 			StrLineCache* lastCacheLine = &mCachedLines[mCachedLines.size() - 2];
 			currentCacheLine = &mCachedLines.back();
 
-			if (lastLineSpacePos > 0)
+			if (lastLineSpacePos > 0 && breakByWordWith && !isSpace)
 			{
 				unsigned int beginSymbol = lastLineSpacePos - lastCacheLine->mStartSymbol;
 				unsigned int j = 1;
 
 				currentCacheLine->reset(lastLineSpacePos + 1);
 
+				vec2 backOffs;
+
 				for (StrLineCache::CharactersList::iterator it = lastCacheLine->mCharacters.begin() + beginSymbol + 1;
 					 it != lastCacheLine->mCharacters.end(); ++it, ++j)
 				{
-					currentCacheLine->pushCharacter(*it, beginSymbol + j, false, mDistCoef.x);
+					if (j == 1)
+						backOffs.x = -it->mInitialGeometry.leftTop.x;
+
+					currentCacheLine->pushCharacter(
+						StrLineCache::Character(it->mCharacter, it->mInitialGeometry.plusVector(backOffs),
+						it->mTextureCoords, it->mIsSpace, false), 
+						beginSymbol + j, false, mDistCoef.x, false);
+
 					currentCacheLine->mStr = currentCacheLine->mStr + lastCacheLine->mStr[j + beginSymbol];
 				}
 
@@ -389,8 +452,9 @@ void uiFont::updateMesh()
 				lastCacheLine->mStr.erase(lastCacheLine->mStr.begin() + beginSymbol, 
 					lastCacheLine->mStr.end());
 
-				lastCacheLine->mRect.rightDown.x = lastCacheLine->mCharacters.back().mGeometry.rightDown.x;
+				lastCacheLine->mInitialRect.rightDown.x = lastCacheLine->mCharacters.back().mInitialGeometry.rightDown.x;
 				lastCacheLine->mEndSymbol = lastLineSpacePos;
+				lastCacheLine->mSpacesCount = imax(0, lastCacheLine->mSpacesCount - 1);
 
 				lastLineSpacePos = -1;
 			}
@@ -400,6 +464,84 @@ void uiFont::updateMesh()
 			}
 		}		
 	}	
+
+	vec2 offset = mTextArea.leftTop;
+	vec2 wideOffs(0, 0);
+
+	if (mVerAlign == AL_WIDEV)
+		wideOffs.y = fmax(0.0f, (textAreaSize.y - totalLinesHeight - mCachedLines.back().mInitialRect.getSizeY())/
+		                        (float)(mCachedLines.size() - 1));
+
+	if (mVerAlign == AL_TOP || mVerAlign == AL_WIDEV)
+		offset.y = offset.y;
+	else if (mVerAlign == AL_MIDDLE)
+		offset.y = offset.y + (textAreaSize.y - totalLinesHeight - mCachedLines.back().mInitialRect.getSizeY())*0.5f;
+	else if (mVerAlign == AL_BOTTOM)
+		offset.y = offset.y + textAreaSize.y - totalLinesHeight - mCachedLines.back().mInitialRect.getSizeY();
+
+	unsigned long dcolor = mColor.dwordARGB();
+
+	mRealTextRect = fRect(FLT_MAX, FLT_MAX, FLT_MIN, FLT_MIN);
+
+	for (CacheLinesList::iterator it = mCachedLines.begin(); it != mCachedLines.end(); ++it)
+	{
+		StrLineCache* currentLine = &(*it);
+
+		if (mHorAlign == AL_WIDEH)
+			wideOffs.x = (textAreaSize.x - currentLine->mInitialRect.getSizeX())/(float)(currentLine->mSpacesCount);
+
+		if (mHorAlign == AL_LEFT || mHorAlign == AL_WIDEH)
+			offset.x = mTextArea.leftTop.x;
+		else if (mHorAlign == AL_CENTER)
+			offset.x = mTextArea.leftTop.x + (textAreaSize.x - currentLine->mInitialRect.getSizeX())*0.5f;
+		else if (mHorAlign = AL_RIGHT)
+			offset.x = mTextArea.leftTop.x + textAreaSize.x - currentLine->mInitialRect.getSizeX();
+
+		offset.y += currentLine->mInitialRect.getSizeY();
+
+		for (StrLineCache::CharactersList::iterator ch = currentLine->mCharacters.begin(); 
+			 ch != currentLine->mCharacters.end(); ++ch)
+		{
+			fRect charGeom = ch->mInitialGeometry.plusVector(offset);
+
+			if (mHorAlign == AL_WIDEH && ch->mIsSpace)
+			{
+				offset.x += wideOffs.x;
+				charGeom.rightDown.x += wideOffs.x;
+			}
+
+			if (ch == currentLine->mCharacters.begin())
+				it->mRect.leftTop = charGeom.leftTop;
+
+			it->mRect.rightDown = charGeom.rightDown;
+
+			ch->mGeometry = charGeom;
+
+			mMesh->mVertexBuffer[mMesh->mVertexCount++] = vertex2d(charGeom.leftTop.x, charGeom.leftTop.y, 1.0f, 
+				ch->mTextureCoords.leftTop.x, ch->mTextureCoords.leftTop.y, dcolor);
+
+			mMesh->mVertexBuffer[mMesh->mVertexCount++] = vertex2d(charGeom.rightDown.x, charGeom.leftTop.y, 1.0f, 
+				ch->mTextureCoords.rightDown.x, ch->mTextureCoords.leftTop.y, dcolor);
+
+			mMesh->mVertexBuffer[mMesh->mVertexCount++] = vertex2d(charGeom.rightDown.x, charGeom.rightDown.y, 1.0f, 
+				ch->mTextureCoords.rightDown.x, ch->mTextureCoords.rightDown.y, dcolor);
+
+			mMesh->mVertexBuffer[mMesh->mVertexCount++] = vertex2d(charGeom.leftTop.x, charGeom.rightDown.y, 1.0f, 
+				ch->mTextureCoords.leftTop.x, ch->mTextureCoords.rightDown.y, dcolor);
+
+			if (!ch->mIsBreakSymbol)
+			{
+				mRealTextRect.leftTop.x = fmin(mRealTextRect.leftTop.x, charGeom.leftTop.x);
+				mRealTextRect.leftTop.y = fmin(mRealTextRect.leftTop.y, charGeom.leftTop.y);
+				mRealTextRect.rightDown.x = fmax(mRealTextRect.rightDown.x, charGeom.rightDown.x);
+				mRealTextRect.rightDown.y = fmax(mRealTextRect.rightDown.y, charGeom.rightDown.y);
+			}
+
+			mMesh->mPolygonsCount += 2;
+		}
+
+		offset.y += wideOffs.y;
+	}
 
 	mNeedUpdateMesh = false;
 }
@@ -498,6 +640,9 @@ uiFont& uiFont::setText( const wstring& text )
 
 uiFont& uiFont::setWordWrap( bool wordWrap )
 {
+	if (mWordWrap == wordWrap)
+		return *this;
+
 	mWordWrap = wordWrap;
 	mNeedUpdateMesh = true;
 	return *this;
@@ -508,7 +653,7 @@ bool uiFont::isWordWrap() const
 	return mWordWrap;
 }
 
-void uiFont::StrLineCache::pushCharacter( const Character& charc, int symbolIdx, bool isSpace, float diffCoef )
+void uiFont::StrLineCache::pushCharacter( const Character& charc, int symbolIdx, bool isSpace, bool breakSymbol, float diffCoef )
 {
 	mCharacters.push_back(charc);
 
@@ -517,13 +662,17 @@ void uiFont::StrLineCache::pushCharacter( const Character& charc, int symbolIdx,
 	if (isSpace)
 		mSpacesCount++;
 
-	mRect.rightDown.x += charc.mGeometry.getSizeX() + diffCoef;
-	mRect.leftTop.y = -fmax(-mRect.leftTop.y, charc.mGeometry.getSizeY());
+	if (!breakSymbol)
+	{
+		mInitialRect.rightDown.x += charc.mInitialGeometry.getSizeX() + diffCoef;
+	}
+		
+	mInitialRect.leftTop.y = -fmax(-mInitialRect.leftTop.y, charc.mInitialGeometry.getSizeY());
 }
 
 void uiFont::StrLineCache::reset( unsigned int startSymbol )
 {
-	mRect = fRect(0, 0, 0, 0);
+	mInitialRect = fRect(0, 0, 0, 0);
 	mStartSymbol = mEndSymbol = startSymbol;
 	mSpacesCount = 0;
 }

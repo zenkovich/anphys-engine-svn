@@ -39,6 +39,8 @@ struct uiSpriteWidget:public uiWidget
 
 	virtual uiWidget* clone() const;
 
+	bool isAdjustingSizeByChilds() { return false; }
+
 	derivedSerializeMethodDecl(uiWidget, uiSpriteWidget);
 
 protected:

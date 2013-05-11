@@ -33,10 +33,18 @@ struct uiLabel:public uiWidget
 	uiLabel*     setVerAlign(VerAlign align);
 	VerAlign     getVerAlign() const;
 
+	uiLabel*     setColor(const color4& color);
+	color4       getColor() const;
+
+	uiLabel*     setDistCoef(const vec2& coef);
+	vec2         getDistCoef();
+
 	void         derivedUpdate(float dt);
 	void         derivedDraw();
 
 	uiLabel*     clone() const;
+
+	bool         isAdjustingSizeByChilds() { return false; }
 };
 
 #endif //UI_LABEL_H

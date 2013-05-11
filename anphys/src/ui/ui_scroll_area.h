@@ -21,7 +21,7 @@ struct uiScrollArea:public uiWidget
 	uiWidget*    mContentWidget;
 
 //functions
-	uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& size);
+	uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& size, uiWidget* contentWidget);
 	uiScrollArea(const uiScrollArea& scrollarea);
 	~uiScrollArea();
 
@@ -35,6 +35,8 @@ struct uiScrollArea:public uiWidget
 
 	void setHorScrollbar(uiScrollbar* scrollbar);
 	void setVerScrollbar(uiScrollbar* scrollbar);
+
+	bool isAdjustingSizeByChilds() { return false; }
 
 protected:
 	void horScrollbarChanged(float value);

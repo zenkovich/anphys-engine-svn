@@ -51,6 +51,7 @@ private:
 	float                 mCaretSymbolSize;
 
 	vec2                  mScrolling;
+	vec2                  mTextOffset;
 
 	int                   mMaxSelectionPolyCount;
 	float                 mCaretFlashingPeriod;
@@ -59,12 +60,15 @@ private:
 
 	KeysList              mPressedKeys;
 
+	bool                  mSingeLine;
+
 public:
 	uiTextEdit(uiWidgetsManager* widgetsManager, const std::string& id, uiFont* font, uiWidget* backWidget);
 	uiTextEdit(const uiTextEdit& textWidget);
 	~uiTextEdit();
 
 	void        derivedUpdate(float dt);
+
 	void        derivedDraw();
 	void        afterDraw();
 
@@ -77,7 +81,15 @@ public:
 	std::string getText();
 	wstring&    getWText(bool textWillChange = true);
 
+	uiTextEdit& setTextOffset(const vec2& offset);
+	vec2        getTextOffset() const;
+
+	uiTextEdit& setSingleLine(bool singleLine);
+	bool        isSingleLine() const;
+
 	uiTextEdit* clone();
+
+	bool        isAdjustingSizeByChilds() { return false; }
 
 private:
 	void initialize();
@@ -95,6 +107,8 @@ private:
 	void registPressedKey(int key);
 	void unregistPressedKey(int key);
 	void processInputKeys();
+
+	void checkCursorInFrame();
 };
 
 #endif //UI_TEXT_EDIT_H

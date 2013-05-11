@@ -8,10 +8,10 @@
 REGIST_TYPE(uiScrollbar)
 
 uiScrollbar::uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id, ScrollbarType type, 
-	                     const vec2& size, grSprite* bkSprite, grSprite* scrollerSprite, 
+	                     const vec2& size, uiWidget* bkWidget, uiWidget* scrollerWidget, 
 	                     float minValue /*= 0.0f*/, float maxValue /*= 1.0f*/, float currentValue /*= 0.0f*/, 
 						 float scollSize /*= -1*/):
-	uiWidget(widgetsManager, id), mType(type), mBkSprite(bkSprite), mScrollerSprite(scrollerSprite),
+	uiWidget(widgetsManager, id), mType(type), mBackWidget(bkWidget), mScrollerWidget(scrollerWidget),
 	mMinValue(minValue), mMaxValue(maxValue), mCurrentValue(currentValue), mScorllerSize(scollSize),
 	mOnChangeValueCallback(NULL)
 {
@@ -21,8 +21,6 @@ uiScrollbar::uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id
 
 	mPressed = mSelected = false;
 
-	mScrollerColor = scrollerSprite->getColor();
-
 	updateGraphics();
 }
 	
@@ -30,8 +28,6 @@ uiScrollbar::uiScrollbar( const uiScrollbar& scrollbar ):uiWidget(scrollbar)
 {
 	mType           = scrollbar.mType;
 	mSize           = scrollbar.mSize;
-	mBkSprite       = new grSprite(*scrollbar.mBkSprite);
-	mScrollerSprite = new grSprite(*scrollbar.mScrollerSprite);
 	mMinValue       = scrollbar.mMinValue;
 	mMaxValue       = scrollbar.mMaxValue;
 	mScorllerSize   = scrollbar.mScorllerSize;
@@ -40,15 +36,13 @@ uiScrollbar::uiScrollbar( const uiScrollbar& scrollbar ):uiWidget(scrollbar)
 
 	mPressed = mSelected = false;
 
-	mScrollerColor = mScrollerSprite->getColor();
-
 	updateGraphics();
 }
 
 uiScrollbar::~uiScrollbar()
 {
-	safe_release(mBkSprite);
-	safe_release(mScrollerSprite);
+	safe_release(mBackWidget);
+	safe_release(mScrollerWidget);
 	safe_release(mSelectedState);
 	safe_release(mPressedState);
 	safe_release(mOnChangeValueCallback);
@@ -64,19 +58,14 @@ void uiScrollbar::derivedUpdate( float dt )
 		updateGraphics();
 	}
 
-	color4 bkSpriteColor = mBkSprite->getColor();
-	bkSpriteColor.a = (int)(255.0f*mResTransparency);
-	mBkSprite->setColor(bkSpriteColor);
-
-	color4 scrollerSpriteColor = mResScrollerColor;
-	scrollerSpriteColor.a = (int)(255.0f*mResTransparency);
-	mScrollerSprite->setColor(scrollerSpriteColor);
+	mBackWidget->update(dt);
+	mScrollerWidget->update(dt);
 }
 
 void uiScrollbar::derivedDraw()
 {
-	mBkSprite->draw();
-	mScrollerSprite->draw();
+	mBackWidget->draw();
+	mScrollerWidget->draw();
 }
 
 int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
@@ -144,7 +133,7 @@ void uiScrollbar::updateGraphics()
 	mLastGlobalPosition = mGlobalPosition;
 	mLastSize = mResSize;
 
-	mBkSprite->setSize(mResSize).setPosition(mGlobalPosition);
+	mBackWidget->setSize(mResSize)->setPosition(mGlobalPosition);
 
 	vec2 scrollerSize;
 	vec2 scrollerPos;
@@ -188,7 +177,7 @@ void uiScrollbar::updateGraphics()
 		}
 	}
 
-	mScrollerSprite->setSize(scrollerSize).setPosition(scrollerPos);
+	mScrollerWidget->setSize(scrollerSize)->setPosition(scrollerPos);
 }
 
 bool uiScrollbar::isPointInScroller( const vec2& point )
@@ -203,8 +192,8 @@ bool uiScrollbar::isPointInScroller( const vec2& point )
 	}
 	else
 	{
-		scrollerSize = mScrollerSprite->getSize();
-		scrollerPos = mScrollerSprite->getPosition();
+		scrollerSize = mScrollerWidget->getSize();
+		scrollerPos = mScrollerWidget->getPosition();
 	}
 
 	if (point.x < scrollerPos.x || point.y < scrollerPos.y ||
@@ -251,12 +240,6 @@ void uiScrollbar::mouseMoved( const vec2& point )
 	mLastCursorPos = point;
 
 	updateGraphics();
-}
-
-void uiScrollbar::setupInitialProperties()
-{
-	mResScrollerColor = mScrollerColor;
-	uiWidget::setupInitialProperties();
 }
 
 uiScrollbar* uiScrollbar::setScrollerSize( float size )

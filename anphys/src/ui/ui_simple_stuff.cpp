@@ -11,6 +11,10 @@
 #include "ui_scrollbar.h"
 #include "ui_scroll_area.h"
 #include "ui_text_edit.h"
+#include "ui_border.h"
+#include "ui_solid_rect.h"
+#include "ui_window.h"
+#include "ui_lines_geometry.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -28,10 +32,12 @@ uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsMana
 uiLabel* uiSimpleStuff::createLabel( uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size, 
 	const std::string& id, const std::string& text )
 {
-	uiLabel* label = new uiLabel(widgetsManager, "fonts/system_font", "font", id);
+	uiLabel* label = new uiLabel(widgetsManager, "fonts/rfont", "font", id);
 	label->setText(text);
 	label->setPosition(pos);
 	label->setSize(size);
+	label->setColor(mColor6);
+	label->setDistCoef(vec2(-2, 0));
 
 	return label;
 }
@@ -40,33 +46,31 @@ uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const ve
 	                                   const std::string& id, const std::string& caption, 
 									   cCallbackInterface* callback )
 {
+	uiLabel* label = createLabel(widgetManager, vec2(0, 0), size , "label", caption);
+	label->mFont->setClipping(true);
+
+	return createButton(widgetManager, pos, size, id, label, callback);
+}
+
+uiButton* uiSimpleStuff::createButton( uiWidgetsManager* widgetManager, const vec2& pos, const vec2& size, 
+	                                   const std::string& id, uiWidget* content, cCallbackInterface* callback )
+{	
 	uiButton* button = new uiButton(widgetManager, id, callback);
 	button->setPosition(pos);
 
-	vec2 diff(3, 3);
-	vec2 press(-2, -2);
-	uiSpriteWidget* bkSprite = createSpriteWidget(widgetManager, mColor3, vec2(0, 0), size - diff, "bk");
-
-	uiSpriteWidget* panelSprite = createSpriteWidget(widgetManager, mColor2, diff, size - diff, "panel");
-	uiLabel* label = createLabel(widgetManager, vec2(0, 0), size - diff, "label", caption);
-	label->mFont->setClipping(true);
-	panelSprite->addChild(label);
+	uiSolidRect* panelSprite = new uiSolidRect(widgetManager, "panel", mColor5, mColor3);
+	panelSprite->setSize(size);
 
 	button->mSelectedState->addProperty(
-		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		new uiParameterProperty<color4>(&panelSprite->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
 		                                uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), panelSprite);
 
 	button->mPressedState->addProperty(
-		new uiParameterProperty<color4>(&panelSprite->mSpriteColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.25f), 
+		new uiParameterProperty<color4>(&panelSprite->mResInColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.0f), 
 		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f), panelSprite);
 
-	button->mPressedState->addProperty(
-		new uiParameterProperty<vec2>(&panelSprite->mOffset, vec2(0, 0), press, 
-		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<vec2>::OP_ADDITION, 1.5f), panelSprite);
-	
-
-	button->addChild(bkSprite);
 	button->addChild(panelSprite);
+	button->addChild(content);
 
 	button->setSize(size);
 
@@ -98,24 +102,27 @@ void uiSimpleStuff::createSizeEffect( uiWidget* widget, float duration /*= 0.5f*
 uiScrollbar* uiSimpleStuff::createScrollbar( uiWidgetsManager* widgetManager, const vec2& pos, const vec2& size, 
 	const std::string& id, int type, float minv /*= 0.0f*/, float maxv /*= 1.0f*/ )
 {
-	grSprite* bkSprite = new grSprite(widgetManager->mRender, NULL);
+	uiSolidRect* bkWidget = new uiSolidRect(widgetManager, "bk", mColor5, mColor1);
+	uiSolidRect* scrollerWidget = new uiSolidRect(widgetManager, "csroller", mColor5, mColor2);
+
+	/*grSprite* bkSprite = new grSprite(widgetManager->mRender, NULL);
 	grSprite* scrollerSprite = new grSprite(widgetManager->mRender, NULL);
 
 	bkSprite->setColor(mColor1);
-	scrollerSprite->setColor(mColor2);
+	scrollerSprite->setColor(mColor2);*/
 
-	uiScrollbar* scrollbar = new uiScrollbar(widgetManager, id, (uiScrollbar::ScrollbarType)type, size, bkSprite,
-		scrollerSprite, minv, maxv,minv, -1.0f);
+	uiScrollbar* scrollbar = new uiScrollbar(widgetManager, id, (uiScrollbar::ScrollbarType)type, size, bkWidget,
+		scrollerWidget, minv, maxv,minv, -1.0f);
 
 	scrollbar->setPosition(pos);
 
 	scrollbar->mSelectedState->addProperty(
-		new uiParameterProperty<color4>(&scrollbar->mResScrollerColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
-		uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f));
+		new uiParameterProperty<color4>(&scrollerWidget->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
+		uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), scrollerWidget);
 
 	scrollbar->mPressedState->addProperty(
-		new uiParameterProperty<color4>(&scrollbar->mResScrollerColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.25f), 
-		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f));
+		new uiParameterProperty<color4>(&scrollerWidget->mResInColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.0f), 
+		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f), scrollerWidget);
 
 	return scrollbar;
 }
@@ -128,7 +135,9 @@ uiScrollArea* uiSimpleStuff::createScrollarea( uiWidgetsManager* widgetsManager,
 	uiScrollbar* verScrollbar = createScrollbar(widgetsManager, vec2(0.0f, 0.0f), vec2(15.0f, 15.0f), "verScrollbar",
 		(int)uiScrollbar::ST_VERTICAL);
 
-	uiScrollArea* scrollarea = new uiScrollArea(widgetsManager, id, size);
+	uiSolidRect* contentWidget = new uiSolidRect(widgetsManager, "content", mColor5, mColor1);
+
+	uiScrollArea* scrollarea = new uiScrollArea(widgetsManager, id, size, contentWidget);
 	scrollarea->setPosition(pos);
 	scrollarea->setHorScrollbar(horScrollbar);
 	scrollarea->setVerScrollbar(verScrollbar);
@@ -139,28 +148,89 @@ uiScrollArea* uiSimpleStuff::createScrollarea( uiWidgetsManager* widgetsManager,
 uiTextEdit* uiSimpleStuff::createTextEdit( uiWidgetsManager* widgetsManager, const vec2& pos, const vec2& size, const std::string& id )
 {
 	uiFont* font = new uiFont(widgetsManager->mRender);
-	font->load("fonts/system_font", "font");
-	font->setWordWrap(true);
+	font->load("fonts/rfont", "font");
+	//font->setWordWrap(true);
+	font->setColor(mColor6);
+	font->setDistCoef(vec2(-2, 0));
 
-	uiSpriteWidget* backWidget = createSpriteWidget(widgetsManager, mColor1, vec2(0, 0), size, "bk");
+	//uiSpriteWidget* backWidget = createSpriteWidget(widgetsManager, mColor1, vec2(0, 0), size, "bk");
+	uiSolidRect* backWidget = new uiSolidRect(widgetsManager, "bk", mColor5, mColor1);
 
 	uiTextEdit* textEdit = new uiTextEdit(widgetsManager, id, font, backWidget);
 	textEdit->setPosition(pos);
-	textEdit->setText("000 111 222 333 444\n\n\n000\n123");
+	//textEdit->setText("000 111 222 333 444 555 666 777\n\n\n000 123");
 	textEdit->setSize(size);
+	textEdit->setTextOffset(vec2(2, 1));
 
 	textEdit->mSelectedState->addProperty(
-		new uiParameterProperty<color4>(&backWidget->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		new uiParameterProperty<color4>(&backWidget->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
 		uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), backWidget);
 
 	textEdit->mFocusedState->addProperty(
-		new uiParameterProperty<color4>(&backWidget->mSpriteColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.05f), 
+		new uiParameterProperty<color4>(&backWidget->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
 		uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), backWidget);
 
 	return textEdit;
 }
 
+uiBorder* uiSimpleStuff::createBorder( uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos, 
+	                                   const vec2& size, int type, const std::string& caption )
+{
+	uiFont* font = new uiFont(widgetsManager->mRender);
+	font->load("fonts/rfont", "font");
+	font->setColor(mColor6);
+	font->setDistCoef(vec2(-2, 0));
+	font->setText(caption);
 
+	uiBorder* border = new uiBorder(widgetsManager, id, font, 
+		fRect(5, (caption.length() == 0) ? 5:20, 5, 5), (uiBorder::LineType)type, mColor5);
+
+	border->setPosition(pos);
+	border->setSize(size - vec2(5, 5));
+
+	return border;
+}
+
+uiWindow* uiSimpleStuff::createWindow( uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos, 
+	                                   const vec2& size, const std::string& caption )
+{
+	float headSize = 22;
+	float borders = 2;
+	float closeBtnSize = 15;
+
+	uiSolidRect* windowHead = new uiSolidRect(widgetsManager, "windowHead", mColor5, mColor2);
+	windowHead->setPosition(vec2(borders, borders));
+	windowHead->setSize(vec2(size.x - borders*2.0f, headSize));
+
+	uiLabel* windowCaption = createLabel(widgetsManager, vec2(2, 1), 
+		vec2(size.x - borders*2.0f - 4.0f - closeBtnSize, headSize - 2), "windowCaption", caption);
+	windowCaption->setHorAlign(uiLabel::AL_LEFT);
+
+	uiLinesGeometry* buttonCross = new uiLinesGeometry(widgetsManager, "cross");
+	buttonCross->addLine(vec2(borders, borders), vec2(closeBtnSize - borders, closeBtnSize - borders), mColor5);
+	buttonCross->addLine(vec2(closeBtnSize - borders, borders), vec2(borders, closeBtnSize - borders), mColor5);
+
+	uiButton* closeBtn = createButton(widgetsManager, vec2(size.x - borders*3.0f - closeBtnSize, borders*2),
+		vec2(closeBtnSize, closeBtnSize), "closeBtn", buttonCross, NULL);
+
+	windowHead->addChild(windowCaption);
+	windowHead->addChild(closeBtn);
+	windowHead->setClipping(true);
+
+	uiScrollArea* contentScrollarea = createScrollarea(widgetsManager, vec2(borders, borders*2.0f + headSize), 
+		vec2(size.x - borders*2.0f, size.y - borders*3.0f - headSize), "content"); 
+
+	uiSolidRect* backWidget = new uiSolidRect(widgetsManager, "back", mColor5, mColor2);
+	backWidget->setSize(size);
+
+	uiWindow* window = new uiWindow(widgetsManager, id, size, pos, windowHead, contentScrollarea, backWidget, closeBtn, windowCaption);
+
+	return window;
+}
+
+
+color4 uiSimpleStuff::mColor6 = color4(0.3f, 0.3f, 0.3f, 1.0f);
+color4 uiSimpleStuff::mColor5 = color4(0.4f, 0.4f, 0.4f, 1.0f);
 color4 uiSimpleStuff::mColor4 = color4(0.5f, 0.5f, 0.5f, 1.0f);
 color4 uiSimpleStuff::mColor3 = color4(0.6f, 0.6f, 0.6f, 1.0f);
 color4 uiSimpleStuff::mColor2 = color4(0.7f, 0.7f, 0.7f, 1.0f);

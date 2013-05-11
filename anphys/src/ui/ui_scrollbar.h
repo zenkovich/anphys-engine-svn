@@ -23,8 +23,8 @@ struct uiScrollbar:public uiWidget
 	vec2                mLastGlobalPosition;
 	vec2                mLastSize;
 
-	grSprite*           mBkSprite;
-	grSprite*           mScrollerSprite;
+	uiWidget*           mBackWidget;
+	uiWidget*           mScrollerWidget;
 
 	uiState*            mSelectedState;
 	uiState*            mPressedState;
@@ -33,14 +33,12 @@ struct uiScrollbar:public uiWidget
 	bool                mPressed;
 
 	vec2                mLastCursorPos;
-	color4              mScrollerColor;
-	color4              mResScrollerColor;
 
 	cCallbackInterface* mOnChangeValueCallback;
 
 //functions
 	uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id, ScrollbarType type, 
-		        const vec2& size, grSprite* bkSprite, grSprite* scrollerSprite, 
+		        const vec2& size, uiWidget* bkWidget, uiWidget* scrollerWidget, 
 				float minValue = 0.0f, float maxValue = 1.0f, float currentValue = 0.0f, float scollSize = -1);
 	uiScrollbar(const uiScrollbar& scrollbar);
 	~uiScrollbar();
@@ -50,12 +48,12 @@ struct uiScrollbar:public uiWidget
 
 	int processInputMessageDerived(const cInputMessage& message);
 
-	void setupInitialProperties();
-
 	uiScrollbar* setScrollerSize(float size);
 	float        getScrollerSize() const;
 
 	void setChangeValueCallback(cCallbackInterface* callback);
+
+	bool isAdjustingSizeByChilds() { return false; }
 
 protected:
 	void updateGraphics();

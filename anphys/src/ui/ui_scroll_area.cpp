@@ -4,8 +4,9 @@
 
 REGIST_TYPE(uiScrollArea)
 
-uiScrollArea::uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& size):
-	uiWidget(widgetsManager, id)
+uiScrollArea::uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& size, 
+                           uiWidget* contentWidget):
+	uiWidget(widgetsManager, id), mContentWidget(contentWidget)
 {
 	setSize(size);
 	mViewArea = size;
@@ -15,7 +16,7 @@ uiScrollArea::uiScrollArea(uiWidgetsManager* widgetsManager, const std::string& 
 
 	mLastHorScrolling = mLastVerScrolling = 0.0f;
 
-	mContentWidget = new uiWidget(widgetsManager, "content");
+	//mContentWidget = new uiWidget(widgetsManager, "content");
 
 	uiWidget::addChild(mContentWidget);
 	mContentWidget->setClipping(true);

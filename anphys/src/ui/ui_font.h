@@ -22,22 +22,21 @@ struct uiFont
 		struct Character
 		{
 			char16_t     mCharacter;
+			fRect        mInitialGeometry;
 			fRect        mGeometry;
 			fRect        mTextureCoords;
+			bool         mIsSpace;
+			bool         mIsBreakSymbol;
 
 			Character() {}
-			Character(char16_t character, const fRect& geometry, const fRect& textureCoords):
-				mCharacter(character), mGeometry(geometry), mTextureCoords(textureCoords) {}
+			Character(char16_t character, const fRect& geometry, const fRect& textureCoords, bool isSpace, bool isBreak):
+				mCharacter(character), mInitialGeometry(geometry), mTextureCoords(textureCoords), mIsSpace(isSpace),
+				mIsBreakSymbol(isBreak) {}
 
-			Character(const Character& charc)
-			{
-				mCharacter     = charc.mCharacter;
-				mGeometry      = charc.mGeometry;
-				mTextureCoords = charc.mTextureCoords;
-			}
 		};
 		typedef std::vector<Character> CharactersList;
 
+		fRect          mInitialRect;
 		fRect          mRect;
 
 		CharactersList mCharacters;
@@ -48,7 +47,7 @@ struct uiFont
 
 		wstring        mStr;
 
-		void pushCharacter(const Character& charc, int symbolIdx, bool isSpace, float diffCoef);
+		void pushCharacter(const Character& charc, int symbolIdx, bool isSpace, bool breakSymbol, float diffCoef);
 		void reset(unsigned int startSymbol);
 	};
 	typedef std::vector<StrLineCache> CacheLinesList;
