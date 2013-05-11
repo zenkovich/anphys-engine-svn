@@ -76,6 +76,7 @@ void grRenderBase::initialize(HWND HWnd, fRect drawRect)
 	
 	mBackbufferRenderTarget = new grBackbufferRenderTarget(this);
 	mBackbufferRenderTarget->mSize = drawRect.getSize();
+	mBackbufferRenderTarget->createDepthStencilSurface();
 
 	mReady = true;
 }
@@ -91,10 +92,11 @@ void grRenderBase::beginRender()
 {
 	if (!mReady) return;
 
-	m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(220,255,220), 1.0F, 0);
 	m_pDirect3DDevice->BeginScene();
 
 	grRenderBaseInterface::beginRender();
+
+	m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(220,255,220), 1.0F, 0);
 }
 
 void grRenderBase::render()
@@ -159,7 +161,7 @@ void grRenderBase::unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffe
 	if (mCurrentRenderState)
 		mCurrentRenderState->flush();
 
-	LPDIRECT3DSURFACE8 settingStencilBuffer = NULL;
+	LPDIRECT3DSURFACE8 settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
 	if (stencilBuffer != NULL)
 	{
 		StencilBuffersList::iterator fnd = std::find(mStencilBuffersStack.begin(), mStencilBuffersStack.end(),

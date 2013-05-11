@@ -65,7 +65,7 @@ public:
 	virtual void removeChild(uiWidget* widget);
 	virtual void removeAllChilds();
 
-	uiWidget* getWidget(const std::string& id) const;
+	virtual uiWidget* getWidget(const std::string& id) const;
 
 	template<typename T>
 	T* getWidgetByType(const std::string& id) const
@@ -116,6 +116,8 @@ public:
 
 //other
 	virtual uiWidget* clone() const;
+
+	virtual bool      isAdjustingSizeByChilds() { return true; }
 
 	void createStdStates();
 

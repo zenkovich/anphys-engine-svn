@@ -72,7 +72,7 @@ void gr2DRenderStateBase::finish()
 	unlockBuffers();
 	drawPrimitives();
 
-	renderDebugData();
+	renderLinesData();
 
 	incFrameIdx();
 
@@ -254,11 +254,15 @@ void gr2DRenderStateBase::flush()
 	drawPrimitives();
 	lockBuffers();
 
-	renderDebugData();
+	renderLinesData();
 }
 
-void gr2DRenderStateBase::renderDebugData()
+void gr2DRenderStateBase::renderLinesData()
 {
+	unlockBuffers();
+	drawPrimitives();
+	lockBuffers();
+
 	memcpy(mVertexData, mDebugVertexBuffer, sizeof(vertex2d)*mDebugLinesCount);
 
 	unlockBuffers();

@@ -66,9 +66,13 @@ void grRenderBaseInterface::swapFullscreen()
 
 bool grRenderBaseInterface::bindRenderTarget( grRenderTarget* renderTarget )
 {
+	if (mCurrentRenderState)
+		mCurrentRenderState->flush();
+
 	mRenderTargetsStack.push_back(renderTarget);
 
-	if (!renderTarget->begin()) return false;
+	if (!renderTarget->begin())
+		return false;
 
 	if (mCurrentRenderState)
 		mCurrentRenderState->updateTransformations();
@@ -78,6 +82,9 @@ bool grRenderBaseInterface::bindRenderTarget( grRenderTarget* renderTarget )
 
 bool grRenderBaseInterface::unbindRenderTarget( grRenderTarget* renderTarget )
 {
+	if (mCurrentRenderState)
+		mCurrentRenderState->flush();
+
 	bool res = true;
 	for (RenderTargetsList::reverse_iterator it = mRenderTargetsStack.rbegin(); it != mRenderTargetsStack.rend(); )
 	{

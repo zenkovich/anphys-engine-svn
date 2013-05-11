@@ -66,7 +66,7 @@ void uiWidget::addChild( uiWidget* widget )
 
 	widget->mGlobalPosition = mGlobalPosition + widget->mPosition + widget->mOffset;
 
-	if (getType() == uiWidget::getStaticType())
+	if (isAdjustingSizeByChilds())
 		adjustSizeByChilds();
 
 	update(0.0f);
@@ -179,7 +179,7 @@ void uiWidget::draw()
 			mClippingRect.rightDown.y = mParent->mClippingRect.rightDown.y;
 	}
 
-	if (mIsClipping)
+	if (mIsClipping/* && false*/)
 	{
 		mWidgetsManager->mRender->bindRenderTarget(mClippingStencilBuffer);
 		mClippingStencilBuffer->clear();
@@ -194,7 +194,7 @@ void uiWidget::draw()
 	gr2DRenderStateBase* renderState = 
 		static_cast<gr2DRenderStateBase*>(mWidgetsManager->mRender->getCurrentRenderState());
 
-	if (getType() == uiWidget::getStaticType() || true)
+	if (getType() == uiWidget::getStaticType())
 	{
 		color4 color(0.4f, 0.4f, 0.4f, mResTransparency);
 		fRect rt(mGlobalPosition, mGlobalPosition + mResSize);
@@ -202,7 +202,7 @@ void uiWidget::draw()
 		renderState->pushLine(rt.getrtCorner(), rt.getrdCorner(), color);
 		renderState->pushLine(rt.getrdCorner(), rt.getldCorner(), color);
 		renderState->pushLine(rt.getldCorner(), rt.getltCorner(), color);
-		renderState->flush();
+		renderState->renderLinesData();
 	}
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); ++it)
@@ -212,7 +212,7 @@ void uiWidget::draw()
 
 	afterDraw();
 
-	if (mClippingStencilBuffer)
+	if (mClippingStencilBuffer/* && false*/)
 	{
 		mWidgetsManager->mRender->unbindStencilBuffer(mClippingStencilBuffer);
 	}

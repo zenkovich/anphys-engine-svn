@@ -26,6 +26,8 @@ public:
 	void setCallback(cCallbackInterface* callback);
 
 	int processInputMessageDerived(const cInputMessage& message);
+
+	bool isAdjustingSizeByChilds() { return false; }
 };
 
 #endif //UI_BUTTON_H

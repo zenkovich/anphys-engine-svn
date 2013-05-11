@@ -681,9 +681,6 @@
     <ClInclude Include="..\src\ui\ui_simple_stuff.h">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ui\ui_hor_layout_widget.h">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ui\ui_label.h">
       <Filter>ui</Filter>
     </ClInclude>
@@ -740,6 +737,24 @@
     </ClInclude>
     <ClInclude Include="..\src\util\types.h">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_lines_geometry.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_binding_values.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_layout_widgets.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_border.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_solid_rect.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_window.h">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1128,6 +1143,21 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_text_edit.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_lines_geometry.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_layout_widgets.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_border.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_solid_rect.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_window.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

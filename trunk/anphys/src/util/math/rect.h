@@ -100,7 +100,7 @@ struct fRect
 		return true;
 	}
 
-	inline fRect plusVector(vec2 v)
+	inline fRect plusVector(const vec2& v) const 
 	{
 		return fRect(leftTop + v, rightDown + v);
 	}

@@ -34,10 +34,15 @@ uiTextEdit::~uiTextEdit()
 
 void uiTextEdit::derivedUpdate( float dt )
 {
-	vec2 newFontPosition = mGlobalPosition + mScrolling;
+	checkCursorInFrame();	
+
+	mBackWidget->setSize(mSize);
+
+	vec2 newFontPosition = mGlobalPosition + mScrolling + mTextOffset;
 	if (newFontPosition != mLastFontPosition)
 	{
 		mFont->setPosition(newFontPosition);
+		mFont->setTextAreaSize(mSize - mTextOffset*2.0f);
 
 		vec2 diff = newFontPosition - mLastFontPosition;
 		for (int i = 0; i < (int)mSelectionMesh->mPolygonsCount; i += 2)
@@ -214,6 +219,7 @@ void uiTextEdit::initialize()
 
 	mSelected = false;
 	mPressed = false;
+	mSingeLine = true;
 
 	mFirstCaretPos = 0;
 	mSecondCaretPos = 0;
@@ -222,6 +228,8 @@ void uiTextEdit::initialize()
 
 	mCaretSprite = new grSprite(mWidgetsManager->mRender);
 	mCaretSprite->setColor(color4(0, 0, 0, 255));
+
+	setClipping(true);
 
 	mMaxSelectionPolyCount = 128;
 	mSelectionMesh = new grRender2DObjectMesh(mWidgetsManager->mRender, mMaxSelectionPolyCount*2, mMaxSelectionPolyCount);
@@ -279,7 +287,7 @@ void uiTextEdit::cursorMoved( const vec2& point )
 
 int uiTextEdit::getCaretByScreenCoords( const vec2& point )
 {
-	/*int lineIdx = 0;
+	int lineIdx = 0;
 	int lastLineIdx = mFont->mCachedLines.size() - 1;
 
 	for (uiFont::CacheLinesList::iterator it = mFont->mCachedLines.begin(); 
@@ -292,30 +300,30 @@ int uiTextEdit::getCaretByScreenCoords( const vec2& point )
 		}
 
 		int charIdx = 0;
-		int lastCharIdx = it->mCharactersGeometry.size() - 1;
+		int lastCharIdx = it->mCharacters.size() - 1;
 
-		for (uiFont::RectsList::iterator jt = it->mCharactersGeometry.begin();
-			 jt != it->mCharactersGeometry.end(); ++jt, charIdx++)
+		for (uiFont::StrLineCache::CharactersList::iterator jt = it->mCharacters.begin();
+			 jt != it->mCharacters.end(); ++jt, charIdx++)
 		{
-			if ( ( (lineIdx == 0) ? false:(point.y < jt->leftTop.y) ) || 
-				 ( (lineIdx == lastLineIdx) ? false:(point.y > jt->rightDown.y) ) ||
-				 ( (charIdx == 0) ? false:(point.x < jt->leftTop.x) ) ||
-				 ( (charIdx == lastCharIdx) ? false:(point.x > jt->rightDown.x) ))
+			if ( ( (lineIdx == 0) ? false:(point.y < jt->mGeometry.leftTop.y) ) || 
+				 ( (lineIdx == lastLineIdx) ? false:(point.y > jt->mGeometry.rightDown.y) ) ||
+				 ( (charIdx == 0) ? false:(point.x < jt->mGeometry.leftTop.x) ) ||
+				 ( (charIdx == lastCharIdx) ? false:(point.x > jt->mGeometry.rightDown.x) ))
 			{
 				continue;
 			}
 
 			int charid = it->mStartSymbol + charIdx;
-			if (point.x > (jt->leftTop.x + jt->rightDown.x)*0.5f && charIdx != lastCharIdx)
+			if (point.x > (jt->mGeometry.leftTop.x + jt->mGeometry.rightDown.x)*0.5f && charIdx != lastCharIdx)
 			{
 				return charid + 1;
 			}
 
 			return charid;
 		}
-	}*/
+	}
 
-	return -1;
+	return 0;
 }
 
 void uiTextEdit::updateSelectionMesh()
@@ -346,26 +354,26 @@ void uiTextEdit::updateSelectionMesh()
 	
 	bool inSelection = false;
 	fRect currentSelectionLineRect;
-	/*for (uiFont::CacheLinesList::iterator it = mFont->mCachedLines.begin(); it != mFont->mCachedLines.end(); ++it)
+	for (uiFont::CacheLinesList::iterator it = mFont->mCachedLines.begin(); it != mFont->mCachedLines.end(); ++it)
 	{
-		if (it->mCharactersGeometry.size() == 0)
+		if (it->mCharacters.size() == 0)
 			continue;
 
 		if (inSelection)
 		{
-			currentSelectionLineRect.leftTop = it->mCharactersGeometry[0].leftTop;
+			currentSelectionLineRect.leftTop = it->mCharacters[0].mGeometry.leftTop;
 		}
 
 		if (minCaret >= it->mStartSymbol && minCaret <= it->mEndSymbol)
 		{
 			unsigned int symbolId = minCaret - it->mStartSymbol;
-			fRect symbolRect = it->mCharactersGeometry[imin(symbolId, it->mCharactersGeometry.size() - 1)];
+			fRect symbolRect = it->mCharacters[imin(symbolId, it->mCharacters.size() - 1)].mGeometry;
 
 			vec2 leftTop = symbolRect.leftTop;
 			/*if (symbolId == it->mCharactersGeometry.size())
 				leftTop = vec2(symbolRect.rightDown.x, symbolRect.leftTop.y);*/
 
-			/*if (invertedCaret)
+			if (invertedCaret)
 			{
 				mCaretSymbolSize = symbolRect.getSizeY();
 				mCaretPos = leftTop + vec2(0, mCaretSymbolSize*0.5f);
@@ -390,13 +398,13 @@ void uiTextEdit::updateSelectionMesh()
 		if (maxCaret >= it->mStartSymbol && maxCaret <= it->mEndSymbol)
 		{
 			unsigned int symbolId = maxCaret - it->mStartSymbol;
-			fRect symbolRect = it->mCharactersGeometry[imin(symbolId, it->mCharactersGeometry.size() - 1)];
+			fRect symbolRect = it->mCharacters[imin(symbolId, it->mCharacters.size() - 1)].mGeometry;
 
 			vec2 leftTop = symbolRect.leftTop;
 			/*if (symbolId == it->mCharactersGeometry.size())
 				leftTop = vec2(symbolRect.rightDown.x, symbolRect.leftTop.y);*/
 
-			/*if (!invertedCaret)
+			if (!invertedCaret)
 			{
 				mCaretSymbolSize = symbolRect.getSizeY();
 				mCaretPos = leftTop + vec2(0, mCaretSymbolSize*0.5f);
@@ -411,10 +419,10 @@ void uiTextEdit::updateSelectionMesh()
 
 		if (inSelection)
 		{
-			currentSelectionLineRect.rightDown = it->mCharactersGeometry.back().rightDown;
+			currentSelectionLineRect.rightDown = it->mCharacters.back().mGeometry.rightDown;
 			pushSelectionRect(currentSelectionLineRect);
 		}
-	}*/
+	}
 }
 
 void uiTextEdit::pushSelectionRect( const fRect& rect )
@@ -477,6 +485,12 @@ void uiTextEdit::processInputKeys()
 			if (shift)
 			{
 				mSecondCaretPos += offs;
+
+				if (mSecondCaretPos < 0)
+					mSecondCaretPos = 0;
+
+				if (mSecondCaretPos > textLength)
+					mSecondCaretPos = textLength;
 			}
 			else
 			{
@@ -486,7 +500,6 @@ void uiTextEdit::processInputKeys()
 
 					if (mFirstCaretPos < 0)
 						mFirstCaretPos = 0;
-
 
 					if (mFirstCaretPos > textLength)
 						mFirstCaretPos = textLength;
@@ -542,8 +555,18 @@ void uiTextEdit::processInputKeys()
 				}
 				else
 				{
-					text->erase(text->begin() + mFirstCaretPos - 1);
-					mFirstCaretPos = mSecondCaretPos = mFirstCaretPos - 1;
+					if (mFirstCaretPos > 0)
+						text->erase(text->begin() + mFirstCaretPos - 1);
+
+					mFirstCaretPos = mFirstCaretPos - 1;
+
+					if (mFirstCaretPos < 0)
+						mFirstCaretPos = 0;
+
+					if (mFirstCaretPos > textLength)
+						mFirstCaretPos = textLength;
+
+					mSecondCaretPos = mFirstCaretPos;
 				}
 			}
 			else
@@ -552,6 +575,28 @@ void uiTextEdit::processInputKeys()
 					text->begin() + imax(mSecondCaretPos, mFirstCaretPos));
 
 				mFirstCaretPos = mSecondCaretPos = imin(mFirstCaretPos, mSecondCaretPos);
+			}
+
+			mNeedUpdateSelectionMesh = true;
+			continue;
+		}
+
+		if (key == key_home || key == key_end)
+		{
+			for (uiFont::CacheLinesList::iterator it = mFont->mCachedLines.begin(); it != mFont->mCachedLines.end(); ++it)
+			{
+				if (it->mStartSymbol <= mSecondCaretPos && mSecondCaretPos <= it->mEndSymbol)
+				{
+					if (key == key_home)
+						mSecondCaretPos = it->mStartSymbol;
+					else 
+						mSecondCaretPos = it->mEndSymbol;
+
+					if (!shift)
+						mFirstCaretPos = mSecondCaretPos;
+
+					break;
+				}
 			}
 
 			mNeedUpdateSelectionMesh = true;
@@ -568,7 +613,12 @@ void uiTextEdit::processInputKeys()
 			continue;*/
 
 		if (character == 13)
+		{
 			character = 10;
+
+			if (mSingeLine)
+				continue;
+		}
 			
 		text->erase(text->begin() + imin(mFirstCaretPos, mSecondCaretPos), 
 			text->begin() + imax(mSecondCaretPos, mFirstCaretPos));
@@ -599,4 +649,50 @@ void uiTextEdit::unregistPressedKey( int key )
 			return;
 		}
 	}
+}
+
+uiTextEdit& uiTextEdit::setTextOffset( const vec2& offset )
+{
+	mTextOffset = offset;
+	return *this;
+}
+
+vec2 uiTextEdit::getTextOffset() const
+{
+	return mTextOffset;
+}
+
+void uiTextEdit::checkCursorInFrame()
+{
+	if (mFocused)
+	{
+		float diff = mGlobalPosition.x - mCaretPos.x;
+		if (diff > 0)
+		{
+			mScrolling.x += diff + 20.0f;
+			if (mScrolling.x > 0.0f)
+				mScrolling.x = 0;
+
+			mNeedUpdateSelectionMesh = true;
+		}
+
+		diff = mCaretPos.x - (mGlobalPosition.x + mSize.x);
+		if (diff > 0)
+		{
+			mScrolling.x -= diff + 20.0f;
+
+			mNeedUpdateSelectionMesh = true;
+		}
+	}
+}
+
+uiTextEdit& uiTextEdit::setSingleLine( bool singleLine )
+{
+	mSingeLine = true;
+	return *this;
+}
+
+bool uiTextEdit::isSingleLine() const
+{
+	return mSingeLine;
 }

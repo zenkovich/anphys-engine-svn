@@ -20,6 +20,9 @@
 #include "ui/ui_scrollbar.h"
 #include "ui/ui_scroll_area.h"
 #include "ui/ui_text_edit.h"
+#include "ui/ui_lines_geometry.h"
+#include "ui/ui_border.h"
+#include "ui/ui_window.h"
 
 #include "util/other/callback.h"
 
@@ -75,7 +78,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	light->initialize(grLightBaseInterface::light_directional_type, color4(0.5f, 0.5f, 0.5f, 1.0f), 
 		color4(1.0f, 1.0f, 1.0f, 1.0f),
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,1), 0, 0, 0, 0, 0, 0, 0);
-	light->setLightActive(true);
+	//light->setLightActive(true);
 
 	setupScene1();
 
@@ -173,12 +176,12 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	if (key == key_t) 
 	{
 		mPhysicsRunning = !mPhysicsRunning;
-		mTestWidget->show();
+		mTestWindow->show();
 	}
 	if (key == key_y)
 	{
 		mPhysicsRunByStep = !mPhysicsRunByStep;
-		mTestWidget->hide();
+		mTestWindow->hide();
 	}
 	if (key == key_f)
 	{		
@@ -287,19 +290,33 @@ void apPhysicsTestFrame::createTestWidgets()
 
 	mTestLabel = uiSimpleStuff::createLabel(mTestWidgetsManager, vec2(10, 200), vec2(200, 30), "tl", "no text");
 
-	mTestTextEdit = uiSimpleStuff::createTextEdit(mTestWidgetsManager, vec2(10, 240), vec2(200, 130), "testEditText");
+	mTestTextEdit = uiSimpleStuff::createTextEdit(mTestWidgetsManager, vec2(10, 240), vec2(200, 22), "testEditText");
 
 	mTestScrollarea = uiSimpleStuff::createScrollarea(mTestWidgetsManager, vec2(10, 10), vec2(280, 150), 
 		"testScrollarea");
 
-	//mTestScrollarea->addChild((uiWidget*)testButton);
-	//mTestScrollarea->addChild((uiWidget*)mScrollbar);
-	//mTestScrollarea->addChild((uiWidget*)mTestLabel);
-	mTestScrollarea->addChild((uiWidget*)mTestTextEdit);
+	uiLinesGeometry* testLinesGeometry = new uiLinesGeometry(mTestWidgetsManager, "nn");
+	testLinesGeometry->addLine(vec2(10, 10), vec2(20, 20));
+	testLinesGeometry->addLine(vec2(20, 10), vec2(10, 20));
+
+	/*uiBorder* testBorder1 = uiSimpleStuff::createBorder(mTestWidgetsManager, "b1", vec2(10, 210), vec2(280, 200),
+		(int)uiBorder::LT_SINGLE, "123");
+*/
+	mTestWindow = uiSimpleStuff::createWindow(mTestWidgetsManager, "SimpleWindow", vec2(10, 10), vec2(150, 150),
+		"Simple Window");
+
+	mTestWindow->addChild((uiWidget*)testButton);
+	mTestWindow->addChild((uiWidget*)mScrollbar);
+	mTestWindow->addChild((uiWidget*)mTestLabel);
+	mTestWindow->addChild((uiWidget*)mTestTextEdit);
+	mTestWindow->addChild((uiWidget*)testLinesGeometry);
 	mTestWidget->addChild((uiWidget*)mTestScrollarea);
-	uiSimpleStuff::createSizeEffect(mTestWidget, 1.0f);
+	//mTestWidget->addChild((uiWidget*)testBorder1);
+	uiSimpleStuff::createSizeEffect(mTestWindow, 1.0f);
 	
-	mTestWidgetsManager->addWidget(mTestWidget);
+	mTestWidgetsManager->addWidget(mTestWindow);
+
+	mTestWindow->show(true);
 
 	/*mTestWidget = new uiWidget(mTestWidgetsManager, "testWidget");
 	mTestWidgetsManager->addWidget(mTestWidget);
@@ -317,8 +334,8 @@ void apPhysicsTestFrame::createTestWidgets()
 	spriteWidget->show(true);*/
 
 	/*mTestFont = new uiFont(mRender);
-	//mTestFont->loadWelloreFormat("fonts/wellore_test.txt");
-	mTestFont->load("fonts/system_font", "font");
+	mTestFont->loadWelloreFormat("fonts/test_font.txt");
+	/*mTestFont->load("fonts/system_font", "font");
 
 	mTestFont->setTextArea(fRect(100, 100, 300, 300));
 	mTestFont->setText("Some text\nwith\nmany\nlines\na\na\n\na\n12345678.8765432234523423452342352345\n1231231\n12123123");

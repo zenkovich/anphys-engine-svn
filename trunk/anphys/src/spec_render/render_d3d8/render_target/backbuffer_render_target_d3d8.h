@@ -15,6 +15,8 @@ struct grBackbufferRenderTargetBase:public grBackbufferRenderTargetBaseInterface
 	grBackbufferRenderTargetBase(grRenderBase* render);
 
 	bool begin();
+
+	void createDepthStencilSurface();
 };
 
 #endif //BACKBUFFER_RENDER_TARGET_D3D8_H

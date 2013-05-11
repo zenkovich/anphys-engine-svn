@@ -26,6 +26,7 @@ struct uiScrollbar;
 struct uiLabel;
 struct uiScrollArea;
 struct uiTextEdit;
+struct uiWindow;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -47,6 +48,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 	uiFont*                     mTestFont;
 	uiScrollArea*               mTestScrollarea;
 	uiTextEdit*                 mTestTextEdit;
+	uiWindow*                   mTestWindow;
 
 	void addScrollareaWidget();
 
