@@ -16,6 +16,7 @@
 #include "other/queue.h"
 #include "other/singleton.h"
 #include "other/string_utils.h"
+#include "other/callback.h"
 #include "script/config_reader.h"
 #include "serialization/data_object.h"
 #include "serialization/data_objects_manager.h"

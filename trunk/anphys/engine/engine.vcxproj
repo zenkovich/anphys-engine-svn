@@ -203,6 +203,7 @@
     <ClInclude Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.h" />
     <ClInclude Include="..\src\ui\ui_binding_values.h" />
     <ClInclude Include="..\src\ui\ui_border.h" />
+    <ClInclude Include="..\src\ui\ui_checkbox.h" />
     <ClInclude Include="..\src\ui\ui_lines_geometry.h" />
     <ClInclude Include="..\src\ui\ui_scrollbar.h" />
     <ClInclude Include="..\src\ui\ui_scroll_area.h" />
@@ -371,6 +372,7 @@
     <ClCompile Include="..\src\spec_render\render_d3d8\surface\surface_material_d3d8.cpp" />
     <ClCompile Include="..\src\spec_render\render_d3d8\texture\texture_d3d8.cpp" />
     <ClCompile Include="..\src\ui\ui_border.cpp" />
+    <ClCompile Include="..\src\ui\ui_checkbox.cpp" />
     <ClCompile Include="..\src\ui\ui_layout_widgets.cpp" />
     <ClCompile Include="..\src\ui\ui_lines_geometry.cpp" />
     <ClCompile Include="..\src\ui\ui_scrollbar.cpp" />

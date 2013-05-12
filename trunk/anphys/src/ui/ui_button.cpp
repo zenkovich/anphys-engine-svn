@@ -37,7 +37,9 @@ void uiButton::setCallback( cCallbackInterface* callback )
 int uiButton::processInputMessageDerived( const cInputMessage& message )
 {
 	int res = 0;
-	if (!mVisible) return res;
+
+	if (!mVisible) 
+		return res;
 
 	if (!mPressed && !message.isKeyDown(CURSOR_BUTTON))
 	{
@@ -86,6 +88,9 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 		mSelectedState->deactivate();
 		mPressedState->deactivate();
 	}
+
+	if (mFocused)
+		res = 1;
 
 	return res;
 }

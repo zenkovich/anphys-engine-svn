@@ -2,13 +2,14 @@
 #define UI_TEXT_EDIT_H
 
 #include "ui_widget.h"
+#include "ui_binding_values.h"
 
 struct uiFont;
 struct cCallbackInterface;
 struct grSprite;
 struct grRender2DObjectMesh;
 
-struct uiTextEdit:public uiWidget
+struct uiTextEdit:public uiWidget, public uiBindingValues
 {
 	DEFINE_TYPE(uiTextEdit)
 
@@ -109,6 +110,8 @@ private:
 	void processInputKeys();
 
 	void checkCursorInFrame();
+
+	void checkBindedValues();
 };
 
 #endif //UI_TEXT_EDIT_H

@@ -53,7 +53,7 @@ void uiScrollbar::derivedUpdate( float dt )
 	if (fabs(mGlobalPosition.x - mLastGlobalPosition.x) > FLT_EPSILON ||
 		fabs(mGlobalPosition.y - mLastGlobalPosition.y) > FLT_EPSILON ||
 		fabs(mResSize.x - mLastSize.x) > FLT_EPSILON ||
-		fabs(mResSize.y - mLastSize.y) > FLT_EPSILON)
+		fabs(mResSize.y - mLastSize.y) > FLT_EPSILON || checkBindedValues())
 	{
 		updateGraphics();
 	}
@@ -238,6 +238,8 @@ void uiScrollbar::mouseMoved( const vec2& point )
 	}
 
 	mLastCursorPos = point;
+	
+	setBindingValue(&mCurrentValue, BindValuePrototype::t_float);
 
 	updateGraphics();
 }
@@ -259,4 +261,22 @@ void uiScrollbar::setChangeValueCallback( cCallbackInterface* callback )
 	safe_release(mOnChangeValueCallback);
 
 	mOnChangeValueCallback = callback;
+}
+
+bool uiScrollbar::checkBindedValues()
+{
+	bool changedValue = false;
+	for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+	{
+		if ((*it)->checkValue())
+		{
+			float newValue;
+			(*it)->getValue(&newValue, BindValuePrototype::t_float);
+
+			mCurrentValue = newValue;
+			changedValue = true;
+		}
+	}	
+	
+	return changedValue;
 }

@@ -17,6 +17,7 @@ struct uiScrollArea;
 struct uiTextEdit;
 struct uiBorder;
 struct uiWindow;
+struct uiCheckBox;
 
 struct uiSimpleStuff
 {
@@ -52,6 +53,9 @@ struct uiSimpleStuff
 
 	static uiWindow* createWindow(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos,
 		                          const vec2& size, const std::string& caption);
+
+	static uiCheckBox* createCheckbox(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos,
+		                              const std::string& caption, bool checked = false);
 };
 
 #endif //UI_SIMPLE_STUFF_H

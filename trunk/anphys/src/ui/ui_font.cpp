@@ -441,7 +441,7 @@ void uiFont::updateMesh()
 					currentCacheLine->pushCharacter(
 						StrLineCache::Character(it->mCharacter, it->mInitialGeometry.plusVector(backOffs),
 						it->mTextureCoords, it->mIsSpace, false), 
-						beginSymbol + j, false, mDistCoef.x, false);
+						beginSymbol + j, false, false, mDistCoef.x);
 
 					currentCacheLine->mStr = currentCacheLine->mStr + lastCacheLine->mStr[j + beginSymbol];
 				}

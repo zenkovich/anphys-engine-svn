@@ -40,8 +40,9 @@ void uiSolidRect::derivedUpdate( float dt )
 	mSolidSprite->setPosition(mGlobalPosition);
 	mSolidSprite->setSize(mResSize);
 	
-	mResInColor.a *= mResTransparency;
-	mResBordersColor.a *= mResTransparency;
+	mResInColor.a = (int)((float)mResInColor.a*mResTransparency);
+	mResBordersColor.a = (int)((float)mResBordersColor.a*mResTransparency);
+
 	mSolidSprite->setColor(mResInColor);
 }
 
