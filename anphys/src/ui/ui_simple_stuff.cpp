@@ -15,6 +15,7 @@
 #include "ui_solid_rect.h"
 #include "ui_window.h"
 #include "ui_lines_geometry.h"
+#include "ui_checkbox.h"
 
 uiSpriteWidget* uiSimpleStuff::createSpriteWidget( uiWidgetsManager* widgetsManager, 
 	                   const color4& color, const vec2& pos, const vec2& size, const std::string& id )
@@ -183,7 +184,7 @@ uiBorder* uiSimpleStuff::createBorder( uiWidgetsManager* widgetsManager, const s
 	font->setText(caption);
 
 	uiBorder* border = new uiBorder(widgetsManager, id, font, 
-		fRect(5, (caption.length() == 0) ? 5:20, 5, 5), (uiBorder::LineType)type, mColor5);
+		fRect(5.0f, (caption.length() == 0) ? 5.0f:20.0f, 5.0f, 5.0f), (uiBorder::LineType)type, mColor5);
 
 	border->setPosition(pos);
 	border->setSize(size - vec2(5, 5));
@@ -205,6 +206,7 @@ uiWindow* uiSimpleStuff::createWindow( uiWidgetsManager* widgetsManager, const s
 	uiLabel* windowCaption = createLabel(widgetsManager, vec2(2, 1), 
 		vec2(size.x - borders*2.0f - 4.0f - closeBtnSize, headSize - 2), "windowCaption", caption);
 	windowCaption->setHorAlign(uiLabel::AL_LEFT);
+	windowCaption->setDistCoef(vec2(-2, 0));
 
 	uiLinesGeometry* buttonCross = new uiLinesGeometry(widgetsManager, "cross");
 	buttonCross->addLine(vec2(borders, borders), vec2(closeBtnSize - borders, closeBtnSize - borders), mColor5);
@@ -223,9 +225,60 @@ uiWindow* uiSimpleStuff::createWindow( uiWidgetsManager* widgetsManager, const s
 	uiSolidRect* backWidget = new uiSolidRect(widgetsManager, "back", mColor5, mColor2);
 	backWidget->setSize(size);
 
-	uiWindow* window = new uiWindow(widgetsManager, id, size, pos, windowHead, contentScrollarea, backWidget, closeBtn, windowCaption);
+	uiWindow* window = new uiWindow(widgetsManager, id, size, pos, windowHead, contentScrollarea, backWidget, closeBtn, 
+		                            windowCaption);	
+
+	window->mHeadSelectingState->addProperty(
+		new uiParameterProperty<color4>(&windowHead->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
+		                                uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), windowHead);
+
+	window->mHeadPressedState->addProperty(
+		new uiParameterProperty<color4>(&windowHead->mResInColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.0f), 
+		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f), windowHead);
 
 	return window;
+}
+
+uiCheckBox* uiSimpleStuff::createCheckbox( uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos, 
+	                                       const std::string& caption, bool checked /*= false*/ )
+{
+	float checkSize = 12;
+	float chechThumbSize = 6;
+	float textHeight = 20;
+	float textOffs = 2;
+
+	float checkOffs = (textHeight - checkSize)*0.5f;
+	float thumbOffs = (checkSize - chechThumbSize)*0.5f;
+
+	uiSolidRect* checkBack = new uiSolidRect(widgetsManager, "checkBack", mColor5, mColor2);
+	checkBack->setPosition(vec2(0, checkOffs));
+	checkBack->setSize(vec2(checkSize, checkSize));
+
+	uiSolidRect* checkThumb = new uiSolidRect(widgetsManager, "checkThumb", mColor5, mColor4);
+	checkThumb->setPosition(vec2(thumbOffs, thumbOffs + checkOffs));
+	checkThumb->setSize(vec2(chechThumbSize, chechThumbSize));
+
+	uiLabel* captionLabel = createLabel(widgetsManager, vec2(textOffs + checkSize, 0), vec2(10, textHeight), "caption", caption);
+	captionLabel->setHorAlign(uiLabel::AL_LEFT);
+	captionLabel->setDistCoef(vec2(-2, 0));
+
+	uiCheckBox* checkBox = new uiCheckBox(widgetsManager, id, checkBack, checkThumb, captionLabel);
+	checkBox->setCheck(checked);
+	checkBox->setPosition(pos);
+	
+	checkBox->mSelectedState->addProperty(
+		new uiParameterProperty<color4>(&checkBack->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
+		                                uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), checkBack);
+	
+	checkBox->mSelectedState->addProperty(
+		new uiParameterProperty<color4>(&checkThumb->mResInColor, color4(0, 0, 0, 0), color4(0.05f, 0.05f, 0.05f, 0.0f), 
+		                                uiProperty::IT_SMOOTH, 0.15f, uiParameterProperty<color4>::OP_ADDITION, 1.5f), checkThumb);
+
+	checkBox->mPressedState->addProperty(
+		new uiParameterProperty<color4>(&checkBack->mResInColor, color4(0, 0, 0, 0), color4(0.25f, 0.25f, 0.25f, 0.0f), 
+		                                uiProperty::IT_FORCIBLE, 0.01f, uiParameterProperty<color4>::OP_SUBSTRACT, 1.5f), checkBack);
+
+	return checkBox;
 }
 
 

@@ -34,6 +34,9 @@ uiTextEdit::~uiTextEdit()
 
 void uiTextEdit::derivedUpdate( float dt )
 {
+	checkBindedValues();
+
+
 	checkCursorInFrame();	
 
 	mBackWidget->setSize(mSize);
@@ -210,6 +213,11 @@ void uiTextEdit::onFocused()
 void uiTextEdit::onUnfocused()
 {
 	mFocusedState->deactivate();
+
+	std::string strValue = getText();
+	setBindingValue(&strValue, BindValuePrototype::t_string);
+
+	mPressedKeys.clear();
 }
 
 void uiTextEdit::initialize()
@@ -585,7 +593,7 @@ void uiTextEdit::processInputKeys()
 		{
 			for (uiFont::CacheLinesList::iterator it = mFont->mCachedLines.begin(); it != mFont->mCachedLines.end(); ++it)
 			{
-				if (it->mStartSymbol <= mSecondCaretPos && mSecondCaretPos <= it->mEndSymbol)
+				if ((int)it->mStartSymbol <= mSecondCaretPos && mSecondCaretPos <= (int)it->mEndSymbol)
 				{
 					if (key == key_home)
 						mSecondCaretPos = it->mStartSymbol;
@@ -617,7 +625,10 @@ void uiTextEdit::processInputKeys()
 			character = 10;
 
 			if (mSingeLine)
-				continue;
+			{
+				mWidgetsManager->unfocusWidget(this);
+				break;
+			}
 		}
 			
 		text->erase(text->begin() + imin(mFirstCaretPos, mSecondCaretPos), 
@@ -695,4 +706,18 @@ uiTextEdit& uiTextEdit::setSingleLine( bool singleLine )
 bool uiTextEdit::isSingleLine() const
 {
 	return mSingeLine;
+}
+
+void uiTextEdit::checkBindedValues()
+{
+	for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+	{
+		if ((*it)->checkValue())
+		{
+			std::string newText;
+			(*it)->getValue(&newText, BindValuePrototype::t_string);
+
+			setText(newText);
+		}
+	}
 }

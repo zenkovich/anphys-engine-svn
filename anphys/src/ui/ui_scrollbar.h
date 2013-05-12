@@ -2,12 +2,14 @@
 #define UI_SCROLLBAR_H
 
 #include "ui_widget.h"
+#include "ui_binding_values.h"
+
 #include "util/other/callback.h"
 
 struct grSprite;
 struct uiState;
 
-struct uiScrollbar:public uiWidget
+struct uiScrollbar:public uiWidget, public uiBindingValues
 {
 	DEFINE_TYPE(uiScrollbar)
 
@@ -44,6 +46,7 @@ struct uiScrollbar:public uiWidget
 	~uiScrollbar();
 
 	void derivedUpdate(float dt);
+
 	void derivedDraw();
 
 	int processInputMessageDerived(const cInputMessage& message);
@@ -62,6 +65,8 @@ protected:
 
 	void pressed(const vec2& point);
 	void mouseMoved(const vec2& point);
+
+	bool checkBindedValues();
 };
 
 #endif //UI_SCROLLBAR_H

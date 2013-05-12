@@ -31,6 +31,7 @@
 #include "render/material_manager/material_manager.h"
 #include "render/render.h"
 #include "render/render_objects/2d/render_2d_object_mesh.h"
+#include "render/render_objects/2d/sprite.h"
 #include "render/render_objects/3d/mesh/mesh_part.h"
 #include "render/render_objects/3d/mesh/render_3d_object_mesh.h"
 #include "render/render_objects/3d/render_3d_object.h"
@@ -87,12 +88,36 @@
 extern cLogSystem* gLogSystem;
 
 //physics
+#include "physics/CD/collision_detection/box_box_cd.h"
+#include "physics/CD/collision_geometry/box_collision_geometry.h"
+#include "physics/CD/collision_geometry/collision.h"
+#include "physics/CD/collision_geometry/collision_geometry.h"
+#include "physics/CD/collision_geometry/collision_point.h"
 #include "physics/objects/physics_object.h"
 #include "physics/objects/rigid_object.h"
 #include "physics/objects/static_object.h"
 #include "physics/physics_engine.h"
 #include "physics/scenes/physics_scene.h"
 #include "physics/stuff/inertia.h"
+
+//UI
+#include "ui/ui_widget.h"
+#include "ui/ui_manager.h"
+#include "ui/ui_state.h"
+#include "ui/ui_sprite.h"
+#include "ui/ui_font.h"
+#include "ui/ui_label.h"
+#include "ui/ui_simple_stuff.h"
+#include "ui/ui_scrollbar.h"
+#include "ui/ui_scroll_area.h"
+#include "ui/ui_text_edit.h"
+#include "ui/ui_lines_geometry.h"
+#include "ui/ui_border.h"
+#include "ui/ui_window.h"
+#include "ui/ui_checkbox.h"
+
+//input
+#include "input/input_messenger.h"
 
 //render objects
 typedef grRenderMultiObject<grRender3DObjectMesh, gr3DObjectConditionContainer> grRenderMulti3DObject;

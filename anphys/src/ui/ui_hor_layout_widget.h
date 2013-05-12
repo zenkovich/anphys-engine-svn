@@ -1,6 +1,0 @@
-#ifndef UI_HOR_LAYOUT_WIDGET_H
-#define UI_HOR_LAYOUT_WIDGET_H
-
-
-
-#endif //UI_HOR_LAYOUT_WIDGET_H

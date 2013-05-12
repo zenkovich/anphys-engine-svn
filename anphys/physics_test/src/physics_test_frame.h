@@ -20,13 +20,6 @@ struct grCamera2D;
 struct grSprite;
 struct uiWidget;
 struct uiWidgetsManager;
-struct uiFont;
-struct grStencilBufferRenderTarget;
-struct uiScrollbar;
-struct uiLabel;
-struct uiScrollArea;
-struct uiTextEdit;
-struct uiWindow;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -41,21 +34,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 	bool                        mPhysicsRunByStep;
 
 	//tests
-	uiWidgetsManager*           mTestWidgetsManager;
-	uiWidget*                   mTestWidget;
-	uiLabel*                    mTestLabel;
-	uiScrollbar*                mScrollbar;
-	uiFont*                     mTestFont;
-	uiScrollArea*               mTestScrollarea;
-	uiTextEdit*                 mTestTextEdit;
-	uiWindow*                   mTestWindow;
-
-	void addScrollareaWidget();
-
-	grSprite*                   mTestSprite;
-
-	grStencilBufferRenderTarget* mStencilTest1;
-	grStencilBufferRenderTarget* mStencilTest2;
+	uiWidgetsManager*           mWidgetsManager;
 
 //functions
 	apPhysicsTestFrame();
@@ -88,7 +67,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	void setupScene1();
 
-	void createTestWidgets();
+	void createUIWidgets();
 };
 
 
