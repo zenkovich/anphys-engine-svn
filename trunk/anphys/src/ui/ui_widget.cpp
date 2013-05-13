@@ -383,7 +383,7 @@ uiWidget* uiWidget::setModal( bool modal )
 
 int uiWidget::processInputMessageDerived( const cInputMessage& message )
 {
-	if (isPointInsideDerived(message.mCursorPosition))
+	if (isPointInside(message.mCursorPosition))
 		return 1;
 
 	return 0;
@@ -398,6 +398,9 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 
 	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); it++)
 	{
+		if (!(*it)->mVisible)
+			continue;
+
 		if ((*it)->isInFocus())
 			continue;
 

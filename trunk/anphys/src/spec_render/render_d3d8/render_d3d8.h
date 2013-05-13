@@ -18,6 +18,8 @@
 #define D3DFVF_VERTEX_2D (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX2)
 #define D3DFVF_VERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
+#define DXCALL(call) if (FAILED(call)) assert(false, "DX Fail");
+
 struct grRenderBase:public grRenderBaseInterface
 {	
 	LPDIRECT3D8           m_pDirect3d;

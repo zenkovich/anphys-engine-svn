@@ -39,6 +39,9 @@
     <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp">
       <Filter>box_collision_test_frame</Filter>
     </ClCompile>
+    <ClCompile Include="..\physics_test\src\landscape_creator_wnd.cpp">
+      <Filter>physics_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="..\physics_test\src\box_collision_test_frame.h">
       <Filter>box_collision_test_frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\landscape_creator_wnd.h">
+      <Filter>physics_test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #define COLLISION_GEOMETRY_PART_H
 
 #include "util/utils.h"
+#include "util/other/type_intexation.h"
 
 #define getCDDebugLevel() 0
 
@@ -11,6 +12,8 @@ struct phCollisionPoint;
 
 struct phCollisionGeometryPart
 {
+	DEFINE_TYPE(phCollisionGeometryPart)
+
 	mat3x3 mRotate;
 	vec3   mOffset;
 

@@ -24,8 +24,6 @@ uiBorder::~uiBorder()
 
 void uiBorder::derivedUpdate( float dt )
 {
-	mGlobalPosition += mBorderSizes.leftTop;
-
 	mCaption->setTextArea(fRect(mGlobalPosition.x + 5.0f, mGlobalPosition.y - mBorderSizes.leftTop.y,
 		                        mGlobalPosition.x + mSize.x - 5.0f, mGlobalPosition.y));
 }
@@ -36,7 +34,7 @@ void uiBorder::derivedDraw()
 
 	if (mLinesType == LT_SINGLE || mLinesType == LT_DOUBLE)
 	{
-		fRect inBorderRect(vec2(mGlobalPosition - mBorderSizes.leftTop*0.5f), 
+		fRect inBorderRect(vec2(mGlobalPosition + mBorderSizes.leftTop*0.5f), 
 			               vec2(mGlobalPosition + mSize - mBorderSizes.rightDown*0.5f));
 
 		gr2DRenderState* renderState = static_cast<gr2DRenderState*>(mWidgetsManager->mRender->mCurrentRenderState);
@@ -115,9 +113,15 @@ void uiBorder::derivedDraw()
 
 void uiBorder::addChild( uiWidget* widget )
 {
+	widget->setPosition(widget->getPosition() + mBorderSizes.leftTop);
 	uiWidget::addChild(widget);
 
 	adjustSizeByChilds();
 
 	mSize += mBorderSizes.rightDown;
+}
+
+void uiBorder::adjustSizeByChilds()
+{
+	uiWidget::adjustSizeByChilds();
 }

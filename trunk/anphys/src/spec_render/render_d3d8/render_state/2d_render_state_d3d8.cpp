@@ -119,6 +119,9 @@ void gr2DRenderStateBase::drawMesh( grRender2DObjectMeshBase* mesh )
 
 void gr2DRenderStateBase::drawPrimitives()
 {
+	if (!(mTrianglesCount > 0 || mLastDrawingVertex > 0))
+		return;
+
 	//gLog->fout(1, "primitives 1\n");
 	HRESULT hr = mRender->m_pDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawingVertex, 0, mTrianglesCount);
 	if (FAILED(hr))
@@ -250,6 +253,9 @@ void gr2DRenderStateBase::bindCamera( grCamera2D* camera )
 
 void gr2DRenderStateBase::flush()
 {
+	if (!(mLastDrawingVertex > 0 || mTrianglesCount > 0))
+		return;
+	
 	unlockBuffers();
 	drawPrimitives();
 	lockBuffers();
@@ -259,6 +265,9 @@ void gr2DRenderStateBase::flush()
 
 void gr2DRenderStateBase::renderLinesData()
 {
+	if (mDebugLinesCount == 0)
+		return;
+
 	unlockBuffers();
 	drawPrimitives();
 	lockBuffers();

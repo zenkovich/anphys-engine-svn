@@ -21,6 +21,9 @@ uiScrollbar::uiScrollbar(uiWidgetsManager* widgetsManager, const std::string& id
 
 	mPressed = mSelected = false;
 
+	addChild(mBackWidget);
+	addChild(mScrollerWidget);
+
 	updateGraphics();
 }
 	
@@ -58,14 +61,14 @@ void uiScrollbar::derivedUpdate( float dt )
 		updateGraphics();
 	}
 
-	mBackWidget->update(dt);
-	mScrollerWidget->update(dt);
+	/*mBackWidget->update(dt);
+	mScrollerWidget->update(dt);*/
 }
 
 void uiScrollbar::derivedDraw()
 {
-	mBackWidget->draw();
-	mScrollerWidget->draw();
+	/*mBackWidget->draw();
+	mScrollerWidget->draw();*/
 }
 
 int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
@@ -133,7 +136,7 @@ void uiScrollbar::updateGraphics()
 	mLastGlobalPosition = mGlobalPosition;
 	mLastSize = mResSize;
 
-	mBackWidget->setSize(mResSize)->setPosition(mGlobalPosition);
+	mBackWidget->setSize(mResSize);;
 
 	vec2 scrollerSize;
 	vec2 scrollerPos;
@@ -145,16 +148,15 @@ void uiScrollbar::updateGraphics()
 		if (mScorllerSize < 0)
 		{
 			scrollerSize.x = (mCurrentValue - mMinValue)/(mMaxValue - mMinValue)*mResSize.x;
-			scrollerPos = mGlobalPosition;
+			//scrollerPos = mGlobalPosition;
 		}
 		else
 		{
 			const float minScrollerSize = 5.0f;
 			scrollerSize.x = fmax(mResSize.x*(mScorllerSize/(mMaxValue - mMinValue)), minScrollerSize);
 
-			scrollerPos.y = mGlobalPosition.y;
-			scrollerPos.x = mGlobalPosition.x + 
-				(mCurrentValue - mMinValue)/(mMaxValue-mMinValue)*(mResSize.x - scrollerSize.x);
+			//scrollerPos.y = /*mGlobalPosition.y*/0;
+			scrollerPos.x = (mCurrentValue - mMinValue)/(mMaxValue-mMinValue)*(mResSize.x - scrollerSize.x);
 		}
 	}
 	else
@@ -164,16 +166,15 @@ void uiScrollbar::updateGraphics()
 		if (mScorllerSize < 0)
 		{
 			scrollerSize.y = (mCurrentValue - mMinValue)/(mMaxValue - mMinValue)*mResSize.y;
-			scrollerPos = mGlobalPosition;
+			//scrollerPos = mGlobalPosition;
 		}
 		else
 		{
 			const float minScrollerSize = 5.0f;
 			scrollerSize.y = fmax(mResSize.y*(mScorllerSize/(mMaxValue - mMinValue)), minScrollerSize);
 
-			scrollerPos.x = mGlobalPosition.x;
-			scrollerPos.y = mGlobalPosition.y + 
-				(mCurrentValue - mMinValue)/(mMaxValue-mMinValue)*(mResSize.y - scrollerSize.y);
+			//scrollerPos.x = mGlobalPosition.x;
+			scrollerPos.y = (mCurrentValue - mMinValue)/(mMaxValue-mMinValue)*(mResSize.y - scrollerSize.y);
 		}
 	}
 
@@ -193,7 +194,7 @@ bool uiScrollbar::isPointInScroller( const vec2& point )
 	else
 	{
 		scrollerSize = mScrollerWidget->getSize();
-		scrollerPos = mScrollerWidget->getPosition();
+		scrollerPos = mScrollerWidget->getGlobalPosition();
 	}
 
 	if (point.x < scrollerPos.x || point.y < scrollerPos.y ||

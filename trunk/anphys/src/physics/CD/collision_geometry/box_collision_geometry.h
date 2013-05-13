@@ -7,6 +7,8 @@
 
 struct phBoxCollisionGeometry:public phCollisionGeometryPart
 {
+	DEFINE_TYPE(phBoxCollisionGeometry)
+
 	/*from phCollisionGeometryPart
 	{
 		mat3x3 mRotate;

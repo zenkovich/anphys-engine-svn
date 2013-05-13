@@ -11,7 +11,7 @@ uiHorLayoutWidget::uiHorLayoutWidget( uiWidgetsManager* widgetsManager, const st
 void uiHorLayoutWidget::addChild( uiWidget* widget )
 {
 	uiWidget::addChild(widget);
-	widget->setPosition(widget->getPosition() + vec2(mCurrentWidth, 0));
+	widget->setPosition(vec2(mCurrentWidth, 0));
 	mCurrentWidth += widget->getSize().x + mWidgetsDistance;
 
 	adjustSizeByChilds();

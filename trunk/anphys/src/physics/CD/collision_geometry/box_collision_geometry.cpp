@@ -8,6 +8,8 @@
 //utils
 #include "util/debug/render_stuff.h"
 
+REGIST_TYPE(phBoxCollisionGeometry)
+
 phBoxCollisionGeometry::phBoxCollisionGeometry():
 	phCollisionGeometryPart()
 {

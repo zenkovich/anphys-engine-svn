@@ -124,6 +124,7 @@
     <ClInclude Include="..\src\physics\CD\collision_geometry\collision_geometry.h" />
     <ClInclude Include="..\src\physics\CD\collision_geometry\collision_geometry_part.h" />
     <ClInclude Include="..\src\physics\CD\collision_geometry\collision_point.h" />
+    <ClInclude Include="..\src\physics\CD\collision_geometry\landscape_geometry.h" />
     <ClInclude Include="..\src\physics\CD\collision_manager.h" />
     <ClInclude Include="..\src\physics\objects\physics_object.h" />
     <ClInclude Include="..\src\physics\objects\rigid_object.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="..\src\physics\CD\collision_geometry\box_collision_geometry.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_geometry\collision.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_geometry\collision_geometry.cpp" />
+    <ClCompile Include="..\src\physics\CD\collision_geometry\landscape_geometry.cpp" />
     <ClCompile Include="..\src\physics\CD\collision_manager.cpp" />
     <ClCompile Include="..\src\physics\objects\rigid_object.cpp" />
     <ClCompile Include="..\src\physics\objects\static_object.cpp" />

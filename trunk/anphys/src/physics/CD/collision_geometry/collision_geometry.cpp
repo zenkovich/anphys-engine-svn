@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+REGIST_TYPE(phCollisionGeometryPart)
+
 phCollisionGeometry::phCollisionGeometry():mObject(NULL), mPerformance(1) {}
 
 phCollisionGeometry::phCollisionGeometry(phObject* object):mObject(object), mPerformance(1) {}

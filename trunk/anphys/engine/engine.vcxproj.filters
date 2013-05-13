@@ -759,6 +759,9 @@
     <ClInclude Include="..\src\ui\ui_checkbox.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\physics\CD\collision_geometry\landscape_geometry.h">
+      <Filter>physics\CD\collision_geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\util\math\ray.cpp">
@@ -1165,6 +1168,9 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_checkbox.cpp">
       <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\physics\CD\collision_geometry\landscape_geometry.cpp">
+      <Filter>physics\CD\collision_geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

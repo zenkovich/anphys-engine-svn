@@ -72,7 +72,10 @@ bool grRenderBaseInterface::bindRenderTarget( grRenderTarget* renderTarget )
 	mRenderTargetsStack.push_back(renderTarget);
 
 	if (!renderTarget->begin())
+	{
+		mLog->fout(0, "WARNING: Failed to begin render target %x", renderTarget);
 		return false;
+	}
 
 	if (mCurrentRenderState)
 		mCurrentRenderState->updateTransformations();
@@ -93,7 +96,12 @@ bool grRenderBaseInterface::unbindRenderTarget( grRenderTarget* renderTarget )
 		if (mCurrentRenderState)
 			mCurrentRenderState->flush();
 
-		res = res && currentRenderTarget->finish();
+		bool finishRes = currentRenderTarget->finish();
+		
+		if (!finishRes)
+			mLog->fout(0, "WARNING: Failed to finish render target %x", renderTarget);
+
+		res = res && finishRes;
 
 		mRenderTargetsStack.erase(--it.base());
 
