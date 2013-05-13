@@ -122,7 +122,7 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 	}
 	else
 	{
-		for (WidgetsList::iterator it = mVisibleWidgets.begin(); it != mVisibleWidgets.end(); ++it)
+		for (WidgetsList::reverse_iterator it = mVisibleWidgets.rbegin(); it != mVisibleWidgets.rend(); ++it)
 		{
 			if ((*it)->isInFocus()) 
 				continue;
@@ -183,6 +183,8 @@ void uiWidgetsManager::hidedWidget( uiWidget* widget )
 
 void uiWidgetsManager::setWidgetFocused( uiWidget* widget )
 {
+	unfocusWidget(NULL);
+
 	mFocusWidget = widget;
 	widget->mFocused = true;
 	widget->onFocused();

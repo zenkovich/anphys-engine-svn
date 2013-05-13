@@ -3,26 +3,32 @@
 #include "engine/engine_incl.h"
 #include "util/debug/render_stuff.h"
 
+#include "landscape_creator_wnd.h"
 
-apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
+apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), 
+	mPhysicsRunByStep(false), mLandscapeCreator(NULL)
 {
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::apPhysicsTestFrame(const std::string& title, fRect wndRect, fRect outputRect):
-	apRenderWindow(title, wndRect, outputRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
+	apRenderWindow(title, wndRect, outputRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false), 
+	mLandscapeCreator(NULL)
 {
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::apPhysicsTestFrame(const std::string& title, fRect wndRect):
-	apRenderWindow(title, wndRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false)
+	apRenderWindow(title, wndRect), mMainEngineScene(NULL), mPhysicsRunning(true), mPhysicsRunByStep(false), 
+	mLandscapeCreator(NULL)
 {
 	onCreate(mInRect);
 }
 
 apPhysicsTestFrame::~apPhysicsTestFrame()
 {
+	safe_release(mLandscapeCreator);
+
 	safe_release(m2DRenderState);
 	safe_release(m3DRenderState);
 	safe_release(mCamera3dMouse);
@@ -50,7 +56,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,1), 0, 0, 0, 0, 0, 0, 0);
 	//light->setLightActive(true);
 
-	setupScene1();
+	//setupScene1();
 
 	createUIWidgets();
 
@@ -159,6 +165,10 @@ void apPhysicsTestFrame::onKeyDown(int key)
 
 		newObj->getPhysicsRigidBody()->mVelocity = mCamera3dMouse->mDirection*10.0f;
 	}
+	if (key == key_e)
+	{
+		mMainMenuWindow->show();
+	}
 }
 
 void apPhysicsTestFrame::onKeyUp(int key)
@@ -203,4 +213,39 @@ void apPhysicsTestFrame::createUIWidgets()
 {
 	mWidgetsManager = new uiWidgetsManager(mRender);
 	mInputMessenger->registInputListener(mWidgetsManager);
+
+	//create main menu wnd
+	mMainMenuWindow = uiSimpleStuff::createWindow(mWidgetsManager, "MainMenuWnd", vec2(0, 0), vec2(220, 100), "Menu");
+	uiSimpleStuff::createSizeEffect(mMainMenuWindow);
+
+	uiVertLayoutWidget* verLayoutWidget = new uiVertLayoutWidget(mWidgetsManager, "verLayout");
+	verLayoutWidget->mWidgetsDistance = 5.0f;
+
+	uiBorder* wndBorder = uiSimpleStuff::createBorder(mWidgetsManager, "wndBorder", vec2(0, 0), mMainMenuWindow->getSize(),
+		uiBorder::LT_NO_LINE, "");
+
+	uiButton* landscapeCreatorBtn = uiSimpleStuff::createButton(mWidgetsManager, vec2(0, 0), vec2(200, 25), "landscapeBtn",
+		"Landscape creator", new cCallback<apPhysicsTestFrame>(this, &apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed));
+
+	uiButton* vehicleEditorBtn = uiSimpleStuff::createButton(mWidgetsManager, vec2(0, 0), vec2(200, 25), "vehEditortn",
+		"Vehicle editor", new cCallback<apPhysicsTestFrame>(this, &apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed));
+	
+	verLayoutWidget->addChild((uiWidget*)landscapeCreatorBtn);
+	verLayoutWidget->addChild((uiWidget*)vehicleEditorBtn);
+
+	wndBorder->addChild(verLayoutWidget);
+	wndBorder->adjustSizeByChilds();
+
+	mMainMenuWindow->addChild(wndBorder);
+
+	mWidgetsManager->addWidget(mMainMenuWindow);
+	mMainMenuWindow->show(true);
+
+//landscape creator
+	mLandscapeCreator = new LandscapeCreatorWnd(mWidgetsManager);
+}
+
+void apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed()
+{
+	mLandscapeCreator->show();
 }

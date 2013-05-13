@@ -8,9 +8,9 @@ REGIST_TYPE(uiButton)
 
 uiButton::uiButton(uiWidgetsManager* widgetsManager, const std::string& id, cCallbackInterface* callback /*= NULL*/):
 	uiWidget(widgetsManager, id), mOnClickCallback(callback), mPressed(false), mSelected(false)
-	{
-		mSelectedState = new uiState(this, "");
-		mPressedState = new uiState(this, "");
+{
+	mSelectedState = new uiState(this, "");
+	mPressedState = new uiState(this, "");
 }
 
 uiButton::uiButton( const uiButton& button ):
@@ -37,56 +37,46 @@ void uiButton::setCallback( cCallbackInterface* callback )
 int uiButton::processInputMessageDerived( const cInputMessage& message )
 {
 	int res = 0;
-
-	if (!mVisible) 
-		return res;
-
-	if (!mPressed && !message.isKeyDown(CURSOR_BUTTON))
+		
+	if (!mSelected && isPointInside(message.mCursorPosition))
 	{
-		if (mSelected && !isPointInside(message.mCursorPosition))
-		{
-			mSelected = false;
-			mSelectedState->deactivate();
-			//setState("visible", false, true);
-		}
-		if (!mSelected && isPointInside(message.mCursorPosition))
-		{
-			mSelected = true;
-			mSelectedState->activate();
-			//setState("selected", false, true);
-			res = 1;
-		}
+		mSelected = true;
+		mSelectedState->activate();
+
+		res = 1;
 	}
+	else if (mSelected && !isPointInside(message.mCursorPosition))
+	{
+		mSelected = false;
+		mSelectedState->deactivate();
+	}
+
 	if (message.isKeyPressed(CURSOR_BUTTON) && isPointInside(message.mCursorPosition))
 	{
 		mPressed = true;
 		mSelected = false;
-		mSelectedState->deactivate();
 		mPressedState->activate();
 
 		mWidgetsManager->setWidgetFocused(this);
 
-		//setState("pressed", false, true);
 		res = 1;
 	}
-	if (message.isKeyReleased(CURSOR_BUTTON) && mPressed)
+	else if (message.isKeyReleased(CURSOR_BUTTON) && mPressed)
 	{
 		if (isPointInside(message.mCursorPosition))
 		{
 			if (mOnClickCallback)
 				mOnClickCallback->call();
-
-			res = 1;
 		}
 
-		//setState("visible", false, true);
 		mPressed = false;
 		mSelected = false;
 
 		mWidgetsManager->unfocusWidget(this);
 
-		mSelectedState->deactivate();
 		mPressedState->deactivate();
+
+		res = 0;
 	}
 
 	if (mFocused)

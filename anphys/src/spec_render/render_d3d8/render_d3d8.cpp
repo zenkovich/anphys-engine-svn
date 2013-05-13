@@ -90,7 +90,10 @@ void grRenderBase::update(float dt)
 
 void grRenderBase::beginRender()
 {
-	if (!mReady) return;
+	if (!mReady) 
+		return;
+
+	//mLog->fout(1, "-------------------------------------\n");
 
 	m_pDirect3DDevice->BeginScene();
 
@@ -151,15 +154,20 @@ void grRenderBase::bindStencilBuffer( grStencilBufferRenderTarget* stencilBuffer
 
 	mStencilBuffersStack.push_back(stencilBuffer);
 
-	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, stencilBuffer->mDepthStencilSurface);
-	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
-	m_pDirect3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	//mLog->fout(1, "grRenderBase::bindStencilBuffer setRenderTarger %x %x", mCurrentRenderTargetSurface, stencilBuffer->mDepthStencilSurface);
+	DXCALL( m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, stencilBuffer->mDepthStencilSurface) );
+	DXCALL( m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE) );
+	DXCALL( m_pDirect3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL) );
+
+	//mLog->fout(1, "Binded stencil %i %x", mStencilBuffersStack.size(), stencilBuffer);
 }
 
 void grRenderBase::unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffer)
 {
 	if (mCurrentRenderState)
 		mCurrentRenderState->flush();
+
+	//mLog->fout(1, "Unbind stencil %i %x", mStencilBuffersStack.size(), stencilBuffer);
 
 	LPDIRECT3DSURFACE8 settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
 	if (stencilBuffer != NULL)
@@ -178,10 +186,14 @@ void grRenderBase::unbindStencilBuffer(grStencilBufferRenderTarget* stencilBuffe
 	{
 		settingStencilBuffer = mCurrentRenderTargetDepthStencilSurface;
 		mStencilBuffersStack.clear();
-		m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		DXCALL( m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE) );
 	}
 
-	m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, settingStencilBuffer);
+	if (mStencilBuffersStack.size() == 0)		
+			DXCALL( m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE) );
+
+	//mLog->fout(1, "grRenderBase::unbindStencilBuffer setRenderTarger %x %x", mCurrentRenderTargetSurface, settingStencilBuffer);
+	DXCALL( m_pDirect3DDevice->SetRenderTarget(mCurrentRenderTargetSurface, settingStencilBuffer) );
 }
 
 #endif //RENDER_D3D8

@@ -140,6 +140,10 @@ protected:
 	{
 		out = toStr(in);
 	}
+	static void conv(const int& in, std::string& out)
+	{
+		out = toStr(in);
+	}
 	static void conv(const float& in, int& out)
 	{
 		out = (int)in;

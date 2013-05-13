@@ -217,7 +217,7 @@ uiWindow* uiSimpleStuff::createWindow( uiWidgetsManager* widgetsManager, const s
 
 	windowHead->addChild(windowCaption);
 	windowHead->addChild(closeBtn);
-	windowHead->setClipping(true);
+	//windowHead->setClipping(true);
 
 	uiScrollArea* contentScrollarea = createScrollarea(widgetsManager, vec2(borders, borders*2.0f + headSize), 
 		vec2(size.x - borders*2.0f, size.y - borders*3.0f - headSize), "content"); 

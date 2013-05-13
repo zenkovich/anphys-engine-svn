@@ -20,6 +20,10 @@ struct grCamera2D;
 struct grSprite;
 struct uiWidget;
 struct uiWidgetsManager;
+struct phStaticObject;
+struct uiWindow;
+
+struct LandscapeCreatorWnd;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -33,8 +37,14 @@ struct apPhysicsTestFrame:public apRenderWindow
 	bool                        mPhysicsRunning;
 	bool                        mPhysicsRunByStep;
 
-	//tests
+//ui
 	uiWidgetsManager*           mWidgetsManager;
+	uiWindow*                   mMainMenuWindow;
+
+	LandscapeCreatorWnd*        mLandscapeCreator;
+
+//physics
+	cObject*                    mLandscapeObject;
 
 //functions
 	apPhysicsTestFrame();
@@ -68,6 +78,9 @@ struct apPhysicsTestFrame:public apRenderWindow
 	void setupScene1();
 
 	void createUIWidgets();
+
+protected:
+	void onOpenLandscapeCreatorBtnPressed();
 };
 
 

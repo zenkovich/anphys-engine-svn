@@ -24,6 +24,8 @@ uiWindow::uiWindow( uiWidgetsManager* widgetsManager, const std::string& id, con
 	setPosition(pos);
 	setSize(size);
 
+	setClipping(true);
+
 	/*mWindowHead->setSize(vec2(size.x, mWindowHead->getSize().y));
 
 	mWindowContent->setPosition(vec2(0, head->getSize().y));
@@ -77,7 +79,10 @@ int uiWindow::processInputMessageDerived( const cInputMessage& message )
 		res = 1;
 
 	if (isPointInside(message.mCursorPosition))
+	{
+		mWidgetsManager->setWidgetFocused(this);
 		res = 1;
+	}
 
 	if (!mHeadSelected && headIntersecting)
 	{

@@ -28,6 +28,8 @@ struct uiBorder:public uiWidget
 	void addChild(uiWidget* widget);
 
 	bool isAdjustingSizeByChilds() { return false; }
+
+	void adjustSizeByChilds();
 };
 
 #endif //UI_BORDER_H

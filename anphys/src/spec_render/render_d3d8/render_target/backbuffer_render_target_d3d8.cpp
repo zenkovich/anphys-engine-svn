@@ -21,7 +21,11 @@ grBackbufferRenderTargetBase::grBackbufferRenderTargetBase( grRenderBase* render
 
 bool grBackbufferRenderTargetBase::begin()
 {
+	//mRender->mLog->fout(1, "grBackbufferRenderTargetBase::begin setRenderTarger %x %x", mRenderTargetSurface, mDepthStencilSurface);
+	
 	bool res = !(FAILED(mRender->m_pDirect3DDevice->SetRenderTarget(mRenderTargetSurface, mDepthStencilSurface)));
+	DXCALL( mRender->m_pDirect3DDevice->Clear(0, NULL, D3DCLEAR_STENCIL, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 1) );
+	//DXCALL( mRender->m_pDirect3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE) );
 
 	if (res)
 	{
