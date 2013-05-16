@@ -23,6 +23,8 @@ public:
 	uiButton(const uiButton& button);
 	~uiButton();
 
+	void derivedUpdate(float dt);
+
 	void setCallback(cCallbackInterface* callback);
 
 	int processInputMessageDerived(const cInputMessage& message);

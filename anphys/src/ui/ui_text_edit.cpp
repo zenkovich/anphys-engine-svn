@@ -11,7 +11,7 @@
 REGIST_TYPE(uiTextEdit)
 
 uiTextEdit::uiTextEdit(uiWidgetsManager* widgetsManager, const std::string& id, uiFont* font, uiWidget* backWidget):
-	uiWidget(widgetsManager, id), mFont(font), mBackWidget(backWidget), mSelectionMesh(NULL)
+	uiWidget(widgetsManager, id), mFont(font), mBackWidget(backWidget), mSelectionMesh(NULL), mSelected(false), mPressed(false)
 {
 	addChild(mBackWidget);
 
@@ -19,7 +19,7 @@ uiTextEdit::uiTextEdit(uiWidgetsManager* widgetsManager, const std::string& id, 
 }
 
 uiTextEdit::uiTextEdit( const uiTextEdit& textWidget ):
-	uiWidget(textWidget), mSelectionMesh(NULL)
+	uiWidget(textWidget), mSelectionMesh(NULL), mSelected(false), mPressed(false)
 {
 	initialize();
 }
@@ -34,8 +34,13 @@ uiTextEdit::~uiTextEdit()
 
 void uiTextEdit::derivedUpdate( float dt )
 {
-	checkBindedValues();
+	if (mSelected && !isPointInside(mWidgetsManager->mLastInputMessage->mCursorPosition))
+	{
+		mSelected = false;
+		mSelectedState->deactivate();
+	}
 
+	checkBindedValues();
 
 	checkCursorInFrame();	
 
@@ -124,19 +129,11 @@ int uiTextEdit::processInputMessageDerived( const cInputMessage& message )
 	int res = 0;
 	if (!mVisible) return res;
 
-	if (!mPressed && !message.isKeyDown(CURSOR_BUTTON))
+	if (!mSelected && isPointInside(message.mCursorPosition))
 	{
-		if (mSelected && !isPointInside(message.mCursorPosition))
-		{
-			mSelected = false;
-			mSelectedState->deactivate();
-		}
-		if (!mSelected && isPointInside(message.mCursorPosition))
-		{
-			mSelected = true;
-			mSelectedState->activate();
-			res = 1;
-		}
+		mSelected = true;
+		mSelectedState->activate();
+		res = 1;
 	}
 
 	if (message.isKeyPressed(CURSOR_BUTTON))
@@ -710,14 +707,17 @@ bool uiTextEdit::isSingleLine() const
 
 void uiTextEdit::checkBindedValues()
 {
-	for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+	if (!mFocused)
 	{
-		if ((*it)->checkValue())
+		for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
 		{
-			std::string newText;
-			(*it)->getValue(&newText, BindValuePrototype::t_string);
+			if ((*it)->checkValue())
+			{
+				std::string newText;
+				(*it)->getValue(&newText, BindValuePrototype::t_string);
 
-			setText(newText);
+				setText(newText);
+			}
 		}
 	}
 }

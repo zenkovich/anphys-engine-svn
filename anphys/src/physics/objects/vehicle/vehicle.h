@@ -3,28 +3,27 @@
 
 #include <vector>
 
-struct phRigidObject;
-struct phVehicleComponent;
-struct phScene;
+#include "../rigid_object.h"
 
-struct phVehicle
+struct phVehicleComponent;
+
+struct phVehicle:public phRigidObject
 {
 	typedef std::vector<phVehicleComponent*> ComponentsList;
-
-	phScene*       mPhysicsScene;
-	phRigidObject* mPhysicsObject;
 
 	ComponentsList mComponents;
 
 //functions
-	phVehicle(phScene* scene);
+	phVehicle();
 	~phVehicle();
 
 	void addComponent(phVehicleComponent* component);
 	void removeComponent(phVehicleComponent* component);
 	void removeAllComponents();
 
-	void update(float dt);
+	phVehicleComponent* getComponent(const std::string& id);
+
+	void preSolve(float dt);
 };
 
 #endif //VEHICLE_H

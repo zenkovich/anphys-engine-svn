@@ -7,15 +7,12 @@
 #include "physics/scenes/physics_scene.h"
 
 
-phVehicle::phVehicle(phScene* scene):mPhysicsScene(scene)
+phVehicle::phVehicle():phRigidObject()
 {
-	mPhysicsObject = new phRigidObject(scene);
-	scene->addObject(mPhysicsObject);
 }
 
 phVehicle::~phVehicle()
 {
-	mPhysicsScene->removeObject(mPhysicsObject);
 	removeAllComponents();
 }
 
@@ -43,8 +40,19 @@ void phVehicle::removeAllComponents()
 	mComponents.clear();
 }
 
-void phVehicle::update( float dt )
+void phVehicle::preSolve( float dt )
 {
+	phRigidObject::preSolve(dt);
+
 	for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
 		(*it)->update(dt);
+}
+
+phVehicleComponent* phVehicle::getComponent( const std::string& id )
+{
+	for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
+		if ((*it)->mId == id)
+			return *it;
+
+	return NULL;
 }

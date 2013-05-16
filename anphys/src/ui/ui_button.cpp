@@ -45,11 +45,6 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 
 		res = 1;
 	}
-	else if (mSelected && !isPointInside(message.mCursorPosition))
-	{
-		mSelected = false;
-		mSelectedState->deactivate();
-	}
 
 	if (message.isKeyPressed(CURSOR_BUTTON) && isPointInside(message.mCursorPosition))
 	{
@@ -83,4 +78,13 @@ int uiButton::processInputMessageDerived( const cInputMessage& message )
 		res = 1;
 
 	return res;
+}
+
+void uiButton::derivedUpdate( float dt )
+{
+	if (mSelected && !isPointInside(mWidgetsManager->mLastInputMessage->mCursorPosition))
+	{
+		mSelected = false;
+		mSelectedState->deactivate();
+	}
 }

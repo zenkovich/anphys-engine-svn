@@ -14,10 +14,10 @@ struct phVehicleWheel:public phRigidObject
 	cFixedIntervalsGraphic* mTyreFrictionGraphic;
 
 //functions
-	phVehicleWheel();
-	~phVehicleWheel();
+	phVehicleWheel() {}
+	~phVehicleWheel() {}
 
-	void update(float dt);
+	void update(float dt) {}
 };
 
 #endif //VEHICLE_WHEEL_H

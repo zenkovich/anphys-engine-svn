@@ -10,7 +10,8 @@ phVehicleComponent::phVehicleComponent( phVehicle* vehicle, const std::string& i
 {
 	mId  = id;
 	mVehicle = vehicle;
-	parent->addChild(this);
+	if (parent)
+		parent->addChild(this);
 }
 
 phVehicleComponent::~phVehicleComponent()

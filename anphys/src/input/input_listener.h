@@ -5,6 +5,8 @@
 
 struct cInputListener
 {
+	cInputMessage* mLastInputMessage;
+
 	virtual int processInputMessage(const cInputMessage& inputMessage) = 0;
 };
 

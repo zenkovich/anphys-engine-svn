@@ -42,6 +42,8 @@ void grRender::createStdMaterials()
 		color4(0.0f,0.0f,1.0f,1.0f), color4(0.0f,0.0f,1.0f,1.0f), color4(1.0f,0.0f,0.1f,1.0f), 1));
 	mMaterials->addMaterial(new grMaterial("greenMaterial", color4(0.0f,1.0f,0.0f,1.0f), 
 		color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), color4(0.0f,1.0f,0.0f,1.0f), 1));
+	mMaterials->addMaterial(new grMaterial("whiteMaterial", color4(1.0f,1.0f,1.0f,1.0f), 
+		color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), 1));
 
 	grTexture* tex = mTextures->createTexture("../data/textures/white.jpg");
 
@@ -59,7 +61,4 @@ void grRender::createStdMaterials()
 	gmat->setMaterial(mMaterials->getMaterial("greenMaterial"));
 	gmat->pushTexture(tex);
 	gmat->setShadeModel(NULL);
-
-	mMaterials->addMaterial(new grMaterial("whiteMaterial", color4(1.0f,1.0f,1.0f,1.0f), 
-		color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), color4(1.0f,1.0f,1.0f,1.0f), 1));
 }

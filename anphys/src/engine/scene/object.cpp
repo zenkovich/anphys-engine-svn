@@ -36,14 +36,16 @@ cObjectComponent* cObject::addComponent(cObjectComponent* component)
 {
 	mComponents.push_back(component);
 	component->mOwnerObject = this;
-	component->updateDependencies();
+	//component->updateDependencies();
+	updateComponentsDependencies();
 	return component;
 }
 
 bool cObject::removeComponent(cObjectComponent* component)
 {
 	ObjectComponentsList::iterator fnd = std::find(mComponents.begin(), mComponents.end(), component);
-	if (fnd == mComponents.end()) return false;
+	if (fnd == mComponents.end())
+		return false;
 
 	safe_release(component);
 	mComponents.erase(fnd);

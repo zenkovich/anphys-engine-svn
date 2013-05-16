@@ -80,8 +80,10 @@ int uiWindow::processInputMessageDerived( const cInputMessage& message )
 
 	if (isPointInside(message.mCursorPosition))
 	{
-		mWidgetsManager->setWidgetFocused(this);
 		res = 1;
+
+		if (message.isKeyPressed(CURSOR_BUTTON))
+			mWidgetsManager->setWidgetFocused(this);
 	}
 
 	if (!mHeadSelected && headIntersecting)

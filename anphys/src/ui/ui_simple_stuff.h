@@ -5,6 +5,9 @@
 
 #include "ui_state.h"
 #include "ui_property.h"
+#include "ui_layout_widgets.h"
+#include "ui_widget.h"
+#include "ui_binding_values.h"
 
 struct uiSpriteWidget;
 struct uiWidgetsManager;
@@ -56,6 +59,22 @@ struct uiSimpleStuff
 
 	static uiCheckBox* createCheckbox(uiWidgetsManager* widgetsManager, const std::string& id, const vec2& pos,
 		                              const std::string& caption, bool checked = false);
+
+	template<typename T>
+	static uiBindingValues::BindValue<T>* addProperty(uiWidget* parent, const std::string& propertyName, T* bindvalue, 
+		                    float labelSize = 130.0f, float textEditSize = 100.0f)							
+	{
+		uiHorLayoutWidget* horLayout = new uiHorLayoutWidget(parent->mWidgetsManager, propertyName + "horLayout"); 
+		horLayout->mWidgetsDistance = 2; 
+		uiLabel* label = createLabel(parent->mWidgetsManager, vec2(0, 0), vec2(labelSize, 22), "", propertyName); 
+		uiTextEdit* textEdit = createTextEdit(parent->mWidgetsManager, vec2(130, 0), vec2(textEditSize, 22), ""); 
+		uiBindingValues::BindValue<T>* bindValueProt = textEdit->bindValue<T>(bindvalue); 
+		label->setHorAlign(uiLabel::AL_LEFT); 
+		horLayout->addChild(label); 
+		horLayout->addChild(textEdit); 
+		parent->addChild(horLayout); 
+		return bindValueProt;
+	}
 };
 
 #endif //UI_SIMPLE_STUFF_H

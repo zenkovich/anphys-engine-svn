@@ -383,10 +383,13 @@ uiWidget* uiWidget::setModal( bool modal )
 
 int uiWidget::processInputMessageDerived( const cInputMessage& message )
 {
+	int res = 0;
 	if (isPointInside(message.mCursorPosition))
-		return 1;
+	{
+		res = 1;
+	}
 
-	return 0;
+	return res;
 }
 
 int uiWidget::processInputMessage( const cInputMessage& message )
@@ -396,7 +399,7 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 	if (res == 0) 
 		return 0;
 
-	for (WidgetsList::iterator it = mChilds.begin(); it != mChilds.end(); it++)
+	for (WidgetsList::reverse_iterator it = mChilds.rbegin(); it != mChilds.rend(); it++)
 	{
 		if (!(*it)->mVisible)
 			continue;
@@ -405,7 +408,8 @@ int uiWidget::processInputMessage( const cInputMessage& message )
 			continue;
 
 		int widgetRes = (*it)->processInputMessage(message);
-		if (widgetRes != 0)
+
+		if (widgetRes > res)
 			res = widgetRes;
 	}
 
@@ -458,6 +462,8 @@ void uiWidget::setupInitialProperties()
 
 uiWidget* uiWidget::setClipping( bool flag )
 {
+	//return this;
+
 	if (flag == mIsClipping)
 		return this;
 
@@ -478,5 +484,5 @@ bool uiWidget::isClipping() const
 void uiWidget::calcClippingRect()
 {
 	mClippingRect.leftTop = mGlobalPosition - vec2(1.0f, 1.0f);
-	mClippingRect.rightDown = mGlobalPosition + mResSize + vec2(1.0f, 1.0f);
+	mClippingRect.rightDown = mGlobalPosition + mResSize + vec2(0.0f, 1.0f);
 }

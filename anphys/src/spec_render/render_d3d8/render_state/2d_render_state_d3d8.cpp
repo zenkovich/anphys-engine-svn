@@ -50,6 +50,8 @@ void gr2DRenderStateBase::begin()
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);	
 
+	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
 	mRender->m_pDirect3DDevice->SetVertexShader(D3DFVF_VERTEX_2D);
 	mRender->m_pDirect3DDevice->SetStreamSource(0, mVertexBuffer, sizeof(vertex2d));
 	mRender->m_pDirect3DDevice->SetIndices(mIndexBuffer, 0);

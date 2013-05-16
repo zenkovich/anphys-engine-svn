@@ -13,8 +13,8 @@ phLandscapeCollisionGeometry::lPolygon::lPolygon( unsigned int ia, unsigned int 
 	for (unsigned int i = 0; i < 2; i++)
 	{
 		vec3 p;
-		if (i == 0) pb->mPosition;
-		if (i == 1) pc->mPosition;
+		if (i == 0) p = pb->mPosition;
+		if (i == 1) p = pc->mPosition;
 
 		aabb.mMin.x = fmin(aabb.mMin.x, p.x);
 		aabb.mMin.y = fmin(aabb.mMin.y, p.y);

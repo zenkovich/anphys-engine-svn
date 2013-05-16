@@ -4,14 +4,19 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+
 #include "util\memory\mem_utils.h"
 #include "util\other\string_utils.h"
+#include "util\other\callback.h"
 
 struct uiBindingValues
 {
 	struct BindValuePrototype
 	{
 		enum TypeId { t_string = 0, t_float, t_integer, t_bool };
+
+		BindValuePrototype() {}
+		virtual ~BindValuePrototype() {}
 
 		virtual void setValue(const void* valuePtr, TypeId type) {}
 		virtual void getValue(const void* valuePtr, TypeId type) const {}
@@ -25,8 +30,26 @@ struct uiBindingValues
 		TType* mValuePtr;
 		TType  mLastValue;
 
-		BindValue():mValuePtr(NULL) {}
-		BindValue(TType* valuePtr):mValuePtr(valuePtr) { /*mLastValue = *mValuePtr;*/ }
+		bool   mMinLimitation;
+		TType  mMinValue;
+		bool   mMaxLimitation;
+		TType  mMaxValue;
+
+		cCallbackInterface* mChangeValueCallback;
+
+		BindValue():mValuePtr(NULL), mMinLimitation(false), mMaxLimitation(false), mChangeValueCallback(NULL) {}
+		BindValue(TType* valuePtr):mValuePtr(valuePtr), mMinLimitation(false), mMaxLimitation(false), 
+			mChangeValueCallback(NULL) { /*mLastValue = *mValuePtr;*/ }
+		~BindValue()
+		{
+			safe_release(mChangeValueCallback);
+		}
+
+		void setChangeValueCallback(cCallbackInterface* callback)
+		{
+			safe_release(mChangeValueCallback);
+			mChangeValueCallback = callback;
+		}
 		
 		void setValue(const void* valuePtr, TypeId type)
 		{			
@@ -40,6 +63,9 @@ struct uiBindingValues
 				conv(*(bool*)valuePtr, *mValuePtr);
 
 			mLastValue = *mValuePtr;
+
+			if (mChangeValueCallback)
+				mChangeValueCallback->call();
 		}
 		
 		void getValue(const void* valuePtr, TypeId type) const
@@ -56,14 +82,43 @@ struct uiBindingValues
 
 		bool checkValue()
 		{
+			if (mMinLimitation && comp(mMinValue, *mValuePtr))
+				*mValuePtr = mMinValue;
+
+			if (mMaxLimitation && comp(*mValuePtr, mMaxValue))
+				*mValuePtr = mMaxValue;
+
 			bool res = *mValuePtr != mLastValue;
 			mLastValue = *mValuePtr;
+
+			if (res && mChangeValueCallback)
+				mChangeValueCallback->call();
+
 			return res;
 		}
 		
 		bool isBindingValue(const void* valuePtr) const
 		{
 			return mValuePtr == valuePtr;
+		}
+
+		void setLimitations(const TType& minvalue, const TType& maxvalue)
+		{
+			mMinLimitation = mMaxLimitation = true;
+			mMinValue = minvalue;
+			mMaxValue = maxvalue;
+		}
+
+		void setMinLimitation(const TType& minValue)
+		{
+			mMinLimitation = true;
+			mMinValue = minValue;
+		}
+
+		void setMaxLimitation(const TType& maxValue)
+		{
+			mMaxLimitation = true;
+			mMaxValue = maxValue;
 		}
 	};
 
@@ -76,10 +131,11 @@ struct uiBindingValues
 	~uiBindingValues() { clearBindingValues(); }
 
 	template<typename T>
-	void bindValue(T* valuePtr)
+	BindValue<T>* bindValue(T* valuePtr)
 	{
-		BindValuePrototype* newBindValue = new BindValue<T>(valuePtr);
+		BindValue<T>* newBindValue = new BindValue<T>(valuePtr);
 		mBindValues.push_back(newBindValue);
+		return newBindValue;
 	}
 
 	template<typename T>
@@ -101,6 +157,18 @@ struct uiBindingValues
 		for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
 			safe_release(*it);
 		mBindValues.clear();
+	}
+
+	template<typename T>
+	BindValue<T>* getBindedValue(T* valuePtr)
+	{
+		for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+		{
+			if ((*it)->isBindingValue(valuePtr))
+			{
+				return static_cast<BindValue<T>*>(*it);
+			}
+		}
 	}
 
 protected:
@@ -151,6 +219,21 @@ protected:
 	static void conv(const float& in, bool& out)
 	{
 		out = in != 0.0f;
+	}
+	static void conv(const int& in, bool& out)
+	{
+		out = in != 0;
+	}
+
+	template<typename T>
+	static bool comp(const T& a, const T& b) //a > b
+	{
+		return a > b;
+	}
+
+	bool comp(const std::string& a, const std::string& b)
+	{
+		return false;
 	}
 };
 
