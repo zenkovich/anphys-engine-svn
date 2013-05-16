@@ -45,7 +45,11 @@ cPhysicsStaticBodyObjectComponent::~cPhysicsStaticBodyObjectComponent()
 void cPhysicsStaticBodyObjectComponent::updateDependencies()
 {
 	if (mOwnerObject) 
-		mRenderObject = mOwnerObject->getComponent<cRender3DObjectComponent>()->mRender3DObject;
+	{
+		cRender3DObjectComponent* renderObjectComponent = mOwnerObject->getComponent<cRender3DObjectComponent>();
+		if (renderObjectComponent)
+			mRenderObject = renderObjectComponent->mRender3DObject;
+	}
 }
 
 void cPhysicsStaticBodyObjectComponent::update(float dt)

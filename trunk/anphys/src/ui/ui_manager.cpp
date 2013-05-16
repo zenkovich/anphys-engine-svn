@@ -14,6 +14,7 @@ uiWidgetsManager::uiWidgetsManager( grRender* render ):mRender(render), mFocusWi
 {
 	mLog = gLogSystem->addStream(new cLogStreamInFile("ui_manager.txt"), "ui manager");
 	mLog->mLogLevel = INITIAL_UI_MANAGER_LOG_LEVEL;
+	mLastInputMessage = NULL;
 }
 
 uiWidgetsManager::~uiWidgetsManager()
@@ -105,6 +106,16 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 {
 	int res = 0;
 
+	for (WidgetsList::iterator it = mMoveBackWidgets.begin(); it != mMoveBackWidgets.end(); ++it)
+	{
+		WidgetsList::iterator fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), *it);
+		if (fnd !=  mVisibleWidgets.end())
+			mVisibleWidgets.erase(fnd);
+
+		mVisibleWidgets.push_back(*it);
+	}
+	mMoveBackWidgets.clear();
+
 	if (mFocusWidget)
 	{
 		res = mFocusWidget->processInputMessage(message);
@@ -124,7 +135,7 @@ int uiWidgetsManager::processInputMessage( const cInputMessage& message )
 	{
 		for (WidgetsList::reverse_iterator it = mVisibleWidgets.rbegin(); it != mVisibleWidgets.rend(); ++it)
 		{
-			if ((*it)->isInFocus()) 
+			if ((*it) == mFocusWidget) 
 				continue;
 
 			int widgetRes = (*it)->processInputMessage(message);
@@ -155,11 +166,7 @@ void uiWidgetsManager::showedWidget( uiWidget* widget )
 	}
 	else
 	{
-		fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), widget);
-		if (fnd !=  mVisibleWidgets.end())
-			mVisibleWidgets.erase(fnd);
-
-		mVisibleWidgets.push_back(widget);
+		mMoveBackWidgets.push_back(widget);
 	}
 }
 
@@ -183,18 +190,22 @@ void uiWidgetsManager::hidedWidget( uiWidget* widget )
 
 void uiWidgetsManager::setWidgetFocused( uiWidget* widget )
 {
-	unfocusWidget(NULL);
+	if (widget == mFocusWidget)
+		return;
+
+	unfocusWidget(mFocusWidget);
 
 	mFocusWidget = widget;
 	widget->mFocused = true;
 	widget->onFocused();
 
-	WidgetsList::iterator fnd = std::find(mVisibleWidgets.begin(), mVisibleWidgets.end(), widget);
-	if (fnd != mVisibleWidgets.end())
+	uiWidget* topParentWidget = widget;
+	while (topParentWidget->mParent)
 	{
-		mVisibleWidgets.erase(fnd);
-		mVisibleWidgets.push_back(widget);
+		topParentWidget = topParentWidget->mParent;
 	}
+
+	mMoveBackWidgets.push_back(topParentWidget);
 }
 
 void uiWidgetsManager::unfocusWidget( uiWidget* widget )

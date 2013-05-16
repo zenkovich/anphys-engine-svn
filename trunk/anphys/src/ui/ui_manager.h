@@ -44,6 +44,8 @@ struct uiWidgetsManager:public cInputListener
 private:
 	friend struct uiWidget;
 
+	WidgetsList mMoveBackWidgets;
+
 	uiWidget* createWidget(cDataObject* dataObject);
 	void showedWidget(uiWidget* widget);
 	void hidedWidget(uiWidget* widget);

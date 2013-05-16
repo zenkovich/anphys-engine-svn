@@ -3,28 +3,35 @@
 
 struct uiWindow;
 struct uiWidgetsManager;
+struct cObject;
+struct grRenderSceneBaseInterface;
 
 struct LandscapeCreatorWnd
 {
-	uiWindow*         mWindow;
-	uiWidgetsManager* mWidgetsManager;
-
-	float             mMinRangeX;
-	float             mMinRangeY;
-	float             mMinRangeZ;
-
-	float             mMaxRangeX;
-	float             mMaxRangeY;
-	float             mMaxRangeZ;
-	
-	int               mSegmentsXCount;
-	int               mSegmentsZCount;
+	uiWindow*                   mWindow;
+	uiWidgetsManager*           mWidgetsManager;
+					            
+	float                       mMinRangeX;
+	float                       mMinRangeY;
+	float                       mMinRangeZ;
+					            
+	float                       mMaxRangeX;
+	float                       mMaxRangeY;
+	float                       mMaxRangeZ;
+					            
+	int                         mSegmentsXCount;
+	int                         mSegmentsZCount;
+					            
+	cObject*                    mLandscapeObject;
+	grRenderSceneBaseInterface* mRenderScene;
 
 //functions
 	LandscapeCreatorWnd(uiWidgetsManager* widgetsManager);
 	~LandscapeCreatorWnd();
 
 	void show();
+
+	void recreateLandscape();
 
 protected:
 	void onRecreateLandcapeBtnPressed();

@@ -90,6 +90,7 @@ extern cLogSystem* gLogSystem;
 //physics
 #include "physics/CD/collision_detection/box_box_cd.h"
 #include "physics/CD/collision_geometry/box_collision_geometry.h"
+#include "physics/CD/collision_geometry/landscape_geometry.h"
 #include "physics/CD/collision_geometry/collision.h"
 #include "physics/CD/collision_geometry/collision_geometry.h"
 #include "physics/CD/collision_geometry/collision_point.h"

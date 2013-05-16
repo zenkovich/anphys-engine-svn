@@ -7,6 +7,8 @@
 #include "vehicle.h"
 #include "../rigid_object.h"
 
+#include "util/debug/render_stuff.h"
+
 phVehicleChassisComponent::phVehicleChassisComponent( phVehicle* vehicle, const std::string& id ):
 	phVehicleComponent(vehicle, id)
 {
@@ -38,8 +40,8 @@ void phVehicleChassisComponent::update( float dt )
 {
 	mLocalAxis = mInitialLocalAxis*rotatedYMatrix(mWheelAngle);
 
-	mat3x3 globalAxis = mVehicle->mPhysicsObject->mOrient*mLocalAxis;
-	vec3 globalAxisPos = mLocalPosition*mVehicle->mPhysicsObject->mOrient + mVehicle->mPhysicsObject->mPosition;
+	mat3x3 globalAxis = mVehicle->mOrient*mLocalAxis;
+	vec3 globalAxisPos = mLocalPosition*mVehicle->mOrient + mVehicle->mPosition;
 
 	vec3 globalWheelPos = globalAxisPos + globalAxis.getYVector()*fmax(mPosition, mMinPosition);
 
@@ -54,28 +56,28 @@ void phVehicleChassisComponent::update( float dt )
 	vec3 wheelYImpulse = springShockImpulse;
 
 	vec3 globalWheelBottomPos = globalWheelPos + globalAxis.getYVector()*mWheel->mRadius;
-	vec3 r = globalWheelBottomPos - mVehicle->mPhysicsObject->mPosition;
+	vec3 r = globalWheelBottomPos - mVehicle->mPosition;
 
 	if (mPosition < mMinPosition)
 	{
 		mPosition = mMinPosition;
 
 		wheelYImpulse = 
-			mVehicle->mPhysicsObject->mVelocity*globalAxis.getYVector()*mVehicle->mPhysicsObject->mMass + 
-			mVehicle->mPhysicsObject->mAngularVelocity*
-			((r^globalAxis.getYVector())*mVehicle->mPhysicsObject->mWorldInertia);
+			mVehicle->mVelocity*globalAxis.getYVector()*mVehicle->mMass + 
+			mVehicle->mAngularVelocity*
+			((r^globalAxis.getYVector())*mVehicle->mWorldInertia);
 
 		vec3 groundPenetration = mWheel->mGroundNormal*
 			(globalAxis.getYVector()*(mMinPosition - mPosition)*mWheel->mGroundNormal);
 
-		mVehicle->mPhysicsObject->applyBiasImpulse(globalWheelBottomPos, groundPenetration/dt);
+		mVehicle->applyBiasImpulse(globalWheelBottomPos, groundPenetration/dt);
 	}
 
-	mVehicle->mPhysicsObject->applyImpulse(globalWheelBottomPos, wheelYImpulse);
+	mVehicle->applyImpulse(globalWheelBottomPos, wheelYImpulse);
 
 	float yForce = mWheel->mGroundNormal*wheelYImpulse*dt;
 
-	vec3 wheelVelocity = mVehicle->mPhysicsObject->mVelocity + r^mVehicle->mPhysicsObject->mAngularVelocity;
+	vec3 wheelVelocity = mVehicle->mVelocity + r^mVehicle->mAngularVelocity;
 	float xWheelVelocity = wheelVelocity*globalAxis.getXVector();
 	float zWheelvelocity = wheelVelocity*globalAxis.getZVector();
 
@@ -84,5 +86,13 @@ void phVehicleChassisComponent::update( float dt )
 
 	vec3 wheelImpulse = globalAxis.getXVector()*xForce + globalAxis.getZVector()*zForce;
 
-	mVehicle->mPhysicsObject->applyImpulse(globalWheelBottomPos, wheelImpulse*dt);
+	mVehicle->applyImpulse(globalWheelBottomPos, wheelImpulse*dt);
+	
+	getRenderStuff().addRedArrow(globalAxisPos, globalAxisPos + globalAxis.getXVector()*0.3f);
+	getRenderStuff().addGreenArrow(globalAxisPos, globalAxisPos + globalAxis.getYVector()*0.3f);
+	getRenderStuff().addBlueArrow(globalAxisPos, globalAxisPos + globalAxis.getZVector()*0.3f);
+	
+	getRenderStuff().addRedCube(globalAxisPos + globalAxis.getYVector()*mMinPosition);
+	getRenderStuff().addGreenCube(globalAxisPos + globalAxis.getYVector()*mMaxPosition);
+	getRenderStuff().addBlueCube(globalAxisPos + globalAxis.getYVector()*mPosition);
 }

@@ -2,8 +2,9 @@
 #define UI_CHECKBOX_H
 
 #include "ui_widget.h"
+#include "ui_binding_values.h"
 
-struct uiCheckBox:public uiWidget
+struct uiCheckBox:public uiWidget, public uiBindingValues
 {
 	DEFINE_TYPE(uiCheckBox)
 
@@ -25,10 +26,15 @@ public:
 		       uiWidget* informationWidget);
 	~uiCheckBox();
 
+	void derivedUpdate(float dt);
+
 	void setCheck(bool flag);
 	bool isChecked() const;
 
 	int processInputMessageDerived(const cInputMessage& message);
+
+protected:
+	void checkBindedValues();
 };
 
 #endif //UI_CHECKBOX_H

@@ -24,6 +24,7 @@ struct phStaticObject;
 struct uiWindow;
 
 struct LandscapeCreatorWnd;
+struct VehicleCreatorWidnow;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -42,9 +43,11 @@ struct apPhysicsTestFrame:public apRenderWindow
 	uiWindow*                   mMainMenuWindow;
 
 	LandscapeCreatorWnd*        mLandscapeCreator;
+	VehicleCreatorWidnow*       mVehicleCreator;
 
 //physics
 	cObject*                    mLandscapeObject;
+	cObject*                    mVehicleObject;
 
 //functions
 	apPhysicsTestFrame();
@@ -77,10 +80,14 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 	void setupScene1();
 
+	void createLandscapeObject();
+	void createVehicleObject();
+
 	void createUIWidgets();
 
 protected:
 	void onOpenLandscapeCreatorBtnPressed();
+	void onOpenVehicleCreatorBtnPressed();
 };
 
 

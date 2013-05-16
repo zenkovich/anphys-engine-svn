@@ -28,7 +28,10 @@ void cInputMessenger::unregistInputListener( cInputListener* listener )
 void cInputMessenger::sendInputMessage()
 {
 	for (InputListenersList::iterator it = mInputListeners.begin(); it != mInputListeners.end(); ++it)
+	{
+		it->mListener->mLastInputMessage = &mInputMessage;
 		it->mListener->processInputMessage(mInputMessage);
+	}
 }
 
 bool cInputMessenger::compareListenersPriority( Listener& a, Listener& b )

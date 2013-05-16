@@ -53,6 +53,12 @@ uiScrollbar::~uiScrollbar()
 
 void uiScrollbar::derivedUpdate( float dt )
 {
+	if (mSelected && !isPointInScroller(mWidgetsManager->mLastInputMessage->mCursorPosition))
+	{
+		mSelected = false;
+		mSelectedState->deactivate();
+	}
+
 	if (fabs(mGlobalPosition.x - mLastGlobalPosition.x) > FLT_EPSILON ||
 		fabs(mGlobalPosition.y - mLastGlobalPosition.y) > FLT_EPSILON ||
 		fabs(mResSize.x - mLastSize.x) > FLT_EPSILON ||
@@ -78,21 +84,14 @@ int uiScrollbar::processInputMessageDerived( const cInputMessage& message )
 	if (!mVisible)
 		return res;
 
-	if (!mPressed && !message.isKeyDown(CURSOR_BUTTON))
+	if (!mSelected && isPointInScroller(message.mCursorPosition))
 	{
-		if (mSelected && !isPointInScroller(message.mCursorPosition))
-		{
-			mSelected = false;
-			mSelectedState->deactivate();
-		}
-		if (!mSelected && isPointInScroller(message.mCursorPosition))
-		{
-			mSelected = true;
-			mSelectedState->activate();
+		mSelected = true;
+		mSelectedState->activate();
 
-			res = 1;
-		}
+		res = 1;
 	}
+
 	if (message.isKeyPressed(CURSOR_BUTTON) && isPointInScroller(message.mCursorPosition))
 	{
 		mPressed = true;
@@ -267,17 +266,20 @@ void uiScrollbar::setChangeValueCallback( cCallbackInterface* callback )
 bool uiScrollbar::checkBindedValues()
 {
 	bool changedValue = false;
-	for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+	if (!mFocused)
 	{
-		if ((*it)->checkValue())
+		for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
 		{
-			float newValue;
-			(*it)->getValue(&newValue, BindValuePrototype::t_float);
+			if ((*it)->checkValue())
+			{
+				float newValue;
+				(*it)->getValue(&newValue, BindValuePrototype::t_float);
 
-			mCurrentValue = newValue;
-			changedValue = true;
-		}
-	}	
+				mCurrentValue = newValue;
+				changedValue = true;
+			}
+		}	
+	}
 	
 	return changedValue;
 }

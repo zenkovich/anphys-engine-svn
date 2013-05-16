@@ -19,6 +19,9 @@ void grSimple3DRenderStateBase::begin()
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);	
 
+	
+	//mRender->m_pDirect3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_DITHERENABLE, true);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_AMBIENT, mAmbientColor.dwordARGB());
 

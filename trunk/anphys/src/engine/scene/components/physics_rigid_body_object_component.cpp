@@ -45,7 +45,11 @@ cPhysicsRigidBodyObjectComponent::~cPhysicsRigidBodyObjectComponent()
 void cPhysicsRigidBodyObjectComponent::updateDependencies()
 {
 	if (mOwnerObject) 
-		mRenderObject = mOwnerObject->getComponent<cRender3DObjectComponent>()->mRender3DObject;
+	{
+		cRender3DObjectComponent* renderObjectComponent = mOwnerObject->getComponent<cRender3DObjectComponent>();
+		if (renderObjectComponent)
+			mRenderObject = renderObjectComponent->mRender3DObject;
+	}
 }
 
 void cPhysicsRigidBodyObjectComponent::update(float dt)

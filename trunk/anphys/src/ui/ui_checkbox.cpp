@@ -8,7 +8,8 @@ REGIST_TYPE(uiCheckBox)
 
 uiCheckBox::uiCheckBox( uiWidgetsManager* widgetsManager, const std::string& id, uiWidget* checkBack, uiWidget* checkThumb, 
                         uiWidget* informationWidget ):
-	uiWidget(widgetsManager, id), mCheckBack(checkBack), mCheckThumb(checkThumb), mInformationWidget(informationWidget)
+	uiWidget(widgetsManager, id), mCheckBack(checkBack), mCheckThumb(checkThumb), mInformationWidget(informationWidget), 
+	mSelected(false), mPressed(false)
 {
 	addChild(mCheckBack);
 	addChild(mCheckThumb);
@@ -39,6 +40,8 @@ void uiCheckBox::setCheck( bool flag )
 		mCheckThumb->show();
 	else
 		mCheckThumb->hide();
+
+	setBindingValue(&mChecked, BindValuePrototype::t_bool);
 }
 
 bool uiCheckBox::isChecked() const
@@ -57,11 +60,6 @@ int uiCheckBox::processInputMessageDerived( const cInputMessage& message )
 		mSelected = true;
 		mSelectedState->activate();
 		res = 1;
-	}
-	else if (mSelected && !isIntersectCheck)
-	{
-		mSelected = false;
-		mSelectedState->deactivate();
 	}
 
 	if (message.isKeyPressed(CURSOR_BUTTON) && !mPressed && isIntersectCheck)
@@ -89,4 +87,31 @@ int uiCheckBox::processInputMessageDerived( const cInputMessage& message )
 		res = 1;
 
 	return res;
+}
+
+void uiCheckBox::derivedUpdate( float dt )
+{
+	if (mSelected && mWidgetsManager->mLastInputMessage && 
+		!mCheckBack->isPointInside(mWidgetsManager->mLastInputMessage->mCursorPosition))
+	{
+		mSelected = false;
+		mSelectedState->deactivate();
+	}
+}
+
+void uiCheckBox::checkBindedValues()
+{
+	if (!mFocused)
+	{
+		for (BindValuesList::iterator it = mBindValues.begin(); it != mBindValues.end(); ++it)
+		{
+			if ((*it)->checkValue())
+			{
+				bool newValue;
+				(*it)->getValue(&newValue, BindValuePrototype::t_bool);
+
+				setCheck(newValue);
+			}
+		}	
+	}
 }

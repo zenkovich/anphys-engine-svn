@@ -4,6 +4,9 @@
 #include "util/debug/render_stuff.h"
 
 #include "landscape_creator_wnd.h"
+#include "vehicle_creator_wnd.h"
+#include "physics/objects/vehicle/vehicle.h"
+#include "physics/objects/vehicle/chassis_vehicle_component.h"
 
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), 
 	mPhysicsRunByStep(false), mLandscapeCreator(NULL)
@@ -57,8 +60,10 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	//light->setLightActive(true);
 
 	//setupScene1();
-
+	
 	createUIWidgets();
+	createLandscapeObject();
+	createVehicleObject();
 
 	mPhysicsRunning = false;
 }
@@ -220,23 +225,18 @@ void apPhysicsTestFrame::createUIWidgets()
 
 	uiVertLayoutWidget* verLayoutWidget = new uiVertLayoutWidget(mWidgetsManager, "verLayout");
 	verLayoutWidget->mWidgetsDistance = 5.0f;
-
-	uiBorder* wndBorder = uiSimpleStuff::createBorder(mWidgetsManager, "wndBorder", vec2(0, 0), mMainMenuWindow->getSize(),
-		uiBorder::LT_NO_LINE, "");
+	verLayoutWidget->setPosition(vec2(5, 5));
 
 	uiButton* landscapeCreatorBtn = uiSimpleStuff::createButton(mWidgetsManager, vec2(0, 0), vec2(200, 25), "landscapeBtn",
 		"Landscape creator", new cCallback<apPhysicsTestFrame>(this, &apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed));
 
 	uiButton* vehicleEditorBtn = uiSimpleStuff::createButton(mWidgetsManager, vec2(0, 0), vec2(200, 25), "vehEditortn",
-		"Vehicle editor", new cCallback<apPhysicsTestFrame>(this, &apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed));
+		"Vehicle editor", new cCallback<apPhysicsTestFrame>(this, &apPhysicsTestFrame::onOpenVehicleCreatorBtnPressed));
 	
 	verLayoutWidget->addChild((uiWidget*)landscapeCreatorBtn);
 	verLayoutWidget->addChild((uiWidget*)vehicleEditorBtn);
 
-	wndBorder->addChild(verLayoutWidget);
-	wndBorder->adjustSizeByChilds();
-
-	mMainMenuWindow->addChild(wndBorder);
+	mMainMenuWindow->addChild(verLayoutWidget);
 
 	mWidgetsManager->addWidget(mMainMenuWindow);
 	mMainMenuWindow->show(true);
@@ -248,4 +248,76 @@ void apPhysicsTestFrame::createUIWidgets()
 void apPhysicsTestFrame::onOpenLandscapeCreatorBtnPressed()
 {
 	mLandscapeCreator->show();
+}
+
+void apPhysicsTestFrame::onOpenVehicleCreatorBtnPressed()
+{
+	mVehicleCreator->show();
+}
+
+void apPhysicsTestFrame::createLandscapeObject()
+{
+	mLandscapeObject = new cObject;
+
+//creating physics component
+	phCollisionGeometry* collisionGeom = new phCollisionGeometry;
+	phLandscapeCollisionGeometry* landscapeCollisionGeometry = new phLandscapeCollisionGeometry();
+	collisionGeom->addPart(landscapeCollisionGeometry);
+	phStaticObject* staticObj = new phStaticObject(vec3(0,0,0), nullMatr(), collisionGeom);
+
+	cPhysicsStaticBodyObjectComponent* physicsComponent = new cPhysicsStaticBodyObjectComponent(mLandscapeObject, staticObj);
+	mLandscapeObject->addComponent(physicsComponent);
+
+//create surface material
+	grSurfaceMaterial* surfaceMaterial = mRender->mSurfaceMaterials->addSurfaceMaterial(
+		new grSurfaceMaterial("grass"));
+	surfaceMaterial->pushTexture(mRender->mTextures->createTexture("../data/textures/wood.jpg"));
+	surfaceMaterial->setMaterial(mRender->mMaterials->getMaterial("whiteMaterial"));
+	surfaceMaterial->setShadeModel(NULL);
+
+//add to scene
+	mMainEngineScene->addObject(mLandscapeObject);
+
+	mLandscapeCreator->mLandscapeObject = mLandscapeObject;
+	mLandscapeCreator->mRenderScene = mMainEngineScene->mRenderScene;
+	mLandscapeCreator->recreateLandscape();
+}
+
+void apPhysicsTestFrame::createVehicleObject()
+{
+	mVehicleObject = new cObject;
+
+//physics object
+	phVehicle* physicsObject = new phVehicle;
+	cPhysicsRigidBodyObjectComponent* physicsComponent = new cPhysicsRigidBodyObjectComponent(physicsObject);
+	
+	phVehicleChassisComponent* forwardLeftChassis = new phVehicleChassisComponent(physicsObject, "forwardLeftChassis");
+	phVehicleChassisComponent* forwardRightChassis = new phVehicleChassisComponent(physicsObject, "forwardRightChassis");
+	phVehicleChassisComponent* rearLeftChassis = new phVehicleChassisComponent(physicsObject, "rearLeftChassis");
+	phVehicleChassisComponent* rearRightChassis = new phVehicleChassisComponent(physicsObject, "rearRightChassis");
+	
+	physicsObject->addComponent(forwardLeftChassis);
+	physicsObject->addComponent(forwardRightChassis);
+	physicsObject->addComponent(rearLeftChassis);
+	physicsObject->addComponent(rearRightChassis);
+
+	mMainEngineScene->mPhysicsScene->addObject(physicsObject);
+
+	mVehicleObject->addComponent(physicsComponent);
+
+//graphics
+	grRender3DObjectMesh* boxMesh = mMainEngineScene->mSceneStuff->createMesh(128, 128);
+	mMainEngineScene->mSceneStuff->addBoxMesh(boxMesh, vec3(2, 1.8f, 4), 
+		mMainEngineScene->mSceneStuff->createSurfaceMaterial(
+			mMainEngineScene->mSceneStuff->createTexture("../data/textures/wood.jpg"), 
+			mMainEngineScene->mSceneStuff->getMaterial("whiteMaterial")));
+	
+	cRender3DObjectComponent* boxMeshComponent = new cRender3DObjectComponent(boxMesh);
+	mVehicleObject->addComponent(boxMeshComponent);
+
+//add to scene	
+	mMainEngineScene->addObject(mVehicleObject);		
+
+//vehicle creator
+	mVehicleCreator = new VehicleCreatorWidnow(mWidgetsManager, physicsObject);
 }
