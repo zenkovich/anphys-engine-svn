@@ -51,6 +51,7 @@ protected:
 
 	grStencilBufferRenderTarget* mClippingStencilBuffer;
 	fRect             mClippingRect;
+	fRect             mLastClipRect;
 	bool              mIsClipping;
 
 public:

@@ -181,10 +181,14 @@ void uiWidget::draw()
 
 	if (mIsClipping/* && false*/)
 	{
-		mWidgetsManager->mRender->bindRenderTarget(mClippingStencilBuffer);
-		mClippingStencilBuffer->clear();
-		mClippingStencilBuffer->fillRect(mClippingRect);
-		mWidgetsManager->mRender->unbindRenderTarget(mClippingStencilBuffer);
+		if (mLastClipRect != mClippingRect)
+		{
+			mWidgetsManager->mRender->bindRenderTarget(mClippingStencilBuffer);
+			mClippingStencilBuffer->clear();
+			mClippingStencilBuffer->fillRect(mClippingRect);
+			mWidgetsManager->mRender->unbindRenderTarget(mClippingStencilBuffer);
+		}
+		mLastClipRect = mClippingRect;
 
 		mWidgetsManager->mRender->bindStencilBuffer(mClippingStencilBuffer);
 	}

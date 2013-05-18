@@ -135,6 +135,7 @@ struct uiBindingValues
 	{
 		BindValue<T>* newBindValue = new BindValue<T>(valuePtr);
 		mBindValues.push_back(newBindValue);
+		derivedUpdate(0.0f);
 		return newBindValue;
 	}
 
@@ -170,6 +171,8 @@ struct uiBindingValues
 			}
 		}
 	}
+
+	virtual void derivedUpdate(float dt) {}
 
 protected:
 	void setBindingValue(const void* valuePtr, BindValuePrototype::TypeId type)
