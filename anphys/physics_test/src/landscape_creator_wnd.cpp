@@ -64,7 +64,7 @@ void LandscapeCreatorWnd::onRecreateLandcapeBtnPressed()
 void LandscapeCreatorWnd::resetParametres()
 {
 	mMinRangeX = -100;
-	mMinRangeY = -1;
+	mMinRangeY = 0;
 	mMinRangeZ = -100;
 
 	mMaxRangeX = 100;

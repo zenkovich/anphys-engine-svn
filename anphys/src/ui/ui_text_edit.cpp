@@ -270,7 +270,8 @@ void uiTextEdit::pressedInside( const vec2& point )
 
 void uiTextEdit::pressedOutside( const vec2& point )
 {
-	mWidgetsManager->unfocusWidget(this);
+	if (mFocused)
+		mWidgetsManager->unfocusWidget(this);
 
 	mFocusedState->deactivate();
 

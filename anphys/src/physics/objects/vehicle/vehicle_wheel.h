@@ -5,16 +5,18 @@
 #include "../rigid_object.h"
 
 struct cFixedIntervalsGraphic;
+struct phCollision;
 
 struct phVehicleWheel:public phRigidObject
 {
 	float mRadius;
 	vec3  mGroundNormal;
+	bool  mOnGround;
 
 	cFixedIntervalsGraphic* mTyreFrictionGraphic;
 
 //functions
-	phVehicleWheel() {}
+	phVehicleWheel():mRadius(0.2f), mOnGround(false) {}
 	~phVehicleWheel() {}
 
 	void update(float dt) {}

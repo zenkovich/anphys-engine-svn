@@ -5,6 +5,9 @@
 #include "vehicle_component.h"
 #include "physics/objects/rigid_object.h"
 #include "physics/scenes/physics_scene.h"
+#include "physics/CD/collision_manager.h"
+#include "physics/CD/collision_geometry/collision.h"
+#include "physics/CD/collision_geometry/collision_point.h"
 
 
 phVehicle::phVehicle():phRigidObject()
@@ -45,7 +48,21 @@ void phVehicle::preSolve( float dt )
 	phRigidObject::preSolve(dt);
 
 	for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
-		(*it)->update(dt);
+		(*it)->preSolve(dt);
+}
+
+void phVehicle::postSolve( float dt )
+{	
+	for (int i = 0; i < 10; i++)
+	{
+		for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
+			(*it)->solve(dt);
+	}
+
+	phRigidObject::postSolve(dt);
+
+	for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
+		(*it)->postSolve(dt);
 }
 
 phVehicleComponent* phVehicle::getComponent( const std::string& id )

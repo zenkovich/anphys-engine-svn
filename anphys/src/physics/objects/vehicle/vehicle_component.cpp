@@ -19,12 +19,6 @@ phVehicleComponent::~phVehicleComponent()
 	removeAllChilds();
 }
 
-void phVehicleComponent::update( float dt )
-{
-	for (ComponentsList::iterator it = mChildComponents.begin(); it != mChildComponents.end(); ++it)
-		(*it)->update(dt);
-}
-
 void phVehicleComponent::addChild( phVehicleComponent* component )
 {
 	mChildComponents.push_back(component);
@@ -48,4 +42,28 @@ void phVehicleComponent::removeAllChilds()
 		safe_release(*it);
 
 	mChildComponents.clear();
+}
+
+void phVehicleComponent::preSolve( float dt )
+{
+	derivedPreSolve(dt);
+
+	for (ComponentsList::iterator it = mChildComponents.begin(); it != mChildComponents.end(); ++it)
+		(*it)->preSolve(dt);
+}
+
+void phVehicleComponent::solve( float dt )
+{
+	derivedSolve(dt);
+
+	for (ComponentsList::iterator it = mChildComponents.begin(); it != mChildComponents.end(); ++it)
+		(*it)->solve(dt);
+}
+
+void phVehicleComponent::postSolve( float dt )
+{
+	derivedPostSolve(dt);
+
+	for (ComponentsList::iterator it = mChildComponents.begin(); it != mChildComponents.end(); ++it)
+		(*it)->postSolve(dt);
 }

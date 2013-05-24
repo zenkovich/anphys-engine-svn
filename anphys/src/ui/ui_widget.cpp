@@ -179,7 +179,7 @@ void uiWidget::draw()
 			mClippingRect.rightDown.y = mParent->mClippingRect.rightDown.y;
 	}
 
-	if (mIsClipping/* && false*/)
+	if (mIsClipping && false)
 	{
 		if (mLastClipRect != mClippingRect)
 		{
@@ -216,7 +216,7 @@ void uiWidget::draw()
 
 	afterDraw();
 
-	if (mClippingStencilBuffer/* && false*/)
+	if (mClippingStencilBuffer && false)
 	{
 		mWidgetsManager->mRender->unbindStencilBuffer(mClippingStencilBuffer);
 	}

@@ -17,8 +17,17 @@ struct cCallbackInterface;
 
 struct VehicleCreatorWidnow
 {
+	enum ChassisId { CH_LEFT_FWD = 0, CH_RIGHT_FWD, CH_LEFT_REAR, CH_RIGHT_REAR };
+	enum ChassisPropId { PID_POSX = 0, PID_POSY, PID_POSZ,
+	                     PID_ANGLEX, PID_ANGLEY, PID_ANGLEZ,
+	                     PID_MINPOS, PID_MAXPOS,
+	                     PID_SPRING_FORCE, PID_SHOCK_FORCE };
+
 	struct ChassisEditContainer
 	{
+		VehicleCreatorWidnow* mVehicleCreator;
+		ChassisId    mChassisId;
+
 		uiTextEdit*  mPosX;
 		uiTextEdit*  mPosY;
 		uiTextEdit*  mPosZ;
@@ -37,10 +46,16 @@ struct VehicleCreatorWidnow
 		uiTextEdit*  mMaxPos;
 		uiScrollbar* mMaxPosScrollbar;
 
+		uiTextEdit*  mSpringForce;
+		uiScrollbar* mSpringForceScrollbar;
+		uiTextEdit*  mGasShockForce;
+		uiScrollbar* mGasShockForceScrollbar;
+
 		phVehicleChassisComponent* mChassis;
 
 	//functions
-		void create(uiWidget* parentWidget, phVehicleChassisComponent* chassis, const std::string& name);
+		void create(uiWidget* parentWidget, ChassisId id, VehicleCreatorWidnow* owner, phVehicleChassisComponent* chassis, 
+			        const std::string& name);
 
 		uiBindingValues::BindValue<float>* addPropertyWithScrollbar( uiWidgetsManager* widgetsManager, std::string uiSuffix, 
 			                                                         std::string caption, 
@@ -74,6 +89,12 @@ struct VehicleCreatorWidnow
 
 protected:
 	void onSymmetricChangesChkBoxChanged();
+
+	void onMassEditChanged();
+
+	void onInertiaChanged();
+
+	void onChassisPropertyChanged(ChassisId chassidId, ChassisPropId propId);
 };
 
 #endif //VEHICLE_CREATOR_WND_H

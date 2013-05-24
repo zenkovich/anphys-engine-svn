@@ -4,11 +4,14 @@
 
 #include "physics/objects/vehicle/vehicle.h"
 #include "physics/objects/vehicle/chassis_vehicle_component.h"
+#include "physics/objects/vehicle/vehicle_chassis_spring.h"
+#include "physics/objects/vehicle/vehicle_chassis_gas_shock.h"
+#include "util/debug/render_stuff.h"
 
 VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, phVehicle* vehicle ):
 	mWidgetsManager(widgetsManager), mVehicle(vehicle), mSymmetricChanges(true)
 {
-	mWindow = uiSimpleStuff::createWindow(mWidgetsManager, "VehicleCreatorWnd", vec2(200, 0), vec2(300, 300), 
+	mWindow = uiSimpleStuff::createWindow(mWidgetsManager, "VehicleCreatorWnd", vec2(200, 0), vec2(300, 600), 
 		"Vehicle settings");
 
 	uiSimpleStuff::createSizeEffect(mWindow);
@@ -45,6 +48,41 @@ VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, ph
 	
 	verLayoutWidget->addChild(positionHorLayout);
 
+//mass
+	verLayoutWidget->addChild(uiSimpleStuff::createLabel(mWidgetsManager, vec2(0, 0), vec2(100, 20), "MassLabel", "Mass")
+		                      ->setHorAlign(uiLabel::AL_LEFT));
+
+	uiTextEdit* massEdit = uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(0, 0), vec2(50, 22), "MassEdit");
+	massEdit->bindValue(&mVehicle->mMass)
+		->setChangeValueCallback(new cCallback<VehicleCreatorWidnow>(this, &VehicleCreatorWidnow::onMassEditChanged));
+
+	verLayoutWidget->addChild(massEdit);
+	
+//inertia
+	verLayoutWidget->addChild(uiSimpleStuff::createLabel(mWidgetsManager, vec2(0, 0), vec2(100, 20), "InertiaLabel", "Inertia")
+		                      ->setHorAlign(uiLabel::AL_LEFT));
+
+	uiHorLayoutWidget* inertiaHorLayout = new uiHorLayoutWidget(mWidgetsManager, "InertiaLayout");
+	inertiaHorLayout->mWidgetsDistance = 5;
+
+	uiTextEdit* inertiaXEdit = uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(0, 0), vec2(50, 22), "xEdit");
+	inertiaXEdit->bindValue(&mVehicle->mInertia.m[0][0])
+		->setChangeValueCallback(new cCallback<VehicleCreatorWidnow>(this, &VehicleCreatorWidnow::onInertiaChanged));
+	
+	uiTextEdit* inertiaYEdit = uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(0, 0), vec2(50, 22), "yEdit");
+	inertiaYEdit->bindValue(&mVehicle->mInertia.m[1][1])
+		->setChangeValueCallback(new cCallback<VehicleCreatorWidnow>(this, &VehicleCreatorWidnow::onInertiaChanged));
+
+	uiTextEdit* inertiaZEdit = uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(0, 0), vec2(50, 22), "zEdit");
+	inertiaZEdit->bindValue(&mVehicle->mInertia.m[2][2])
+		->setChangeValueCallback(new cCallback<VehicleCreatorWidnow>(this, &VehicleCreatorWidnow::onInertiaChanged));
+	
+	inertiaHorLayout->addChild(inertiaXEdit);
+	inertiaHorLayout->addChild(inertiaYEdit);
+	inertiaHorLayout->addChild(inertiaZEdit);
+	
+	verLayoutWidget->addChild(inertiaHorLayout);
+
 //symmetric changes checkbox
 	uiCheckBox* symmetricChangesCheckbox = uiSimpleStuff::createCheckbox(mWidgetsManager, "SymmetricChanges", vec2(0, 0),
 		"Symmetric changes", mSymmetricChanges);
@@ -54,17 +92,22 @@ VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, ph
 	verLayoutWidget->addChild(symmetricChangesCheckbox);
 
 //chassis
-	mLeftForwardChassis.create(verLayoutWidget, 
+	mLeftForwardChassis.create(verLayoutWidget, CH_LEFT_FWD, this,
 		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("forwardLeftChassis")), "Forward Left Chassis");
 	
-	mRightForwardChassis.create(verLayoutWidget, 
+	mRightForwardChassis.create(verLayoutWidget, CH_RIGHT_FWD, this, 
 		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("forwardRightChassis")), "Forward Right Chassis");
 	
-	mLeftRearChassis.create(verLayoutWidget, 
+	mLeftRearChassis.create(verLayoutWidget, CH_LEFT_REAR, this, 
 		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("rearLeftChassis")), "Rear Left Chassis");
 	
-	mRightRearChassis.create(verLayoutWidget, 
+	mRightRearChassis.create(verLayoutWidget, CH_RIGHT_REAR, this,
 		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("rearRightChassis")), "Rear Right Chassis");
+
+	uiWidget* dummyWidget = new uiWidget(mWidgetsManager, "dummy");
+	dummyWidget->setSize(vec2(10, 10));
+
+	verLayoutWidget->addChild(dummyWidget);
 
 	mWindow->addChild(verLayoutWidget);
 
@@ -85,9 +128,17 @@ void VehicleCreatorWidnow::show()
 
 void VehicleCreatorWidnow::resetParametres()
 {
-	mVehicle->mPosition = vec3(0, 0, 0);
+	mVehicle->mPosition = vec3(0, 2, 0);
 	mVehicle->setOrient(nullMatr());
-	mVehicle->mVelocity = vec3(0, 0, 0);
+	mVehicle->mOrientQuat = matrix2quat(mVehicle->mOrient);
+	mVehicle->mVelocity = vec3(0, 0, 2);
+	mVehicle->mAngularVelocity = vec3(0, 0, 0);
+	mVehicle->mMass = 1800;
+	mVehicle->mInvMass = 1.0f/mVehicle->mMass;
+	mVehicle->mInertia = getBoxInertia(mVehicle->mMass, vec3(1.8f, 1.6f, 3.7f));
+	mVehicle->mInvInertia = mVehicle->mInertia.inverse();
+	mVehicle->mWorldInertia = mVehicle->mInertia;
+	mVehicle->mInvWorldInertia = mVehicle->mInvInertia;
 }
 
 void VehicleCreatorWidnow::onSymmetricChangesChkBoxChanged()
@@ -95,9 +146,101 @@ void VehicleCreatorWidnow::onSymmetricChangesChkBoxChanged()
 
 }
 
-void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget, phVehicleChassisComponent* chassis,
-	const std::string& name )
+void VehicleCreatorWidnow::onMassEditChanged()
 {
+	mVehicle->mInvMass = 1.0f/mVehicle->mMass;
+}
+
+void VehicleCreatorWidnow::onInertiaChanged()
+{
+	mVehicle->mInvInertia = mVehicle->mInertia.inverse();
+}
+
+void VehicleCreatorWidnow::onChassisPropertyChanged( ChassisId chassidId, ChassisPropId propId )
+{
+	if (!mSymmetricChanges)
+	{		
+		getRenderStuff().reset();	
+		mVehicle->update(0.01f);
+		return;
+	}
+
+	std::string chassisIdNames[] = { "CH_LEFT_FWD", "CH_RIGHT_FWD", "CH_LEFT_REAR", "CH_RIGHT_REAR" };
+	std::string propIdNames[] = { "PID_POSX", "PID_POSY", "PID_POSZ",
+	                     "PID_ANGLEX", "PID_ANGLEY", "PID_ANGLEZ",
+	                     "PID_MINPOS", "PID_MAXPOS",
+	                     "PID_SPRING_FORCE", "PID_SHOCK_FORCE" };
+
+	gLog->fout(1, "changed %s %s\n", chassisIdNames[chassidId].c_str(), propIdNames[propId].c_str());
+	
+	ChassisEditContainer* containerA;
+	ChassisEditContainer* containerB;
+
+	if (chassidId == CH_LEFT_FWD)
+	{
+		containerA = &mLeftForwardChassis;
+		containerB = &mRightForwardChassis;
+	}
+	else if (chassidId == CH_RIGHT_FWD)
+	{
+		containerB = &mLeftForwardChassis;
+		containerA = &mRightForwardChassis;
+	}
+	else if (chassidId == CH_LEFT_REAR)
+	{
+		containerA = &mLeftRearChassis;
+		containerB = &mRightRearChassis;
+	}
+	else if (chassidId == CH_RIGHT_REAR)
+	{
+		containerB = &mLeftRearChassis;
+		containerA = &mRightRearChassis;
+	}
+
+	if (propId == PID_POSX)
+		containerB->mChassis->mLocalPosition.x = -containerA->mChassis->mLocalPosition.x;
+
+	if (propId == PID_POSY)
+		containerB->mChassis->mLocalPosition.y = containerA->mChassis->mLocalPosition.y;
+
+	if (propId == PID_POSZ)
+		containerB->mChassis->mLocalPosition.z = containerA->mChassis->mLocalPosition.z;
+
+	if (propId == PID_ANGLEX)
+		containerB->mAngleX = containerA->mAngleX;
+
+	if (propId == PID_ANGLEY)
+		containerB->mAngleY = containerA->mAngleY;
+
+	if (propId == PID_ANGLEZ)
+		containerB->mAngleZ = -containerA->mAngleZ;
+
+	if (propId == PID_MINPOS)
+		containerB->mChassis->mMinPosition = containerA->mChassis->mMinPosition;
+
+	if (propId == PID_MAXPOS)
+		containerB->mChassis->mMaxPosition = containerA->mChassis->mMaxPosition;
+
+	if (propId == PID_SPRING_FORCE)
+		containerB->mChassis->mSpringForce = containerA->mChassis->mSpringForce;
+
+	if (propId == PID_SHOCK_FORCE)
+		containerB->mChassis->mGasShockForce = containerA->mChassis->mGasShockForce;
+	
+	getRenderStuff().reset();	
+	mVehicle->update(0.01f);
+}
+
+void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget, ChassisId id, VehicleCreatorWidnow* owner, 
+	phVehicleChassisComponent* chassis, const std::string& name )
+{
+	mAngleX = mAngleY = mAngleZ = 0;
+
+	mChassisId = id;
+	mVehicleCreator = owner;
+
+	mAngleX = mAngleY = mAngleZ = 0;
+
 	mChassis = chassis;
 
 	uiWidgetsManager* widgetsManager = parentWidget->mWidgetsManager;
@@ -117,13 +260,19 @@ void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget,
 	uiHorLayoutWidget* posHorLayout = new uiHorLayoutWidget(widgetsManager, name + "PosHorLayout");
 	
 	mPosX = uiSimpleStuff::createTextEdit(widgetsManager, vec2(0, 0), vec2(50, 22), "xEdit");
-	mPosX->bindValue(&chassis->mLocalPosition.x);
+	mPosX->bindValue(&chassis->mLocalPosition.x)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_POSX));
 
 	mPosY = uiSimpleStuff::createTextEdit(widgetsManager, vec2(0, 0), vec2(50, 22), "yEdit");
-	mPosY->bindValue(&chassis->mLocalPosition.y);
+	mPosY->bindValue(&chassis->mLocalPosition.y)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_POSY));
 
 	mPosZ = uiSimpleStuff::createTextEdit(widgetsManager, vec2(0, 0), vec2(50, 22), "zEdit");
-	mPosZ->bindValue(&chassis->mLocalPosition.z);
+	mPosZ->bindValue(&chassis->mLocalPosition.z)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_POSZ));
 	
 	posHorLayout->addChild(mPosX);
 	posHorLayout->addChild(mPosY);
@@ -139,15 +288,21 @@ void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget,
 
 	addPropertyWithScrollbar(widgetsManager, "AngleX", "X", mAngleXEdit, 
 		new cCallback<ChassisEditContainer>(this, &ChassisEditContainer::anglesChanged), -30.0f, 30.0f, mAngleXScrollbar, 
-		mAngleX, parentWidget);
+		mAngleX, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_ANGLEX));
 
 	addPropertyWithScrollbar(widgetsManager, "AngleY", "Y", mAngleYEdit, 
 		new cCallback<ChassisEditContainer>(this, &ChassisEditContainer::anglesChanged), -30.0f, 30.0f, mAngleYScrollbar, 
-		mAngleY, parentWidget);
+		mAngleY, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_ANGLEY));
 
 	addPropertyWithScrollbar(widgetsManager, "AngleZ", "Z", mAngleZEdit, 
 		new cCallback<ChassisEditContainer>(this, &ChassisEditContainer::anglesChanged), -30.0f, 30.0f, mAngleZScrollbar, 
-		mAngleZ, parentWidget);
+		mAngleZ, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_ANGLEZ));
 	
 //angles
 	uiLabel* wposCaption = uiSimpleStuff::createLabel(widgetsManager, vec2(0, 0), vec2(100, 20), name + "WPosCaption", "Wheel Pos");
@@ -156,10 +311,25 @@ void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget,
 	parentWidget->addChild(wposCaption);
 	
 	addPropertyWithScrollbar(widgetsManager, "MinPos", "min", mMinPos, NULL, -1.0f, 1.0f, mMinPosScrollbar, 
-		chassis->mMinPosition, parentWidget);
+		chassis->mMinPosition, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_MINPOS));
 	
 	addPropertyWithScrollbar(widgetsManager, "MaxPos", "max", mMaxPos, NULL, -1.0f, 1.0f, mMaxPosScrollbar, 
-		chassis->mMaxPosition, parentWidget);
+		chassis->mMaxPosition, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_MAXPOS));
+
+//spring
+	addPropertyWithScrollbar(widgetsManager, "Spring", "Spring", mSpringForce, NULL, 0, 200000.0f, mSpringForceScrollbar, 
+		chassis->mSpringForce, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_SPRING_FORCE));
+
+	addPropertyWithScrollbar(widgetsManager, "Shock", "Shock", mGasShockForce, NULL, 0, 200000.0f, mGasShockForceScrollbar, 
+		chassis->mGasShockForce, parentWidget)->
+		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
+			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_SHOCK_FORCE));
 }
 
 void VehicleCreatorWidnow::ChassisEditContainer::anglesChanged()
@@ -186,7 +356,7 @@ uiBindingValues::BindValue<float>* VehicleCreatorWidnow::ChassisEditContainer::a
 
 	scrollbar = uiSimpleStuff::createScrollbar(widgetsManager, vec2(0, 5), vec2(100, 10), "Scrollbar", 
 		uiScrollbar::ST_HORISONTAL, minLimit, maxLimit);
-	scrollbar->bindValue(&bindingValue);
+	uiBindingValues::BindValue<float>* bindValue2 = scrollbar->bindValue(&bindingValue);
 
 	propHorLayout->addChild(captionLabel);
 	propHorLayout->addChild(textEdit);
@@ -194,5 +364,5 @@ uiBindingValues::BindValue<float>* VehicleCreatorWidnow::ChassisEditContainer::a
 
 	parentWidget->addChild(propHorLayout);
 
-	return bindValue;
+	return bindValue2;
 }
