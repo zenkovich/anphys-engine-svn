@@ -6,6 +6,7 @@
 #include "../rigid_object.h"
 
 struct phVehicleComponent;
+struct phCollision;
 
 struct phVehicle:public phRigidObject
 {
@@ -24,6 +25,7 @@ struct phVehicle:public phRigidObject
 	phVehicleComponent* getComponent(const std::string& id);
 
 	void preSolve(float dt);
+	void postSolve(float dt);
 };
 
 #endif //VEHICLE_H

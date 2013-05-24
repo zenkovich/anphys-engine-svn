@@ -20,7 +20,13 @@ struct phVehicleComponent
 	phVehicleComponent(phVehicle* vehicle, const std::string& id, phVehicleComponent* parent = NULL);
 	virtual ~phVehicleComponent();
 
-	virtual void update(float dt);
+	virtual void preSolve(float dt);
+	virtual void solve(float dt);
+	virtual void postSolve(float dt);
+	
+	virtual void derivedPreSolve(float dt) {}
+	virtual void derivedSolve(float dt) {}
+	virtual void derivedPostSolve(float dt) {}
 
 	void addChild(phVehicleComponent* component);
 	void removeChild(phVehicleComponent* component);

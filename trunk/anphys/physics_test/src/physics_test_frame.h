@@ -40,6 +40,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 //ui
 	uiWidgetsManager*           mWidgetsManager;
+	int                         mWidgetsRes;
 	uiWindow*                   mMainMenuWindow;
 
 	LandscapeCreatorWnd*        mLandscapeCreator;

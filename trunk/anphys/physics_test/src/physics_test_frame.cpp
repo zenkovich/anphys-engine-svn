@@ -7,6 +7,7 @@
 #include "vehicle_creator_wnd.h"
 #include "physics/objects/vehicle/vehicle.h"
 #include "physics/objects/vehicle/chassis_vehicle_component.h"
+#include "physics/objects/vehicle/vehicle_wheel.h"
 
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), 
 	mPhysicsRunByStep(false), mLandscapeCreator(NULL)
@@ -71,13 +72,6 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 float apPhysicsTestFrame::onTimer()
 {
 	float dt = apRenderWindow::onTimer();
-
-	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
-	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
-	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
-	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
-	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
-	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
 	
 	if (mPhysicsRunning) 
 	{
@@ -85,7 +79,16 @@ float apPhysicsTestFrame::onTimer()
 		mMainEngineScene->mPhysicsScene->update(dt);
 	}
 
-	mInputMessenger->sendInputMessage();
+	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
+	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
+	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
+	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
+	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
+	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
+
+	//mInputMessenger->sendInputMessage();
+	mWidgetsManager->mLastInputMessage = &mInputMessenger->mInputMessage;
+	mWidgetsRes = mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
 	mInputMessenger->mInputMessage.update();
 
 	mMainEngineScene->update(dt);
@@ -139,8 +142,11 @@ void apPhysicsTestFrame::onMouseRightButtonUp(vec2 point)
 
 void apPhysicsTestFrame::onMouseMove(vec2 point)
 {
-	if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
-		mCamera3dMouse->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
+	if (mWidgetsRes == 0)
+	{
+		if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
+			mCamera3dMouse->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
+	}
 }
 
 void apPhysicsTestFrame::onMouseWheel(float delta)
@@ -287,6 +293,8 @@ void apPhysicsTestFrame::createVehicleObject()
 {
 	mVehicleObject = new cObject;
 
+	vec3 size(1.8f, 1.1f, 3.7f);
+
 //physics object
 	phVehicle* physicsObject = new phVehicle;
 	cPhysicsRigidBodyObjectComponent* physicsComponent = new cPhysicsRigidBodyObjectComponent(physicsObject);
@@ -300,6 +308,13 @@ void apPhysicsTestFrame::createVehicleObject()
 	physicsObject->addComponent(forwardRightChassis);
 	physicsObject->addComponent(rearLeftChassis);
 	physicsObject->addComponent(rearRightChassis);
+	
+	forwardLeftChassis->loadParametres(vec3(-0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
+	forwardRightChassis->loadParametres(vec3(0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
+	rearLeftChassis->loadParametres(vec3(-0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
+	rearRightChassis->loadParametres(vec3(0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f); 
+	
+	mMainEngineScene->mSceneStuff->addBoxCollisionGeometry(physicsObject, size);
 
 	mMainEngineScene->mPhysicsScene->addObject(physicsObject);
 
@@ -307,7 +322,7 @@ void apPhysicsTestFrame::createVehicleObject()
 
 //graphics
 	grRender3DObjectMesh* boxMesh = mMainEngineScene->mSceneStuff->createMesh(128, 128);
-	mMainEngineScene->mSceneStuff->addBoxMesh(boxMesh, vec3(2, 1.8f, 4), 
+	mMainEngineScene->mSceneStuff->addBoxMesh(boxMesh, size, 
 		mMainEngineScene->mSceneStuff->createSurfaceMaterial(
 			mMainEngineScene->mSceneStuff->createTexture("../data/textures/wood.jpg"), 
 			mMainEngineScene->mSceneStuff->getMaterial("whiteMaterial")));

@@ -12,10 +12,10 @@ phCollision::phCollision():mObjectA(NULL), mObjectB(NULL), mCollisionData(NULL),
 phCollision::phCollision(phObject* objectA, phObject* objectB):mObjectA(NULL), mObjectB(NULL), 
 	mCollisionData(NULL), mIndex(0), mTempIndex(0)
 {
-	setObjects(objectA, objectB);
+	mCollisionData = new char[nCollisionDataSize];
 	mPoints = new cArray<phCollisionPoint>(nCollisionReservedPoints);
 
-	mCollisionData = new char[nCollisionDataSize];
+	setObjects(objectA, objectB);
 }
 
 phCollision::~phCollision()
@@ -43,7 +43,8 @@ phCollisionPoint* phCollision::addPoint()
 void phCollision::clear()
 {
 	mPoints->clear();
-	memset(mCollisionData, 0, nCollisionDataSize);
+	if (mCollisionData)
+		memset(mCollisionData, 0, nCollisionDataSize);
 }
 
 void phCollision::freeUnusedPoints()
