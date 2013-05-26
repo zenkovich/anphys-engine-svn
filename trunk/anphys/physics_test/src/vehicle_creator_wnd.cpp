@@ -326,7 +326,7 @@ void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget,
 		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
 			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_SPRING_FORCE));
 
-	addPropertyWithScrollbar(widgetsManager, "Shock", "Shock", mGasShockForce, NULL, 0, 200000.0f, mGasShockForceScrollbar, 
+	addPropertyWithScrollbar(widgetsManager, "Shock", "Shock", mGasShockForce, NULL, 0, 20000.0f, mGasShockForceScrollbar, 
 		chassis->mGasShockForce, parentWidget)->
 		setChangeValueCallback(new cCallback2Param<ChassisId, ChassisPropId, VehicleCreatorWidnow>(
 			mVehicleCreator, &VehicleCreatorWidnow::onChassisPropertyChanged, mChassisId, PID_SHOCK_FORCE));

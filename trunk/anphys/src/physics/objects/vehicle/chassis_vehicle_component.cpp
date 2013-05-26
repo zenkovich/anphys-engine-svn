@@ -63,11 +63,9 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 	float biasERP = 0.5f;
 
 	float gasShock = mGasShockForce*mWheelVelocity;
-	float springForce = ((mPosition - mMaxPosition)*mSpringForce + gasShock*0.0f)*dt*0;	
+	float springForce = ((mPosition - mMaxPosition)*mSpringForce + gasShock)*dt;	
 
-	mWheelVelocity += springForce*mWheelInvMass;
-	
-	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mCollisionPoint->mNormal*mWheelVelocity);
+	mWheelVelocity -= springForce*mWheelInvMass;
 
 	float contactDepth = mCollisionPoint->mDepth - 0.01f;
 	if (contactDepth > 0.0f)
@@ -78,8 +76,12 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 	{
 		mCollisionPoint->mBiasImpulse = 0.0f;
 
-		mCollisionPoint->J = springForce;
+		mCollisionPoint->J = 0;
 	}
+
+	mCollisionPoint->J += springForce;
+	
+	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mCollisionPoint->mNormal*mCollisionPoint->J);
 
 	mCollisionPoint->t1 = mGlobalAxis.getXVector();
 	mCollisionPoint->t2 = mGlobalAxis.getZVector();
@@ -116,7 +118,7 @@ void phVehicleChassisComponent::derivedSolve( float dt )
 	if (!mWheelOnGround)
 		return;
 
-	float E = 0.0f, Mu = 1.0f, biasERP = 0.8f;
+	float E = 0.5f, Mu = 1.0f, biasERP = 0.8f;
 
 	vec3 ra = mCollisionPoint->mPoint - mVehicle->getPos();
 			
@@ -141,13 +143,13 @@ void phVehicleChassisComponent::derivedSolve( float dt )
 	}
 	else
 	{
-	/*	mCollisionPoint->J += lambda;
+		mCollisionPoint->J += lambda;
 		if(mCollisionPoint->J < 0.0f)
 		{
 			lambda += (0.0f - mCollisionPoint->J);
 			mCollisionPoint->J = 0.0f;
-		}*/
-		mCollisionPoint->J = lambda;
+		}
+		//mCollisionPoint->J = lambda;
 
 		mVehicle->applyImpulse(mCollisionPoint->mPoint, mCollisionPoint->mNormal*lambda);
 	}
@@ -195,6 +197,8 @@ void phVehicleChassisComponent::derivedSolve( float dt )
 
 void phVehicleChassisComponent::derivedPostSolve( float dt )
 {
+	float lastPosition = mPosition;
+
 	mPosition += mWheelVelocity*dt;
 
 	if (mPosition > mMinPosition)
@@ -228,7 +232,6 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 		float newPosition = mPosition + posOffset;
 		float minDist = mMinPosition + newPosition;
 
-		float lastPosition = mPosition;
 		mPosition = mMinPosition + fmin(0.0f, minDist);
 
 		mWheelVelocity = (mPosition - lastPosition)/dt;
@@ -245,6 +248,8 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 			mCollisionPoint->reset();
 		}
 	}
+
+	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
 
 	getRenderStuff().addRedArrow(mGlobalPosition, mGlobalPosition + mGlobalAxis.getXVector()*0.5f);
 	getRenderStuff().addGreenArrow(mGlobalPosition, mGlobalPosition + mGlobalAxis.getYVector()*0.5f);

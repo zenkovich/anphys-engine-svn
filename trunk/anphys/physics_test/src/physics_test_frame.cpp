@@ -60,7 +60,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 		color4(0.5f,0.5f,0.5f,1.0f), vec3(0,0,0), vec3(0,-1,1), 0, 0, 0, 0, 0, 0, 0);
 	//light->setLightActive(true);
 
-	//setupScene1();
+	setupScene1();
 	
 	createUIWidgets();
 	createLandscapeObject();
@@ -196,8 +196,10 @@ void apPhysicsTestFrame::onDeActive()
 
 void apPhysicsTestFrame::setupScene1()
 {
+	return;
+
 	mMainEngineScene->addObject(
-		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, 0.0f, 0.0f), vec3(50.0f, 1.0f, 50.0f)));
+		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, -0.5f, 0.0f), vec3(500.0f, 1.0f, 5000.0f)));
 	
 	/*for (int i = 0; i < 10; i++)
 	{
@@ -309,10 +311,10 @@ void apPhysicsTestFrame::createVehicleObject()
 	physicsObject->addComponent(rearLeftChassis);
 	physicsObject->addComponent(rearRightChassis);
 	
-	forwardLeftChassis->loadParametres(vec3(-0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
-	forwardRightChassis->loadParametres(vec3(0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
-	rearLeftChassis->loadParametres(vec3(-0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f);
-	rearRightChassis->loadParametres(vec3(0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 100000.0f); 
+	forwardLeftChassis->loadParametres(vec3(-0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
+	forwardRightChassis->loadParametres(vec3(0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
+	rearLeftChassis->loadParametres(vec3(-0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
+	rearRightChassis->loadParametres(vec3(0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f); 
 	
 	mMainEngineScene->mSceneStuff->addBoxCollisionGeometry(physicsObject, size);
 
