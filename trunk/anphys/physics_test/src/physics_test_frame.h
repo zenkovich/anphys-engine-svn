@@ -22,6 +22,7 @@ struct uiWidget;
 struct uiWidgetsManager;
 struct phStaticObject;
 struct uiWindow;
+struct phVehicleChassisComponent;
 
 struct LandscapeCreatorWnd;
 struct VehicleCreatorWidnow;
@@ -48,7 +49,12 @@ struct apPhysicsTestFrame:public apRenderWindow
 
 //physics
 	cObject*                    mLandscapeObject;
+
 	cObject*                    mVehicleObject;
+	phVehicleChassisComponent*  mLeftForwardChassis;
+	phVehicleChassisComponent*  mRightForwardChassis;
+	phVehicleChassisComponent*  mLeftRearChassis;
+	phVehicleChassisComponent*  mRightRearChassis;
 
 //functions
 	apPhysicsTestFrame();
