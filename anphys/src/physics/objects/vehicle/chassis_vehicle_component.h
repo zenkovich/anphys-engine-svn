@@ -21,7 +21,7 @@ struct phVehicleChassisComponent:public phVehicleComponent
 	float                     mMinPosition;
 
 	float                     mWheelAngle;
-	float                     mWheelYAngle;
+	float                     mWheelXAngle;
 	float                     mPosition;
 	bool                      mWheelOnGround;
 
@@ -41,6 +41,11 @@ struct phVehicleChassisComponent:public phVehicleComponent
 	mat3x3                    mGlobalAxis;
 	vec3                      mGlobalPosition;
 	vec3                      mWheelBottomPoint;
+	
+	float                     mBrakeForce1;
+	float                     mBrakeForce2;
+	float                     mBrakeCoef1;
+	float                     mBrakeCoef2;
 
 	phCollisionPoint*         mCollisionPoint;
 
@@ -49,7 +54,8 @@ struct phVehicleChassisComponent:public phVehicleComponent
 	~phVehicleChassisComponent();
 
 	void loadParametres(const vec3& localPos, const mat3x3& localAxis, float minPos, float maxPos, 
-		                float wheelRadius, float wheelmass, float springForce, float gasShockForce);
+		                float wheelRadius, float wheelmass, float springForce, float gasShockForce, float brakeForce1,
+						float brakeForce2 = 0.0f);
 	
 	void derivedPreSolve(float dt);
 	void derivedSolve(float dt);

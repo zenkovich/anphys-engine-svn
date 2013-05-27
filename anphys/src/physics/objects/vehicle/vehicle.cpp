@@ -53,7 +53,7 @@ void phVehicle::preSolve( float dt )
 
 void phVehicle::postSolve( float dt )
 {	
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
 			(*it)->solve(dt);

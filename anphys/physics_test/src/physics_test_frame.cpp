@@ -85,6 +85,74 @@ float apPhysicsTestFrame::onTimer()
 	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
 	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
 	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
+	
+	mLeftForwardChassis->mWheelAngle = 0;
+	mRightForwardChassis->mWheelAngle = 0;
+
+	if (isKeyDown(key_up))
+	{
+		mLeftRearChassis->mWheelTorque -= 500.0f*dt;
+		mRightRearChassis->mWheelTorque -= 500.0f*dt;
+		mLeftForwardChassis->mWheelTorque -= 500.0f*dt;
+		mRightForwardChassis->mWheelTorque -= 500.0f*dt;
+	}
+	if (isKeyDown(key_down))
+	{
+		mLeftForwardChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mLeftForwardChassis->mBrakeCoef1 > 1.0f)
+			mLeftForwardChassis->mBrakeCoef1 = 1.0f;
+
+		mRightForwardChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mRightForwardChassis->mBrakeCoef1 > 1.0f)
+			mRightForwardChassis->mBrakeCoef1 = 1.0f;
+
+		mLeftRearChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mLeftRearChassis->mBrakeCoef1 > 1.0f)
+			mLeftRearChassis->mBrakeCoef1 = 1.0f;
+
+		mRightRearChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mRightRearChassis->mBrakeCoef1 > 1.0f)
+			mRightRearChassis->mBrakeCoef1 = 1.0f;
+	}
+	else
+	{
+		mLeftForwardChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mLeftForwardChassis->mBrakeCoef1 < 0.0f)
+			mLeftForwardChassis->mBrakeCoef1 = 0.0f;
+
+		mRightForwardChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mRightForwardChassis->mBrakeCoef1 < 0.0f)
+			mRightForwardChassis->mBrakeCoef1 = 0.0f;
+		
+		mLeftRearChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mLeftRearChassis->mBrakeCoef1 < 0.0f)
+			mLeftRearChassis->mBrakeCoef1 = 0.0f;
+
+		mRightRearChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mRightRearChassis->mBrakeCoef1 < 0.0f)
+			mRightRearChassis->mBrakeCoef1 = 0.0f;
+	}
+	if (isKeyDown(key_right))
+	{
+		mLeftForwardChassis->mWheelAngle = rad(30.0f);
+		mRightForwardChassis->mWheelAngle = rad(30.0f);
+	}
+	if (isKeyDown(key_left))
+	{
+		mLeftForwardChassis->mWheelAngle = rad(-30.0f);
+		mRightForwardChassis->mWheelAngle = rad(-30.0f);
+	}
+
+	if (isKeyDown(key_numpad_0))
+	{
+		mLeftRearChassis->mBrakeCoef2 = 1.0f;
+		mRightRearChassis->mBrakeCoef2 = 1.0f;
+	}
+	else
+	{
+		mLeftRearChassis->mBrakeCoef2 = 0.0f;
+		mRightRearChassis->mBrakeCoef2 = 0.0f;
+	}
 
 	//mInputMessenger->sendInputMessage();
 	mWidgetsManager->mLastInputMessage = &mInputMessenger->mInputMessage;
@@ -301,20 +369,20 @@ void apPhysicsTestFrame::createVehicleObject()
 	phVehicle* physicsObject = new phVehicle;
 	cPhysicsRigidBodyObjectComponent* physicsComponent = new cPhysicsRigidBodyObjectComponent(physicsObject);
 	
-	phVehicleChassisComponent* forwardLeftChassis = new phVehicleChassisComponent(physicsObject, "forwardLeftChassis");
-	phVehicleChassisComponent* forwardRightChassis = new phVehicleChassisComponent(physicsObject, "forwardRightChassis");
-	phVehicleChassisComponent* rearLeftChassis = new phVehicleChassisComponent(physicsObject, "rearLeftChassis");
-	phVehicleChassisComponent* rearRightChassis = new phVehicleChassisComponent(physicsObject, "rearRightChassis");
+	mLeftForwardChassis = new phVehicleChassisComponent(physicsObject, "forwardLeftChassis");
+	mRightForwardChassis = new phVehicleChassisComponent(physicsObject, "forwardRightChassis");
+	mLeftRearChassis = new phVehicleChassisComponent(physicsObject, "rearLeftChassis");
+	mRightRearChassis = new phVehicleChassisComponent(physicsObject, "rearRightChassis");
 	
-	physicsObject->addComponent(forwardLeftChassis);
-	physicsObject->addComponent(forwardRightChassis);
-	physicsObject->addComponent(rearLeftChassis);
-	physicsObject->addComponent(rearRightChassis);
+	physicsObject->addComponent(mLeftForwardChassis);
+	physicsObject->addComponent(mRightForwardChassis);
+	physicsObject->addComponent(mLeftRearChassis);
+	physicsObject->addComponent(mRightRearChassis);
 	
-	forwardLeftChassis->loadParametres(vec3(-0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
-	forwardRightChassis->loadParametres(vec3(0.95f, -0.5f, 1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
-	rearLeftChassis->loadParametres(vec3(-0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f);
-	rearRightChassis->loadParametres(vec3(0.95f, -0.5f, -1.5f), nullMatr(), 0, -0.3f, 0.25f, 50.0f, 100000.0f, 5000.0f); 
+	mLeftForwardChassis->loadParametres(vec3(-0.95f, -0.2f, 1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
+	mRightForwardChassis->loadParametres(vec3(0.95f, -0.2f, 1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
+	mLeftRearChassis->loadParametres(vec3(-0.95f, -0.2f, -1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f);
+	mRightRearChassis->loadParametres(vec3(0.95f, -0.2f, -1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f); 
 	
 	mMainEngineScene->mSceneStuff->addBoxCollisionGeometry(physicsObject, size);
 
