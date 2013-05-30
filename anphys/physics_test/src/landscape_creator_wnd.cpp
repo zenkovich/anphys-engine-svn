@@ -63,9 +63,9 @@ void LandscapeCreatorWnd::onRecreateLandcapeBtnPressed()
 
 void LandscapeCreatorWnd::resetParametres()
 {
-	mMinRangeX = -100;
-	mMinRangeY = 0;
-	mMinRangeZ = -100;
+	mMinRangeX = -1000;
+	mMinRangeY = -5;
+	mMinRangeZ = -1000;
 
 	mMaxRangeX = 100;
 	mMaxRangeY = 0;
@@ -98,10 +98,10 @@ void LandscapeCreatorWnd::recreateLandscape()
 	safe_release_arr(collisionGeometry->mVerticies);
 	safe_release_arr(collisionGeometry->mPolygons);
 
-	collisionGeometry->mVerticies = new phLandscapeCollisionGeometry::lVertex[vertexCount];
+	collisionGeometry->mVerticies = new lVertex[vertexCount];
 	collisionGeometry->mVerticiesCount = vertexCount;
 
-	collisionGeometry->mPolygons = new phLandscapeCollisionGeometry::lPolygon[polyCount];
+	collisionGeometry->mPolygons = new lPolygon[polyCount];
 	collisionGeometry->mPolygonsCount = polyCount;
 	
 	vertexTexNorm* meshVerticies = new vertexTexNorm[vertexCount];
@@ -141,8 +141,7 @@ void LandscapeCreatorWnd::recreateLandscape()
 				meshVerticies[c].tu = xCoef + invXSegmentsCount; meshVerticies[c].tv = zCoef + invZSegmentsCount;
 				meshVerticies[d].tu = xCoef; meshVerticies[d].tv = zCoef + invZSegmentsCount;
 				
-				collisionGeometry->mPolygons[polygonIdx] = 
-					phLandscapeCollisionGeometry::lPolygon(a, b, c, collisionGeometry->mVerticies);
+				collisionGeometry->mPolygons[polygonIdx] = lPolygon(a, b, c, collisionGeometry->mVerticies);
 				
 				meshIndexes[polygonIdx*3] = c;
 				meshIndexes[polygonIdx*3 + 1] = b;
@@ -150,8 +149,7 @@ void LandscapeCreatorWnd::recreateLandscape()
 
 				polygonIdx++;
 
-				collisionGeometry->mPolygons[polygonIdx] = 
-					phLandscapeCollisionGeometry::lPolygon(a, c, d, collisionGeometry->mVerticies);				
+				collisionGeometry->mPolygons[polygonIdx] = lPolygon(a, c, d, collisionGeometry->mVerticies);				
 				
 				meshIndexes[polygonIdx*3] = d;
 				meshIndexes[polygonIdx*3 + 1] = c;

@@ -23,38 +23,42 @@ struct uiWidgetsManager;
 struct phStaticObject;
 struct uiWindow;
 struct phVehicleChassisComponent;
+struct phVehicle;
+struct phLandscapeCollisionGeometry;
 
 struct LandscapeCreatorWnd;
 struct VehicleCreatorWidnow;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
-	grCamera3DMouse*            mCamera3dMouse;
-	grCamera2D*                 m2DCamera;
-	grSimple3DRenderState*      m3DRenderState;
-	gr2DRenderState*            m2DRenderState;
+	grCamera3DMouse*              mCamera3dMouse;
+	grCamera2D*                   m2DCamera;
+	grSimple3DRenderState*        m3DRenderState;
+	gr2DRenderState*              m2DRenderState;
+								  
+	cScene*                       mMainEngineScene;
+								  
+	bool                          mPhysicsRunning;
+	bool                          mPhysicsRunByStep;
+								  
+//ui							  
+	uiWidgetsManager*             mWidgetsManager;
+	int                           mWidgetsRes;
+	uiWindow*                     mMainMenuWindow;
+								  
+	LandscapeCreatorWnd*          mLandscapeCreator;
+	VehicleCreatorWidnow*         mVehicleCreator;
+								  
+//physics						  
+	cObject*                      mLandscapeObject;
+	phLandscapeCollisionGeometry* mLandscapeCollisionGeom;
 
-	cScene*                     mMainEngineScene;
-	
-	bool                        mPhysicsRunning;
-	bool                        mPhysicsRunByStep;
-
-//ui
-	uiWidgetsManager*           mWidgetsManager;
-	int                         mWidgetsRes;
-	uiWindow*                   mMainMenuWindow;
-
-	LandscapeCreatorWnd*        mLandscapeCreator;
-	VehicleCreatorWidnow*       mVehicleCreator;
-
-//physics
-	cObject*                    mLandscapeObject;
-
-	cObject*                    mVehicleObject;
-	phVehicleChassisComponent*  mLeftForwardChassis;
-	phVehicleChassisComponent*  mRightForwardChassis;
-	phVehicleChassisComponent*  mLeftRearChassis;
-	phVehicleChassisComponent*  mRightRearChassis;
+	cObject*                      mVehicleObject;
+	phVehicle*                    mVehicle;
+	phVehicleChassisComponent*    mLeftForwardChassis;
+	phVehicleChassisComponent*    mRightForwardChassis;
+	phVehicleChassisComponent*    mLeftRearChassis;
+	phVehicleChassisComponent*    mRightRearChassis;
 
 //functions
 	apPhysicsTestFrame();

@@ -41,7 +41,7 @@ struct phCollisionPoint
 		mNormal(normal), mPartObjectA(partObjectA), mPartObjectB(partObjectB), mIndex(0), Kn(0), Kf1(0), 
 		Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
 
-	void reset() { Kn = Kf1 = Kf2 = J = Jf1 = Jf2 = B = Bias = 0; t1 = t2 = vec3(0); }
+	void reset() { Kn = Kf1 = Kf2 = J = Jf1 = Jf2 = B = Bias = mDepth = 0; t1 = t2 = vec3(0); }
 };
 
 #endif //COLLISION_POINT_H
