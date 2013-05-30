@@ -83,6 +83,7 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 	mWheelVelocity -= shiftForce*mWheelInvMass;
 
 	float contactDepth = mCollisionPoint->mDepth - 0.01f;
+	vec3 imp1;
 	if (contactDepth > 0.0f)
 	{
 		mCollisionPoint->mBiasImpulse = contactDepth*invDt*biasERP;
@@ -91,6 +92,7 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 		float lambda = -a*(1.3f)*mCollisionPoint->B;
 
 		mCollisionPoint->J = lambda;
+		imp1 = mCollisionPoint->mNormal*mCollisionPoint->J;
 	}
 	else
 	{
@@ -99,13 +101,14 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 		mCollisionPoint->J = 0;
 	}
 	mCollisionPoint->J += shiftForce;
+	imp1 += mGlobalAxis.getYVector()*shiftForce;
 
 	gLog->fout(1, "J = %.3f depth = %.3f spring = %.3f df = %.3f\n", mCollisionPoint->J, contactDepth, springForce,
 		mPosition - mMaxPosition);
 	
-	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mCollisionPoint->mNormal*springForce*0.0006f);
+	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mGlobalAxis.getYVector()*shiftForce*0.0006f);
 			
-	vec3 imp = mCollisionPoint->mNormal*mCollisionPoint->J + mCollisionPoint->t1*mCollisionPoint->Jf1 + 
+	vec3 imp = imp1 + mCollisionPoint->t1*mCollisionPoint->Jf1 + 
 															 mCollisionPoint->t2*mCollisionPoint->Jf2;
 			
 	mVehicle->applyImpulse(mCollisionPoint->mPoint, imp);
@@ -226,6 +229,8 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 
 	if (mPosition < mMaxPosition)
 		mPosition = mMaxPosition;
+
+	mPosition = mMaxPosition;
 	
 	mWheelAngVelocity += mWheelTorque*mWheelInvInertia;
 	mWheelTorque = 0;
@@ -284,6 +289,9 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 	getRenderStuff().addBlueArrow(mGlobalPosition, mGlobalPosition + mGlobalAxis.getZVector()*0.5f);
 		
 	getRenderStuff().addBlueCube(mWheelBottomPoint);
+	getRenderStuff().addRedCube(mCollisionPoint->mPoint);
+
+	getRenderStuff().addBlueArrow(mWheelBottomPoint, mCollisionPoint->mPoint);
 
 	vec3 wheelPos = mGlobalPosition + mGlobalAxis.getYVector()*mPosition;
 
@@ -301,7 +309,7 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 
 void phVehicleChassisComponent::checkTestCollision()
 {
-	if (mWheelBottomPoint.y < 0)
+	/*if (mWheelBottomPoint.y < 0)
 	{
 		mWheelOnGround = true;
 
@@ -314,6 +322,43 @@ void phVehicleChassisComponent::checkTestCollision()
 	else
 	{
 		mWheelOnGround = false;
+		mCollisionPoint->reset();
+	}
+
+	return;*/
+
+	vec3 bottomPoint = mWheelBottomPoint;
+	vec3 dir = mGlobalAxis.getYVector()*-1.0f;
+	vec3 topPoint = mGlobalPosition;
+
+	lPolygon** polygonsBuffer = mVehicle->mPolygonsBuffer;
+	unsigned int polygonsCount = mVehicle->mPolygonsBufferCount;
+
+	vec3 point, normal;
+	float depth;
+
+	float minDepth = FLT_MAX;
+	mWheelOnGround = false;
+	for (unsigned int i = 0; i < polygonsCount; i++)
+	{
+		if (polygonsBuffer[i]->norm*dir < 0)
+		{
+			if (polygonsBuffer[i]->isIntersect(bottomPoint, &point, &normal, &depth))
+			{
+				if (depth < minDepth)
+				{
+					mWheelOnGround = true;
+
+					mCollisionPoint->mNormal = normal;
+					mCollisionPoint->mPoint = point;
+					mCollisionPoint->mDepth = depth;
+				}
+			}
+		}
+	}
+
+	if (!mWheelOnGround)
+	{
 		mCollisionPoint->reset();
 	}
 }

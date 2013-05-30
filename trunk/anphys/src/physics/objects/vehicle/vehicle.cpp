@@ -8,6 +8,7 @@
 #include "physics/CD/collision_manager.h"
 #include "physics/CD/collision_geometry/collision.h"
 #include "physics/CD/collision_geometry/collision_point.h"
+#include "util/debug/render_stuff.h"
 
 
 phVehicle::phVehicle():phRigidObject()
@@ -63,6 +64,29 @@ void phVehicle::postSolve( float dt )
 
 	for (ComponentsList::iterator it = mComponents.begin(); it != mComponents.end(); ++it)
 		(*it)->postSolve(dt);
+
+	for (unsigned int i = 0; i < mPolygonsBufferCount; i++)
+	{
+		getRenderStuff().addRedArrow(mPolygonsBuffer[i]->pa->mPosition, mPolygonsBuffer[i]->pb->mPosition);
+		getRenderStuff().addGreenArrow(mPolygonsBuffer[i]->pb->mPosition, mPolygonsBuffer[i]->pc->mPosition);
+		getRenderStuff().addBlueArrow(mPolygonsBuffer[i]->pc->mPosition, mPolygonsBuffer[i]->pa->mPosition);
+
+		getRenderStuff().addBlueArrow((mPolygonsBuffer[i]->pa->mPosition + mPolygonsBuffer[i]->pb->mPosition)*0.5f,
+			                          (mPolygonsBuffer[i]->pa->mPosition + mPolygonsBuffer[i]->pb->mPosition)*0.5f + 
+									  mPolygonsBuffer[i]->nab.normalize()*0.3f);
+
+		getRenderStuff().addBlueArrow((mPolygonsBuffer[i]->pb->mPosition + mPolygonsBuffer[i]->pc->mPosition)*0.5f,
+			                          (mPolygonsBuffer[i]->pb->mPosition + mPolygonsBuffer[i]->pc->mPosition)*0.5f + 
+									  mPolygonsBuffer[i]->nbc.normalize()*0.3f);
+
+		getRenderStuff().addBlueArrow((mPolygonsBuffer[i]->pc->mPosition + mPolygonsBuffer[i]->pa->mPosition)*0.5f,
+			                          (mPolygonsBuffer[i]->pc->mPosition + mPolygonsBuffer[i]->pa->mPosition)*0.5f + 
+									  mPolygonsBuffer[i]->nca.normalize()*0.3f);
+
+		getRenderStuff().addBlueArrow((mPolygonsBuffer[i]->pa->mPosition + mPolygonsBuffer[i]->pb->mPosition + mPolygonsBuffer[i]->pc->mPosition)/3.0f,
+			                          (mPolygonsBuffer[i]->pa->mPosition + mPolygonsBuffer[i]->pb->mPosition + mPolygonsBuffer[i]->pc->mPosition)/3.0f + 
+									  mPolygonsBuffer[i]->norm);
+	}
 }
 
 phVehicleComponent* phVehicle::getComponent( const std::string& id )

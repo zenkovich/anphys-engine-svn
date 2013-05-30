@@ -7,12 +7,16 @@
 
 struct phVehicleComponent;
 struct phCollision;
+struct lPolygon;
 
 struct phVehicle:public phRigidObject
 {
 	typedef std::vector<phVehicleComponent*> ComponentsList;
 
 	ComponentsList mComponents;
+
+	lPolygon**   mPolygonsBuffer;
+	unsigned int mPolygonsBufferCount;
 
 //functions
 	phVehicle();
@@ -26,6 +30,12 @@ struct phVehicle:public phRigidObject
 
 	void preSolve(float dt);
 	void postSolve(float dt);
+
+	void setPolygonsBuffer(lPolygon** buffer, unsigned int count)
+	{
+		mPolygonsBuffer = buffer;
+		mPolygonsBufferCount = count;
+	}
 };
 
 #endif //VEHICLE_H

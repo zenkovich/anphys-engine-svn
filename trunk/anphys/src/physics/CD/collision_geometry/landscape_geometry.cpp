@@ -2,7 +2,7 @@
 
 REGIST_TYPE(phLandscapeCollisionGeometry)
 	
-phLandscapeCollisionGeometry::lPolygon::lPolygon( unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies )
+lPolygon::lPolygon( unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies )
 {
 	a = ia; b = ib; c = ic;
 	pa = &verticies[a]; pb = &verticies[b]; pc = &verticies[c];
@@ -24,15 +24,37 @@ phLandscapeCollisionGeometry::lPolygon::lPolygon( unsigned int ia, unsigned int 
 		aabb.mMax.y = fmax(aabb.mMax.y, p.y);
 		aabb.mMax.z = fmax(aabb.mMax.z, p.z);
 	}
-
+	
 	vec3 ab = pb->mPosition - pa->mPosition;
-	vec3 ac = pc->mPosition - pa->mPosition;
+	vec3 bc = pc->mPosition - pb->mPosition;
+	vec3 ca = pa->mPosition - pc->mPosition;
 
-	abLength = ab.len();
-	acLength = ac.len();
+	norm = (bc^ab).normalize();
+	
+	nab = norm^ab;
+	nbc = norm^bc;
+	nca = norm^ca;
+}
 
-	nab = ab/abLength;
-	nac = ac/acLength;
+bool lPolygon::isIntersect( const vec3& bottom, vec3* point, vec3* pnorm, float* depth )
+{
+	if ((bottom - pa->mPosition)*nab > 0 ||
+		(bottom - pb->mPosition)*nbc > 0 ||
+		(bottom - pc->mPosition)*nca > 0)
+	{
+		return false;
+	}
+
+	float ndepth = (pa->mPosition - bottom)*norm;
+
+	if (ndepth < 0)
+		return false;
+
+	*pnorm = norm;
+	*depth = ndepth;
+	*point = bottom - norm*ndepth;
+
+	return true;
 }
 
 phLandscapeCollisionGeometry::phLandscapeCollisionGeometry():phCollisionGeometryPart(), mVerticies(NULL),
@@ -70,5 +92,24 @@ phCollision* phLandscapeCollisionGeometry::checkCollision( phCollisionGeometryPa
 
 void phLandscapeCollisionGeometry::postInitialize()
 {
+	mPolygonsBufferSize = 100;
+	mPolygonsBufferCount = 0;
+	mPolygonsBuffer = new lPolygon*[mPolygonsBufferSize];
+}
 
+void phLandscapeCollisionGeometry::getPolygons( const AABB& aabb )
+{
+	mPolygonsBufferCount = 0;
+	for (unsigned int i = 0; i < mPolygonsCount; i++)
+	{
+		if (mPolygons[i].aabb.isIntersect(aabb) && mPolygonsBufferCount < mPolygonsBufferSize)
+			mPolygonsBuffer[mPolygonsBufferCount++] = &mPolygons[i];
+	}
+}
+
+phLandscapeCollisionGeometry::~phLandscapeCollisionGeometry()
+{
+	safe_release_arr(mVerticies);
+	safe_release_arr(mPolygons);
+	safe_release_arr(mPolygonsBuffer);
 }

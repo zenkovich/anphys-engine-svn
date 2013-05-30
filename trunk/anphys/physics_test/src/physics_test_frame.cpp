@@ -159,6 +159,12 @@ float apPhysicsTestFrame::onTimer()
 	mWidgetsRes = mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
 	mInputMessenger->mInputMessage.update();
 
+	AABB vehicleAabb(mVehicle->mPosition + vec3(-2.5f, -2.5f, -2.5f),
+		             mVehicle->mPosition + vec3(2.5f, 2.5f, 2.5f) );
+	mLandscapeCollisionGeom->getPolygons(vehicleAabb);
+	mVehicle->setPolygonsBuffer(mLandscapeCollisionGeom->mPolygonsBuffer, 
+		mLandscapeCollisionGeom->mPolygonsBufferCount);
+
 	mMainEngineScene->update(dt);
 	mRender->update(dt);
 	mCamera3dMouse->update(dt);
@@ -338,6 +344,7 @@ void apPhysicsTestFrame::createLandscapeObject()
 //creating physics component
 	phCollisionGeometry* collisionGeom = new phCollisionGeometry;
 	phLandscapeCollisionGeometry* landscapeCollisionGeometry = new phLandscapeCollisionGeometry();
+	mLandscapeCollisionGeom = landscapeCollisionGeometry;
 	collisionGeom->addPart(landscapeCollisionGeometry);
 	phStaticObject* staticObj = new phStaticObject(vec3(0,0,0), nullMatr(), collisionGeom);
 
@@ -367,6 +374,7 @@ void apPhysicsTestFrame::createVehicleObject()
 
 //physics object
 	phVehicle* physicsObject = new phVehicle;
+	mVehicle = physicsObject;
 	cPhysicsRigidBodyObjectComponent* physicsComponent = new cPhysicsRigidBodyObjectComponent(physicsObject);
 	
 	mLeftForwardChassis = new phVehicleChassisComponent(physicsObject, "forwardLeftChassis");

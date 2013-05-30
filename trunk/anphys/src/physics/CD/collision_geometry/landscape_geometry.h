@@ -3,6 +3,35 @@
 
 #include "collision_geometry_part.h"
 
+struct lVertex
+{
+	vec3  mPosition;
+	float mFrictionCoef;
+	float mBounceCoef;
+
+	lVertex():mFrictionCoef(1.0f), mBounceCoef(1.0f) {}
+	lVertex(const vec3& pos, float frictionCoef = 1.0f, float bounceCoef = 1.0f):
+		mPosition(pos), mFrictionCoef(frictionCoef), mBounceCoef(bounceCoef) {}
+};
+
+struct lPolygon
+{
+	unsigned int a, b, c;
+	lVertex*     pa;
+	lVertex*     pb;
+	lVertex*     pc;
+				     
+	vec3         nab, nbc, nca;
+	vec3         norm;
+
+	AABB         aabb;
+
+	lPolygon():a(0), b(0), c(0), pa(NULL), pb(NULL), pc(NULL) {}
+	lPolygon(unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies);
+
+	bool isIntersect(const vec3& bottom, vec3* point, vec3* pnorm, float* depth);
+};
+
 struct phLandscapeCollisionGeometry:public phCollisionGeometryPart
 {
 	/*from phCollisionGeometryPart
@@ -32,40 +61,18 @@ struct phLandscapeCollisionGeometry:public phCollisionGeometryPart
 
 	DEFINE_TYPE(phLandscapeCollisionGeometry)
 
-	struct lVertex
-	{
-		vec3  mPosition;
-		float mFrictionCoef;
-		float mBounceCoef;
-
-		lVertex():mFrictionCoef(1.0f), mBounceCoef(1.0f) {}
-		lVertex(const vec3& pos, float frictionCoef = 1.0f, float bounceCoef = 1.0f):
-			mPosition(pos), mFrictionCoef(frictionCoef), mBounceCoef(bounceCoef) {}
-	};
-
-	struct lPolygon
-	{
-		unsigned int a, b, c;
-		lVertex*     pa;
-		lVertex*     pb;
-		lVertex*     pc;
-				     
-		vec3         nab, nac;
-		float        abLength, acLength;
-
-		AABB         aabb;
-
-		lPolygon():a(0), b(0), c(0), pa(NULL), pb(NULL), pc(NULL), abLength(0), acLength(0) {}
-		lPolygon(unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies);
-	};
-
 	lVertex*     mVerticies;
 	lPolygon*    mPolygons;
 	unsigned int mVerticiesCount;
 	unsigned int mPolygonsCount;
 
+	lPolygon**   mPolygonsBuffer;
+	unsigned int mPolygonsBufferSize;
+	unsigned int mPolygonsBufferCount;
+
 	phLandscapeCollisionGeometry();
 	phLandscapeCollisionGeometry(phCollisionGeometry* collisionGeometry);
+	~phLandscapeCollisionGeometry();
 
 	void preUpdate(float dt);
 	void update(float dt);
@@ -74,6 +81,8 @@ struct phLandscapeCollisionGeometry:public phCollisionGeometryPart
 	phCollision* checkCollision(phCollisionGeometryPart* collisionGeometryPart, phCollision* collision);
 
 	void postInitialize();
+
+	void getPolygons(const AABB& aabb);
 };
 
 
