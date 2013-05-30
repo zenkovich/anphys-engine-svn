@@ -16,6 +16,14 @@ struct phVehicleChassisComponent:public phVehicleComponent
 	vec3                      mLocalPosition;
 	mat3x3                    mLocalAxis;
 	mat3x3                    mInitialLocalAxis;
+	
+	vec3                      mGlobalAxisX;
+	vec3                      mGlobalAxisY;
+	vec3                      mGlobalAxisZ;
+
+	float                     mInGroundDepth;
+	vec3                      mGroundNormal;
+	vec3                      mGroundContact;
 
 	float                     mMaxPosition;
 	float                     mMinPosition;
@@ -46,8 +54,6 @@ struct phVehicleChassisComponent:public phVehicleComponent
 	float                     mBrakeForce2;
 	float                     mBrakeCoef1;
 	float                     mBrakeCoef2;
-
-	phCollisionPoint*         mCollisionPoint;
 
 //functions
 	phVehicleChassisComponent(phVehicle* vehicle, const std::string& id);
