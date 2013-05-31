@@ -133,9 +133,9 @@ void VehicleCreatorWidnow::resetParametres()
 	mVehicle->mOrientQuat = matrix2quat(mVehicle->mOrient);
 	mVehicle->mVelocity = vec3(0, 0, 2);
 	mVehicle->mAngularVelocity = vec3(0, 0, 0);
-	mVehicle->mMass = 1800;
+	mVehicle->mMass = 1500;
 	mVehicle->mInvMass = 1.0f/mVehicle->mMass;
-	mVehicle->mInertia = getBoxInertia(mVehicle->mMass, vec3(1.8f, 1.6f, 3.7f));
+	mVehicle->mInertia = getBoxInertia(mVehicle->mMass, vec3(1.8f, 1.3f, 2.7f));
 	mVehicle->mInvInertia = mVehicle->mInertia.inverse();
 	mVehicle->mWorldInertia = mVehicle->mInertia;
 	mVehicle->mInvWorldInertia = mVehicle->mInvInertia;

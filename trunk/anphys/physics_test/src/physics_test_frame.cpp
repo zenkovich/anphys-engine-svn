@@ -43,12 +43,15 @@ apPhysicsTestFrame::~apPhysicsTestFrame()
 
 void apPhysicsTestFrame::onCreate(fRect inRect)
 {
+	mFollowCameraVehicle = true;
+
 	mCamera3dMouse = new grCamera3DMouse;
 	m2DCamera = new grCamera2D;
 	m3DRenderState = new grSimple3DRenderState(mRender);
 	m2DRenderState = new gr2DRenderState(mRender);
+	mVehicleCamera = new grCamera3D;
 
-	m3DRenderState->bindCamera(mCamera3dMouse);
+	m3DRenderState->bindCamera(mVehicleCamera);
 	m2DRenderState->bindCamera(m2DCamera);
 
 	//create main scene
@@ -85,16 +88,28 @@ float apPhysicsTestFrame::onTimer()
 	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
 	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
 	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
+
+	if (mFollowCameraVehicle)
+	{
+		vec3 targetCamPos = mVehicle->mPosition + vec3(0, 5, -9)*mVehicle->mOrient;
+		vec3 targetCamTargetPos = mVehicle->mPosition + vec3(0, 0, 30)*mVehicle->mOrient;
+		
+		mVehicleCamPos += (targetCamPos - mVehicleCamPos)*dt*1.0f;
+		mVehicleCamTargetPos += (targetCamTargetPos - mVehicleCamTargetPos)*dt*1.0f;
+
+		mVehicleCamera->mPosition = mVehicleCamPos; 
+		mVehicleCamera->mLookPoint = mVehicleCamTargetPos; 
+	}
 	
 	mLeftForwardChassis->mWheelAngle = 0;
 	mRightForwardChassis->mWheelAngle = 0;
 
 	if (isKeyDown(key_up))
 	{
-		mLeftRearChassis->mWheelTorque -= 500.0f*dt;
-		mRightRearChassis->mWheelTorque -= 500.0f*dt;
-		mLeftForwardChassis->mWheelTorque -= 500.0f*dt;
-		mRightForwardChassis->mWheelTorque -= 500.0f*dt;
+		mLeftRearChassis->mWheelTorque -= 50.0f*dt;
+		mRightRearChassis->mWheelTorque -= 50.0f*dt;
+		mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
+		mRightForwardChassis->mWheelTorque -= 50.0f*dt;
 	}
 	if (isKeyDown(key_down))
 	{
@@ -243,16 +258,29 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	{		
 		cObject* newObj = 
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(
-			mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, vec3(1.0f, 1.0f, 1.0f), 
+			mCamera3dMouse->mPosition + mCamera3dMouse->mDirection*2.0f, 
+			vec3(0.2f + random(0.0f, 2.0f), 0.2f + random(0.0f, 2.0f), 0.2f + random(0.0f, 2.0f)), 
 			vectorOrient(mCamera3dMouse->mDirection));
 
 		mMainEngineScene->addObject(newObj);
 
-		newObj->getPhysicsRigidBody()->mVelocity = mCamera3dMouse->mDirection*10.0f;
+		newObj->getPhysicsRigidBody()->mVelocity = mCamera3dMouse->mDirection*30.0f;
 	}
 	if (key == key_e)
 	{
 		mMainMenuWindow->show();
+
+		mFollowCameraVehicle = !mFollowCameraVehicle;
+		if (mFollowCameraVehicle)
+		{
+			m3DRenderState->bindCamera(mVehicleCamera);
+			mVehicleCamera->mPosition = mCamera3dMouse->mPosition;
+		}
+		else 
+		{
+			m3DRenderState->bindCamera(mCamera3dMouse);
+			mCamera3dMouse->mPosition = mVehicleCamera->mPosition;
+		}
 	}
 }
 
@@ -275,11 +303,11 @@ void apPhysicsTestFrame::setupScene1()
 	mMainEngineScene->addObject(
 		mMainEngineScene->mSceneStuff->createStaticWoodBox(vec3(0.0f, -0.5f, 0.0f), vec3(500.0f, 1.0f, 5000.0f)));
 	
-	/*for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		mMainEngineScene->addObject(
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(10.0f - 1.0f*i, 1.0f, 10.0f - 1.0f*i)));
-	}*/
+	}
 	mMainEngineScene->addObject(
 		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 0.7f, 0.5f), vec3(1.0f, 1.0f, 1.0f), 
 			RotatedMatrix(rad(45.0f), rad(25.0f), rad(45.0f))));

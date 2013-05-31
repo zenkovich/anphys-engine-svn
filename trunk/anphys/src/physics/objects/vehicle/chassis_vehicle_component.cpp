@@ -114,8 +114,8 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 	mVehicle->applyImpulse(mCollisionPoint->mPoint, imp);
 	
 
-	mCollisionPoint->t1 = mGlobalAxis.getXVector();
-	mCollisionPoint->t2 = mGlobalAxis.getZVector();
+	mCollisionPoint->t1 = mGlobalAxis.getZVector()^mCollisionPoint->mNormal;
+	mCollisionPoint->t2 = mCollisionPoint->mNormal^mGlobalAxis.getXVector();
 				
 	vec3 f1n1 = mCollisionPoint->t1;            mCollisionPoint->f1n1 = f1n1;
 	vec3 f1w1 = mCollisionPoint->t1^ra;         mCollisionPoint->f1w1 = f1w1;
@@ -330,6 +330,7 @@ void phVehicleChassisComponent::checkTestCollision()
 	vec3 bottomPoint = mWheelBottomPoint;
 	vec3 dir = mGlobalAxis.getYVector()*-1.0f;
 	vec3 topPoint = mGlobalPosition;
+	float leng = (bottomPoint - topPoint).len();
 
 	lPolygon** polygonsBuffer = mVehicle->mPolygonsBuffer;
 	unsigned int polygonsCount = mVehicle->mPolygonsBufferCount;
@@ -343,15 +344,20 @@ void phVehicleChassisComponent::checkTestCollision()
 	{
 		if (polygonsBuffer[i]->norm*dir < 0)
 		{
-			vec3 cp = mGlobalPosition + mGlobalAxis.getYVector()*mPosition - 
-				      polygonsBuffer[i]->norm*mWheelRadius;
-			if (polygonsBuffer[i]->isIntersect(cp, &point, &normal, &depth))
+			//if (polygonsBuffer[i]->isIntersect(cp, &point, &normal, &depth))
+
+			lPolygon* poly = polygonsBuffer[i];
+			if (IntersectLinePolygon(poly->pa->mPosition, poly->pb->mPosition, poly->pc->mPosition,
+				poly->norm, bottomPoint, topPoint, &point, &depth))
 			{
+				depth = (bottomPoint - poly->pa->mPosition)*poly->norm;
+				depth = -depth;
+
 				if (depth < minDepth)
 				{
 					mWheelOnGround = true;
 
-					mCollisionPoint->mNormal = normal;
+					mCollisionPoint->mNormal = poly->norm;
 					mCollisionPoint->mPoint = point;
 					mCollisionPoint->mDepth = depth;
 				}
