@@ -17,6 +17,7 @@ struct grTextureRenderTarget;
 struct grSimple3DRenderState;
 struct gr2DRenderState;
 struct grCamera2D;
+struct grCamera3D;
 struct grSprite;
 struct uiWidget;
 struct uiWidgetsManager;
@@ -33,6 +34,7 @@ struct apPhysicsTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*              mCamera3dMouse;
 	grCamera2D*                   m2DCamera;
+	grCamera3D*                   mVehicleCamera;
 	grSimple3DRenderState*        m3DRenderState;
 	gr2DRenderState*              m2DRenderState;
 								  
@@ -40,6 +42,10 @@ struct apPhysicsTestFrame:public apRenderWindow
 								  
 	bool                          mPhysicsRunning;
 	bool                          mPhysicsRunByStep;
+
+	bool                          mFollowCameraVehicle;
+	vec3                          mVehicleCamPos;
+	vec3                          mVehicleCamTargetPos;
 								  
 //ui							  
 	uiWidgetsManager*             mWidgetsManager;

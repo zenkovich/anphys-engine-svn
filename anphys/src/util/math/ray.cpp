@@ -1,7 +1,8 @@
 #include "ray.h"
 #include "mmath.h"
 
-bool IntersectLinePolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt, vec3 norm)
+bool IntersectLinePolygon(const vec3& pa, const vec3& pb, const vec3& pc, const vec3& norm, const vec3& la, const vec3& lb, 
+	                      vec3 *pt, float* tt /*= NULL*/)
 {
 	
 	vec3 orig = la;
@@ -28,10 +29,9 @@ bool IntersectLinePolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt,
 
     vec3 qvec = tvec^edge1;
     float t = (edge2*qvec)/det;
-
 	
-	if (t < 0 || t > ln) return false;
-	*pt = la + dir*t;
+	if (t < 0 || t > ln) 
+		return false;
 
     float u = tvec*pvec;
 	if (u < 0 || u > det)
@@ -44,6 +44,10 @@ bool IntersectLinePolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt,
 	{
         return false;
 	}
+	
+	*pt = la + dir*t;
+	if (tt)
+		*tt = t;
 
 	return true;
 }

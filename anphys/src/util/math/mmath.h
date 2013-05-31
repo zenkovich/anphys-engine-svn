@@ -439,7 +439,7 @@ inline quat matrix2quat(mat3x3 m)
 inline vec3 projectPoint2Plane(vec3 p, vec3 a, vec3 b, vec3 c, vec3 n)
 {
 	vec3 rr;
-	IntersectLinePolygon(a, b, c, p, p - n*200.0f, &rr, ((b - a)^(c - a)).normalize());
+	//IntersectLinePolygon(a, b, c, p, p - n*200.0f, &rr, ((b - a)^(c - a)).normalize());
 	return rr;
 }
 

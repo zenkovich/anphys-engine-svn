@@ -13,7 +13,8 @@ struct Cray
 	inline void Set(vec3 start, vec3 ve) { s = start; n = ve; }
 };
 
-bool IntersectLinePolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt, vec3 norm);
+bool IntersectLinePolygon(const vec3& pa, const vec3& pb, const vec3& pc, const vec3& norm, const vec3& la, const vec3& lb,
+	                      vec3 *pt, float* tt = 0);
 bool IntersectRayPolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt);
 
 
