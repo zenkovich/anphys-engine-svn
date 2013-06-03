@@ -22,6 +22,9 @@
     <Filter Include="physics_test">
       <UniqueIdentifier>{29d1dd59-fc29-4592-a5ee-593f96e7c0a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="physics_test\vehicle">
+      <UniqueIdentifier>{7c3e911b-7f22-4f73-add4-9001da15d334}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\physics_test\src\vehicle_creator_wnd.h">
       <Filter>physics_test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\vehicle\vehicle.h">
+      <Filter>physics_test\vehicle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,12 +8,34 @@
 struct phVehicleComponent;
 struct phCollision;
 struct lPolygon;
+struct phCollisionPoint;
+
+struct phCollisionGeometryVertex
+{
+	vec3              mLocalPos;
+	vec3              mGlobalPos;
+
+	phCollisionPoint* mCollisionPoint;
+
+	phCollisionGeometryVertex(const vec3& pos)
+	{
+		mLocalPos = pos;
+		mGlobalPos = pos;
+		mCollisionPoint = NULL;
+	}
+};
 
 struct phVehicle:public phRigidObject
 {
 	typedef std::vector<phVehicleComponent*> ComponentsList;
+	typedef std::vector<phCollisionGeometryVertex> PointsList;
+	typedef std::vector<phCollisionPoint*> CollisionPointsList;
 
 	ComponentsList mComponents;
+
+	PointsList   mCollisionGeometryPoints;
+	CollisionPointsList mActiveCollisionPoints;
+	CollisionPointsList mFreeCollisionPoints;
 
 	lPolygon**   mPolygonsBuffer;
 	unsigned int mPolygonsBufferCount;
@@ -36,6 +58,11 @@ struct phVehicle:public phRigidObject
 		mPolygonsBuffer = buffer;
 		mPolygonsBufferCount = count;
 	}
+
+protected:
+	void updateCollisionGeometry();
+	void checkCollisions();
+	void solveCollisions(float dt);
 };
 
 #endif //VEHICLE_H
