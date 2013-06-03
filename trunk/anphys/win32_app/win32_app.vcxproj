@@ -108,6 +108,7 @@
     <ClInclude Include="..\physics_test\src\box_collision_test_frame.h" />
     <ClInclude Include="..\physics_test\src\landscape_creator_wnd.h" />
     <ClInclude Include="..\physics_test\src\physics_test_frame.h" />
+    <ClInclude Include="..\physics_test\src\vehicle\vehicle.h" />
     <ClInclude Include="..\physics_test\src\vehicle_creator_wnd.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

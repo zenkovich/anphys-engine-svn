@@ -106,10 +106,10 @@ float apPhysicsTestFrame::onTimer()
 
 	if (isKeyDown(key_up))
 	{
-		mLeftRearChassis->mWheelTorque -= 50.0f*dt;
-		mRightRearChassis->mWheelTorque -= 50.0f*dt;
-		mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
-		mRightForwardChassis->mWheelTorque -= 50.0f*dt;
+		mLeftRearChassis->mWheelTorque -= 250.0f*dt;
+		mRightRearChassis->mWheelTorque -= 250.0f*dt;
+		/*mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
+		mRightForwardChassis->mWheelTorque -= 50.0f*dt;*/
 	}
 	if (isKeyDown(key_down))
 	{
@@ -425,6 +425,23 @@ void apPhysicsTestFrame::createVehicleObject()
 	mMainEngineScene->mPhysicsScene->addObject(physicsObject);
 
 	mVehicleObject->addComponent(physicsComponent);
+
+//collision points
+	vec3 halsSize = size*0.5f;
+	vec3 collisionPoints[] = { vec3(-halsSize.x, -halsSize.y, -halsSize.z), 
+	                           vec3(halsSize.x, -halsSize.y, -halsSize.z), 
+	                           vec3(halsSize.x, halsSize.y, -halsSize.z), 
+	                           vec3(-halsSize.x, halsSize.y, -halsSize.z), 
+							   
+							   vec3(-halsSize.x, -halsSize.y, halsSize.z), 
+	                           vec3(halsSize.x, -halsSize.y, halsSize.z), 
+	                           vec3(halsSize.x, halsSize.y, halsSize.z), 
+	                           vec3(-halsSize.x, halsSize.y, halsSize.z) };
+	int pointsCount = 8;
+	for (int i = 0; i < pointsCount; i++)
+	{
+		physicsObject->mCollisionGeometryPoints.push_back(phCollisionGeometryVertex(collisionPoints[i]));
+	}
 
 //graphics
 	grRender3DObjectMesh* boxMesh = mMainEngineScene->mSceneStuff->createMesh(128, 128);

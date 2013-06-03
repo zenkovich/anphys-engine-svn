@@ -103,13 +103,13 @@ void phVehicleChassisComponent::derivedPreSolve( float dt )
 	mCollisionPoint->J += shiftForce;
 	imp1 += mGlobalAxis.getYVector()*shiftForce;
 
-	gLog->fout(1, "J = %.3f depth = %.3f spring = %.3f df = %.3f\n", mCollisionPoint->J, contactDepth, springForce,
-		mPosition - mMaxPosition);
+/*	gLog->fout(1, "J = %.3f depth = %.3f spring = %.3f df = %.3f\n", mCollisionPoint->J, contactDepth, springForce,
+		mPosition - mMaxPosition);*/
 	
-	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mGlobalAxis.getYVector()*shiftForce*0.0006f);
+	getRenderStuff().addBlueArrow(mWheelBottomPoint, mWheelBottomPoint + mGlobalAxis.getYVector()*springForce*0.0006f);
 			
 	vec3 imp = imp1 + mCollisionPoint->t1*mCollisionPoint->Jf1 + 
-															 mCollisionPoint->t2*mCollisionPoint->Jf2;
+			   mCollisionPoint->t2*mCollisionPoint->Jf2;
 			
 	mVehicle->applyImpulse(mCollisionPoint->mPoint, imp);
 	
@@ -252,7 +252,7 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 	vec3 zvec = mGlobalAxis.getZVector();
 
 	//mPosition = mMaxPosition;
-	
+	vec3 lastWheelBottomPos = mWheelBottomPoint;
 	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
 
 	checkTestCollision();
@@ -283,6 +283,11 @@ void phVehicleChassisComponent::derivedPostSolve( float dt )
 	}
 
 	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
+
+	float ptDir = (mWheelBottomPoint - lastWheelBottomPos).len();
+	float rtDir = -mWheelAngVelocity*mWheelRadius*2.0f*3.1415926f*dt;
+
+	//gLog->fout(1, "pt = %.3f rt = %.3f, %f\n", ptDir, rtDir, ptDir - rtDir);
 
 	getRenderStuff().addRedArrow(mGlobalPosition, mGlobalPosition + mGlobalAxis.getXVector()*0.5f);
 	getRenderStuff().addGreenArrow(mGlobalPosition, mGlobalPosition + mGlobalAxis.getYVector()*0.5f);
