@@ -7,28 +7,20 @@
 #include "engine/frame_system/win32_render_frame/render_frame_win32_window.h"
 #endif //PLATFORM_WIN32
 
+#include "vehicle/vehicle.h"
+
 struct grCamera3DMouse;
-struct grRenderSceneBaseInterface;
 struct cScene;
 struct cObject;
-struct grRender2DObjectMesh;
-struct grTexture;
-struct grTextureRenderTarget;
 struct grSimple3DRenderState;
 struct gr2DRenderState;
 struct grCamera2D;
 struct grCamera3D;
-struct grSprite;
-struct uiWidget;
 struct uiWidgetsManager;
-struct phStaticObject;
 struct uiWindow;
-struct phVehicleChassisComponent;
-struct phVehicle;
-struct phLandscapeCollisionGeometry;
-
 struct LandscapeCreatorWnd;
 struct VehicleCreatorWidnow;
+struct phLandscapeCollisionGeometry;
 
 struct apPhysicsTestFrame:public apRenderWindow
 {
@@ -56,55 +48,39 @@ struct apPhysicsTestFrame:public apRenderWindow
 	VehicleCreatorWidnow*         mVehicleCreator;
 								  
 //physics						  
+	cObject*                      mVehicleObject;
 	cObject*                      mLandscapeObject;
 	phLandscapeCollisionGeometry* mLandscapeCollisionGeom;
-
-	cObject*                      mVehicleObject;
-	phVehicle*                    mVehicle;
-	phVehicleChassisComponent*    mLeftForwardChassis;
-	phVehicleChassisComponent*    mRightForwardChassis;
-	phVehicleChassisComponent*    mLeftRearChassis;
-	phVehicleChassisComponent*    mRightRearChassis;
+	physics::Vehicle              mVehicle;
 
 //functions
 	apPhysicsTestFrame();
 	apPhysicsTestFrame(const std::string& title, fRect wndRect, fRect outputRect);
 	apPhysicsTestFrame(const std::string& title, fRect wndRect);
-
 	~apPhysicsTestFrame();
 
 	void onCreate(fRect inRect);
 	void onClose();
 	float onTimer();
+
 	void onSize(fRect inRect);
-	
-	void onMouseLeftButtonDown(vec2 point);
-	void onMouseLeftButtonUp(vec2 point);
-	
-	void onMouseRightButtonDown(vec2 point);
-	void onMouseRightButtonUp(vec2 point);
 
-	void onMouseMove(vec2 point);
-	void onMouseWheel(float delta);
-	
+	void onMouseMove(vec2 point);	
 	void onKeyDown(int key);
-	void onKeyUp(int key);
-
-	void onActive();
-	void onDeActive();
-
-	void render2D();
-
-	void setupScene1();
-
-	void createLandscapeObject();
-	void createVehicleObject();
-
-	void createUIWidgets();
 
 protected:
 	void onOpenLandscapeCreatorBtnPressed();
 	void onOpenVehicleCreatorBtnPressed();
+
+	void updateVehicle(float dt);
+
+	void updateCameraControls();
+
+	void render2D();
+	void setupScene1();
+	void createLandscapeObject();
+	void createVehicleObject();
+	void createUIWidgets();
 };
 
 

@@ -52,12 +52,19 @@ struct VehicleChassis
 	void loadParametres(const vec3& localPos, const mat3x3& localAxis, float minPos, float maxPos, 
 		                float wheelRadius, float wheelmass, float springForce, float gasShockForce, float brakeForce1,
 						float brakeForce2 = 0.0f);
+
+	void loadParametres(float* localPosVec, float* localAxisMatrix, float minPos, float maxPos, 
+		                float wheelRadius, float wheelmass, float springForce, float gasShockForce, float brakeForce1,
+						float brakeForce2 = 0.0f);
 	
 	void derivedPreSolve(float dt);
 	void derivedSolve(float dt);
 	void derivedPostSolve(float dt);
 
 	void checkCollision();
+
+	void getPosition(float* positionVec);
+	void getOrientation(float* orientMatrix);
 };
 
 }
