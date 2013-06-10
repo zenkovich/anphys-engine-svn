@@ -48,6 +48,12 @@
     <ClCompile Include="..\physics_test\src\vehicle_creator_wnd.cpp">
       <Filter>physics_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\physics_test\src\vehicle\vehicle_chassis.cpp">
+      <Filter>physics_test\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\physics_test\src\vehicle\vehicle.cpp">
+      <Filter>physics_test\vehicle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -69,6 +75,12 @@
       <Filter>physics_test</Filter>
     </ClInclude>
     <ClInclude Include="..\physics_test\src\vehicle\vehicle.h">
+      <Filter>physics_test\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\vehicle\vehicle_chassis.h">
+      <Filter>physics_test\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\physics_test\src\vehicle\stuff.h">
       <Filter>physics_test\vehicle</Filter>
     </ClInclude>
   </ItemGroup>
