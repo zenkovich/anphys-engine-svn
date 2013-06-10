@@ -12,8 +12,8 @@ struct VehicleChassis;
 
 struct Vehicle
 {
-	typedef std::vector<phCollisionGeometryVertex> PointsList;
-	typedef std::vector<phCollisionPoint*> CollisionPointsList;
+	typedef std::vector<CollisionGeometryVertex> PointsList;
+	typedef std::vector<CollisionPoint*> CollisionPointsList;
 
 	mat3x3              mOrient;
 	vec3                mPosition;
@@ -50,7 +50,10 @@ struct Vehicle
 	void applyImpulse(vec3& point, vec3& impulse);
 	void applyBiasImpulse( vec3& point, vec3& impulse );
 
-	void setPolygonsBuffer(lPolygon** buffer, unsigned int count);
+	void setPolygonsBuffer(lPolygon** buffer, unsigned int count);	
+
+	void getPosition(float* positionVec);
+	void getOrientation(float* orientMatrix);
 
 protected:
 	void updateCollisionGeometry();

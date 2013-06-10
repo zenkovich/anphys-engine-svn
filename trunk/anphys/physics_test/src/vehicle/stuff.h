@@ -444,7 +444,7 @@ struct mat3x3
 inline vec3 operator*(const vec3& v, const mat3x3& m) { return m.transform(v); }
 inline vec3 operator*=(const vec3& v, const mat3x3& m) { return m.transform(v); }
 
-struct phCollisionPoint
+struct CollisionPoint
 {
 	vec3 mPoint;
 	vec3 mNormal;
@@ -458,19 +458,19 @@ struct phCollisionPoint
 	vec3 t1, t2, n1, n2, w1, w2, f1n1, f1n2, f1w1, f1w2, f2n1, f2n2, f2w1, f2w2;
 
 //functions
-	phCollisionPoint(): Kn(0), Kf1(0), Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
+	CollisionPoint(): Kn(0), Kf1(0), Kf2(0), J(0), Jf1(0), Jf2(0), B(0) {}
 
 	void reset() { Kn = Kf1 = Kf2 = J = Jf1 = Jf2 = B = Bias = mDepth = 0; t1 = t2 = vec3(0); }
 };
 
-struct phCollisionGeometryVertex
+struct CollisionGeometryVertex
 {
 	vec3              mLocalPos;
 	vec3              mGlobalPos;
 
 	phCollisionPoint* mCollisionPoint;
 
-	phCollisionGeometryVertex(const vec3& pos)
+	CollisionGeometryVertex(const vec3& pos)
 	{
 		mLocalPos = pos;
 		mGlobalPos = pos;
@@ -523,11 +523,10 @@ struct lVertex
 {
 	vec3  mPosition;
 	float mFrictionCoef;
-	float mBounceCoef;
 
-	lVertex():mFrictionCoef(1.0f), mBounceCoef(1.0f) {}
+	lVertex():mFrictionCoef(1.0f) {}
 	lVertex(const vec3& pos, float frictionCoef = 1.0f, float bounceCoef = 1.0f):
-		mPosition(pos), mFrictionCoef(frictionCoef), mBounceCoef(bounceCoef) {}
+		mPosition(pos), mFrictionCoef(frictionCoef) {}
 };
 
 struct lPolygon

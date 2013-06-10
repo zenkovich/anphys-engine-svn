@@ -9,7 +9,7 @@ Vehicle::Vehicle()
 	int maxCollisionPoints = 50;
 
 	for (int i = 0; i < maxCollisionPoints; i++)
-		mFreeCollisionPoints.push_back(new phCollisionPoint());
+		mFreeCollisionPoints.push_back(new CollisionPoint());
 	
 	mFrontLeftChassis = new VehicleChassis;
 	mFrontRightChassis = new VehicleChassis;
@@ -79,7 +79,7 @@ void Vehicle::updateCollisionGeometry()
 {
 	for (PointsList::iterator it = mCollisionGeometryPoints.begin(); it != mCollisionGeometryPoints.end(); ++it)
 	{
-		phCollisionGeometryVertex* vertex = &(*it);
+		CollisionGeometryVertex* vertex = &(*it);
 		vertex->mGlobalPos = vertex->mLocalPos*mOrient + mPosition;
 	}
 }
@@ -90,9 +90,9 @@ void Vehicle::checkCollisions()
 
 	for (PointsList::iterator it = mCollisionGeometryPoints.begin(); it != mCollisionGeometryPoints.end(); ++it)
 	{
-		phCollisionGeometryVertex* vertex = &(*it);
+		CollisionGeometryVertex* vertex = &(*it);
 
-		phCollisionPoint* cpoint = vertex->mCollisionPoint;
+		CollisionPoint* cpoint = vertex->mCollisionPoint;
 		bool fromFreeList = false;
 
 		if (!cpoint)
@@ -148,7 +148,7 @@ void Vehicle::solveCollisions( float dt )
 
 	for (CollisionPointsList::iterator jt = mActiveCollisionPoints.begin(); jt != mActiveCollisionPoints.end(); ++jt)
 	{
-		phCollisionPoint* collisionPoint = *jt;
+		CollisionPoint* collisionPoint = *jt;
 
 		float contactDepth = collisionPoint->mDepth - 0.05f;
 		if (contactDepth > 0.0f)
@@ -270,6 +270,16 @@ void Vehicle::applyBiasImpulse( vec3& point, vec3& impulse )
 {
 	mBiasVelocity += impulse*mInvMass;
 	mBiasAngularVelocity += (impulse^(point - mPosition))*mInvWorldInertia;
+}
+
+void Vehicle::getPosition( float* positionVec )
+{
+	vmask(positionVec, mPosition);
+}
+
+void Vehicle::getOrientation( float* orientMatrix )
+{
+	mmask(orientMatrix, mOrient);
 }
 
 }

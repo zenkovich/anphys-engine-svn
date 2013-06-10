@@ -5,9 +5,7 @@
 
 #include "landscape_creator_wnd.h"
 #include "vehicle_creator_wnd.h"
-#include "physics/objects/vehicle/vehicle.h"
-#include "physics/objects/vehicle/chassis_vehicle_component.h"
-#include "physics/objects/vehicle/vehicle_wheel.h"
+#include "vehicle/vehicle_chassis.h"
 
 apPhysicsTestFrame::apPhysicsTestFrame():apRenderWindow(), mMainEngineScene(NULL), mPhysicsRunning(true), 
 	mPhysicsRunByStep(false), mLandscapeCreator(NULL)
@@ -46,7 +44,7 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	mFollowCameraVehicle = true;
 
 	mCamera3dMouse = new grCamera3DMouse;
-	m2DCamera = new grCamera2D;
+	m2DCamera      = new grCamera2D;
 	m3DRenderState = new grSimple3DRenderState(mRender);
 	m2DRenderState = new gr2DRenderState(mRender);
 	mVehicleCamera = new grCamera3D;
@@ -75,6 +73,8 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 float apPhysicsTestFrame::onTimer()
 {
 	float dt = apRenderWindow::onTimer();
+
+	updateCameraControls();
 	
 	if (mPhysicsRunning) 
 	{
@@ -82,103 +82,11 @@ float apPhysicsTestFrame::onTimer()
 		mMainEngineScene->mPhysicsScene->update(dt);
 	}
 
-	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
-	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
-	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
-	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
-	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
-	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
+	updateVehicle(dt);
 
-	if (mFollowCameraVehicle)
-	{
-		vec3 targetCamPos = mVehicle->mPosition + vec3(0, 5, -9)*mVehicle->mOrient;
-		vec3 targetCamTargetPos = mVehicle->mPosition + vec3(0, 0, 30)*mVehicle->mOrient;
-		
-		mVehicleCamPos += (targetCamPos - mVehicleCamPos)*dt*1.0f;
-		mVehicleCamTargetPos += (targetCamTargetPos - mVehicleCamTargetPos)*dt*1.0f;
-
-		mVehicleCamera->mPosition = mVehicleCamPos; 
-		mVehicleCamera->mLookPoint = mVehicleCamTargetPos; 
-	}
-	
-	mLeftForwardChassis->mWheelAngle = 0;
-	mRightForwardChassis->mWheelAngle = 0;
-
-	if (isKeyDown(key_up))
-	{
-		mLeftRearChassis->mWheelTorque -= 250.0f*dt;
-		mRightRearChassis->mWheelTorque -= 250.0f*dt;
-		/*mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
-		mRightForwardChassis->mWheelTorque -= 50.0f*dt;*/
-	}
-	if (isKeyDown(key_down))
-	{
-		mLeftForwardChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mLeftForwardChassis->mBrakeCoef1 > 1.0f)
-			mLeftForwardChassis->mBrakeCoef1 = 1.0f;
-
-		mRightForwardChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mRightForwardChassis->mBrakeCoef1 > 1.0f)
-			mRightForwardChassis->mBrakeCoef1 = 1.0f;
-
-		mLeftRearChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mLeftRearChassis->mBrakeCoef1 > 1.0f)
-			mLeftRearChassis->mBrakeCoef1 = 1.0f;
-
-		mRightRearChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mRightRearChassis->mBrakeCoef1 > 1.0f)
-			mRightRearChassis->mBrakeCoef1 = 1.0f;
-	}
-	else
-	{
-		mLeftForwardChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mLeftForwardChassis->mBrakeCoef1 < 0.0f)
-			mLeftForwardChassis->mBrakeCoef1 = 0.0f;
-
-		mRightForwardChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mRightForwardChassis->mBrakeCoef1 < 0.0f)
-			mRightForwardChassis->mBrakeCoef1 = 0.0f;
-		
-		mLeftRearChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mLeftRearChassis->mBrakeCoef1 < 0.0f)
-			mLeftRearChassis->mBrakeCoef1 = 0.0f;
-
-		mRightRearChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mRightRearChassis->mBrakeCoef1 < 0.0f)
-			mRightRearChassis->mBrakeCoef1 = 0.0f;
-	}
-	if (isKeyDown(key_right))
-	{
-		mLeftForwardChassis->mWheelAngle = rad(30.0f);
-		mRightForwardChassis->mWheelAngle = rad(30.0f);
-	}
-	if (isKeyDown(key_left))
-	{
-		mLeftForwardChassis->mWheelAngle = rad(-30.0f);
-		mRightForwardChassis->mWheelAngle = rad(-30.0f);
-	}
-
-	if (isKeyDown(key_numpad_0))
-	{
-		mLeftRearChassis->mBrakeCoef2 = 1.0f;
-		mRightRearChassis->mBrakeCoef2 = 1.0f;
-	}
-	else
-	{
-		mLeftRearChassis->mBrakeCoef2 = 0.0f;
-		mRightRearChassis->mBrakeCoef2 = 0.0f;
-	}
-
-	//mInputMessenger->sendInputMessage();
 	mWidgetsManager->mLastInputMessage = &mInputMessenger->mInputMessage;
 	mWidgetsRes = mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
 	mInputMessenger->mInputMessage.update();
-
-	AABB vehicleAabb(mVehicle->mPosition + vec3(-2.5f, -2.5f, -2.5f),
-		             mVehicle->mPosition + vec3(2.5f, 2.5f, 2.5f) );
-	mLandscapeCollisionGeom->getPolygons(vehicleAabb);
-	mVehicle->setPolygonsBuffer(mLandscapeCollisionGeom->mPolygonsBuffer, 
-		mLandscapeCollisionGeom->mPolygonsBufferCount);
 
 	mMainEngineScene->update(dt);
 	mRender->update(dt);
@@ -186,18 +94,14 @@ float apPhysicsTestFrame::onTimer()
 	mWidgetsManager->update(dt);
 
 	mRender->beginRender();
-
 	mRender->bindRenderState(m3DRenderState);
-
 	mRender->render();
-
 	mRender->bindRenderState(m2DRenderState);
-
 	render2D();
-
 	mRender->endRender();
 
-	if (mPhysicsRunByStep) mPhysicsRunning = false;
+	if (mPhysicsRunByStep)
+		mPhysicsRunning = false;
 
 	return dt;
 }
@@ -209,24 +113,7 @@ void apPhysicsTestFrame::onClose()
 
 void apPhysicsTestFrame::onSize(fRect inRect)
 {
-	//mCamera3dMouse->mScreenSize = inRect.getSize();
 	mRender->resize(inRect.getSize());
-}
-
-void apPhysicsTestFrame::onMouseLeftButtonDown(vec2 point)
-{
-}
-
-void apPhysicsTestFrame::onMouseLeftButtonUp(vec2 point)
-{
-}
-
-void apPhysicsTestFrame::onMouseRightButtonDown(vec2 point)
-{
-}
-
-void apPhysicsTestFrame::onMouseRightButtonUp(vec2 point)
-{
 }
 
 void apPhysicsTestFrame::onMouseMove(vec2 point)
@@ -236,10 +123,6 @@ void apPhysicsTestFrame::onMouseMove(vec2 point)
 		if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
 			mCamera3dMouse->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
 	}
-}
-
-void apPhysicsTestFrame::onMouseWheel(float delta)
-{
 }
 
 void apPhysicsTestFrame::onKeyDown(int key)
@@ -284,18 +167,6 @@ void apPhysicsTestFrame::onKeyDown(int key)
 	}
 }
 
-void apPhysicsTestFrame::onKeyUp(int key)
-{
-}
-
-void apPhysicsTestFrame::onActive()
-{
-}
-
-void apPhysicsTestFrame::onDeActive()
-{
-}
-
 void apPhysicsTestFrame::setupScene1()
 {
 	return;
@@ -308,15 +179,10 @@ void apPhysicsTestFrame::setupScene1()
 		mMainEngineScene->addObject(
 			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(10.0f - 1.0f*i, 1.0f, 10.0f - 1.0f*i)));
 	}
+
 	mMainEngineScene->addObject(
 		mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 0.7f, 0.5f), vec3(1.0f, 1.0f, 1.0f), 
 			RotatedMatrix(rad(45.0f), rad(25.0f), rad(45.0f))));
-	/*for (int i = 0; i < 10; i++)
-	{
-		mMainEngineScene->addObject(
-			mMainEngineScene->mSceneStuff->createRigidWoodBox(vec3(0.0f, 1.5f + i*1.1f, 0.5f), vec3(1.0f, 1.0f, 1.0f)));
-
-	}*/
 }
 
 void apPhysicsTestFrame::render2D()
@@ -401,31 +267,12 @@ void apPhysicsTestFrame::createVehicleObject()
 	vec3 size(1.8f, 1.1f, 3.7f);
 
 //physics object
-	phVehicle* physicsObject = new phVehicle;
-	mVehicle = physicsObject;
-	cPhysicsRigidBodyObjectComponent* physicsComponent = new cPhysicsRigidBodyObjectComponent(physicsObject);
 	
-	mLeftForwardChassis = new phVehicleChassisComponent(physicsObject, "forwardLeftChassis");
-	mRightForwardChassis = new phVehicleChassisComponent(physicsObject, "forwardRightChassis");
-	mLeftRearChassis = new phVehicleChassisComponent(physicsObject, "rearLeftChassis");
-	mRightRearChassis = new phVehicleChassisComponent(physicsObject, "rearRightChassis");
+	mVehicle.mFrontLeftChassis->loadParametres(physics::vec3(-0.95f, -0.2f, 1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
+	mVehicle.mFrontRightChassis->loadParametres(physics::vec3(0.95f, -0.2f, 1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
+	mVehicle.mRearLeftChassis->loadParametres(physics::vec3(-0.95f, -0.2f, -1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f);
+	mVehicle.mRearRightChassis->loadParametres(physics::vec3(0.95f, -0.2f, -1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f); 
 	
-	physicsObject->addComponent(mLeftForwardChassis);
-	physicsObject->addComponent(mRightForwardChassis);
-	physicsObject->addComponent(mLeftRearChassis);
-	physicsObject->addComponent(mRightRearChassis);
-	
-	mLeftForwardChassis->loadParametres(vec3(-0.95f, -0.2f, 1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
-	mRightForwardChassis->loadParametres(vec3(0.95f, -0.2f, 1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
-	mLeftRearChassis->loadParametres(vec3(-0.95f, -0.2f, -1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f);
-	mRightRearChassis->loadParametres(vec3(0.95f, -0.2f, -1.5f), nullMatr(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f); 
-	
-	mMainEngineScene->mSceneStuff->addBoxCollisionGeometry(physicsObject, size);
-
-	mMainEngineScene->mPhysicsScene->addObject(physicsObject);
-
-	mVehicleObject->addComponent(physicsComponent);
-
 //collision points
 	vec3 halsSize = size*0.5f;
 	vec3 collisionPoints[] = { vec3(-halsSize.x, -halsSize.y, -halsSize.z), 
@@ -440,7 +287,7 @@ void apPhysicsTestFrame::createVehicleObject()
 	int pointsCount = 8;
 	for (int i = 0; i < pointsCount; i++)
 	{
-		physicsObject->mCollisionGeometryPoints.push_back(phCollisionGeometryVertex(collisionPoints[i]));
+		mVehicle.mCollisionGeometryPoints.push_back(physics::CollisionGeometryVertex(collisionPoints[i]));
 	}
 
 //graphics
@@ -457,5 +304,109 @@ void apPhysicsTestFrame::createVehicleObject()
 	mMainEngineScene->addObject(mVehicleObject);		
 
 //vehicle creator
-	mVehicleCreator = new VehicleCreatorWidnow(mWidgetsManager, physicsObject);
+	mVehicleCreator = new VehicleCreatorWidnow(mWidgetsManager, &mVehicle);
+}
+
+void apPhysicsTestFrame::updateVehicle( float dt )
+{
+	float fbuf[9];
+
+	mVehicle.getPosition(fbuf);
+	vec3 vehiclePos(fbuf[0], fbuf[1], fbuf[2]);
+
+	if (mFollowCameraVehicle)
+	{
+		vec3 targetCamPos = mVehicle->mPosition + vec3(0, 5, -9)*mVehicle->mOrient;
+		vec3 targetCamTargetPos = mVehicle->mPosition + vec3(0, 0, 30)*mVehicle->mOrient;
+		
+		mVehicleCamPos += (targetCamPos - mVehicleCamPos)*dt*1.0f;
+		mVehicleCamTargetPos += (targetCamTargetPos - mVehicleCamTargetPos)*dt*1.0f;
+
+		mVehicleCamera->mPosition = mVehicleCamPos; 
+		mVehicleCamera->mLookPoint = mVehicleCamTargetPos; 
+	}
+	
+	mLeftForwardChassis->mWheelAngle = 0;
+	mRightForwardChassis->mWheelAngle = 0;
+
+	if (isKeyDown(key_up))
+	{
+		mLeftRearChassis->mWheelTorque -= 250.0f*dt;
+		mRightRearChassis->mWheelTorque -= 250.0f*dt;
+		/*mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
+		mRightForwardChassis->mWheelTorque -= 50.0f*dt;*/
+	}
+	if (isKeyDown(key_down))
+	{
+		mLeftForwardChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mLeftForwardChassis->mBrakeCoef1 > 1.0f)
+			mLeftForwardChassis->mBrakeCoef1 = 1.0f;
+
+		mRightForwardChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mRightForwardChassis->mBrakeCoef1 > 1.0f)
+			mRightForwardChassis->mBrakeCoef1 = 1.0f;
+
+		mLeftRearChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mLeftRearChassis->mBrakeCoef1 > 1.0f)
+			mLeftRearChassis->mBrakeCoef1 = 1.0f;
+
+		mRightRearChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mRightRearChassis->mBrakeCoef1 > 1.0f)
+			mRightRearChassis->mBrakeCoef1 = 1.0f;
+	}
+	else
+	{
+		mLeftForwardChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mLeftForwardChassis->mBrakeCoef1 < 0.0f)
+			mLeftForwardChassis->mBrakeCoef1 = 0.0f;
+
+		mRightForwardChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mRightForwardChassis->mBrakeCoef1 < 0.0f)
+			mRightForwardChassis->mBrakeCoef1 = 0.0f;
+		
+		mLeftRearChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mLeftRearChassis->mBrakeCoef1 < 0.0f)
+			mLeftRearChassis->mBrakeCoef1 = 0.0f;
+
+		mRightRearChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mRightRearChassis->mBrakeCoef1 < 0.0f)
+			mRightRearChassis->mBrakeCoef1 = 0.0f;
+	}
+	if (isKeyDown(key_right))
+	{
+		mLeftForwardChassis->mWheelAngle = rad(30.0f);
+		mRightForwardChassis->mWheelAngle = rad(30.0f);
+	}
+	if (isKeyDown(key_left))
+	{
+		mLeftForwardChassis->mWheelAngle = rad(-30.0f);
+		mRightForwardChassis->mWheelAngle = rad(-30.0f);
+	}
+
+	if (isKeyDown(key_numpad_0))
+	{
+		mLeftRearChassis->mBrakeCoef2 = 1.0f;
+		mRightRearChassis->mBrakeCoef2 = 1.0f;
+	}
+	else
+	{
+		mLeftRearChassis->mBrakeCoef2 = 0.0f;
+		mRightRearChassis->mBrakeCoef2 = 0.0f;
+	}
+
+	AABB vehicleAabb(mVehicle->mPosition + vec3(-2.5f, -2.5f, -2.5f),
+		             mVehicle->mPosition + vec3(2.5f, 2.5f, 2.5f) );
+	mLandscapeCollisionGeom->getPolygons(vehicleAabb);
+	mVehicle->setPolygonsBuffer(mLandscapeCollisionGeom->mPolygonsBuffer, 
+		mLandscapeCollisionGeom->mPolygonsBufferCount);
+}
+
+void apPhysicsTestFrame::updateCameraControls()
+{
+	if (isKeyDown(key_w)) mCamera3dMouse->moveForward(isKeyDown(key_shift));
+	if (isKeyDown(key_s)) mCamera3dMouse->moveBack(isKeyDown(key_shift));
+	if (isKeyDown(key_a)) mCamera3dMouse->moveLeft(isKeyDown(key_shift));
+	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
+	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
+	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
 }

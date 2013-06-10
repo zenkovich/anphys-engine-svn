@@ -42,6 +42,14 @@ void VehicleChassis::loadParametres( const vec3& localPos, const mat3x3& localAx
 	mWheelOnGround = false;
 }
 
+void VehicleChassis::loadParametres( float* localPosVec, float* localAxisMatrix, float minPos, float maxPos, 
+	                                 float wheelRadius, float wheelmass, float springForce, float gasShockForce, 
+									 float brakeForce1, float brakeForce2 /*= 0.0f*/ )
+{
+	loadParametres(vmask(localPosVec), mmask(localAxisMatrix), minPos, maxPos, wheelRadius, wheelmass, springForce, 
+		gasShockForce, brakeForce1, brakeForce2);
+}
+
 void VehicleChassis::derivedPreSolve( float dt )
 {
 	if (!mWheelOnGround)
@@ -299,6 +307,16 @@ void VehicleChassis::checkCollision()
 	{
 		mCollisionPoint.reset();
 	}
+}
+
+void VehicleChassis::getPosition( float* positionVec )
+{
+	vmask(positionVec, mGlobalPosition + mGlobalAxis.getYVector()*mPosition);
+}
+
+void VehicleChassis::getOrientation( float* orientMatrix )
+{
+	mmask(orientMatrix, rotatedXMatrix(mWheelXAngle)*mGlobalAxis);
 }
 
 }
