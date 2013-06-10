@@ -100,6 +100,8 @@
     <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp" />
     <ClCompile Include="..\physics_test\src\landscape_creator_wnd.cpp" />
     <ClCompile Include="..\physics_test\src\physics_test_frame.cpp" />
+    <ClCompile Include="..\physics_test\src\vehicle\vehicle.cpp" />
+    <ClCompile Include="..\physics_test\src\vehicle\vehicle_chassis.cpp" />
     <ClCompile Include="..\physics_test\src\vehicle_creator_wnd.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="win32_app.cpp" />
@@ -108,7 +110,9 @@
     <ClInclude Include="..\physics_test\src\box_collision_test_frame.h" />
     <ClInclude Include="..\physics_test\src\landscape_creator_wnd.h" />
     <ClInclude Include="..\physics_test\src\physics_test_frame.h" />
+    <ClInclude Include="..\physics_test\src\vehicle\stuff.h" />
     <ClInclude Include="..\physics_test\src\vehicle\vehicle.h" />
+    <ClInclude Include="..\physics_test\src\vehicle\vehicle_chassis.h" />
     <ClInclude Include="..\physics_test\src\vehicle_creator_wnd.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
