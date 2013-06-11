@@ -11,10 +11,10 @@ Vehicle::Vehicle()
 	for (int i = 0; i < maxCollisionPoints; i++)
 		mFreeCollisionPoints.push_back(new CollisionPoint());
 	
-	mFrontLeftChassis = new VehicleChassis;
-	mFrontRightChassis = new VehicleChassis;
-	mRearLeftChassis = new VehicleChassis;
-	mRearRightChassis = new VehicleChassis;
+	mFrontLeftChassis = new VehicleChassis(this);
+	mFrontRightChassis = new VehicleChassis(this);
+	mRearLeftChassis = new VehicleChassis(this);
+	mRearRightChassis = new VehicleChassis(this);
 }
 
 Vehicle::~Vehicle()
@@ -32,7 +32,7 @@ Vehicle::~Vehicle()
 
 void Vehicle::update( float dt )
 {
-	mVelocity += mForce;
+	mVelocity += mForce + vec3(0, -9.8f*dt, 0);
 	mAngularVelocity += mTorque;
 
 	mForce = mTorque = vec3(0);
@@ -53,7 +53,8 @@ void Vehicle::update( float dt )
 
 	vec3 rotateVec = (mAngularVelocity + mBiasAngularVelocity)*dt;
 	float rotateVecLen = rotateVec.len();
-	mOrient = rotateMatrixAroundVec(mOrient, rotateVec/rotateVecLen, rotateVecLen);
+	if (rotateVecLen > 0.00001f)
+		mOrient = rotateMatrixAroundVec(mOrient, rotateVec/rotateVecLen, rotateVecLen);
 
 	mBiasVelocity = mBiasAngularVelocity = vec3(0);
 
@@ -194,7 +195,7 @@ void Vehicle::solveCollisions( float dt )
 	{
 		for (CollisionPointsList::iterator jt = mActiveCollisionPoints.begin(); jt != mActiveCollisionPoints.end(); ++jt)
 		{
-			phCollisionPoint* collisionPoint = *jt;
+			CollisionPoint* collisionPoint = *jt;
 				
 			vec3 ra = collisionPoint->mPoint - mPosition;
 			

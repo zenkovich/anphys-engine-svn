@@ -2,6 +2,9 @@
 
 #include "vehicle.h"
 
+#include "engine/engine_incl.h"
+#include "util/debug/render_stuff.h"
+
 namespace physics
 {
 
@@ -36,7 +39,6 @@ void VehicleChassis::loadParametres( const vec3& localPos, const mat3x3& localAx
 	mBrakeCoef1 = 0;
 	mBrakeCoef2 = 0;
 
-	mMinPosition = mMaxPosition = 0;
 	mWheelAngle = mPosition = 0;
 
 	mWheelOnGround = false;
@@ -88,7 +90,21 @@ void VehicleChassis::derivedPreSolve( float dt )
 	{
 		mCollisionPoint.mBiasImpulse = 0.0f;
 
+		vec3 yaxisNorm = mGlobalAxis.getYVector()^n1^mGlobalAxis.getYVector();
+		myaxisNorm = yaxisNorm.normalize();
+		
+		float normCoef = yaxisNorm*n1;
+
+		vec3 nn1 = yaxisNorm;
+		vec3 nw1 = yaxisNorm^ra;
+
+		float a = nn1*mVehicle->mVelocity + nw1*mVehicle->mAngularVelocity;
+		float lambda = -a*(1.3f)*mCollisionPoint.B*normCoef;
+
 		mCollisionPoint.J = 0;
+		imp1 = yaxisNorm*lambda;
+
+		gLog->fout(1, "normCoef = %.3f\n", normCoef);
 	}
 	mCollisionPoint.J += shiftForce;
 	imp1 += mGlobalAxis.getYVector()*shiftForce;
@@ -316,7 +332,7 @@ void VehicleChassis::getPosition( float* positionVec )
 
 void VehicleChassis::getOrientation( float* orientMatrix )
 {
-	mmask(orientMatrix, rotatedXMatrix(mWheelXAngle)*mGlobalAxis);
+	mmask(orientMatrix, rotatedXMatrix(-mWheelXAngle)*mGlobalAxis);
 }
 
 }

@@ -5,6 +5,7 @@ struct uiWindow;
 struct uiWidgetsManager;
 struct cObject;
 struct grRenderSceneBaseInterface;
+struct TestLandscape;
 
 struct LandscapeCreatorWnd
 {
@@ -23,6 +24,7 @@ struct LandscapeCreatorWnd
 	int                         mSegmentsZCount;
 					            
 	cObject*                    mLandscapeObject;
+	TestLandscape*              mTestLandscapeGeom;
 	grRenderSceneBaseInterface* mRenderScene;
 
 //functions

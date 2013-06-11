@@ -1,11 +1,13 @@
 #include "landscape_creator_wnd.h"
 
 #include "engine/engine_incl.h"
+#include "physics_test_frame.h"
 
 
 LandscapeCreatorWnd::LandscapeCreatorWnd( uiWidgetsManager* widgetsManager ):mWidgetsManager(widgetsManager)
 {
 	mLandscapeObject = NULL;
+	mTestLandscapeGeom = NULL;
 
 	resetParametres();
 
@@ -77,10 +79,6 @@ void LandscapeCreatorWnd::resetParametres()
 
 void LandscapeCreatorWnd::recreateLandscape()
 {
-	phLandscapeCollisionGeometry* collisionGeometry = static_cast<phLandscapeCollisionGeometry*>(
-		mLandscapeObject->getComponent<cPhysicsStaticBodyObjectComponent>()->mStaticPhysicsBody
-		->getCollisionGeometry()->mParts[0]);	
-
 	int vertexCount = (mSegmentsXCount + 1)*(mSegmentsZCount + 1);
 	int polyCount = mSegmentsXCount*mSegmentsZCount*2;
 
@@ -95,14 +93,7 @@ void LandscapeCreatorWnd::recreateLandscape()
 	mLandscapeObject->addComponent(renderObjectComponent);
 
 //create physics mesh
-	safe_release_arr(collisionGeometry->mVerticies);
-	safe_release_arr(collisionGeometry->mPolygons);
-
-	collisionGeometry->mVerticies = new lVertex[vertexCount];
-	collisionGeometry->mVerticiesCount = vertexCount;
-
-	collisionGeometry->mPolygons = new lPolygon[polyCount];
-	collisionGeometry->mPolygonsCount = polyCount;
+	mTestLandscapeGeom->resizeBuffers(vertexCount, polyCount);
 	
 	vertexTexNorm* meshVerticies = new vertexTexNorm[vertexCount];
 	int*           meshIndexes = new int[polyCount*3];
@@ -123,9 +114,8 @@ void LandscapeCreatorWnd::recreateLandscape()
 
 			int vertexId = i*(mSegmentsZCount + 1) + j;
 
-			collisionGeometry->mVerticies[vertexId].mPosition = vec3(xCoord, yCoord, zCoord);
-			collisionGeometry->mVerticies[vertexId].mFrictionCoef = 1.0f;
-			collisionGeometry->mVerticies[vertexId].mBounceCoef = 0.1f;
+			mTestLandscapeGeom->mVertexBuffer[vertexId].mPosition = physics::vec3(xCoord, yCoord, zCoord);
+			mTestLandscapeGeom->mVertexBuffer[vertexId].mFrictionCoef = 1.0f;
 
 			meshVerticies[vertexId] = vertexTexNorm(vec3(xCoord, yCoord, zCoord), vec3(0, 1, 0), 0, 0);
 
@@ -141,7 +131,8 @@ void LandscapeCreatorWnd::recreateLandscape()
 				meshVerticies[c].tu = xCoef + invXSegmentsCount; meshVerticies[c].tv = zCoef + invZSegmentsCount;
 				meshVerticies[d].tu = xCoef; meshVerticies[d].tv = zCoef + invZSegmentsCount;
 				
-				collisionGeometry->mPolygons[polygonIdx] = lPolygon(a, b, c, collisionGeometry->mVerticies);
+				mTestLandscapeGeom->mPolygonsBuffer[polygonIdx] = 
+					physics::lPolygon(a, b, c, mTestLandscapeGeom->mVertexBuffer);
 				
 				meshIndexes[polygonIdx*3] = c;
 				meshIndexes[polygonIdx*3 + 1] = b;
@@ -149,7 +140,8 @@ void LandscapeCreatorWnd::recreateLandscape()
 
 				polygonIdx++;
 
-				collisionGeometry->mPolygons[polygonIdx] = lPolygon(a, c, d, collisionGeometry->mVerticies);				
+				mTestLandscapeGeom->mPolygonsBuffer[polygonIdx] = 
+					physics::lPolygon(a, c, d, mTestLandscapeGeom->mVertexBuffer);				
 				
 				meshIndexes[polygonIdx*3] = d;
 				meshIndexes[polygonIdx*3 + 1] = c;

@@ -22,6 +22,27 @@ struct LandscapeCreatorWnd;
 struct VehicleCreatorWidnow;
 struct phLandscapeCollisionGeometry;
 
+struct TestLandscape
+{
+	physics::lVertex*  mVertexBuffer;
+	physics::lPolygon* mPolygonsBuffer;
+	unsigned int       mVertexCount;
+	unsigned int       mPolygonsCount;
+	
+	physics::lPolygon** mTestPolygonsBuffer;
+	unsigned int        mTestPolygonsBufferSize;
+	unsigned int        mTestPolygonsBufferCount;
+
+//functions
+	TestLandscape();
+	~TestLandscape();
+
+	void resizeBuffers(unsigned int vertexCount, unsigned int polygonsCount);
+	void resizeTestPolyBuffer(unsigned int size);
+
+	void getPolygons(const physics::vec3& minv, const physics::vec3& maxv);
+};
+
 struct apPhysicsTestFrame:public apRenderWindow
 {
 	grCamera3DMouse*              mCamera3dMouse;
@@ -50,8 +71,9 @@ struct apPhysicsTestFrame:public apRenderWindow
 //physics						  
 	cObject*                      mVehicleObject;
 	cObject*                      mLandscapeObject;
-	phLandscapeCollisionGeometry* mLandscapeCollisionGeom;
+
 	physics::Vehicle              mVehicle;
+	TestLandscape                 mTestLandscapeGeom;
 
 //functions
 	apPhysicsTestFrame();
