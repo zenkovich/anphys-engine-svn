@@ -468,7 +468,7 @@ struct CollisionGeometryVertex
 	vec3              mLocalPos;
 	vec3              mGlobalPos;
 
-	phCollisionPoint* mCollisionPoint;
+	CollisionPoint* mCollisionPoint;
 
 	CollisionGeometryVertex(const vec3& pos)
 	{
@@ -519,6 +519,25 @@ struct AABB
 	}
 };
 
+inline float rad(float deg) { return deg*0.01745329251994329576f; }
+inline float deg(float rad) { return rad*57.2957795130823208767f; }
+
+inline float sign(float v) { if(v>0) return 1.0f; else return -1.0f; }
+inline float fmin(float a, float b) { if(a<b) return a; return b; }
+inline float fmax(float a, float b) { if(a>b) return a; return b; }
+
+inline int imin(int a, int b) { if(a<b) return a; return b; }
+inline int imax(int a, int b) { if(a>b) return a; return b; }
+inline void swap(int &a, int &b) { int c=a; a=b; b=c; }
+
+inline float fclamp(float clampValue, float minValue, float maxValue) 
+{
+	if (clampValue < minValue) return minValue;
+	if (clampValue > maxValue) return maxValue;
+
+	return clampValue;
+}
+
 struct lVertex
 {
 	vec3  mPosition;
@@ -542,7 +561,39 @@ struct lPolygon
 	AABB         aabb;
 
 	lPolygon():a(0), b(0), c(0), pa(0), pb(0), pc(0) {}
-	lPolygon(unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies);
+	lPolygon(unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies)
+	{
+		a = ia; b = ib; c = ic;
+		pa = &verticies[a]; pb = &verticies[b]; pc = &verticies[c];
+
+		aabb.mMin = pa->mPosition;
+		aabb.mMax = pa->mPosition;
+
+		for (unsigned int i = 0; i < 2; i++)
+		{
+			vec3 p;
+			if (i == 0) p = pb->mPosition;
+			if (i == 1) p = pc->mPosition;
+
+			aabb.mMin.x = fmin(aabb.mMin.x, p.x);
+			aabb.mMin.y = fmin(aabb.mMin.y, p.y);
+			aabb.mMin.z = fmin(aabb.mMin.z, p.z);
+
+			aabb.mMax.x = fmax(aabb.mMax.x, p.x);
+			aabb.mMax.y = fmax(aabb.mMax.y, p.y);
+			aabb.mMax.z = fmax(aabb.mMax.z, p.z);
+		}
+	
+		vec3 ab = pb->mPosition - pa->mPosition;
+		vec3 bc = pc->mPosition - pb->mPosition;
+		vec3 ca = pa->mPosition - pc->mPosition;
+
+		norm = (bc^ab).normalize();
+	
+		nab = norm^ab;
+		nbc = norm^bc;
+		nca = norm^ca;
+	}
 
 	inline bool isIntersect(const vec3& bottom, vec3* point, vec3* pnorm, float* depth)
 	{		
@@ -630,9 +681,9 @@ inline mat3x3 rotateMatrixAroundVec(const mat3x3& matr, const vec3& vector, floa
 		               yvec.x, yvec.y, yvec.z,
 					   zvec.x, zvec.y, zvec.z);
 
-	mat3x3 invBasicMatrix = basicMatrix.transpose();
+	mat3x3 invBasicMatrix = basicMatrix.inverse();
 
-	mat3x3 rotMatrix; rotMatrix.SetRotationX(angle);
+	mat3x3 rotMatrix; rotMatrix.SetRotationX(-angle);
 
 	mat3x3 res = matr*invBasicMatrix*rotMatrix*basicMatrix;
 	return res;
@@ -657,25 +708,6 @@ inline mat3x3 rotatedZMatrix(float angle)
 	mat3x3 rt;
 	rt.SetRotationZ(angle);
 	return rt;
-}
-
-inline float rad(float deg) { return deg*0.01745329251994329576f; }
-inline float deg(float rad) { return rad*57.2957795130823208767f; }
-
-inline float sign(float v) { if(v>0) return 1.0f; else return -1.0f; }
-inline float fmin(float a, float b) { if(a<b) return a; return b; }
-inline float fmax(float a, float b) { if(a>b) return a; return b; }
-
-inline int imin(int a, int b) { if(a<b) return a; return b; }
-inline int imax(int a, int b) { if(a>b) return a; return b; }
-inline void swap(int &a, int &b) { int c=a; a=b; b=c; }
-
-inline float fclamp(float clampValue, float minValue, float maxValue) 
-{
-	if (clampValue < minValue) return minValue;
-	if (clampValue > maxValue) return maxValue;
-
-	return clampValue;
 }
 
 inline vec3 vmask(float* vector)

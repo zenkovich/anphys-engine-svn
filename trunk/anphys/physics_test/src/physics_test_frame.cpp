@@ -80,9 +80,8 @@ float apPhysicsTestFrame::onTimer()
 	{
 		getRenderStuff().reset();	
 		mMainEngineScene->mPhysicsScene->update(dt);
+		updateVehicle(dt);
 	}
-
-	updateVehicle(dt);
 
 	mWidgetsManager->mLastInputMessage = &mInputMessenger->mInputMessage;
 	mWidgetsRes = mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
@@ -235,16 +234,6 @@ void apPhysicsTestFrame::createLandscapeObject()
 {
 	mLandscapeObject = new cObject;
 
-//creating physics component
-	phCollisionGeometry* collisionGeom = new phCollisionGeometry;
-	phLandscapeCollisionGeometry* landscapeCollisionGeometry = new phLandscapeCollisionGeometry();
-	mLandscapeCollisionGeom = landscapeCollisionGeometry;
-	collisionGeom->addPart(landscapeCollisionGeometry);
-	phStaticObject* staticObj = new phStaticObject(vec3(0,0,0), nullMatr(), collisionGeom);
-
-	cPhysicsStaticBodyObjectComponent* physicsComponent = new cPhysicsStaticBodyObjectComponent(mLandscapeObject, staticObj);
-	mLandscapeObject->addComponent(physicsComponent);
-
 //create surface material
 	grSurfaceMaterial* surfaceMaterial = mRender->mSurfaceMaterials->addSurfaceMaterial(
 		new grSurfaceMaterial("grass"));
@@ -255,7 +244,10 @@ void apPhysicsTestFrame::createLandscapeObject()
 //add to scene
 	mMainEngineScene->addObject(mLandscapeObject);
 
+	mTestLandscapeGeom.resizeTestPolyBuffer(100);
+
 	mLandscapeCreator->mLandscapeObject = mLandscapeObject;
+	mLandscapeCreator->mTestLandscapeGeom = &mTestLandscapeGeom;
 	mLandscapeCreator->mRenderScene = mMainEngineScene->mRenderScene;
 	mLandscapeCreator->recreateLandscape();
 }
@@ -274,16 +266,16 @@ void apPhysicsTestFrame::createVehicleObject()
 	mVehicle.mRearRightChassis->loadParametres(physics::vec3(0.95f, -0.2f, -1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f); 
 	
 //collision points
-	vec3 halsSize = size*0.5f;
-	vec3 collisionPoints[] = { vec3(-halsSize.x, -halsSize.y, -halsSize.z), 
-	                           vec3(halsSize.x, -halsSize.y, -halsSize.z), 
-	                           vec3(halsSize.x, halsSize.y, -halsSize.z), 
-	                           vec3(-halsSize.x, halsSize.y, -halsSize.z), 
-							   
-							   vec3(-halsSize.x, -halsSize.y, halsSize.z), 
-	                           vec3(halsSize.x, -halsSize.y, halsSize.z), 
-	                           vec3(halsSize.x, halsSize.y, halsSize.z), 
-	                           vec3(-halsSize.x, halsSize.y, halsSize.z) };
+	physics::vec3 halsSize(size.x*0.5f, size.y*0.5f, size.z*0.5f);
+	physics::vec3 collisionPoints[] = { physics::vec3(-halsSize.x, -halsSize.y, -halsSize.z), 
+	                                    physics::vec3(halsSize.x, -halsSize.y, -halsSize.z), 
+	                                    physics::vec3(halsSize.x, halsSize.y, -halsSize.z), 
+	                                    physics::vec3(-halsSize.x, halsSize.y, -halsSize.z), 
+							            
+							            physics::vec3(-halsSize.x, -halsSize.y, halsSize.z), 
+	                                    physics::vec3(halsSize.x, -halsSize.y, halsSize.z), 
+	                                    physics::vec3(halsSize.x, halsSize.y, halsSize.z), 
+	                                    physics::vec3(-halsSize.x, halsSize.y, halsSize.z) };
 	int pointsCount = 8;
 	for (int i = 0; i < pointsCount; i++)
 	{
@@ -314,10 +306,15 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 	mVehicle.getPosition(fbuf);
 	vec3 vehiclePos(fbuf[0], fbuf[1], fbuf[2]);
 
+	mVehicle.getOrientation(fbuf);
+	mat3x3 vehicleOrient( fbuf[0], fbuf[1], fbuf[2],
+		                  fbuf[3], fbuf[4], fbuf[5],
+						  fbuf[6], fbuf[7], fbuf[8] );
+
 	if (mFollowCameraVehicle)
 	{
-		vec3 targetCamPos = mVehicle->mPosition + vec3(0, 5, -9)*mVehicle->mOrient;
-		vec3 targetCamTargetPos = mVehicle->mPosition + vec3(0, 0, 30)*mVehicle->mOrient;
+		vec3 targetCamPos = vehiclePos + vec3(0, 5, -9)*vehicleOrient;
+		vec3 targetCamTargetPos = vehiclePos + vec3(0, 0, 30)*vehicleOrient;
 		
 		mVehicleCamPos += (targetCamPos - mVehicleCamPos)*dt*1.0f;
 		mVehicleCamTargetPos += (targetCamTargetPos - mVehicleCamTargetPos)*dt*1.0f;
@@ -326,79 +323,116 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 		mVehicleCamera->mLookPoint = mVehicleCamTargetPos; 
 	}
 	
-	mLeftForwardChassis->mWheelAngle = 0;
-	mRightForwardChassis->mWheelAngle = 0;
+	mVehicle.mFrontLeftChassis->mWheelAngle = 0;
+	mVehicle.mFrontRightChassis->mWheelAngle = 0;
 
 	if (isKeyDown(key_up))
 	{
-		mLeftRearChassis->mWheelTorque -= 250.0f*dt;
-		mRightRearChassis->mWheelTorque -= 250.0f*dt;
+		mVehicle.mRearLeftChassis->mWheelTorque -= 250.0f*dt;
+		mVehicle.mRearRightChassis->mWheelTorque -= 250.0f*dt;
 		/*mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
 		mRightForwardChassis->mWheelTorque -= 50.0f*dt;*/
 	}
 	if (isKeyDown(key_down))
 	{
-		mLeftForwardChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mLeftForwardChassis->mBrakeCoef1 > 1.0f)
-			mLeftForwardChassis->mBrakeCoef1 = 1.0f;
+		mVehicle.mFrontLeftChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mVehicle.mFrontLeftChassis->mBrakeCoef1 > 1.0f)
+			mVehicle.mFrontLeftChassis->mBrakeCoef1 = 1.0f;
 
-		mRightForwardChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mRightForwardChassis->mBrakeCoef1 > 1.0f)
-			mRightForwardChassis->mBrakeCoef1 = 1.0f;
+		mVehicle.mFrontRightChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mVehicle.mFrontRightChassis->mBrakeCoef1 > 1.0f)
+			mVehicle.mFrontRightChassis->mBrakeCoef1 = 1.0f;
 
-		mLeftRearChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mLeftRearChassis->mBrakeCoef1 > 1.0f)
-			mLeftRearChassis->mBrakeCoef1 = 1.0f;
+		mVehicle.mRearLeftChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mVehicle.mRearLeftChassis->mBrakeCoef1 > 1.0f)
+			mVehicle.mRearLeftChassis->mBrakeCoef1 = 1.0f;
 
-		mRightRearChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mRightRearChassis->mBrakeCoef1 > 1.0f)
-			mRightRearChassis->mBrakeCoef1 = 1.0f;
+		mVehicle.mRearRightChassis->mBrakeCoef1 += 2.0f*dt;
+		if (mVehicle.mRearRightChassis->mBrakeCoef1 > 1.0f)
+			mVehicle.mRearRightChassis->mBrakeCoef1 = 1.0f;
 	}
 	else
 	{
-		mLeftForwardChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mLeftForwardChassis->mBrakeCoef1 < 0.0f)
-			mLeftForwardChassis->mBrakeCoef1 = 0.0f;
+		mVehicle.mFrontLeftChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mVehicle.mFrontLeftChassis->mBrakeCoef1 < 0.0f)
+			mVehicle.mFrontLeftChassis->mBrakeCoef1 = 0.0f;
 
-		mRightForwardChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mRightForwardChassis->mBrakeCoef1 < 0.0f)
-			mRightForwardChassis->mBrakeCoef1 = 0.0f;
+		mVehicle.mFrontRightChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mVehicle.mFrontRightChassis->mBrakeCoef1 < 0.0f)
+			mVehicle.mFrontRightChassis->mBrakeCoef1 = 0.0f;
 		
-		mLeftRearChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mLeftRearChassis->mBrakeCoef1 < 0.0f)
-			mLeftRearChassis->mBrakeCoef1 = 0.0f;
+		mVehicle.mRearLeftChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mVehicle.mRearLeftChassis->mBrakeCoef1 < 0.0f)
+			mVehicle.mRearLeftChassis->mBrakeCoef1 = 0.0f;
 
-		mRightRearChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mRightRearChassis->mBrakeCoef1 < 0.0f)
-			mRightRearChassis->mBrakeCoef1 = 0.0f;
+		mVehicle.mRearRightChassis->mBrakeCoef1 -= 5.0f*dt;
+		if (mVehicle.mRearRightChassis->mBrakeCoef1 < 0.0f)
+			mVehicle.mRearRightChassis->mBrakeCoef1 = 0.0f;
 	}
 	if (isKeyDown(key_right))
 	{
-		mLeftForwardChassis->mWheelAngle = rad(30.0f);
-		mRightForwardChassis->mWheelAngle = rad(30.0f);
+		mVehicle.mFrontLeftChassis->mWheelAngle = rad(30.0f);
+		mVehicle.mFrontRightChassis->mWheelAngle = rad(30.0f);
 	}
 	if (isKeyDown(key_left))
 	{
-		mLeftForwardChassis->mWheelAngle = rad(-30.0f);
-		mRightForwardChassis->mWheelAngle = rad(-30.0f);
+		mVehicle.mFrontLeftChassis->mWheelAngle = rad(-30.0f);
+		mVehicle.mFrontRightChassis->mWheelAngle = rad(-30.0f);
 	}
 
 	if (isKeyDown(key_numpad_0))
 	{
-		mLeftRearChassis->mBrakeCoef2 = 1.0f;
-		mRightRearChassis->mBrakeCoef2 = 1.0f;
+		mVehicle.mRearLeftChassis->mBrakeCoef2 = 1.0f;
+		mVehicle.mRearRightChassis->mBrakeCoef2 = 1.0f;
 	}
 	else
 	{
-		mLeftRearChassis->mBrakeCoef2 = 0.0f;
-		mRightRearChassis->mBrakeCoef2 = 0.0f;
+		mVehicle.mRearLeftChassis->mBrakeCoef2 = 0.0f;
+		mVehicle.mRearRightChassis->mBrakeCoef2 = 0.0f;
 	}
 
-	AABB vehicleAabb(mVehicle->mPosition + vec3(-2.5f, -2.5f, -2.5f),
-		             mVehicle->mPosition + vec3(2.5f, 2.5f, 2.5f) );
-	mLandscapeCollisionGeom->getPolygons(vehicleAabb);
-	mVehicle->setPolygonsBuffer(mLandscapeCollisionGeom->mPolygonsBuffer, 
-		mLandscapeCollisionGeom->mPolygonsBufferCount);
+	AABB vehicleAabb(vehiclePos + vec3(-2.5f, -2.5f, -2.5f),
+		             vehiclePos + vec3(2.5f, 2.5f, 2.5f) );
+
+	mTestLandscapeGeom.getPolygons(mVehicle.mPosition + physics::vec3(-2.5f, -2.5f, -2.5f),
+		                           mVehicle.mPosition + physics::vec3(2.5f, 2.5f, 2.5f) );
+
+	mVehicle.setPolygonsBuffer(mTestLandscapeGeom.mTestPolygonsBuffer, 
+		mTestLandscapeGeom.mTestPolygonsBufferCount);
+	
+	mVehicle.update(dt);
+	
+	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mPosition = vehiclePos;
+	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mOrient = vehicleOrient;
+
+	physics::VehicleChassis* chassisArray[4] = { mVehicle.mFrontLeftChassis, mVehicle.mFrontRightChassis,
+												 mVehicle.mRearLeftChassis, mVehicle.mRearRightChassis };
+
+	for (int i = 0; i < 4; i++)
+	{
+		physics::VehicleChassis* chassis = chassisArray[i];		
+
+		chassis->getPosition(fbuf);
+		vec3 wheelPos(fbuf[0], fbuf[1], fbuf[2]);
+
+		chassis->getOrientation(fbuf);
+		mat3x3 wheelOrient( fbuf[0], fbuf[1], fbuf[2],
+							fbuf[3], fbuf[4], fbuf[5],
+							fbuf[6], fbuf[7], fbuf[8] );
+
+		getRenderStuff().addRedArrow(wheelPos, wheelPos + vec3(chassis->myaxisNorm.x, chassis->myaxisNorm.y, chassis->myaxisNorm.z));
+
+		int segmentsCount = 10;
+
+		for (int j = 0; j < segmentsCount; j++)
+		{
+			float ang = rad(360.0f/(float)segmentsCount*(float)j);
+			float cs = cosf(ang);
+			float sn = sinf(ang);
+			getRenderStuff().addBlueArrow(wheelPos, wheelPos + wheelOrient.getYVector()*cs*chassis->mWheelRadius + 
+				                                               wheelOrient.getZVector()*sn*chassis->mWheelRadius );
+		}
+	}
 }
 
 void apPhysicsTestFrame::updateCameraControls()
@@ -409,4 +443,67 @@ void apPhysicsTestFrame::updateCameraControls()
 	if (isKeyDown(key_d)) mCamera3dMouse->moveRight(isKeyDown(key_shift));
 	if (isKeyDown(key_ctrl)) mCamera3dMouse->moveDown(isKeyDown(key_shift));
 	if (isKeyDown(key_space)) mCamera3dMouse->moveUp(isKeyDown(key_shift));
+}
+
+TestLandscape::TestLandscape()
+{
+	mVertexBuffer = NULL;
+	mPolygonsBuffer = NULL;
+	mTestPolygonsBuffer = NULL;
+	mVertexCount = mPolygonsCount = mTestPolygonsBufferSize = mTestPolygonsBufferCount = 0;
+}
+
+TestLandscape::~TestLandscape()
+{
+	safe_release_arr(mVertexBuffer);
+	safe_release_arr(mPolygonsBuffer);
+	safe_release_arr(mTestPolygonsBuffer);
+}
+
+void TestLandscape::resizeBuffers( unsigned int vertexCount, unsigned int polygonsCount )
+{	
+	safe_release_arr(mVertexBuffer);
+	safe_release_arr(mPolygonsBuffer);
+
+	mVertexBuffer = new physics::lVertex[vertexCount];
+	mPolygonsBuffer = new physics::lPolygon[polygonsCount];
+
+	mVertexCount = vertexCount;
+	mPolygonsCount = polygonsCount;
+}
+
+void TestLandscape::resizeTestPolyBuffer( unsigned int size )
+{
+	safe_release_arr(mTestPolygonsBuffer);
+
+	mTestPolygonsBuffer = new physics::lPolygon*[size];
+	mTestPolygonsBufferCount = 0;
+	mTestPolygonsBufferSize = size;
+}
+
+void TestLandscape::getPolygons( const physics::vec3& minv, const physics::vec3& maxv )
+{
+	mTestPolygonsBufferCount = 0;
+	physics::AABB aabb(minv, maxv);
+
+	for (int i = 0; i < mPolygonsCount; i++)
+	{
+		physics::lPolygon* poly = &mPolygonsBuffer[i];
+		if (poly->aabb.isIntersect(aabb))
+		{
+			mTestPolygonsBuffer[mTestPolygonsBufferCount++] = poly;
+
+			getRenderStuff().addBlueArrow(vec3(poly->pa->mPosition.x, poly->pa->mPosition.y, poly->pa->mPosition.z),
+				                          vec3(poly->pb->mPosition.x, poly->pb->mPosition.y, poly->pb->mPosition.z) );
+
+			getRenderStuff().addBlueArrow(vec3(poly->pc->mPosition.x, poly->pc->mPosition.y, poly->pc->mPosition.z),
+				                          vec3(poly->pb->mPosition.x, poly->pb->mPosition.y, poly->pb->mPosition.z) );
+
+			getRenderStuff().addBlueArrow(vec3(poly->pa->mPosition.x, poly->pa->mPosition.y, poly->pa->mPosition.z),
+				                          vec3(poly->pc->mPosition.x, poly->pc->mPosition.y, poly->pc->mPosition.z) );
+
+			if (mTestPolygonsBufferCount == mTestPolygonsBufferSize)
+				break;
+		}
+	}
 }

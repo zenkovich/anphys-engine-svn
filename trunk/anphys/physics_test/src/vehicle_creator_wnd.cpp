@@ -2,13 +2,11 @@
 
 #include "engine/engine_incl.h"
 
-#include "physics/objects/vehicle/vehicle.h"
-#include "physics/objects/vehicle/chassis_vehicle_component.h"
-#include "physics/objects/vehicle/vehicle_chassis_spring.h"
-#include "physics/objects/vehicle/vehicle_chassis_gas_shock.h"
+#include "vehicle/vehicle.h"
+#include "vehicle/vehicle_chassis.h"
 #include "util/debug/render_stuff.h"
 
-VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, phVehicle* vehicle ):
+VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, physics::Vehicle* vehicle ):
 	mWidgetsManager(widgetsManager), mVehicle(vehicle), mSymmetricChanges(true)
 {
 	mWindow = uiSimpleStuff::createWindow(mWidgetsManager, "VehicleCreatorWnd", vec2(200, 0), vec2(300, 600), 
@@ -92,17 +90,10 @@ VehicleCreatorWidnow::VehicleCreatorWidnow( uiWidgetsManager* widgetsManager, ph
 	verLayoutWidget->addChild(symmetricChangesCheckbox);
 
 //chassis
-	mLeftForwardChassis.create(verLayoutWidget, CH_LEFT_FWD, this,
-		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("forwardLeftChassis")), "Forward Left Chassis");
-	
-	mRightForwardChassis.create(verLayoutWidget, CH_RIGHT_FWD, this, 
-		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("forwardRightChassis")), "Forward Right Chassis");
-	
-	mLeftRearChassis.create(verLayoutWidget, CH_LEFT_REAR, this, 
-		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("rearLeftChassis")), "Rear Left Chassis");
-	
-	mRightRearChassis.create(verLayoutWidget, CH_RIGHT_REAR, this,
-		static_cast<phVehicleChassisComponent*>(mVehicle->getComponent("rearRightChassis")), "Rear Right Chassis");
+	mLeftForwardChassis.create(verLayoutWidget, CH_LEFT_FWD, this, mVehicle->mFrontLeftChassis, "Forward Left Chassis");	
+	mRightForwardChassis.create(verLayoutWidget, CH_RIGHT_FWD, this, mVehicle->mFrontRightChassis, "Forward Right Chassis");	
+	mLeftRearChassis.create(verLayoutWidget, CH_LEFT_REAR, this, mVehicle->mRearLeftChassis, "Rear Left Chassis");	
+	mRightRearChassis.create(verLayoutWidget, CH_RIGHT_REAR, this, mVehicle->mRearRightChassis, "Rear Right Chassis");
 
 	uiWidget* dummyWidget = new uiWidget(mWidgetsManager, "dummy");
 	dummyWidget->setSize(vec2(10, 10));
@@ -128,14 +119,14 @@ void VehicleCreatorWidnow::show()
 
 void VehicleCreatorWidnow::resetParametres()
 {
-	mVehicle->mPosition = vec3(0, 2, 0);
-	mVehicle->setOrient(nullMatr());
-	mVehicle->mOrientQuat = matrix2quat(mVehicle->mOrient);
-	mVehicle->mVelocity = vec3(0, 0, 2);
-	mVehicle->mAngularVelocity = vec3(0, 0, 0);
+	mVehicle->mPosition = physics::vec3(0, 2, 0);
+	mVehicle->mOrient = physics::mat3x3();
+	mVehicle->mVelocity = physics::vec3(0, 0, 2);
+	mVehicle->mAngularVelocity = physics::vec3(0, 0, 0);
 	mVehicle->mMass = 1500;
 	mVehicle->mInvMass = 1.0f/mVehicle->mMass;
-	mVehicle->mInertia = getBoxInertia(mVehicle->mMass, vec3(1.8f, 1.3f, 2.7f));
+	mat3x3 inertia = getBoxInertia(mVehicle->mMass, vec3(1.8f, 1.3f, 2.7f));
+	mVehicle->mInertia = physics::mat3x3(inertia.m);
 	mVehicle->mInvInertia = mVehicle->mInertia.inverse();
 	mVehicle->mWorldInertia = mVehicle->mInertia;
 	mVehicle->mInvWorldInertia = mVehicle->mInvInertia;
@@ -167,9 +158,9 @@ void VehicleCreatorWidnow::onChassisPropertyChanged( ChassisId chassidId, Chassi
 
 	std::string chassisIdNames[] = { "CH_LEFT_FWD", "CH_RIGHT_FWD", "CH_LEFT_REAR", "CH_RIGHT_REAR" };
 	std::string propIdNames[] = { "PID_POSX", "PID_POSY", "PID_POSZ",
-	                     "PID_ANGLEX", "PID_ANGLEY", "PID_ANGLEZ",
-	                     "PID_MINPOS", "PID_MAXPOS",
-	                     "PID_SPRING_FORCE", "PID_SHOCK_FORCE" };
+	                              "PID_ANGLEX", "PID_ANGLEY", "PID_ANGLEZ",
+	                              "PID_MINPOS", "PID_MAXPOS",
+	                              "PID_SPRING_FORCE", "PID_SHOCK_FORCE" };
 
 	gLog->fout(1, "changed %s %s\n", chassisIdNames[chassidId].c_str(), propIdNames[propId].c_str());
 	
@@ -232,7 +223,7 @@ void VehicleCreatorWidnow::onChassisPropertyChanged( ChassisId chassidId, Chassi
 }
 
 void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget, ChassisId id, VehicleCreatorWidnow* owner, 
-	phVehicleChassisComponent* chassis, const std::string& name )
+	physics::VehicleChassis* chassis, const std::string& name )
 {
 	mAngleX = mAngleY = mAngleZ = 0;
 
@@ -334,7 +325,9 @@ void VehicleCreatorWidnow::ChassisEditContainer::create( uiWidget* parentWidget,
 
 void VehicleCreatorWidnow::ChassisEditContainer::anglesChanged()
 {
-	mChassis->mInitialLocalAxis = RotatedMatrix(rad(mAngleX), rad(mAngleY), rad(mAngleZ));
+	physics::mat3x3 axisMatrix;
+	axisMatrix.SetRotationXYZ(rad(mAngleX), rad(mAngleY), rad(mAngleZ));
+	mChassis->mInitialLocalAxis = axisMatrix;
 }
 
 uiBindingValues::BindValue<float>* VehicleCreatorWidnow::ChassisEditContainer::addPropertyWithScrollbar( 

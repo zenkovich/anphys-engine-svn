@@ -10,8 +10,11 @@ struct uiTextEdit;
 struct uiScrollbar;
 struct uiWidget;
 
-struct phVehicleChassisComponent;
-struct phVehicle;
+namespace physics
+{
+	struct Vehicle;
+	struct VehicleChassis;
+}
 
 struct cCallbackInterface;
 
@@ -25,36 +28,36 @@ struct VehicleCreatorWidnow
 
 	struct ChassisEditContainer
 	{
-		VehicleCreatorWidnow* mVehicleCreator;
-		ChassisId    mChassisId;
+		VehicleCreatorWidnow*    mVehicleCreator;
+		ChassisId                mChassisId;
 
-		uiTextEdit*  mPosX;
-		uiTextEdit*  mPosY;
-		uiTextEdit*  mPosZ;
-					 
-		uiTextEdit*  mAngleXEdit;
-		uiTextEdit*  mAngleYEdit;
-		uiTextEdit*  mAngleZEdit;
-		uiScrollbar* mAngleXScrollbar;
-		uiScrollbar* mAngleYScrollbar;
-		uiScrollbar* mAngleZScrollbar;
+		uiTextEdit*              mPosX;
+		uiTextEdit*              mPosY;
+		uiTextEdit*              mPosZ;
+					             
+		uiTextEdit*              mAngleXEdit;
+		uiTextEdit*              mAngleYEdit;
+		uiTextEdit*              mAngleZEdit;
+		uiScrollbar*             mAngleXScrollbar;
+		uiScrollbar*             mAngleYScrollbar;
+		uiScrollbar*             mAngleZScrollbar;
+					             
+		float                    mAngleX, mAngleY, mAngleZ;
+					             
+		uiTextEdit*              mMinPos;
+		uiScrollbar*             mMinPosScrollbar;
+		uiTextEdit*              mMaxPos;
+		uiScrollbar*             mMaxPosScrollbar;
+					             
+		uiTextEdit*              mSpringForce;
+		uiScrollbar*             mSpringForceScrollbar;
+		uiTextEdit*              mGasShockForce;
+		uiScrollbar*             mGasShockForceScrollbar;
 
-		float        mAngleX, mAngleY, mAngleZ;
-		
-		uiTextEdit*  mMinPos;
-		uiScrollbar* mMinPosScrollbar;
-		uiTextEdit*  mMaxPos;
-		uiScrollbar* mMaxPosScrollbar;
-
-		uiTextEdit*  mSpringForce;
-		uiScrollbar* mSpringForceScrollbar;
-		uiTextEdit*  mGasShockForce;
-		uiScrollbar* mGasShockForceScrollbar;
-
-		phVehicleChassisComponent* mChassis;
+		physics::VehicleChassis* mChassis;
 
 	//functions
-		void create(uiWidget* parentWidget, ChassisId id, VehicleCreatorWidnow* owner, phVehicleChassisComponent* chassis, 
+		void create(uiWidget* parentWidget, ChassisId id, VehicleCreatorWidnow* owner, physics::VehicleChassis* chassis, 
 			        const std::string& name);
 
 		uiBindingValues::BindValue<float>* addPropertyWithScrollbar( uiWidgetsManager* widgetsManager, std::string uiSuffix, 
@@ -67,20 +70,20 @@ struct VehicleCreatorWidnow
 		void anglesChanged();
 	};
 
-	uiWindow*         mWindow;
-	uiWidgetsManager* mWidgetsManager;
+	uiWindow*            mWindow;
+	uiWidgetsManager*    mWidgetsManager;
 
-	phVehicle*        mVehicle;
+	physics::Vehicle*    mVehicle;
 	
 	ChassisEditContainer mLeftForwardChassis;
 	ChassisEditContainer mRightForwardChassis;
 	ChassisEditContainer mLeftRearChassis;
 	ChassisEditContainer mRightRearChassis;
 
-	bool              mSymmetricChanges;
+	bool                 mSymmetricChanges;
 
 //functions
-	VehicleCreatorWidnow(uiWidgetsManager* widgetsManager, phVehicle* vehicle);
+	VehicleCreatorWidnow(uiWidgetsManager* widgetsManager, physics::Vehicle* vehicle);
 	~VehicleCreatorWidnow();
 
 	void show();
