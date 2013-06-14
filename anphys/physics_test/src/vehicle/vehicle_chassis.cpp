@@ -90,21 +90,7 @@ void VehicleChassis::derivedPreSolve( float dt )
 	{
 		mCollisionPoint.mBiasImpulse = 0.0f;
 
-		vec3 yaxisNorm = mGlobalAxis.getYVector()^n1^mGlobalAxis.getYVector();
-		myaxisNorm = yaxisNorm.normalize();
-		
-		float normCoef = yaxisNorm*n1;
-
-		vec3 nn1 = yaxisNorm;
-		vec3 nw1 = yaxisNorm^ra;
-
-		float a = nn1*mVehicle->mVelocity + nw1*mVehicle->mAngularVelocity;
-		float lambda = -a*(1.3f)*mCollisionPoint.B*normCoef;
-
 		mCollisionPoint.J = 0;
-		imp1 = yaxisNorm*lambda;
-
-		gLog->fout(1, "normCoef = %.3f\n", normCoef);
 	}
 	mCollisionPoint.J += shiftForce;
 	imp1 += mGlobalAxis.getYVector()*shiftForce;
@@ -163,6 +149,11 @@ void VehicleChassis::derivedSolve( float dt )
 	float f2lambda = -f2a*f2b;
 
 	float fl = f2lambda*f2lambda + f1lambda*f1lambda;
+	if (mFrictionValues)
+		Mu = getFrictionValue(fl*dt);
+
+	gLog->fout(1, "frc = %.3f\n", Mu);
+
 	float maxFriction = mCollisionPoint.J*Mu;
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
@@ -174,7 +165,7 @@ void VehicleChassis::derivedSolve( float dt )
 	}
 
 	float wheelTorq = -f2a*mWheelInertia;
-	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(mCollisionPoint.J*Mu));
+	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
 
 	mWheelAngVelocity += wheelTorq*mWheelInvInertia/2.0f/3.1415926f/mWheelRadius;
 				
@@ -291,6 +282,9 @@ void VehicleChassis::checkCollision()
 	lPolygon** polygonsBuffer = mVehicle->mPolygonsBuffer;
 	unsigned int polygonsCount = mVehicle->mPolygonsBufferCount;
 
+	if (!polygonsBuffer)
+		return;
+
 	vec3 point, normal;
 	float depth;
 
@@ -333,6 +327,42 @@ void VehicleChassis::getPosition( float* positionVec )
 void VehicleChassis::getOrientation( float* orientMatrix )
 {
 	mmask(orientMatrix, rotatedXMatrix(-mWheelXAngle)*mGlobalAxis);
+}
+
+VehicleChassis::~VehicleChassis()
+{
+	if (mFrictionValues)
+		delete[] mFrictionValues;
+}
+
+void VehicleChassis::loadFrictionGraphic( float* values, int valuesCount, float minValue, float maxValue )
+{
+	mFrictionValuesCount = valuesCount;
+	mMinFrictionForce = minValue;
+	mMaxFrictionForce = maxValue;
+
+	mFrictionValues = new float[valuesCount];
+
+	for (int i = 0; i < valuesCount; i++)
+	{
+		mFrictionValues[i] = values[i];
+	}
+}
+
+float VehicleChassis::getFrictionValue( float force )
+{
+	float range = mMaxFrictionForce - mMinFrictionForce;
+	int idx = (force - mMinPosition)/range*(float)mFrictionValuesCount;
+	idx = imax(imin(idx, mFrictionValuesCount - 2), 0);
+
+	float segmentLength = range/(float)mFrictionValuesCount;
+
+	float scoef = (force - mMinPosition - (float)idx*segmentLength)/segmentLength;
+	
+	float value1 = mFrictionValues[idx];
+	float value2 = mFrictionValues[idx + 1];
+
+	return value1 + (value2 - value1)*scoef;
 }
 
 }

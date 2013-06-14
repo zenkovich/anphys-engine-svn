@@ -259,11 +259,18 @@ void apPhysicsTestFrame::createVehicleObject()
 	vec3 size(1.8f, 1.1f, 3.7f);
 
 //physics object
+	float peakValue = 252024;
+	float frictionValues[] = {1.0f, 1.0f, 0.9f, 0.8f, 0.8f};
 	
 	mVehicle.mFrontLeftChassis->loadParametres(physics::vec3(-0.95f, -0.2f, 1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
 	mVehicle.mFrontRightChassis->loadParametres(physics::vec3(0.95f, -0.2f, 1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f);
 	mVehicle.mRearLeftChassis->loadParametres(physics::vec3(-0.95f, -0.2f, -1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f);
 	mVehicle.mRearRightChassis->loadParametres(physics::vec3(0.95f, -0.2f, -1.5f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 1000.0f, 100000000.0f); 
+	
+	mVehicle.mFrontLeftChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
+	mVehicle.mFrontRightChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
+	mVehicle.mRearLeftChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
+	mVehicle.mRearRightChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
 	
 //collision points
 	physics::vec3 halsSize(size.x*0.5f, size.y*0.5f, size.z*0.5f);
@@ -300,7 +307,9 @@ void apPhysicsTestFrame::createVehicleObject()
 }
 
 void apPhysicsTestFrame::updateVehicle( float dt )
-{
+{	
+	mVehicle.update(dt);
+
 	float fbuf[9];
 
 	mVehicle.getPosition(fbuf);
@@ -310,6 +319,15 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 	mat3x3 vehicleOrient( fbuf[0], fbuf[1], fbuf[2],
 		                  fbuf[3], fbuf[4], fbuf[5],
 						  fbuf[6], fbuf[7], fbuf[8] );
+
+	AABB vehicleAabb(vehiclePos + vec3(-2.5f, -2.5f, -2.5f),
+		             vehiclePos + vec3(2.5f, 2.5f, 2.5f) );
+
+	mTestLandscapeGeom.getPolygons(mVehicle.mPosition + physics::vec3(-2.5f, -2.5f, -2.5f),
+		                           mVehicle.mPosition + physics::vec3(2.5f, 2.5f, 2.5f) );
+
+	mVehicle.setPolygonsBuffer(mTestLandscapeGeom.mTestPolygonsBuffer, 
+		mTestLandscapeGeom.mTestPolygonsBufferCount);
 
 	if (mFollowCameraVehicle)
 	{
@@ -390,17 +408,6 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 		mVehicle.mRearLeftChassis->mBrakeCoef2 = 0.0f;
 		mVehicle.mRearRightChassis->mBrakeCoef2 = 0.0f;
 	}
-
-	AABB vehicleAabb(vehiclePos + vec3(-2.5f, -2.5f, -2.5f),
-		             vehiclePos + vec3(2.5f, 2.5f, 2.5f) );
-
-	mTestLandscapeGeom.getPolygons(mVehicle.mPosition + physics::vec3(-2.5f, -2.5f, -2.5f),
-		                           mVehicle.mPosition + physics::vec3(2.5f, 2.5f, 2.5f) );
-
-	mVehicle.setPolygonsBuffer(mTestLandscapeGeom.mTestPolygonsBuffer, 
-		mTestLandscapeGeom.mTestPolygonsBufferCount);
-	
-	mVehicle.update(dt);
 	
 	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mPosition = vehiclePos;
 	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mOrient = vehicleOrient;
@@ -419,10 +426,11 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 		mat3x3 wheelOrient( fbuf[0], fbuf[1], fbuf[2],
 							fbuf[3], fbuf[4], fbuf[5],
 							fbuf[6], fbuf[7], fbuf[8] );
-
+				
 		getRenderStuff().addRedArrow(wheelPos, wheelPos + vec3(chassis->myaxisNorm.x, chassis->myaxisNorm.y, chassis->myaxisNorm.z));
+		getRenderStuff().addGreenArrow(wheelPos, wheelPos + vec3(chassis->mnimp1.x, chassis->mnimp1.y, chassis->mnimp1.z));
 
-		int segmentsCount = 10;
+		int segmentsCount = 5;
 
 		for (int j = 0; j < segmentsCount; j++)
 		{

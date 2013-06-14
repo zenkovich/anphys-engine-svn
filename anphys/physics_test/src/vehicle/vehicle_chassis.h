@@ -48,10 +48,17 @@ struct VehicleChassis
 	CollisionPoint mCollisionPoint;
 	Vehicle*       mVehicle;
 
+	float*         mFrictionValues;
+	float          mMinFrictionForce;
+	float          mMaxFrictionForce;
+	int            mFrictionValuesCount;
+
 	vec3           myaxisNorm;
+	vec3           mnimp1;
 
 //functions
-	VehicleChassis(Vehicle* vehicle):mVehicle(vehicle) {}
+	VehicleChassis(Vehicle* vehicle):mVehicle(vehicle), mFrictionValues(0) {}
+	~VehicleChassis();
 
 	void loadParametres(const vec3& localPos, const mat3x3& localAxis, float minPos, float maxPos, 
 		                float wheelRadius, float wheelmass, float springForce, float gasShockForce, float brakeForce1,
@@ -60,6 +67,8 @@ struct VehicleChassis
 	void loadParametres(float* localPosVec, float* localAxisMatrix, float minPos, float maxPos, 
 		                float wheelRadius, float wheelmass, float springForce, float gasShockForce, float brakeForce1,
 						float brakeForce2 = 0.0f);
+
+	void loadFrictionGraphic(float* values, int valuesCount, float minValue, float maxValue);
 	
 	void derivedPreSolve(float dt);
 	void derivedSolve(float dt);
@@ -69,6 +78,8 @@ struct VehicleChassis
 
 	void getPosition(float* positionVec);
 	void getOrientation(float* orientMatrix);
+
+	float getFrictionValue(float force);
 };
 
 }

@@ -15,6 +15,8 @@ Vehicle::Vehicle()
 	mFrontRightChassis = new VehicleChassis(this);
 	mRearLeftChassis = new VehicleChassis(this);
 	mRearRightChassis = new VehicleChassis(this);
+
+	mPolygonsBuffer = NULL;
 }
 
 Vehicle::~Vehicle()
