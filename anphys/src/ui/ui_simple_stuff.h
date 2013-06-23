@@ -75,6 +75,31 @@ struct uiSimpleStuff
 		parent->addChild(horLayout); 
 		return bindValueProt;
 	}
+	
+	template<typename T>
+	static uiBindingValues::BindValue<T>* addScrollProperty(uiWidget* parent, const std::string& propertyName, T* bindvalue, 
+		                    float minValue = 0.0f, float maxValue = 1.0f,
+		                    float labelSize = 130.0f, float scrollbarSize = 100.0f)							
+	{
+		uiHorLayoutWidget* horLayout = new uiHorLayoutWidget(parent->mWidgetsManager, propertyName + "horLayout"); 
+		horLayout->mWidgetsDistance = 2; 
+
+		uiLabel* label = createLabel(parent->mWidgetsManager, vec2(0, 0), vec2(labelSize, 22), "", propertyName); 
+
+		//uiTextEdit* textEdit = createTextEdit(parent->mWidgetsManager, vec2(130, 0), vec2(textEditSize, 22), ""); 
+		uiScrollbar* scrollbar = createScrollbar(parent->mWidgetsManager, vec2(0, 0), vec2(scrollbarSize, 22), "", 
+			0, minValue, maxValue);
+
+		uiBindingValues::BindValue<T>* bindValueProt = scrollbar->bindValue<T>(bindvalue);
+
+		label->setHorAlign(uiLabel::AL_LEFT); 
+
+		horLayout->addChild(label); 
+		horLayout->addChild(scrollbar); 
+		parent->addChild(horLayout); 
+
+		return bindValueProt;
+	}
 };
 
 #endif //UI_SIMPLE_STUFF_H

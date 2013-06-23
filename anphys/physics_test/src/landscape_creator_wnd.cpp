@@ -66,7 +66,7 @@ void LandscapeCreatorWnd::onRecreateLandcapeBtnPressed()
 void LandscapeCreatorWnd::resetParametres()
 {
 	mMinRangeX = -1000;
-	mMinRangeY = -5;
+	mMinRangeY = -0;
 	mMinRangeZ = -1000;
 
 	mMaxRangeX = 100;
@@ -115,7 +115,7 @@ void LandscapeCreatorWnd::recreateLandscape()
 			int vertexId = i*(mSegmentsZCount + 1) + j;
 
 			mTestLandscapeGeom->mVertexBuffer[vertexId].mPosition = physics::vec3(xCoord, yCoord, zCoord);
-			mTestLandscapeGeom->mVertexBuffer[vertexId].mFrictionCoef = 1.0f;
+			mTestLandscapeGeom->mVertexBuffer[vertexId].mFrictionTableId = 1;
 
 			meshVerticies[vertexId] = vertexTexNorm(vec3(xCoord, yCoord, zCoord), vec3(0, 1, 0), 0, 0);
 

@@ -234,7 +234,7 @@ protected:
 		return a > b;
 	}
 
-	bool comp(const std::string& a, const std::string& b)
+	static bool comp(std::string& a, std::string& b)
 	{
 		return false;
 	}

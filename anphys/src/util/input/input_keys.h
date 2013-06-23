@@ -14,6 +14,9 @@
 #define key_s 83
 #define key_a 65
 #define key_d 68
+#define key_g 71
+#define key_b 66
+#define key_c 67
 #define key_e 69
 #define key_t 84
 #define key_y 89

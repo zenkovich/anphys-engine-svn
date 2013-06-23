@@ -89,7 +89,6 @@ void VehicleChassis::derivedPreSolve( float dt )
 	else
 	{
 		mCollisionPoint.mBiasImpulse = 0.0f;
-
 		mCollisionPoint.J = 0;
 	}
 	mCollisionPoint.J += shiftForce;
@@ -152,7 +151,7 @@ void VehicleChassis::derivedSolve( float dt )
 	if (mFrictionValues)
 		Mu = getFrictionValue(fl*dt);
 
-	gLog->fout(1, "frc = %.3f\n", Mu);
+	//gLog->fout(1, "frc = %.3f\n", Mu);
 
 	float maxFriction = mCollisionPoint.J*Mu;
 	bool clampedFriction = false;
@@ -164,36 +163,16 @@ void VehicleChassis::derivedSolve( float dt )
 		clampedFriction = true;
 	}
 
-	float wheelTorq = -f2a*mWheelInertia;
+	float wheelTorq = -f2a*(mWheelInertia + mVehicle->mEngineInertia);
 	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
 
-	mWheelAngVelocity += wheelTorq*mWheelInvInertia/2.0f/3.1415926f/mWheelRadius;
-				
-	/*float f1accumulated = f1lambda + mCollisionPoint.Jf1;
-	float f2accumulated = f2lambda + mCollisionPoint.Jf2;
-	float maxfriction = mCollisionPoint.J*Mu;
-
-	if (f1accumulated*f1accumulated + f2accumulated*f2accumulated > maxfriction*maxfriction)
-	{
-		float invLen = 1.0f/sqrtf(f1lambda*f1lambda + f2lambda*f2lambda);
-		f1lambda = f1lambda*invLen*maxfriction - mCollisionPoint.Jf1;
-		f2lambda = f2lambda*invLen*maxfriction - mCollisionPoint.Jf2;
-	}
-	
-	getRenderStuff().addRedArrow(mWheelBottomPoint, mWheelBottomPoint + f1n1*f1lambda);
-	getRenderStuff().addGreenArrow(mWheelBottomPoint, mWheelBottomPoint + f2n1*f2lambda);
-				
-	mCollisionPoint.Jf1 += f1lambda;
-	mCollisionPoint.Jf2 += f2lambda;*/
+	mWheelTorque += wheelTorq/2.0f/3.1415926f/mWheelRadius;
 
 	vec3 Jf = mCollisionPoint.t1*f1lambda + mCollisionPoint.t2*f2lambda;
-
 	mVehicle->applyImpulse(mCollisionPoint.mPoint, Jf);
 
 	float biasA = n1*mVehicle->mBiasVelocity + w1*mVehicle->mBiasAngularVelocity;
-
-	float biasLambda = -(biasA - mCollisionPoint.mBiasImpulse)*b;
-					
+	float biasLambda = -(biasA - mCollisionPoint.mBiasImpulse)*b;					
 	mVehicle->applyBiasImpulse(mCollisionPoint.mPoint, mCollisionPoint.mNormal*biasLambda);
 }
 
@@ -259,17 +238,6 @@ void VehicleChassis::derivedPostSolve( float dt )
 	}
 
 	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
-
-	vec3 wheelPos = mGlobalPosition + mGlobalAxis.getYVector()*mPosition;
-
-	int segments = 10;
-	for (int i = 0; i < segments; i++)
-	{
-		float angle = rad((float)i*360.0f/(float)segments) + mWheelXAngle;
-		float sn = sinf(angle), cs = cosf(angle);
-
-		vec3 segPoint = wheelPos + yvec*sn*mWheelRadius + zvec*cs*mWheelRadius;
-	}
 }
 
 void VehicleChassis::checkCollision()
@@ -280,6 +248,7 @@ void VehicleChassis::checkCollision()
 	float leng = (bottomPoint - topPoint).len();
 
 	lPolygon** polygonsBuffer = mVehicle->mPolygonsBuffer;
+	lVertex* vertexBuffer = mVehicle->mVertexBuffer;
 	unsigned int polygonsCount = mVehicle->mPolygonsBufferCount;
 
 	if (!polygonsBuffer)
@@ -295,10 +264,11 @@ void VehicleChassis::checkCollision()
 		if (polygonsBuffer[i]->norm*dir < 0)
 		{
 			lPolygon* poly = polygonsBuffer[i];
-			if (IntersectLinePolygon(poly->pa->mPosition, poly->pb->mPosition, poly->pc->mPosition,
-				poly->norm, bottomPoint, topPoint, &point, &depth))
+			if (IntersectLinePolygon(vertexBuffer[poly->a].mPosition, vertexBuffer[poly->b].mPosition, 
+				                     vertexBuffer[poly->c].mPosition,
+				                     poly->norm, bottomPoint, topPoint, &point, &depth))
 			{
-				depth = (bottomPoint - poly->pa->mPosition)*poly->norm;
+				depth = (bottomPoint - vertexBuffer[poly->a].mPosition)*poly->norm;
 				depth = -depth;
 
 				if (depth < minDepth)
