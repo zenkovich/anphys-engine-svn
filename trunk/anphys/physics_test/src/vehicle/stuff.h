@@ -541,70 +541,38 @@ inline float fclamp(float clampValue, float minValue, float maxValue)
 struct lVertex
 {
 	vec3  mPosition;
-	float mFrictionCoef;
+	char  mFrictionTableId;
 
-	lVertex():mFrictionCoef(1.0f) {}
-	lVertex(const vec3& pos, float frictionCoef = 1.0f, float bounceCoef = 1.0f):
-		mPosition(pos), mFrictionCoef(frictionCoef) {}
+	lVertex():mFrictionTableId(1) {}
+	lVertex(const vec3& pos, int frictionCoef = 1, float bounceCoef = 1.0f):
+		mPosition(pos), mFrictionTableId(frictionCoef) {}
 };
 
 struct lPolygon
 {
 	unsigned int a, b, c;
-	lVertex*     pa;
-	lVertex*     pb;
-	lVertex*     pc;
 				     
-	vec3         nab, nbc, nca;
 	vec3         norm;
 
-	AABB         aabb;
-
-	lPolygon():a(0), b(0), c(0), pa(0), pb(0), pc(0) {}
+	lPolygon():a(0), b(0), c(0) {}
 	lPolygon(unsigned int ia, unsigned int ib, unsigned int ic, lVertex* verticies)
 	{
 		a = ia; b = ib; c = ic;
-		pa = &verticies[a]; pb = &verticies[b]; pc = &verticies[c];
 
-		aabb.mMin = pa->mPosition;
-		aabb.mMax = pa->mPosition;
-
-		for (unsigned int i = 0; i < 2; i++)
-		{
-			vec3 p;
-			if (i == 0) p = pb->mPosition;
-			if (i == 1) p = pc->mPosition;
-
-			aabb.mMin.x = fmin(aabb.mMin.x, p.x);
-			aabb.mMin.y = fmin(aabb.mMin.y, p.y);
-			aabb.mMin.z = fmin(aabb.mMin.z, p.z);
-
-			aabb.mMax.x = fmax(aabb.mMax.x, p.x);
-			aabb.mMax.y = fmax(aabb.mMax.y, p.y);
-			aabb.mMax.z = fmax(aabb.mMax.z, p.z);
-		}
-	
-		vec3 ab = pb->mPosition - pa->mPosition;
-		vec3 bc = pc->mPosition - pb->mPosition;
-		vec3 ca = pa->mPosition - pc->mPosition;
-
-		norm = (bc^ab).normalize();
-	
-		nab = norm^ab;
-		nbc = norm^bc;
-		nca = norm^ca;
+		norm = ((verticies[c].mPosition - verticies[b].mPosition)^
+			    (verticies[b].mPosition - verticies[a].mPosition)).normalize();
 	}
 
-	inline bool isIntersect(const vec3& bottom, vec3* point, vec3* pnorm, float* depth)
+	inline bool isIntersect(const vec3& bottom, lVertex* verticies, vec3* point, vec3* pnorm, float* depth)
 	{		
-		if ((bottom - pa->mPosition)*nab > 0 ||
-			(bottom - pb->mPosition)*nbc > 0 ||
-			(bottom - pc->mPosition)*nca > 0)
+		if ((bottom - verticies[a].mPosition)*(norm^(verticies[b].mPosition - verticies[a].mPosition)) > 0 ||
+			(bottom - verticies[b].mPosition)*(norm^(verticies[c].mPosition - verticies[b].mPosition)) > 0 ||
+			(bottom - verticies[c].mPosition)*(norm^(verticies[a].mPosition - verticies[c].mPosition)) > 0)
 		{
 			return false;
 		}
 
-		float ndepth = (pa->mPosition - bottom)*norm;
+		float ndepth = (verticies[a].mPosition - bottom)*norm;
 
 		if (ndepth < 0)
 			return false;

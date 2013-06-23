@@ -75,6 +75,17 @@ struct apPhysicsTestFrame:public apRenderWindow
 	physics::Vehicle              mVehicle;
 	TestLandscape                 mTestLandscapeGeom;
 
+	float                         mOffClutchTime;
+	float                         mOffClutchDelay;
+	float                         mControlsReactDelay;
+	int                           mGearOffset;
+
+	std::string                   mVehicleGearName;
+	float                         mVelocity;
+	float                         mWVelocity;
+	float                         mAcceleration;
+	float                         mSlipFact;
+
 //functions
 	apPhysicsTestFrame();
 	apPhysicsTestFrame(const std::string& title, fRect wndRect, fRect outputRect);

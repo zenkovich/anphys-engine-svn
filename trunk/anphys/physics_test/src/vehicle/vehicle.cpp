@@ -1,6 +1,8 @@
 #include "vehicle.h"
 #include "vehicle_chassis.h"
 
+#include "util/log/log_system.h"
+
 namespace physics
 {
 
@@ -17,6 +19,27 @@ Vehicle::Vehicle()
 	mRearRightChassis = new VehicleChassis(this);
 
 	mPolygonsBuffer = NULL;
+
+	mWheelAnglesCoef = 1;
+
+	mEngineRpm = 0;
+	mEngineInertia = 1; 
+	mEngineInvInertia = 1;
+	mEngineFriction = 1;
+	mEngineTorqueValues = NULL;
+	mEngineTorqueValuesCount = 0;
+	mEngineTorqueGraphicMaxRpm = 10;
+	mWheelDriveType = WD_FULL;
+	mGearsCoefs = NULL;
+	mGearsCount = 0;
+	mMainGear = 1;
+	mCurrentGear = 1;
+	mThrottleCoef = 0;
+	mBrakeCoef = 0;
+	mHandBrakeCoef = 0;
+	mSteerWheelAngle = 0;
+	mClutchCoef = 0;
+	mEngineTorque = 0;
 }
 
 Vehicle::~Vehicle()
@@ -30,14 +53,44 @@ Vehicle::~Vehicle()
 	delete mFrontRightChassis;
 	delete mRearLeftChassis;
 	delete mRearRightChassis;
+
+	if (mEngineTorqueValues)
+		delete[] mEngineTorqueValues;
+
+	if (mGearsCoefs)
+		delete[] mGearsCoefs;
 }
 
 void Vehicle::update( float dt )
-{
+{	
+	mThrottleCoef  = fclamp(mThrottleCoef, 0.0f, 1.0f);
+	mBrakeCoef     = fclamp(mBrakeCoef, 0.0f, 1.0f);
+	mHandBrakeCoef = fclamp(mHandBrakeCoef, 0.0f, 1.0f);
+	mClutchCoef    = fclamp(mClutchCoef, 0.0f, 1.0f);
+
+	if (mCurrentGear < 0)
+		mCurrentGear = 0;
+
+	if (mCurrentGear > mGearsCount - 1)
+		mCurrentGear = mGearsCount - 1;
+
 	mVelocity += mForce + vec3(0, -9.8f*dt, 0);
 	mAngularVelocity += mTorque;
 
 	mForce = mTorque = vec3(0);
+	
+	mFrontLeftChassis->mBrakeCoef1  = mBrakeCoef;
+	mFrontRightChassis->mBrakeCoef1 = mBrakeCoef;
+	mRearLeftChassis->mBrakeCoef1   = mBrakeCoef;
+	mRearRightChassis->mBrakeCoef1  = mBrakeCoef;
+	
+	mFrontLeftChassis->mBrakeCoef2  = mHandBrakeCoef;
+	mFrontRightChassis->mBrakeCoef2 = mHandBrakeCoef;
+	mRearLeftChassis->mBrakeCoef2   = mHandBrakeCoef;
+	mRearRightChassis->mBrakeCoef2  = mHandBrakeCoef;
+	
+	mFrontLeftChassis->mWheelAngle  = mSteerWheelAngle*mWheelAnglesCoef;
+	mFrontRightChassis->mWheelAngle = mSteerWheelAngle*mWheelAnglesCoef;
 	
 	mFrontLeftChassis->derivedPreSolve(dt);
 	mFrontRightChassis->derivedPreSolve(dt);
@@ -45,17 +98,19 @@ void Vehicle::update( float dt )
 	mRearRightChassis->derivedPreSolve(dt);
 
 	solveCollisions(dt);
-	
+	updateEngine(dt);
+
 	mFrontLeftChassis->derivedSolve(dt);
 	mFrontRightChassis->derivedSolve(dt);
 	mRearLeftChassis->derivedSolve(dt);
 	mRearRightChassis->derivedSolve(dt);
+	solveEngineWheelDrive();
 
 	mPosition += (mVelocity + mBiasVelocity)*dt;
 
 	vec3 rotateVec = (mAngularVelocity + mBiasAngularVelocity)*dt;
 	float rotateVecLen = rotateVec.len();
-	if (rotateVecLen > 0.00001f)
+	if (rotateVecLen > 0.0000001f)
 		mOrient = rotateMatrixAroundVec(mOrient, rotateVec/rotateVecLen, rotateVecLen);
 
 	mBiasVelocity = mBiasAngularVelocity = vec3(0);
@@ -72,9 +127,68 @@ void Vehicle::update( float dt )
 	checkCollisions();
 }
 
-void Vehicle::setPolygonsBuffer( lPolygon** buffer, unsigned int count )
+void Vehicle::updateEngine( float dt )
+{
+	mEngineRpm += mEngineTorque;
+	mEngineTorque = 0;
+
+	if (mEngineRpm < 200)
+		mEngineRpm = 200;
+
+	if (mEngineRpm < mEngineIdleRpm && mThrottleCoef < 0.2f)
+		mThrottleCoef = 0.2f;
+
+	float engineTorque = getEngineTorqueFromGraphic()*mThrottleCoef - mEngineFriction*mEngineRpm*(1 - mThrottleCoef);
+	mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
+
+	//gLog->fout(1, "Engine torque = %.3f N*m\n", engineTorque);
+
+	mResDriveCoef = mGearsCoefs[mCurrentGear]*mMainGear;	
+
+	float wheelsTorque = -engineTorque*0.5f*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*0.001f;
+
+	float fastestWheelSpeed = 0;
+	for (int i = 0; i < mDriveChassisCount; i++)
+	{
+		mDriveChassisList[i]->mWheelAngVelocity += wheelsTorque*mDriveChassisList[i]->mWheelInvInertia;
+
+		if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
+			fastestWheelSpeed = mDriveChassisList[i]->mWheelAngVelocity;
+	}
+
+	fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
+
+	if (mCurrentGear != 1 && mClutchCoef > 0.11f)
+	{
+		mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
+		//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
+	}
+}
+
+float Vehicle::getEngineTorqueFromGraphic()
+{
+	float range = mEngineTorqueGraphicMaxRpm;
+	int idx = (int)((mEngineRpm)/range*(float)mEngineTorqueValuesCount);
+	idx = imax(imin(idx, mEngineTorqueValuesCount - 2), 0);
+
+	float segmentLength = range/(float)mEngineTorqueValuesCount;
+
+	float scoef = (mEngineRpm - (float)idx*segmentLength)/segmentLength;
+	
+	float value1 = mEngineTorqueValues[idx];
+	float value2 = mEngineTorqueValues[idx + 1];
+
+	return value1 + (value2 - value1)*scoef;
+}
+
+void Vehicle::solveEngineWheelDrive(  )
+{		
+}
+
+void Vehicle::setPolygonsBuffer( lPolygon** buffer, lVertex* vertexBuffer, unsigned int count )
 {
 	mPolygonsBuffer = buffer;
+	mVertexBuffer = vertexBuffer;
 	mPolygonsBufferCount = count;
 }
 
@@ -112,7 +226,7 @@ void Vehicle::checkCollisions()
 		{
 			lPolygon* polygon = mPolygonsBuffer[i];
 
-			if (polygon->isIntersect(vertex->mGlobalPos, &cpoint->mPoint, &cpoint->mNormal, &cpoint->mDepth))
+			if (polygon->isIntersect(vertex->mGlobalPos, mVertexBuffer, &cpoint->mPoint, &cpoint->mNormal, &cpoint->mDepth))
 			{
 				if (minDepth > cpoint->mDepth)
 				{
@@ -283,6 +397,54 @@ void Vehicle::getPosition( float* positionVec )
 void Vehicle::getOrientation( float* orientMatrix )
 {
 	mmask(orientMatrix, mOrient);
+}
+
+void Vehicle::setEngineParams( float* graphicValues, int valuesCount, float maxRpm, float idleRpm, float inertia, float friction )
+{
+	mEngineTorqueValuesCount = valuesCount;
+
+	mEngineTorqueValues = new float[valuesCount];
+	for (int i = 0; i < mEngineTorqueValuesCount; i++)
+		mEngineTorqueValues[i] = graphicValues[i];
+
+	mEngineTorqueGraphicMaxRpm = maxRpm;
+	mEngineInertia = inertia;
+	mEngineInvInertia = 1.0f/inertia;
+	mEngineIdleRpm = idleRpm;
+	mEngineFriction = friction;
+}
+
+void Vehicle::setGearBoxParametres( float* gears, int gearsCount, float mainGear, WheelDriveType driveType )
+{
+	mGearsCount = gearsCount;
+
+	mGearsCoefs = new float[gearsCount];
+	for (int i = 0; i < gearsCount; i++)
+		mGearsCoefs[i] = gears[i];
+
+	mMainGear = mainGear;
+	mWheelDriveType = driveType;	
+
+	if (mWheelDriveType == WD_FULL)
+	{
+		mDriveChassisList[0] = mFrontLeftChassis;
+		mDriveChassisList[1] = mFrontRightChassis;
+		mDriveChassisList[2] = mRearLeftChassis;
+		mDriveChassisList[3] = mRearRightChassis;
+		mDriveChassisCount = 4;
+	}
+	else if (mWheelDriveType == WD_FWD)
+	{
+		mDriveChassisList[0] = mFrontLeftChassis;
+		mDriveChassisList[1] = mFrontRightChassis;
+		mDriveChassisCount = 2;
+	}
+	else 
+	{
+		mDriveChassisList[0] = mRearLeftChassis;
+		mDriveChassisList[1] = mRearRightChassis;
+		mDriveChassisCount = 2;
+	}
 }
 
 }

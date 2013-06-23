@@ -52,6 +52,11 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 	m3DRenderState->bindCamera(mVehicleCamera);
 	m2DRenderState->bindCamera(m2DCamera);
 
+	mOffClutchTime = 0;
+	mOffClutchDelay = 0.5f;
+	mControlsReactDelay = 0.1f;
+	mGearOffset = 0;
+
 	//create main scene
 	mMainEngineScene = new cScene(this);
 
@@ -73,6 +78,8 @@ void apPhysicsTestFrame::onCreate(fRect inRect)
 float apPhysicsTestFrame::onTimer()
 {
 	float dt = apRenderWindow::onTimer();
+
+	//dt = 1.0f/60.0f;
 
 	updateCameraControls();
 	
@@ -128,6 +135,18 @@ void apPhysicsTestFrame::onKeyDown(int key)
 {
 	*gLog << formatStr("key = %i\n", key).c_str();
 	
+	if (key ==(key_b))
+	{
+		//mVehicle.mCurrentGear--;
+		mOffClutchTime = mOffClutchDelay;
+		mGearOffset = -1;
+	}
+	if (key ==(key_g))
+	{
+		//mVehicle.mCurrentGear++;
+		mGearOffset = 1;
+		mOffClutchTime = mOffClutchDelay;
+	}
 	if (key == key_t) 
 	{
 		mPhysicsRunning = !mPhysicsRunning;
@@ -195,7 +214,7 @@ void apPhysicsTestFrame::createUIWidgets()
 	mInputMessenger->registInputListener(mWidgetsManager);
 
 	//create main menu wnd
-	mMainMenuWindow = uiSimpleStuff::createWindow(mWidgetsManager, "MainMenuWnd", vec2(0, 0), vec2(220, 100), "Menu");
+	mMainMenuWindow = uiSimpleStuff::createWindow(mWidgetsManager, "MainMenuWnd", vec2(0, 0), vec2(300, 400), "Menu");
 	uiSimpleStuff::createSizeEffect(mMainMenuWindow);
 
 	uiVertLayoutWidget* verLayoutWidget = new uiVertLayoutWidget(mWidgetsManager, "verLayout");
@@ -210,6 +229,19 @@ void apPhysicsTestFrame::createUIWidgets()
 	
 	verLayoutWidget->addChild((uiWidget*)landscapeCreatorBtn);
 	verLayoutWidget->addChild((uiWidget*)vehicleEditorBtn);
+
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "RPM", &mVehicle.mEngineRpm, 0, 8000);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Throttle", &mVehicle.mThrottleCoef);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Brake", &mVehicle.mBrakeCoef);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Hand BR", &mVehicle.mHandBrakeCoef);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Clutch", &mVehicle.mClutchCoef);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Drive Coef", &mVehicle.mResDriveCoef, -15.0f, 15.0f);
+	
+	uiSimpleStuff::addProperty<std::string>(verLayoutWidget, "Gear", &mVehicleGearName);
+	uiSimpleStuff::addProperty<float>(verLayoutWidget, "Velocty", &mVelocity);
+	uiSimpleStuff::addProperty<float>(verLayoutWidget, "Wh Velocty", &mWVelocity);
+	uiSimpleStuff::addProperty<float>(verLayoutWidget, "Accel", &mAcceleration);
+	uiSimpleStuff::addScrollProperty<float>(verLayoutWidget, "Slip", &mSlipFact, -15.0f, 15.0f);
 
 	mMainMenuWindow->addChild(verLayoutWidget);
 
@@ -271,6 +303,24 @@ void apPhysicsTestFrame::createVehicleObject()
 	mVehicle.mFrontRightChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
 	mVehicle.mRearLeftChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
 	mVehicle.mRearRightChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
+
+	const int torqueValuesCount = 8;
+	float torqueGraphic[torqueValuesCount] = { 0, 0.4f, 0.64f, 0.8f, 0.96f, 1.0f, 0.92f, 0.2f };
+	float maxTorque = 800.0f;
+	float maxRpm = 7000.0f;
+	float engineFriction = 0.04f;
+	for (int i = 0; i < torqueValuesCount; i++)
+	{
+		torqueGraphic[i] = torqueGraphic[i]*maxTorque + maxRpm/(float)(torqueValuesCount - 1)*(float)(i)*engineFriction;
+	}
+
+	mVehicle.setEngineParams(torqueGraphic, torqueValuesCount, maxRpm, 1000.0f, 0.6f, engineFriction);
+
+	const int gearsCount = 7;
+	float gears[gearsCount] = { -4.0f, 0.0f, 3.64f, 1.95f, 1.36f, 0.94f, 0.78f };
+	float topgear = 3.9f;
+
+	mVehicle.setGearBoxParametres(gears, gearsCount, topgear, physics::Vehicle::WD_REAR);
 	
 //collision points
 	physics::vec3 halsSize(size.x*0.5f, size.y*0.5f, size.z*0.5f);
@@ -310,6 +360,24 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 {	
 	mVehicle.update(dt);
 
+	float lastVel = mVelocity;
+
+	mVelocity = mVehicle.mVelocity.len()*3.6f;
+
+	float maxWheelRpm = -mVehicle.mRearLeftChassis->mWheelAngVelocity;
+	/*maxWheelRpm = fmax(maxWheelRpm, -mVehicle.mFrontLeftChassis->mWheelAngVelocity);
+	maxWheelRpm = fmax(maxWheelRpm, -mVehicle.mFrontRightChassis->mWheelAngVelocity);
+	maxWheelRpm = fmax(maxWheelRpm, -mVehicle.mRearRightChassis->mWheelAngVelocity);*/
+
+	mWVelocity = maxWheelRpm*2.0f*3.1415926f*mVehicle.mRearLeftChassis->mWheelRadius*3.6f;
+
+	mSlipFact = mWVelocity - mVelocity;
+
+	mAcceleration = (mVelocity - lastVel)*100.0f;
+
+	std::string gearNames[] = { "R", "N", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+	mVehicleGearName = gearNames[mVehicle.mCurrentGear];
+
 	float fbuf[9];
 
 	mVehicle.getPosition(fbuf);
@@ -320,13 +388,13 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 		                  fbuf[3], fbuf[4], fbuf[5],
 						  fbuf[6], fbuf[7], fbuf[8] );
 
-	AABB vehicleAabb(vehiclePos + vec3(-2.5f, -2.5f, -2.5f),
-		             vehiclePos + vec3(2.5f, 2.5f, 2.5f) );
+	AABB vehicleAabb(vehiclePos + vec3(-3.5f, -3.5f, -3.5f),
+		             vehiclePos + vec3(3.5f, 3.5f, 3.5f) );
 
 	mTestLandscapeGeom.getPolygons(mVehicle.mPosition + physics::vec3(-2.5f, -2.5f, -2.5f),
 		                           mVehicle.mPosition + physics::vec3(2.5f, 2.5f, 2.5f) );
 
-	mVehicle.setPolygonsBuffer(mTestLandscapeGeom.mTestPolygonsBuffer, 
+	mVehicle.setPolygonsBuffer(mTestLandscapeGeom.mTestPolygonsBuffer, mTestLandscapeGeom.mVertexBuffer,
 		mTestLandscapeGeom.mTestPolygonsBufferCount);
 
 	if (mFollowCameraVehicle)
@@ -344,71 +412,73 @@ void apPhysicsTestFrame::updateVehicle( float dt )
 	mVehicle.mFrontLeftChassis->mWheelAngle = 0;
 	mVehicle.mFrontRightChassis->mWheelAngle = 0;
 
+	//gLog->fout(1, "TH = %.2f\n", mVehicle.mThrottleCoef);
+	
 	if (isKeyDown(key_up))
-	{
-		mVehicle.mRearLeftChassis->mWheelTorque -= 250.0f*dt;
-		mVehicle.mRearRightChassis->mWheelTorque -= 250.0f*dt;
-		/*mLeftForwardChassis->mWheelTorque -= 50.0f*dt;
-		mRightForwardChassis->mWheelTorque -= 50.0f*dt;*/
-	}
-	if (isKeyDown(key_down))
-	{
-		mVehicle.mFrontLeftChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mVehicle.mFrontLeftChassis->mBrakeCoef1 > 1.0f)
-			mVehicle.mFrontLeftChassis->mBrakeCoef1 = 1.0f;
-
-		mVehicle.mFrontRightChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mVehicle.mFrontRightChassis->mBrakeCoef1 > 1.0f)
-			mVehicle.mFrontRightChassis->mBrakeCoef1 = 1.0f;
-
-		mVehicle.mRearLeftChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mVehicle.mRearLeftChassis->mBrakeCoef1 > 1.0f)
-			mVehicle.mRearLeftChassis->mBrakeCoef1 = 1.0f;
-
-		mVehicle.mRearRightChassis->mBrakeCoef1 += 2.0f*dt;
-		if (mVehicle.mRearRightChassis->mBrakeCoef1 > 1.0f)
-			mVehicle.mRearRightChassis->mBrakeCoef1 = 1.0f;
-	}
+		mVehicle.mThrottleCoef += 1.0f/mControlsReactDelay*dt;
 	else
-	{
-		mVehicle.mFrontLeftChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mVehicle.mFrontLeftChassis->mBrakeCoef1 < 0.0f)
-			mVehicle.mFrontLeftChassis->mBrakeCoef1 = 0.0f;
+		mVehicle.mThrottleCoef -= 1.0f/mControlsReactDelay*dt;
 
-		mVehicle.mFrontRightChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mVehicle.mFrontRightChassis->mBrakeCoef1 < 0.0f)
-			mVehicle.mFrontRightChassis->mBrakeCoef1 = 0.0f;
-		
-		mVehicle.mRearLeftChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mVehicle.mRearLeftChassis->mBrakeCoef1 < 0.0f)
-			mVehicle.mRearLeftChassis->mBrakeCoef1 = 0.0f;
+	mVehicle.mThrottleCoef = fclamp(mVehicle.mThrottleCoef, 0.0f, 1.0f);
+	
+	if (isKeyDown(key_down))
+		mVehicle.mBrakeCoef += 1.0f/mControlsReactDelay*dt;
+	else
+		mVehicle.mBrakeCoef -= 1.0f/mControlsReactDelay*dt;
 
-		mVehicle.mRearRightChassis->mBrakeCoef1 -= 5.0f*dt;
-		if (mVehicle.mRearRightChassis->mBrakeCoef1 < 0.0f)
-			mVehicle.mRearRightChassis->mBrakeCoef1 = 0.0f;
-	}
+	mVehicle.mBrakeCoef = fclamp(mVehicle.mBrakeCoef, 0.0f, 1.0f);
+	
+	if (isKeyDown(key_numpad_0))
+		mVehicle.mHandBrakeCoef += 1.0f/mControlsReactDelay*dt;
+	else
+		mVehicle.mHandBrakeCoef -= 1.0f/mControlsReactDelay*dt;
+	
+	mVehicle.mHandBrakeCoef = fclamp(mVehicle.mHandBrakeCoef, 0.0f, 1.0f);
+
 	if (isKeyDown(key_right))
 	{
-		mVehicle.mFrontLeftChassis->mWheelAngle = rad(30.0f);
-		mVehicle.mFrontRightChassis->mWheelAngle = rad(30.0f);
+		mVehicle.mSteerWheelAngle += rad(30.0f)*dt/mControlsReactDelay;
 	}
-	if (isKeyDown(key_left))
+	else if (isKeyDown(key_left))
 	{
-		mVehicle.mFrontLeftChassis->mWheelAngle = rad(-30.0f);
-		mVehicle.mFrontRightChassis->mWheelAngle = rad(-30.0f);
+		mVehicle.mSteerWheelAngle -= rad(30.0f)*dt/mControlsReactDelay;
 	}
+	else mVehicle.mSteerWheelAngle -= sign(mVehicle.mSteerWheelAngle)*
+		fmin(rad(30.0f)*dt/mControlsReactDelay, fabs(mVehicle.mSteerWheelAngle));
 
-	if (isKeyDown(key_numpad_0))
+	mVehicle.mSteerWheelAngle = fclamp(mVehicle.mSteerWheelAngle, rad(-30), rad(30));
+
+	float clutchSmoothCoef = 0.1f;
+
+	mVehicle.mClutchCoef = 0.0f;
+
+	mOffClutchTime -= dt;
+
+	if (isKeyDown(key_c))
 	{
-		mVehicle.mRearLeftChassis->mBrakeCoef2 = 1.0f;
-		mVehicle.mRearRightChassis->mBrakeCoef2 = 1.0f;
+		mVehicle.mClutchCoef -= 1.0f/mControlsReactDelay*dt;
+		if (mVehicle.mClutchCoef < 0)
+			mVehicle.mClutchCoef = 0;
+
+		mOffClutchTime = clutchSmoothCoef;
 	}
 	else
 	{
-		mVehicle.mRearLeftChassis->mBrakeCoef2 = 0.0f;
-		mVehicle.mRearRightChassis->mBrakeCoef2 = 0.0f;
+		if (mOffClutchTime < clutchSmoothCoef)
+			mVehicle.mClutchCoef = fclamp(1.0f - mOffClutchTime/clutchSmoothCoef, 0.0f, 1.0f);
+
+		if (mGearOffset != 0 && mOffClutchTime < mOffClutchDelay - clutchSmoothCoef)
+		{
+			mVehicle.mCurrentGear += mGearOffset;
+			mGearOffset = 0;
+		}
+
+		if (mOffClutchTime > mOffClutchDelay - clutchSmoothCoef)
+			mVehicle.mClutchCoef = fclamp(1.0f - (mOffClutchDelay - mOffClutchTime)/clutchSmoothCoef, 0.0f, 1.0f);
 	}
-	
+
+	//mVehicle.mClutchCoef *= mVehicle.mThrottleCoef;
+		
 	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mPosition = vehiclePos;
 	mVehicleObject->getComponent<cRender3DObjectComponent>()->mRender3DObject->mOrient = vehicleOrient;
 
@@ -494,21 +564,30 @@ void TestLandscape::getPolygons( const physics::vec3& minv, const physics::vec3&
 	mTestPolygonsBufferCount = 0;
 	physics::AABB aabb(minv, maxv);
 
-	for (int i = 0; i < mPolygonsCount; i++)
+	for (int i = 0; i < (int)mPolygonsCount; i++)
 	{
 		physics::lPolygon* poly = &mPolygonsBuffer[i];
-		if (poly->aabb.isIntersect(aabb))
+		physics::AABB polyAABB = physics::AABB( 
+			physics::vec3( fmin(fmin(mVertexBuffer[poly->a].mPosition.x, mVertexBuffer[poly->b].mPosition.x), mVertexBuffer[poly->c].mPosition.x),
+			               fmin(fmin(mVertexBuffer[poly->a].mPosition.y, mVertexBuffer[poly->b].mPosition.y), mVertexBuffer[poly->c].mPosition.y),
+				           fmin(fmin(mVertexBuffer[poly->a].mPosition.z, mVertexBuffer[poly->b].mPosition.z), mVertexBuffer[poly->c].mPosition.z)),
+		    
+		    physics::vec3( fmax(fmax(mVertexBuffer[poly->a].mPosition.x, mVertexBuffer[poly->b].mPosition.x), mVertexBuffer[poly->c].mPosition.x),
+			               fmax(fmax(mVertexBuffer[poly->a].mPosition.y, mVertexBuffer[poly->b].mPosition.y), mVertexBuffer[poly->c].mPosition.y),
+				           fmax(fmax(mVertexBuffer[poly->a].mPosition.z, mVertexBuffer[poly->b].mPosition.z), mVertexBuffer[poly->c].mPosition.z)));
+
+		if (polyAABB.isIntersect(aabb))
 		{
 			mTestPolygonsBuffer[mTestPolygonsBufferCount++] = poly;
 
-			getRenderStuff().addBlueArrow(vec3(poly->pa->mPosition.x, poly->pa->mPosition.y, poly->pa->mPosition.z),
-				                          vec3(poly->pb->mPosition.x, poly->pb->mPosition.y, poly->pb->mPosition.z) );
+			getRenderStuff().addBlueArrow(*((vec3*)(&mVertexBuffer[poly->a].mPosition)),
+				                          *((vec3*)(&mVertexBuffer[poly->b].mPosition)) );
 
-			getRenderStuff().addBlueArrow(vec3(poly->pc->mPosition.x, poly->pc->mPosition.y, poly->pc->mPosition.z),
-				                          vec3(poly->pb->mPosition.x, poly->pb->mPosition.y, poly->pb->mPosition.z) );
+			getRenderStuff().addBlueArrow(*((vec3*)(&mVertexBuffer[poly->b].mPosition)),
+				                          *((vec3*)(&mVertexBuffer[poly->c].mPosition)) );
 
-			getRenderStuff().addBlueArrow(vec3(poly->pa->mPosition.x, poly->pa->mPosition.y, poly->pa->mPosition.z),
-				                          vec3(poly->pc->mPosition.x, poly->pc->mPosition.y, poly->pc->mPosition.z) );
+			getRenderStuff().addBlueArrow(*((vec3*)(&mVertexBuffer[poly->c].mPosition)),
+				                          *((vec3*)(&mVertexBuffer[poly->a].mPosition)) );
 
 			if (mTestPolygonsBufferCount == mTestPolygonsBufferSize)
 				break;
