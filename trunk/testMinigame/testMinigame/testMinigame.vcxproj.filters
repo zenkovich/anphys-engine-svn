@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="platform">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{13230326-2d2a-4882-a94a-11b8630b1715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\math">
+      <UniqueIdentifier>{cb4aa971-3c56-42dc-b7e0-666bd3eb059a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\render_system">
+      <UniqueIdentifier>{b1d26ff4-6c3c-4007-945d-87b5369aa7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\minigame">
+      <UniqueIdentifier>{969b4734-9e7a-4c58-ab18-c4f819058384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{74464d1d-3d51-48f4-9141-aa5d570ff2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\pugixml">
+      <UniqueIdentifier>{98b270aa-d2a4-45bb-a278-79f92a0d6a52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="testMinigame.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\render_system.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\sprite.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\minigame\puzzle_pic_minigame.cpp">
+      <Filter>src\minigame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\pugixml\pugixml.cpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\math\vector2.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\render_system.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\math\vertex.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\sprite.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\math\rect.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\math\color.h">
+      <Filter>src\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\minigame\minigame_interface.h">
+      <Filter>src\minigame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\minigame\puzzle_pic_minigame.h">
+      <Filter>src\minigame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\pugixml\pugiconfig.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\pugixml\pugixml.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
