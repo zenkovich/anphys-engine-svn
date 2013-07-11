@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "dx8/include/d3d8.h"
-#include "dx8/include/d3dx8.h"
-#include "dx8/include/d3dx8core.h"
+#include <windows.h>	
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "math/vector2.h"
 #include "math/vertex.h"
@@ -22,7 +22,7 @@ class Texture
 	friend class RenderSystem;
 
 	RenderSystem*      mRenderSystem;
-	LPDIRECT3DTEXTURE8 mTexturePtr;
+	GLuint             mHandle;
 	vec2f              mSize;
 	int                mRefCount;
 	char               mFilename[128];
@@ -50,18 +50,16 @@ class RenderSystem
 	enum { nVertexBufferSize = 6000 };
 
 //d3d
-	LPDIRECT3D8             mDirect3D;
-	LPDIRECT3DDEVICE8       mDirect3DDevice;
-	D3DPRESENT_PARAMETERS   mDirect3DParametr;
+	HGLRC                   mGLContext;
+	HDC                     mHWndDC;
 	vec2i                   mResolution;          /**< Window client rect size. */
 	
 //textures
 	TexturesVec             mTextures;
 		
 //vertex & index buffers
-	vertex2*                mVertexData;          /**< Pointer to vertex data buffer. */
-	LPDIRECT3DVERTEXBUFFER8 mVertexBuffer;         
-	LPDIRECT3DINDEXBUFFER8  mIndexBuffer;
+	unsigned char*          mVertexData;          /**< Pointer to vertex data buffer. */
+	unsigned short*         mVertexIndexData;
 	
 //batching parametres
 	Texture*                mLastDrawTexture;     /**< Stored texture ptr from last DIP. */
@@ -99,9 +97,6 @@ public:
 
 	/** Sending sprite geometry to render pipeline. */
 	void     drawSprite(Sprite* sprite);
-
-	/** Returns direct3d8 device. */
-	LPDIRECT3DDEVICE8 getDirect3DDevice() { return mDirect3DDevice; }
 
 	vec2i    getResolution() const { return mResolution; }
 

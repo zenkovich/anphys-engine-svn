@@ -5,8 +5,7 @@
 
 #include "sprite.h"
 
-RenderSystem::RenderSystem():mDirect3D(NULL), mDirect3DDevice(NULL), mVertexData(NULL),
-	mIndexBuffer(NULL), mVertexBuffer(NULL), mLastDrawTexture(NULL), 
+RenderSystem::RenderSystem():mVertexData(NULL),mLastDrawTexture(NULL), 
 	mTrianglesCount(0), mFrameTrianglesCount(0), mReady(false)
 {
 }
@@ -16,12 +15,34 @@ RenderSystem::~RenderSystem()
 	if (!mReady)
 		return;
 
-	removeAlltextures();
+	if (mGLContext)										
+	{
+		if (!wglMakeCurrent(NULL,NULL))				
+		{
+			printf("ERROR: Release Of DC And RC Failed.\n");
+		}
 
-	mDirect3DDevice->Release();
-	mDirect3D->Release();
-	mVertexBuffer->Release();
+		if (!wglDeleteContext(mGLContext))					
+		{
+			printf("ERROR: Release Rendering Context Failed.\n");
+		}
+
+		mGLContext = NULL;				
+	}
+
+	removeAlltextures();
 }
+
+void ortho(float* mat, float left, float right, float bottom, float top, float nearz, float farz) {
+	float tx = -(right + left)/(right - left);
+	float ty = -(top + bottom)/(top - bottom);
+	float tz = -(farz + nearz)/(farz - nearz);
+		
+	mat[0] = 2.0f/(right - left); mat[4] = 0.0f; mat[8] = 0.0f; mat[12] = tx;
+	mat[1] = 0.0f; mat[5] = 2.0f/(top - bottom); mat[9] = 0.0f; mat[13] = ty;
+	mat[2] = 0.0f; mat[6] = 0.0f; mat[10] = -2.0f/(farz - nearz); mat[14] = tz;
+	mat[3] = 0.0f; mat[7] = 0.0f; mat[11] = 0.0f; mat[15] = 1.0f;
+}	
 
 bool RenderSystem::initialize( HWND hwnd, const vec2i& resolution )
 {
@@ -29,129 +50,110 @@ bool RenderSystem::initialize( HWND hwnd, const vec2i& resolution )
 
 	mResolution = resolution;
 
-//initializing d3d8 render
-	mDirect3D = Direct3DCreate8(D3D_SDK_VERSION);
-	if (!mDirect3D)
+	GLuint pixelFormat;
+	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
 	{
-		printf("ERROR: Direct3DCreate8 failed!\n");
+		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
+		1,											// Version Number
+		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
+		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
+		PFD_DOUBLEBUFFER,							// Must Support Double Buffering
+		PFD_TYPE_RGBA,								// Request An RGBA Format
+		32,  										// Select Our Color Depth
+		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
+		0,											// No Alpha Buffer
+		0,											// Shift Bit Ignored
+		0,											// No Accumulation Buffer
+		0, 0, 0, 0,									// Accumulation Bits Ignored
+		16,											// 16Bit Z-Buffer (Depth Buffer)  
+		0,											// No Stencil Buffer
+		0,											// No Auxiliary Buffer
+		PFD_MAIN_PLANE,								// Main Drawing Layer
+		0,											// Reserved
+		0, 0, 0										// Layer Masks Ignored
+	};
+
+	mHWndDC = GetDC(hwnd);
+	if (!mHWndDC)						
+	{					
+		printf("ERROR: Can't Create A GL Device Context.\n");
+		return false;						
+	}
+
+	pixelFormat = ChoosePixelFormat(mHWndDC, &pfd);
+	if (!pixelFormat)	
+	{	
+		printf("ERROR: Can't Find A Suitable PixelFormat.\n");
+		return false;								
+	}
+
+	if (!SetPixelFormat(mHWndDC, pixelFormat, &pfd))	
+	{
+		printf("ERROR: Can't Set The PixelFormat.\n");
 		return false;
 	}
 
-	D3DDISPLAYMODE Display;
-	if(FAILED(mDirect3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &Display)))
+	mGLContext = wglCreateContext(mHWndDC);
+	if (!mGLContext)	
 	{
-		printf("ERROR: GetAdapterDisplayMode failed\n");
+		printf("ERROR: Can't Create A GL Rendering Context.\n");
 		return false;
 	}
 
-	ZeroMemory(&mDirect3DParametr, sizeof(mDirect3DParametr));
-	mDirect3DParametr.Windowed=true;
-	mDirect3DParametr.SwapEffect = D3DSWAPEFFECT_COPY;
-	mDirect3DParametr.BackBufferFormat = Display.Format;
-	mDirect3DParametr.BackBufferCount = 1;
-	mDirect3DParametr.BackBufferWidth = (unsigned int)(resolution.x);
-	mDirect3DParametr.BackBufferHeight = (unsigned int)(resolution.y);  
-	mDirect3DParametr.EnableAutoDepthStencil = true;
-	mDirect3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
-
-	if(FAILED(mDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, 
-		      D3DCREATE_SOFTWARE_VERTEXPROCESSING, &mDirect3DParametr, &mDirect3DDevice)))
+	if(!wglMakeCurrent(mHWndDC, mGLContext))			
 	{
-		printf("ERROR: CreateDevice failed\n");
+		printf("ERROR: Can't Activate The GL Rendering Context.\n");
 		return false;
 	}
 
-//render states
-	mDirect3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	mDirect3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	mDirect3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-	mDirect3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-	mDirect3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);	
-    mDirect3DDevice->SetRenderState(D3DRS_DITHERENABLE, true);
-    mDirect3DDevice->SetRenderState(D3DRS_AMBIENT, 0x00000000);	
-    mDirect3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    mDirect3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);				// Black Background
+	glClearDepth(1.0f);									// Depth Buffer Setup
+	glDisable(GL_DEPTH_TEST);							// Enables Depth Testing
 
-//texture state
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
-	mDirect3DDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
+	mVertexData = new unsigned char[nVertexBufferSize*sizeof(vertex2)];
 
-	printf("Direct3d8 render initialized\n");
+	const unsigned int triesMaxCount = nVertexBufferSize*6/4;
+	mVertexIndexData = new unsigned short[triesMaxCount];
+	mLastDrawVertex = 0;
+	mTrianglesCount = 0;
 
-//create d3d vertex buffer
-	if(FAILED(mDirect3DDevice->CreateVertexBuffer(nVertexBufferSize*sizeof(vertex2),
-		D3DUSAGE_DYNAMIC, D3DFVF_VERTEX_2D, D3DPOOL_DEFAULT, &mVertexBuffer)))
-	{
-		printf("ERROR: Failed to create Direct3D8 Vertex Buffer\n");
-		return false;
-	}
+	// заполняет индексный буффер для всего вертекс буффера
+	
+	for(int i = 0, n = 0; i < nVertexBufferSize/4; ++i)
+	{	
+		mVertexIndexData[i*6 + 0] = n;
+		mVertexIndexData[i*6 + 1] = n + 1;
+		mVertexIndexData[i*6 + 2] = n + 2;
 
-//create d3d index buffer
-	if (FAILED(mDirect3DDevice->CreateIndexBuffer(nVertexBufferSize*sizeof(WORD)/4*6, D3DUSAGE_DYNAMIC, 
-		D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer)))
-	{
-		printf("ERROR: Failed to create Direct3D8 index buffer");
-		return false;
-	}
-
-//fill index buffer
-	WORD* indexData = NULL;
-	if (FAILED(mIndexBuffer->Lock(0, 0, (BYTE**)&indexData, 0)))
-	{
-		printf("ERROR: failed to lock d3d index buffer\n");
-		return false;
-	}
-
-//quad format
-//
-//   0------1
-//   |\     |
-//   |  \   |
-//   |    \ |
-//   3------2
-// 
-	for (int i = 0; i < nVertexBufferSize/4; i++)
-	{
-		indexData[i*6]     = i*4;
-		indexData[i*6 + 1] = i*4 + 1;
-		indexData[i*6 + 2] = i*4 + 2;
+		mVertexIndexData[i*6 + 3] = n + 0;
+		mVertexIndexData[i*6 + 4] = n + 2;
+		mVertexIndexData[i*6 + 5] = n + 3;
 		
-		indexData[i*6 + 3] = i*4;
-		indexData[i*6 + 4] = i*4 + 2;
-		indexData[i*6 + 5] = i*4 + 3;
+		n+=4;
 	}
 
-	if (FAILED(mIndexBuffer->Unlock()))
-	{
-		printf("ERROR: Failed to unlock d3d index buffer\n");
-		return false;
-	}
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
 
-//setup d3d buffers
-	mDirect3DDevice->SetVertexShader(D3DFVF_VERTEX_2D);
-	mDirect3DDevice->SetStreamSource(0, mVertexBuffer, sizeof(vertex2));
-	mDirect3DDevice->SetIndices(mIndexBuffer, 0);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(vertex2), mVertexData + sizeof(float)*3);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(vertex2), mVertexData + sizeof(float)*3 + sizeof(unsigned long));
+	glVertexPointer(3, GL_FLOAT, sizeof(vertex2), mVertexData + 0);
 
-//setup 2d orto matricies
-	D3DXMATRIX projectionMatrix;
-	D3DXMATRIX invMatrix, translMatrix, orthoMatrix;
-
-	D3DXMatrixScaling(&invMatrix, 1.0f, -1.0f, 1.0f);
-	D3DXMatrixTranslation(&translMatrix, 0, (float)mResolution.y, 0.0f);
-	D3DXMatrixOrthoOffCenterLH(&orthoMatrix, 0, (float)mResolution.x, 0, (float)mResolution.y, 0.0f, 128.0f);
-
-	projectionMatrix = invMatrix*translMatrix*orthoMatrix;
-
-	D3DXMATRIX identity;
-	D3DXMatrixIdentity(&identity);
-
-	mDirect3DDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
-	mDirect3DDevice->SetTransform(D3DTS_WORLD, &identity);
-	mDirect3DDevice->SetTransform(D3DTS_VIEW, &identity);
+	float projMat[16];
+	ortho(projMat, 0.0f, (float)mResolution.x, (float)mResolution.y, 0.0f, 0.0f, 10.0f);	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, mResolution.x, mResolution.y);
+	glLoadMatrixf(projMat);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_TEXTURE_2D);
 
 	mReady = true;
 
@@ -163,14 +165,6 @@ bool RenderSystem::beginRender()
 	if (!mReady)
 		return false;
 
-	if (FAILED(mDirect3DDevice->BeginScene()))
-	{
-		printf("ERROR: Failed BeginScene\n");
-		return false;
-	}
-
-	mDirect3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0F, 0);
-
 //reset batching params
 	mLastDrawTexture     = NULL;
 	mLastDrawVertex      = NULL;
@@ -179,6 +173,9 @@ bool RenderSystem::beginRender()
 	mDIPCount            = 0;
 
 	lockBuffer();
+	
+	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 
 	return true;
 }
@@ -192,13 +189,7 @@ bool RenderSystem::endRender()
 	unlockBuffer();
 	drawPrimitives();
 
-	if (FAILED(mDirect3DDevice->EndScene()))
-	{
-		printf("ERROR: Failed EndScene\n");
-		return false;
-	}
-
-	mDirect3DDevice->Present(NULL, NULL, NULL, NULL);
+	SwapBuffers(mHWndDC);
 
 	//printf("Triangles: %i, DIP: %i\n", mFrameTrianglesCount, mDIPCount);
 
@@ -281,16 +272,23 @@ void RenderSystem::drawSprite( Sprite* sprite )
 		lockBuffer();
 
 		mLastDrawTexture = sprite->mTexture;
-		if (mLastDrawTexture) mDirect3DDevice->SetTexture(0, mLastDrawTexture->mTexturePtr);
-		else                  mDirect3DDevice->SetTexture(0, NULL);
+		if (mLastDrawTexture) 
+		{			
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, mLastDrawTexture->mHandle);
+		}
+		else          
+		{
+			glDisable(GL_TEXTURE_2D);
+		}
 	}
 
 //copy data
-	//memcpy(mVertexData + mLastDrawingVertex*sizeof(vertex2d), mesh->mVertexBuffer, sizeof(vertex2d)*mesh->mVertexCount);
-	for (int i = 0; i < spriteVertexCount; i++)
+	memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], sprite->mVerticies, sizeof(vertex2)*4);
+	/*for (int i = 0; i < spriteVertexCount; i++)
 	{
 		mVertexData[i + mLastDrawVertex] = sprite->mVerticies[i];
-	}
+	}*/
 
 	mTrianglesCount += 2;
 	mLastDrawVertex += spriteVertexCount;
@@ -298,11 +296,11 @@ void RenderSystem::drawSprite( Sprite* sprite )
 
 void RenderSystem::lockBuffer()
 {
-	if (FAILED(mVertexBuffer->Lock(0, 0, (BYTE**)&mVertexData, D3DLOCK_DISCARD)))
+	/*if (FAILED(mVertexBuffer->Lock(0, 0, (BYTE**)&mVertexData, D3DLOCK_DISCARD)))
 	{
 		printf("ERROR: Failed to lock d3d vertex buffer\n");
 		return;
-	}
+	}*/
 
 	mFrameTrianglesCount += mTrianglesCount;
 	mLastDrawVertex = mTrianglesCount = 0;
@@ -310,10 +308,10 @@ void RenderSystem::lockBuffer()
 
 void RenderSystem::unlockBuffer()
 {
-	if (FAILED(mVertexBuffer->Unlock()))
+	/*if (FAILED(mVertexBuffer->Unlock()))
 	{
 		printf("ERROR: failed to nlock d3d vertex buffer\n");
-	}
+	}*/
 }
 
 void RenderSystem::drawPrimitives()
@@ -321,20 +319,21 @@ void RenderSystem::drawPrimitives()
 	if (mLastDrawVertex < 1)
 		return;
 
-	if (FAILED(mDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawVertex, 0, mTrianglesCount)))
+	glDrawElements(GL_TRIANGLES, mTrianglesCount, GL_UNSIGNED_SHORT, mVertexIndexData);
+	/*if (FAILED(mDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawVertex, 0, mTrianglesCount)))
 	{
 		printf("ERROR: Failed call DrawIndexedPrimitive\n");
-	}
+	}*/
 
 	mDIPCount++;
 }
 
-Texture::Texture():mTexturePtr(NULL), mRefCount(0), mRenderSystem(NULL)
+Texture::Texture():mHandle(NULL), mRefCount(0), mRenderSystem(NULL)
 {
 	mFilename[0] = '\0';
 }
 
-Texture::Texture( RenderSystem* renderSystem, const char* fileName ):mTexturePtr(NULL), mRefCount(0), mRenderSystem(NULL)
+Texture::Texture( RenderSystem* renderSystem, const char* fileName ):mHandle(NULL), mRefCount(0), mRenderSystem(NULL)
 {
 	mFilename[0] = '\0';
 	load(renderSystem, fileName);
@@ -342,8 +341,8 @@ Texture::Texture( RenderSystem* renderSystem, const char* fileName ):mTexturePtr
 
 Texture::~Texture()
 {
-	if (mTexturePtr)
-		mTexturePtr->Release();
+	/*if (mHandle)
+		mTexturePtr->Release();*/
 }
 
 bool Texture::load( RenderSystem* renderSystem, const char* fileName )
@@ -352,7 +351,7 @@ bool Texture::load( RenderSystem* renderSystem, const char* fileName )
 	mRenderSystem = renderSystem;
 	mRefCount = 0;
 	
-	if (FAILED(D3DXCreateTextureFromFile(mRenderSystem->getDirect3DDevice(), fileName, &mTexturePtr)))
+	/*if (FAILED(D3DXCreateTextureFromFile(mRenderSystem->getDirect3DDevice(), fileName, &mTexturePtr)))
 	{
 		printf("ERROR: Failed to load texture '%s'\n", fileName);
 		return false;
@@ -360,7 +359,7 @@ bool Texture::load( RenderSystem* renderSystem, const char* fileName )
 
 	D3DSURFACE_DESC desc;
 	mTexturePtr->GetLevelDesc(0, &desc);
-	mSize = vec2f((float)desc.Width, (float)desc.Height);
+	mSize = vec2f((float)desc.Width, (float)desc.Height);*/
 
 	return true;
 }

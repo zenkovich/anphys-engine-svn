@@ -14,6 +14,8 @@ MiniGame*     gTestMinigame;
 unsigned long gLastTickCount;
 vec2i         gWindowSize;
 
+Sprite*       testSprite;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 void createWindow(const std::string& wndName, HWND& hwnd)
@@ -64,7 +66,9 @@ void render(RenderSystem& renderSystem)
 	renderSystem.beginRender();
 	
 	//draw minigame
-	gTestMinigame->render();
+	//gTestMinigame->render();
+
+	testSprite->draw();
 
 	renderSystem.endRender();
 }
@@ -122,6 +126,13 @@ int main(int argc, char* argv[])
     UpdateWindow (gHWnd);
 
 	initializeRenderSystem(gHWnd, gRenderSystem);
+
+	testSprite = new Sprite(&gRenderSystem);
+	testSprite->setPosition(vec2f(-5000, -5000)).setSize(vec2f(10000, 10000)).
+		        setColor(color4(1.0f, 0.0f, 0.0f, 1.0f), 0).
+				setColor(color4(0.0f, 1.0f, 0.0f, 1.0f), 1).
+				setColor(color4(0.0f, 0.0f, 1.0f, 1.0f), 2).
+				setColor(color4(1.0f, 0.0f, 1.0f, 1.0f), 3);
 
 	gTestMinigame = new PuzzlePictureMinigame(&gRenderSystem);
 	gTestMinigame->initialize();
