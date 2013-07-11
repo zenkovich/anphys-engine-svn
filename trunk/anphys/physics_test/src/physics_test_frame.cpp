@@ -306,7 +306,7 @@ void apPhysicsTestFrame::createVehicleObject()
 
 	const int torqueValuesCount = 8;
 	float torqueGraphic[torqueValuesCount] = { 0, 0.4f, 0.64f, 0.8f, 0.96f, 1.0f, 0.92f, 0.2f };
-	float maxTorque = 800.0f;
+	float maxTorque = 600.0f;
 	float maxRpm = 7000.0f;
 	float engineFriction = 0.04f;
 	for (int i = 0; i < torqueValuesCount; i++)
