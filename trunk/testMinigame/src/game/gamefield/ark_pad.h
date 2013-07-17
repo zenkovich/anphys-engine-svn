@@ -37,7 +37,6 @@ class ArkanoidPad
 	float              mWidth;
 	float              mMinWidth;
 	float              mTargetWidth;
-	float              mLastWidthIncSpeed;
 
 	float              mHeight;
 			           
@@ -45,7 +44,7 @@ class ArkanoidPad
 	Sprite*            mCenterPartSpr;
 	Sprite*            mRightSidePartSpr;
 
-	ArkPadBehaviorsVec mBehaiors;
+	ArkPadBehaviorsVec mBehaviors;
 
 public:
 	ArkanoidPad(ArkanoidGamefield* gamefield);

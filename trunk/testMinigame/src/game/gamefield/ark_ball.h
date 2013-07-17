@@ -32,6 +32,8 @@ typedef std::vector<ArkBallBehavior*> ArkBallBehaviorsVec;
 
 class ArkanoidBall
 {
+	friend class ArkanoidBrick;
+
 	ArkanoidGamefield*  mOwnerGamefield;
 
 	float               mRadius;
