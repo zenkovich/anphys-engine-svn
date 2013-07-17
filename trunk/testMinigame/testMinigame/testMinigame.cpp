@@ -66,7 +66,7 @@ void render(RenderSystem& renderSystem)
 	renderSystem.beginRender();
 	
 	//draw minigame
-	//gTestMinigame->render();
+	gTestMinigame->render();
 
 	testSprite->draw();
 
@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 	initializeRenderSystem(gHWnd, gRenderSystem);
 
 	testSprite = new Sprite(&gRenderSystem);
-	testSprite->setPosition(vec2f(-5000, -5000)).setSize(vec2f(10000, 10000)).
+	testSprite->setPosition(vec2f(0, 0)).setSize(vec2f(100, 100)).
 		        setColor(color4(1.0f, 0.0f, 0.0f, 1.0f), 0).
 				setColor(color4(0.0f, 1.0f, 0.0f, 1.0f), 1).
 				setColor(color4(0.0f, 0.0f, 1.0f, 1.0f), 2).

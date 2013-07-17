@@ -202,7 +202,7 @@ vec2f Sprite::getSize() const
 
 Sprite& Sprite::setColor( const color4& color, int vertexId /*= -1*/ )
 {
-	unsigned long ccolor = color.dwordARGB();
+	unsigned long ccolor = color.dwordABGR();
 
 	if (vertexId < 0)
 	{
@@ -220,7 +220,7 @@ Sprite& Sprite::setColor( const color4& color, int vertexId /*= -1*/ )
 color4 Sprite::getColor( int vertexId /*= 0*/ )
 {
 	color4 res;
-	res.setDwordARGB(mVerticies[std::max<int>(std::min<int>(vertexId, 4), 0)].color);
+	res.setDwordABGR(mVerticies[std::max<int>(std::min<int>(vertexId, 4), 0)].color);
 	return res;
 }
 
@@ -286,14 +286,14 @@ void Sprite::updateMeshTexCoords()
 	vec2f invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
 
 	mVerticies[0].tu = mTextureSrcRect.leftTop.x*invTexSize.x;
-	mVerticies[0].tv = mTextureSrcRect.leftTop.y*invTexSize.y;
+	mVerticies[0].tv = 1.0f - mTextureSrcRect.leftTop.y*invTexSize.y;
 
 	mVerticies[1].tu = mTextureSrcRect.rightDown.x*invTexSize.x;
-	mVerticies[1].tv = mTextureSrcRect.leftTop.y*invTexSize.y;
+	mVerticies[1].tv = 1.0f - mTextureSrcRect.leftTop.y*invTexSize.y;
 
 	mVerticies[2].tu = mTextureSrcRect.rightDown.x*invTexSize.x;
-	mVerticies[2].tv = mTextureSrcRect.rightDown.y*invTexSize.y;
+	mVerticies[2].tv = 1.0f - mTextureSrcRect.rightDown.y*invTexSize.y;
 
 	mVerticies[3].tu = mTextureSrcRect.leftTop.x*invTexSize.x;
-	mVerticies[3].tv = mTextureSrcRect.rightDown.y*invTexSize.y;
+	mVerticies[3].tv = 1.0f - mTextureSrcRect.rightDown.y*invTexSize.y;
 }

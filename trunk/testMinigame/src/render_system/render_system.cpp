@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 
+#include "texture_png_loader.h"
 #include "sprite.h"
 
 RenderSystem::RenderSystem():mVertexData(NULL),mLastDrawTexture(NULL), 
@@ -106,11 +107,6 @@ bool RenderSystem::initialize( HWND hwnd, const vec2i& resolution )
 		return false;
 	}
 
-	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);				// Black Background
-	glClearDepth(1.0f);									// Depth Buffer Setup
-	glDisable(GL_DEPTH_TEST);							// Enables Depth Testing
-
 	mVertexData = new unsigned char[nVertexBufferSize*sizeof(vertex2)];
 
 	const unsigned int triesMaxCount = nVertexBufferSize*6/4;
@@ -140,20 +136,9 @@ bool RenderSystem::initialize( HWND hwnd, const vec2i& resolution )
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(vertex2), mVertexData + sizeof(float)*3);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(vertex2), mVertexData + sizeof(float)*3 + sizeof(unsigned long));
 	glVertexPointer(3, GL_FLOAT, sizeof(vertex2), mVertexData + 0);
-
-	float projMat[16];
-	ortho(projMat, 0.0f, (float)mResolution.x, (float)mResolution.y, 0.0f, 0.0f, 10.0f);	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glViewport(0, 0, mResolution.x, mResolution.y);
-	glLoadMatrixf(projMat);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glEnable(GL_TEXTURE_2D);
 
 	mReady = true;
 
@@ -171,8 +156,18 @@ bool RenderSystem::beginRender()
 	mTrianglesCount      = 0;
 	mFrameTrianglesCount = 0;
 	mDIPCount            = 0;
-
-	lockBuffer();
+		
+	glViewport(0, 0, mResolution.x, mResolution.y);						// Reset The Current Viewport
+	
+	float projMat[16];
+	ortho(projMat, 0.0f, (float)mResolution.x, (float)mResolution.y, 0.0f, 0.0f, 10.0f);	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, mResolution.x, mResolution.y);
+	glLoadMatrixf(projMat);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.0f,0.0f,-1.0f);	
 	
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
@@ -186,7 +181,6 @@ bool RenderSystem::endRender()
 		return false;
 
 //flush geometry
-	unlockBuffer();
 	drawPrimitives();
 
 	SwapBuffers(mHWndDC);
@@ -267,9 +261,7 @@ void RenderSystem::drawSprite( Sprite* sprite )
 	if (mLastDrawTexture != sprite->mTexture || 
 		mLastDrawVertex + spriteVertexCount >= nVertexBufferSize)
 	{
-		unlockBuffer();
 		drawPrimitives();
-		lockBuffer();
 
 		mLastDrawTexture = sprite->mTexture;
 		if (mLastDrawTexture) 
@@ -285,33 +277,9 @@ void RenderSystem::drawSprite( Sprite* sprite )
 
 //copy data
 	memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], sprite->mVerticies, sizeof(vertex2)*4);
-	/*for (int i = 0; i < spriteVertexCount; i++)
-	{
-		mVertexData[i + mLastDrawVertex] = sprite->mVerticies[i];
-	}*/
 
 	mTrianglesCount += 2;
 	mLastDrawVertex += spriteVertexCount;
-}
-
-void RenderSystem::lockBuffer()
-{
-	/*if (FAILED(mVertexBuffer->Lock(0, 0, (BYTE**)&mVertexData, D3DLOCK_DISCARD)))
-	{
-		printf("ERROR: Failed to lock d3d vertex buffer\n");
-		return;
-	}*/
-
-	mFrameTrianglesCount += mTrianglesCount;
-	mLastDrawVertex = mTrianglesCount = 0;
-}
-
-void RenderSystem::unlockBuffer()
-{
-	/*if (FAILED(mVertexBuffer->Unlock()))
-	{
-		printf("ERROR: failed to nlock d3d vertex buffer\n");
-	}*/
 }
 
 void RenderSystem::drawPrimitives()
@@ -319,11 +287,10 @@ void RenderSystem::drawPrimitives()
 	if (mLastDrawVertex < 1)
 		return;
 
-	glDrawElements(GL_TRIANGLES, mTrianglesCount, GL_UNSIGNED_SHORT, mVertexIndexData);
-	/*if (FAILED(mDirect3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, mLastDrawVertex, 0, mTrianglesCount)))
-	{
-		printf("ERROR: Failed call DrawIndexedPrimitive\n");
-	}*/
+	glDrawElements(GL_TRIANGLES, mTrianglesCount*3, GL_UNSIGNED_SHORT, mVertexIndexData);
+
+	mFrameTrianglesCount += mTrianglesCount;
+	mLastDrawVertex = mTrianglesCount = 0;
 
 	mDIPCount++;
 }
@@ -341,8 +308,7 @@ Texture::Texture( RenderSystem* renderSystem, const char* fileName ):mHandle(NUL
 
 Texture::~Texture()
 {
-	/*if (mHandle)
-		mTexturePtr->Release();*/
+	glDeleteTextures(1, &mHandle);
 }
 
 bool Texture::load( RenderSystem* renderSystem, const char* fileName )
@@ -351,6 +317,7 @@ bool Texture::load( RenderSystem* renderSystem, const char* fileName )
 	mRenderSystem = renderSystem;
 	mRefCount = 0;
 	
+	loadGLTextureFromPNG(fileName, &mHandle, &mSize);
 	/*if (FAILED(D3DXCreateTextureFromFile(mRenderSystem->getDirect3DDevice(), fileName, &mTexturePtr)))
 	{
 		printf("ERROR: Failed to load texture '%s'\n", fileName);

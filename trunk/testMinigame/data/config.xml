@@ -10,7 +10,7 @@
 <hint posx = "540" posy = "10" scale = "0.2" />
 
 <!-- Путь к картинке, из которой будет составлен паззл. -->
-<picture filename = "../data/street2.jpg" />
+<picture filename = "../data/street2.png" />
 
 <!-- Путь фоновой картинки -->
-<back filename = "../data/bk.jpg" />
+<back filename = "../data/bk.png" />

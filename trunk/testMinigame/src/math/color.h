@@ -145,8 +145,9 @@ struct color4
 		b = std::max<int>(std::min<int>(255, b), 0);
 		a = std::max<int>(std::min<int>(255, a), 0);
 	}
-
+	
 	unsigned long dwordARGB() const { return (unsigned long)( (a << 24) | (r << 16) | (g << 8) | b ); }
+	unsigned long dwordABGR() const { return (unsigned long)( (a << 24) | (b << 16) | (g << 8) | r ); }
 	
 	void setDwordARGB(unsigned long color) 
 	{ 
@@ -154,6 +155,14 @@ struct color4
 		r = (int)((color << 8) >> 24);
 		g = (int)((color << 16) >> 24);
 		b = (int)((color << 24) >> 24);
+	}
+	
+	void setDwordABGR(unsigned long color) 
+	{ 
+		a = (int)(color >> 24);
+		b = (int)((color << 8) >> 24);
+		g = (int)((color << 16) >> 24);
+		r = (int)((color << 24) >> 24);
 	}
 
 };
