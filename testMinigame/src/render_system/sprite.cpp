@@ -297,3 +297,91 @@ void Sprite::updateMeshTexCoords()
 	mVerticies[3].tu = mTextureSrcRect.leftTop.x*invTexSize.x;
 	mVerticies[3].tv = 1.0f - mTextureSrcRect.rightDown.y*invTexSize.y;
 }
+
+bool Sprite::load( const pugi::xml_node& xmlNode )
+{
+	pugi::xml_node textureFilenameNode = xmlNode.child("texture");
+	if (!textureFilenameNode.empty())
+	{		
+		mTexture = mRenderSystem->createTexture(textureFilenameNode.attribute("filename").value());
+	}
+
+	if (mTexture)
+	{
+		pugi::xml_node texSrcNode = xmlNode.child("texSrc");
+		if (texSrcNode.empty())
+		{
+			mTextureSrcRect = fRect(0, 0, mTexture->getSize().x, mTexture->getSize().y);
+		}
+		else
+		{
+			mTextureSrcRect.leftTop.x = texSrcNode.attribute("left").as_float();
+			mTextureSrcRect.leftTop.y = texSrcNode.attribute("top").as_float();
+			mTextureSrcRect.rightDown.x = texSrcNode.attribute("right").as_float();
+			mTextureSrcRect.rightDown.y = texSrcNode.attribute("down").as_float();
+		}
+	}
+	else
+	{
+		mTextureSrcRect = fRect(0, 0, 10, 10);
+	}
+
+	pugi::xml_node positionNode = xmlNode.child("position");
+	if (positionNode.empty())
+	{
+		mPosition = vec2f(0, 0);
+	}
+	else
+	{
+		mPosition.x = positionNode.attribute("x").as_float();
+		mPosition.y = positionNode.attribute("y").as_float();
+	}
+
+	pugi::xml_node sizeNode = xmlNode.child("size");
+	if (sizeNode.empty())
+	{
+		mSize = mTextureSrcRect.getSize();
+	}
+	else
+	{
+		mSize.x = sizeNode.attribute("x").as_float();
+		mSize.y = sizeNode.attribute("y").as_float();
+	}
+
+	pugi::xml_node scaleNode = xmlNode.child("scale");
+	if (scaleNode.empty())
+	{
+		mScale = vec2f(1, 1);
+	}
+	else
+	{
+		mScale.x = scaleNode.attribute("x").as_float();
+		mScale.y = scaleNode.attribute("y").as_float();
+	}
+
+	pugi::xml_node rotCenterNode = xmlNode.child("rotCenter");
+	if (rotCenterNode.empty())
+	{
+		mRotationCenter = vec2f(0, 0);
+	}
+	else
+	{
+		mRotationCenter.x = rotCenterNode.attribute("x").as_float();
+		mRotationCenter.y = rotCenterNode.attribute("y").as_float();
+	}
+
+	pugi::xml_node angleNode = xmlNode.child("rotation");
+	if (angleNode.empty())
+	{
+		mAngle = 0;
+	}
+	else
+	{
+		mAngle = angleNode.attribute("angle").as_float();
+	}
+
+	mNeedUpdateMeshVerticies = true;
+	mNeedUpdateMeshTexCoords = true;
+
+	return true;
+}

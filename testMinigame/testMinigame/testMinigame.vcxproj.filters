@@ -157,6 +157,21 @@
     <ClCompile Include="..\src\game\input_messages.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\game\gamefield\arkanoid_gamefield.cpp">
+      <Filter>src\game\gamefield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\gamefield\ark_pad.cpp">
+      <Filter>src\game\gamefield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\gamefield\ark_ball.cpp">
+      <Filter>src\game\gamefield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\gamefield\ark_brick.cpp">
+      <Filter>src\game\gamefield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\gamefield\ark_bonus.cpp">
+      <Filter>src\game\gamefield</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\math\vector2.h">
@@ -254,6 +269,18 @@
     </ClInclude>
     <ClInclude Include="..\src\game\input_messages.h">
       <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\gamefield\ark_pad.h">
+      <Filter>src\game\gamefield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\gamefield\ark_ball.h">
+      <Filter>src\game\gamefield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\gamefield\ark_brick.h">
+      <Filter>src\game\gamefield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\gamefield\ark_bonus.h">
+      <Filter>src\game\gamefield</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

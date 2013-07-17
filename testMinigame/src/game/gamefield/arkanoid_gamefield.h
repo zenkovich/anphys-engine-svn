@@ -4,7 +4,8 @@
 #include <vector>
 
 class RenderSystem;
-class InputMessage;
+class Sprite;
+class InputMessageDispatcher;
 
 class ArkanoidPad;
 class ArkanoidBall;
@@ -17,12 +18,30 @@ typedef std::vector<ArkanoidPadBonus> ArkanoidBonusesVec;
 
 class ArkanoidGamefield
 {
+	enum GameState { GS_WAIT_BEGINNING = 0, GS_PLAYING, GS_LOST_LIVE, GS_FAILED };
+
+	ArkanoidPad*       mPad;
+	ArkanoidBallsVec   mBalls;
+	ArkanoidBricksVec  mBricks;
+	ArkanoidBonusesVec mBonuses;
+
+	float              mPlayingTime;
+
+	float              mNextBricksLineTime;
+
+	Sprite*            mBackSprite;
+
 public:
 	ArkanoidGamefield(RenderSystem* renderSystem);
 	~ArkanoidGamefield();
 
 	void draw();
 	void update(float dt);
+
+	void setupUserController(InputMessageDispatcher* messageDispatcher);
+	void setupAIController();
+
+	void beginGame();
 };
 
 #endif //ARKANOID_GAMEFIELD_H

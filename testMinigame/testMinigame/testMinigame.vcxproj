@@ -117,6 +117,11 @@
     <ClCompile Include="..\dependencies\zlib\unzip.c" />
     <ClCompile Include="..\dependencies\zlib\zip.c" />
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
+    <ClCompile Include="..\src\game\gamefield\arkanoid_gamefield.cpp" />
+    <ClCompile Include="..\src\game\gamefield\ark_ball.cpp" />
+    <ClCompile Include="..\src\game\gamefield\ark_bonus.cpp" />
+    <ClCompile Include="..\src\game\gamefield\ark_brick.cpp" />
+    <ClCompile Include="..\src\game\gamefield\ark_pad.cpp" />
     <ClCompile Include="..\src\game\game_state_manager.cpp" />
     <ClCompile Include="..\src\game\input_messages.cpp" />
     <ClCompile Include="..\src\minigame\puzzle_pic_minigame.cpp" />
@@ -146,6 +151,10 @@
     <ClInclude Include="..\dependencies\zlib\zlib.h" />
     <ClInclude Include="..\dependencies\zlib\zutil.h" />
     <ClInclude Include="..\src\game\gamefield\arkanoid_gamefield.h" />
+    <ClInclude Include="..\src\game\gamefield\ark_ball.h" />
+    <ClInclude Include="..\src\game\gamefield\ark_bonus.h" />
+    <ClInclude Include="..\src\game\gamefield\ark_brick.h" />
+    <ClInclude Include="..\src\game\gamefield\ark_pad.h" />
     <ClInclude Include="..\src\game\game_state.h" />
     <ClInclude Include="..\src\game\game_state_manager.h" />
     <ClInclude Include="..\src\game\input_messages.h" />
