@@ -101,11 +101,6 @@ public:
 	vec2i    getResolution() const { return mResolution; }
 
 private:
-	/** Lock vertex buffer. */
-	void lockBuffer();
-
-	/** Unlock vertex buffer. */
-	void unlockBuffer();
 
 	/** Send vertex buffer data to render. */
 	void drawPrimitives();

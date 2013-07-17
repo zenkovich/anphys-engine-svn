@@ -286,7 +286,7 @@ void PuzzlePictureMinigame::loadConfig( const char* configFile )
 	}
 
 //complete sprite
-	mCompleteSprite = new Sprite(mRenderSystem, mRenderSystem->createTexture("../data/complete.tga"));
+	mCompleteSprite = new Sprite(mRenderSystem, mRenderSystem->createTexture("../data/complete.png"));
 
 //picture pad
 	mPicPadSprite = new Sprite(mRenderSystem);

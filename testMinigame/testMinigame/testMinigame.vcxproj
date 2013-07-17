@@ -39,14 +39,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\dependencies;..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\zlib;..\dependencies;..\src;$(IncludePath)</IncludePath>
     <LibraryPath>..\dependencies\dx8\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\</OutDir>
-    <IncludePath>..\src;..\dependencies;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\zlib;..\src;..\dependencies;$(IncludePath)</IncludePath>
     <LibraryPath>..\dependencies\dx8\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -84,15 +84,71 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\libpng\png.c" />
+    <ClCompile Include="..\dependencies\libpng\pngerror.c" />
+    <ClCompile Include="..\dependencies\libpng\pnggccrd.c" />
+    <ClCompile Include="..\dependencies\libpng\pngget.c" />
+    <ClCompile Include="..\dependencies\libpng\pngmem.c" />
+    <ClCompile Include="..\dependencies\libpng\pngpread.c" />
+    <ClCompile Include="..\dependencies\libpng\pngread.c" />
+    <ClCompile Include="..\dependencies\libpng\pngrio.c" />
+    <ClCompile Include="..\dependencies\libpng\pngrtran.c" />
+    <ClCompile Include="..\dependencies\libpng\pngrutil.c" />
+    <ClCompile Include="..\dependencies\libpng\pngset.c" />
+    <ClCompile Include="..\dependencies\libpng\pngtrans.c" />
+    <ClCompile Include="..\dependencies\libpng\pngvcrd.c" />
+    <ClCompile Include="..\dependencies\libpng\pngwio.c" />
+    <ClCompile Include="..\dependencies\libpng\pngwrite.c" />
+    <ClCompile Include="..\dependencies\libpng\pngwtran.c" />
+    <ClCompile Include="..\dependencies\libpng\pngwutil.c" />
     <ClCompile Include="..\dependencies\pugixml\pugixml.cpp" />
+    <ClCompile Include="..\dependencies\zlib\adler32.c" />
+    <ClCompile Include="..\dependencies\zlib\compress.c" />
+    <ClCompile Include="..\dependencies\zlib\crc32.c" />
+    <ClCompile Include="..\dependencies\zlib\deflate.c" />
+    <ClCompile Include="..\dependencies\zlib\gzio.c" />
+    <ClCompile Include="..\dependencies\zlib\infback.c" />
+    <ClCompile Include="..\dependencies\zlib\inffast.c" />
+    <ClCompile Include="..\dependencies\zlib\inflate.c" />
+    <ClCompile Include="..\dependencies\zlib\inftrees.c" />
+    <ClCompile Include="..\dependencies\zlib\ioapi.c" />
+    <ClCompile Include="..\dependencies\zlib\trees.c" />
+    <ClCompile Include="..\dependencies\zlib\uncompr.c" />
+    <ClCompile Include="..\dependencies\zlib\unzip.c" />
+    <ClCompile Include="..\dependencies\zlib\zip.c" />
+    <ClCompile Include="..\dependencies\zlib\zutil.c" />
+    <ClCompile Include="..\src\game\game_state_manager.cpp" />
+    <ClCompile Include="..\src\game\input_messages.cpp" />
     <ClCompile Include="..\src\minigame\puzzle_pic_minigame.cpp" />
     <ClCompile Include="..\src\render_system\render_system.cpp" />
     <ClCompile Include="..\src\render_system\sprite.cpp" />
+    <ClCompile Include="..\src\render_system\texture_png_loader.cpp" />
     <ClCompile Include="testMinigame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dependencies\libpng\png.h" />
+    <ClInclude Include="..\dependencies\libpng\pngconf.h" />
     <ClInclude Include="..\dependencies\pugixml\pugiconfig.hpp" />
     <ClInclude Include="..\dependencies\pugixml\pugixml.hpp" />
+    <ClInclude Include="..\dependencies\zlib\crc32.h" />
+    <ClInclude Include="..\dependencies\zlib\crypt.h" />
+    <ClInclude Include="..\dependencies\zlib\deflate.h" />
+    <ClInclude Include="..\dependencies\zlib\inffast.h" />
+    <ClInclude Include="..\dependencies\zlib\inffixed.h" />
+    <ClInclude Include="..\dependencies\zlib\inflate.h" />
+    <ClInclude Include="..\dependencies\zlib\inftrees.h" />
+    <ClInclude Include="..\dependencies\zlib\ioapi.h" />
+    <ClInclude Include="..\dependencies\zlib\trees.h" />
+    <ClInclude Include="..\dependencies\zlib\unzip.h" />
+    <ClInclude Include="..\dependencies\zlib\zconf.h" />
+    <ClInclude Include="..\dependencies\zlib\zconf.in.h" />
+    <ClInclude Include="..\dependencies\zlib\zip.h" />
+    <ClInclude Include="..\dependencies\zlib\zlib.h" />
+    <ClInclude Include="..\dependencies\zlib\zutil.h" />
+    <ClInclude Include="..\src\game\gamefield\arkanoid_gamefield.h" />
+    <ClInclude Include="..\src\game\game_state.h" />
+    <ClInclude Include="..\src\game\game_state_manager.h" />
+    <ClInclude Include="..\src\game\input_messages.h" />
     <ClInclude Include="..\src\math\color.h" />
     <ClInclude Include="..\src\math\rect.h" />
     <ClInclude Include="..\src\math\vector2.h" />
@@ -101,6 +157,7 @@
     <ClInclude Include="..\src\minigame\puzzle_pic_minigame.h" />
     <ClInclude Include="..\src\render_system\render_system.h" />
     <ClInclude Include="..\src\render_system\sprite.h" />
+    <ClInclude Include="..\src\render_system\texture_png_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
