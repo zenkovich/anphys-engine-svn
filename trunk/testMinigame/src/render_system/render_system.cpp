@@ -140,6 +140,8 @@ bool RenderSystem::initialize( HWND hwnd, const vec2i& resolution )
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	printf("OpenGL Renderer initialized\n");
+
 	mReady = true;
 
 	return true;

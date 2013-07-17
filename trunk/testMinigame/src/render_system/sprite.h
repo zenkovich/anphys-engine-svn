@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "pugixml/pugixml.hpp"
+
 #include "math/vector2.h"
 #include "math/rect.h"
 #include "math/vertex.h"
@@ -50,6 +52,9 @@ public:
 
 	/** Creates same sprite. */
 	Sprite*  clone() const;
+
+	/** Loading sprite data from xml node. */
+	bool     load(const pugi::xml_node& xmlNode);
 			
 	/** Draw sprite. */
 	void     draw();

@@ -235,8 +235,8 @@ bool loadGLTextureFromPNG( const char* filename, GLuint* textureHandle, vec2f* s
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	size->x = twidth;
-	size->y = theight;
+	size->x = (float)twidth;
+	size->y = (float)theight;
 	
 	//clean up memory and close stuff
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

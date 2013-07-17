@@ -27,7 +27,7 @@ void GameStateManager::addState( IGameState* gameState )
 
 IGameState* GameStateManager::getGameState( const char* stateName ) const
 {
-	for (GameStatesVec::iterator it = mGameStates.begin(); it != mGameStates.end(); ++it)
+	for (GameStatesVec::const_iterator it = mGameStates.cbegin(); it != mGameStates.cend(); ++it)
 	{
 		if (strcmp((*it)->getName(), stateName) == 0)
 			return *it;
