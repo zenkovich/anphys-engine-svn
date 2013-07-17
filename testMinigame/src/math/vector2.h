@@ -227,6 +227,15 @@ inline vec2<T> rotateVec(float rad, const vec2<T>& v)
 	v.Rotate(rad); return v; 
 }
 
+template<typename T>
+T sign(T value)
+{
+	if (value < 0) 
+		return (T)(-1);
+
+	return (T)1;
+}
+
 #define vec2f vec2<float>
 #define vec2i vec2<int>
 
