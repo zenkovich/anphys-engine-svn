@@ -27,6 +27,7 @@ public:
 
 	virtual void onPadTouch(ArkanoidPad* pad) {}
 	virtual void onBrickTouch(ArkanoidBrick* brick) {}
+	virtual void onWallTouch(const vec2f& normal) {}
 };
 typedef std::vector<ArkBallBehavior*> ArkBallBehaviorsVec;
 
@@ -46,16 +47,26 @@ class ArkanoidBall
 	Sprite*             mBallSprite;
 	float               mSpriteBallRadius;
 
+	bool                mAlive;
+
 public:
 	ArkanoidBall(ArkanoidGamefield* gamefield);
 	~ArkanoidBall();
 
 	void update(float dt);
+
 	void draw();
+
+	bool isAlive() const { return mAlive; }
 
 	void addBehavior(ArkBallBehavior* behavior);
 	void removeBehavior(ArkBallBehavior* behavior);
 	void removeAllBehaviors();
+
+private:
+	void checkWallCollisions();
+	void checkPadCollision(float dt);
+	void checkBricksCollisions();
 };
 
 #endif //ARK_BALL_H

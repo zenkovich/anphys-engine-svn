@@ -30,9 +30,12 @@ typedef std::vector<ArkPadBehavior*> ArkPadBehaviorsVec;
 
 class ArkanoidPad
 {
+	friend class ArkanoidBall;
+
 	ArkanoidGamefield* mOwnerGamefield;
 
 	vec2f              mPosition;
+	vec2f              mLastPosition;
 
 	float              mWidth;
 	float              mMinWidth;
@@ -59,6 +62,7 @@ public:
 
 private:
 	void updateWidth(float dt);
+	void onBallTouch(ArkanoidBall* ball);
 };
 
 #endif //ARK_PAD_H

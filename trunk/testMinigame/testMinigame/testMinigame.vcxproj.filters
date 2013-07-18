@@ -35,6 +35,9 @@
     <Filter Include="src\game\gamefield">
       <UniqueIdentifier>{c07c2857-be9a-4348-a569-3cea3509524d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\game\gamefield\pad_behaviors">
+      <UniqueIdentifier>{e4c20496-4305-4941-818e-02abc8f10aa7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testMinigame.cpp">
@@ -281,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="..\src\game\gamefield\ark_bonus.h">
       <Filter>src\game\gamefield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\gamefield\pad_behaviors\ark_pad_user_contoller.h">
+      <Filter>src\game\gamefield\pad_behaviors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

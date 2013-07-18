@@ -3,6 +3,8 @@
 
 #include "math/vector2.h"
 
+class Sprite;
+
 class ArkanoidGamefield;
 class ArkanoidPad;
 

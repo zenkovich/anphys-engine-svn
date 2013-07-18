@@ -46,7 +46,7 @@ void ArkanoidBrick::draw()
 	int currentStage = 0;
 
 	float hpSumm = 0;
-	for (int i = 0; i < mLiveStages.size(); i++)
+	for (int i = 0; i < (int)mLiveStages.size(); i++)
 	{
 		hpSumm += mLiveStages[i].mHP;
 		if (mHP > hpSumm)
@@ -61,7 +61,7 @@ void ArkanoidBrick::draw()
 	//           10          30           60
 	//hp                 25
 
-	int nextStage = min(currentStage + 1, mLiveStages.size() - 1);
+	int nextStage = min(currentStage + 1, (int)mLiveStages.size() - 1);
 
 	Sprite* lessStageSprite = mLiveStages[currentStage].mSprite;
 	Sprite* hightStageSprite = mLiveStages[nextStage].mSprite;
@@ -80,4 +80,6 @@ bool ArkanoidBrick::hitBall( ArkanoidBall* ball )
 	float ballImpulse = ball->mVelocity.len()*ball->mMass;
 
 	mHP -= ballImpulse;
+
+	return mHP < 0;
 }

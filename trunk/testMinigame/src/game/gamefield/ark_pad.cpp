@@ -25,6 +25,8 @@ ArkanoidPad::~ArkanoidPad()
 	
 	if (mRightSidePartSpr)
 		delete mRightSidePartSpr;
+
+	removeAllBehaviors();
 }
 
 void ArkanoidPad::update( float dt )
@@ -51,6 +53,8 @@ void ArkanoidPad::update( float dt )
 
 	mRightSidePartSpr->setPosition(mPosition + vec2f(mWidth*0.5f, -mHeight*0.5f)).
 		               setSize(vec2f(mRightSidePartSpr->getSize().x, mHeight));
+
+	mLastPosition = mPosition;
 }
 
 void ArkanoidPad::draw()
@@ -98,4 +102,10 @@ void ArkanoidPad::updateWidth( float dt )
 	float delta = sign(diff)*max(speedCoef*changeSpeed*dt, minDelta*dt);
 
 	mWidth += delta;
+}
+
+void ArkanoidPad::onBallTouch( ArkanoidBall* ball )
+{
+	for (ArkPadBehaviorsVec::iterator it = mBehaviors.begin(); it != mBehaviors.end(); ++it)
+		(*it)->onBallTouch(ball);
 }
