@@ -155,6 +155,7 @@
     <ClInclude Include="..\src\game\gamefield\ark_bonus.h" />
     <ClInclude Include="..\src\game\gamefield\ark_brick.h" />
     <ClInclude Include="..\src\game\gamefield\ark_pad.h" />
+    <ClInclude Include="..\src\game\gamefield\pad_behaviors\ark_pad_user_contoller.h" />
     <ClInclude Include="..\src\game\game_state.h" />
     <ClInclude Include="..\src\game\game_state_manager.h" />
     <ClInclude Include="..\src\game\input_messages.h" />
