@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <conio.h>
+#include <fstream>
 
 using namespace std;
 
@@ -23,6 +24,9 @@ int main(int argc, char* argv[])
 
 	cout << "\nInput parametres: \nFile:" << inputFile << "\nMethod:" << ((methodId == 0) ? "words":"checksumm") 
 		 << "\nSearch word:" << searchWord << "\nBeginning..." << endl; 
+
+	if (methodId == 0)
+		wordsCount(inputFile, searchWord);
 
 	_getch();
 
@@ -107,13 +111,61 @@ int parseCommands( int argc, char** argv, char* inputFile, char* searchWord )
 	return methodId;
 }
 
+int getWordsCountInBuffer(const char* buffer, int bufferLength, const char* word)
+{
+	int wcount = 0;
+
+	int wordLength = strlen(word);
+
+	for (int i = 0, j = 0; i < bufferLength; i++, j++)
+	{
+		if (buffer[i] != word[j])
+		{
+			j = -1;
+		}
+
+		if (j == wordLength - 1)
+		{
+			wcount++;
+			j = -1;
+		}
+	}
+
+	return wcount;
+}
+
 void wordsCount( const char* inputFile, const char* searchWord )
 {
+	const int bufferSize = 1024;
+	char buffer[1024];
+	int bufferLength = 0;
 
+	std::ifstream ifs;
+	ifs.open(inputFile, std::ios::binary);
+	if (!ifs.is_open())
+	{
+		cout << "ERROR: Can' open file " << inputFile << "\nAborting" << endl;
+		return;
+	}
+
+	int wordsCount = 0;
+
+	do 
+	{
+		ifs.read(buffer, bufferSize);
+		bufferLength = ifs.gcount();
+
+		wordsCount += getWordsCountInBuffer(buffer, bufferLength, searchWord);
+
+		if (bufferLength != bufferSize)
+			break;
+	}
+	while (true);
+
+	cout << "In file found " << wordsCount << " words '" << searchWord << "'" << endl;
 }
 
 void checksumm( const char* inputFile )
 {
-
 }
 
