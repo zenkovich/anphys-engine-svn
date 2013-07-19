@@ -33,7 +33,7 @@ public:
 	bool         bindCamera(grCamera* camera);
 
 	grTexture*   addTexture(grTexture* texture);
-	grTexture*   createTexture(const char* fileName);
+	grTexture*   createTexture(const std::string& fileName);
 	bool         removeTexture(grTexture* texture);
 	bool         removeAllTextures();
 

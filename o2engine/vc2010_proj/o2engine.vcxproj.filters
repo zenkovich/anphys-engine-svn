@@ -16,6 +16,27 @@
     <Filter Include="src\util\mem_utils">
       <UniqueIdentifier>{367f67dd-0ef2-428a-bbca-4b505b03611a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\render_system\ogl">
+      <UniqueIdentifier>{49015f58-a075-43c6-b032-5280d1d8e983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\image">
+      <UniqueIdentifier>{ae2d8dbf-0817-41f6-beff-964764a93f6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{73bbe7c7-ac79-40a4-846f-f9d4c0e3b11a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\pugixml">
+      <UniqueIdentifier>{bbdb0434-da9c-4b9b-a90f-860a3c2fe8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\libpng">
+      <UniqueIdentifier>{0d11a7c7-9946-479d-bedb-e14c5c9e9050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\zlib">
+      <UniqueIdentifier>{3b519700-77c9-4a2e-beff-ea8938a84e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\file_system">
+      <UniqueIdentifier>{a18c921b-3134-44d5-8746-ebe4b01cbf0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -42,10 +63,220 @@
     <ClInclude Include="..\src\render_system\render_system_base_interface.h">
       <Filter>src\render_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine_settings.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\render_system_ogl.h">
+      <Filter>src\render_system\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\texture_base_interface.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\texture_ogl.h">
+      <Filter>src\render_system\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\texture.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\image\image.h">
+      <Filter>src\util\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\image\png_image_format.h">
+      <Filter>src\util\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\libpng\png.h">
+      <Filter>dependencies\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\libpng\pngconf.h">
+      <Filter>dependencies\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\crc32.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\crypt.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\deflate.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\inffast.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\inffixed.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\inflate.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\inftrees.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\ioapi.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\trees.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\unzip.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\zconf.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\zconf.in.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\zip.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\zlib.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\zlib\zutil.h">
+      <Filter>dependencies\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\pugixml\pugiconfig.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\pugixml\pugixml.hpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\singleton.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\assert.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\file_system\file_system.h">
+      <Filter>src\util\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\file_system\file.h">
+      <Filter>src\util\file_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
       <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\texture_base_interface.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\image\image.cpp">
+      <Filter>src\util\image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\image\png_image_format.cpp">
+      <Filter>src\util\image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\png.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngerror.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pnggccrd.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngget.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngmem.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngpread.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngread.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngrio.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngrtran.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngrutil.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngset.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngtest.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngtrans.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngvcrd.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngwio.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngwrite.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngwtran.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\libpng\pngwutil.c">
+      <Filter>dependencies\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\adler32.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\compress.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\crc32.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\deflate.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\gzio.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\infback.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\inffast.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\inflate.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\inftrees.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\ioapi.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\trees.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\uncompr.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\unzip.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\zip.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\zlib\zutil.c">
+      <Filter>dependencies\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\pugixml\pugixml.cpp">
+      <Filter>dependencies\pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\assert_win.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\file_system\file.cpp">
+      <Filter>src\util\file_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\file_system\file_system.cpp">
+      <Filter>src\util\file_system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

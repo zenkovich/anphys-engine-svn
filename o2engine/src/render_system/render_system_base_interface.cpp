@@ -26,7 +26,7 @@ grTexture* grRenderSystemBaseInterface::addTexture( grTexture* texture )
 	return texture;
 }
 
-grTexture* grRenderSystemBaseInterface::createTexture( const char* fileName )
+grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileName )
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 	{
