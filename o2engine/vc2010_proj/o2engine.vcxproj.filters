@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{7ae742bf-0dcc-4825-9a40-adf157cc75f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{a3a5ff44-83d3-4c04-bf3f-a01aa8125dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\math">
+      <UniqueIdentifier>{0043980e-920d-40e4-86ee-8f31c7d4e88d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\render_system">
+      <UniqueIdentifier>{ff7ac266-3650-4ddc-bbdc-70c5b6e6b46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\mem_utils">
+      <UniqueIdentifier>{367f67dd-0ef2-428a-bbca-4b505b03611a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\public.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\vector2.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\math.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\rect.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\color.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\vertex.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\render_system.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\render_system_base_interface.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
