@@ -1,12 +1,21 @@
 #ifndef PUBLIC_H
 #define PUBLIC_H
 
-//namespace macros
+/* 
+ * Engine public file.
+ * Contains basic stuff using in engine. 
+ */
+
+/** Opening engine namespace macros. You can redefine it. */
 #define OPEN_O2_NAMESPACE namespace o2 {
+
+/** Closing engine namespace macros. You can redefine it. */
 #define CLOSE_O2_NAMESPACE }
 
-//safe release objects
+/** Safe release object. */
 #define safe_release(obj) { if (obj != 0) delete obj; }
+
+/** Safe release array object. */
 #define safe_release_arr(obj) { if (obj != 0) delete[] obj; }
 
 //some includes
