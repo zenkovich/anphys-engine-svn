@@ -1,0 +1,68 @@
+EngineVersion=1
+GameName=Rally TEST
+GameDLL=rally.dll
+Splash=Splash.dds
+
+Enum=INTERACTIVE_OBJECTS
+IO_PLAYER = 0
+IO_BOX = 1
+Enum-End
+
+init=engineInit
+release=engineRelease
+processEvent=engineProcessEvent
+
+InteractiveObject=IO_PLAYER
+initBase=initBaseInteractiveObject
+releaseBase=releaseBaseInteractiveObject
+duplicate=duplicateInteractiveObject
+release=releaseInteractiveObject
+processEvent=processEventInteractiveObject
+
+editorEditable=true
+editorName=Машина игрока
+editorMaxObjectsCount=1
+editorVisualisationType=MODEL
+editorImage=empty.bmp
+editorModel=cars/audiS4.gdt
+editorModelColor=1 1 1 1
+
+Attributes
+Type=extern
+Value=
+Editable=false
+Caption=Пользовательские данные
+
+Attributes-End
+InteractiveObject=IO_BOX
+initBase=initBaseInteractiveObject
+releaseBase=releaseBaseInteractiveObject
+duplicate=duplicateInteractiveObject
+release=releaseInteractiveObject
+processEvent=processEventInteractiveObject
+
+editorEditable=true
+editorName=Тестовый ящик
+editorMaxObjectsCount=0
+editorVisualisationType=MODEL
+editorImage=empty.bmp
+editorModel=Box.gdt
+editorModelColor=1 1 1 1
+
+Attributes
+Type=size
+Value=
+Editable=false
+Caption=Размер структуры(заполняется автоматически)
+
+Type=extern
+Value=0
+Editable=true
+Caption=Указатель на физику
+
+Type=float
+Value=100
+Editable=true
+Caption=Масса
+
+Attributes-End

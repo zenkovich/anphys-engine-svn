@@ -1,0 +1,51 @@
+[Main]
+BlockCount=1
+UniformCount=4
+TextureCount=1
+Name=Clouds Shadow(LDR)
+
+[Uniform0]
+Name=ShadowColor
+Type=vec4
+Value=0.0 0.0 0.0 0.25
+Comment=Цвет тени
+
+[Uniform1]
+Name=Direction
+Type=vec2
+Value=0.0 0.0
+Comment=Направление движения
+
+[Uniform2]
+Name=Speed
+Type=float
+Value=1.0
+Comment=Скорость движения
+
+[Uniform3]
+Name=ShadowSize
+Type=float
+Value=100.0
+Comment=размер тени
+
+
+[Texture0]
+Type=TEXTUREINFILE
+Texture=clouds_shadow.dds
+MinFilter=LINEAR_MIPMAP_LINEAR
+MagFilter=LINEAR_MIPMAP_LINEAR
+
+
+
+[Block0]
+Type=POSTEFFECT
+Name=Главный блок
+Shader=PostEffects\CloudsShadow\CloudsShadow.scs
+NeedClear=false
+EnterCount=3
+Enter0=MAIN
+Enter1=DEPTH
+Enter2=TEXTURE0
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST

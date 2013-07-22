@@ -1,0 +1,34 @@
+[Main]
+BlockCount=1
+UniformCount=3
+Name=Grid Projection(LDR)
+
+[Uniform0]
+Name=GridSize
+Type=float
+Value=1.0
+Comment=ƒлина грани
+
+[Uniform1]
+Name=LineWidth
+Type=float
+Value=0.1
+Comment=Ўирина полосы
+
+[Uniform2]
+Name=LineColor
+Type=vec4
+Value=1.0 0.0 0.0 0.5
+Comment=÷вет грани
+
+[Block0]
+Type=POSTEFFECT
+Name=√лавный блок
+Shader=PostEffects\GridProjection\GridProjection.scs
+NeedClear=false
+EnterCount=2
+Enter0=MAIN
+Enter1=DEPTH
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST

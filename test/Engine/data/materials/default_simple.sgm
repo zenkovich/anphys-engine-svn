@@ -1,0 +1,11 @@
+Name=Default Simple Material
+Description=Стандартный материал. На входе только дифуза.
+GUID=6D31A8F0-DF43-44F9-A076-CBA5992A8873
+
+TextureName=Diffuse
+TextureType=Diffuse Color
+
+AttribName=TexCoord
+AttribType=UVChannel0
+
+Shader=default_simple.scs

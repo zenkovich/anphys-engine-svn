@@ -1,0 +1,12 @@
+LIBRARY rally
+
+EXPORTS
+  engineInit
+  engineRelease
+  engineProcessEvent
+  initBaseInteractiveObject
+  releaseBaseInteractiveObject
+  duplicateInteractiveObject
+  releaseInteractiveObject
+  processEventInteractiveObject
+  drawDebug

@@ -1,0 +1,14 @@
+[Main]
+BlockCount=1
+Name=Depth visualisation(LDR)
+
+[Block0]
+Type=POSTEFFECT
+Name=Главный блок
+Shader=PostEffects\DepthVisual\DepthVisual.scs
+NeedClear=false
+EnterCount=1
+Enter0=DEPTH
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST
