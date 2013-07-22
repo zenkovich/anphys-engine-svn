@@ -1,0 +1,27 @@
+[Main]
+BlockCount=1
+UniformCount=2
+Name=Tone Mapping(HDR->LDR)
+
+[Uniform0]
+Name=exposure
+Type=float
+Value=1.0
+Comment=яркость сцены
+
+[Uniform1]
+Name=maxBright
+Type=float
+Value=4.0
+Comment=яркость сцены
+
+[Block0]
+Type=POSTEFFECT
+Name=Tone mapping
+Shader=PostEffects\ToneMapping\ToneMapping.scs
+NeedClear=false
+EnterCount=1
+Enter0=MAIN
+OutputHDR=false
+OutputSize=true
+OutputFilter=LINEAR

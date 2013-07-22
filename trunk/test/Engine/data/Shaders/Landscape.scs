@@ -1,0 +1,27 @@
+3
+Landscape GDK Plugin Shader
+16
+25
+0
+Landscape.vs
+
+Landscape.fs
+Landscape.vs
+
+Landscape.fs
+Landscape.vs
+
+Landscape.fs
+0
+0
+0
+0
+8
+Landscape.vs
+Landscape.fs
+Default_Constants.sh
+GFog_fs.sc
+GWater_fs.sc
+GPointLights_fs.sc
+Lights.sh
+GDayLight_fs.sc

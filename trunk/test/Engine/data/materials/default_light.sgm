@@ -1,0 +1,21 @@
+Name=Default Light Material
+Description=Стандартный материал с освещением. На входе только дифуза и опционально или лайтмапа или набор источников света
+GUID=6E4AAF49-00C6-4507-B78A-2A6B9BF4DACE
+
+TextureName=Diffuse
+TextureType=Diffuse Color
+TextureName=LightMap
+TextureType=Light Map
+
+AttribName=TexCoord
+AttribType=UVChannel0
+AttribName=Normal
+AttribType=Normal
+AttribName=Tangent
+AttribType=Tangent
+AttribName=Binormal
+AttribType=Binormal
+AttribName=LightMapTexCoord
+AttribType=UVLightMap
+
+Shader=default_light.scs

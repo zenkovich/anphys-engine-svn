@@ -1,0 +1,15 @@
+[Main]
+BlockCount=1
+UniformCount=0
+Name=Tone Mapping Clamp(HDR->LDR)
+
+[Block0]
+Type=POSTEFFECT
+Name=Tone mapping(Clamp)
+Shader=PostEffects\ToneMappingClamp\ToneMappingClamp.scs
+NeedClear=false
+EnterCount=1
+Enter0=MAIN
+OutputHDR=false
+OutputSize=true
+OutputFilter=LINEAR

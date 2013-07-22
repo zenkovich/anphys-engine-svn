@@ -1,0 +1,5 @@
+Name=Default Color Material
+Description=Стандартный материал без текстур. Устанавливается в ситуации, когда модель не содержит корректной информации о текстурах.
+GUID=9F95B09E-C645-448F-A4B9-F0C8146FD7B8
+
+Shader=default_wrong.scs

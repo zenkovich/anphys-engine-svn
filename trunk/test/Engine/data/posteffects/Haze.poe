@@ -1,0 +1,26 @@
+[Main]
+BlockCount=1
+UniformCount=1
+Name=Haze(LDR)
+
+[Uniform0]
+Name=distortPower
+Type=float
+Value=0.0532
+Comment=Степень искажения
+
+[Block0]
+Type=POSTEFFECT
+Name=Haze
+Shader=PostEffects\Haze\Haze.scs
+NeedClear=true
+ClearColorR=0
+ClearColorG=0
+ClearColorB=0
+ClearColorA=0
+EnterCount=2
+Enter0=MAIN
+Enter1=HAZE
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST

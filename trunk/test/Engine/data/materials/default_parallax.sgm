@@ -1,0 +1,17 @@
+Name=Default Material With Parallax and bump
+Description=Стандартный материал. На входе дифуза и карта нормалей(RGB)+карта высот(A)
+GUID=D344D968-FE53-4DB9-BD42-E1B6F79D0314
+
+TextureName=Diffuse
+TextureType=Diffuse Color
+TextureName=Bump
+TextureType=Bump
+
+AttribName=TexCoord
+AttribType=UVChannel0
+AttribName=Tangent
+AttribType=Tangent
+AttribName=Binormal
+AttribType=Binormal
+
+Shader=default_parallax.scs

@@ -1,0 +1,23 @@
+3
+Static GDK Plugin Shader
+25
+25
+0
+StaticHaze.vs
+
+StaticHaze.fs
+StaticHaze.vs
+
+StaticHaze.fs
+StaticHaze.vs
+
+StaticHaze.fs
+0
+0
+0
+0
+4
+StaticHaze.vs
+StaticHaze.fs
+Default_Constants.sh
+GFog_fs.sc

@@ -1,0 +1,14 @@
+[Main]
+BlockCount=1
+Name=Grayscale(LDR)
+
+[Block0]
+Type=POSTEFFECT
+Name=Главный блок
+Shader=PostEffects\Grayscale\Grayscale.scs
+NeedClear=false
+EnterCount=1
+Enter0=MAIN
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST

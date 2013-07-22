@@ -1,0 +1,57 @@
+[Main]
+BlockCount=1
+UniformCount=4
+TextureCount=2
+Name=Fog Of War(LDR)
+
+[Uniform0]
+Name=FogColor
+Type=vec3
+Value=0.0 0.0 0.0
+Comment=Цвет тумана
+
+[Uniform1]
+Name=MapSize
+Type=vec4
+Value=0.0 0.0 500.0 500.0
+Comment=Размер карты
+
+[Uniform2]
+Name=FogRepeatSize
+Type=float
+Value=10.0
+Comment=Размер текстуры тумана
+
+[Uniform3]
+Name=BorderOnly
+Type=int
+Value=0
+Comment=В тумане только край карты
+
+
+[Texture0]
+Type=OWNTEXTURE
+InitColor=0.0 0.0 0.0 0.0
+MinFilter=LINEAR
+MagFilter=LINEAR
+
+[Texture1]
+Type=TEXTUREINFILE
+Texture=fogofwar.dds
+MinFilter=LINEAR_MIPMAP_LINEAR
+MagFilter=LINEAR_MIPMAP_LINEAR
+
+
+[Block0]
+Type=POSTEFFECT
+Name=Главный блок
+Shader=PostEffects\FogOfWar\FogOfWar.scs
+NeedClear=false
+EnterCount=4
+Enter0=MAIN
+Enter1=DEPTH
+Enter2=TEXTURE0
+Enter3=TEXTURE1
+OutputHDR=false
+OutputSize=FULL
+OutputFilter=NEAREST

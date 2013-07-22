@@ -1,0 +1,25 @@
+3
+Skined GDK Plugin Shader
+13
+25
+0
+Skined.vs
+
+Skined.fs
+Skined.vs
+
+Skined.fs
+Skined.vs
+
+Skined.fs
+0
+0
+0
+0
+6
+Skined.vs
+Skined.fs
+Default_Constants.sh
+GFog_fs.sc
+GWater_fs.sc
+GFakeReflect_fs.sc
