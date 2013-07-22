@@ -1,6 +1,10 @@
 #ifndef ENGINE_SETTINGS_H
 #define ENGINE_SETTINGS_H
 
+/* 
+ * Engine settings. 
+ */
+
 /* Using render system */
 #define RENDER_OGL
 //#define RENDER_DX9

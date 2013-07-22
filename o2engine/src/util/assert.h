@@ -4,6 +4,7 @@
 #include "public.h"
 OPEN_O2_NAMESPACE
 
+/** Outing assert with description, if x is false. */
 #define assert(x, desc) \
 	if (!(x)) \
 	{ \

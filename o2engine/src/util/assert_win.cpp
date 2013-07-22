@@ -1,3 +1,4 @@
+#include "engine_settings.h"
 #ifdef PLATFORM_WIN
 
 #include <string>
