@@ -64,6 +64,8 @@ bool cInFile::close()
 {
 	if (mOpened)
 		mIfstream.close();
+
+	return true;
 }
 
 uint64 cInFile::readFullData( void *dataPtr )
@@ -160,6 +162,8 @@ bool cOutFile::close()
 {
 	if (mOpened)
 		mOfstream.close();
+
+	return true;
 }
 
 void cOutFile::writeData( void* dataPtr, uint64 bytes )

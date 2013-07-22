@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include "util/math/vector2.h"
+#include "util/math/color.h"
 
 OPEN_O2_NAMESPACE
 

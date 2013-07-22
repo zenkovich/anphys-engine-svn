@@ -37,6 +37,15 @@
     <Filter Include="src\util\file_system">
       <UniqueIdentifier>{a18c921b-3134-44d5-8746-ebe4b01cbf0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\log">
+      <UniqueIdentifier>{b763306d-95c5-4022-837f-53dae0611b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\app">
+      <UniqueIdentifier>{e96a0735-76f7-4765-9c1b-3d0cfde2348e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\input">
+      <UniqueIdentifier>{d4382617-9c53-45a1-be2a-2f0db6c97451}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -152,6 +161,21 @@
     </ClInclude>
     <ClInclude Include="..\src\util\file_system\file.h">
       <Filter>src\util\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\log\log_stream.h">
+      <Filter>src\util\log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\log\console_log_stream.h">
+      <Filter>src\util\log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\log.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\app\application_base_interface.h">
+      <Filter>src\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\input\input_message.h">
+      <Filter>src\util\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +301,24 @@
     </ClCompile>
     <ClCompile Include="..\src\util\file_system\file_system.cpp">
       <Filter>src\util\file_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\log\log_stream.cpp">
+      <Filter>src\util\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\log\console_log_stream.cpp">
+      <Filter>src\util\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\log\file_log_stream.h">
+      <Filter>src\util\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\log\file_log_stream.cpp">
+      <Filter>src\util\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\log\log.cpp">
+      <Filter>src\util\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\input\input_message.cpp">
+      <Filter>src\util\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

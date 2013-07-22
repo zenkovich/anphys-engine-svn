@@ -34,7 +34,7 @@ void grTextureBaseInterface::decrRefCount()
 	mRefCount--;
 }
 
-const char* grTextureBaseInterface::getFileName() const
+const std::string& grTextureBaseInterface::getFileName() const
 {
 	return mFileName;
 }

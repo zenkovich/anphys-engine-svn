@@ -37,12 +37,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\zlib;..\dependencies;..\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>..\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)\..\lib\</OutDir>
     <TargetExt>.lib</TargetExt>
+    <LibraryPath>..\dependencies\dx8;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\..\lib\</OutDir>
@@ -56,6 +57,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -67,6 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -94,6 +97,7 @@
     <ClInclude Include="..\dependencies\zlib\zip.h" />
     <ClInclude Include="..\dependencies\zlib\zlib.h" />
     <ClInclude Include="..\dependencies\zlib\zutil.h" />
+    <ClInclude Include="..\src\app\application_base_interface.h" />
     <ClInclude Include="..\src\engine_settings.h" />
     <ClInclude Include="..\src\public.h" />
     <ClInclude Include="..\src\render_system\ogl\render_system_ogl.h" />
@@ -107,6 +111,10 @@
     <ClInclude Include="..\src\util\file_system\file_system.h" />
     <ClInclude Include="..\src\util\image\image.h" />
     <ClInclude Include="..\src\util\image\png_image_format.h" />
+    <ClInclude Include="..\src\util\input\input_message.h" />
+    <ClInclude Include="..\src\util\log.h" />
+    <ClInclude Include="..\src\util\log\console_log_stream.h" />
+    <ClInclude Include="..\src\util\log\log_stream.h" />
     <ClInclude Include="..\src\util\math\color.h" />
     <ClInclude Include="..\src\util\math\math.h" />
     <ClInclude Include="..\src\util\math\rect.h" />
@@ -156,6 +164,12 @@
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />
     <ClCompile Include="..\src\util\image\image.cpp" />
     <ClCompile Include="..\src\util\image\png_image_format.cpp" />
+    <ClCompile Include="..\src\util\input\input_message.cpp" />
+    <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
+    <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
+    <ClCompile Include="..\src\util\log\file_log_stream.h" />
+    <ClCompile Include="..\src\util\log\log.cpp" />
+    <ClCompile Include="..\src\util\log\log_stream.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

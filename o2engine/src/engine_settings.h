@@ -12,4 +12,10 @@
 //#define PLATFORM_MAC
 //#define PLATFORM_IOS
 
+/* Log Level. 
+ * 0 - not using log
+ * 1 - using low log (only log() commands will be processed)
+ * 2 - using hight log (all log commands will be processed) */
+#define BASIC_LOG_LEVEL 2
+
 #endif //ENGINE_SETTINGS_H
