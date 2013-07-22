@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 struct cFileType
 {
-	enum value { FT_FILE = 0, FT_IMAGE, FT_CONFIG }
+	enum value { FT_FILE = 0, FT_IMAGE, FT_CONFIG };
 };
 
 class cInFile

@@ -22,7 +22,7 @@ void cFileSystem::setResourcePath( const std::string& path )
 
 const cFileSystem::ExtensionsVec& cFileSystem::getExtensions( cFileType::value fileType ) const
 {
-	return mExtensions[fileType];
+	return mExtensions.at(fileType);
 }
 
 const std::string& cFileSystem::getResourcePath() const

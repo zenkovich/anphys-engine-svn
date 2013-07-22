@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "texture.h"
+
 OPEN_O2_NAMESPACE
 
 grRenderSystemBaseInterface::grRenderSystemBaseInterface( apFrame* frame ):
@@ -30,21 +32,21 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 	{
-		if (strcmp(fileName, (*it)->getFileName()) == 0)
+		if (fileName == (*it)->getFileName())
 		{
-			(*it)->incRef();
+			(*it)->incRefCount();
 			return *it;
 		}
 	}
 
 	grTexture* newTexture = grTexture(fileName);
-	newTexture->incRef();
+	newTexture->incRefCount();
 	return addTexture(newTexture);
 }
 
 bool grRenderSystemBaseInterface::removeTexture( grTexture* texture )
 {
-	texture->decrRef();
+	texture->decrRefCount();
 
 	if (texture->getRefCount() == 0)
 	{
