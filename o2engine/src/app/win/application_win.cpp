@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 
 cApplication::cApplication():
-	cApplicationBaseInterface(), 
+	cApplicationBaseInterface() 
 {
 	initializeWindow();
 }
@@ -40,7 +40,7 @@ void cApplication::processMessage( cApplacationMessage::type message )
 
 void cApplication::launch()
 {
-
+	ShowWindow(mHWnd, 0);
 }
 
 LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -67,19 +67,17 @@ void cApplication::initializeWindow()
 	if (!RegisterClassEx(&wndClass)) 
 	{
 		printf("can't register window class (RegisterClassEx)\n");
-		return false;
+		return;
 	}
 
-	if (!(mHWnd = CreateWindowEx(NULL, wndClass.lpszClassName, wndName.c_str(),             
+	if (!(mHWnd = CreateWindowEx(NULL, wndClass.lpszClassName, "App test",             
 						   WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-						   rect.left,rect.top, rect.right-rect.left, rect.bottom-rect.top,
+						   0, 0, 100, 100,
 						   NULL, NULL, NULL,  NULL))) 
 	{
 		printf("can't create window (CreateWindowEx)\n");
-		return false;
+		return;
 	}
-
-	mWndName = wndName;
 }
 
 CLOSE_O2_NAMESPACE
