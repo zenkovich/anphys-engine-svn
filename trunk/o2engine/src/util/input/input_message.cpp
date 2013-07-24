@@ -42,7 +42,7 @@ void cInputMessage::keyReleased( VKey key )
 
 void cInputMessage::setCursorPos( const vec2f& pos, int idx /*= 0*/ )
 {
-	if (idx < mCursorsPositions.size() - 1)
+	if (idx < (int)mCursorsPositions.size() - 1)
 	{
 		for (int i = 0; i < idx + 1; i++)
 			mCursorsPositions.push_back(vec2f());

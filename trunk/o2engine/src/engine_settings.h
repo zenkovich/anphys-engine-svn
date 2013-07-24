@@ -22,4 +22,7 @@
  * 2 - using hight log (all log commands will be processed) */
 #define BASIC_LOG_LEVEL 2
 
+/* Global log file. */
+#define GLOBAL_LOG_FILENAME "log.txt"
+
 #endif //ENGINE_SETTINGS_H

@@ -24,11 +24,11 @@ protected:
 	grCamera*   mCurrentCamera;
 
 public:
-	grRenderSystemBaseInterface(apFrame* frame);
+	grRenderSystemBaseInterface();
 	virtual ~grRenderSystemBaseInterface();
 
-	virtual bool beginRender() {}
-	virtual bool endRender() {}
+	virtual bool beginRender() { return true; }
+	virtual bool endRender() { return true; }
 
 	bool         bindCamera(grCamera* camera);
 
@@ -37,7 +37,7 @@ public:
 	bool         removeTexture(grTexture* texture);
 	bool         removeAllTextures();
 
-	virtual bool drawMesh(grMesh* mesh) {}
+	virtual bool drawMesh(grMesh* mesh) { return true; }
 
 protected:
 	virtual void updateCameraTransforms() {}

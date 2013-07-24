@@ -6,8 +6,8 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderSystemBaseInterface::grRenderSystemBaseInterface( apFrame* frame ):
-	mFrame(frame), mCurrentCamera(NULL)
+grRenderSystemBaseInterface::grRenderSystemBaseInterface(  ):
+	mCurrentCamera(NULL)
 {
 }
 
@@ -20,6 +20,8 @@ bool grRenderSystemBaseInterface::bindCamera( grCamera* camera )
 {
 	mCurrentCamera = camera;
 	updateCameraTransforms();
+
+	return true;
 }
 
 grTexture* grRenderSystemBaseInterface::addTexture( grTexture* texture )
@@ -39,7 +41,7 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 		}
 	}
 
-	grTexture* newTexture = grTexture(fileName);
+	grTexture* newTexture = new grTexture();
 	newTexture->incRefCount();
 	return addTexture(newTexture);
 }
