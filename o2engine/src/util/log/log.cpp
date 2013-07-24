@@ -6,6 +6,8 @@
 
 OPEN_O2_NAMESPACE
 
+extern cLogStream* gLog = NULL;
+
 void initializeFileConsoleLog( const std::string& fileName )
 {
 	cFileLogStream* fileLog = new cFileLogStream(BASIC_LOG_LEVEL, fileName);

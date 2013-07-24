@@ -1,0 +1,5 @@
+#include "test_app.h"
+
+OPEN_O2_NAMESPACE
+DECLARE_SINGLETON(TestApp);
+CLOSE_O2_NAMESPACE

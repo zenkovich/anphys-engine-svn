@@ -58,6 +58,9 @@ cLogStream::~cLogStream()
 void cLogStream::setLevel( uint8 level )
 {
 	mLevel = level;
+
+	for (LogSteamsVec::iterator it = mChildStreams.begin(); it != mChildStreams.end(); ++it)
+		(*it)->setLevel(level);
 }
 
 uint8 cLogStream::getLevel() const
@@ -73,6 +76,7 @@ const std::string& cLogStream::getId() const
 void cLogStream::bindStream( cLogStream* stream )
 {
 	stream->mParentStream = this;
+	stream->mLevel = mLevel;
 	mChildStreams.push_back(stream);
 }
 

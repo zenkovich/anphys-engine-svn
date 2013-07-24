@@ -46,6 +46,9 @@
     <Filter Include="src\util\input">
       <UniqueIdentifier>{d4382617-9c53-45a1-be2a-2f0db6c97451}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\app\win">
+      <UniqueIdentifier>{fae0bb91-246e-4479-a826-68a181c41138}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -176,6 +179,14 @@
     </ClInclude>
     <ClInclude Include="..\src\util\input\input_message.h">
       <Filter>src\util\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\anim\anim_obj.h" />
+    <ClInclude Include="..\src\util\anim\param_animation.h" />
+    <ClInclude Include="..\src\app\win\application_win.h">
+      <Filter>src\app\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\app\application.h">
+      <Filter>src\app</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +330,12 @@
     </ClCompile>
     <ClCompile Include="..\src\util\input\input_message.cpp">
       <Filter>src\util\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\app\application_base_interface.cpp">
+      <Filter>src\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\app\win\application_win.cpp">
+      <Filter>src\app\win</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

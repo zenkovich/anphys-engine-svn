@@ -41,12 +41,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>..\src;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\..\lib\</OutDir>
+    <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
     <TargetExt>.lib</TargetExt>
     <LibraryPath>..\dependencies\dx8;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\..\lib\</OutDir>
+    <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
@@ -97,7 +97,9 @@
     <ClInclude Include="..\dependencies\zlib\zip.h" />
     <ClInclude Include="..\dependencies\zlib\zlib.h" />
     <ClInclude Include="..\dependencies\zlib\zutil.h" />
+    <ClInclude Include="..\src\app\application.h" />
     <ClInclude Include="..\src\app\application_base_interface.h" />
+    <ClInclude Include="..\src\app\win\application_win.h" />
     <ClInclude Include="..\src\engine_settings.h" />
     <ClInclude Include="..\src\public.h" />
     <ClInclude Include="..\src\render_system\ogl\render_system_ogl.h" />
@@ -106,6 +108,8 @@
     <ClInclude Include="..\src\render_system\render_system_base_interface.h" />
     <ClInclude Include="..\src\render_system\texture.h" />
     <ClInclude Include="..\src\render_system\texture_base_interface.h" />
+    <ClInclude Include="..\src\util\anim\anim_obj.h" />
+    <ClInclude Include="..\src\util\anim\param_animation.h" />
     <ClInclude Include="..\src\util\assert.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
     <ClInclude Include="..\src\util\file_system\file_system.h" />
@@ -157,6 +161,8 @@
     <ClCompile Include="..\dependencies\zlib\unzip.c" />
     <ClCompile Include="..\dependencies\zlib\zip.c" />
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
+    <ClCompile Include="..\src\app\application_base_interface.cpp" />
+    <ClCompile Include="..\src\app\win\application_win.cpp" />
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
