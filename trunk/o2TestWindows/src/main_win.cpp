@@ -1,6 +1,6 @@
 #include "test_app.h"
 
-int main(int argc, char** argv)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	TestApp app;
 	app.launch();

@@ -11,10 +11,10 @@ struct cApplicationOption
 	enum type {
 		WINDOWED = 0, 
 		FULLSCREEN, 
-		RESIZIBLE_ON, 
-		RESIZIBLE_OFF, 
+		RESIZIBLE, 
 		AUTO_AJUST_BY_SCREEN_SPACE,
 		WND_SIZE,
+		WND_POSITION,
 		WND_CAPTION
 	};
 };

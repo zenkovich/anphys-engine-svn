@@ -26,6 +26,7 @@ cConsoleLogStream::cConsoleLogStream( const std::string& id, uint8 level ):
 
 cConsoleLogStream::~cConsoleLogStream()
 {
+	FreeConsole();
 }
 
 void cConsoleLogStream::outStr( const std::string& str )
