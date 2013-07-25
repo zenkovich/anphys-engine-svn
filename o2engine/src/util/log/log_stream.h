@@ -61,6 +61,9 @@ public:
 	/** Unbind and destroy all child streams. */
 	void unbindAllStreams();
 
+	/** Returns parent stream. Null if no parent. */
+	cLogStream* getParentStream() const;
+
 	/** Binding value. */
 	void bindValue(void* valuePtr, BindValType type, const std::string& id);
 

@@ -13,12 +13,12 @@ extern cLogStream* gLog;
  ** @param fileName - output global log file. */
 void initializeFileConsoleLog(const std::string& fileName);
 
+CLOSE_O2_NAMESPACE
+
 /** Puts data into global log with low level. */
-#define log(...) gLog->log(__VA_ARGS__);
+#define llog(str, ...) o2::gLog->out(str, __VA_ARGS__);
 
 /** Puts data into global log with hight level. */
-#define hlog(...) gLog->hlog(__VA_ARGS__);
-
-CLOSE_O2_NAMESPACE
+#define hlog(str, ...) o2::gLog->hout(str, __VA_ARGS__);
 
 #endif //LOG_H

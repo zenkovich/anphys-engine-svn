@@ -37,7 +37,7 @@ void cApplicationBaseInterface::initalizeSystems()
 
 void cApplicationBaseInterface::deinitializeSystems()
 {
-	gLog->unbindStream(mLogStream);
+	safe_release(gLog->getParentStream());
 
 	safe_release(mRenderSystem);
 

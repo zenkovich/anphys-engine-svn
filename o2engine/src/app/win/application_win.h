@@ -10,7 +10,17 @@ OPEN_O2_NAMESPACE
 
 class cApplication:public cApplicationBaseInterface
 {
-	HWND mHWnd;
+	HWND         mHWnd;
+	unsigned int mWndStyle;
+		         
+	bool         mWidnowed;
+	vec2i        mWindowedSize;
+	vec2i        mWindowedPos;
+	
+	bool         mAutoAjustByScreen;
+	vec2f        mAutoAjustScale;
+
+	std::string  mWndCaption;
 
 public:
 	cApplication();
@@ -27,6 +37,11 @@ public:
 
 protected:
 	void initializeWindow();
+
+	void setWindowed();
+	void setFullscreen();
+	void autoAjustByScreenSpace();
+	void resetWnd();
 
 	static LRESULT wndProc(HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };

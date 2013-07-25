@@ -172,4 +172,9 @@ void cLogStream::hout( const char* format, ... )
 	}
 }
 
+cLogStream* cLogStream::getParentStream() const
+{
+	return mParentStream;
+}
+
 CLOSE_O2_NAMESPACE

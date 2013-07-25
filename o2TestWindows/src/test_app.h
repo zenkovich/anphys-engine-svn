@@ -7,11 +7,10 @@
 class TestApp:public o2::cApplication, public o2::cSingleton<TestApp>
 {
 public:
+	TestApp();
+	~TestApp();
 
-	TestApp():cApplication() {}
-	~TestApp() {}
-
-	void onUpdate(float dt) {}
+	void onUpdate(float dt);
 };
 
 #endif //TEST_APP_H
