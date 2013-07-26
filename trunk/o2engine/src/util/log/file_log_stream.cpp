@@ -31,7 +31,7 @@ void cFileLogStream::outStr( const std::string& str )
 {
 	if (mOutFile)
 	{
-		mOutFile->writeData((void*)(str + "\n").c_str(), str.length());
+		mOutFile->writeData((void*)(str + "\n").c_str(), str.length() + 1);
 	}
 }
 

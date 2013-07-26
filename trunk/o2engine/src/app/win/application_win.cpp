@@ -1,8 +1,6 @@
 #include "engine_settings.h"
 #ifdef PLATFORM_WIN
 
-#include <varargs.h>
-
 #include "application_win.h"
 #include "util/log.h"
 
@@ -92,13 +90,14 @@ void cApplication::launch()
 	MSG msg;
 	memset(&msg, 0, sizeof(msg));
 
-	while(msg.message != WM_QUIT)
+	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		} else
+		} 
+		else
 		{
 			onUpdate(0.017f);
 			onDraw();
@@ -108,6 +107,13 @@ void cApplication::launch()
 
 LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
+	switch(uMsg)
+	{	
+	case WM_DESTROY: 
+		PostQuitMessage(0);
+		return 0;
+		break;
+	}
 	return DefWindowProc(wnd, uMsg, wParam, lParam);
 }
 
