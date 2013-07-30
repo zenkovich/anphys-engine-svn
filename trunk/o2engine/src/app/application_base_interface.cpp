@@ -33,15 +33,19 @@ void cApplicationBaseInterface::initalizeSystems()
 
 //render system
 	mRenderSystem = new grRenderSystem;
+
+	mLogStream->out("All Systems initialized");
 }
 
 void cApplicationBaseInterface::deinitializeSystems()
 {
-	safe_release(gLog->getParentStream());
-
 	safe_release(mRenderSystem);
 
 	safe_release(mFileSystem);
+
+	mLogStream->out("All systems deinitialized");
+
+	safe_release(gLog->getParentStream());
 }
 
 CLOSE_O2_NAMESPACE

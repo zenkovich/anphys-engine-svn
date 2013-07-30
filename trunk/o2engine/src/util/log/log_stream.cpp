@@ -125,7 +125,7 @@ void cLogStream::checkBindedValues()
 {
 	for (BindValVec::iterator it = mBindedValues.begin(); it != mBindedValues.end(); ++it)
 	{
-		outStr(it->getStr());
+		outStrEx(it->getStr());
 	}
 
 	for (LogSteamsVec::iterator it = mChildStreams.begin(); it != mChildStreams.end(); ++it)
@@ -147,9 +147,6 @@ void cLogStream::out( const char* format, ... )
 		va_end(vlist);
 
 		outStr(buf);
-
-		if (mParentStream)
-			mParentStream->outStr(mId + ":" + buf);
 	}
 }
 
@@ -166,15 +163,25 @@ void cLogStream::hout( const char* format, ... )
 		va_end(vlist);
 
 		outStr(buf);
-
-		if (mParentStream)
-			mParentStream->outStr(mId + ":" + buf);
 	}
 }
 
 cLogStream* cLogStream::getParentStream() const
 {
 	return mParentStream;
+}
+
+void cLogStream::outStr( const std::string& str )
+{
+	outStrEx(str);
+
+	if (mParentStream)
+	{
+		if (mId == "")
+			mParentStream->outStr(str);
+		else			
+			mParentStream->outStr(mId + ":" + str);
+	}
 }
 
 CLOSE_O2_NAMESPACE

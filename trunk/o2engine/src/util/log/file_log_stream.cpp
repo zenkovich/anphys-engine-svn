@@ -27,11 +27,11 @@ cFileLogStream::~cFileLogStream()
 	safe_release(mOutFile);
 }
 
-void cFileLogStream::outStr( const std::string& str )
+void cFileLogStream::outStrEx( const std::string& str )
 {
 	if (mOutFile)
 	{
-		mOutFile->writeData((void*)(str + "\n").c_str(), str.length() + 1);
+		mOutFile->writeData((void*)(str + '\n').c_str(), str.length() + 1);
 	}
 }
 

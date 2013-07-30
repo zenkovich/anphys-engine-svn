@@ -10,10 +10,11 @@ OPEN_O2_NAMESPACE
 
 class cApplication:public cApplicationBaseInterface
 {
+protected:
 	HWND         mHWnd;
 	unsigned int mWndStyle;
 		         
-	bool         mWidnowed;
+	bool         mWindowed;
 	vec2i        mWindowedSize;
 	vec2i        mWindowedPos;
 	
@@ -21,6 +22,8 @@ class cApplication:public cApplicationBaseInterface
 	vec2f        mAutoAjustScale;
 
 	std::string  mWndCaption;
+
+	static cApplication* mApplication;
 
 public:
 	cApplication();
