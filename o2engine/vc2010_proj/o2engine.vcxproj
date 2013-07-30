@@ -50,7 +50,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
     <SourcePath>..\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -173,7 +173,7 @@
     <ClCompile Include="..\src\util\input\input_message.cpp" />
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
     <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
-    <ClCompile Include="..\src\util\log\file_log_stream.h" />
+    <ClInclude Include="..\src\util\log\file_log_stream.h" />
     <ClCompile Include="..\src\util\log\log.cpp" />
     <ClCompile Include="..\src\util\log\log_stream.cpp" />
   </ItemGroup>

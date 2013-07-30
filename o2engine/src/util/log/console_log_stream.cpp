@@ -29,10 +29,10 @@ cConsoleLogStream::~cConsoleLogStream()
 	FreeConsole();
 }
 
-void cConsoleLogStream::outStr( const std::string& str )
+void cConsoleLogStream::outStrEx( const std::string& str )
 {
 	printf(str.c_str());
-	printf("\n");
+	printf("\n");	
 }
 
 void cConsoleLogStream::initConsole()

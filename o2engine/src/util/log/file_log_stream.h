@@ -18,7 +18,7 @@ public:
 	~cFileLogStream();
 
 protected:
-	void outStr(const std::string& str);
+	void outStrEx(const std::string& str);
 	void openFile(const std::string& fileName);
 };
 

@@ -14,7 +14,7 @@ public:
 	~cConsoleLogStream();
 
 protected:
-	void outStr(const std::string& str);
+	void outStrEx(const std::string& str);
 	void initConsole();
 };
 

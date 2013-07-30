@@ -1,2634 +1,1254 @@
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:update 0.017
-:u
+App:All Systems initialized
+App:Initializing window..
+App:Window initialized!
+App:cApplication::setOptions( WND_SIZE, v2((800 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_CAPTION, bebebe )
+App:Application launched!
+App:cApplication::setOptions( WND_POSITION, v2(10 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(20 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(30 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(40 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(50 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(60 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(70 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(80 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(90 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(100 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(110 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(120 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(130 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(140 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(150 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(160 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(170 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(180 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(190 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(200 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(210 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(220 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(230 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(240 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(250 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(260 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(270 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(280 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(290 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(300 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(310 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(320 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(330 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(340 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(350 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(360 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(370 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(380 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(390 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(400 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(410 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(420 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(430 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(440 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(450 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(460 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(470 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(480 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(490 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(500 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(510 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(520 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(530 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(540 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(550 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(560 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(570 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(580 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(600 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(610 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(620 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(630 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(650 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 0) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 10) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 20) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 30) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 40) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 50) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 60) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 80) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 90) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 100) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 110) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 120) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 130) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 140) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 150) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 160) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 170) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 180) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 190) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 200) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 220) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 230) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 240) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 250) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 260) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 270) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 280) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(650 280) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(650 270) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 270) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 260) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 250) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 240) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 230) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 220) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(630 220) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(630 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(620 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(610 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(600 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 210) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 200) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((810 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((820 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((830 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((840 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((850 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((860 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((870 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((880 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((890 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((900 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 610) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 620) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 630) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 640) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 650) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 660) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 670) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 680) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((900 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((890 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((880 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((870 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((860 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((850 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((840 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((830 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((820 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((810 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((800 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((790 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((780 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 690) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 680) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 670) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 660) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 650) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 640) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 630) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 620) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 610) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 600) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 590) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 580) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 570) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 560) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 550) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 540) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 530) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 520) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 500) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 490) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 480) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 470) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 460) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 450) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 440) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 430) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 420) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 410) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 400) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 390) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 380) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 370) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 360) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 350) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 340) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 330) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 320) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 310) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 300) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((780 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((790 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((800 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((810 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((820 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((830 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((840 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((850 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((860 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((870 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((880 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((890 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((900 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((920 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((930 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((940 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((950 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((960 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((970 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((980 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 290) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 300) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 310) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 320) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 330) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 340) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 350) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 360) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 370) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 380) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 390) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 400) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 410) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 420) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 430) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 440) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 450) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 460) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 470) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 480) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 490) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 500) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((990 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((980 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((970 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((960 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((950 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((940 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((930 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((920 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((910 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((900 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((890 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((880 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((870 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((860 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((850 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((840 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((830 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((820 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((810 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((800 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((790 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((780 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((770 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((760 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((750 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((740 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((730 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((720 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((710 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((700 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((690 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((680 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((670 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((660 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((650 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((640 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((630 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((620 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((610 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((600 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((590 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((580 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((570 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((560 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_SIZE, v2((550 510) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 190) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 180) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 170) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 160) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 150) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 140) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 130) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 120) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 110) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 100) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 90) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 80) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(580 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(570 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(560 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(550 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(540 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(530 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(520 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(510 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(500 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(490 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(480 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(470 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(460 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(450 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(440 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(430 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(420 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(410 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(400 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(390 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(380 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(370 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(360 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(350 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(340 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(330 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(320 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(330 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(340 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(350 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(360 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(370 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(380 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(390 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(400 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(410 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(420 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(430 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(440 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(450 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(460 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(470 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(480 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(490 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(500 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(510 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(520 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(530 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(540 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(550 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(560 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(570 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(580 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(600 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(610 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(620 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(630 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(650 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(670 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(680 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(690 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(700 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(710 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(720 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(730 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(740 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(750 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(760 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(770 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(780 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(790 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(800 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(810 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(820 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(830 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(840 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(850 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(860 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(870 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(880 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(890 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(900 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(910 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(920 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(930 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(940 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(950 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(960 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(970 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(960 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(950 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(940 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(930 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(920 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(910 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(900 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(890 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(880 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(870 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(860 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(850 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(840 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(830 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(820 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(810 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(800 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(790 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(780 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(770 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(760 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(750 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(740 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(730 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(720 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(710 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(700 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(690 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(680 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(670 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(660 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(650 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(640 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(630 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(620 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(610 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(600 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(590 70) )
+App:Setting windowed..
+App:Complete
+App:cApplication::setOptions( WND_POSITION, v2(580 70) )
+App:Setting windowed..
+App:Complete
+App:All systems deinitialized

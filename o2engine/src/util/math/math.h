@@ -5,6 +5,10 @@
 
 OPEN_O2_NAMESPACE
 	
+#undef min
+#undef max
+#undef clamp
+	
 /* Basic Math functions. */
 template<typename T>
 T sign(const T& value)

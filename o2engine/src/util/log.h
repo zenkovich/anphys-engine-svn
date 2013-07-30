@@ -9,10 +9,6 @@ OPEN_O2_NAMESPACE
 /** Global log stream. Use it for putting data in log. */
 extern cLogStream* gLog;
 
-/** Initializing basic log streams.
- ** @param fileName - output global log file. */
-void initializeFileConsoleLog(const std::string& fileName);
-
 CLOSE_O2_NAMESPACE
 
 /** Puts data into global log with low level. */

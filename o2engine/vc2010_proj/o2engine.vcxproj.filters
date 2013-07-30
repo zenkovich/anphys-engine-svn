@@ -188,6 +188,9 @@
     <ClInclude Include="..\src\app\application.h">
       <Filter>src\app</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\log\file_log_stream.h">
+      <Filter>src\util\log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -317,9 +320,6 @@
       <Filter>src\util\log</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\log\console_log_stream.cpp">
-      <Filter>src\util\log</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\log\file_log_stream.h">
       <Filter>src\util\log</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\log\file_log_stream.cpp">

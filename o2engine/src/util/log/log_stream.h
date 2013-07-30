@@ -10,6 +10,7 @@ OPEN_O2_NAMESPACE
 /** Basic log stream. Contains interfaces of outing data, binding values, parent and child streams. */
 class cLogStream
 {
+protected:
 	/** Type of bind value. */
 	enum BindValType { BV_INT = 0, BV_FLOAT, BV_BOOL, BV_CHAR_PTR, BV_STRING, BV_VEC2F };
 
@@ -83,8 +84,11 @@ public:
 	void hout(const char* format, ...);
 
 protected:
-	/** out string to stream. */
-	virtual void outStr(const std::string& str) {}
+	/** Out string to stream. */
+	virtual void outStrEx(const std::string& str) {}
+
+	/** Out string to current stream and parant stream. */
+	void outStr(const std::string& str);
 };
 
 CLOSE_O2_NAMESPACE

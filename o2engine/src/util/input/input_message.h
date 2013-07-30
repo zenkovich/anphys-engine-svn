@@ -12,6 +12,14 @@ typedef int VKey;
 
 class cInputMessage
 {
+	struct Key
+	{
+		VKey  mKey;
+		float mPressedTime;
+
+		Key()
+	};
+
 	typedef std::vector<VKey> KeysVec;
 	typedef std::vector<vec2f> VecArr;
 
