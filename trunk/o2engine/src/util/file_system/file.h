@@ -11,51 +11,73 @@ struct cFileType
 	enum value { FT_FILE = 0, FT_IMAGE, FT_CONFIG };
 };
 
+/** Input file. */
 class cInFile
 {
-	std::ifstream mIfstream;
-	std::string   mFilename;
-	bool          mOpened;
+	std::ifstream mIfstream; /**< Input stream. */
+	std::string   mFilename; /**< File name. */
+	bool          mOpened;   /**< True, if file was opened. */
 
 public:
 	cInFile();
 	cInFile(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
 	~cInFile();
 
-	bool               open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
-	bool               close();
-		               
-	uint64             readFullData(void *dataPtr);
-	void               readData(void *dataPtr, uint64 bytes);
-		               
-	void               setCaretPos(uint64 pos);
-	uint64             getCaretPos();
-		               
-	uint64             getDataSize();
-		               
-	bool               isOpened() const;
+	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
+	  * else file name will be combine with extension string from file system. */
+	bool open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
 
+	/** Closing file. */
+	bool close();
+		               
+	/** Read full file data and return size of readed data. */
+	uint64 readFullData(void *dataPtr);
+
+	/** Read data in dataPtr. */
+	void readData(void *dataPtr, uint64 bytes);
+		               
+	/** Sets caret position. */
+	void setCaretPos(uint64 pos);
+
+	/** Return caret position. */
+	uint64 getCaretPos();
+		              
+	/** Returns full data size. */
+	uint64 getDataSize();
+		               
+	/** Returns true, if file was opened. */
+	bool isOpened() const;
+
+	/** Return file name. */
 	const std::string& getFilename() const;
 };
 
+/** Output file. */
 class cOutFile
 {
-	std::ofstream mOfstream;
-	std::string   mFilename;
-	bool          mOpened;
+	std::ofstream mOfstream; /**< Output stream. */
+	std::string   mFilename; /**< File name. */
+	bool          mOpened;   /**< True, if file was opened. */
 
 public:
 	cOutFile();
 	cOutFile(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
 	~cOutFile();
 
-	bool               open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
-	bool               close();
-		               
-	void               writeData(void* dataPtr, uint64 bytes);
-		               
-	bool               isOpened() const;
+	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
+	  * else file name will be combine with first extension string from file system. */
+	bool open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
 
+	/** Close file. */
+	bool close();
+		   
+	/** Write some data from dataPtr. */
+	void writeData(void* dataPtr, uint64 bytes);
+		               
+	/** Returns true, if file was opened. */
+	bool isOpened() const;
+
+	/** Returns file name. */
 	const std::string& getFilename() const;
 };
 

@@ -6,7 +6,7 @@
 #include "public.h"
 OPEN_O2_NAMESPACE
 
-class apFrame;
+class cApplication;
 class grTexture;
 class grCamera;
 class grMesh;
@@ -17,25 +17,25 @@ public:
 	typedef std::vector<grTexture*> TexturesVec;
 
 protected:
-	apFrame*    mFrame;
+	cApplication* mApplication;
 
-	TexturesVec mTextures;
+	TexturesVec   mTextures;
 
-	grCamera*   mCurrentCamera;
+	grCamera*     mCurrentCamera;
 
 public:
-	grRenderSystemBaseInterface();
+	grRenderSystemBaseInterface(cApplication* application);
 	virtual ~grRenderSystemBaseInterface();
 
 	virtual bool beginRender() { return true; }
 	virtual bool endRender() { return true; }
 
-	bool         bindCamera(grCamera* camera);
+	bool bindCamera(grCamera* camera);
 
-	grTexture*   addTexture(grTexture* texture);
-	grTexture*   createTexture(const std::string& fileName);
-	bool         removeTexture(grTexture* texture);
-	bool         removeAllTextures();
+	grTexture* addTexture(grTexture* texture);
+	grTexture* createTexture(const std::string& fileName);
+	bool removeTexture(grTexture* texture);
+	bool removeAllTextures();
 
 	virtual bool drawMesh(grMesh* mesh) { return true; }
 

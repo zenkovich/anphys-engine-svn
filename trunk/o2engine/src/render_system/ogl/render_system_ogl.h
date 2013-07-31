@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 class grRenderSystem:public grRenderSystemBaseInterface
 {
 public:
-	grRenderSystem() {}
+	grRenderSystem(cApplication* application):grRenderSystemBaseInterface(application) {}
 };
 
 CLOSE_O2_NAMESPACE

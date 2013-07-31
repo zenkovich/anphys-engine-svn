@@ -191,6 +191,9 @@
     <ClInclude Include="..\src\util\log\file_log_stream.h">
       <Filter>src\util\log</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\timer.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -336,6 +339,9 @@
     </ClCompile>
     <ClCompile Include="..\src\app\win\application_win.cpp">
       <Filter>src\app\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\timer.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

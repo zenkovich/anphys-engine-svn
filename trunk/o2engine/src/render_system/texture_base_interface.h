@@ -34,35 +34,34 @@ protected:
 public:
 	grTextureBaseInterface();
 
-	grTextureBaseInterface(grRenderSystem* renderSystem, const vec2f& size, 
-		                   grTexFormat::type format = grTexFormat::DEFAULT, 
+	grTextureBaseInterface(grRenderSystem* renderSystem, const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
 						   grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	grTextureBaseInterface(grRenderSystem* renderSystem, const std::string& fileName);
 
 	virtual ~grTextureBaseInterface();
 
-	virtual void       create(grRenderSystem* renderSystem, const vec2f& size, 
-		                      grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	    	     grTexUsage::type usage = grTexUsage::DEFAULT) {}
+
+	virtual void create(grRenderSystem* renderSystem, const vec2f& size, 
+		                grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	    grTexUsage::type usage = grTexUsage::DEFAULT) {}
 				       
-	virtual void       createFromFile(grRenderSystem* renderSystem, const std::string& fileName) {}
+	virtual void createFromFile(grRenderSystem* renderSystem, const std::string& fileName) {}
 				       
-	virtual void       createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                                    grTexFormat::type format = grTexFormat::DEFAULT) {}
+	virtual void createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
+		                              grTexFormat::type format = grTexFormat::DEFAULT) {}
+				       	       
+	int getRefCount() const;
 				       
+	void incRefCount();
 				       
-	int                getRefCount() const;
-				       
-	void               incRefCount();
-				       
-	void               decrRefCount();
+	void decrRefCount();
 				      
 	const std::string& getFileName() const;
 
-	grTexFormat::type  getFormat() const;
+	grTexFormat::type getFormat() const;
 					   
-	grTexUsage::type   getUsage() const;
+	grTexUsage::type getUsage() const;
 };
 
 CLOSE_O2_NAMESPACE
