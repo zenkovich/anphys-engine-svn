@@ -8,17 +8,26 @@ OPEN_O2_NAMESPACE
 
 bool cInputMessage::isKeyPressed( VKey key ) const
 {
-	return std::find(mPressedKeys.begin(), mPressedKeys.end(), key) != mPressedKeys.end();
+	for (KeysVec::const_iterator it = mPressedKeys.cbegin(); it != mPressedKeys.cend(); it++)
+		if (it->mKey == key) return true;
+
+	return false;
 }
 
 bool cInputMessage::isKeyDown( VKey key ) const
 {
-	return std::find(mDownKeys.begin(), mDownKeys.end(), key) != mDownKeys.end();
+	for (KeysVec::const_iterator it = mDownKeys.cbegin(); it != mDownKeys.cend(); it++)
+		if (it->mKey == key) return true;
+
+	return false;
 }
 
 bool cInputMessage::isKeyReleased( VKey key ) const
 {
-	return std::find(mReleasedKeys.begin(), mReleasedKeys.end(), key) != mReleasedKeys.end();
+	for (KeysVec::const_iterator it = mReleasedKeys.cbegin(); it != mReleasedKeys.cend(); it++)
+		if (it->mKey == key) return true;
+
+	return false;
 }
 
 const vec2f& cInputMessage::getCursorPos( int idx /*= 0*/ ) const
@@ -28,15 +37,22 @@ const vec2f& cInputMessage::getCursorPos( int idx /*= 0*/ ) const
 
 void cInputMessage::keyPressed( VKey key )
 {
+	if (isKeyDown(key))
+		return;
+
 	mPressedKeys.push_back(key);
 }
 
 void cInputMessage::keyReleased( VKey key )
 {
-	KeysVec::iterator fnd = std::find(mDownKeys.begin(), mDownKeys.end(), key);
-	if (fnd != mDownKeys.end())
-		mDownKeys.erase(fnd);
-
+	for (KeysVec::const_iterator it = mDownKeys.cbegin(); it != mDownKeys.cend(); it++)
+	{
+		if (it->mKey == key)
+		{
+			mDownKeys.erase(it);
+			break;
+		}
+	}
 	mReleasedKeys.push_back(key);
 }
 
@@ -51,12 +67,16 @@ void cInputMessage::setCursorPos( const vec2f& pos, int idx /*= 0*/ )
 	mCursorsPositions[0] = pos;
 }
 
-void cInputMessage::update()
+void cInputMessage::update(float dt)
 {
 	mDownKeys.insert(mDownKeys.end(), mPressedKeys.begin(), mPressedKeys.end());
 	mPressedKeys.clear();
-
 	mReleasedKeys.clear();
+
+	for (KeysVec::iterator it = mDownKeys.begin(); it != mDownKeys.end(); it++)
+	{
+		(*it).mPressedTime += dt;
+	}
 }
 
 CLOSE_O2_NAMESPACE

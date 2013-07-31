@@ -4,15 +4,18 @@
 #include "application_win.h"
 #include "util/log.h"
 #include "util/math/math.h"
+#include "util/timer.h"
 
 OPEN_O2_NAMESPACE
 
 
 cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
-	mAutoAjustByScreen(false), mAutoAjustScale(1, 1)
+	mAutoAjustByScreen(false), mAutoAjustScale(1, 1), mWindowResizible(true), mActive(false), mTimer(NULL)
 {
 	initializeWindow();
+	mTimer = new cTimer;
+	mTimer->reset();
 	mApplication = this;
 }
 
@@ -21,17 +24,170 @@ cApplication::~cApplication()
 
 }
 
-void cApplication::onUpdate( float dt )
+void cApplication::initializeWindow()
 {
+	mLogStream->hout("Initializing window..");
 
+	mWndStyle = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+
+	WNDCLASSEX wndClass;
+	wndClass.cbSize         = sizeof(WNDCLASSEX);
+	wndClass.style			= mWndStyle;
+	wndClass.lpfnWndProc	= (WNDPROC)wndProc;
+	wndClass.cbClsExtra		= 0;
+	wndClass.cbWndExtra		= 0;
+	wndClass.hInstance		= NULL;
+	wndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	wndClass.hbrBackground	= (HBRUSH)GetStockObject(GRAY_BRUSH);
+	wndClass.lpszMenuName	= NULL;
+	wndClass.lpszClassName	= "o2App";
+	wndClass.hIconSm        = LoadIcon(NULL, IDI_APPLICATION);
+
+	if (!RegisterClassEx(&wndClass)) 
+	{
+		mLogStream->out("ERROR: Can't regist class");
+		return;
+	}
+
+	if (!(mHWnd = CreateWindowEx(NULL, wndClass.lpszClassName, "App test",             
+						   WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+						   mWindowedPos.x, mWindowedPos.y, mWindowedSize.x, mWindowedSize.y,
+						   NULL, NULL, NULL,  NULL))) 
+	{
+		
+		mLogStream->out("ERROR: Can't create window (CreateWindowEx)");
+		return;
+	}
+
+	mLogStream->hout("Window initialized!");
 }
 
-void cApplication::onDraw()
+void cApplication::launch()
 {
+	ShowWindow(mHWnd, SW_SHOW);
+	
+	mLogStream->hout("Application launched!");
 
+	processMessage(cApplacationMessage::ON_STARTED);
+
+	MSG msg;
+	memset(&msg, 0, sizeof(msg));
+
+	mTimer->reset();
+
+	while (msg.message != WM_QUIT)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		} 
+		else
+		{
+			float dt = mTimer->getElapsedTime();
+
+			onUpdate(dt);
+			onDraw();			
+			mInputMessage.update(dt);
+
+		}
+	}
+
+	processMessage(cApplacationMessage::ON_CLOSING);
 }
 
-void cApplication::setOptions( cApplicationOption::type option, ... )
+LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+{
+	POINT pt;
+	RECT rt;
+	int key = 0;
+	vec2i size, pos;
+
+	switch(uMsg)
+	{	
+	case WM_LBUTTONDOWN:
+		mApplication->mInputMessage.keyPressed(VK_LBUTTON);
+		break;
+
+	case WM_LBUTTONUP:
+		mApplication->mInputMessage.keyReleased(VK_LBUTTON);
+		break;
+	
+	case WM_RBUTTONDOWN:
+		mApplication->mInputMessage.keyPressed(VK_RBUTTON);
+		break;
+
+	case WM_RBUTTONUP:
+		mApplication->mInputMessage.keyReleased(VK_RBUTTON);
+		break;
+
+	case WM_KEYDOWN:
+		key = (int)wParam;
+		mApplication->mInputMessage.keyPressed(key);
+		break;
+
+	case WM_KEYUP:
+		mApplication->mInputMessage.keyReleased((int)wParam);
+		break;
+
+	case WM_MOUSEMOVE:
+		GetCursorPos(&pt);
+		ScreenToClient(wnd, &pt);
+
+		mApplication->mInputMessage.setCursorPos(vec2f((float)pt.x, (float)pt.y));
+		break;
+
+	case WM_ACTIVATE:
+		if ((HWND)lParam == mApplication->mHWnd || true)
+		{
+			hlog("LOWORD(wParam) = %i %i %i", LOWORD(wParam), mApplication->mHWnd, lParam);
+
+			if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
+			{
+				mApplication->mActive = true;
+				mApplication->processMessage(cApplacationMessage::ON_ACTIVATED);
+			}
+			else
+			{
+				mApplication->mActive = false;
+				mApplication->processMessage(cApplacationMessage::ON_DEACTIVATED);
+			}
+		}
+		break;
+
+	case WM_SIZE:
+		GetWindowRect(mApplication->mHWnd, &rt);
+		size.x = rt.right - rt.left; size.y = rt.bottom - rt.top;
+
+		if (size.x > 0 && size.y > 0 && size != mApplication->mWindowedSize)
+		{
+			mApplication->mWindowedSize = size;
+			mApplication->processMessage(cApplacationMessage::ON_SIZING);
+		}
+		break;
+
+	case WM_MOVE:
+		GetWindowRect(mApplication->mHWnd, &rt);
+		pos.x = rt.left; pos.y = rt.top;
+
+		if (pos.x < 10000 && pos.y < 10000 && pos != mApplication->mWindowedPos)
+		{
+			mApplication->mWindowedPos = pos;
+			hlog("WND POS %i %i", pos.x, pos.y);
+			mApplication->processMessage(cApplacationMessage::ON_MOVING);
+		}
+		break;
+
+	case WM_DESTROY: 
+		PostQuitMessage(0);
+		return 0;
+		break;
+	}
+	return DefWindowProc(wnd, uMsg, wParam, lParam);
+}
+
+void cApplication::setOption( cApplicationOption::type option, ... )
 {
 	va_list vlist;
 	va_start(vlist, option);
@@ -55,14 +211,19 @@ void cApplication::setOptions( cApplicationOption::type option, ... )
 	else if (option == cApplicationOption::RESIZIBLE)
 	{
 		bool isResizible = va_arg(vlist, bool);
-		if (isResizible)
-			mWndStyle |= WS_OVERLAPPED | WS_MAXIMIZEBOX;
-		else
-			mWndStyle ^= WS_OVERLAPPED | WS_MAXIMIZEBOX;		
+		if (isResizible != mWindowResizible)
+		{
+			mWindowResizible = isResizible;
 
-		mLogStream->hout("cApplication::setOptions( RESIZIBLE, %s )", ( isResizible ? "true":"false" ));
+			if (mWindowResizible)
+				mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX;
+			else
+				mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX;
 
-		SetWindowLong(mHWnd, GWL_STYLE, mWndStyle);
+			mLogStream->hout("cApplication::setOptions( RESIZIBLE, %s )", ( mWindowResizible ? "true":"false" ));
+
+			SetWindowLong(mHWnd, GWL_STYLE, mWndStyle);
+		}
 	}
 	else if (option == cApplicationOption::AUTO_AJUST_BY_SCREEN_SPACE)
 	{
@@ -107,118 +268,22 @@ void cApplication::setOptions( cApplicationOption::type option, ... )
 
 void cApplication::processMessage( cApplacationMessage::type message )
 {
+	const char* msgNames[] = { "ON_ACTIVATED", "ON_DEACTIVATED", "ON_STARTED", "ON_CLOSING", "ON_SIZING", "ON_MOVING" };
 
+	mLogStream->hout("cApplication::processMessage( %s )",
+		msgNames[clamp(message, (cApplacationMessage::type)0, cApplacationMessage::ON_MOVING)]);
 }
 
-void cApplication::launch()
+void cApplication::resetWnd()
 {
-	ShowWindow(mHWnd, SW_SHOW);
-	
-	mLogStream->hout("Application launched!");
-
-	MSG msg;
-	memset(&msg, 0, sizeof(msg));
-
-	while (msg.message != WM_QUIT)
+	if (mWindowed)
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		} 
-		else
-		{
-			onUpdate(0.017f);
-			onDraw();			
-			mInputMessage.update();
-		}
+		setWindowed();
 	}
-}
-
-LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-	POINT cursorPt;
-	int key = 0;
-
-	switch(uMsg)
-	{	
-	case WM_LBUTTONDOWN:
-		mApplication->mInputMessage.keyPressed(VK_LBUTTON);
-		break;
-
-	case WM_LBUTTONUP:
-		mApplication->mInputMessage.keyReleased(VK_LBUTTON);
-		break;
-	
-	case WM_RBUTTONDOWN:
-		mApplication->mInputMessage.keyPressed(VK_RBUTTON);
-		break;
-
-	case WM_RBUTTONUP:
-		mApplication->mInputMessage.keyReleased(VK_RBUTTON);
-		break;
-
-	case WM_KEYDOWN:
-		key = (int)wParam;
-		mApplication->mInputMessage.keyPressed(key);
-		break;
-
-	case WM_KEYUP:
-		mApplication->mInputMessage.keyReleased((int)wParam);
-		break;
-
-	case WM_MOUSEMOVE:
-		GetCursorPos(&cursorPt);
-		ScreenToClient(wnd, &cursorPt);
-
-		mApplication->mInputMessage.setCursorPos(vec2f((float)cursorPt.x, (float)cursorPt.y));
-		break;
-
-	case WM_DESTROY: 
-		PostQuitMessage(0);
-		return 0;
-		break;
-	}
-	return DefWindowProc(wnd, uMsg, wParam, lParam);
-}
-
-void cApplication::initializeWindow()
-{
-	mLogStream->hout("Initializing window..");
-
-	mWndStyle = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-
-	WNDCLASSEX wndClass;
-	wndClass.cbSize         = sizeof(WNDCLASSEX);
-	wndClass.style			= mWndStyle;
-	wndClass.lpfnWndProc	= (WNDPROC)wndProc;
-	wndClass.cbClsExtra		= 0;
-	wndClass.cbWndExtra		= 0;
-	wndClass.hInstance		= NULL;
-	wndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);
-	wndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wndClass.hbrBackground	= (HBRUSH)GetStockObject(GRAY_BRUSH);
-	wndClass.lpszMenuName	= NULL;
-	wndClass.lpszClassName	= "o2App";
-	wndClass.hIconSm        = LoadIcon(NULL, IDI_APPLICATION);
-
-	if (!RegisterClassEx(&wndClass)) 
+	else
 	{
-		mLogStream->out("ERROR: Can't regist class");
-		return;
+		setFullscreen();
 	}
-
-	if (!(mHWnd = CreateWindowEx(NULL, wndClass.lpszClassName, "App test",             
-						   WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-						   mWindowedPos.x, mWindowedPos.y, mWindowedSize.x, mWindowedSize.y,
-						   NULL, NULL, NULL,  NULL))) 
-	{
-		
-		mLogStream->out("ERROR: Can't create window (CreateWindowEx)");
-		return;
-	}
-
-	mLogStream->hout("Window initialized!");
 }
 
 void cApplication::setWindowed()
@@ -240,26 +305,24 @@ void cApplication::setWindowed()
 	mLogStream->hout("Complete");
 }
 
-void cApplication::setFullscreen()
-{
-	mLogStream->hout("Setting fullscreen");
-}
-
 void cApplication::autoAjustByScreenSpace()
 {
 	mLogStream->hout("Setting autoAjustByScreenSpace");
 }
 
-void cApplication::resetWnd()
+void cApplication::setFullscreen()
 {
-	if (mWindowed)
-	{
-		setWindowed();
-	}
-	else
-	{
-		setFullscreen();
-	}
+	mLogStream->hout("Setting fullscreen");
+}
+
+void cApplication::onUpdate( float dt )
+{
+
+}
+
+void cApplication::onDraw()
+{
+
 }
 
 cApplication* cApplication::mApplication = NULL;

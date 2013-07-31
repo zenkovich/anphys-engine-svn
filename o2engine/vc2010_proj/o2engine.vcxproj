@@ -125,6 +125,7 @@
     <ClInclude Include="..\src\util\math\vector2.h" />
     <ClInclude Include="..\src\util\math\vertex.h" />
     <ClInclude Include="..\src\util\singleton.h" />
+    <ClInclude Include="..\src\util\timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\dependencies\libpng\png.c" />
@@ -173,6 +174,7 @@
     <ClCompile Include="..\src\util\input\input_message.cpp" />
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
     <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
+    <ClCompile Include="..\src\util\timer.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />
     <ClCompile Include="..\src\util\log\log.cpp" />
     <ClCompile Include="..\src\util\log\log_stream.cpp" />

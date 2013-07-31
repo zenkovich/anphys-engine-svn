@@ -3,11 +3,13 @@
 #include <algorithm>
 
 #include "texture.h"
+#include "app/application.h"
+#include "texture.h"
 
 OPEN_O2_NAMESPACE
 
-grRenderSystemBaseInterface::grRenderSystemBaseInterface(  ):
-	mCurrentCamera(NULL)
+grRenderSystemBaseInterface::grRenderSystemBaseInterface( cApplication* application ):
+	mCurrentCamera(NULL), mApplication(application)
 {
 }
 
@@ -41,7 +43,7 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 		}
 	}
 
-	grTexture* newTexture = new grTexture();
+	grTexture* newTexture = new grTexture(this, fileName);
 	newTexture->incRefCount();
 	return addTexture(newTexture);
 }

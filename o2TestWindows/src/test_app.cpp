@@ -10,8 +10,8 @@ CLOSE_O2_NAMESPACE
 TestApp::TestApp():
 	cApplication()
 {
-	setOptions(o2::cApplicationOption::WND_SIZE, o2::vec2i(800, 600));
-	setOptions(o2::cApplicationOption::WND_CAPTION, (std::string)"bebebe");
+	setOption(o2::cApplicationOption::WND_SIZE, o2::vec2i(800, 600));
+	setOption(o2::cApplicationOption::WND_CAPTION, (std::string)"bebebe");
 }
 
 TestApp::~TestApp()
@@ -36,11 +36,15 @@ void TestApp::onUpdate( float dt )
 	{
 		if (mInputMessage.isKeyDown(VK_CONTROL))
 		{
-			setOptions(o2::cApplicationOption::WND_SIZE, mWindowedSize + offs);
+			setOption(o2::cApplicationOption::WND_SIZE, mWindowedSize + offs);
 		}
 		else
 		{
-			setOptions(o2::cApplicationOption::WND_POSITION, mWindowedPos + offs);
+			hlog("move wnd %i %i + %i %i", mWindowedPos.x, mWindowedPos.y, offs.x, offs.y);
+			setOption(o2::cApplicationOption::WND_POSITION, mWindowedPos + offs);
 		}
 	}
+
+	if (mInputMessage.isKeyPressed('Z'))
+		setOption(o2::cApplicationOption::RESIZIBLE, !mWindowResizible);
 }

@@ -10,22 +10,27 @@
 
 OPEN_O2_NAMESPACE
 	
+/** File system, singleton. Containing basic resource path, extension strings. */
 class cFileSystem:public cSingleton<cFileSystem>
 {
 public:
 	typedef std::vector<std::string> ExtensionsVec;
 
 private:
-	std::string                               mResourcePath;
-	std::map<cFileType::value, ExtensionsVec> mExtensions;
+	std::string                               mResourcePath; /**< Basic application resources path. */
+	std::map<cFileType::value, ExtensionsVec> mExtensions;   /**< Extensions strings map. */
 
 public:
 	cFileSystem();
 	~cFileSystem();
 
-	void                 setResourcePath(const std::string& path);
-	const std::string&   getResourcePath() const;
+	/** Sets resource path. */
+	void setResourcePath(const std::string& path);
 
+	/** Returns resource path. */
+	const std::string& getResourcePath() const;
+
+	/** Returns vector of extension strings for extension type. */
 	const ExtensionsVec& getExtensions(cFileType::value fileType) const;
 };
 
