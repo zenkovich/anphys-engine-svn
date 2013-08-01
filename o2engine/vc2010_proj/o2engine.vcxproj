@@ -124,6 +124,7 @@
     <ClInclude Include="..\src\util\math\rect.h" />
     <ClInclude Include="..\src\util\math\vector2.h" />
     <ClInclude Include="..\src\util\math\vertex.h" />
+    <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\timer.h" />
   </ItemGroup>
@@ -174,6 +175,8 @@
     <ClCompile Include="..\src\util\input\input_message.cpp" />
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
     <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
+    <ClCompile Include="..\src\util\serialization\serialization.cpp" />
+    <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />
     <ClCompile Include="..\src\util\log\log.cpp" />
