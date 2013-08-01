@@ -32,7 +32,7 @@ void cApplicationBaseInterface::initalizeSystems()
 	gLog->bindStream(mLogStream);
 
 //render system
-	mRenderSystem = new grRenderSystem(this);
+	mRenderSystem = new grRenderSystem((cApplication*)this);
 
 	mLogStream->out("All Systems initialized");
 }

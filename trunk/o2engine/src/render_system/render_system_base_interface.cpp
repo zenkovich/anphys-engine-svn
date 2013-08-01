@@ -43,7 +43,7 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 		}
 	}
 
-	grTexture* newTexture = new grTexture(this, fileName);
+	grTexture* newTexture = new grTexture((grRenderSystem*)this, fileName);
 	newTexture->incRefCount();
 	return addTexture(newTexture);
 }
