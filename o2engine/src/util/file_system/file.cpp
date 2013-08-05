@@ -166,9 +166,9 @@ bool cOutFile::close()
 	return true;
 }
 
-void cOutFile::writeData( void* dataPtr, uint64 bytes )
+void cOutFile::writeData( const void* dataPtr, uint64 bytes )
 {
-	mOfstream.write((char*)dataPtr, bytes);
+	mOfstream.write((const char*)dataPtr, bytes);
 }
 
 const std::string& cOutFile::getFilename() const

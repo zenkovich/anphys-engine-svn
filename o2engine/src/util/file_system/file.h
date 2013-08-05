@@ -72,7 +72,7 @@ public:
 	bool close();
 		   
 	/** Write some data from dataPtr. */
-	void writeData(void* dataPtr, uint64 bytes);
+	void writeData(const void* dataPtr, uint64 bytes);
 		               
 	/** Returns true, if file was opened. */
 	bool isOpened() const;

@@ -2,19 +2,20 @@
 
 OPEN_O2_NAMESPACE
 
-struct cTestSerializeObjA
+struct cTestSerializeObjA:public cSerializableObj
 {
 	int         a, b;
 	float       c, d;
 	std::string e, f;
-	char        g[16];
+	int         g[16];
 
 	cTestSerializeObjA()
 	{
 		a = 1; b = 2;
 		c = 3; d = 4;
 		e = "e"; f = "fff";
-		strcpy(g, "atata");
+		for (int i = 0; i < 16; i++)
+			g[i] = i;
 	}
 
 	SERIALIZE_METHOD_DECL();
@@ -49,6 +50,24 @@ SERIALIZE_INHERITED_METHOD_IMPL(cTestSerializeObjB)
 {
 	SERIALIZE(v);
 	SERIALIZE(h);
+}
+
+void testSerialization()
+{
+	pugi::xml_document doc;
+
+	cTestSerializeObjB bb;
+
+	bb.serialize(doc, cSerializeType::OUTPUT);
+
+	cSerialization::saveData(doc, "test_serialization.xml");
+
+	cTestSerializeObjB bbCopy;
+
+	pugi::xml_document rdoc;
+	cSerialization::loadData(rdoc, "test_serialization", cFileType::FT_CONFIG);
+
+	bbCopy.serialize(rdoc, cSerializeType::INPUT);
 }
 
 CLOSE_O2_NAMESPACE
