@@ -50,6 +50,8 @@ void cSerialization::saveData( pugi::xml_document& doc, cOutFile& file )
 	xmlWriter writer;
 	writer.file = &file;
 	doc.save(writer);
+
+	file.close();
 }
 
 void cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
