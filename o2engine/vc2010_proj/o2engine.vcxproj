@@ -165,6 +165,7 @@
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
     <ClCompile Include="..\src\app\application_base_interface.cpp" />
     <ClCompile Include="..\src\app\win\application_win.cpp" />
+    <ClCompile Include="..\src\render_system\ogl\render_system_ogl.cpp" />
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />

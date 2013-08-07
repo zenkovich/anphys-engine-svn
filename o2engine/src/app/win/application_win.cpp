@@ -317,7 +317,12 @@ void cApplication::setFullscreen()
 
 void cApplication::onUpdate( float dt )
 {
+	RECT workarea;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
 
+	vec2i maxWndSize(workarea.right - workarea.left - 20, workarea.bottom - workarea.top - 20);
+
+	float xScale = 
 }
 
 void cApplication::onDraw()

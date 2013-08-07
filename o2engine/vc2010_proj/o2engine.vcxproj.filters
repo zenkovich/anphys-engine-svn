@@ -355,5 +355,8 @@
     <ClCompile Include="..\src\util\serialization\serialization.cpp">
       <Filter>src\util\serialization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\render_system\ogl\render_system_ogl.cpp">
+      <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

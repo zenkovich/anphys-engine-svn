@@ -7,6 +7,7 @@
 OPEN_O2_NAMESPACE
 
 class cApplication;
+class cLogStream;
 class grTexture;
 class grCamera;
 class grMesh;
@@ -18,10 +19,9 @@ public:
 
 protected:
 	cApplication* mApplication;
-
 	TexturesVec   mTextures;
-
 	grCamera*     mCurrentCamera;
+	cLogStream*   mLog;
 
 public:
 	grRenderSystemBaseInterface(cApplication* application);
