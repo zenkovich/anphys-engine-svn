@@ -51,6 +51,9 @@ public:
 	/** Sets option for application. */
 	void setOption(cApplicationOption::type option, ...);
 
+	/** Getting option. */
+	void getOption(cApplicationOption::type option, ...);
+
 	/** Called on message processing. */
 	virtual void processMessage(cApplacationMessage::type message);
 

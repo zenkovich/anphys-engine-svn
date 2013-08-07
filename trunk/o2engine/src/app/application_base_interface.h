@@ -10,13 +10,14 @@ OPEN_O2_NAMESPACE
 struct cApplicationOption
 {
 	enum type {
-		WINDOWED = 0,               /**< Setting frame in windowed mode. Available on WIN, MAC. */
-		FULLSCREEN,                 /**< Setting frame in fulscreen mode. Available on WIN, MAC. */
-		RESIZIBLE,                  /**< Setting frame as resizible by user. Available on WIN, MAC. */
-		AUTO_AJUST_BY_SCREEN_SPACE, /**< Setting frame as auto ajusting by available screen space. Available on WIN, MAC. */
-		WND_SIZE,                   /**< Setting frame size. Available on WIN, MAC. */
-		WND_POSITION,               /**< Setting frame position. Available on WIN, MAC. */
-		WND_CAPTION                 /**< Setting frame caption. Available on WIN, MAC. */
+		WINDOWED = 0,               /**< Frame in windowed mode. Available on WIN, MAC. */
+		FULLSCREEN,                 /**< Frame in fulscreen mode. Available on WIN, MAC. */
+		RESIZIBLE,                  /**< Frame as resizible by user. Available on WIN, MAC. */
+		AUTO_AJUST_BY_SCREEN_SPACE, /**< Frame as auto ajusting by available screen space. Available on WIN, MAC. */
+		WND_SIZE,                   /**< Frame size. Available on WIN, MAC. */
+		WND_POSITION,               /**< Frame position. Available on WIN, MAC. */
+		WND_CAPTION,                /**< Frame caption. Available on WIN, MAC. */
+		CLIENT_RECT                 /**< Frame client area rect. */
 	};
 };
 
@@ -67,6 +68,9 @@ public:
 
 	/** Sets option for application. */
 	virtual void setOption(cApplicationOption::type option, ...) {}
+
+	/** Getting option. */
+	virtual void getOption(cApplicationOption::type option, ...) {}
 
 	/** Called on message processing. */
 	virtual void processMessage(cApplacationMessage::type message) {}
