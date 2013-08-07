@@ -2,8 +2,10 @@
 
 #include <algorithm>
 
-#include "texture.h"
+#include "util/log/file_log_stream.h"
+#include "util/log.h"
 #include "app/application.h"
+#include "texture.h"
 #include "texture.h"
 
 OPEN_O2_NAMESPACE
@@ -11,11 +13,14 @@ OPEN_O2_NAMESPACE
 grRenderSystemBaseInterface::grRenderSystemBaseInterface( cApplication* application ):
 	mCurrentCamera(NULL), mApplication(application)
 {
+	mLog = new cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
+	gLog->bindStream(mLog);
 }
 
 grRenderSystemBaseInterface::~grRenderSystemBaseInterface()
 {
 	removeAllTextures();
+	gLog->unbindStream(mLog);
 }
 
 bool grRenderSystemBaseInterface::bindCamera( grCamera* camera )
@@ -45,6 +50,9 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 
 	grTexture* newTexture = new grTexture((grRenderSystem*)this, fileName);
 	newTexture->incRefCount();
+
+	mLog->hout("Created texture '%s'", fileName.c_str());
+
 	return addTexture(newTexture);
 }
 
