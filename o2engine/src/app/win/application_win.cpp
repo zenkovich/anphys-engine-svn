@@ -266,12 +266,52 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	va_end(vlist);
 }
 
+void cApplication::getOption( cApplicationOption::type option, ... )
+{	
+	va_list vlist;
+	va_start(vlist, option);
+
+	if (option == cApplicationOption::WINDOWED)
+	{
+		bool* res = va_arg(vlist, bool*);
+		*res = mWindowed;
+	}
+	else if (option == cApplicationOption::FULLSCREEN)
+	{
+		bool* res = va_arg(vlist, (bool*));
+		*res = !mWindowed;
+	}
+	else if (option == cApplicationOption::RESIZIBLE)
+	{		
+		bool* res = va_arg(vlist, (bool*));
+		*res = mWindowResizible && mWindowed;
+	}
+	else if (option == cApplicationOption::AUTO_AJUST_BY_SCREEN_SPACE)
+	{
+		bool* res = va_arg(vlist, (bool*));
+		*res = mAutoAjustByScreen && mWindowed;
+	}
+	else if (option == cApplicationOption::WND_SIZE)
+	{
+		vec2i* res = va_arg(vlist, (vec2i*));
+		*res = mWindowedSize;
+	}
+	else if (option == cApplicationOption::WND_POSITION)
+	{		
+		vec2i* res = va_arg(vlist, (vec2i*));
+		*res = mWindowedPos;
+	}
+	else if (option == cApplicationOption::WND_CAPTION)
+	{
+		std::string* res = va_arg(vlist, std::string*);
+		*res = mWndCaption;
+	}
+
+	va_end(vlist);
+}
+
 void cApplication::processMessage( cApplacationMessage::type message )
 {
-	const char* msgNames[] = { "ON_ACTIVATED", "ON_DEACTIVATED", "ON_STARTED", "ON_CLOSING", "ON_SIZING", "ON_MOVING" };
-
-	mLogStream->hout("cApplication::processMessage( %s )",
-		msgNames[clamp(message, (cApplacationMessage::type)0, cApplacationMessage::ON_MOVING)]);
 }
 
 void cApplication::resetWnd()
