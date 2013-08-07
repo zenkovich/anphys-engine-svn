@@ -278,27 +278,27 @@ void cApplication::getOption( cApplicationOption::type option, ... )
 	}
 	else if (option == cApplicationOption::FULLSCREEN)
 	{
-		bool* res = va_arg(vlist, (bool*));
+		bool* res = va_arg(vlist, bool*);
 		*res = !mWindowed;
 	}
 	else if (option == cApplicationOption::RESIZIBLE)
 	{		
-		bool* res = va_arg(vlist, (bool*));
+		bool* res = va_arg(vlist, bool*);
 		*res = mWindowResizible && mWindowed;
 	}
 	else if (option == cApplicationOption::AUTO_AJUST_BY_SCREEN_SPACE)
 	{
-		bool* res = va_arg(vlist, (bool*));
+		bool* res = va_arg(vlist, bool*);
 		*res = mAutoAjustByScreen && mWindowed;
 	}
 	else if (option == cApplicationOption::WND_SIZE)
 	{
-		vec2i* res = va_arg(vlist, (vec2i*));
+		vec2i* res = va_arg(vlist, vec2i*);
 		*res = mWindowedSize;
 	}
 	else if (option == cApplicationOption::WND_POSITION)
 	{		
-		vec2i* res = va_arg(vlist, (vec2i*));
+		vec2i* res = va_arg(vlist, vec2i*);
 		*res = mWindowedPos;
 	}
 	else if (option == cApplicationOption::WND_CAPTION)
