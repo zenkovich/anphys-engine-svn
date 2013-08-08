@@ -41,6 +41,8 @@ public:
 
 protected:
 	virtual void updateCameraTransforms() {}
+
+	virtual void frameResized() {}
 };
 
 CLOSE_O2_NAMESPACE

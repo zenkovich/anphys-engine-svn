@@ -1,7 +1,11 @@
 #include "test_app.h"
 
-#include "util/math/vector2.h"
+#include "render_system/mesh.h"
+#include "render_system/render_system.h"
+#include "render_system/texture.h"
 #include "util/log.h"
+#include "util/math/color.h"
+#include "util/math/vector2.h"
 
 OPEN_O2_NAMESPACE
 DECLARE_SINGLETON(TestApp);
@@ -12,11 +16,15 @@ TestApp::TestApp():
 {
 	setOption(o2::cApplicationOption::WND_SIZE, o2::vec2i(800, 600));
 	setOption(o2::cApplicationOption::WND_CAPTION, (std::string)"bebebe");
+
+	texture = NULL;
+	mesh = NULL;
 }
 
 TestApp::~TestApp()
 {
-
+	safe_release(mesh);
+	safe_release(texture);
 }
 
 void TestApp::onUpdate( float dt )
@@ -47,4 +55,38 @@ void TestApp::onUpdate( float dt )
 
 	if (mInputMessage.isKeyPressed('Z'))
 		setOption(o2::cApplicationOption::RESIZIBLE, !mWindowResizible);
+}
+
+void TestApp::processMessage( o2::cApplacationMessage::type message )
+{
+	cApplication::processMessage(message);
+
+	if (message == o2::cApplacationMessage::ON_STARTED)
+	{
+		texture = mRenderSystem->createTexture("test.png");
+		mesh = new o2::grMesh(mRenderSystem, texture);
+
+		o2::color4 colr(0, 255, 0, 255);
+		
+		mesh->mVerticies[0] = o2::vertex2(0, 0, colr.ABGR(), 0, 0);
+		mesh->mVerticies[1] = o2::vertex2(100, 0, colr.ABGR(), 1, 0);
+		mesh->mVerticies[2] = o2::vertex2(100, 100, colr.ABGR(), 1, 1);
+		mesh->mVerticies[3] = o2::vertex2(0, 100, colr.ABGR(), 0, 1);
+		
+		mesh->mIndexes[0] = 0;
+		mesh->mIndexes[1] = 1;
+		mesh->mIndexes[2] = 2;
+		
+		mesh->mIndexes[3] = 0;
+		mesh->mIndexes[4] = 2;
+		mesh->mIndexes[5] = 3;
+
+		mesh->mVertexCount = 4;
+		mesh->mPolyCount = 2;
+	}
+}
+
+void TestApp::onDraw()
+{
+	mesh->draw();
 }

@@ -5,6 +5,7 @@
 #include "util/log.h"
 #include "util/math/math.h"
 #include "util/timer.h"
+#include "render_system/render_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,14 +15,17 @@ cApplication::cApplication():
 	mAutoAjustByScreen(false), mAutoAjustScale(1, 1), mWindowResizible(true), mActive(false), mTimer(NULL)
 {
 	initializeWindow();
+
 	mTimer = new cTimer;
 	mTimer->reset();
 	mApplication = this;
+
+	mRenderSystem = new grRenderSystem(this);
 }
 
 cApplication::~cApplication()
-{
-
+{	
+	safe_release(mRenderSystem);
 }
 
 void cApplication::initializeWindow()
@@ -88,7 +92,7 @@ void cApplication::launch()
 			float dt = mTimer->getElapsedTime();
 
 			onUpdate(dt);
-			onDraw();			
+			draw();
 			mInputMessage.update(dt);
 
 		}
@@ -141,7 +145,7 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	case WM_ACTIVATE:
 		if ((HWND)lParam == mApplication->mHWnd || true)
 		{
-			hlog("LOWORD(wParam) = %i %i %i", LOWORD(wParam), mApplication->mHWnd, lParam);
+			//hlog("LOWORD(wParam) = %i %i %i", LOWORD(wParam), mApplication->mHWnd, lParam);
 
 			if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
 			{
@@ -174,7 +178,7 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		if (pos.x < 10000 && pos.y < 10000 && pos != mApplication->mWindowedPos)
 		{
 			mApplication->mWindowedPos = pos;
-			hlog("WND POS %i %i", pos.x, pos.y);
+			//hlog("WND POS %i %i", pos.x, pos.y);
 			mApplication->processMessage(cApplacationMessage::ON_MOVING);
 		}
 		break;
@@ -254,6 +258,25 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 
 		resetWnd();
 	}
+	else if (option == cApplicationOption::CLIENT_RECT)
+	{
+		vec2i clientRectSize = va_arg(vlist, vec2i);
+
+		RECT clientRect;
+		GetClientRect(mHWnd, &clientRect);
+		clientRect.right = clientRect.left + clientRectSize.x;
+		clientRect.bottom = clientRect.top + clientRectSize.y;
+
+		AdjustWindowRect(&clientRect, mWndStyle, false);
+
+		mWindowedPos = vec2i(clientRect.left, clientRect.top);
+		mWindowedSize = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
+
+		mLogStream->hout("cApplication::setOptions( CLIENT_RECT, v2(%i %i) )", 
+			clientRectSize.x, clientRectSize.y);
+
+		resetWnd();
+	}
 	else if (option == cApplicationOption::WND_CAPTION)
 	{
 		mWndCaption = va_arg(vlist, std::string);
@@ -301,6 +324,15 @@ void cApplication::getOption( cApplicationOption::type option, ... )
 		vec2i* res = va_arg(vlist, vec2i*);
 		*res = mWindowedPos;
 	}
+	else if (option == cApplicationOption::CLIENT_RECT)
+	{		
+		vec2i* res = va_arg(vlist, vec2i*);
+
+		RECT clientRect;
+		GetClientRect(mHWnd, &clientRect);
+
+		*res = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
+	}
 	else if (option == cApplicationOption::WND_CAPTION)
 	{
 		std::string* res = va_arg(vlist, std::string*);
@@ -312,6 +344,10 @@ void cApplication::getOption( cApplicationOption::type option, ... )
 
 void cApplication::processMessage( cApplacationMessage::type message )
 {
+	if (message == cApplacationMessage::ON_SIZING)
+	{
+		mRenderSystem->frameResized();
+	}
 }
 
 void cApplication::resetWnd()
@@ -357,17 +393,20 @@ void cApplication::setFullscreen()
 
 void cApplication::onUpdate( float dt )
 {
-	RECT workarea;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
-
-	vec2i maxWndSize(workarea.right - workarea.left - 20, workarea.bottom - workarea.top - 20);
-
-	float xScale = 
 }
 
 void cApplication::onDraw()
 {
 
+}
+
+void cApplication::draw()
+{
+	mRenderSystem->beginRender();
+
+	onDraw();
+
+	mRenderSystem->endRender();
 }
 
 cApplication* cApplication::mApplication = NULL;

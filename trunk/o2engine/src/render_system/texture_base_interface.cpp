@@ -4,21 +4,9 @@
 
 OPEN_O2_NAMESPACE
 	
-grTextureBaseInterface::grTextureBaseInterface():
-	mRenderSystem(NULL), mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT), mRefCount(0)
+grTextureBaseInterface::grTextureBaseInterface(grRenderSystem* renderSystem):
+	mRenderSystem(renderSystem), mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT), mRefCount(0)
 {
-}
-
-grTextureBaseInterface::grTextureBaseInterface(grRenderSystem* renderSystem, const vec2f& size, grTexFormat::type format, 
-						                       grTexUsage::type usage)
-{
-	create(renderSystem, size, format, usage);
-}
-
-grTextureBaseInterface::grTextureBaseInterface( grRenderSystem* renderSystem, const std::string& fileName ):
-	mRefCount(0)
-{
-	createFromFile(renderSystem, fileName);
 }
 
 grTextureBaseInterface::~grTextureBaseInterface()

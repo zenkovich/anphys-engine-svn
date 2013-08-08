@@ -1,42 +1,116 @@
 #include "render_system_ogl.h"
 
+#include "../mesh.h"
+#include "../texture.h"
+#include "app/application.h"
+#include "util/log/log_stream.h"
+#include "util/math/math.h"
+
 OPEN_O2_NAMESPACE
 
 grRenderSystem::grRenderSystem( cApplication* application ):
-	grRenderSystemBaseInterface(application)
+	grRenderSystemBaseInterface(application), mReady(false)
 {
 	initializeGL();
 }
 
 grRenderSystem::~grRenderSystem()
 {
-	removeAllTextures();
-
 	deinitializeGL();
 }
 
 bool grRenderSystem::beginRender()
 {
+	if (!mReady)
+		return false;
 
+//reset batching params
+	mLastDrawTexture     = NULL;
+	mLastDrawVertex      = NULL;
+	mTrianglesCount      = 0;
+	mFrameTrianglesCount = 0;
+	mDIPCount            = 0;
+			
+	float projMat[16];
+	orthoProjMatrix(projMat, 0.0f, (float)mResolution.x, (float)mResolution.y, 0.0f, 0.0f, 10.0f);	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, mResolution.x, mResolution.y);
+	glLoadMatrixf(projMat);
+
+	updateCameraTransforms();
+	
+	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+
+	return true;
 }
 
 bool grRenderSystem::endRender()
 {
+	if (!mReady)
+		return false;
 
+//flush geometry
+	drawPrimitives();
+
+	SwapBuffers(mHDC);
+
+	return true;
 }
 
 bool grRenderSystem::drawMesh( grMesh* mesh )
 {
+	if (!mReady)
+		return false;
 
+//check difference
+	if (mLastDrawTexture != mesh->mTexture || 
+		mLastDrawVertex + mesh->mVertexCount >= nVertexBufferSize ||
+		mLastDrawIdx + mesh->mPolyCount*3 >= nIndexBufferSize)
+	{
+		drawPrimitives();
+
+		mLastDrawTexture = mesh->mTexture;
+		if (mLastDrawTexture) 
+		{			
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, mLastDrawTexture->mHandle);
+		}
+		else          
+		{
+			glDisable(GL_TEXTURE_2D);
+		}
+	}
+
+//copy data
+	memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], mesh->mVerticies, sizeof(vertex2)*mesh->mVertexCount);
+
+	for (unsigned int i = mLastDrawIdx, j = 0; i < mesh->mPolyCount*3; i++, j++)
+	{
+		mVertexIndexData[i] = mLastDrawVertex + mesh->mIndexes[j];
+	}
+
+	mTrianglesCount += 2;
+	mLastDrawVertex += mesh->mVertexCount;
+	mLastDrawIdx += mesh->mPolyCount*3;
+
+	return true;
 }
 
 void grRenderSystem::updateCameraTransforms()
 {
-
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.0f,0.0f,-1.0f);	
 }
 
 void grRenderSystem::initializeGL()
 {
+	mLog->out("Initializing OpenGL render..");
+
+	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+
 	GLuint pixelFormat;
 	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
 	{
@@ -63,34 +137,34 @@ void grRenderSystem::initializeGL()
 	mHDC = GetDC(mApplication->mHWnd);
 	if (!mHDC)						
 	{					
-		printf("ERROR: Can't Create A GL Device Context.\n");
-		return false;						
+		mLog->out("ERROR: Can't Create A GL Device Context.\n");
+		return;						
 	}
 
 	pixelFormat = ChoosePixelFormat(mHDC, &pfd);
 	if (!pixelFormat)	
 	{	
-		printf("ERROR: Can't Find A Suitable PixelFormat.\n");
-		return false;								
+		mLog->out("ERROR: Can't Find A Suitable PixelFormat.\n");
+		return;								
 	}
 
 	if (!SetPixelFormat(mHDC, pixelFormat, &pfd))	
 	{
-		printf("ERROR: Can't Set The PixelFormat.\n");
-		return false;
+		mLog->out("ERROR: Can't Set The PixelFormat.\n");
+		return;
 	}
 
 	mGLContext = wglCreateContext(mHDC);
 	if (!mGLContext)	
 	{
-		printf("ERROR: Can't Create A GL Rendering Context.\n");
-		return false;
+		mLog->out("ERROR: Can't Create A GL Rendering Context.\n");
+		return;
 	}
 
 	if(!wglMakeCurrent(mHDC, mGLContext))			
 	{
-		printf("ERROR: Can't Activate The GL Rendering Context.\n");
-		return false;
+		mLog->out("ERROR: Can't Activate The GL Rendering Context.\n");
+		return;
 	}
 
 	mVertexData = new unsigned char[nVertexBufferSize*sizeof(vertex2)];
@@ -125,11 +199,51 @@ void grRenderSystem::initializeGL()
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	mReady = true;
 }
 
 void grRenderSystem::deinitializeGL()
 {
+	if (!mReady)
+		return;
 
+	if (mGLContext)										
+	{		
+		removeAllTextures();
+
+		if (!wglMakeCurrent(NULL,NULL))				
+		{
+			mLog->out("ERROR: Release Of DC And RC Failed.\n");
+		}
+
+		if (!wglDeleteContext(mGLContext))					
+		{
+			mLog->out("ERROR: Release Rendering Context Failed.\n");
+		}
+
+		mGLContext = NULL;				
+	}
+
+	mReady = false;
+}
+
+void grRenderSystem::drawPrimitives()
+{	
+	if (mLastDrawVertex < 1)
+		return;
+
+	glDrawElements(GL_TRIANGLES, mTrianglesCount*3, GL_UNSIGNED_SHORT, mVertexIndexData);
+
+	mFrameTrianglesCount += mTrianglesCount;
+	mLastDrawVertex = mTrianglesCount = 0;
+
+	mDIPCount++;
+}
+
+void grRenderSystem::frameResized()
+{
+	mApplication->getOption(cApplicationOption::WND_SIZE, &mResolution);
 }
 
 CLOSE_O2_NAMESPACE

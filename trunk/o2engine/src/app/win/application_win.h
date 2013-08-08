@@ -16,6 +16,8 @@ class cTimer;
 class cApplication:public cApplicationBaseInterface
 {
 protected:
+	friend class grRenderSystem;
+
 	HWND         mHWnd;                /**< Window handle. */
 	unsigned int mWndStyle;            /**< Window styles data. */
 		         					   
@@ -75,6 +77,8 @@ protected:
 
 	/** Window proc func. */
 	static LRESULT wndProc(HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	void draw();
 };
 
 CLOSE_O2_NAMESPACE

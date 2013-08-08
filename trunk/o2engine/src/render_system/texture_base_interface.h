@@ -7,6 +7,7 @@
 OPEN_O2_NAMESPACE
 
 class grRenderSystem;
+class cImage;
 
 struct grTexFormat
 {
@@ -31,20 +32,18 @@ protected:
 	std::string       mFileName;
 	int               mRefCount;
 
+	bool              mReady;
+
 public:
-	grTextureBaseInterface();
-
-	grTextureBaseInterface(grRenderSystem* renderSystem, const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
-						   grTexUsage::type usage = grTexUsage::DEFAULT);
-
-	grTextureBaseInterface(grRenderSystem* renderSystem, const std::string& fileName);
-
+	grTextureBaseInterface(grRenderSystem* renderSystem);
 	virtual ~grTextureBaseInterface();
 
 
 	virtual void create(grRenderSystem* renderSystem, const vec2f& size, 
 		                grTexFormat::type format = grTexFormat::DEFAULT, 
 				  	    grTexUsage::type usage = grTexUsage::DEFAULT) {}
+
+	virtual void createFromImage(grRenderSystem* renderSystem, cImage* image) {}
 				       
 	virtual void createFromFile(grRenderSystem* renderSystem, const std::string& fileName) {}
 				       

@@ -70,6 +70,9 @@ T rad2deg(const T& value)
 	return value*( (T)(180.0f/PI) );
 }
 
+/* Matricies. */
+void orthoProjMatrix(float* mat, float left, float right, float bottom, float top, float nearz, float farz);
+
 CLOSE_O2_NAMESPACE
 
 #endif //MATH_H
