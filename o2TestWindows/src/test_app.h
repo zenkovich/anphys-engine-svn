@@ -4,13 +4,26 @@
 #include "app/application.h"
 #include "util/singleton.h"
 
+OPEN_O2_NAMESPACE
+
+class grTexture;
+class grMesh;
+
+CLOSE_O2_NAMESPACE
+
 class TestApp:public o2::cApplication, public o2::cSingleton<TestApp>
 {
 public:
+	o2::grTexture* texture;
+	o2::grMesh*    mesh;
+
 	TestApp();
 	~TestApp();
 
 	void onUpdate(float dt);
+	void onDraw();
+
+	void processMessage(o2::cApplacationMessage::type message);
 };
 
 #endif //TEST_APP_H

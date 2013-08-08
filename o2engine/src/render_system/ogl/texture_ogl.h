@@ -2,30 +2,37 @@
 #define TEXTURE_OGL_H
 
 #include "../texture_base_interface.h"
+#include "ogl.h"
 
 OPEN_O2_NAMESPACE
 
 class grTexture:public grTextureBaseInterface
 {
+	friend class grRenderSystem;
+
+	GLuint mHandle;
+
 public:
-	grTexture() {}
+	grTexture();
 
 	grTexture(grRenderSystem* renderSystem, const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
-						   grTexUsage::type usage = grTexUsage::DEFAULT);
+			  grTexUsage::type usage = grTexUsage::DEFAULT);
 
-	grTexture(grRenderSystem* renderSystem, const std::string& fileName) {}
+	grTexture(grRenderSystem* renderSystem, const std::string& fileName);
 
-	~grTexture() {}
+	~grTexture();
 
 
 	void create(grRenderSystem* renderSystem, const vec2f& size, 
 	            grTexFormat::type format = grTexFormat::DEFAULT, 
-		  	    grTexUsage::type usage = grTexUsage::DEFAULT) {}
+		  	    grTexUsage::type usage = grTexUsage::DEFAULT);
+
+	void createFromImage(grRenderSystem* renderSystem, cImage* image);
 		       
-	void createFromFile(grRenderSystem* renderSystem, const std::string& fileName) {}
+	void createFromFile(grRenderSystem* renderSystem, const std::string& fileName);
 		       
 	void createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                              grTexFormat::type format = grTexFormat::DEFAULT) {}
+		                      grTexFormat::type format = grTexFormat::DEFAULT);
 };
 
 CLOSE_O2_NAMESPACE

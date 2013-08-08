@@ -31,16 +31,11 @@ void cApplicationBaseInterface::initalizeSystems()
 	mLogStream = new cFileLogStream("App", 2, "app_log.txt");
 	gLog->bindStream(mLogStream);
 
-//render system
-	mRenderSystem = new grRenderSystem((cApplication*)this);
-
 	mLogStream->out("All Systems initialized");
 }
 
 void cApplicationBaseInterface::deinitializeSystems()
 {
-	safe_release(mRenderSystem);
-
 	safe_release(mFileSystem);
 
 	mLogStream->out("All systems deinitialized");

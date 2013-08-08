@@ -200,6 +200,12 @@
     <ClInclude Include="..\src\util\serialization\serialization.h">
       <Filter>src\util\serialization</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\ogl.h">
+      <Filter>src\render_system\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\mesh.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -357,6 +363,15 @@
     </ClCompile>
     <ClCompile Include="..\src\render_system\ogl\render_system_ogl.cpp">
       <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\math\math.cpp">
+      <Filter>src\util\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\ogl\texture_ogl.cpp">
+      <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\mesh.cpp">
+      <Filter>src\render_system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

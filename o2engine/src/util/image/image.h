@@ -12,7 +12,7 @@ class cImage
 {
 public:
 	enum Format { FMT_NONE = 0, FMT_R8G8B8A8 };
-	enum ImageType { IT_NONE = 0, IT_PNG };
+	enum ImageType { IT_AUTO = 0, IT_PNG };
 
 protected:
 	Format         mFormat;   /**< Image format. */
@@ -29,13 +29,25 @@ public:
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const std::string& fileName, ImageType type);
+	bool load(const std::string& fileName, ImageType type = IT_AUTO);
 
 	/** Saving image to file. */
 	bool save(const std::string& fileName, ImageType type) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);
+
+	/** Returns data. */
+	unsigned char* getData();
+
+	/** Returns const data. */
+	const unsigned char* getDataConst() const;
+
+	/** Returns size of image. */
+	vec2i getSize() const;
+
+	/** Returns pixel format. */
+	Format getFormat() const;
 };
 
 CLOSE_O2_NAMESPACE
