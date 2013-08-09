@@ -7,6 +7,8 @@
 
 OPEN_O2_NAMESPACE
 
+class cLogStream;
+
 /** Image. Containing formatted pixel data, size, filename. */
 class cImage
 {
@@ -29,10 +31,10 @@ public:
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const std::string& fileName, ImageType type = IT_AUTO);
+	bool load(const std::string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
 
 	/** Saving image to file. */
-	bool save(const std::string& fileName, ImageType type) const;
+	bool save(const std::string& fileName, ImageType type, cLogStream* clog = NULL) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);

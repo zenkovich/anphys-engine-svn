@@ -60,7 +60,7 @@ void testSerialization()
 
 	bb.serialize(doc, cSerializeType::OUTPUT);
 
-	cSerialization::saveData(doc, "test_serialization.xml");
+	cSerialization::saveData(doc, "../data/test_serialization.xml");
 
 	cTestSerializeObjB bbCopy;
 
