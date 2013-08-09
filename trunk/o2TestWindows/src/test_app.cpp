@@ -3,6 +3,7 @@
 #include "render_system/mesh.h"
 #include "render_system/render_system.h"
 #include "render_system/texture.h"
+#include "util/file_system/file_system.h"
 #include "util/log.h"
 #include "util/math/color.h"
 #include "util/math/vector2.h"
@@ -19,12 +20,14 @@ TestApp::TestApp():
 
 	texture = NULL;
 	mesh = NULL;
+
+	o2::getFileSystem().setResourcePath("../data/");
 }
 
 TestApp::~TestApp()
 {
 	safe_release(mesh);
-	safe_release(texture);
+	mRenderSystem->removeTexture(texture);
 }
 
 void TestApp::onUpdate( float dt )
@@ -63,8 +66,8 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 	if (message == o2::cApplacationMessage::ON_STARTED)
 	{
-		texture = mRenderSystem->createTexture("test.png");
-		mesh = new o2::grMesh(mRenderSystem, texture);
+		texture = mRenderSystem->createTexture("test");
+		mesh = new o2::grMesh(mRenderSystem, NULL);
 
 		o2::color4 colr(0, 255, 0, 255);
 		

@@ -14,6 +14,8 @@ class grMesh;
 
 class grRenderSystemBaseInterface
 {
+	friend class grTexture;
+
 public:
 	typedef std::vector<grTexture*> TexturesVec;
 

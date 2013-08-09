@@ -9,11 +9,25 @@ void cSerialization::loadData( pugi::xml_document& doc, const std::string& fileN
 	                           cFileType::value fileType /*= cFileType::FT_FILE*/, cLogStream* log /*= NULL*/ )
 {
 	cInFile file(fileName, fileType);
+
+	if (!file.isOpened())
+	{
+		cLogStream* nlog = log;
+		if (!nlog)
+			nlog = gLog;
+
+		nlog->out("ERROR: Failed to open data file: '%s'", fileName.c_str());
+		return;
+	}
+
 	loadData(doc, file, log);
 }
 
 void cSerialization::loadData( pugi::xml_document& doc, cInFile& file, cLogStream* log /*= NULL*/ )
 {
+	if (!file.isOpened())
+		return;
+
 	uint64 size = file.getDataSize();
 	char* buf = new char[(unsigned int)size];
 	file.readFullData((void*)buf);

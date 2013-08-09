@@ -37,7 +37,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 		log = gLog;
 
 	cInFile* pngImageFile = new cInFile(fileName, cFileType::FT_IMAGE);
-	if (!pngImageFile)
+	if (!pngImageFile->isOpened())
 	{
 		if (errors) log->out("ERROR: Can't load PNG file '%s'\n", fileName.c_str());
 		return false;

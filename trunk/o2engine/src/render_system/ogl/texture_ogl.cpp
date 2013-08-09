@@ -1,6 +1,7 @@
 #include "texture_ogl.h"
 
-#include "util\image\image.h"
+#include "util/image/image.h"
+#include "../render_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -65,7 +66,8 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 	else if (mFormat == grTexFormat::R8G8B8)
 		texFormat = GL_RGB;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, texFormat, image->getSize().x, image->getSize().y, 0, texFormat, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, texFormat, image->getSize().x, image->getSize().y, 0, texFormat, GL_UNSIGNED_BYTE, 
+		         image->getData());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -76,7 +78,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 void grTexture::createFromFile( grRenderSystem* renderSystem, const std::string& fileName )
 {
 	cImage* image = new cImage;
-	if (image->load(fileName))
+	if (image->load(fileName, cImage::IT_AUTO, renderSystem->mLog))
 		createFromImage(renderSystem, image);
 }
 
