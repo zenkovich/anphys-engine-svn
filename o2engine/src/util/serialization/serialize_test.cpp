@@ -30,6 +30,8 @@ SERIALIZE_METHOD_IMPL(cTestSerializeObjA)
 	SERIALIZE(e);
 	SERIALIZE(f);
 	SERIALIZE_ARR(g, 16);
+
+	return true;
 }
 
 struct cTestSerializeObjB:public cTestSerializeObjA
@@ -50,6 +52,8 @@ SERIALIZE_INHERITED_METHOD_IMPL(cTestSerializeObjB)
 {
 	SERIALIZE(v);
 	SERIALIZE(h);
+
+	return true;
 }
 
 void testSerialization()

@@ -93,7 +93,7 @@ grSprite::grSprite( const grSprite& sprite )
 grSprite::grSprite(grRenderSystem* render, const std::string& file, const std::string& path)
 {
 	//create mesh
-	mMesh = new grMesh(render, 4, 2);
+	mMesh = new grMesh(render, NULL, 4, 2);
 
 	mMesh->mIndexes[0] = 0; mMesh->mIndexes[1] = 1; mMesh->mIndexes[2] = 2;
 	mMesh->mIndexes[3] = 0; mMesh->mIndexes[4] = 2; mMesh->mIndexes[5] = 3;
@@ -320,57 +320,60 @@ SERIALIZE_METHOD_IMPL(grSprite)
 	if (!SERIALIZE_ID(mPosition, "position"))
 		mPosition = vec2f(0, 0);
 
-	if (!serializeId(mScale, "scale"))
+	if (!SERIALIZE_ID(mScale, "scale"))
 		mScale = vec2f(1, 1);
 
-	if (!serializeId(mAngle, "angle"))
+	if (!SERIALIZE_ID(mAngle, "angle"))
 		mAngle = 0;
 
-	if (!serializeId(mRotationCenter, "rotationCenter"))
+	if (!SERIALIZE_ID(mRotationCenter, "rotationCenter"))
 		mRotationCenter = vec2f(0, 0);
 
-	if (achieveType == AT_OUTPUT) 
+	if (type == cSerializeType::OUTPUT) 
 	{
-		if (mMesh->mTextures.size() > 0 && mMesh->mTextures[0])
+		if (mMesh->mTexture)
 		{
-			serializeId(mMesh->mTextures[0]->mFileName, "texture");
-			serializeId(mTextureSrcRect, "textureSrcRect");
+			std::string texFilename = mMesh->mTexture->getFileName();
+			SERIALIZE_ID(texFilename, "texture");
+			SERIALIZE_ID(mTextureSrcRect, "textureSrcRect");
 		}
 	}
 	else
 	{
-		mMesh->removeAllTextures();
+		mMesh->setTexture(NULL);
 
 		std::string textureName;
-		if (serializeId(textureName, "texture"))
+		if (SERIALIZE_ID(textureName, "texture"))
 		{
-			grTexture* texture = mMesh->mRender->mTextures->createTexture(textureName);
-			mMesh->pushTexture(texture);
+			grTexture* texture = mMesh->mRenderSystem->createTexture(textureName);
+			mMesh->setTexture(texture);
 
-			if (!serializeId(mTextureSrcRect, "textureSrcRect"))
-				mTextureSrcRect = fRect(vec2f(0, 0), texture->mSize);
+			if (!SERIALIZE_ID(mTextureSrcRect, "textureSrcRect"))
+				mTextureSrcRect = fRect(vec2f(0, 0), texture->getSize());
 		}
 	}
 
-	if (!serializeId(mSize, "size"))
+	if (!SERIALIZE_ID(mSize, "size"))
 		mSize = mTextureSrcRect.getSize();
 
-	if (achieveType == AT_INPUT)
+	if (type == cSerializeType::INPUT)
 	{
 		color4 vertColors[4];
 
-		if (!serializeArrId(vertColors, 4, "vertColors"))
+		if (!SERIALIZE_ARR_ID(vertColors, 4, "vertColors"))
 		{
 			color4 spriteColor;
-			if (serializeId(spriteColor, "color"))
+			if (SERIALIZE_ID(spriteColor, "color"))
 			{
 				setColor(spriteColor);
 			}
+			else 
+				setColor(color4(255, 255, 255, 255));
 		}
 		else
 		{
 			for (unsigned int i = 0; i < 4; i++)
-				mMesh->mVertexBuffer[i].color = vertColors->dwordARGB();
+				mMesh->mVerticies[i].color = vertColors->dword();
 		}
 	}
 	else
@@ -380,7 +383,7 @@ SERIALIZE_METHOD_IMPL(grSprite)
 		bool different = false;
 		for (unsigned int i = 0; i < 4; i++)
 		{
-			vertColors[i].setDwordARGB( mMesh->mVertexBuffer[i].color );
+			vertColors[i].setDword( mMesh->mVerticies[i].color );
 
 			if (i > 0)
 			{
@@ -395,9 +398,9 @@ SERIALIZE_METHOD_IMPL(grSprite)
 		}
 
 		if (different)
-			serializeArrId(vertColors, 4, "vertColors");
+			SERIALIZE_ARR_ID(vertColors, 4, "vertColors");
 		else
-			serializeId(vertColors[0], "color");
+			SERIALIZE_ID(vertColors[0], "color");
 	}
 	
 	return true;

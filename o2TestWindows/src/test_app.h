@@ -8,6 +8,7 @@ OPEN_O2_NAMESPACE
 
 class grTexture;
 class grMesh;
+class grSprite;
 
 CLOSE_O2_NAMESPACE
 
@@ -16,6 +17,7 @@ class TestApp:public o2::cApplication, public o2::cSingleton<TestApp>
 public:
 	o2::grTexture* texture;
 	o2::grMesh*    mesh;
+	o2::grSprite*  sprite;
 
 	TestApp();
 	~TestApp();

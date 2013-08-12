@@ -55,6 +55,12 @@ T abs(const T& value)
 	return value;
 }
 
+template<typename T>
+T random(const T& minValue = 0, const T& maxValue = 1)
+{
+	return (T)((float)rand()/RAND_MAX*(float)(maxValue - minValue) + (float)minValue);
+}
+
 /* Trigonometry. */
 #define PI 3.1415926535897932384626433832795f
 
