@@ -67,14 +67,14 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 	if (message == o2::cApplacationMessage::ON_STARTED)
 	{
 		texture = mRenderSystem->createTexture("test");
-		mesh = new o2::grMesh(mRenderSystem, NULL);
+		mesh = new o2::grMesh(mRenderSystem, texture);
 
-		o2::color4 colr(0, 255, 0, 255);
+		o2::color4 colr(0, 0, 255, 255);
 		
-		mesh->mVerticies[0] = o2::vertex2(0, 0, colr.ABGR(), 0, 0);
-		mesh->mVerticies[1] = o2::vertex2(100, 0, colr.ABGR(), 1, 0);
-		mesh->mVerticies[2] = o2::vertex2(100, 100, colr.ABGR(), 1, 1);
-		mesh->mVerticies[3] = o2::vertex2(0, 100, colr.ABGR(), 0, 1);
+		mesh->mVerticies[0] = o2::vertex2(0, 0, colr.ARGB(), 0, 0);
+		mesh->mVerticies[1] = o2::vertex2(256, 0, colr.ARGB(), 1, 0);
+		mesh->mVerticies[2] = o2::vertex2(256, 256, colr.ARGB(), 1, 1);
+		mesh->mVerticies[3] = o2::vertex2(0, 256, colr.ARGB(), 0, 1);
 		
 		mesh->mIndexes[0] = 0;
 		mesh->mIndexes[1] = 1;

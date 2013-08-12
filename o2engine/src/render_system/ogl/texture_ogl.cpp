@@ -34,7 +34,7 @@ void grTexture::create( grRenderSystem* renderSystem, const vec2f& size,
 	glBindTexture(GL_TEXTURE_2D, mHandle);
 
 	GLint texFormat = GL_RGB;
-	if (format == grTexFormat::A8R8G8B8)
+	if (format == grTexFormat::R8G8B8A8)
 		texFormat = GL_RGBA;
 	else if (format == grTexFormat::R8G8B8)
 		texFormat = GL_RGB;
@@ -53,7 +53,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 	if (imageFormat == cImage::FMT_NONE)
 		mFormat = grTexFormat::DEFAULT;
 	else if (imageFormat == cImage::FMT_R8G8B8A8)
-		mFormat = grTexFormat::A8R8G8B8;
+		mFormat = grTexFormat::R8G8B8A8;
 
 	mUsage = grTexUsage::DEFAULT;
 
@@ -61,7 +61,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 	glBindTexture(GL_TEXTURE_2D, mHandle);
 
 	GLint texFormat = GL_RGB;
-	if (mFormat == grTexFormat::A8R8G8B8)
+	if (mFormat == grTexFormat::R8G8B8A8)
 		texFormat = GL_RGBA;
 	else if (mFormat == grTexFormat::R8G8B8)
 		texFormat = GL_RGB;

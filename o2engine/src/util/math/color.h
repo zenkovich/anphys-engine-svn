@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include "public.h"
+#include "engine_settings.h"
 #include "math.h"
 
 OPEN_O2_NAMESPACE
@@ -160,6 +161,23 @@ struct color4
 		r = (int)((color << 24) >> 24);
 	}
 
+	unsigned long dword() const 
+	{
+#ifdef RENDER_OGL
+		return ARGB();
+#elif defined(RENDER_D3D)
+		return ABGR()
+#endif
+	}
+
+	void setDword(unsigned long color)  
+	{
+#ifdef RENDER_OGL
+		setARGB(color);
+#elif defined(RENDER_D3D)
+		setABGR(color);
+#endif
+	}
 };
 
 CLOSE_O2_NAMESPACE

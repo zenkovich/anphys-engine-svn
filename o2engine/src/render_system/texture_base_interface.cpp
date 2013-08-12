@@ -43,4 +43,9 @@ grTexUsage::type grTextureBaseInterface::getUsage() const
 	return mUsage;
 }
 
+vec2f grTextureBaseInterface::getSize() const
+{
+	return mSize;
+}
+
 CLOSE_O2_NAMESPACE
