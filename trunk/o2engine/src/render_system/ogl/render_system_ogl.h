@@ -13,6 +13,7 @@ OPEN_O2_NAMESPACE
 class grRenderSystem:public grRenderSystemBaseInterface
 {	
 	friend class cApplication;
+	friend class grSprite;
 
 	enum { nVertexBufferSize = 6000, nIndexBufferSize = 6000*3 };
 

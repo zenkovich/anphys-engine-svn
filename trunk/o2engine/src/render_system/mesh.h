@@ -14,6 +14,7 @@ class grRenderSystem;
 class grMesh
 {
 	friend class grRenderSystem;
+	friend class grSprite;
 
 public:
 	vertex2*        mVerticies;

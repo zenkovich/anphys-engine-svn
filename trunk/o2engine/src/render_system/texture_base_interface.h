@@ -11,7 +11,7 @@ class cImage;
 
 struct grTexFormat
 {
-	enum type { DEFAULT = 0, A8R8G8B8, R8G8B8 };
+	enum type { DEFAULT = 0, R8G8B8A8, R8G8B8 };
 };
 
 struct grTexUsage
@@ -61,6 +61,8 @@ public:
 	grTexFormat::type getFormat() const;
 					   
 	grTexUsage::type getUsage() const;
+
+	vec2f getSize() const;
 };
 
 CLOSE_O2_NAMESPACE
