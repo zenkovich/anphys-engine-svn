@@ -2,6 +2,7 @@
 
 #include "render_system/mesh.h"
 #include "render_system/render_system.h"
+#include "render_system/sprite.h"
 #include "render_system/texture.h"
 #include "util/file_system/file_system.h"
 #include "util/log.h"
@@ -86,10 +87,24 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 		mesh->mVertexCount = 4;
 		mesh->mPolyCount = 2;
+
+		sprite = new o2::grSprite(mRenderSystem, texture);
+		sprite->setSize(o2::vec2f(20, 20));
+	}
+	else if (message == o2::cApplacationMessage::ON_SIZING)
+	{
+		draw();
 	}
 }
 
 void TestApp::onDraw()
 {
 	mesh->draw();
+
+	for (int i = 0; i < 1000; i++)
+	{
+		sprite->setPosition(o2::vec2f(o2::random(0.0f, 300.0f), o2::random(0.0f, 300.0f))).
+			    setAngle(o2::random(360.0f)).
+				setScale(o2::vec2f(o2::random(1.0f, 3.0f), o2::random(1.0f, 3.0f))).draw();
+	}
 }

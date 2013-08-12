@@ -29,6 +29,7 @@ void grTexture::create( grRenderSystem* renderSystem, const vec2f& size,
 {
 	mFormat = format;
 	mUsage = usage;
+	mSize = size;
 
 	glGenTextures(1, &mHandle);
 	glBindTexture(GL_TEXTURE_2D, mHandle);
@@ -56,6 +57,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 		mFormat = grTexFormat::R8G8B8A8;
 
 	mUsage = grTexUsage::DEFAULT;
+	mSize = image->getSize().castTo<float>();
 
 	glGenTextures(1, &mHandle);
 	glBindTexture(GL_TEXTURE_2D, mHandle);

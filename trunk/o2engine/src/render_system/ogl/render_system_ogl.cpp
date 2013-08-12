@@ -188,7 +188,7 @@ bool grRenderSystem::drawMesh( grMesh* mesh )
 		v->tv = 1.0f - v->tv;
 	}
 
-	for (unsigned int i = mLastDrawIdx, j = 0; i < mesh->mPolyCount*3; i++, j++)
+	for (unsigned int i = mLastDrawIdx, j = 0; j < mesh->mPolyCount*3; i++, j++)
 	{
 		mVertexIndexData[i] = mLastDrawVertex + mesh->mIndexes[j];
 	}
