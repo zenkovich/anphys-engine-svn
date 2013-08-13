@@ -49,7 +49,7 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 	}
 
 	grTexture* newTexture = new grTexture((grRenderSystem*)this, fileName);
-	newTexture->incRefCount();
+	//newTexture->incRefCount();
 
 	mLog->hout("Created texture '%s'", fileName.c_str());
 
@@ -87,6 +87,11 @@ bool grRenderSystemBaseInterface::removeAllTextures()
 	mTextures.clear();
 
 	return true;
+}
+
+vec2i grRenderSystemBaseInterface::getResolution() const
+{
+	return mResolution;
 }
 
 CLOSE_O2_NAMESPACE

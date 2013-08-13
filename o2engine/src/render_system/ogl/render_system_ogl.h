@@ -14,27 +14,29 @@ class grRenderSystem:public grRenderSystemBaseInterface
 {	
 	friend class cApplication;
 	friend class grSprite;
+	friend class grRenderTarget;
 
 	enum { nVertexBufferSize = 6000, nIndexBufferSize = 6000*3 };
 
 //gl context
-	HGLRC mGLContext;
-	HDC   mHDC;
-	vec2i mResolution;
+	HGLRC           mGLContext;
+	HDC             mHDC;
 
 //vertex & index buffers
-	unsigned char*          mVertexData;          /**< Pointer to vertex data buffer. */
-	unsigned short*         mVertexIndexData;
+	unsigned char*  mVertexData;          /**< Pointer to vertex data buffer. */
+	unsigned short* mVertexIndexData;
 	
 //batching parametres
-	grTexture*              mLastDrawTexture;     /**< Stored texture ptr from last DIP. */
-	unsigned int            mLastDrawVertex;      /**< Last vertex idx for next DIP. */
-	unsigned int            mLastDrawIdx;         /**< Last vertex index for nex DIP. */
-	unsigned int            mTrianglesCount;      /**< Triatgles count for next DIP. */
-	unsigned int            mFrameTrianglesCount; /**< Total triangles at current frame. */
-	unsigned int            mDIPCount;            /**< DrawIndexedPrimitives calls count. */
+	grTexture*      mLastDrawTexture;     /**< Stored texture ptr from last DIP. */
+	unsigned int    mLastDrawVertex;      /**< Last vertex idx for next DIP. */
+	unsigned int    mLastDrawIdx;         /**< Last vertex index for nex DIP. */
+	unsigned int    mTrianglesCount;      /**< Triatgles count for next DIP. */
+	unsigned int    mFrameTrianglesCount; /**< Total triangles at current frame. */
+	unsigned int    mDIPCount;            /**< DrawIndexedPrimitives calls count. */
 
-	bool                    mReady;               /**< True, if render system initialized. */
+	grRenderTarget* mCurrentRenderTarget;
+
+	bool            mReady;               /**< True, if render system initialized. */
 
 public:
 	grRenderSystem(cApplication* application);
@@ -44,6 +46,10 @@ public:
 	bool endRender();
 
 	bool drawMesh(grMesh* mesh);
+
+	bool bindRenderTarget(grRenderTarget* renderTarget);
+	bool unbindRenderTarget();
+	grRenderTarget* getCurrentRenderTarget() const;
 
 protected:
 	void updateCameraTransforms();
