@@ -78,14 +78,19 @@ struct cSerialization
 	{
 		bool res = true;
 
-		pugi::xml_node node = xmlNode.child(id.c_str());
-		for (int i = 0; i < count; i++)
+		pugi::xml_node node;
+		if (getNode(node, xmlNode, id))
 		{
-			char vId[32]; sprintf(vId, "v%i", i);
-			std::string sv = vId;
-			if (!serializeIn(node, sv, arr[i]))
-				res = false;
+			for (int i = 0; i < count; i++)
+			{
+				char vId[32]; sprintf(vId, "v%i", i);
+				std::string sv = vId;
+				if (!serializeIn(node, sv, arr[i]))
+					res = false;
+			}
 		}
+		else
+			res = false;
 
 		return res;
 	}
@@ -119,7 +124,7 @@ struct cSerialization
 	}
 
 protected:
-	static bool getNode(pugi::xml_node& node, const pugi::xml_node& parent, const std::string& id, cLogStream* log);
+	static bool getNode(pugi::xml_node& node, const pugi::xml_node& parent, const std::string& id);
 };
 
 /** Declare serialization method. */

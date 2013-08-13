@@ -18,6 +18,8 @@ public:
 	o2::grTexture* texture;
 	o2::grMesh*    mesh;
 	o2::grSprite*  sprite;
+	o2::grSprite*  sprite2;
+	o2::grSprite*  sprite3;
 
 	TestApp();
 	~TestApp();

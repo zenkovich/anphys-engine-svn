@@ -58,6 +58,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 
 	mUsage = grTexUsage::DEFAULT;
 	mSize = image->getSize().castTo<float>();
+	mFileName = image->getFilename();
 
 	glGenTextures(1, &mHandle);
 	glBindTexture(GL_TEXTURE_2D, mHandle);

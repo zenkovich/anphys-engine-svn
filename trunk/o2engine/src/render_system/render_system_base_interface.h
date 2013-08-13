@@ -4,13 +4,16 @@
 #include <vector>
 
 #include "public.h"
+#include "util/math/vector2.h"
+
 OPEN_O2_NAMESPACE
 
 class cApplication;
 class cLogStream;
-class grTexture;
 class grCamera;
 class grMesh;
+class grRenderTarget;
+class grTexture;
 
 class grRenderSystemBaseInterface
 {
@@ -20,6 +23,7 @@ public:
 	typedef std::vector<grTexture*> TexturesVec;
 
 protected:
+	vec2i         mResolution;
 	cApplication* mApplication;
 	TexturesVec   mTextures;
 	grCamera*     mCurrentCamera;
@@ -40,6 +44,12 @@ public:
 	bool removeAllTextures();
 
 	virtual bool drawMesh(grMesh* mesh) { return true; }
+	
+	virtual bool bindRenderTarget(grRenderTarget* renderTarget) { return false; }
+	virtual bool unbindRenderTarget() { return false; }
+	virtual grRenderTarget* getCurrentRenderTarget() const { return NULL; }
+
+	vec2i getResolution() const;
 
 protected:
 	virtual void updateCameraTransforms() {}

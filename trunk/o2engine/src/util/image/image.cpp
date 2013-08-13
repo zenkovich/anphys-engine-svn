@@ -39,6 +39,8 @@ bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog
 	cLogStream* log = clog;
 	if (!log) log = gLog;
 
+	mFilename = fileName;
+
 	if (type == IT_PNG)
 		return loadPngImage(fileName, this, true, log);
 	else
@@ -48,6 +50,8 @@ bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog
 
 		log->out("ERROR: Can't load image '%s': unknown format", fileName.c_str());
 	}
+
+	mFilename = "";
 
 	return false;
 }
@@ -92,6 +96,11 @@ cImage::Format cImage::getFormat() const
 const unsigned char* cImage::getDataConst() const
 {
 	return mData;
+}
+
+const std::string& cImage::getFilename() const
+{
+	return mFilename;
 }
 
 CLOSE_O2_NAMESPACE

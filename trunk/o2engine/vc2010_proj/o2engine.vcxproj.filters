@@ -209,6 +209,9 @@
     <ClInclude Include="..\src\render_system\sprite.h">
       <Filter>src\render_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render_system\render_target.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -377,6 +380,9 @@
       <Filter>src\render_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\render_system\sprite.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\render_target.cpp">
       <Filter>src\render_system</Filter>
     </ClCompile>
   </ItemGroup>

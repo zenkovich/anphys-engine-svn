@@ -89,7 +89,17 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 		mesh->mPolyCount = 2;
 
 		sprite = new o2::grSprite(mRenderSystem, texture);
-		sprite->setSize(o2::vec2f(20, 20));
+		sprite->setSize(o2::vec2f(50, 50));
+
+		sprite2 = new o2::grSprite(*sprite);
+		sprite2->setPosition(o2::vec2f(60, 0));
+
+		pugi::xml_document doc2;
+		o2::cSerialization::loadData(doc2, "sprite_serlz_test", o2::cFileType::FT_CONFIG);
+		sprite3 = new o2::grSprite(mRenderSystem);
+		sprite3->serialize(doc2, o2::cSerializeType::INPUT);
+
+		sprite3->setPosition(o2::vec2f(120, 0));
 	}
 	else if (message == o2::cApplacationMessage::ON_SIZING)
 	{
@@ -100,11 +110,8 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 void TestApp::onDraw()
 {
 	mesh->draw();
-
-	for (int i = 0; i < 1000; i++)
-	{
-		sprite->setPosition(o2::vec2f(o2::random(0.0f, 300.0f), o2::random(0.0f, 300.0f))).
-			    setAngle(o2::random(360.0f)).
-				setScale(o2::vec2f(o2::random(1.0f, 3.0f), o2::random(1.0f, 3.0f))).draw();
-	}
+	
+	sprite->draw();
+	sprite2->draw();
+	sprite3->draw();
 }

@@ -98,6 +98,8 @@ void grRenderSystem::initializeGL()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	mCurrentRenderTarget = NULL;
+
 	mReady = true;
 }
 
@@ -235,6 +237,31 @@ void grRenderSystem::deinitializeGL()
 void grRenderSystem::frameResized()
 {
 	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+}
+
+bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
+{
+	if (!renderTarget)
+		return false;
+
+	mCurrentRenderTarget = renderTarget;
+
+	return true;
+}
+
+bool grRenderSystem::unbindRenderTarget()
+{
+	if (!mCurrentRenderTarget)
+		return false;
+
+	mCurrentRenderTarget = NULL;
+
+	return true;
+}
+
+grRenderTarget* grRenderSystem::getCurrentRenderTarget() const
+{
+	return mCurrentRenderTarget;
 }
 
 CLOSE_O2_NAMESPACE

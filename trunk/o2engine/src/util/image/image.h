@@ -50,6 +50,9 @@ public:
 
 	/** Returns pixel format. */
 	Format getFormat() const;
+
+	/** Return file name. */
+	const std::string& getFilename() const;
 };
 
 CLOSE_O2_NAMESPACE
