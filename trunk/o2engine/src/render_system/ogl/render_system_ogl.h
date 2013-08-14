@@ -45,6 +45,8 @@ public:
 	bool beginRender();
 	bool endRender();
 
+	void clear(const color4& color = color4(0, 0, 0, 255));
+
 	bool drawMesh(grMesh* mesh);
 
 	bool bindRenderTarget(grRenderTarget* renderTarget);

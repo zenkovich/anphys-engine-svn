@@ -5,6 +5,7 @@
 
 #include "public.h"
 #include "util/math/vector2.h"
+#include "util/math/color.h"
 
 OPEN_O2_NAMESPACE
 
@@ -18,6 +19,7 @@ class grTexture;
 class grRenderSystemBaseInterface
 {
 	friend class grTexture;
+	friend class grRenderTargetBaseInterface;
 
 public:
 	typedef std::vector<grTexture*> TexturesVec;
@@ -35,6 +37,8 @@ public:
 
 	virtual bool beginRender() { return true; }
 	virtual bool endRender() { return true; }
+
+	virtual void clear(const color4& color = color4(0, 0, 0, 255)) {}
 
 	bool bindCamera(grCamera* camera);
 

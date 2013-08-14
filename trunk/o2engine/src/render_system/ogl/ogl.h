@@ -8,6 +8,8 @@
 #include <windows.h>	
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "gl/glext.h"
+#include "gl/wglext.h"
 
 #endif
 

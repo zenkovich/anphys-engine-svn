@@ -9,6 +9,7 @@ OPEN_O2_NAMESPACE
 class grTexture:public grTextureBaseInterface
 {
 	friend class grRenderSystem;
+	friend class grRenderTarget;
 
 	GLuint mHandle;
 

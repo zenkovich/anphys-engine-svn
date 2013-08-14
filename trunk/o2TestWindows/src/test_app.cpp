@@ -4,6 +4,7 @@
 #include "render_system/render_system.h"
 #include "render_system/sprite.h"
 #include "render_system/texture.h"
+#include "render_system/render_target.h"
 #include "util/file_system/file_system.h"
 #include "util/log.h"
 #include "util/math/color.h"
@@ -94,12 +95,9 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 		sprite2 = new o2::grSprite(*sprite);
 		sprite2->setPosition(o2::vec2f(60, 0));
 
-		pugi::xml_document doc2;
-		o2::cSerialization::loadData(doc2, "sprite_serlz_test", o2::cFileType::FT_CONFIG);
-		sprite3 = new o2::grSprite(mRenderSystem);
-		sprite3->serialize(doc2, o2::cSerializeType::INPUT);
-
-		sprite3->setPosition(o2::vec2f(120, 0));
+		renderTarget = new o2::grRenderTarget(mRenderSystem);
+		sprite3 = new o2::grSprite(mRenderSystem, renderTarget->getTexture());
+		sprite3->setPosition(o2::vec2f(100, 100)).setSize(o2::vec2f(100, 100));
 	}
 	else if (message == o2::cApplacationMessage::ON_SIZING)
 	{
@@ -109,7 +107,10 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 void TestApp::onDraw()
 {
+	mRenderSystem->bindRenderTarget(renderTarget);
+	mRenderSystem->clear(o2::color4(0, 0, 255, 255));
 	mesh->draw();
+	mRenderSystem->unbindRenderTarget();
 	
 	sprite->draw();
 	sprite2->draw();

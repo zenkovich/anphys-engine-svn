@@ -52,6 +52,9 @@
     <Filter Include="src\util\serialization">
       <UniqueIdentifier>{9f75bbab-cb94-4d10-9183-ec32f19f31c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dependencies\gl">
+      <UniqueIdentifier>{9ddffa4d-c861-4cb8-bc5e-52a84ede175f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -211,6 +214,24 @@
     </ClInclude>
     <ClInclude Include="..\src\render_system\render_target.h">
       <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\render_target_base_interface.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\render_target_ogl.h">
+      <Filter>src\render_system\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\gl\glext.h">
+      <Filter>dependencies\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\gl\wglext.h">
+      <Filter>dependencies\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\ogl_ext_win.h">
+      <Filter>src\render_system\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\ogl\ogl_debug.h">
+      <Filter>src\render_system\ogl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -382,8 +403,17 @@
     <ClCompile Include="..\src\render_system\sprite.cpp">
       <Filter>src\render_system</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\render_system\render_target.cpp">
+    <ClCompile Include="..\src\render_system\render_target_base_interface.cpp">
       <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\ogl\render_target_ogl.cpp">
+      <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\ogl\ogl_ext_win.cpp">
+      <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\ogl\ogl_debug.cpp">
+      <Filter>src\render_system\ogl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

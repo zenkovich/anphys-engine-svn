@@ -1,10 +1,15 @@
 #include "render_system_ogl.h"
 
 #include "../mesh.h"
+#include "../render_target.h"
 #include "../texture.h"
 #include "app/application.h"
 #include "util/log/log_stream.h"
 #include "util/math/math.h"
+
+#ifdef PLATFORM_WIN
+	#include "ogl_ext_win.h"
+#endif // PLATFORM_WIN
 
 OPEN_O2_NAMESPACE
 
@@ -25,6 +30,7 @@ void grRenderSystem::initializeGL()
 
 	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 
+#ifdef PLATFORM_WIN
 	GLuint pixelFormat;
 	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
 	{
@@ -81,6 +87,11 @@ void grRenderSystem::initializeGL()
 		return;
 	}
 
+	//get gl extensions
+	getGLExtensions(mLog);
+
+#endif //PLATFORM_WIN
+
 	mVertexData = new unsigned char[nVertexBufferSize*sizeof(vertex2)];
 
 	mVertexIndexData = new unsigned short[nIndexBufferSize];
@@ -124,9 +135,8 @@ bool grRenderSystem::beginRender()
 	glLoadMatrixf(projMat);
 
 	updateCameraTransforms();
-	
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+
+	clear();
 
 	return true;
 }
@@ -183,7 +193,7 @@ bool grRenderSystem::drawMesh( grMesh* mesh )
 
 //copy data
 	//memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], mesh->mVerticies, sizeof(vertex2)*mesh->mVertexCount);
-	for (int i = mLastDrawVertex, j = 0; j < mesh->mVertexCount; j++, i++)
+	for (unsigned int i = mLastDrawVertex, j = 0; j < mesh->mVertexCount; j++, i++)
 	{
 		vertex2* v = &((vertex2*)mVertexData)[i];
 		*v = mesh->mVerticies[j];
@@ -241,8 +251,12 @@ void grRenderSystem::frameResized()
 
 bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 {
-	if (!renderTarget)
+	if (!renderTarget || !renderTarget->isReady())
 		return false;
+
+	drawPrimitives();
+
+	glBindFramebufferEXT(GL_FRAMEBUFFER, renderTarget->mFrameBuffer);
 
 	mCurrentRenderTarget = renderTarget;
 
@@ -254,6 +268,10 @@ bool grRenderSystem::unbindRenderTarget()
 	if (!mCurrentRenderTarget)
 		return false;
 
+	drawPrimitives();
+
+	glBindFramebufferEXT(GL_FRAMEBUFFER, 0);
+
 	mCurrentRenderTarget = NULL;
 
 	return true;
@@ -262,6 +280,12 @@ bool grRenderSystem::unbindRenderTarget()
 grRenderTarget* grRenderSystem::getCurrentRenderTarget() const
 {
 	return mCurrentRenderTarget;
+}
+
+void grRenderSystem::clear( const color4& color /*= color4(0, 0, 0, 255)*/ )
+{
+	glClearColor(color.rf(), color.gf(), color.bf(), color.af());
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 }
 
 CLOSE_O2_NAMESPACE
