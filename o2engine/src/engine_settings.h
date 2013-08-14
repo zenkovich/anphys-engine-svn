@@ -11,6 +11,9 @@
 //#define RENDER_GLES
 //#define RENDER_GLES2
 
+/* Using render debug info. */
+#define RENDER_DEBUG
+
 /* Using platform. */
 #define PLATFORM_WIN
 //#define PLATFORM_MAC
