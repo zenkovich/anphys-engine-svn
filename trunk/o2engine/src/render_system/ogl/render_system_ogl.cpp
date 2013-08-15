@@ -264,14 +264,11 @@ void grRenderSystem::updateCameraTransforms()
 	{
 		float cs = cosf(-mCurrentCamera->mRotation), sn = sinf(-mCurrentCamera->mRotation);
 		vec2f scale(1.0f/mCurrentCamera->mScale.x, 1.0f/mCurrentCamera->mScale.y), offs = mCurrentCamera->mPosition;
+		float ofx = -offs.x*scale.x, ofy = -offs.y*scale.y;
 		
 		modelMatrix[0] = cs*scale.x;  modelMatrix[1] = sn*scale.x; 
 		modelMatrix[4] = -sn*scale.y; modelMatrix[5] = cs*scale.y; 
-		float ofx = -offs.x*scale.x, ofy = -offs.y*scale.y;
-		//(cs*x - sn*y), (T)(sn*x + cs*y)
-		
-		float cs2 = cosf(-mCurrentCamera->mRotation), sn2 = sinf(-mCurrentCamera->mRotation);
-		modelMatrix[12] = cs2*ofx - sn2*ofy;     modelMatrix[13] = sn2*ofx + cs2*ofy;
+		modelMatrix[12] = cs*ofx - sn*ofy;     modelMatrix[13] = sn*ofx + cs*ofy;
 	}
 
 	glLoadMatrixf(modelMatrix);
