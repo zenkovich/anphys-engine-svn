@@ -126,6 +126,11 @@ struct vec2
 		if (i == 1) y = n; 
 	}
 
+	inline void set(float vx, float vy)
+	{
+		x = vx; y = vy;
+	}
+
 	inline T dot(const vec2& v) const
 	{
 		return *this*v;

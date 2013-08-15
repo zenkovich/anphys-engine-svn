@@ -1,2 +1,2 @@
 Initializing OpenGL render..
-Created texture 'test'
+Created texture 'pic'

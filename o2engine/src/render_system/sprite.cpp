@@ -265,8 +265,8 @@ void grSprite::updateMeshVerticies()
 
 		vec2f realSize = mSize.scale(mScale);
 
-		vec2f xvec(cs, -sn);
-		vec2f yvec(sn,  cs);
+		vec2f xvec(cs,  sn);
+		vec2f yvec(-sn, cs);
 
 		vec2f offs = mPosition;
 

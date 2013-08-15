@@ -178,6 +178,15 @@ struct color4
 		setABGR(color);
 #endif
 	}
+
+	static unsigned long dword(int r, int g, int b, int a)
+	{
+#ifdef RENDER_OGL
+		return (unsigned long)( (a << 24) | (b << 16) | (g << 8) | r );
+#elif defined(RENDER_D3D)
+		return (unsigned long)( (a << 24) | (r << 16) | (g << 8) | b );
+#endif
+	}
 };
 
 CLOSE_O2_NAMESPACE
