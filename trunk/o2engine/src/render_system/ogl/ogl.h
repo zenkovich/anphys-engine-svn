@@ -1,6 +1,9 @@
 #ifndef OGL_H
 #define OGL_H
 
+// OpenGL inlude file.
+// Including files by platform
+
 #include "engine_settings.h"
 
 #ifdef PLATFORM_WIN

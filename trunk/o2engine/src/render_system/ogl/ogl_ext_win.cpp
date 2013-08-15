@@ -5,6 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
+/** Returns addres of function. */
 PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
 {
 	PROC res = wglGetProcAddress(id);

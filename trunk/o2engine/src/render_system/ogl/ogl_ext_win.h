@@ -1,14 +1,17 @@
 #ifndef OGL_EXT_WIN_H
 #define OGL_EXT_WIN_H
 
+// OpenGL extensions
+
 #include "ogl.h"
 #include "public.h"
 
 OPEN_O2_NAMESPACE
 
 class cLogStream;
-void getGLExtensions(cLogStream* log = NULL);
 
+/** Getting openGL extensions. */
+void getGLExtensions(cLogStream* log = NULL);
 
 extern PFNGLGENFRAMEBUFFERSEXTPROC        glGenFramebuffersEXT;
 extern PFNGLBINDFRAMEBUFFEREXTPROC        glBindFramebufferEXT;

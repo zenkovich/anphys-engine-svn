@@ -233,6 +233,12 @@
     <ClInclude Include="..\src\render_system\ogl\ogl_debug.h">
       <Filter>src\render_system\ogl</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render_system\camera.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\basis.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
