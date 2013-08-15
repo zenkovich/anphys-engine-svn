@@ -12,8 +12,18 @@ struct VehicleChassis;
 
 struct Vehicle
 {
+	struct DbgLine
+	{
+		vec3 p1, p2;
+		float cr, cg, cb, ca;
+
+		DbgLine(const vec3& cp1, const vec3& cp2, float r, float g, float b, float a):
+			p1(cp1), p2(cp2), cr(r), cg(g), cb(b), ca(a) {}
+	};
+
 	typedef std::vector<CollisionGeometryVertex> PointsList;
 	typedef std::vector<CollisionPoint*> CollisionPointsList;
+	typedef std::vector<DbgLine> DbgLinesList;
 
 //rigid object parametres
 	mat3x3              mOrient;
@@ -78,6 +88,8 @@ struct Vehicle
 	lVertex**           mVertexBuffer;
 	unsigned int        mPolygonsBufferCount;
 
+	DbgLinesList        mDbgLines;
+
 	float               mLastChangeGearTime;
 
 	float               mLandscapeFrtCoefs[256];
@@ -86,29 +98,32 @@ struct Vehicle
 	Vehicle();
 	~Vehicle();
 
-	void  update(float dt);
-	void  applyImpulse(vec3& point, vec3& impulse);
-	void  applyBiasImpulse( vec3& point, vec3& impulse );
-		  
-	void  setPolygonsBuffer(lPolygon** buffer, lVertex** vertexBuffer, unsigned int count);	
-		  
-	void  getPosition(float* positionVec);
-	void  getOrientation(float* orientMatrix);
-		  
-	void  setEngineParams(float* graphicValues, int valuesCount, float maxRpm, float idleRpm, float inertia, float friction);
-	void  setGearBoxParametres(float* gears, int gearsCount, float mainGear, WheelDriveType driveType);
+	void update(float dt);
+	void applyImpulse(vec3& point, vec3& impulse);
+	void applyBiasImpulse( vec3& point, vec3& impulse );
+
+	void setPolygonsBuffer(lPolygon** buffer, lVertex** vertexBuffer, unsigned int count);	
+
+	void getPosition(float* positionVec);
+	void getOrientation(float* orientMatrix);
+
+	void setEngineParams(float* graphicValues, int valuesCount, float maxRpm, float idleRpm, float inertia, float friction);
+	void setGearBoxParametres(float* gears, int gearsCount, float mainGear, WheelDriveType driveType);
+	
+	void pushDbgLine(const vec3& p1, const vec3& p2, float cr, float cg, float cb, float ca);
+	void pushDbgPoint(const vec3& p1, float cr, float cg, float cb, float ca);
 
 	float getLandscapeFrtCoef(unsigned char id);
-	void  setupLanscapeFrtCoefs(float* coefs, int count = 256);
+	void setupLanscapeFrtCoefs(float* coefs, int count = 256);
 	
 protected:
-	void  updateCollisionGeometry();
-	void  checkCollisions();
-	void  solveCollisions(float dt);
-		  
-	void  updateEngine(float dt);
-		  
-	void  solveEngineWheelDrive(  );
+	void updateCollisionGeometry();
+	void checkCollisions();
+	void solveCollisions(float dt);
+
+	void updateEngine(float dt);
+
+	void solveEngineWheelDrive(  );
 
 	float getEngineTorqueFromGraphic();
 };

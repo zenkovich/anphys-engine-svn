@@ -134,17 +134,12 @@ void Vehicle::updateEngine( float dt )
 	if (mEngineRpm < 200)
 		mEngineRpm = 200;
 
-	if (mThrottleCoef < 0.25f)
-	{
-		if (mEngineRpm < mEngineIdleRpm)
-			mThrottleCoef = 0.2f;
-		else 
-			mThrottleCoef = 0;
-	}
+	if (mEngineRpm < mEngineIdleRpm && mThrottleCoef < 0.2f)
+		mThrottleCoef = 0.2f;
 
 	float engineTorque = getEngineTorqueFromGraphic()*mThrottleCoef - mEngineFriction*mEngineRpm*(1 - mThrottleCoef);
 	mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
-		
+	
 	mResDriveCoef = mGearsCoefs[mCurrentGear]*mMainGear;	
 
 	float wheelsTorque = -engineTorque*0.5f*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*0.001f;
