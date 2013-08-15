@@ -115,6 +115,7 @@ void cCar::update(float dt, cEngineLandscapeVertex** vBuffer, cEngineLandscapePo
 
 	if (dt < mMaxDeltaTime)
 	{
+		clearDbgLines();
 		Vehicle->update(dt);
 	}
 	else
@@ -124,6 +125,7 @@ void cCar::update(float dt, cEngineLandscapeVertex** vBuffer, cEngineLandscapePo
 		while (mAccumDT > mMaxDeltaTime)
 		{
 			mAccumDT -= mMaxDeltaTime;
+			clearDbgLines();
 			Vehicle->update(mMaxDeltaTime);
 		}
 	}
@@ -193,8 +195,51 @@ void cCar::getWheelOrient( float* matr, int idx )
 		Vehicle->mRearRightChassis->getOrientation(matr);
 }
 
+int cCar::getDbgLinesCount()
+{
+	return Vehicle->mDbgLines.size();
+}
+
+void cCar::getDbgLine( int idx, float* p1, float* p2, float* colr )
+{
+	physics::vmask(p1, Vehicle->mDbgLines[idx].p1);
+	physics::vmask(p2, Vehicle->mDbgLines[idx].p2);
+	colr[0] = Vehicle->mDbgLines[idx].cr;
+	colr[1] = Vehicle->mDbgLines[idx].cg;
+	colr[2] = Vehicle->mDbgLines[idx].cb;
+	colr[3] = Vehicle->mDbgLines[idx].ca;
+}
+
+void cCar::clearDbgLines()
+{
+	Vehicle->mDbgLines.clear();
+}
+
 void cCar::reset( vec3& pos )
 {
 	Vehicle->mPosition = physics::vmask((float*)&pos);
 	Vehicle->mOrient = physics::mat3x3();
+}
+
+void cCar::moveStp( float x, float y, float z )
+{
+	Vehicle->mCollisionGeometryPoints[0].mLocalPos += physics::vec3(x, y, z)*0.5f;
+	printf("stp %.3f %.3f %.3f\n", Vehicle->mCollisionGeometryPoints[0].mLocalPos.x, Vehicle->mCollisionGeometryPoints[0].mLocalPos.y, Vehicle->mCollisionGeometryPoints[0].mLocalPos.z);
+}
+
+void cCar::pushPoint()
+{
+	Vehicle->mCollisionGeometryPoints.push_back(Vehicle->mCollisionGeometryPoints[0]);
+
+	std::ofstream fout;
+	fout.open("cp.txt");
+
+	for (physics::Vehicle::PointsList::iterator it = Vehicle->mCollisionGeometryPoints.begin();
+		it != Vehicle->mCollisionGeometryPoints.end(); ++it)
+	{
+		//physics::vec3(halsSize.x, -halsSize.y, -halsSize.z)
+		fout << "physics::vec3( " << it->mLocalPos.x << ", " << it->mLocalPos.y << ", " << it->mLocalPos.z << "), \n";
+	}
+
+	fout.close();
 }

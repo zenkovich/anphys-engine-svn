@@ -147,7 +147,9 @@ void VehicleChassis::derivedSolve( float dt )
 	float fl = f2lambda*f2lambda + f1lambda*f1lambda;
 	if (mFrictionValues)
 		Mu = getFrictionValue(fl*dt)*mCollisionFrtCoef;
-	
+
+	//gLog->fout(1, "frc = %.3f\n", Mu);
+
 	float maxFriction = mCollisionPoint.J*Mu;
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
@@ -174,6 +176,8 @@ void VehicleChassis::derivedSolve( float dt )
 void VehicleChassis::derivedPostSolve( float dt )
 {
 	float lastPosition = mPosition;
+
+	//gLog->fout(1, "ang vel = %.3f\n", mWheelAngVelocity);
 
 	mPosition += mWheelVelocity*dt;
 
@@ -231,6 +235,34 @@ void VehicleChassis::derivedPostSolve( float dt )
 	}
 
 	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
+	
+	//mVehicle->pushDbgPoint(mWheelBottomPoint, 1, 1, 0, 1);
+
+	if (mWheelOnGround)
+	{
+		mVehicle->pushDbgPoint(mCollisionPoint.mPoint, 1, 0, 0, 1);
+		mVehicle->pushDbgLine(mCollisionPoint.mPoint, mWheelBottomPoint, 1, 0, 0, 1);
+		mVehicle->pushDbgLine(mCollisionPoint.mPoint, mCollisionPoint.mPoint + mCollisionPoint.mNormal, 1, 0, 0, 1);
+	}
+
+	vec3 wheelPos = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition);
+
+	vec3 lastPt;
+	float segs = 10;
+	for (int i = 0; i < segs; i++)
+	{
+		float angle = (float)i/segs*2.0f*3.1415926f + mWheelXAngle;
+		vec3 pt = wheelPos + yvec*sinf(angle)*mWheelRadius + zvec*cosf(angle)*mWheelRadius;
+
+		if (i > 0)
+		{
+			mVehicle->pushDbgLine(lastPt, pt, 1, 1, 0, 1);
+		}
+
+		lastPt = pt;
+		
+		mVehicle->pushDbgLine(wheelPos, pt, 1, 1, 0, 1);
+	}
 }
 
 void VehicleChassis::checkCollision()
@@ -273,6 +305,16 @@ void VehicleChassis::checkCollision()
 		{
 			continue;
 		}
+		
+		/*mVehicle->pushDbgLine(pa + (pb - pa)*0.9f, pb, 0, 1, 0, 1);
+		mVehicle->pushDbgLine(pb + (pc - pb)*0.9f, pc, 0, 1, 0, 1);
+		mVehicle->pushDbgLine(pc + (pa - pc)*0.9f, pa, 0, 1, 0, 1);*/
+		
+		mVehicle->pushDbgLine(pa, pb, 0, 1, 1, 0.025f);
+		mVehicle->pushDbgLine(pb, pc, 0, 1, 1, 0.025f);
+		mVehicle->pushDbgLine(pc, pa, 0, 1, 1, 0.025f);
+		/*mVehicle->pushDbgLine((pa + pb + pc)/3.0f, (pa + pb + pc)/3.0f + n, 0, 1, 0, 1);*/
+		//mVehicle->pushDbgPoint(bottomPoint, 0, 0, 1, 1);
 
 		if (n*dir < -0.15f)
 		{
@@ -295,6 +337,7 @@ void VehicleChassis::checkCollision()
 					mCollisionPoint.mNormal = n;
 					mCollisionPoint.mPoint = point;
 					mCollisionPoint.mDepth = depth;
+					mVehicle->pushDbgPoint(point, 0, 0, 1, 1);
 				}
 			}
 		}
@@ -327,6 +370,20 @@ void VehicleChassis::checkCollision()
 		float d = (P.y*C.x - C.y*P.x)/delim2;
 
 		mCollisionFrtCoef = ca + d*(cb - ca) + e*(cc - ca);
+		printf("cc = %.3f (%.3f - %.3f) %.3f %.3f %.3f %i %i %i\n", mCollisionFrtCoef, e, d, ca, cb, cc, fa, fb, fc);
+
+		/*vec3 polyCenter = (polyA + polyB + polyC)/3.0f;
+		float distA = (polyCenter - polyA).len();
+		float distB = (polyCenter - polyB).len();
+		float distC = (polyCenter - polyC).len();
+		
+		float ca = fclamp(1.0f - distA/(mCollisionPoint.mPoint - polyA).len(), 0.0f, 1.0f);
+		float cb = fclamp(1.0f - distB/(mCollisionPoint.mPoint - polyB).len(), 0.0f, 1.0f);
+		float cc = fclamp(1.0f - distC/(mCollisionPoint.mPoint - polyC).len(), 0.0f, 1.0f);
+
+		mCollisionFrtCoef = (ca + cb + cc)/3.0f;
+		mCollisionFrtCoef = 1.0f;*/
+		//printf("cc = %.3f\n", mCollisionFrtCoef);
 	}
 }
 
