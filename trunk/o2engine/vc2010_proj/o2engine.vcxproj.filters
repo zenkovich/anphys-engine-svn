@@ -55,6 +55,9 @@
     <Filter Include="dependencies\gl">
       <UniqueIdentifier>{9ddffa4d-c861-4cb8-bc5e-52a84ede175f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\other">
+      <UniqueIdentifier>{96fad150-6030-486c-b245-dbc1cad49c10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -239,6 +242,9 @@
     <ClInclude Include="..\src\util\math\basis.h">
       <Filter>src\util\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\other\device_info.h">
+      <Filter>src\other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -420,6 +426,9 @@
     </ClCompile>
     <ClCompile Include="..\src\render_system\ogl\ogl_debug.cpp">
       <Filter>src\render_system\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\other\device_info.cpp">
+      <Filter>src\other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
