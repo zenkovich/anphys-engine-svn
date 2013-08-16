@@ -1,2 +1,0 @@
-Initializing OpenGL render..
-Created texture 'pic'

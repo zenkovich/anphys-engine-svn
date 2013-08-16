@@ -17,6 +17,7 @@ class cApplication:public cApplicationBaseInterface
 {
 protected:
 	friend class grRenderSystem;
+	friend class cDeviceInfo;
 
 	HWND         mHWnd;                /**< Window handle. */
 	unsigned int mWndStyle;            /**< Window styles data. */

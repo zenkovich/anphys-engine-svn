@@ -6,6 +6,8 @@
  * Contains basic stuff using in engine. 
  */
 
+#include "engine_settings.h"
+
 /** Opening engine namespace macros. You can redefine it. */
 #define OPEN_O2_NAMESPACE namespace o2 {
 
@@ -28,5 +30,15 @@ typedef unsigned int       uint32;
 typedef unsigned short     uint16;
 typedef unsigned char      uint8;
 typedef long long          int64;
+
+//some macros
+#ifdef PLATFORM_WIN
+#	define isWinPlatform() true
+#	define isMacPlatform() false
+#	define isIOSPlatform() false
+#	define isPCPlatform() true
+#	define isTabletPlatform() false
+#	define isPhonePlatform() false
+#endif
 
 #endif //PUBLIC_H

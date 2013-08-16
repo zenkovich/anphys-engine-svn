@@ -106,6 +106,7 @@
     <ClInclude Include="..\src\app\application_base_interface.h" />
     <ClInclude Include="..\src\app\win\application_win.h" />
     <ClInclude Include="..\src\engine_settings.h" />
+    <ClInclude Include="..\src\other\device_info.h" />
     <ClInclude Include="..\src\public.h" />
     <ClInclude Include="..\src\render_system\camera.h" />
     <ClInclude Include="..\src\render_system\mesh.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
     <ClCompile Include="..\src\app\application_base_interface.cpp" />
     <ClCompile Include="..\src\app\win\application_win.cpp" />
+    <ClCompile Include="..\src\other\device_info.cpp" />
     <ClCompile Include="..\src\render_system\mesh.cpp" />
     <ClCompile Include="..\src\render_system\ogl\ogl_debug.cpp" />
     <ClCompile Include="..\src\render_system\ogl\ogl_ext_win.cpp" />

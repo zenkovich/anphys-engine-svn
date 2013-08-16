@@ -21,7 +21,8 @@ class grTexture;
 class grRenderSystemBaseInterface
 {
 	friend class grTexture;
-	friend class grRenderTargetBaseInterface;
+	friend class grRenderTargetBaseInterface;	
+	friend class cDeviceInfo;
 
 public:
 	typedef std::vector<grTexture*> TexturesVec;
@@ -40,14 +41,8 @@ public:
 	/** dtor. */ 
 	virtual ~grRenderSystemBaseInterface();
 
-	/** Beginning rendering. */
-	virtual bool beginRender() { return true; }
-
-	/** Finishing rendering. */
-	virtual bool endRender() { return true; }
-
-	/** Clearing current frame buffer with color. */
-	virtual void clear(const color4& color = color4(0, 0, 0, 255)) {}
+	/** Returns resolution of rendering frame. */
+	vec2i getResolution() const;
 
 	/** Binding camera. NULL - standart camera. */
 	bool bindCamera(grCamera* camera);
@@ -63,6 +58,15 @@ public:
 
 	/** Forcible removing all textures. */
 	bool removeAllTextures();
+
+	/** Beginning rendering. */
+	virtual bool beginRender() { return true; }
+
+	/** Finishing rendering. */
+	virtual bool endRender() { return true; }
+
+	/** Clearing current frame buffer with color. */
+	virtual void clear(const color4& color = color4(0, 0, 0, 255)) {}
 
 	/** Drawing mesh. */
 	virtual bool drawMesh(grMesh* mesh) { return true; }
@@ -82,8 +86,11 @@ public:
 	/** Returns current render target. Returns NULL if no render target. */
 	virtual grRenderTarget* getCurrentRenderTarget() const { return NULL; }
 
-	/** Returns resolution of rendering frame. */
-	vec2i getResolution() const;
+	/** Returns true, if render target is can be used with current device. */
+	virtual bool isRenderTargetAvailable() { return false; }
+
+	/** Returns maximum texture size. */
+	virtual vec2i getMaxTextureSize() { return vec2i(0, 0); }
 
 protected:
 	/** Calls for update camera transformations. */

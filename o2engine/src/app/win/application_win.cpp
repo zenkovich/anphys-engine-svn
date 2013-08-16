@@ -2,10 +2,11 @@
 #ifdef PLATFORM_WIN
 
 #include "application_win.h"
+#include "other/device_info.h"
+#include "render_system/render_system.h"
 #include "util/log.h"
 #include "util/math/math.h"
 #include "util/timer.h"
-#include "render_system/render_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -21,11 +22,16 @@ cApplication::cApplication():
 	mApplication = this;
 
 	mRenderSystem = new grRenderSystem(this);
+
+	cDeviceInfo::initializeSingleton();
+	deviceInfo().initialize(this);
 }
 
 cApplication::~cApplication()
 {	
 	safe_release(mRenderSystem);
+
+	cDeviceInfo::deinitializeSingleton();
 }
 
 void cApplication::initializeWindow()

@@ -16,6 +16,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	friend class cApplication;
 	friend class grSprite;
 	friend class grRenderTarget;
+	friend class cDeviceInfo;
 	
 	static const unsigned int mVertexBufferSize = 6000;  /** Maximum size of vertex buffer. */
 	static const unsigned int mIndexBufferSize = 6000*3; /** Maximum size of index buffer. */
@@ -60,7 +61,13 @@ public:
 
 	bool bindRenderTarget(grRenderTarget* renderTarget);
 	bool unbindRenderTarget();
-	grRenderTarget* getCurrentRenderTarget() const;
+	grRenderTarget* getCurrentRenderTarget() const;	
+
+	/** Returns true, if render target is can be used with current device. */
+	bool isRenderTargetAvailable();
+
+	/** Returns maximum texture size. */
+	vec2i getMaxTextureSize();
 
 protected:
 	void updateCameraTransforms();
@@ -73,6 +80,8 @@ protected:
 	void frameResized();
 
 	void setupMatrix(const vec2f& size);
+
+	static bool isExtensionSupported(const char *extension);
 };
 
 CLOSE_O2_NAMESPACE
