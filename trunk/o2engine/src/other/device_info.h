@@ -8,6 +8,7 @@ OPEN_O2_NAMESPACE
 
 class cApplication;
 
+/** Device info. Containin different parametres about device, render etc. */
 class cDeviceInfo:public cSingleton<cDeviceInfo>
 {
 public:
@@ -16,17 +17,23 @@ public:
 					   DP_DEVICE_ID,
 
 					   DEVICE_PARAMETRES_COUNT };
+
 	enum { nParamDataSize = 128 };
 
 protected:
-	char mDeviceParametres[DEVICE_PARAMETRES_COUNT][nParamDataSize];
+	char mDeviceParametres[DEVICE_PARAMETRES_COUNT][nParamDataSize]; /**< Parametres data. */
 
 public:
+	/** ctor. */
 	cDeviceInfo();
+
+	/** dtor. */
 	~cDeviceInfo();
 
+	/** Getting parametres from application systems. */
 	void initialize(cApplication* app);
 
+	/** Returns parameter with specified type cast. */
 	template<typename T>
 	T getParameter(DeviceParam paramId);
 };

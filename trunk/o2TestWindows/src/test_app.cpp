@@ -107,7 +107,7 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 		sprite2 = new o2::grSprite(mRenderSystem);
 		sprite2->setColor(o2::color4(255, 100, 100, 100));
 
-		renderTarget = new o2::grRenderTarget(mRenderSystem, o2::vec2f(100, 100));
+		renderTarget = new o2::grRenderTarget(mRenderSystem);
 		sprite3 = new o2::grSprite(mRenderSystem, renderTarget->getTexture());
 		sprite3->setScale(o2::vec2f(0.3f, 0.3f));
 
@@ -123,7 +123,7 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 void TestApp::onDraw()
 {
-	mRenderSystem->clear(o2::color4(100, 100, 255, 255));
+	mRenderSystem->clear(o2::color4(0, 0, 0, 255));
 
 	sprite->draw();
 

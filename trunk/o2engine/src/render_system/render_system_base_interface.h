@@ -7,6 +7,7 @@
 #include "util/math/vector2.h"
 #include "util/math/color.h"
 #include "util/math/vertex.h"
+#include "util/math/rect.h"
 
 OPEN_O2_NAMESPACE
 
@@ -60,44 +61,77 @@ public:
 	bool removeAllTextures();
 
 	/** Beginning rendering. */
-	virtual bool beginRender() { return true; }
+	virtual bool beginRender() = 0;
 
 	/** Finishing rendering. */
-	virtual bool endRender() { return true; }
+	virtual bool endRender() = 0;
 
 	/** Clearing current frame buffer with color. */
-	virtual void clear(const color4& color = color4(0, 0, 0, 255)) {}
+	virtual void clear(const color4& color = color4(0, 0, 0, 255)) = 0;
+
+	/** Beginning render to stencil buffer. */
+	virtual void beginRenderToStencilBuffer() = 0;
+
+	/** Finishing rendering in stencil buffer. */
+	virtual void endRenderToStencilBuffer() = 0;
+
+	/** Enabling stencil test. */
+	virtual void enableStencilTest() = 0;
+
+	/** Disabling stencil test. */
+	virtual void disableStencilTest() = 0;
+
+	/** Returns true, if stencil test enabled. */
+	virtual bool isStencilTestEnabled() const = 0;
+
+	/** Clearing stencil buffer. */
+	virtual void clearStencil() = 0;
+
+	/** Sets scissor rect. */
+	virtual void setupScissorRect(const fRect& rect) = 0;
+
+	/** Returns scissor rect. */
+	virtual const fRect& getScissorRect() const = 0;
+
+	/** Enabling scissor test. */
+	virtual void enableScissorTest() = 0;
+
+	/** Disabling scissor test. */
+	virtual void disableScissorTest() = 0;
+
+	/** Returns true, if scissor test enabled. */
+	virtual bool isScissorTestEnabled() const = 0;
 
 	/** Drawing mesh. */
-	virtual bool drawMesh(grMesh* mesh) { return true; }
+	virtual bool drawMesh(grMesh* mesh) = 0;
 
 	/** Drawing lines. */
-	virtual bool drawLines(vertex2* verticies, int count) { return true; }
+	virtual bool drawLines(vertex2* verticies, int count) = 0;
 
 	/** Sets lines width. */
-	virtual void setLinesWidth(float width) {  }
+	virtual void setLinesWidth(float width) = 0;
 	
 	/** Binding render target. */
-	virtual bool bindRenderTarget(grRenderTarget* renderTarget) { return false; }
+	virtual bool bindRenderTarget(grRenderTarget* renderTarget) = 0;
 
 	/** Unbinding render target. */
-	virtual bool unbindRenderTarget() { return false; }
+	virtual bool unbindRenderTarget() = 0;
 
 	/** Returns current render target. Returns NULL if no render target. */
-	virtual grRenderTarget* getCurrentRenderTarget() const { return NULL; }
+	virtual grRenderTarget* getCurrentRenderTarget() const = 0;
 
 	/** Returns true, if render target is can be used with current device. */
-	virtual bool isRenderTargetAvailable() const { return false; }
+	virtual bool isRenderTargetAvailable() const = 0;
 
 	/** Returns maximum texture size. */
-	virtual vec2i getMaxTextureSize() const { return vec2i(0, 0); }
+	virtual vec2i getMaxTextureSize() const = 0;
 
 protected:
 	/** Calls for update camera transformations. */
-	virtual void updateCameraTransforms() {}
+	virtual void updateCameraTransforms() = 0;
 
 	/** Calls when frame changed client size. */
-	virtual void frameResized() {}
+	virtual void frameResized() = 0;
 };
 
 CLOSE_O2_NAMESPACE

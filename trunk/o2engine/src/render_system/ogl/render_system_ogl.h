@@ -41,29 +41,84 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	unsigned int    mFrameTrianglesCount;    /**< Total triangles at current frame. */
 	unsigned int    mDIPCount;               /**< DrawIndexedPrimitives calls count. */
 										     
+//stencil
+	bool            mStencilDrawing;         /**< True, if drawing in stencil buffer. */
+	bool            mStencilTest;            /**< True, if drawing with stencil test. */
+
+//scissor test
+	fRect           mScissorRect;            /**< Scissor rect, in screen space. */
+	bool            mScissorTest;            /**< True, if scissor test enabled. */
+										
+//other
 	grRenderTarget* mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
-										     
+
 	bool            mReady;                  /**< True, if render system initialized. */
 
 public:
 	/* ctor. */
 	grRenderSystem(cApplication* application);
-
+	
+	/** dtor. */ 
 	~grRenderSystem();
-
+	
+	/** Beginning rendering. */
 	bool beginRender();
+	
+	/** Finishing rendering. */
 	bool endRender();
-
+	
+	/** Clearing current frame buffer with color. */
 	void clear(const color4& color = color4(0, 0, 0, 255));
-
+	
+	/** Beginning render to stencil buffer. */
+	void beginRenderToStencilBuffer();
+	
+	/** Finishing rendering in stencil buffer. */
+	void endRenderToStencilBuffer();
+	
+	/** Enabling stencil test. */
+	void enableStencilTest();
+	
+	/** Disabling stencil test. */
+	void disableStencilTest();
+	
+	/** Returns true, if stencil test enabled. */
+	bool isStencilTestEnabled() const;
+	
+	/** Clearing stencil buffer. */
+	void clearStencil();
+	
+	/** Sets scissor rect. */
+	void setupScissorRect(const fRect& rect);
+	
+	/** Returns scissor rect. */
+	const fRect& getScissorRect() const;
+	
+	/** Enabling scissor test. */
+	void enableScissorTest();
+	
+	/** Disabling scissor test. */
+	void disableScissorTest();
+	
+	/** Returns true, if scissor test enabled. */
+	bool isScissorTestEnabled() const;
+	
+	/** Drawing mesh. */
 	bool drawMesh(grMesh* mesh);
 	
+	/** Drawing lines. */
 	bool drawLines(vertex2* verticies, int count);
-
+	
+	/** Sets lines width. */
 	void setLinesWidth(float width);
-
+	
+	/** Binding render target. */
 	bool bindRenderTarget(grRenderTarget* renderTarget);
+	
+	/** Unbinding render target. */
 	bool unbindRenderTarget();
+	
+	/** Returns current render target. Returns NULL if no render target. */
 	grRenderTarget* getCurrentRenderTarget() const;	
 
 	/** Returns true, if render target is can be used with current device. */
@@ -73,19 +128,27 @@ public:
 	vec2i getMaxTextureSize() const;
 
 protected:
+	/** Calls for update camera transformations. */
 	void updateCameraTransforms();
 
+	/** Initializing opengl renderer. */
 	void initializeGL();
+
+	/** Destroying opengl renderer. */
 	void deinitializeGL();
 
 	void drawPrimitives();
-
+	
+	/** Calls when frame changed client size. */
 	void frameResized();
 
+	/** Set's viewport and projection matrix size. */
 	void setupMatrix(const vec2f& size);
 
+	/** Returns true, if device supports specified extension. */
 	static bool isExtensionSupported(const char *extension);
 
+	/** Checking capatibles on this device. */
 	void checkCapatibles();
 };
 
