@@ -22,25 +22,28 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	static const unsigned int mIndexBufferSize = 6000*3; /** Maximum size of index buffer. */
 
 //gl context
-	HGLRC           mGLContext;            /**< OpenGL context. */
-	HDC             mHDC;                  /**< Win frame device context. */
+	HGLRC           mGLContext;              /**< OpenGL context. */
+	HDC             mHDC;                    /**< Win frame device context. */
+
+	bool            mRenderTargetsAvailable; /**< True, if render targets is available. */
+	vec2i           mMaxTextureSize;         /**< Max texture size. */
 										   
 //vertex & index buffers				   
-	unsigned char*  mVertexData;           /**< Vertex data buffer. */
-	unsigned short* mVertexIndexData;      /**< Index data buffer. */
-	GLenum          mCurrentPrimitiveType; /**< TYpe of drawing primitives for next DIP. */
-										   
-//batching parametres					   
-	grTexture*      mLastDrawTexture;      /**< Stored texture ptr from last DIP. */
-	unsigned int    mLastDrawVertex;       /**< Last vertex idx for next DIP. */
-	unsigned int    mLastDrawIdx;          /**< Last vertex index for nex DIP. */
-	unsigned int    mTrianglesCount;       /**< Triatgles count for next DIP. */
-	unsigned int    mFrameTrianglesCount;  /**< Total triangles at current frame. */
-	unsigned int    mDIPCount;             /**< DrawIndexedPrimitives calls count. */
-										   
-	grRenderTarget* mCurrentRenderTarget;  /**< Current render target. NULL if rendering in back buffer. */
-										   
-	bool            mReady;                /**< True, if render system initialized. */
+	unsigned char*  mVertexData;             /**< Vertex data buffer. */
+	unsigned short* mVertexIndexData;        /**< Index data buffer. */
+	GLenum          mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
+										     
+//batching parametres					     
+	grTexture*      mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	unsigned int    mLastDrawVertex;         /**< Last vertex idx for next DIP. */
+	unsigned int    mLastDrawIdx;            /**< Last vertex index for nex DIP. */
+	unsigned int    mTrianglesCount;         /**< Triatgles count for next DIP. */
+	unsigned int    mFrameTrianglesCount;    /**< Total triangles at current frame. */
+	unsigned int    mDIPCount;               /**< DrawIndexedPrimitives calls count. */
+										     
+	grRenderTarget* mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
+										     
+	bool            mReady;                  /**< True, if render system initialized. */
 
 public:
 	/* ctor. */
@@ -64,10 +67,10 @@ public:
 	grRenderTarget* getCurrentRenderTarget() const;	
 
 	/** Returns true, if render target is can be used with current device. */
-	bool isRenderTargetAvailable();
+	bool isRenderTargetAvailable() const;
 
 	/** Returns maximum texture size. */
-	vec2i getMaxTextureSize();
+	vec2i getMaxTextureSize() const;
 
 protected:
 	void updateCameraTransforms();
@@ -82,6 +85,8 @@ protected:
 	void setupMatrix(const vec2f& size);
 
 	static bool isExtensionSupported(const char *extension);
+
+	void checkCapatibles();
 };
 
 CLOSE_O2_NAMESPACE

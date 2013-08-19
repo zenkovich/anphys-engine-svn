@@ -49,7 +49,7 @@ class cApplicationBaseInterface
 protected:
 	cInputMessage   mInputMessage; /**< While application user input message. */
 
-	cLogStream*     mLogStream;    /**< Log stream with id "app", using only for applacation messages. */
+	cLogStream*     mLog;          /**< Log stream with id "app", using only for applacation messages. */
 	grRenderSystem* mRenderSystem; /**< Render system. */
 	cFileSystem*    mFileSystem;   /**< File system. */
 

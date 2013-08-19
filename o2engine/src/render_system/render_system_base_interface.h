@@ -87,10 +87,10 @@ public:
 	virtual grRenderTarget* getCurrentRenderTarget() const { return NULL; }
 
 	/** Returns true, if render target is can be used with current device. */
-	virtual bool isRenderTargetAvailable() { return false; }
+	virtual bool isRenderTargetAvailable() const { return false; }
 
 	/** Returns maximum texture size. */
-	virtual vec2i getMaxTextureSize() { return vec2i(0, 0); }
+	virtual vec2i getMaxTextureSize() const { return vec2i(0, 0); }
 
 protected:
 	/** Calls for update camera transformations. */

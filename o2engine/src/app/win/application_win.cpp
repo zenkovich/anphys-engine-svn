@@ -36,7 +36,7 @@ cApplication::~cApplication()
 
 void cApplication::initializeWindow()
 {
-	mLogStream->hout("Initializing window..");
+	mLog->hout("Initializing window..");
 
 	mWndStyle = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
 
@@ -56,7 +56,7 @@ void cApplication::initializeWindow()
 
 	if (!RegisterClassEx(&wndClass)) 
 	{
-		mLogStream->out("ERROR: Can't regist class");
+		mLog->out("ERROR: Can't regist class");
 		return;
 	}
 
@@ -66,18 +66,18 @@ void cApplication::initializeWindow()
 						   NULL, NULL, NULL,  NULL))) 
 	{
 		
-		mLogStream->out("ERROR: Can't create window (CreateWindowEx)");
+		mLog->out("ERROR: Can't create window (CreateWindowEx)");
 		return;
 	}
 
-	mLogStream->hout("Window initialized!");
+	mLog->hout("Window initialized!");
 }
 
 void cApplication::launch()
 {
 	ShowWindow(mHWnd, SW_SHOW);
 	
-	mLogStream->hout("Application launched!");
+	mLog->hout("Application launched!");
 
 	processMessage(cApplacationMessage::ON_STARTED);
 
@@ -206,7 +206,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWindowed = true;
 
-		mLogStream->hout("cApplication::setOptions( WINDOWED )");
+		mLog->hout("cApplication::setOptions( WINDOWED )");
 
 		resetWnd();
 	}
@@ -214,7 +214,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWindowed = false;
 
-		mLogStream->hout("cApplication::setOptions( FULLSCREEN )");
+		mLog->hout("cApplication::setOptions( FULLSCREEN )");
 
 		resetWnd();
 	}
@@ -230,7 +230,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 			else
 				mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX;
 
-			mLogStream->hout("cApplication::setOptions( RESIZIBLE, %s )", ( mWindowResizible ? "true":"false" ));
+			mLog->hout("cApplication::setOptions( RESIZIBLE, %s )", ( mWindowResizible ? "true":"false" ));
 
 			SetWindowLong(mHWnd, GWL_STYLE, mWndStyle);
 		}
@@ -241,7 +241,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 		mAutoAjustByScreen = true;
 		mWindowed = true;		
 
-		mLogStream->hout("cApplication::setOptions( AUTO_AJUST_BY_SCREEN_SPACE, v2(%.3f %.3f), %s )", 
+		mLog->hout("cApplication::setOptions( AUTO_AJUST_BY_SCREEN_SPACE, v2(%.3f %.3f), %s )", 
 			mAutoAjustScale.x, mAutoAjustScale.y, ( mAutoAjustByScreen ? "true":"false" ));
 
 		resetWnd();
@@ -250,7 +250,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWindowedSize = va_arg(vlist, vec2i);
 
-		mLogStream->hout("cApplication::setOptions( WND_SIZE, v2((%i %i) )", 
+		mLog->hout("cApplication::setOptions( WND_SIZE, v2((%i %i) )", 
 			mWindowedSize.x, mWindowedSize.y);
 
 		resetWnd();
@@ -259,7 +259,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWindowedPos = va_arg(vlist, vec2i);
 
-		mLogStream->hout("cApplication::setOptions( WND_POSITION, v2(%i %i) )", 
+		mLog->hout("cApplication::setOptions( WND_POSITION, v2(%i %i) )", 
 			mWindowedPos.x, mWindowedPos.y);
 
 		resetWnd();
@@ -278,7 +278,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 		mWindowedPos = vec2i(clientRect.left, clientRect.top);
 		mWindowedSize = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
 
-		mLogStream->hout("cApplication::setOptions( CLIENT_RECT, v2(%i %i) )", 
+		mLog->hout("cApplication::setOptions( CLIENT_RECT, v2(%i %i) )", 
 			clientRectSize.x, clientRectSize.y);
 
 		resetWnd();
@@ -287,7 +287,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWndCaption = va_arg(vlist, std::string);
 
-		mLogStream->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
+		mLog->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
 
 		SetWindowText(mHWnd, mWndCaption.c_str());
 	}
@@ -370,7 +370,7 @@ void cApplication::resetWnd()
 
 void cApplication::setWindowed()
 {
-	mLogStream->hout("Setting windowed..");
+	mLog->hout("Setting windowed..");
 
 	mWindowed = true;
 
@@ -384,17 +384,17 @@ void cApplication::setWindowed()
 		autoAjustByScreenSpace();
 	}
 	
-	mLogStream->hout("Complete");
+	mLog->hout("Complete");
 }
 
 void cApplication::autoAjustByScreenSpace()
 {
-	mLogStream->hout("Setting autoAjustByScreenSpace");
+	mLog->hout("Setting autoAjustByScreenSpace");
 }
 
 void cApplication::setFullscreen()
 {
-	mLogStream->hout("Setting fullscreen");
+	mLog->hout("Setting fullscreen");
 }
 
 void cApplication::onUpdate( float dt )

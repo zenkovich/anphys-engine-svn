@@ -242,6 +242,43 @@ __declspec(dllexport) void __cdecl engineProcessEvent(cEngine Engine, cEvent* In
 										attribs->Car->setHandBrakeCoef(1.0f);
 									 }
 									 break;
+								
+									 
+							case 'U':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(0, 0, 0.1f);
+									 }
+									 break;
+							case 'J':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(0, 0, -0.1f);
+									 }
+									 break;
+							case 'H':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(-0.1f, 0, 0);
+									 }
+									 break;
+							case 'K':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(0.1f, 0, 0);
+									 }
+									 break;
+							case 'Y':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(0, 0.1f, 0);
+									 }
+									 break;
+							case 'I':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->moveStp(0, -0.1f, 0);
+									 }
+									 break;
+							case 'P':{									
+										cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
+										attribs->Car->pushPoint();
+									 }
+									 break;
 
 							case 'W':MoveForward = true;
 								break;
@@ -380,6 +417,12 @@ __declspec(dllexport) void __cdecl drawDebug()
 		cCarAttributes* attribs = (cCarAttributes*)eGetObjectAttributes(Car);
 		vec3 p = attribs->Car->getPosition();
 
+		for (int i = 0; i < attribs->Car->getDbgLinesCount(); i++)
+		{
+			float p1[3], p2[3], colr[4];
+			attribs->Car->getDbgLine(i, p1, p2, colr);
+			eDebugDrawLine((vec3*)p1, (vec3*)p2, colr[0], colr[1], colr[2], colr[3]);
+		}
 		//attribs->Car->clearDbgLines();
 
 		vec3 v1,v2;

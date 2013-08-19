@@ -2,7 +2,9 @@
 
 #include "../render_system.h"
 #include "../texture.h"
+#include "ogl_debug.h"
 #include "ogl_ext_win.h"
+#include "other/device_info.h"
 #include "util/log/log_stream.h"
 
 OPEN_O2_NAMESPACE
@@ -10,7 +12,7 @@ OPEN_O2_NAMESPACE
 grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, grTexture* texture ):
 	grRenderTargetBaseInterface(renderSystem, texture), mFrameBuffer(0), mReady(false)
 {
-	if (!mRenderSystem)
+	if (!mRenderSystem || !mRenderTexture)
 		return;
 
 	initializeBuffer();
@@ -43,8 +45,13 @@ void grRenderTarget::initializeBuffer()
 
 	if (glCheckFramebufferStatusEXT(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		mRenderSystem->mLog->out("ERROR: Failed to create GL framebuffer object! GL Error %x", glGetError());
+		GLenum glError = glGetError();
+
+		mRenderSystem->mLog->out("ERROR: Failed to create GL framebuffer object! GL Error %x %s", glError,
+			getGLErrorDesc(glError));
+
 		mReady = false;
+
 		return;
 	}
 

@@ -55,7 +55,7 @@ cCar::cCar(vec3& Position, quat& Rotation)
 
 	//параметры двигателя/трансмиссии
 	const int torqueValuesCount = 8;  //количество значений графика
-	float torqueGraphic[torqueValuesCount] = { 0, 0.4f, 0.64f, 0.8f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
+	float torqueGraphic[torqueValuesCount] = { 0.4, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
 	float maxTorque = 800.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
 	float maxRpm = 7000.0f;       //макс кол-во оборотов
 	float engineFriction = 0.04f; //внутреннее трение двигателя
@@ -93,7 +93,7 @@ cCar::cCar(vec3& Position, quat& Rotation)
 
 	float frictionCoefs[256];
 	memset(frictionCoefs, 0, sizeof(float)*256);
-	frictionCoefs[0] = 1;
+	frictionCoefs[0] = 0.1f;
 	frictionCoefs[3] = 0.6f;
 
 	Vehicle->setupLanscapeFrtCoefs(frictionCoefs, 4);
@@ -115,6 +115,7 @@ void cCar::update(float dt, cEngineLandscapeVertex** vBuffer, cEngineLandscapePo
 
 	if (dt < mMaxDeltaTime)
 	{
+		clearDbgLines();
 		Vehicle->update(dt);
 	}
 	else
@@ -124,6 +125,7 @@ void cCar::update(float dt, cEngineLandscapeVertex** vBuffer, cEngineLandscapePo
 		while (mAccumDT > mMaxDeltaTime)
 		{
 			mAccumDT -= mMaxDeltaTime;
+			clearDbgLines();
 			Vehicle->update(mMaxDeltaTime);
 		}
 	}
@@ -193,8 +195,63 @@ void cCar::getWheelOrient( float* matr, int idx )
 		Vehicle->mRearRightChassis->getOrientation(matr);
 }
 
+unsigned char cCar::getWheelFrictionCoefIdx( int idx )
+{
+	if (idx == 0) 
+		return Vehicle->mFrontLeftChassis->getFrictionIdx();
+	if (idx == 1) 
+		return Vehicle->mFrontRightChassis->getFrictionIdx();
+	if (idx == 2) 
+		return Vehicle->mRearLeftChassis->getFrictionIdx();
+
+	return Vehicle->mRearRightChassis->getFrictionIdx();
+}
+
+int cCar::getDbgLinesCount()
+{
+	return Vehicle->mDbgLines.size();
+}
+
+void cCar::getDbgLine( int idx, float* p1, float* p2, float* colr )
+{
+	physics::vmask(p1, Vehicle->mDbgLines[idx].p1);
+	physics::vmask(p2, Vehicle->mDbgLines[idx].p2);
+	colr[0] = Vehicle->mDbgLines[idx].cr;
+	colr[1] = Vehicle->mDbgLines[idx].cg;
+	colr[2] = Vehicle->mDbgLines[idx].cb;
+	colr[3] = Vehicle->mDbgLines[idx].ca;
+}
+
+void cCar::clearDbgLines()
+{
+	Vehicle->mDbgLines.clear();
+}
+
 void cCar::reset( vec3& pos )
 {
 	Vehicle->mPosition = physics::vmask((float*)&pos);
 	Vehicle->mOrient = physics::mat3x3();
+}
+
+void cCar::moveStp( float x, float y, float z )
+{
+	Vehicle->mCollisionGeometryPoints[0].mLocalPos += physics::vec3(x, y, z)*0.5f;
+	printf("stp %.3f %.3f %.3f\n", Vehicle->mCollisionGeometryPoints[0].mLocalPos.x, Vehicle->mCollisionGeometryPoints[0].mLocalPos.y, Vehicle->mCollisionGeometryPoints[0].mLocalPos.z);
+}
+
+void cCar::pushPoint()
+{
+	Vehicle->mCollisionGeometryPoints.push_back(Vehicle->mCollisionGeometryPoints[0]);
+
+	std::ofstream fout;
+	fout.open("cp.txt");
+
+	for (physics::Vehicle::PointsList::iterator it = Vehicle->mCollisionGeometryPoints.begin();
+		it != Vehicle->mCollisionGeometryPoints.end(); ++it)
+	{
+		//physics::vec3(halsSize.x, -halsSize.y, -halsSize.z)
+		fout << "physics::vec3( " << it->mLocalPos.x << ", " << it->mLocalPos.y << ", " << it->mLocalPos.z << "), \n";
+	}
+
+	fout.close();
 }

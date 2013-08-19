@@ -10,8 +10,15 @@ OPEN_O2_NAMESPACE
 grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* renderSystem, grTexture* texture ):
 	mRenderSystem(renderSystem)
 {
-	if (mRenderSystem == NULL)
+	if (!mRenderSystem)
 		return;
+	
+	if (!mRenderSystem->isRenderTargetAvailable())
+	{
+		mRenderSystem->mLog->out("ERROR: Render targets on current Renderer is not available!");
+		mRenderSystem = NULL;
+		return;
+	}
 
 	if (texture->getUsage() != grTexUsage::RENDER_TARGET)
 	{
@@ -28,13 +35,31 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 	                                                      grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
 	mRenderSystem(renderSystem)
 {
-	if (mRenderSystem == NULL)
+	if (!mRenderSystem)
 		return;
+	
+	if (!mRenderSystem->isRenderTargetAvailable())
+	{
+		mRenderSystem->mLog->out("ERROR: Render targets on current Renderer is not available!");
+		mRenderSystem = NULL;
+		mRenderTexture = NULL;
+		return;
+	}
 
 	vec2f texSize = size;
 	if (texSize.x < 1)
 	{
 		texSize = mRenderSystem->getResolution().castTo<float>();
+	}
+
+	vec2i maxTextureSize = mRenderSystem->getMaxTextureSize();
+	if (texSize.x > maxTextureSize.x || texSize.y > maxTextureSize.y)
+	{
+		mRenderSystem->mLog->out("WARNING: Render target size too large! size %ix%i boundin by max %ix%i",
+			(int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
+		
+		texSize.x = clamp<float>(texSize.x, 64.0f, (float)maxTextureSize.x);
+		texSize.y = clamp<float>(texSize.y, 64.0f, (float)maxTextureSize.y);
 	}
 
 	mRenderTexture = mRenderSystem->addTexture(new grTexture(mRenderSystem, texSize, texFormat, grTexUsage::RENDER_TARGET));
