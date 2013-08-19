@@ -141,7 +141,7 @@ void cLogStream::out( const char* format, ... )
 		va_list vlist;
 		va_start(vlist, format);
 
-		char buf[4024]; 
+		char buf[1024]; 
 		vsprintf(buf, format, vlist);
 
 		va_end(vlist);

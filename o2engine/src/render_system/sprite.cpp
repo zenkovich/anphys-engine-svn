@@ -182,7 +182,7 @@ grSprite& grSprite::setTextureSrcRect( const fRect& rect )
 	return *this;
 }
 
-fRect grSprite::getTextureSrcRect() const
+const fRect& grSprite::getTextureSrcRect() const
 {
 	return mTextureSrcRect;
 }

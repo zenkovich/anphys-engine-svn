@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = true;
+	mDebugging = false;
 
 	int maxCollisionPoints = 50;
 
@@ -186,7 +186,7 @@ void Vehicle::updateEngine( float dt )
 			fastestWheelSpeed = mDriveChassisList[i]->mWheelAngVelocity;
 	}
 
-	fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
+	//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
 	if (mCurrentGear != 1 && mClutchCoef > 0.11f)
 	{

@@ -6,6 +6,7 @@
 
 OPEN_O2_NAMESPACE
 
+/** Basis. Just as matrix 2x3. */
 struct basis
 {
 	vec2f xv, yv, offs;

@@ -34,9 +34,9 @@ class cInputMessage
 
 	KeysVec mPressedKeys; 
 	KeysVec mDownKeys;
-	KeysVec mReleasedKeys;
+	KeysVec mReleasedKeys;     
 
-	VecArr  mCursorsPositions;
+	VecArr  mCursorsPositions; /**< Cursors positions. First - main cursor. */
 
 public:
 	/** Returns true if key was pressed at current frame. */

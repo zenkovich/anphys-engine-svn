@@ -1,10 +1,11 @@
 #include "render_system_ogl.h"
 
+#include "../camera.h"
 #include "../mesh.h"
 #include "../render_target.h"
 #include "../texture.h"
-#include "../camera.h"
 #include "app/application.h"
+#include "ogl_debug.h"
 #include "util/log/log_stream.h"
 #include "util/math/math.h"
 
@@ -15,7 +16,8 @@
 OPEN_O2_NAMESPACE
 
 grRenderSystem::grRenderSystem( cApplication* application ):
-	grRenderSystemBaseInterface(application), mReady(false)
+	grRenderSystemBaseInterface(application), mReady(false), mStencilDrawing(false), mStencilTest(false), 
+	mScissorTest(false)
 {
 	initializeGL();
 }
@@ -91,6 +93,8 @@ void grRenderSystem::initializeGL()
 	//get gl extensions
 	getGLExtensions(mLog);
 
+	GL_CHECK_ERROR(mLog);
+
 	checkCapatibles();
 
 #endif //PLATFORM_WIN
@@ -113,10 +117,11 @@ void grRenderSystem::initializeGL()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	GL_CHECK_ERROR(mLog);
+
 	mLog->out("GL_VENDOR: %s", glGetString(GL_VENDOR));
     mLog->out("GL_RENDERER: %s", glGetString(GL_RENDERER));
     mLog->out("GL_VERSION: %s", glGetString(GL_VERSION));
-    mLog->out("GL_EXTENSIONS: %s", glGetString(GL_EXTENSIONS));
 
 	glLineWidth(1.0f);
 
@@ -156,6 +161,8 @@ void grRenderSystem::drawPrimitives()
 	if ((mCurrentRenderTarget && mCurrentRenderTarget->mReady) || !mCurrentRenderTarget)
 		glDrawElements(mCurrentPrimitiveType, mLastDrawIdx, GL_UNSIGNED_SHORT, mVertexIndexData);
 
+	GL_CHECK_ERROR(mLog);
+
 	mFrameTrianglesCount += mTrianglesCount;
 	mLastDrawVertex = mTrianglesCount = mLastDrawIdx = 0;
 
@@ -171,6 +178,8 @@ bool grRenderSystem::endRender()
 	drawPrimitives();
 
 	SwapBuffers(mHDC);
+
+	GL_CHECK_ERROR(mLog);
 
 	return true;
 }
@@ -195,6 +204,8 @@ bool grRenderSystem::drawMesh( grMesh* mesh )
 		{			
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, mLastDrawTexture->mHandle);
+
+			GL_CHECK_ERROR(mLog);
 		}
 		else          
 		{
@@ -322,6 +333,9 @@ bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 	if (renderTarget->isReady())
 	{
 		glBindFramebufferEXT(GL_FRAMEBUFFER, renderTarget->mFrameBuffer);
+
+		GL_CHECK_ERROR(mLog);
+
 		setupMatrix(renderTarget->getTexture()->getSize());
 	}
 
@@ -338,6 +352,9 @@ bool grRenderSystem::unbindRenderTarget()
 	drawPrimitives();
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER, 0);
+
+	GL_CHECK_ERROR(mLog);
+
 	setupMatrix(mResolution.castTo<float>());
 
 	mCurrentRenderTarget = NULL;
@@ -356,7 +373,81 @@ void grRenderSystem::clear( const color4& color /*= color4(0, 0, 0, 255)*/ )
 	{
 		glClearColor(color.rf(), color.gf(), color.bf(), color.af());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+
+		GL_CHECK_ERROR(mLog);
 	}
+}
+
+void grRenderSystem::beginRenderToStencilBuffer()
+{
+	if (mStencilDrawing || mStencilTest)
+		return;
+
+	drawPrimitives();
+
+	glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_ALWAYS, 0x1, 0xffffffff);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+	GL_CHECK_ERROR(mLog);
+
+	mStencilDrawing = true;
+}
+
+void grRenderSystem::endRenderToStencilBuffer()
+{
+	if (!mStencilDrawing)
+		return;
+
+	drawPrimitives();
+	
+	glDisable(GL_STENCIL_TEST);
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+	GL_CHECK_ERROR(mLog);
+
+	mStencilDrawing = false;
+}
+
+void grRenderSystem::enableStencilTest()
+{
+	if (mStencilTest || mStencilDrawing)
+		return;
+
+	drawPrimitives();
+
+	glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_EQUAL, 0x1, 0xffffffff);
+
+	GL_CHECK_ERROR(mLog);
+
+	mStencilTest = true;
+}
+
+void grRenderSystem::disableStencilTest()
+{
+	if (!mStencilTest)
+		return;
+
+	drawPrimitives();
+
+	glDisable(GL_STENCIL_TEST);
+
+	mStencilTest = false;
+}
+
+bool grRenderSystem::isStencilTestEnabled() const
+{
+	return mStencilTest;
+}
+
+void grRenderSystem::clearStencil()
+{
+    glClearStencil(0);
+    glClear(GL_STENCIL_BUFFER_BIT);
+
+	GL_CHECK_ERROR(mLog);
 }
 
 void grRenderSystem::setupMatrix( const vec2f& size )
@@ -367,6 +458,54 @@ void grRenderSystem::setupMatrix( const vec2f& size )
 	glLoadIdentity();
 	glViewport(0, 0, (int)size.x, (int)size.y);
 	glLoadMatrixf(projMat);
+}
+
+void grRenderSystem::setupScissorRect( const fRect& rect )
+{
+	if (rect == mScissorRect)
+		return;
+
+	glScissor((int)rect.left, mResolution.y - (int)rect.down, (int)rect.getSizeX(), (int)rect.getSizeY());
+
+	mScissorRect = rect;
+}
+
+const fRect& grRenderSystem::getScissorRect() const
+{
+	return mScissorRect;
+}
+
+void grRenderSystem::enableScissorTest()
+{
+	if (mScissorTest)
+		return;
+
+	drawPrimitives();
+
+	glEnable(GL_SCISSOR_TEST);
+
+	GL_CHECK_ERROR(mLog);
+
+	mScissorTest = true;
+}
+
+void grRenderSystem::disableScissorTest()
+{
+	if (!mScissorTest)
+		return;
+
+	drawPrimitives();
+
+	glDisable(GL_SCISSOR_TEST);
+
+	GL_CHECK_ERROR(mLog);
+
+	mScissorTest = false;
+}
+
+bool grRenderSystem::isScissorTestEnabled() const
+{
+	return mScissorTest;
 }
 
 bool grRenderSystem::isRenderTargetAvailable() const
