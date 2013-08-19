@@ -9,7 +9,7 @@
 OPEN_O2_NAMESPACE
 
 cApplicationBaseInterface::cApplicationBaseInterface():
-	mLogStream(NULL), mRenderSystem(NULL), mFileSystem(NULL)
+	mLog(NULL), mRenderSystem(NULL), mFileSystem(NULL)
 {
 	initalizeSystems();
 }
@@ -28,17 +28,17 @@ void cApplicationBaseInterface::initalizeSystems()
 	cFileLogStream* fileLog = new cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
 	gLog = new cConsoleLogStream(BASIC_LOG_LEVEL);
 	fileLog->bindStream(gLog);
-	mLogStream = new cFileLogStream("App", 2, "app_log.txt");
-	gLog->bindStream(mLogStream);
+	mLog = new cFileLogStream("App", 2, "app_log.txt");
+	gLog->bindStream(mLog);
 
-	mLogStream->out("All Systems initialized");
+	mLog->out("All Systems initialized");
 }
 
 void cApplicationBaseInterface::deinitializeSystems()
 {
 	safe_release(mFileSystem);
 
-	mLogStream->out("All systems deinitialized");
+	mLog->out("All systems deinitialized");
 
 	safe_release(gLog->getParentStream());
 }

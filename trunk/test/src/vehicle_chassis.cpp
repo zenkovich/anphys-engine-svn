@@ -146,8 +146,13 @@ void VehicleChassis::derivedSolve( float dt )
 
 	float fl = f2lambda*f2lambda + f1lambda*f1lambda;
 	if (mFrictionValues)
-		Mu = getFrictionValue(fl*dt)*mCollisionFrtCoef;
-	
+	{
+		float ff = getFrictionValue(fl*dt);
+		printf("ff = %.3f", ff);
+		Mu = ff*mCollisionFrtCoef;
+	}
+
+
 	float maxFriction = mCollisionPoint.J*Mu;
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
@@ -231,6 +236,56 @@ void VehicleChassis::derivedPostSolve( float dt )
 	}
 
 	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
+	
+
+	if (mVehicle->mDebugging)
+	{
+		/*if (mWheelOnGround)
+		{
+			mVehicle->pushDbgPoint(mCollisionPoint.mPoint, 1, 0, 0, 1);
+			mVehicle->pushDbgLine(mCollisionPoint.mPoint, mWheelBottomPoint, 1, 0, 0, 1);
+			mVehicle->pushDbgLine(mCollisionPoint.mPoint, mCollisionPoint.mPoint + mCollisionPoint.mNormal, 1, 0, 0, 1);
+		}
+
+		vec3 wheelPos = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition);*/
+		
+
+		vec3 locPos = (mGlobalPosition + mGlobalAxis.getYVector()*mPosition - mVehicle->mPosition)*mVehicle->mOrient.inverse();
+
+		mat3x3 m1;
+		if (mInvertedSide)
+			m1 = rotatedZMatrix(3.1415926f);
+
+		mat3x3 worldOrient = m1*rotatedXMatrix(-mWheelXAngle)*mGlobalAxis;
+
+		mat3x3 locOrient = worldOrient*mVehicle->mOrient.inverse();
+
+		vec3 wheelPos = mVehicle->mPosition + locPos*mVehicle->mOrient;
+		mat3x3 wheelOrient = locOrient*mVehicle->mOrient;
+
+		vec3 yv = wheelOrient.getYVector();
+		vec3 zv = wheelOrient.getZVector();
+		vec3 xv = wheelOrient.getXVector();
+
+		vec3 lastPt;
+		float segs = 10;
+		for (int i = 0; i < segs; i++)
+		{
+			float angle = (float)i/segs*2.0f*3.1415926f;
+			vec3 pt = wheelPos + yv*sinf(angle)*mWheelRadius + zv*cosf(angle)*mWheelRadius;
+			vec3 pt2 = wheelPos + yv*sinf(angle)*mWheelRadius + zv*cosf(angle)*mWheelRadius + xv*0.2f;
+
+			if (i > 0)
+			{
+				mVehicle->pushDbgLine(lastPt, pt, 1, 1, 0, 1);
+			}
+
+			lastPt = pt;
+		
+			mVehicle->pushDbgLine(wheelPos, pt, 1, (float)i/segs, 0, 1);
+			mVehicle->pushDbgLine(pt, pt2, 1, (float)i/segs, 0, 1);
+		}
+	}
 }
 
 void VehicleChassis::checkCollision()
@@ -259,7 +314,6 @@ void VehicleChassis::checkCollision()
 	for (unsigned int i = 0; i < polygonsCount; i++)
 	{
 		lPolygon* poly = polygonsBuffer[i];
-
 			
 		vec3 pa = vmask((float*)&vertexBuffer[poly->c]->mPosition);
 		vec3 pb = vmask((float*)&vertexBuffer[poly->b]->mPosition);
@@ -272,6 +326,13 @@ void VehicleChassis::checkCollision()
 			(pa - pc).len() < 0.01f)
 		{
 			continue;
+		}
+
+		if (mVehicle->mDebugging)
+		{		
+			mVehicle->pushDbgLine(pa, pb, 0, 1, 1, 0.025f);
+			mVehicle->pushDbgLine(pb, pc, 0, 1, 1, 0.025f);
+			mVehicle->pushDbgLine(pc, pa, 0, 1, 1, 0.025f);
 		}
 
 		if (n*dir < -0.15f)
@@ -295,6 +356,9 @@ void VehicleChassis::checkCollision()
 					mCollisionPoint.mNormal = n;
 					mCollisionPoint.mPoint = point;
 					mCollisionPoint.mDepth = depth;
+
+					if (mVehicle->mDebugging)
+						mVehicle->pushDbgPoint(point, 0, 0, 1, 1);
 				}
 			}
 		}
@@ -327,17 +391,29 @@ void VehicleChassis::checkCollision()
 		float d = (P.y*C.x - C.y*P.x)/delim2;
 
 		mCollisionFrtCoef = ca + d*(cb - ca) + e*(cc - ca);
+
+		mCollisionFrtCoefIdx = fa;
+		//printf("cc = %.3f (%.3f - %.3f) %.3f %.3f %.3f %i %i %i\n", mCollisionFrtCoef, e, d, ca, cb, cc, fa, fb, fc);
 	}
 }
 
 void VehicleChassis::getPosition( float* positionVec )
 {
-	vmask(positionVec, mGlobalPosition + mGlobalAxis.getYVector()*mPosition);
+	vec3 locPos = (mGlobalPosition + mGlobalAxis.getYVector()*mPosition - mVehicle->mPosition)*mVehicle->mOrient.inverse();
+	vmask(positionVec, locPos);
 }
 
 void VehicleChassis::getOrientation( float* orientMatrix )
 {
-	mmask(orientMatrix, rotatedXMatrix(-mWheelXAngle)*mGlobalAxis);
+	mat3x3 m1;
+	if (mInvertedSide)
+		m1 = rotatedZMatrix(3.1415926f);
+
+	mat3x3 worldOrient = m1*rotatedXMatrix(-mWheelXAngle)*mGlobalAxis;
+
+	mat3x3 locOrient = worldOrient*mVehicle->mOrient.inverse();
+
+	mmask(orientMatrix, locOrient);
 }
 
 VehicleChassis::~VehicleChassis()

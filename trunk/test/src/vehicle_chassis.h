@@ -47,6 +47,7 @@ struct VehicleChassis
 
 	CollisionPoint mCollisionPoint;
 	float          mCollisionFrtCoef;
+	unsigned char  mCollisionFrtCoefIdx;
 	Vehicle*       mVehicle;
 
 	float*         mFrictionValues;
@@ -54,11 +55,13 @@ struct VehicleChassis
 	float          mMaxFrictionForce;
 	int            mFrictionValuesCount;
 
+	bool           mInvertedSide;
+
 	vec3           myaxisNorm;
 	vec3           mnimp1;
 
 //functions
-	VehicleChassis(Vehicle* vehicle):mVehicle(vehicle), mFrictionValues(0) {}
+	VehicleChassis(Vehicle* vehicle):mVehicle(vehicle), mFrictionValues(0), mInvertedSide(false), mCollisionFrtCoefIdx(0) {}
 	~VehicleChassis();
 
 	void loadParametres(const vec3& localPos, const mat3x3& localAxis, float minPos, float maxPos, 
@@ -81,6 +84,8 @@ struct VehicleChassis
 	void getOrientation(float* orientMatrix);
 
 	float getFrictionValue(float force);
+
+	unsigned char getFrictionIdx() const { return mCollisionFrtCoefIdx; }
 };
 
 }

@@ -91,6 +91,8 @@ void grRenderSystem::initializeGL()
 	//get gl extensions
 	getGLExtensions(mLog);
 
+	checkCapatibles();
+
 #endif //PLATFORM_WIN
 
 	mVertexData = new unsigned char[mVertexBufferSize*sizeof(vertex2)];
@@ -110,6 +112,11 @@ void grRenderSystem::initializeGL()
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	mLog->out("GL_VENDOR: %s", glGetString(GL_VENDOR));
+    mLog->out("GL_RENDERER: %s", glGetString(GL_RENDERER));
+    mLog->out("GL_VERSION: %s", glGetString(GL_VERSION));
+    mLog->out("GL_EXTENSIONS: %s", glGetString(GL_EXTENSIONS));
 
 	glLineWidth(1.0f);
 
@@ -146,7 +153,8 @@ void grRenderSystem::drawPrimitives()
 	if (mLastDrawVertex < 1)
 		return;
 	
-	glDrawElements(mCurrentPrimitiveType, mLastDrawIdx, GL_UNSIGNED_SHORT, mVertexIndexData);
+	if ((mCurrentRenderTarget && mCurrentRenderTarget->mReady) || !mCurrentRenderTarget)
+		glDrawElements(mCurrentPrimitiveType, mLastDrawIdx, GL_UNSIGNED_SHORT, mVertexIndexData);
 
 	mFrameTrianglesCount += mTrianglesCount;
 	mLastDrawVertex = mTrianglesCount = mLastDrawIdx = 0;
@@ -306,13 +314,16 @@ void grRenderSystem::frameResized()
 
 bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 {
-	if (!renderTarget || !renderTarget->isReady())
+	if (!renderTarget)
 		return false;
 
 	drawPrimitives();
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER, renderTarget->mFrameBuffer);
-	setupMatrix(renderTarget->getTexture()->getSize());
+	if (renderTarget->isReady())
+	{
+		glBindFramebufferEXT(GL_FRAMEBUFFER, renderTarget->mFrameBuffer);
+		setupMatrix(renderTarget->getTexture()->getSize());
+	}
 
 	mCurrentRenderTarget = renderTarget;
 
@@ -341,8 +352,11 @@ grRenderTarget* grRenderSystem::getCurrentRenderTarget() const
 
 void grRenderSystem::clear( const color4& color /*= color4(0, 0, 0, 255)*/ )
 {
-	glClearColor(color.rf(), color.gf(), color.bf(), color.af());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+	if ((mCurrentRenderTarget && mCurrentRenderTarget->isReady()) || !mCurrentRenderTarget)
+	{
+		glClearColor(color.rf(), color.gf(), color.bf(), color.af());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	}
 }
 
 void grRenderSystem::setupMatrix( const vec2f& size )
@@ -355,23 +369,32 @@ void grRenderSystem::setupMatrix( const vec2f& size )
 	glLoadMatrixf(projMat);
 }
 
-bool grRenderSystem::isRenderTargetAvailable()
+bool grRenderSystem::isRenderTargetAvailable() const
 {
-	char* extensions[] = { "atata", "GL_EXT_framebuffer_object" };
-
-	bool res = true;
-	for (int i = 0; i < 2; i++)
-	{
-		if (!isExtensionSupported(extensions[i]))
-			res = false;
-	}
-
-	return res;
+	return mRenderTargetsAvailable;
 }
 
-vec2i grRenderSystem::getMaxTextureSize()
+vec2i grRenderSystem::getMaxTextureSize() const
 {
-	return vec2i(1024, 1024);
+	return mMaxTextureSize;
+}
+
+void grRenderSystem::checkCapatibles()
+{	
+//check render targets available
+	char* extensions[] = { "GL_ARB_framebuffer_object", "GL_EXT_framebuffer_object", "GL_EXT_framebuffer_blit", 
+	                       "GL_EXT_packed_depth_stencil" };
+
+	mRenderTargetsAvailable = true;
+	for (int i = 0; i < 4; i++)
+	{
+		if (!isExtensionSupported(extensions[i]))
+			mRenderTargetsAvailable = false;
+	}
+
+//get max texture size
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &mMaxTextureSize.x);
+	mMaxTextureSize.y = mMaxTextureSize.x;
 }
 
 bool grRenderSystem::isExtensionSupported(const char *extension)

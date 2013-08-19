@@ -6,6 +6,8 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
+	mDebugging = true;
+
 	int maxCollisionPoints = 50;
 
 	for (int i = 0; i < maxCollisionPoints; i++)
@@ -15,6 +17,9 @@ Vehicle::Vehicle()
 	mFrontRightChassis = new VehicleChassis(this);
 	mRearLeftChassis = new VehicleChassis(this);
 	mRearRightChassis = new VehicleChassis(this);
+	
+	mRearRightChassis->mInvertedSide = true;
+	mFrontRightChassis->mInvertedSide = true;
 
 	mPolygonsBuffer = NULL;
 
@@ -124,6 +129,27 @@ void Vehicle::update( float dt )
 
 	updateCollisionGeometry();
 	checkCollisions();
+
+	mLastChangeGearTime += dt;
+
+	if (mDebugging)
+	{
+		if (mCurrentGear > 0 && mEngineRpm > 6500 && mLastChangeGearTime > 0.5f)
+		{
+			mCurrentGear += 1;
+			mLastChangeGearTime = 0;
+			printf("gear up %i\n", mCurrentGear - 1);
+		}
+
+		if (mCurrentGear > 2 && mEngineRpm < 3000 && mLastChangeGearTime > 0.5f)
+		{
+			mCurrentGear -= 1;
+			mLastChangeGearTime = 0;
+			printf("gear down %i\n", mCurrentGear - 1);
+		}
+
+		printf("RPM = %.3f gear %i\n", mEngineRpm, mCurrentGear - 1);
+	}
 }
 
 void Vehicle::updateEngine( float dt )
@@ -144,7 +170,9 @@ void Vehicle::updateEngine( float dt )
 
 	float engineTorque = getEngineTorqueFromGraphic()*mThrottleCoef - mEngineFriction*mEngineRpm*(1 - mThrottleCoef);
 	mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
-		
+
+	//gLog->fout(1, "Engine torque = %.3f N*m\n", engineTorque);
+
 	mResDriveCoef = mGearsCoefs[mCurrentGear]*mMainGear;	
 
 	float wheelsTorque = -engineTorque*0.5f*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*0.001f;
@@ -163,6 +191,7 @@ void Vehicle::updateEngine( float dt )
 	if (mCurrentGear != 1 && mClutchCoef > 0.11f)
 	{
 		mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
+		//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
 	}
 }
 
@@ -210,6 +239,9 @@ void Vehicle::checkCollisions()
 	{
 		CollisionGeometryVertex* vertex = &(*it);
 
+		if (mDebugging)
+			pushDbgPoint(vertex->mGlobalPos, 1, 0, 1, 1);
+
 		CollisionPoint* cpoint = vertex->mCollisionPoint;
 		bool fromFreeList = false;
 
@@ -254,6 +286,35 @@ void Vehicle::checkCollisions()
 					nc = vmask((float*)&mVertexBuffer[polygon->c]->mPosition);
 				}
 			}
+		}
+		
+		if (mDebugging)
+		{
+			if (isColliding)
+			{
+				pushDbgLine(vertex->mGlobalPos, np, 1, 0, 0, 1);
+			
+				pushDbgLine(na, nb, 1, 0, 0, 1);
+				pushDbgLine(nb, nc, 1, 0, 0, 1);
+				pushDbgLine(nc, na, 1, 0, 0, 1);
+			}
+			else
+			{
+				pushDbgLine(vertex->mGlobalPos, np, 0, 0, 1, 1);
+			
+				pushDbgLine(na, nb, 0, 1, 0, 1);
+				pushDbgLine(nb, nc, 0, 1, 0, 1);
+				pushDbgLine(nc, na, 0, 1, 0, 1);
+			}
+
+			//isColliding = false;
+
+			pushDbgLine(na, nb, 0, 1, 0, 1);
+			pushDbgLine(nb, nc, 0, 1, 0, 1);
+			pushDbgLine(nc, na, 0, 1, 0, 1);
+			pushDbgLine(np, na, 0.9f, 1, 0.9f, 0.2f);
+			pushDbgLine(np, nb, 0.9f, 1, 0.9f, 0.2f);
+			pushDbgLine(np, nc, 0.9f, 1, 0.9f, 0.2f);
 		}
 
 		if (isColliding)
@@ -465,6 +526,22 @@ void Vehicle::setGearBoxParametres( float* gears, int gearsCount, float mainGear
 		mDriveChassisList[1] = mRearRightChassis;
 		mDriveChassisCount = 2;
 	}
+}
+
+void Vehicle::pushDbgLine( const vec3& p1, const vec3& p2, float cr, float cg, float cb, float ca )
+{
+	mDbgLines.push_back(DbgLine(p1, p2, cr, cg, cb, ca));
+}
+
+void Vehicle::pushDbgPoint( const vec3& p1, float cr, float cg, float cb, float ca )
+{
+	vec3 ofsx(0.1f, 0, 0);
+	vec3 ofsy(0, 0.1f, 0);
+	vec3 ofsz(0, 0, 0.1f);
+
+	pushDbgLine(p1 - ofsx, p1 + ofsx, cr, cg, cb, ca);
+	pushDbgLine(p1 - ofsy, p1 + ofsy, cr, cg, cb, ca);
+	pushDbgLine(p1 - ofsz, p1 + ofsz, cr, cg, cb, ca);
 }
 
 float Vehicle::getLandscapeFrtCoef( unsigned char id )

@@ -32,6 +32,14 @@ public:
 
 	vec3 getWheelPos(int i);
 	void getWheelOrient(float* matr, int idx);
+	unsigned char getWheelFrictionCoefIdx(int idx);
+
+	int getDbgLinesCount();
+	void getDbgLine(int idx, float* p1, float* p2, float* colr);
+	void clearDbgLines();
+
+	void moveStp(float x, float y, float z);
+	void pushPoint();
 
 	void reset(vec3& pos);
 
