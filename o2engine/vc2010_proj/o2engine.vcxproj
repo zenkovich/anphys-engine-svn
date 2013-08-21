@@ -43,7 +43,7 @@
     <SourcePath>..\src;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
     <TargetExt>.lib</TargetExt>
-    <LibraryPath>..\dependencies\dx8;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
@@ -63,7 +63,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,6 +109,8 @@
     <ClInclude Include="..\src\other\device_info.h" />
     <ClInclude Include="..\src\public.h" />
     <ClInclude Include="..\src\render_system\camera.h" />
+    <ClInclude Include="..\src\render_system\d3d9c\d3d9c.h" />
+    <ClInclude Include="..\src\render_system\d3d9c\render_system_d3d9c.h" />
     <ClInclude Include="..\src\render_system\mesh.h" />
     <ClInclude Include="..\src\render_system\ogl\ogl.h" />
     <ClInclude Include="..\src\render_system\ogl\ogl_debug.h" />

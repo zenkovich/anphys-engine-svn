@@ -6,8 +6,8 @@
  */
 
 /* Using render system */
-#define RENDER_OGL
-//#define RENDER_DX9
+//#define RENDER_OGL
+#define RENDER_D3D9C
 //#define RENDER_GLES
 //#define RENDER_GLES2
 

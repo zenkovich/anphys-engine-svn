@@ -1,5 +1,7 @@
-#include "ogl_debug.h"
+#include "public.h"
+#ifdef RENDER_OGL
 
+#include "ogl_debug.h"
 
 #include "util/log/log_stream.h"
 
@@ -30,3 +32,5 @@ void glCheckError( cLogStream* log, const char* filename /*= NULL*/, unsigned in
 }
 
 CLOSE_O2_NAMESPACE
+
+#endif //RENDER_OGL

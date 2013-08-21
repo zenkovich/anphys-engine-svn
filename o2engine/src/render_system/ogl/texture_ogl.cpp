@@ -1,3 +1,6 @@
+#include "public.h"
+#ifdef RENDER_OGL
+
 #include "texture_ogl.h"
 
 #include "util/image/image.h"
@@ -92,3 +95,5 @@ void grTexture::createAsRenderTarget( grRenderSystem* renderSystem, const vec2f&
 }
 
 CLOSE_O2_NAMESPACE
+
+#endif //RENDER_OGL

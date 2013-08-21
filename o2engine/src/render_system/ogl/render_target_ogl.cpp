@@ -1,3 +1,6 @@
+#include "public.h"
+#ifdef RENDER_OGL
+
 #include "render_target_ogl.h"
 
 #include "../render_system.h"
@@ -66,3 +69,5 @@ bool grRenderTarget::isReady() const
 }
 
 CLOSE_O2_NAMESPACE
+
+#endif //RENDER_OGL

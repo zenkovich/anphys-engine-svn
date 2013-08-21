@@ -1,3 +1,6 @@
+#include "public.h"
+#ifdef RENDER_OGL
+
 #include "render_system_ogl.h"
 
 #include "../camera.h"
@@ -576,3 +579,5 @@ bool grRenderSystem::isExtensionSupported(const char *extension)
 }
 
 CLOSE_O2_NAMESPACE
+
+#endif //RENDER_OGL
