@@ -41,4 +41,13 @@ typedef long long          int64;
 #	define isPhonePlatform() false
 #endif
 
+//add windows libraries
+#if defined(PLATFORM_WIN) && defined(RENDER_OGL)
+#	pragma comment(lib, "opengl32.lib")
+#	pragma comment(lib, "glu32.lib")
+#	pragma comment(lib, "odbc32.lib")
+#	pragma comment(lib, "odbccp32.lib")
+#elif defined(PLATFORM_WIN) && defined(RENDER_D3D9C)
+#endif
+
 #endif //PUBLIC_H

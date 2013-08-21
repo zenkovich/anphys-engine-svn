@@ -58,6 +58,9 @@
     <Filter Include="src\other">
       <UniqueIdentifier>{96fad150-6030-486c-b245-dbc1cad49c10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\render_system\d3d9c">
+      <UniqueIdentifier>{70f0f525-41e9-483a-a939-47db140c0a09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -244,6 +247,12 @@
     </ClInclude>
     <ClInclude Include="..\src\other\device_info.h">
       <Filter>src\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\d3d9c\d3d9c.h">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\d3d9c\render_system_d3d9c.h">
+      <Filter>src\render_system\d3d9c</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

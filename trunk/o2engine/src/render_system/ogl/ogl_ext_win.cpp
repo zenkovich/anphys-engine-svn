@@ -1,3 +1,6 @@
+#include "public.h"
+#ifdef RENDER_OGL
+
 #include "ogl_ext_win.h"
 
 #include "util/log/log_stream.h"
@@ -37,3 +40,5 @@ extern PFNGLDELETEBUFFERSPROC             glDeleteBuffers             = NULL;
 extern PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT = NULL;
 
 CLOSE_O2_NAMESPACE
+
+#endif //RENDER_OGL
