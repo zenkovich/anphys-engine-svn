@@ -207,6 +207,18 @@ unsigned char cCar::getWheelFrictionCoefIdx( int idx )
 	return Vehicle->mRearRightChassis->getFrictionIdx();
 }
 
+float cCar::getWheelSlideCoef( int idx )
+{	
+	if (idx == 0) 
+		return Vehicle->mFrontLeftChassis->mSlideCoef;
+	if (idx == 1) 
+		return Vehicle->mFrontRightChassis->mSlideCoef;
+	if (idx == 2) 
+		return Vehicle->mRearLeftChassis->mSlideCoef;
+
+	return Vehicle->mRearRightChassis->mSlideCoef;
+}
+
 int cCar::getDbgLinesCount()
 {
 	return Vehicle->mDbgLines.size();

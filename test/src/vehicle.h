@@ -89,6 +89,7 @@ struct Vehicle
 	unsigned int        mPolygonsBufferCount;
 
 	DbgLinesList        mDbgLines;
+	float mTime;
 
 	float               mLastChangeGearTime;
 

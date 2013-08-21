@@ -148,7 +148,7 @@ void VehicleChassis::derivedSolve( float dt )
 	if (mFrictionValues)
 	{
 		float ff = getFrictionValue(fl*dt);
-		printf("ff = %.3f", ff);
+		//printf("ff = %.3f", ff);
 		Mu = ff*mCollisionFrtCoef;
 	}
 
@@ -208,7 +208,24 @@ void VehicleChassis::derivedPostSolve( float dt )
 	vec3 zvec = mGlobalAxis.getZVector();
 
 	vec3 lastWheelBottomPos = mWheelBottomPoint;
-	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);	
+	mWheelBottomPoint = mGlobalPosition + mGlobalAxis.getYVector()*(mPosition - mWheelRadius);		
+
+	float off = 0;
+
+	vec3 vp = mVehicle->mVelocity + mVehicle->mAngularVelocity*(mVehicle->mPosition - mWheelBottomPoint);
+	vec3 rp = zvec*(-mWheelAngVelocity*2.0f*3.1415926f*mWheelRadius);
+
+	off = (vp - rp).len();
+	mSlideCoef = off;
+
+	if (mVehicle->mDebugging)
+	{
+		printf("of %.3f ", off);
+		if (off > 3.0f)
+		{
+			mVehicle->pushDbgLine(mVehicle->mPosition, mWheelBottomPoint, 1, 0, 0, 1);
+		}
+	}
 
 	checkCollision();
 

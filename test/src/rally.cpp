@@ -60,8 +60,8 @@ __declspec(dllexport) cEngine __cdecl engineInit(char* Path, PENGINEGETPROCADDRE
 	eDebugDrawLine = (PEDEBUGDRAWLINEPROC)engineGetProcAddress("eDebugDrawLine");
 	eGetLandscapeInfo = (PEGETLANDSCAPEINFOPROC)engineGetProcAddress("eGetLandscapeInfo");
 
-	//eLoadLevel("fast_track.gdl");  //Грузим уровень
-	eLoadLevel("test.gdl");  //Грузим уровень
+	eLoadLevel("fast_track.gdl");  //Грузим уровень
+	//eLoadLevel("test.gdl");  //Грузим уровень
 	//eLoadLevel("material_test.gdl");  //Грузим уровень
 	return 0;
 }
