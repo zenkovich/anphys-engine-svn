@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = false;
+	mDebugging = true;
 
 	int maxCollisionPoints = 50;
 
@@ -44,6 +44,8 @@ Vehicle::Vehicle()
 	mClutchCoef = 0;
 	mEngineTorque = 0;
 	mLastChangeGearTime = 0;
+
+	mTime = 0;
 }
 
 Vehicle::~Vehicle()
@@ -67,6 +69,8 @@ Vehicle::~Vehicle()
 
 void Vehicle::update( float dt )
 {	
+	mTime += dt;
+
 	mThrottleCoef  = fclamp(mThrottleCoef, 0.0f, 1.0f);
 	mBrakeCoef     = fclamp(mBrakeCoef, 0.0f, 1.0f);
 	mHandBrakeCoef = fclamp(mHandBrakeCoef, 0.0f, 1.0f);
@@ -193,6 +197,9 @@ void Vehicle::updateEngine( float dt )
 		mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
 		//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
 	}
+
+	if (mDebugging)
+		printf("vel = %.3f/%.3f %.3f", -fastestWheelSpeed*2.0f*3.1415926*mDriveChassisList[0]->mWheelRadius*3.6f, mVelocity.len()*3.6f, mTime);
 }
 
 float Vehicle::getEngineTorqueFromGraphic()

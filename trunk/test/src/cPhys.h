@@ -33,6 +33,7 @@ public:
 	vec3 getWheelPos(int i);
 	void getWheelOrient(float* matr, int idx);
 	unsigned char getWheelFrictionCoefIdx(int idx);
+	float getWheelSlideCoef(int idx);
 
 	int getDbgLinesCount();
 	void getDbgLine(int idx, float* p1, float* p2, float* colr);

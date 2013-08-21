@@ -57,6 +57,8 @@ struct VehicleChassis
 
 	bool           mInvertedSide;
 
+	float          mSlideCoef;
+
 	vec3           myaxisNorm;
 	vec3           mnimp1;
 
