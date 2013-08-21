@@ -193,9 +193,6 @@
     <Filter Include="util\graphic">
       <UniqueIdentifier>{c72c5bad-8084-42af-82c7-5e66fed03881}</UniqueIdentifier>
     </Filter>
-    <Filter Include="render\util">
-      <UniqueIdentifier>{3d7d7b51-f988-479b-a5f9-7374ba85941f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\util\utils.h">
@@ -765,9 +762,6 @@
     <ClInclude Include="..\src\physics\CD\collision_geometry\landscape_geometry.h">
       <Filter>physics\CD\collision_geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\render\util\texture_atlas_manager.h">
-      <Filter>render\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\other\quad_tree_2d.h">
       <Filter>util\other</Filter>
     </ClInclude>
@@ -1180,9 +1174,6 @@
     </ClCompile>
     <ClCompile Include="..\src\physics\CD\collision_geometry\landscape_geometry.cpp">
       <Filter>physics\CD\collision_geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\render\util\texture_atlas_manager.cpp">
-      <Filter>render\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

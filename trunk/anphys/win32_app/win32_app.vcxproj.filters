@@ -25,6 +25,9 @@
     <Filter Include="physics_test\vehicle">
       <UniqueIdentifier>{7c3e911b-7f22-4f73-add4-9001da15d334}</UniqueIdentifier>
     </Filter>
+    <Filter Include="mesh_test">
+      <UniqueIdentifier>{8fb35e98-28b0-47ff-988f-7d43210be367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt">
@@ -54,6 +57,15 @@
     <ClCompile Include="..\physics_test\src\vehicle\vehicle.cpp">
       <Filter>physics_test\vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="..\mesh_test\mesh_test_frame.cpp">
+      <Filter>mesh_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mesh_test\mesh_test.cpp">
+      <Filter>mesh_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mesh_test\mesh_merge.cpp">
+      <Filter>mesh_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -82,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="..\physics_test\src\vehicle\stuff.h">
       <Filter>physics_test\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mesh_test\mesh_test_frame.h">
+      <Filter>mesh_test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mesh_test\mesh_test.h">
+      <Filter>mesh_test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mesh_test\mesh_merge.h">
+      <Filter>mesh_test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

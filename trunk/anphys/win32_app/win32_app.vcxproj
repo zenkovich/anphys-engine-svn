@@ -97,6 +97,9 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\mesh_test\mesh_merge.cpp" />
+    <ClCompile Include="..\mesh_test\mesh_test.cpp" />
+    <ClCompile Include="..\mesh_test\mesh_test_frame.cpp" />
     <ClCompile Include="..\physics_test\src\box_collision_test_frame.cpp" />
     <ClCompile Include="..\physics_test\src\landscape_creator_wnd.cpp" />
     <ClCompile Include="..\physics_test\src\physics_test_frame.cpp" />
@@ -107,6 +110,9 @@
     <ClCompile Include="win32_app.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\mesh_test\mesh_merge.h" />
+    <ClInclude Include="..\mesh_test\mesh_test.h" />
+    <ClInclude Include="..\mesh_test\mesh_test_frame.h" />
     <ClInclude Include="..\physics_test\src\box_collision_test_frame.h" />
     <ClInclude Include="..\physics_test\src\landscape_creator_wnd.h" />
     <ClInclude Include="..\physics_test\src\physics_test_frame.h" />
