@@ -5,10 +5,12 @@
 
 #include "engine/engine_incl.h"
 
+struct grRender3DObjectMesh;
+
 class cMeshTest
 {
 public:
-	typedef std::vector<vec3> VecArr;
+	typedef std::vector<vertexTexNorm> VecArr;
 	typedef std::vector<poly3> PolyArr;
 	
 	VecArr  mMainMeshVericies;
@@ -28,6 +30,9 @@ public:
 	void randomizeSecondaryMesh(const vec3& range);
 
 	void processMeshMerge(const vec3& secMeshOffs, const mat3x3& secMeshOrient);
+	
+	void fillMainMeshData(grRender3DObjectMesh* renderMesh, const char* materialName);
+	void fillSecondaryMeshData(grRender3DObjectMesh* renderMesh, const char* materialName);
 
 protected:
 	void createPlaneMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int segx, const int segy);
@@ -35,6 +40,7 @@ protected:
 	void createSphereMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles);
 	void createCubeMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int segsx, const int segsy, const int segsz);
 	void randomizeMesh(VecArr& verticies, PolyArr& polygons, const vec3& range);
+	void fillRenderMesh(VecArr& verticies, PolyArr& polygons, grRender3DObjectMesh* renderMesh, const char* materialName);
 };
 
 #endif //MESH_TEST_H
