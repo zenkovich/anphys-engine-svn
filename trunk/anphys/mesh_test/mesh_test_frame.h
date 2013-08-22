@@ -30,6 +30,9 @@ class apMeshTestFrame:public apRenderWindow
 	grRender3DObjectMesh*         mMainMesh;
 	grRender3DObjectMesh*         mSecondaryMesh;
 
+	mat3x3                        mLastCameraOrient;
+	vec3                          mLastCameraPos;
+
 public:
 	apMeshTestFrame();
 	apMeshTestFrame(const std::string& title, fRect wndRect, fRect outputRect);
@@ -51,6 +54,8 @@ private:
 	void initializeUI();
 
 	void createMaterials();
+
+	void updateSecMeshPositioning();
 };
 
 #endif //MESH_TEST_FRAME_H

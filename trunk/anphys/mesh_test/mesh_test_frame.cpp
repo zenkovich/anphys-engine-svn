@@ -59,8 +59,8 @@ void apMeshTestFrame::onCreate( fRect inRect )
 	mMeshTest->randomizeMainMesh(vec3(0.2f, 0.2f, 0.2f));
 	mMeshTest->fillMainMeshData(mMainMesh, "mainMesh");
 
-	mMeshTest->generateSecondaryTorusMesh(vec3(4, 2, 10), 5, 5);
-	mMeshTest->randomizeMainMesh(vec3(0.2f, 0.2f, 0.2f));
+	mMeshTest->generateSecondaryTorusMesh(vec3(4, 2, 10), 50, 50);
+	mMeshTest->randomizeSecondaryMesh(vec3(0.2f, 0.2f, 0.2f));
 	mMeshTest->fillSecondaryMeshData(mSecondaryMesh, "mainMesh");
 }
 
@@ -82,6 +82,7 @@ float apMeshTestFrame::onTimer()
 	mMainEngineScene->update(dt);
 	mRender->update(dt);
 	mCamera->update(dt);
+	updateSecMeshPositioning();
 	mWidgetsManager->update(dt);
 
 	mRender->beginRender();
@@ -135,4 +136,36 @@ void apMeshTestFrame::createMaterials()
 	surfaceMaterial->pushTexture(mRender->mTextures->createTexture("../data/textures/wood.jpg"));
 	surfaceMaterial->setMaterial(mRender->mMaterials->getMaterial("whiteMaterial"));
 	surfaceMaterial->setShadeModel(NULL);
+}
+
+void apMeshTestFrame::updateSecMeshPositioning()
+{
+	vec3 camYV(0, 1, 0);
+	vec3 camZV = mCamera->mDirection;
+	vec3 camXV = mCamera->mDirection^camYV;
+	camYV = camXV^camZV;
+	
+	camXV = camXV.normalize();
+	camYV = camYV.normalize();
+	camZV = camZV.normalize();
+
+	mat3x3 cameraOrient(camXV.x, camXV.y, camXV.z,
+		                camYV.x, camYV.y, camYV.z,
+						camZV.x, camZV.y, camZV.z);
+
+	vec3 cameraPos = mCamera->mPosition;
+
+	if (mInputMessenger->mInputMessage.isKeyDown(RM_BUTTON))
+	{
+		mat3x3 orientDiff = mLastCameraOrient.inverse()*cameraOrient;
+		vec3 posDiff = cameraPos - mLastCameraPos;
+
+		vec3 pd = (mSecondaryMesh->mPosition - cameraPos)*orientDiff + cameraPos;
+
+		mSecondaryMesh->mPosition = pd + posDiff;
+		mSecondaryMesh->mOrient = mSecondaryMesh->mOrient*orientDiff;
+	}
+
+	mLastCameraPos = cameraPos;
+	mLastCameraOrient = cameraOrient;
 }
