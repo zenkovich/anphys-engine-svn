@@ -217,11 +217,13 @@ void VehicleChassis::derivedPostSolve( float dt )
 
 	off = (vp - rp).len();
 	mSlideCoef = off;
+	if (!mWheelOnGround)
+		mSlideCoef = 0;
 
 	if (mVehicle->mDebugging)
 	{
-		printf("of %.3f ", off);
-		if (off > 3.0f)
+		printf("of %.3f ", mSlideCoef);
+		if (mSlideCoef > 3.0f)
 		{
 			mVehicle->pushDbgLine(mVehicle->mPosition, mWheelBottomPoint, 1, 0, 0, 1);
 		}
