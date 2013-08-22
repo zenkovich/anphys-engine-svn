@@ -34,7 +34,8 @@ void grRender3DObjectMeshBase::setObjectManager(grRenderObjectsManager* objectsM
 {
 	mRenderObjectsManager = objectsManager;
 
-	if (mMeshData) safe_release(mMeshData);
+	if (mMeshData) 
+		return;
 	
 	mMeshData = new grMeshDataManager(mNeedCreateVertCount, mNeedCreatePolyCount, 
 									  objectsManager->mRender->m_pDirect3DDevice, mNeedCreateVertCount, 

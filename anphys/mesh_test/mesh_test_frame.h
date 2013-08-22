@@ -12,6 +12,9 @@ struct grCamera3DMouse;
 struct gr2DRenderState;
 struct uiWidgetsManager;
 struct cScene;
+struct grRender3DObjectMesh;
+
+class cMeshTest;
 
 class apMeshTestFrame:public apRenderWindow
 {
@@ -22,6 +25,10 @@ class apMeshTestFrame:public apRenderWindow
 	gr2DRenderState*              m2DRenderState;
 
 	uiWidgetsManager*             mWidgetsManager;
+
+	cMeshTest*                    mMeshTest;
+	grRender3DObjectMesh*         mMainMesh;
+	grRender3DObjectMesh*         mSecondaryMesh;
 
 public:
 	apMeshTestFrame();
@@ -42,6 +49,8 @@ private:
 	void updateCameraContorls();
 
 	void initializeUI();
+
+	void createMaterials();
 };
 
 #endif //MESH_TEST_FRAME_H

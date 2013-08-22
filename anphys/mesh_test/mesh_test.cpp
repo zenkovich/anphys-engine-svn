@@ -40,7 +40,7 @@ void cMeshTest::randomizeSecondaryMesh( const vec3& range )
 void cMeshTest::processMeshMerge( const vec3& secMeshOffs, const mat3x3& secMeshOrient )
 {
 	int aVertCount = mMainMeshVericies.size();
-	vec3* aVert = new vec3[aVertCount*2];
+	vertexTexNorm* aVert = new vertexTexNorm[aVertCount*2];
 	memcpy(aVert, &mMainMeshVericies[0], aVertCount*sizeof(vec3));
 
 	int aPolyCount = mMainMeshPolygons.size();
@@ -48,11 +48,16 @@ void cMeshTest::processMeshMerge( const vec3& secMeshOffs, const mat3x3& secMesh
 	memcpy(aPoly, &mMainMeshPolygons[0], aPolyCount*sizeof(poly3));
 
 	int bVertCount = mSecondaryMeshVericies.size();
-	vec3* bVert = new vec3[bVertCount];
+	vertexTexNorm* bVert = new vertexTexNorm[bVertCount];
 	int i = 0;
+	vec3 bb, bb2;
 	for (VecArr::iterator it = mSecondaryMeshVericies.begin(); it != mSecondaryMeshVericies.end(); ++it, i++)
 	{
-		bVert[i] = (*it)*secMeshOrient + secMeshOffs;
+		bb.x = it->x; bb.y = it->y; bb.z = it->z;
+		bb2 = bb*secMeshOrient + secMeshOffs;
+		bVert[i].x = bb2.x; bVert[i].y = bb2.y; bVert[i].z = bb2.z;
+		bVert[i].nx = it->nx; bVert[i].ny = it->ny; bVert[i].nz = it->nz;
+		bVert[i].tu = it->tu; bVert[i].tv = it->tv;
 	}
 
 	int bPolyCount = mSecondaryMeshPolygons.size();
@@ -93,19 +98,19 @@ void cMeshTest::createPlaneMesh( VecArr& verticies, PolyArr& polygons, const vec
 		float xCoef = (float)i/(float)segx;
 		float xCoord = size.x*xCoef - size.x*0.5f;
 
-		int ii = i*segy;
+		int ii = i*(segy + 1);
 
 		for (int j = 0; j < segy + 1; j++)
 		{
 			float yCoef = (float)j/(float)segy;
 			float yCoord = size.y*yCoef - size.y*0.5f;
 
-			verticies.push_back(vec3(xCoord, 0, yCoord));
+			verticies.push_back(vertexTexNorm(xCoord, 0, yCoord, 0, 1, 0, xCoef, yCoef));
 
 			if (i > 0 && j > 0)
 			{
-				int a = j + ii - 1 - segy;
-				int b = j + ii - segy;
+				int a = j + ii - 2 - segy;
+				int b = j + ii - segy - 1;
 				int c = j + ii - 1;
 				int d = j + ii;
 				
@@ -142,18 +147,19 @@ void cMeshTest::createTorusMesh( VecArr& verticies, PolyArr& polygons, const vec
 
 			float vx = sn*size.x + size.z, vy = cs*size.x;
 
-			verticies.push_back( raxis*vx + yaxis*vy );
+			vec3 pt = raxis*vx + yaxis*vy;
 
-			if (i > 0 && j > 0)
-			{
-				int a = j + ii - 1 - circleSegs;
-				int b = j + ii - circleSegs;
-				int c = j + ii - 1;
-				int d = j + ii;
+			verticies.push_back( vertexTexNorm(pt.x, pt.y, pt.z, 0, 1, 0, xCoef, yCoef) );
+
+			int nextSegm = ((i + 1)%circles)*circleSegs;
+			int nextId = (j + 1)%circleSegs + i*circleSegs;
+			int a = j + i*circleSegs;
+			int b = j + nextSegm;
+			int d = nextId + nextSegm;
+			int c = nextId;
 				
-				polygons.push_back(poly3(a, b, d));
-				polygons.push_back(poly3(a, d, c));
-			}
+			polygons.push_back(poly3(a, b, d));
+			polygons.push_back(poly3(a, d, c));
 		}
 	}
 }
@@ -173,6 +179,29 @@ void cMeshTest::randomizeMesh( VecArr& verticies, PolyArr& polygons, const vec3&
 	vec3 hr = range*0.5f;
 	for (VecArr::iterator it = verticies.begin(); it != verticies.end(); ++it)
 	{
-		(*it) += vec3( random(-hr.x, hr.x), random(-hr.y, hr.y), random(-hr.y, hr.y) );
+		(*it).x += random(-hr.x, hr.x);
+		(*it).y += random(-hr.y, hr.y);
+		(*it).z += random(-hr.z, hr.z);
 	}
+}
+
+void cMeshTest::fillMainMeshData( grRender3DObjectMesh* renderMesh, const char* materialName )
+{
+	fillRenderMesh(mMainMeshVericies, mMainMeshPolygons, renderMesh, materialName);
+}
+
+void cMeshTest::fillSecondaryMeshData( grRender3DObjectMesh* renderMesh, const char* materialName )
+{
+	fillRenderMesh(mSecondaryMeshVericies, mSecondaryMeshPolygons, renderMesh, materialName);
+}
+
+void cMeshTest::fillRenderMesh( VecArr& verticies, PolyArr& polygons, grRender3DObjectMesh* renderMesh, const char* materialName )
+{
+	while (renderMesh->mParts.size() > 0)
+	{
+		renderMesh->removePart(renderMesh->mParts.back());
+	}
+
+	renderMesh->addPart(&verticies[0], verticies.size(), (int*)&polygons[0], polygons.size(), 
+		renderMesh->mRenderObjectsManager->mRender->mSurfaceMaterials->getSurfaceMaterial(materialName));
 }
