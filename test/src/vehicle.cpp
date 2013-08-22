@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = true;
+	mDebugging = false;
 
 	int maxCollisionPoints = 50;
 
