@@ -124,8 +124,10 @@ void cMeshTest::createPlaneMesh( VecArr& verticies, PolyArr& polygons, const vec
 void cMeshTest::createTorusMesh( VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles )
 {
 	verticies.clear(); polygons.clear();
-	verticies.reserve((circleSegs + 1)*(circles + 1));
+	verticies.reserve(circleSegs*circles);
 	polygons.reserve(circleSegs*circles*2);
+
+	int maxVertId = circleSegs*circles;
 
 	for (int i = 0; i < circles; i++)
 	{
@@ -151,15 +153,13 @@ void cMeshTest::createTorusMesh( VecArr& verticies, PolyArr& polygons, const vec
 
 			verticies.push_back( vertexTexNorm(pt.x, pt.y, pt.z, 0, 1, 0, xCoef, yCoef) );
 
-			int nextSegm = ((i + 1)%circles)*circleSegs;
-			int nextId = (j + 1)%circleSegs + i*circleSegs;
-			int a = j + i*circleSegs;
-			int b = j + nextSegm;
-			int d = nextId + nextSegm;
-			int c = nextId;
+			int a = (ii + j)%maxVertId;
+			int b = (ii + j + circleSegs)%maxVertId;
+			int d = (ii + j + 1 + circleSegs)%maxVertId;
+			int c = (ii + j + 1)%maxVertId;
 				
-			polygons.push_back(poly3(a, b, d));
-			polygons.push_back(poly3(a, d, c));
+			polygons.push_back(poly3(d, b, a));
+			polygons.push_back(poly3(c, d, a));
 		}
 	}
 }
