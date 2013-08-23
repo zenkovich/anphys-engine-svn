@@ -103,6 +103,7 @@ extern cLogSystem* gLogSystem;
 
 //UI
 #include "ui/ui_border.h"
+#include "ui/ui_button.h"
 #include "ui/ui_checkbox.h"
 #include "ui/ui_font.h"
 #include "ui/ui_label.h"

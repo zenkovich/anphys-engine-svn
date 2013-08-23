@@ -39,6 +39,7 @@ uiLabel* uiSimpleStuff::createLabel( uiWidgetsManager* widgetsManager, const vec
 	label->setSize(size);
 	label->setColor(mColor6);
 	label->setDistCoef(vec2(-2, 0));
+	label->setHorAlign(uiLabel::AL_LEFT);
 
 	return label;
 }

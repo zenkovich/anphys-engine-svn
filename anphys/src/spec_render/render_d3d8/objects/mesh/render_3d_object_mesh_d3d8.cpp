@@ -94,5 +94,16 @@ void grRender3DObjectMeshBase::render()
 	}
 }
 
+void grRender3DObjectMeshBase::clear()
+{
+	for (grRender3DObjectMeshBaseInterface::PartsList::iterator it = mParts.begin(); it != mParts.end(); it++)
+	{
+		safe_release(*it);
+	}
+	mParts.clear();
+
+	mMeshData->removeAllParts();
+}
+
 
 #endif //RENDER_D3D8

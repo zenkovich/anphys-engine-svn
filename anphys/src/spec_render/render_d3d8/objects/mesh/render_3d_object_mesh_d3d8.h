@@ -28,6 +28,8 @@ struct grRender3DObjectMeshBase:public grRender3DObjectMeshBaseInterface
 									 grSurfaceMaterial* surfaceMaterial);
 	bool removePart(grMeshPartBaseInterface* part);
 
+	void clear();
+
 	void update(float dt);
 	void render();
 };
