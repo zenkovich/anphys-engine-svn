@@ -150,6 +150,9 @@ bool grMeshDataManager::removeAllParts()
 
 	mParts.clear();
 
+	mVertexCount = 0;
+	mPolygonsCount = 0;
+
 	return true;
 }
 

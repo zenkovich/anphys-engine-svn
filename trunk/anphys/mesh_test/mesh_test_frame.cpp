@@ -49,19 +49,23 @@ void apMeshTestFrame::onCreate( fRect inRect )
 
 	mMeshTest = new cMeshTest;
 	
-	mMainMesh = new grRender3DObjectMesh(mMainEngineScene->mRenderScene->mObjects, 32000, 32000);
+	mMainMeshes.push_back(new grRender3DObjectMesh(mMainEngineScene->mRenderScene->mObjects, 32000, 32000));
 	mSecondaryMesh = new grRender3DObjectMesh(mMainEngineScene->mRenderScene->mObjects, 32000, 32000);
 	
-	mMainEngineScene->mRenderScene->mObjects->createObject(mMainMesh);
+	mMainEngineScene->mRenderScene->mObjects->createObject(mMainMeshes[0]);
 	mMainEngineScene->mRenderScene->mObjects->createObject(mSecondaryMesh);
 
 	mMeshTest->generateMainPlaneMesh(vec3(100, 100, 0), 100, 100);
 	mMeshTest->randomizeMainMesh(vec3(0.2f, 0.2f, 0.2f));
-	mMeshTest->fillMainMeshData(mMainMesh, "mainMesh");
+	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
 
 	mMeshTest->generateSecondaryTorusMesh(vec3(4, 2, 10), 50, 50);
 	mMeshTest->randomizeSecondaryMesh(vec3(0.2f, 0.2f, 0.2f));
 	mMeshTest->fillSecondaryMeshData(mSecondaryMesh, "mainMesh");
+
+	mMainMeshSize = vec3(100, 100, 0);
+	mMainMeshRandomize = vec3(0.2f, 0.2f, 0.2f);
+	mMainMeshXSegments = 100; mMainMeshZSegments = 100;
 }
 
 void apMeshTestFrame::onClose()
@@ -75,8 +79,11 @@ float apMeshTestFrame::onTimer()
 
 	updateCameraContorls();
 
+	if (mInputMessenger->mInputMessage.isKeyPressed(key_t))
+		mMainWindow->show();
+
 	mWidgetsManager->mLastInputMessage = &mInputMessenger->mInputMessage;
-	mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
+	mWidgetsManagerRes = mWidgetsManager->processInputMessage(mInputMessenger->mInputMessage);
 	mInputMessenger->mInputMessage.update();
 
 	mMainEngineScene->update(dt);
@@ -92,6 +99,8 @@ float apMeshTestFrame::onTimer()
 	mRender->bindRenderState(m2DRenderState);
 	//render2D();
 
+	mWidgetsManager->draw();
+
 	mRender->endRender();
 
 	return dt;
@@ -104,7 +113,7 @@ void apMeshTestFrame::onSize( fRect inRect )
 
 void apMeshTestFrame::onMouseMove( vec2 point )
 {
-	if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON))
+	if (mInputMessenger->mInputMessage.isKeyDown(CURSOR_BUTTON) && mWidgetsManagerRes == 0)
 		mCamera->mouseMoved(point - mInputMessenger->mInputMessage.mCursorPosition);
 }
 
@@ -127,6 +136,52 @@ void apMeshTestFrame::initializeUI()
 {
 	mWidgetsManager = new uiWidgetsManager(mRender);
 	mInputMessenger->registInputListener(mWidgetsManager);
+
+	mMainWindow = uiSimpleStuff::createWindow(mWidgetsManager, "mainWnd", vec2(0, 0), vec2(300, 300), "Main panel");
+	uiSimpleStuff::createSizeEffect(mMainWindow);
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 10), vec2(20, 20), "", "Main mesh plane"));
+	
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 30), vec2(20, 20), "", "size x:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 30), vec2(50, 22), "mainSizeX") );
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 30), vec2(20, 20), "", "z:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 30), vec2(50, 22), "mainSizeZ") );
+
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 55), vec2(20, 20), "", "seg x:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 55), vec2(50, 22), "mainSegmX") );
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 55), vec2(20, 20), "", "z:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 55), vec2(50, 22), "mainSegmZ") );
+
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 80), vec2(20, 20), "", "rand x:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 80), vec2(50, 22), "mainRandX") );
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 80), vec2(20, 20), "", "y:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 80), vec2(50, 22), "mainRandY") );
+
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(190, 80), vec2(20, 20), "", "z:") );
+	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(210, 80), vec2(50, 22), "mainRandZ") );
+
+	mMainWindow->addChild( (uiWidget*)uiSimpleStuff::createButton(mWidgetsManager, vec2(10, 105), vec2(50, 22), "mainReset", "reset", NULL) );
+	
+	mMainWindow->getWidgetByType<uiTextEdit>("mainSizeX")->bindValue(&mMainMeshSize.x);
+	mMainWindow->getWidgetByType<uiTextEdit>("mainSizeZ")->bindValue(&mMainMeshSize.y);
+	
+	mMainWindow->getWidgetByType<uiTextEdit>("mainSegmX")->bindValue(&mMainMeshXSegments);
+	mMainWindow->getWidgetByType<uiTextEdit>("mainSegmZ")->bindValue(&mMainMeshZSegments);
+	
+	mMainWindow->getWidgetByType<uiTextEdit>("mainRandX")->bindValue(&mMainMeshRandomize.x);
+	mMainWindow->getWidgetByType<uiTextEdit>("mainRandY")->bindValue(&mMainMeshRandomize.y);
+	mMainWindow->getWidgetByType<uiTextEdit>("mainRandZ")->bindValue(&mMainMeshRandomize.z);
+	
+	mMainWindow->getWidgetByType<uiButton>("mainReset")->setCallback(new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::resetMainMesh));
+
+	mWidgetsManager->addWidget( mMainWindow );
+	mMainWindow->show();
 }
 
 void apMeshTestFrame::createMaterials()
@@ -168,4 +223,11 @@ void apMeshTestFrame::updateSecMeshPositioning()
 
 	mLastCameraPos = cameraPos;
 	mLastCameraOrient = cameraOrient;
+}
+
+void apMeshTestFrame::resetMainMesh()
+{
+	mMeshTest->generateMainPlaneMesh(mMainMeshSize, mMainMeshXSegments, mMainMeshZSegments);
+	mMeshTest->randomizeMainMesh(mMainMeshRandomize);
+	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
 }

@@ -3,6 +3,8 @@
 
 #include "engine/engine_options.h"
 
+#include <vector>
+
 #ifdef PLATFORM_WIN32
 #include "engine/frame_system/win32_render_frame/render_frame_win32_window.h"
 #endif //PLATFORM_WIN32
@@ -13,25 +15,47 @@ struct gr2DRenderState;
 struct uiWidgetsManager;
 struct cScene;
 struct grRender3DObjectMesh;
+struct uiWindow;
+struct uiWidget;
 
 class cMeshTest;
 
 class apMeshTestFrame:public apRenderWindow
 {
-	grSimple3DRenderState*        m3DRenderState;
-	grCamera3DMouse*              mCamera;
-	cScene*                       mMainEngineScene;
+	typedef std::vector<grRender3DObjectMesh*> MeshVec;
 
-	gr2DRenderState*              m2DRenderState;
+	grSimple3DRenderState* m3DRenderState;
+	grCamera3DMouse*       mCamera;
+	cScene*                mMainEngineScene;
 
-	uiWidgetsManager*             mWidgetsManager;
+	gr2DRenderState*       m2DRenderState;
 
-	cMeshTest*                    mMeshTest;
-	grRender3DObjectMesh*         mMainMesh;
-	grRender3DObjectMesh*         mSecondaryMesh;
+	uiWidgetsManager*      mWidgetsManager;
+	int                    mWidgetsManagerRes;
 
-	mat3x3                        mLastCameraOrient;
-	vec3                          mLastCameraPos;
+	cMeshTest*             mMeshTest;
+	MeshVec                mMainMeshes;
+	grRender3DObjectMesh*  mSecondaryMesh;
+
+	mat3x3                 mLastCameraOrient;
+	vec3                   mLastCameraPos;
+
+	uiWindow*              mMainWindow;
+	uiWidget*              mPlaneParams;
+	uiWidget*              mTorusParams;
+	uiWidget*              mSphereParams;
+
+	vec3                   mMainMeshSize;
+	vec3                   mMainMeshRandomize;
+	int                    mMainMeshXSegments;
+	int                    mMainMeshZSegments;
+
+	vec3                   mSecondaryMeshSize;
+	vec3                   mSecondaryMeshRandomize;
+	int                    mSecondaryMeshXSegments;
+	int                    mSecondaryMeshZSegments;
+
+
 
 public:
 	apMeshTestFrame();
@@ -56,6 +80,8 @@ private:
 	void createMaterials();
 
 	void updateSecMeshPositioning();
+
+	void resetMainMesh();
 };
 
 #endif //MESH_TEST_FRAME_H

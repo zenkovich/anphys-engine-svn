@@ -64,7 +64,7 @@ void uiWindow::removeAllChilds()
 
 uiWidget* uiWindow::getWidget( const std::string& id ) const
 {
-	return mWindowContent->getWidget(id);
+	return mWindowContent->mChilds[0]->getWidget(id);
 }
 
 int uiWindow::processInputMessageDerived( const cInputMessage& message )

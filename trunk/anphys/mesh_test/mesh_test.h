@@ -24,23 +24,22 @@ public:
 	void generateSecondaryPlaneMesh(const vec3& size, const int segx, const int segy);
 	void generateSecondaryTorusMesh(const vec3& size, const int circleSegs, const int circles);
 	void generateSecondarySphereMesh(const vec3& size, const int circleSegs, const int circles);
-	void generateSecondaryCubeMesh(const vec3& size, const int segsx, const int segsy, const int segsz);
 	
 	void randomizeMainMesh(const vec3& range);
 	void randomizeSecondaryMesh(const vec3& range);
 
 	void processMeshMerge(const vec3& secMeshOffs, const mat3x3& secMeshOrient);
 	
-	void fillMainMeshData(grRender3DObjectMesh* renderMesh, const char* materialName);
+	void fillMainMeshData(std::vector<grRender3DObjectMesh*>& renderMeshes, const char* materialName);
 	void fillSecondaryMeshData(grRender3DObjectMesh* renderMesh, const char* materialName);
 
 protected:
 	void createPlaneMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int segx, const int segy);
 	void createTorusMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles);
 	void createSphereMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles);
-	void createCubeMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int segsx, const int segsy, const int segsz);
 	void randomizeMesh(VecArr& verticies, PolyArr& polygons, const vec3& range);
 	void fillRenderMesh(VecArr& verticies, PolyArr& polygons, grRender3DObjectMesh* renderMesh, const char* materialName);
+	int fillMainMeshPart(int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName);
 };
 
 #endif //MESH_TEST_H

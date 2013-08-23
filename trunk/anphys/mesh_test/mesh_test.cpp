@@ -22,11 +22,6 @@ void cMeshTest::generateSecondarySphereMesh( const vec3& size, const int circleS
 	createSphereMesh(mSecondaryMeshVericies, mSecondaryMeshPolygons, size, circleSegs, circles);
 }
 
-void cMeshTest::generateSecondaryCubeMesh( const vec3& size, const int segsx, const int segsy, const int segsz )
-{
-	createCubeMesh(mSecondaryMeshVericies, mSecondaryMeshPolygons, size, segsx, segsy, segsz);
-}
-
 void cMeshTest::randomizeMainMesh( const vec3& range )
 {
 	randomizeMesh(mMainMeshVericies, mMainMeshPolygons, range);
@@ -166,12 +161,47 @@ void cMeshTest::createTorusMesh( VecArr& verticies, PolyArr& polygons, const vec
 
 void cMeshTest::createSphereMesh( VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles )
 {
+	verticies.clear(); polygons.clear();
+	verticies.reserve(circleSegs*circles);
+	polygons.reserve(circleSegs*circles*2);
 
-}
+	int maxVertId = circleSegs*circles;
 
-void cMeshTest::createCubeMesh( VecArr& verticies, PolyArr& polygons, const vec3& size, const int segsx, const int segsy, const int segsz )
-{
+	for (int i = 0; i < circles; i++)
+	{
+		float xCoef = (float)i/(float)circles;
 
+		float rc = fabs(xCoef*2.0f - 1);
+		float radius = rc*rc;
+
+		vec3 xaxis(radius, 0, 0), zaxis(0, 0, radius);
+		float ypos = xCoef*size.y;
+
+		int ii = i*circleSegs;
+
+		for (int j = 0; j < circleSegs; j++)
+		{
+			float yCoef = (float)j/(float)circleSegs;
+
+			float angle = 3.1415926f*2.0f*yCoef;
+			float sn = sinf(angle), cs = cosf(angle);
+			
+			vec3 pt = xaxis*sn + zaxis*cs;
+			pt.x *= size.x;
+			pt.z *= size.x;
+			pt.y = ypos;
+
+			verticies.push_back( vertexTexNorm(pt.x, pt.y, pt.z, 0, 1, 0, xCoef, yCoef) );
+
+			int a = (ii + j)%maxVertId;
+			int b = (ii + j + circleSegs)%maxVertId;
+			int d = (ii + j + 1 + circleSegs)%maxVertId;
+			int c = (ii + j + 1)%maxVertId;
+				
+			polygons.push_back(poly3(a, b, d));
+			polygons.push_back(poly3(a, d, c));
+		}
+	}
 }
 
 void cMeshTest::randomizeMesh( VecArr& verticies, PolyArr& polygons, const vec3& range )
@@ -185,23 +215,89 @@ void cMeshTest::randomizeMesh( VecArr& verticies, PolyArr& polygons, const vec3&
 	}
 }
 
-void cMeshTest::fillMainMeshData( grRender3DObjectMesh* renderMesh, const char* materialName )
+void cMeshTest::fillMainMeshData( std::vector<grRender3DObjectMesh*>& renderMeshes, const char* materialName )
 {
-	fillRenderMesh(mMainMeshVericies, mMainMeshPolygons, renderMesh, materialName);
+	typedef std::vector<grRender3DObjectMesh*> MeshVec;
+
+	int polyIdx = 0;
+
+	for (MeshVec::iterator it = renderMeshes.begin(); it != renderMeshes.end(); ++it)
+	{
+		(*it)->clear();
+
+		if (polyIdx < mMainMeshPolygons.size())
+		{
+			polyIdx = fillMainMeshPart(polyIdx, *it, materialName);
+		}
+	}
+
+	while (polyIdx < mMainMeshPolygons.size())
+	{
+		grRender3DObjectMesh* newMesh = new grRender3DObjectMesh(renderMeshes[0]->mRenderObjectsManager, 32000, 32000);
+		renderMeshes[0]->mRenderObjectsManager->createObject(newMesh);
+
+		polyIdx = fillMainMeshPart(polyIdx, newMesh, materialName);
+
+		renderMeshes.push_back(newMesh);
+	}
 }
 
 void cMeshTest::fillSecondaryMeshData( grRender3DObjectMesh* renderMesh, const char* materialName )
 {
-	fillRenderMesh(mSecondaryMeshVericies, mSecondaryMeshPolygons, renderMesh, materialName);
+	renderMesh->clear();
+
+	renderMesh->addPart(&mSecondaryMeshVericies[0], mSecondaryMeshVericies.size(), 
+		                (int*)&mSecondaryMeshPolygons[0], mSecondaryMeshPolygons.size(), 
+		                renderMesh->mRenderObjectsManager->mRender->mSurfaceMaterials->getSurfaceMaterial(materialName));
 }
 
-void cMeshTest::fillRenderMesh( VecArr& verticies, PolyArr& polygons, grRender3DObjectMesh* renderMesh, const char* materialName )
+int cMeshTest::fillMainMeshPart( int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName )
 {
-	while (renderMesh->mParts.size() > 0)
+	int maxVerticies = mesh->mMeshData->mAviableVertexCount, maxPoly = mesh->mMeshData->mMaxPolygonsCount;
+
+	short* vertexIdx = new short[maxVerticies];
+	memset(vertexIdx, -1, sizeof(short)*maxVerticies);
+	int lastVertexId = 0;
+
+	poly3* polygons = new poly3[maxPoly];
+	vertexTexNorm* verticies = new vertexTexNorm[maxVerticies];
+
+	int i = 0, polyCount = 0;
+	for (PolyArr::iterator it = mMainMeshPolygons.begin() + polyStartIdx; it != mMainMeshPolygons.end() && i < maxPoly; ++it, i++)
 	{
-		renderMesh->removePart(renderMesh->mParts.back());
+		poly3* poly = &polygons[i];
+		poly3* srcPoly = &(*it);
+
+		if (vertexIdx[srcPoly->a] < 0) 
+		{ 
+			vertexIdx[srcPoly->a] = lastVertexId; 
+			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->a]; 
+		}
+
+		if (vertexIdx[srcPoly->b] < 0) 
+		{ 
+			vertexIdx[srcPoly->b] = lastVertexId; 
+			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->b]; 
+		}
+
+		if (vertexIdx[srcPoly->c] < 0) 
+		{ 
+			vertexIdx[srcPoly->c] = lastVertexId; 
+			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->c]; 
+		}
+		
+		poly->a = vertexIdx[srcPoly->a];
+		poly->b = vertexIdx[srcPoly->b];
+		poly->c = vertexIdx[srcPoly->c];
+		polyCount++;
 	}
 
-	renderMesh->addPart(&verticies[0], verticies.size(), (int*)&polygons[0], polygons.size(), 
-		renderMesh->mRenderObjectsManager->mRender->mSurfaceMaterials->getSurfaceMaterial(materialName));
+	mesh->addPart(verticies, lastVertexId, (int*)polygons, polyCount, 
+		          mesh->mRenderObjectsManager->mRender->mSurfaceMaterials->getSurfaceMaterial(materialName));
+
+	delete[] verticies;
+	delete[] polygons;
+	delete[] vertexIdx;
+
+	return polyStartIdx + polyCount;
 }
