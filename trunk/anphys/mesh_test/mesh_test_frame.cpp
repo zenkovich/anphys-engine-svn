@@ -66,6 +66,19 @@ void apMeshTestFrame::onCreate( fRect inRect )
 	mMainMeshSize = vec3(100, 100, 0);
 	mMainMeshRandomize = vec3(0.2f, 0.2f, 0.2f);
 	mMainMeshXSegments = 100; mMainMeshZSegments = 100;
+	
+	mSecondaryPlaneChecked = true;
+	mSecondaryTorusChecked = false;
+	mSecondarySphereChecked = false;
+
+	mSecondaryMeshSize = vec3(100, 100, 0);
+	mSecondaryMeshRandomize = vec3(0.2f, 0.2f, 0.2f);
+	mSecondaryMeshXSegments = 100; mSecondaryMeshZSegments = 100;
+
+	mSecondaryTorusSize = vec3(4, 4, 10);
+	mSecondaryTorusRandomize = vec3(0.2f, 0.2f, 0.2f);
+	mSecondaryTorusCircles = 30;
+	mSecondaryTorusCircleSegs = 20;
 }
 
 void apMeshTestFrame::onClose()
@@ -137,9 +150,11 @@ void apMeshTestFrame::initializeUI()
 	mWidgetsManager = new uiWidgetsManager(mRender);
 	mInputMessenger->registInputListener(mWidgetsManager);
 
-	mMainWindow = uiSimpleStuff::createWindow(mWidgetsManager, "mainWnd", vec2(0, 0), vec2(300, 300), "Main panel");
+//main panel
+	mMainWindow = uiSimpleStuff::createWindow(mWidgetsManager, "mainWnd", vec2(0, 0), vec2(300, 440), "Main panel");
 	uiSimpleStuff::createSizeEffect(mMainWindow);
 
+//main mesh
 	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 10), vec2(20, 20), "", "Main mesh plane"));
 	
 
@@ -167,7 +182,75 @@ void apMeshTestFrame::initializeUI()
 	mMainWindow->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(210, 80), vec2(50, 22), "mainRandZ") );
 
 	mMainWindow->addChild( (uiWidget*)uiSimpleStuff::createButton(mWidgetsManager, vec2(10, 105), vec2(50, 22), "mainReset", "reset", NULL) );
+
+//sec mesh
+	mMainWindow->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 130), vec2(20, 20), "", "Secondary mesh") );
+	mMainWindow->addChild( uiSimpleStuff::createCheckbox(mWidgetsManager, "secPlaneChk", vec2(10, 155), "plane", true) );
+	mMainWindow->addChild( uiSimpleStuff::createCheckbox(mWidgetsManager, "secTorusChk", vec2(80, 155), "torus", false) );
+	mMainWindow->addChild( uiSimpleStuff::createCheckbox(mWidgetsManager, "secSphereChk", vec2(150, 155), "sphere", false) );
 	
+//plane
+	uiWidget* planeSettingsWidget = new uiWidget(mWidgetsManager, "planeSettings");
+	planeSettingsWidget->setPosition(vec2(0, 180));
+	
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 0), vec2(20, 20), "", "size x:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 0), vec2(50, 22), "mainSizeX") );
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 0), vec2(20, 20), "", "z:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 0), vec2(50, 22), "mainSizeZ") );
+
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 25), vec2(20, 20), "", "seg x:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 25), vec2(50, 22), "mainSegmX") );
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 25), vec2(20, 20), "", "z:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 25), vec2(50, 22), "mainSegmZ") );
+
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 50), vec2(20, 20), "", "rand x:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 50), vec2(50, 22), "mainRandX") );
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 50), vec2(20, 20), "", "y:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 50), vec2(50, 22), "mainRandY") );
+
+	planeSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(190, 50), vec2(20, 20), "", "z:") );
+	planeSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(210, 50), vec2(50, 22), "mainRandZ") );
+	
+	mMainWindow->addChild( planeSettingsWidget);
+
+//torus
+	uiWidget* torusSettingsWidget = new uiWidget(mWidgetsManager, "torusSettings");
+	torusSettingsWidget->setPosition(vec2(0, 180));
+	
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 0), vec2(20, 20), "", "rad x:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 0), vec2(50, 22), "radX") );
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 0), vec2(20, 20), "", "rad y:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(180, 0), vec2(50, 22), "radY") );
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 25), vec2(20, 20), "", "rad c:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 25), vec2(50, 22), "radC") );
+
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 50), vec2(20, 20), "", "circles") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 50), vec2(50, 22), "circles") );
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 50), vec2(20, 20), "", "segs") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(180, 50), vec2(50, 22), "segments") );
+
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(10, 75), vec2(20, 20), "", "rand x:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(70, 75), vec2(50, 22), "mainRandX") );
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(120, 75), vec2(20, 20), "", "y:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(140, 75), vec2(50, 22), "mainRandY") );
+
+	torusSettingsWidget->addChild( uiSimpleStuff::createLabel(mWidgetsManager, vec2(190, 75), vec2(20, 20), "", "z:") );
+	torusSettingsWidget->addChild( uiSimpleStuff::createTextEdit(mWidgetsManager, vec2(210, 75), vec2(50, 22), "mainRandZ") );
+
+	mMainWindow->addChild( torusSettingsWidget);
+	
+//main binding
 	mMainWindow->getWidgetByType<uiTextEdit>("mainSizeX")->bindValue(&mMainMeshSize.x);
 	mMainWindow->getWidgetByType<uiTextEdit>("mainSizeZ")->bindValue(&mMainMeshSize.y);
 	
@@ -177,8 +260,42 @@ void apMeshTestFrame::initializeUI()
 	mMainWindow->getWidgetByType<uiTextEdit>("mainRandX")->bindValue(&mMainMeshRandomize.x);
 	mMainWindow->getWidgetByType<uiTextEdit>("mainRandY")->bindValue(&mMainMeshRandomize.y);
 	mMainWindow->getWidgetByType<uiTextEdit>("mainRandZ")->bindValue(&mMainMeshRandomize.z);
-	
+
 	mMainWindow->getWidgetByType<uiButton>("mainReset")->setCallback(new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::resetMainMesh));
+	
+//sec binding plane
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainSizeX")->bindValue(&mSecondaryMeshSize.x);
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainSizeZ")->bindValue(&mSecondaryMeshSize.y);
+	
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainSegmX")->bindValue(&mSecondaryMeshXSegments);
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainSegmZ")->bindValue(&mSecondaryMeshZSegments);
+	
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainRandX")->bindValue(&mSecondaryMeshRandomize.x);
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainRandY")->bindValue(&mSecondaryMeshRandomize.y);
+	planeSettingsWidget->getWidgetByType<uiTextEdit>("mainRandZ")->bindValue(&mSecondaryMeshRandomize.z);
+
+//sec binding torus
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("radX")->bindValue(&mSecondaryTorusSize.x);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("radY")->bindValue(&mSecondaryTorusSize.y);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("radC")->bindValue(&mSecondaryTorusSize.z);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("circles")->bindValue(&mSecondaryTorusCircles);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("segments")->bindValue(&mSecondaryTorusCircleSegs);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("mainRandX")->bindValue(&mSecondaryTorusRandomize.x);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("mainRandY")->bindValue(&mSecondaryTorusRandomize.y);
+	torusSettingsWidget->getWidgetByType<uiTextEdit>("mainRandZ")->bindValue(&mSecondaryTorusRandomize.z);	
+
+	mMainWindow->addChild( uiSimpleStuff::createButton(mWidgetsManager, vec2(10, 300), vec2(50, 22), "", "reset", 
+		new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::resetSecondaryMesh)) );
+	
+	mMainWindow->getWidgetByType<uiCheckBox>("secPlaneChk")->bindValue(&mSecondaryPlaneChecked)->setChangeValueCallback(
+		new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::planeChecked));
+	mMainWindow->getWidgetByType<uiCheckBox>("secTorusChk")->bindValue(&mSecondaryTorusChecked)->setChangeValueCallback(
+		new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::torusChecked));
+	mMainWindow->getWidgetByType<uiCheckBox>("secSphereChk")->bindValue(&mSecondarySphereChecked)->setChangeValueCallback(
+		new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::sphereChecked));
+
+	mMainWindow->addChild( uiSimpleStuff::createButton(mWidgetsManager, vec2(10, 330), vec2(280, 22), "", "merge", 
+		new cCallback<apMeshTestFrame>(this, &apMeshTestFrame::mergeMeshes)) );
 
 	mWidgetsManager->addWidget( mMainWindow );
 	mMainWindow->show();
@@ -230,4 +347,83 @@ void apMeshTestFrame::resetMainMesh()
 	mMeshTest->generateMainPlaneMesh(mMainMeshSize, mMainMeshXSegments, mMainMeshZSegments);
 	mMeshTest->randomizeMainMesh(mMainMeshRandomize);
 	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
+}
+
+void apMeshTestFrame::planeChecked()
+{
+	if (mSecondaryPlaneChecked)
+		mSecondarySphereChecked = mSecondaryTorusChecked = false;
+
+	if (!mSecondaryPlaneChecked && !mSecondarySphereChecked && !mSecondaryTorusChecked)
+		mSecondaryPlaneChecked = true;
+
+	updateVisibleSecMeshSettingsWidget();
+}
+
+void apMeshTestFrame::torusChecked()
+{
+	if (mSecondaryTorusChecked)
+		mSecondarySphereChecked = mSecondaryPlaneChecked = false;
+	
+	if (!mSecondaryPlaneChecked && !mSecondarySphereChecked && !mSecondaryTorusChecked)
+		mSecondaryTorusChecked = true;
+
+	updateVisibleSecMeshSettingsWidget();
+}
+
+void apMeshTestFrame::sphereChecked()
+{
+	if (mSecondarySphereChecked)
+		mSecondaryPlaneChecked = mSecondaryTorusChecked = false;
+	
+	if (!mSecondaryPlaneChecked && !mSecondarySphereChecked && !mSecondaryTorusChecked)
+		mSecondarySphereChecked = true;
+
+	updateVisibleSecMeshSettingsWidget();
+}
+
+void apMeshTestFrame::updateVisibleSecMeshSettingsWidget()
+{
+	if (mSecondaryPlaneChecked)
+	{
+		mMainWindow->getWidget("planeSettings")->show();
+		mMainWindow->getWidget("torusSettings")->hide();
+	}
+	if (mSecondarySphereChecked)
+	{
+		mMainWindow->getWidget("planeSettings")->hide();
+		mMainWindow->getWidget("torusSettings")->hide();
+	}
+	if (mSecondaryTorusChecked)
+	{
+		mMainWindow->getWidget("planeSettings")->hide();
+		mMainWindow->getWidget("torusSettings")->show();
+	}
+}
+
+void apMeshTestFrame::resetSecondaryMesh()
+{
+	if (mSecondaryPlaneChecked)
+	{
+		mMeshTest->generateSecondaryPlaneMesh(mSecondaryMeshSize, mSecondaryMeshXSegments, mSecondaryMeshZSegments);
+		mMeshTest->randomizeSecondaryMesh(mSecondaryMeshRandomize);
+	}
+
+	if (mSecondaryTorusChecked)
+	{
+		mMeshTest->generateSecondaryTorusMesh(mSecondaryTorusSize, mSecondaryTorusCircleSegs, mSecondaryTorusCircles);
+		mMeshTest->randomizeSecondaryMesh(mSecondaryTorusRandomize);
+	}
+
+	mMeshTest->fillSecondaryMeshData(mSecondaryMesh, "mainMesh");
+}
+
+void apMeshTestFrame::mergeMeshes()
+{
+	mMeshTest->processMeshMerge(mSecondaryMesh->mPosition, mSecondaryMesh->mOrient);
+	
+	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
+	
+	mSecondaryMesh->mPosition = vec3(0, 0, 0);
+	mSecondaryMesh->mOrient = nullMatr();
 }

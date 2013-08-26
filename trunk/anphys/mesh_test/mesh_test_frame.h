@@ -49,13 +49,20 @@ class apMeshTestFrame:public apRenderWindow
 	vec3                   mMainMeshRandomize;
 	int                    mMainMeshXSegments;
 	int                    mMainMeshZSegments;
+	
+	bool                   mSecondaryPlaneChecked;
+	bool                   mSecondaryTorusChecked;
+	bool                   mSecondarySphereChecked;
 
 	vec3                   mSecondaryMeshSize;
 	vec3                   mSecondaryMeshRandomize;
 	int                    mSecondaryMeshXSegments;
 	int                    mSecondaryMeshZSegments;
 
-
+	vec3                   mSecondaryTorusSize;
+	vec3                   mSecondaryTorusRandomize;
+	int                    mSecondaryTorusCircles;
+	int                    mSecondaryTorusCircleSegs;
 
 public:
 	apMeshTestFrame();
@@ -82,6 +89,14 @@ private:
 	void updateSecMeshPositioning();
 
 	void resetMainMesh();
+	void resetSecondaryMesh();
+
+	void planeChecked();
+	void torusChecked();
+	void sphereChecked();
+	void updateVisibleSecMeshSettingsWidget();
+
+	void mergeMeshes();
 };
 
 #endif //MESH_TEST_FRAME_H

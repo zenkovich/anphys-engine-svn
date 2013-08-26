@@ -36,7 +36,7 @@ void cMeshTest::processMeshMerge( const vec3& secMeshOffs, const mat3x3& secMesh
 {
 	int aVertCount = mMainMeshVericies.size();
 	vertexTexNorm* aVert = new vertexTexNorm[aVertCount*2];
-	memcpy(aVert, &mMainMeshVericies[0], aVertCount*sizeof(vec3));
+	memcpy(aVert, &mMainMeshVericies[0], aVertCount*sizeof(vertexTexNorm));
 
 	int aPolyCount = mMainMeshPolygons.size();
 	poly3* aPoly = new poly3[aPolyCount*2];
@@ -221,13 +221,15 @@ void cMeshTest::fillMainMeshData( std::vector<grRender3DObjectMesh*>& renderMesh
 
 	int polyIdx = 0;
 
+	int* buf = new int[mMainMeshVericies.size() + 32];
+
 	for (MeshVec::iterator it = renderMeshes.begin(); it != renderMeshes.end(); ++it)
 	{
 		(*it)->clear();
 
 		if (polyIdx < mMainMeshPolygons.size())
 		{
-			polyIdx = fillMainMeshPart(polyIdx, *it, materialName);
+			polyIdx = fillMainMeshPart(polyIdx, *it, materialName, buf);
 		}
 	}
 
@@ -236,10 +238,12 @@ void cMeshTest::fillMainMeshData( std::vector<grRender3DObjectMesh*>& renderMesh
 		grRender3DObjectMesh* newMesh = new grRender3DObjectMesh(renderMeshes[0]->mRenderObjectsManager, 32000, 32000);
 		renderMeshes[0]->mRenderObjectsManager->createObject(newMesh);
 
-		polyIdx = fillMainMeshPart(polyIdx, newMesh, materialName);
+		polyIdx = fillMainMeshPart(polyIdx, newMesh, materialName, buf);
 
 		renderMeshes.push_back(newMesh);
 	}
+
+	delete[] buf;
 }
 
 void cMeshTest::fillSecondaryMeshData( grRender3DObjectMesh* renderMesh, const char* materialName )
@@ -251,12 +255,11 @@ void cMeshTest::fillSecondaryMeshData( grRender3DObjectMesh* renderMesh, const c
 		                renderMesh->mRenderObjectsManager->mRender->mSurfaceMaterials->getSurfaceMaterial(materialName));
 }
 
-int cMeshTest::fillMainMeshPart( int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName )
+int cMeshTest::fillMainMeshPart( int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName, int* vertexIdxBuf )
 {
 	int maxVerticies = mesh->mMeshData->mAviableVertexCount, maxPoly = mesh->mMeshData->mMaxPolygonsCount;
 
-	short* vertexIdx = new short[maxVerticies];
-	memset(vertexIdx, -1, sizeof(short)*maxVerticies);
+	memset(vertexIdxBuf, -1, sizeof(int)*mMainMeshVericies.size() + 32);
 	int lastVertexId = 0;
 
 	poly3* polygons = new poly3[maxPoly];
@@ -268,27 +271,33 @@ int cMeshTest::fillMainMeshPart( int polyStartIdx, grRender3DObjectMesh* mesh, c
 		poly3* poly = &polygons[i];
 		poly3* srcPoly = &(*it);
 
-		if (vertexIdx[srcPoly->a] < 0) 
+		if (vertexIdxBuf[srcPoly->a] < 0) 
 		{ 
-			vertexIdx[srcPoly->a] = lastVertexId; 
+			vertexIdxBuf[srcPoly->a] = lastVertexId; 
 			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->a]; 
+			if (lastVertexId > 31990)
+				break;
 		}
 
-		if (vertexIdx[srcPoly->b] < 0) 
+		if (vertexIdxBuf[srcPoly->b] < 0) 
 		{ 
-			vertexIdx[srcPoly->b] = lastVertexId; 
+			vertexIdxBuf[srcPoly->b] = lastVertexId; 
 			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->b]; 
+			if (lastVertexId > 31990)
+				break;
 		}
 
-		if (vertexIdx[srcPoly->c] < 0) 
+		if (vertexIdxBuf[srcPoly->c] < 0) 
 		{ 
-			vertexIdx[srcPoly->c] = lastVertexId; 
+			vertexIdxBuf[srcPoly->c] = lastVertexId; 
 			verticies[lastVertexId++] = mMainMeshVericies[srcPoly->c]; 
+			if (lastVertexId > 31990)
+				break;
 		}
 		
-		poly->a = vertexIdx[srcPoly->a];
-		poly->b = vertexIdx[srcPoly->b];
-		poly->c = vertexIdx[srcPoly->c];
+		poly->a = vertexIdxBuf[srcPoly->a];
+		poly->b = vertexIdxBuf[srcPoly->b];
+		poly->c = vertexIdxBuf[srcPoly->c];
 		polyCount++;
 	}
 
@@ -297,7 +306,6 @@ int cMeshTest::fillMainMeshPart( int polyStartIdx, grRender3DObjectMesh* mesh, c
 
 	delete[] verticies;
 	delete[] polygons;
-	delete[] vertexIdx;
 
 	return polyStartIdx + polyCount;
 }
