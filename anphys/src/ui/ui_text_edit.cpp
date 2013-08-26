@@ -46,6 +46,9 @@ void uiTextEdit::derivedUpdate( float dt )
 
 	mBackWidget->setSize(mSize);
 
+	color4 fontColor = mFont->getColor(); fontColor.a = (int)(mResTransparency*255.0f);
+	mFont->setColor(fontColor);
+
 	vec2 newFontPosition = mGlobalPosition + mScrolling + mTextOffset;
 	if (newFontPosition != mLastFontPosition)
 	{

@@ -97,6 +97,8 @@ void uiCheckBox::derivedUpdate( float dt )
 		mSelected = false;
 		mSelectedState->deactivate();
 	}
+	
+	checkBindedValues();
 }
 
 void uiCheckBox::checkBindedValues()

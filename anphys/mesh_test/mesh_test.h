@@ -39,7 +39,7 @@ protected:
 	void createSphereMesh(VecArr& verticies, PolyArr& polygons, const vec3& size, const int circleSegs, const int circles);
 	void randomizeMesh(VecArr& verticies, PolyArr& polygons, const vec3& range);
 	void fillRenderMesh(VecArr& verticies, PolyArr& polygons, grRender3DObjectMesh* renderMesh, const char* materialName);
-	int fillMainMeshPart(int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName);
+	int fillMainMeshPart(int polyStartIdx, grRender3DObjectMesh* mesh, const char* materialName, int* vertexIdxBuf);
 };
 
 #endif //MESH_TEST_H
