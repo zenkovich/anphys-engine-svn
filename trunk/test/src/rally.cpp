@@ -32,6 +32,7 @@ bool MoveForward = false;
 bool MoveBackward = false;
 bool FreeView = false;
 bool DrawBulletDebug = false;
+bool slowDown = false;
 float MousePos[2];
 
 cEngineFont FontImpact12;
@@ -61,8 +62,9 @@ __declspec(dllexport) cEngine __cdecl engineInit(char* Path, PENGINEGETPROCADDRE
 	eGetLandscapeInfo = (PEGETLANDSCAPEINFOPROC)engineGetProcAddress("eGetLandscapeInfo");
 
 	//eLoadLevel("fast_track.gdl");  //Грузим уровень
-	eLoadLevel("test.gdl");  //Грузим уровень
-	//eLoadLevel("material_test.gdl");  //Грузим уровень
+	//eLoadLevel("test.gdl");  //Грузим уровень
+	eLoadLevel("material_test.gdl");  //Грузим уровень
+	//eLoadLevel("race1_v_2.gdl");  //Грузим уровень
 	return 0;
 }
 
@@ -93,6 +95,9 @@ __declspec(dllexport) void __cdecl engineProcessEvent(cEngine Engine, cEvent* In
 						cEventUpdate* Event = (cEventUpdate*)Info;
 						
 						float dt = Event->dt/1000.0f*0.5f;
+
+						if (slowDown)
+							dt *= 0.1f;
 
 						
 						if (Car!=0){
@@ -286,8 +291,11 @@ __declspec(dllexport) void __cdecl engineProcessEvent(cEngine Engine, cEvent* In
 								break;
 							case VK_F12:DrawBulletDebug = true;
 								break;
-							case 'V':
+							case 'V':	
 								FreeView = !FreeView;
+								break;							
+							case 'B':
+								slowDown = !slowDown;
 								break;
 						};
 				   }
