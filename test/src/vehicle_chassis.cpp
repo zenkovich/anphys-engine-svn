@@ -152,19 +152,25 @@ void VehicleChassis::derivedSolve( float dt )
 		Mu = ff*mCollisionFrtCoef;
 	}
 
+	float ellipticCoef = 0.8f;
+	
+	float f1coef = 1.0f;
+	float f2coef = ellipticCoef;
+
 
 	float maxFriction = mCollisionPoint.J*Mu;
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
 	{
 		float invCoef = 1.0f/sqrtf(fl);
-		f1lambda = f1lambda*invCoef*maxFriction;
-		f2lambda = f2lambda*invCoef*maxFriction;
+		f1lambda = f1lambda*invCoef*maxFriction*f1coef;
+		f2lambda = f2lambda*invCoef*maxFriction*f2coef;
 		clampedFriction = true;
 	}
 
-	float wheelTorq = -f2a*(mWheelInertia + mVehicle->mEngineInertia);
+	float wheelTorq = -f2a*mWheelInvInertia;
 	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
+	//printf("t %.1f %.1f ", wheelTorq, mCollisionFrtCoef);
 
 	mWheelTorque += wheelTorq/2.0f/3.1415926f/mWheelRadius;
 
@@ -222,7 +228,7 @@ void VehicleChassis::derivedPostSolve( float dt )
 
 	if (mVehicle->mDebugging)
 	{
-		printf("of %.3f ", mSlideCoef);
+		//printf("of %.3f ", mSlideCoef);
 		if (mSlideCoef > 3.0f)
 		{
 			mVehicle->pushDbgLine(mVehicle->mPosition, mWheelBottomPoint, 1, 0, 0, 1);

@@ -39,14 +39,14 @@ cCar::cCar(vec3& Position, quat& Rotation)
 										       0,                                  //минимальна€ позици€ амортизатора
 										       -0.3f,                              //максимальна€ позици€ амотризатора. ѕри данных параметрах ход подвески составл€ет 30 см
 										       0.33f,                              //радиус колеса
-										       70.0f,                              //маccа колеса (кг)
+										       20.0f,                              //маccа колеса (кг)
 										       80000.0f,                           //упругость пружины
 										       3000.0f,                            //сила амортизатора
 										       3000.0f,                            //усилие при торможении
 										       0.0f);                              //усилие при торможении ручником
-	Vehicle->mFrontRightChassis->loadParametres(physics::vec3(0.85f, -0.2f, 1.35f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 3000.0f);
-	Vehicle->mRearLeftChassis->loadParametres(physics::vec3(-0.85f, -0.2f, -1.27f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 3000.0f, 100000000.0f);
-	Vehicle->mRearRightChassis->loadParametres(physics::vec3(0.85f, -0.2f, -1.27f), physics::mat3x3(), 0, -0.3f, 0.33f, 70.0f, 80000.0f, 3000.0f, 3000.0f, 100000000.0f); 
+	Vehicle->mFrontRightChassis->loadParametres(physics::vec3(0.85f, -0.2f, 1.35f), physics::mat3x3(), 0, -0.3f, 0.33f, 20.0f, 80000.0f, 3000.0f, 3000.0f);
+	Vehicle->mRearLeftChassis->loadParametres(physics::vec3(-0.85f, -0.2f, -1.27f), physics::mat3x3(), 0, -0.3f, 0.33f, 20.0f, 80000.0f, 3000.0f, 3000.0f, 100000000.0f);
+	Vehicle->mRearRightChassis->loadParametres(physics::vec3(0.85f, -0.2f, -1.27f), physics::mat3x3(), 0, -0.3f, 0.33f, 20.0f, 80000.0f, 3000.0f, 3000.0f, 100000000.0f); 
 
 	Vehicle->mFrontLeftChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
 	Vehicle->mFrontRightChassis->loadFrictionGraphic(frictionValues, 5, 0, peakValue*2.5f);
@@ -58,13 +58,13 @@ cCar::cCar(vec3& Position, quat& Rotation)
 	float torqueGraphic[torqueValuesCount] = { 0.4, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крут€щего момента
 	float maxTorque = 500.0f;     //макс крут€щий момент. !! ¬принципе достаточно мен€ть его и макс. кол-во оборотов
 	float maxRpm = 7000.0f;       //макс кол-во оборотов
-	float engineFriction = 0.04f; //внутреннее трение двигател€
+	float engineFriction = 0.14f; //внутреннее трение двигател€
 	for (int i = 0; i < torqueValuesCount; i++)
 	{
-	torqueGraphic[i] = torqueGraphic[i]*maxTorque + maxRpm/(float)(torqueValuesCount - 1)*(float)(i)*engineFriction;
+		torqueGraphic[i] = torqueGraphic[i]*maxTorque;
 	}
 
-	Vehicle->setEngineParams(torqueGraphic, torqueValuesCount, maxRpm, 1000.0f, 0.6f, engineFriction);
+	Vehicle->setEngineParams(torqueGraphic, torqueValuesCount, maxRpm, 1000.0f, 1.6f, engineFriction);
 
 	const int gearsCount = 7; //количество передач вместе с задней и нейтральной. 
 	float gears[gearsCount] = { -4.0f, 0.0f, 3.64f, 1.95f, 1.36f, 0.94f, 0.78f }; //передаточные отношени€ передач. 
@@ -93,8 +93,8 @@ cCar::cCar(vec3& Position, quat& Rotation)
 
 	float frictionCoefs[256];
 	memset(frictionCoefs, 0, sizeof(float)*256);
-	frictionCoefs[0] = 0.7f;
-	frictionCoefs[3] = 0.6f;
+	frictionCoefs[0] = 1.0f;
+	frictionCoefs[3] = 0.5f;
 
 	Vehicle->setupLanscapeFrtCoefs(frictionCoefs, 4);
 }
