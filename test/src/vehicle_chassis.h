@@ -25,7 +25,7 @@ struct VehicleChassis
 					
 	float          mWheelRadius;
 	float          mWheelVelocity;
-	float          mWheelAngVelocity;
+	float          mWheelAngVelocity; //rotate per sec
 	float          mWheelTorque;
 					
 	float          mWheelMass;

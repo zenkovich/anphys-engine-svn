@@ -57,14 +57,14 @@ cCar::cCar(vec3& Position, quat& Rotation)
 	const int torqueValuesCount = 8;  //количество значений графика
 	float torqueGraphic[torqueValuesCount] = { 0.4, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
 	float maxTorque = 500.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
-	float maxRpm = 7000.0f;       //макс кол-во оборотов
-	float engineFriction = 0.14f; //внутреннее трение двигателя
+	float maxRpm = 7300.0f;       //макс кол-во оборотов
+	float engineFriction = 0.03f; //внутреннее трение двигателя
 	for (int i = 0; i < torqueValuesCount; i++)
 	{
 		torqueGraphic[i] = torqueGraphic[i]*maxTorque;
 	}
 
-	Vehicle->setEngineParams(torqueGraphic, torqueValuesCount, maxRpm, 1000.0f, 1.6f, engineFriction);
+	Vehicle->setEngineParams(torqueGraphic, torqueValuesCount, maxRpm, 1000.0f, 0.3f, engineFriction);
 
 	const int gearsCount = 7; //количество передач вместе с задней и нейтральной. 
 	float gears[gearsCount] = { -4.0f, 0.0f, 3.64f, 1.95f, 1.36f, 0.94f, 0.78f }; //передаточные отношения передач. 
@@ -93,7 +93,7 @@ cCar::cCar(vec3& Position, quat& Rotation)
 
 	float frictionCoefs[256];
 	memset(frictionCoefs, 0, sizeof(float)*256);
-	frictionCoefs[0] = 1.0f;
+	frictionCoefs[0] = 0.8f;
 	frictionCoefs[3] = 0.5f;
 
 	Vehicle->setupLanscapeFrtCoefs(frictionCoefs, 4);

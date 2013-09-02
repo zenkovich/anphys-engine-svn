@@ -136,7 +136,7 @@ void Vehicle::update( float dt )
 
 	mLastChangeGearTime += dt;
 
-	/*if (mDebugging)
+	if (mDebugging)
 	{
 		if (mCurrentGear > 0 && mEngineRpm > 6100 && mLastChangeGearTime > 0.5f)
 		{
@@ -151,7 +151,7 @@ void Vehicle::update( float dt )
 			mLastChangeGearTime = 0;
 			printf("gear down %i\n", mCurrentGear - 1);
 		}
-	}*/
+	}
 }
 
 void Vehicle::updateEngine( float dt )
@@ -171,7 +171,9 @@ void Vehicle::updateEngine( float dt )
 	}
 
 	float engineTorque = getEngineTorqueFromGraphic()*mThrottleCoef - mEngineFriction*mEngineRpm*(1 - mThrottleCoef);
-	mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
+	float radianPlus = engineTorque*dt;
+	mEngineRpm += radianPlus/2.0f/3.1415926f*60.0f;
+	//mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
 
 	//gLog->fout(1, "Engine torque = %.3f N*m\n", engineTorque);
 
@@ -184,23 +186,28 @@ void Vehicle::updateEngine( float dt )
 		float fastestWheelSpeed = 0;
 		for (int i = 0; i < mDriveChassisCount; i++)
 		{
-			mDriveChassisList[i]->mWheelAngVelocity += wheelsTorque*mDriveChassisList[i]->mWheelInvInertia/10.0f;
+			float wheelRadPlus = wheelsTorque*(mDriveChassisList[i]->mWheelInvInertia + 
+				                               mEngineInvInertia/(float)mDriveChassisCount);
 
 			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
 				fastestWheelSpeed = mDriveChassisList[i]->mWheelAngVelocity;
+
+			mDriveChassisList[i]->mWheelAngVelocity += wheelRadPlus/2.0f/3.1415926f;
 		}
 
 		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
-		if (mCurrentGear != 1 && mClutchCoef > 0.11f)
+		/*if (mCurrentGear != 1 && mClutchCoef > 0.11f)
 		{
 			mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
 			//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
-		}
+		}*/
 
 		if (mDebugging)
 			printf("vel = %.3f/%.3f rpm = %.1f/%.1f gear %i t1 %.2f t2 %.2f\n", -fastestWheelSpeed*2.0f*3.1415926*mDriveChassisList[0]->mWheelRadius*3.6f, mVelocity.len()*3.6f, mEngineRpm, fastestWheelSpeed, mCurrentGear, engineTorque, wheelsTorque/dt);
 	}
+	else
+		printf("RPM = %.3f\n", mEngineRpm);
 }
 
 float Vehicle::getEngineTorqueFromGraphic()
@@ -221,6 +228,39 @@ float Vehicle::getEngineTorqueFromGraphic()
 
 void Vehicle::solveEngineWheelDrive(  )
 {		
+	//return;
+
+	if (fabs(mResDriveCoef) > 0.0001f)
+	{
+		float fastestWheelSpeed = 0;
+		float wheelsInertiaSumm = 0;
+		for (int i = 0; i < mDriveChassisCount; i++)
+		{
+			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
+				fastestWheelSpeed = -mDriveChassisList[i]->mWheelAngVelocity;
+
+			wheelsInertiaSumm += mDriveChassisList[i]->mWheelInertia;
+		}
+
+		float engineRps = mEngineRpm/60.0f;
+
+		float t = (fastestWheelSpeed*mResDriveCoef - engineRps)/(wheelsInertiaSumm + mEngineInertia);
+
+		mEngineRpm += t*60.0f*mEngineInertia;
+
+		for (int i = 0; i < mDriveChassisCount; i++)
+		{
+			mDriveChassisList[i]->mWheelAngVelocity += t*mDriveChassisList[i]->mWheelInertia/mResDriveCoef;
+		}
+
+		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
+
+		/*if (mCurrentGear != 1 && mClutchCoef > 0.11f)
+		{
+			mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
+			//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
+		}*/
+	}
 }
 
 void Vehicle::setPolygonsBuffer( lPolygon** buffer, lVertex** vertexBuffer, unsigned int count )
