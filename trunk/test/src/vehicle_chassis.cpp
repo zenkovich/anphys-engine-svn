@@ -152,10 +152,10 @@ void VehicleChassis::derivedSolve( float dt )
 		Mu = ff*mCollisionFrtCoef;
 	}
 
-	float ellipticCoef = 0.8f;
+	float ellipticCoef = 1.0f;
 	
-	float f1coef = 1.0f;
-	float f2coef = ellipticCoef;
+	float f2coef = 1.0f;
+	float f1coef = ellipticCoef;
 
 
 	float maxFriction = mCollisionPoint.J*Mu;
@@ -172,7 +172,7 @@ void VehicleChassis::derivedSolve( float dt )
 	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
 	//printf("t %.1f %.1f ", wheelTorq, mCollisionFrtCoef);
 
-	mWheelTorque += wheelTorq/2.0f/3.1415926f/mWheelRadius;
+	mWheelTorque += wheelTorq/2.0f/3.1415926f/mWheelRadius*mWheelInertia;
 
 	vec3 Jf = mCollisionPoint.t1*f1lambda + mCollisionPoint.t2*f2lambda;
 	mVehicle->applyImpulse(mCollisionPoint.mPoint, Jf);

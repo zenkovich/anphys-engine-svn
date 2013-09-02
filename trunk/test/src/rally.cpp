@@ -63,8 +63,8 @@ __declspec(dllexport) cEngine __cdecl engineInit(char* Path, PENGINEGETPROCADDRE
 
 	//eLoadLevel("fast_track.gdl");  //Грузим уровень
 	//eLoadLevel("test.gdl");  //Грузим уровень
-	eLoadLevel("material_test.gdl");  //Грузим уровень
-	//eLoadLevel("race1_v_2.gdl");  //Грузим уровень
+	//eLoadLevel("material_test.gdl");  //Грузим уровень
+	eLoadLevel("race1_v_2.gdl");  //Грузим уровень
 	return 0;
 }
 
