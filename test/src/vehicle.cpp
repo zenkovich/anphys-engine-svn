@@ -136,7 +136,7 @@ void Vehicle::update( float dt )
 
 	mLastChangeGearTime += dt;
 
-	if (mDebugging)
+	/*if (mDebugging)
 	{
 		if (mCurrentGear > 0 && mEngineRpm > 6100 && mLastChangeGearTime > 0.5f)
 		{
@@ -151,7 +151,7 @@ void Vehicle::update( float dt )
 			mLastChangeGearTime = 0;
 			printf("gear down %i\n", mCurrentGear - 1);
 		}
-	}
+	}*/
 }
 
 void Vehicle::updateEngine( float dt )
@@ -181,7 +181,7 @@ void Vehicle::updateEngine( float dt )
 
 	if (fabs(mResDriveCoef) > 0.0001f)
 	{
-		float wheelsTorque = -engineTorque*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*dt;
+		float wheelsTorque = -engineTorque*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*dt*0.0f;
 
 		float fastestWheelSpeed = 0;
 		for (int i = 0; i < mDriveChassisCount; i++)
@@ -239,19 +239,44 @@ void Vehicle::solveEngineWheelDrive(  )
 			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
 				fastestWheelSpeed = -mDriveChassisList[i]->mWheelAngVelocity;
 
-			wheelsInertiaSumm += mDriveChassisList[i]->mWheelInertia;
+			wheelsInertiaSumm += mDriveChassisList[i]->mWheelInvInertia;
 		}
+
+		fastestWheelSpeed = -mDriveChassisList[0]->mWheelAngVelocity;
+		wheelsInertiaSumm = mDriveChassisList[0]->mWheelInvInertia;
 
 		float engineRps = mEngineRpm/60.0f;
 
-		float t = (fastestWheelSpeed*mResDriveCoef - engineRps)/(wheelsInertiaSumm + mEngineInertia);
+		engineRps = -1;
+		fastestWheelSpeed = 1;
+		mResDriveCoef = 10;
+		wheelsInertiaSumm = 1;
+		mEngineInvInertia = 2;
 
-		mEngineRpm += t*60.0f*mEngineInertia;
+		float vp1 = engineRps;
+		float vp2 = fastestWheelSpeed*mResDriveCoef;
 
-		for (int i = 0; i < mDriveChassisCount; i++)
+		float t = (engineRps*mResDriveCoef - fastestWheelSpeed)/(1.0f/wheelsInertiaSumm - mResDriveCoef/mEngineInvInertia);
+
+		mEngineRpm += (t/60.0f)*mEngineInvInertia;
+		engineRps += t/mEngineInvInertia;
+
+		fastestWheelSpeed = 0;
+		mDriveChassisList[0]->mWheelAngVelocity += t*mDriveChassisList[0]->mWheelInvInertia;
+		fastestWheelSpeed += t*wheelsInertiaSumm;
+		/*for (int i = 0; i < mDriveChassisCount; i++)
 		{
-			mDriveChassisList[i]->mWheelAngVelocity += t*mDriveChassisList[i]->mWheelInertia/mResDriveCoef;
-		}
+			mDriveChassisList[i]->mWheelAngVelocity += t*mDriveChassisList[i]->mWheelInvInertia;
+
+			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
+				fastestWheelSpeed = -mDriveChassisList[i]->mWheelAngVelocity;
+		}*/
+		
+		//engineRps = mEngineRpm/60.0f;
+		float vp11 = engineRps;
+		float vp21 = fastestWheelSpeed*mResDriveCoef;
+
+		printf("eng %.3f wheel %.3f\n", mEngineRpm/60.0f, fastestWheelSpeed);
 
 		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
