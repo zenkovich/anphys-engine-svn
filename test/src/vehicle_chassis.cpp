@@ -141,6 +141,8 @@ void VehicleChassis::derivedSolve( float dt )
 	float f2a = f2n1*mVehicle->mVelocity + f2w1*mVehicle->mAngularVelocity + 
 		        mWheelAngVelocity*mWheelRadius*2.0f*3.1415926f;
 	float f2b = mCollisionPoint.Bf2;
+	
+	//f2b = mVehicle->mInvMass + mWheelRadius*mWheelRadius/mWheelInvInertia;
 
 	float f2lambda = -f2a*f2b;
 
@@ -168,11 +170,12 @@ void VehicleChassis::derivedSolve( float dt )
 		clampedFriction = true;
 	}
 
-	float wheelTorq = -f2a*mWheelInvInertia;
+	float wheelTorq = -f2a/(mWheelRadius*mWheelRadius*mWheelInvInertia);
 	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
 	//printf("t %.1f %.1f ", wheelTorq, mCollisionFrtCoef);
 
-	mWheelTorque += wheelTorq/2.0f/3.1415926f/mWheelRadius*mWheelInertia;
+	mWheelTorque += wheelTorq/2.0f/3.1415926f*mWheelRadius;
+	//mWheelTorque += f2lambda/2.0f/3.1415926f*mWheelRadius;
 
 	vec3 Jf = mCollisionPoint.t1*f1lambda + mCollisionPoint.t2*f2lambda;
 	mVehicle->applyImpulse(mCollisionPoint.mPoint, Jf);
