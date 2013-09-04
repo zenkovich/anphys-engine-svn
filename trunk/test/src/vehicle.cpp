@@ -171,7 +171,7 @@ void Vehicle::updateEngine( float dt )
 	}
 
 	float engineTorque = getEngineTorqueFromGraphic()*mThrottleCoef - mEngineFriction*mEngineRpm*(1 - mThrottleCoef);
-	float radianPlus = engineTorque*dt;
+	float radianPlus = engineTorque*dt*mEngineInvInertia;
 	mEngineRpm += radianPlus/2.0f/3.1415926f*60.0f;
 	//mEngineRpm += engineTorque*mEngineInvInertia*0.5f*60.0f*dt ;
 
@@ -181,7 +181,7 @@ void Vehicle::updateEngine( float dt )
 
 	if (fabs(mResDriveCoef) > 0.0001f)
 	{
-		float wheelsTorque = -engineTorque*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*dt*0.0f;
+		float wheelsTorque = -engineTorque*mResDriveCoef/(float)mDriveChassisCount*mClutchCoef*dt;
 
 		float fastestWheelSpeed = 0;
 		for (int i = 0; i < mDriveChassisCount; i++)
@@ -195,13 +195,13 @@ void Vehicle::updateEngine( float dt )
 			mDriveChassisList[i]->mWheelAngVelocity += wheelRadPlus/2.0f/3.1415926f;
 		}
 
-		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
+		fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
-		/*if (mCurrentGear != 1 && mClutchCoef > 0.11f)
+		if (mCurrentGear != 1 && mClutchCoef > 0.11f)
 		{
 			mEngineRpm = -fastestWheelSpeed*60.0f*mResDriveCoef;
 			//gLog->fout(1, "Engine rpm = %.3f (%.3f)\n", mEngineRpm, fastestWheelSpeed);
-		}*/
+		}
 
 		if (mDebugging)
 			printf("vel = %.3f/%.3f rpm = %.1f/%.1f gear %i t1 %.2f t2 %.2f\n", -fastestWheelSpeed*2.0f*3.1415926*mDriveChassisList[0]->mWheelRadius*3.6f, mVelocity.len()*3.6f, mEngineRpm, fastestWheelSpeed, mCurrentGear, engineTorque, wheelsTorque/dt);
@@ -228,7 +228,7 @@ float Vehicle::getEngineTorqueFromGraphic()
 
 void Vehicle::solveEngineWheelDrive(  )
 {		
-	//return;
+	return;
 
 	if (fabs(mResDriveCoef) > 0.0001f)
 	{
@@ -242,41 +242,46 @@ void Vehicle::solveEngineWheelDrive(  )
 			wheelsInertiaSumm += mDriveChassisList[i]->mWheelInvInertia;
 		}
 
-		fastestWheelSpeed = -mDriveChassisList[0]->mWheelAngVelocity;
+		/*fastestWheelSpeed = -mDriveChassisList[0]->mWheelAngVelocity;*/
 		wheelsInertiaSumm = mDriveChassisList[0]->mWheelInvInertia;
 
 		float engineRps = mEngineRpm/60.0f;
 
-		engineRps = -1;
-		fastestWheelSpeed = 1;
-		mResDriveCoef = 10;
-		wheelsInertiaSumm = 1;
-		mEngineInvInertia = 2;
+		/*engineRps = 1;
+		fastestWheelSpeed = 2;
+		mResDriveCoef = 5;
+		/*wheelsInertiaSumm = 4;
+		mEngineInvInertia = 3;*/
 
-		float vp1 = engineRps;
-		float vp2 = fastestWheelSpeed*mResDriveCoef;
+		float c = 1.0f/60.0f/mResDriveCoef;
+		float c2 = 1.0f;
 
-		float t = (engineRps*mResDriveCoef - fastestWheelSpeed)/(1.0f/wheelsInertiaSumm - mResDriveCoef/mEngineInvInertia);
+		float vp1 = engineRps*mResDriveCoef;
+		float vp2 = fastestWheelSpeed;
 
-		mEngineRpm += (t/60.0f)*mEngineInvInertia;
-		engineRps += t/mEngineInvInertia;
+		//float t = (engineRps*mResDriveCoef - fastestWheelSpeed)/(1.0f/wheelsInertiaSumm - mResDriveCoef/mEngineInvInertia);
+		float a = (fastestWheelSpeed*c2 - mEngineRpm*c);
+		float b = (c*c/mEngineInvInertia - c2*c2/wheelsInertiaSumm);
+		float t = a/b*mClutchCoef;
 
-		fastestWheelSpeed = 0;
-		mDriveChassisList[0]->mWheelAngVelocity += t*mDriveChassisList[0]->mWheelInvInertia;
-		fastestWheelSpeed += t*wheelsInertiaSumm;
-		/*for (int i = 0; i < mDriveChassisCount; i++)
+		mEngineRpm += t/mEngineInvInertia*c;
+		engineRps += t/mEngineInvInertia*mResDriveCoef;
+
+		/*mDriveChassisList[0]->mWheelAngVelocity -= t/wheelsInertiaSumm;
+		fastestWheelSpeed += t/wheelsInertiaSumm;*/
+		for (int i = 0; i < mDriveChassisCount; i++)
 		{
-			mDriveChassisList[i]->mWheelAngVelocity += t*mDriveChassisList[i]->mWheelInvInertia;
+			mDriveChassisList[i]->mWheelAngVelocity -= t/wheelsInertiaSumm*c2;
 
 			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
 				fastestWheelSpeed = -mDriveChassisList[i]->mWheelAngVelocity;
-		}*/
+		}
 		
 		//engineRps = mEngineRpm/60.0f;
-		float vp11 = engineRps;
-		float vp21 = fastestWheelSpeed*mResDriveCoef;
+		float vp11 = engineRps*mResDriveCoef;
+		float vp21 = fastestWheelSpeed;
 
-		printf("eng %.3f wheel %.3f\n", mEngineRpm/60.0f, fastestWheelSpeed);
+		printf("eng %.3f wheel %.3f, %.3f %.3f\n", mEngineRpm*c, mDriveChassisList[0]->mWheelAngVelocity, vp11, vp21);
 
 		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
