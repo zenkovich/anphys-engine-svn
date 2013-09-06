@@ -65,7 +65,7 @@ void apMeshTestFrame::onCreate( fRect inRect )
 
 	mMainMeshSize = vec3(100, 100, 0);
 	mMainMeshRandomize = vec3(0.2f, 0.2f, 0.2f);
-	mMainMeshXSegments = 100; mMainMeshZSegments = 100;
+	mMainMeshXSegments = 10; mMainMeshZSegments = 10;
 	
 	mSecondaryPlaneChecked = true;
 	mSecondaryTorusChecked = false;
@@ -73,12 +73,12 @@ void apMeshTestFrame::onCreate( fRect inRect )
 
 	mSecondaryMeshSize = vec3(100, 100, 0);
 	mSecondaryMeshRandomize = vec3(0.2f, 0.2f, 0.2f);
-	mSecondaryMeshXSegments = 100; mSecondaryMeshZSegments = 100;
+	mSecondaryMeshXSegments = 10; mSecondaryMeshZSegments = 10;
 
 	mSecondaryTorusSize = vec3(4, 4, 10);
 	mSecondaryTorusRandomize = vec3(0.2f, 0.2f, 0.2f);
-	mSecondaryTorusCircles = 30;
-	mSecondaryTorusCircleSegs = 20;
+	mSecondaryTorusCircles = 10;
+	mSecondaryTorusCircleSegs = 10;
 }
 
 void apMeshTestFrame::onClose()
