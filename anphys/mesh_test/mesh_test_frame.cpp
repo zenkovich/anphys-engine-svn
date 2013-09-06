@@ -39,7 +39,7 @@ void apMeshTestFrame::onCreate( fRect inRect )
 	m2DRenderState   = new gr2DRenderState(mRender);
 	mMainEngineScene = new cScene(this);
 
-	m3DRenderState->mPolygonCullMode = grRenderState::PCM_COUNETRCLOCKWISE;
+	m3DRenderState->mPolygonCullMode = grRenderState::PCM_NONE;
 
 	m3DRenderState->bindCamera(mCamera);
 
@@ -55,12 +55,12 @@ void apMeshTestFrame::onCreate( fRect inRect )
 	mMainEngineScene->mRenderScene->mObjects->createObject(mMainMeshes[0]);
 	mMainEngineScene->mRenderScene->mObjects->createObject(mSecondaryMesh);
 
-	mMeshTest->generateMainPlaneMesh(vec3(100, 100, 0), 100, 100);
+	mMeshTest->generateMainPlaneMesh(vec3(100, 100, 0), 10, 10);
 	mMeshTest->randomizeMainMesh(vec3(0.2f, 0.2f, 0.2f));
 	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
 
-	mMeshTest->generateSecondaryTorusMesh(vec3(4, 2, 10), 50, 50);
-	mMeshTest->randomizeSecondaryMesh(vec3(0.2f, 0.2f, 0.2f));
+	mMeshTest->generateSecondaryTorusMesh(vec3(4, 2, 10), 20, 20);
+	//mMeshTest->randomizeSecondaryMesh(vec3(0.2f, 0.2f, 0.2f));
 	mMeshTest->fillSecondaryMeshData(mSecondaryMesh, "mainMesh");
 
 	mMainMeshSize = vec3(100, 100, 0);
@@ -424,6 +424,6 @@ void apMeshTestFrame::mergeMeshes()
 	
 	mMeshTest->fillMainMeshData(mMainMeshes, "mainMesh");
 	
-	mSecondaryMesh->mPosition = vec3(0, 0, 0);
-	mSecondaryMesh->mOrient = nullMatr();
+	/*mSecondaryMesh->mPosition = vec3(0, 0, 0);
+	mSecondaryMesh->mOrient = nullMatr();*/
 }

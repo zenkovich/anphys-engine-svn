@@ -21,6 +21,70 @@ struct tvertex
 	tvertex() {}
 };
 
+struct tcontour
+{
+	struct line
+	{
+		tvertex a, b;
+
+		line(const tvertex& va, const tvertex& vb):a(va), b(vb) {}
+	};
+	typedef std::vector<line> LinesVec;
+	typedef std::vector<LinesVec> ContourVec;
+
+	LinesVec lines;
+	ContourVec contours;
+
+	void getContours();
+};
+
+template<typename T>
+void tswap(T& a, T& b) { T buf = a; a = b; b = buf; }
+
+void tcontour::getContours()
+{
+	do 
+	{		
+		contours.push_back(LinesVec());
+		contours.back().push_back(lines.back());
+		lines.pop_back();
+		
+		vec3 begin = contours.back()[0].a.point;
+		vec3 curr = contours.back()[0].b.point;
+
+		float pr = 0.01f;
+
+		bool cnt = false;
+		do 
+		{
+			bool fnd = false;
+			for (LinesVec::iterator it = lines.begin(); it != lines.end() && !fnd;)
+			{
+				float d1 = len(curr, it->a.point);
+				float d2 = len(curr, it->b.point);
+				if (d1 < pr || d2 < pr)
+				{
+					if (d2 < pr)
+					{
+						tswap(it->a, it->b);
+					}
+
+					curr = it->b.point;
+					contours.back().push_back(*it);
+					it = lines.erase(it);
+					fnd = true;
+					//break;
+				}
+				else ++it;
+			}
+
+			cnt = (fnd && len(curr, begin) >= pr);
+		}
+		while(cnt);
+	}
+	while (!lines.empty());
+}
+
 struct tpolygon
 {
 	int a, b, c;
@@ -32,7 +96,11 @@ struct tpolygon
 
 	ppolygonsVec cplg;
 
-	tpolygon() {}
+	tcontour contour;
+	pedgesVec ue;
+
+	tpolygon() {  }
+	void finCont();
 };
 
 struct tedge
@@ -40,9 +108,25 @@ struct tedge
 	int a, b;
 	tvertex *va, *vb;
 	tpolygon *pa, *pb;
+	float len;
 
 	tedge() {}
 };
+
+void tpolygon::finCont()
+{	
+	tedge* ee[3] = { ea, eb, ec };
+	for (int i = 0; i < 3; i++)
+	{
+		pedgesVec::iterator fnd = std::find(ue.begin(), ue.end(), ee[i]);
+		if (fnd != ue.end())
+			continue;
+
+		contour.lines.push_back(tcontour::line(*ee[i]->va, *ee[i]->vb));
+	}
+
+	contour.getContours();
+}
 
 struct tmesh
 {
@@ -73,7 +157,7 @@ struct tmesh
 		plg = new tpolygon[maxPlgCount];
 		vcount = vrtCount; pcount = plgCount;
 
-		eMaxCount = maxVrtCount/2;
+		eMaxCount = plgCount*2 + 10000;
 		edg = new tedge[eMaxCount];
 		ecount = 0;
 
@@ -140,49 +224,195 @@ struct tmesh
 		{
 			tpolygon* poly = &plg[i];
 			int eidx[3][2] = { { poly->a, poly->b }, { poly->b, poly->c }, { poly->c, poly->a } };
+			tedge** edgePts[3] = { &poly->ea, &poly->eb, &poly->ec };
 
 			for (int j = 0; j < 3; j++)
 			{
+				tedge* edge = NULL;
 				for (int k = 0; k < ecount; k++)
 				{
-					tedge* edge = &edg[k];
-					if (!((edge->a == eidx[j][0] && edge->b == eidx[j][1]) || 
-						  (edge->a == eidx[j][1] && edge->b == eidx[j][0])) && ecount < eMaxCount - 1)
+					tedge* eddg = &edg[k];
+					if ( (eddg->a == eidx[j][0] && eddg->b == eidx[j][1]) || (eddg->a == eidx[j][1] && eddg->b == eidx[j][0]) )
 					{
-						tedge* nedge = &edg[ecount];
-						nedge->a = eidx[j][0];
-						nedge->b = eidx[j][1];
-						nedge->va = &vrt[nedge->a];
-						nedge->vb = &vrt[nedge->b];
-						if (!nedge->pa)
-							nedge->pa = poly;
-						else
-							nedge->pb = poly;
-
-						ecount++;
+						edge = eddg;
+						break;
 					}
 				}
+
+				if (!edge)
+				{
+					tedge* nedge = &edg[ecount];
+					nedge->a = eidx[j][0];
+					nedge->b = eidx[j][1];
+					nedge->va = &vrt[nedge->a];
+					nedge->vb = &vrt[nedge->b];
+					if (!nedge->pa)
+						nedge->pa = poly;
+					else
+						nedge->pb = poly;
+					ecount++;
+
+					nedge->len = (nedge->va->point - nedge->vb->point).len();
+
+					if (ecount > eMaxCount)
+					{
+						ecount = ecount;
+					}
+					edge = nedge;
+
+					float lenn = (nedge->va->point - nedge->vb->point).len();
+					if (lenn < 0.2f)
+						lenn = lenn;
+				}
+
+				*edgePts[j] = edge;
 			}
 		}
+
+		/*for (int i = 0; i < pcount; i++)
+		{
+			tpolygon* poly = &plg[i];
+
+			vec3 c = (poly->pa->point + poly->pb->point + poly->pc->point)/3.0f;
+			getRenderStuff().addGreenArrow(c, (poly->ea->va->point + poly->ea->vb->point)*0.5f);
+			getRenderStuff().addGreenArrow(c, (poly->eb->va->point + poly->eb->vb->point)*0.5f);
+			getRenderStuff().addGreenArrow(c, (poly->ec->va->point + poly->ec->vb->point)*0.5f);
+			
+			getRenderStuff().addBlueArrow(poly->ea->va->point, poly->ea->vb->point);
+			getRenderStuff().addBlueArrow(poly->eb->va->point, poly->eb->vb->point);
+			getRenderStuff().addBlueArrow(poly->ec->va->point, poly->ec->vb->point);
+		}*/
 	}
 };
 
 void intersectPolygons(tpolygon& a, tpolygon& b)
 {
 	vec3 pt;
-	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.pa->point, b.pb->point, &pt))
+	int ic = 0;
+	tvertex va, vb;
+	tvertex x;
+	float t;
+
+	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.ea->va->point, b.ea->vb->point, &pt, &t))
+	{
+		va.point = pt;
 		getRenderStuff().addRedCube(pt);
-	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.pb->point, b.pc->point, &pt))
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < b.ea->len*0.5f) ? (*b.ea->va):(*b.ea->vb) );
+		b.contour.lines.push_back(tcontour::line(x, ff));
+		b.ue.push_back(b.ea);
+
+		//getRenderStuff().addRedArrow((b.ea->va->point + b.ea->vb->point)*0.5f, pt);
+		ic++;
+	}
+	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.eb->va->point, b.eb->vb->point, &pt, &t))
+	{
+		if (ic == 0)
+		{
+			va.point = pt;
+		}
+		else
+		{
+			vb.point = pt;
+		}
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < b.eb->len*0.5f) ? (*b.eb->va):(*b.eb->vb) );
+		b.contour.lines.push_back(tcontour::line(x, ff));
+		b.ue.push_back(b.eb);
+
+		//getRenderStuff().addRedArrow((b.eb->va->point + b.eb->vb->point)*0.5f, pt);
 		getRenderStuff().addRedCube(pt);
-	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.pc->point, b.pa->point, &pt))
+		ic++;
+	}
+	if (IntersectLinePolygon(a.pa->point, a.pb->point, a.pc->point, a.n, b.ec->va->point, b.ec->vb->point, &pt, &t))
+	{
+		if (ic == 0)
+		{
+			va.point = pt;
+		}
+		else
+		{
+			vb.point = pt;
+		}
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < b.ec->len*0.5f) ? (*b.ec->va):(*b.ec->vb) );
+		b.contour.lines.push_back(tcontour::line(x, ff));
+		b.ue.push_back(b.ec);
+
+		//getRenderStuff().addRedArrow((b.ec->va->point + b.ec->vb->point)*0.5f, pt);
 		getRenderStuff().addRedCube(pt);
+		ic++;
+	}
 	
-	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.pa->point, a.pb->point, &pt))
-		getRenderStuff().addBlueCube(pt);
-	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.pb->point, a.pc->point, &pt))
-		getRenderStuff().addBlueCube(pt);
-	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.pc->point, a.pa->point, &pt))
-		getRenderStuff().addBlueCube(pt);
+	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.ea->va->point, a.ea->vb->point, &pt, &t))
+	{
+		if (ic == 0)
+		{
+			va.point = pt;
+		}
+		else
+		{
+			vb.point = pt;
+		}
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < a.ea->len*0.5f) ? (*a.ea->va):(*a.ea->vb) );
+		a.contour.lines.push_back(tcontour::line(x, ff));
+		a.ue.push_back(a.ea);
+
+		//getRenderStuff().addRedArrow((a.ea->va->point + a.ea->vb->point)*0.5f, pt);
+		getRenderStuff().addRedCube(pt);
+		ic++;
+	}
+	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.eb->va->point, a.eb->vb->point, &pt, &t))
+	{
+		if (ic == 0)
+		{
+			va.point = pt;
+		}
+		else
+		{
+			vb.point = pt;
+		}
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < a.eb->len*0.5f) ? (*a.eb->va):(*a.eb->vb) );
+		a.contour.lines.push_back(tcontour::line(x, ff));
+		a.ue.push_back(a.eb);
+
+		//getRenderStuff().addRedArrow((a.eb->va->point + a.eb->vb->point)*0.5f, pt);
+		getRenderStuff().addRedCube(pt);
+		ic++;
+	}
+	if (IntersectLinePolygon(b.pa->point, b.pb->point, b.pc->point, b.n, a.ec->va->point, a.ec->vb->point, &pt, &t))
+	{
+		if (ic == 0)
+		{
+			va.point = pt;
+		}
+		else
+		{
+			vb.point = pt;
+		}
+
+		x.point = pt;
+		tvertex ff = ( (fabs(t) < a.ec->len*0.5f) ? (*a.ec->va):(*a.ec->vb) );
+		a.contour.lines.push_back(tcontour::line(x, ff));
+		a.ue.push_back(a.ec);
+
+		//getRenderStuff().addRedArrow((a.ec->va->point + a.ec->vb->point)*0.5f, pt);
+		getRenderStuff().addRedCube(pt);
+		ic++;
+	}
+
+	if (ic > 0)
+	{
+		a.contour.lines.push_back(tcontour::line(va, vb));
+		b.contour.lines.push_back(tcontour::line(va, vb));
+	}
 }
 
 typedef std::vector<tpolygon> polygonsVec;
@@ -228,18 +458,18 @@ void mergeMeshes( vertexTexNorm* aVerticies, int aVerticiesCount, poly3* aPolygo
 						ppolygonsVec::iterator fnd = std::find(apoly->cplg.begin(), apoly->cplg.end(), bpoly);
 						if (fnd == apoly->cplg.end())
 						{							
-							getRenderStuff().addBlueArrow(apoly->pa->point, apoly->pb->point);
+							/*getRenderStuff().addBlueArrow(apoly->pa->point, apoly->pb->point);
 							getRenderStuff().addBlueArrow(apoly->pb->point, apoly->pc->point);
 							getRenderStuff().addBlueArrow(apoly->pc->point, apoly->pa->point);
 
 							vec3 c = (apoly->pa->point + apoly->pb->point + apoly->pc->point)/3.0f;
-							getRenderStuff().addBlueArrow(c, c + apoly->n*0.1f);
+							//getRenderStuff().addBlueArrow(c, c + apoly->n*0.1f);
 						
 							c = (bpoly->pa->point + bpoly->pb->point + bpoly->pc->point)/3.0f;
 							getRenderStuff().addRedArrow(bpoly->pa->point, bpoly->pb->point);
 							getRenderStuff().addRedArrow(bpoly->pb->point, bpoly->pc->point);
-							getRenderStuff().addRedArrow(bpoly->pc->point, bpoly->pa->point);
-							getRenderStuff().addRedArrow(c, c + bpoly->n*0.1f);
+							getRenderStuff().addRedArrow(bpoly->pc->point, bpoly->pa->point);*/
+							//getRenderStuff().addRedArrow(c, c + bpoly->n*0.1f);
 
 							intersectPolygons(*apoly, *bpoly);
 							
@@ -253,6 +483,39 @@ void mergeMeshes( vertexTexNorm* aVerticies, int aVerticiesCount, poly3* aPolygo
 					}
 				}
 			}
+		}
+	}
+
+	for (int i = 0; i < amesh.pcount; i++)
+	{
+		int cid = 0;
+		tpolygon* poly = &amesh.plg[i];
+		if (!poly->contour.lines.empty())
+		{
+			poly->finCont();
+			for (tcontour::ContourVec::iterator it = poly->contour.contours.begin(); it != poly->contour.contours.end(); ++it)
+			{
+				for (tcontour::LinesVec::iterator jt = it->begin(); jt != it->end(); ++jt)
+				{
+					if (cid%2 == 0)
+					{
+						getRenderStuff().addGreenArrow(jt->a.point, jt->b.point);
+						getRenderStuff().addGreenArrow(jt->a.point, it->begin()->b.point);
+					}
+					else
+					{
+						getRenderStuff().addBlueArrow(jt->a.point, jt->b.point);
+						getRenderStuff().addBlueArrow(jt->a.point, it->begin()->b.point);
+					}
+				}
+
+				cid++;
+			}
+
+			/*for (tcontour::LinesVec::iterator it = poly->contour.lines.begin(); it != poly->contour.lines.end(); ++it)
+			{
+				//getRenderStuff().addGreenArrow(it->a.point, it->b.point);
+			}*/
 		}
 	}
 
