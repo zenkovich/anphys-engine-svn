@@ -144,7 +144,32 @@ void VehicleChassis::derivedSolve( float dt )
 	
 	//f2b = mVehicle->mInvMass + mWheelRadius*mWheelRadius/mWheelInvInertia;
 
+	if (mVehicle->mBrakeCoef > 0.9f && fabs(mWheelAngVelocity) < 0.1f)
+		f2a = f2a;
+
 	float f2lambda = -f2a*f2b;
+	
+	vec3 zvec = mGlobalAxis.getZVector();
+
+	//printf(" vv %.3f ", mWheelAngVelocity);
+	//   f2n1*f2n1*mVehicle->mInvMass + f2w1*(f2w1*mVehicle->mInvWorldInertia)
+	float n3 = f2n1*zvec;
+	n3 = 1;
+	float ap = (n3)*(n3)*mWheelRadius*mWheelRadius*mWheelInvInertia;
+	float f2a_ = mVehicle->mVelocity*f2n1 + f2w1*mVehicle->mAngularVelocity + n3*mWheelAngVelocity*mWheelRadius*2.0f*3.1415926f;
+	float f2b_ = f2n1*f2n1*mVehicle->mInvMass + f2w1*(f2w1*mVehicle->mInvWorldInertia) + ap;
+	f2b = f2n1*f2n1*mVehicle->mInvMass + f2w1*(f2w1*mVehicle->mInvWorldInertia);
+	
+	float if2b = 1.0f/f2b;
+	float if2b_ = 1.0f/f2b_;
+	float f2lambda_ = -f2a_/f2b_;
+
+	vec3 nv = mVehicle->mVelocity + f2n1*f2lambda*mVehicle->mInvMass;
+	vec3 nw = mVehicle->mAngularVelocity + (f2w1*f2lambda)*mVehicle->mInvWorldInertia;
+	float w = mWheelAngVelocity + f2lambda*mWheelRadius*mWheelInvInertia/2.0f/3.1415926f;
+
+	vec3 vp = nv*f2n1 + f2w1*nw + n3*w*mWheelRadius*2.0f*3.1415926f;
+	printf("vp = %.2f %.2f", vp.len(), w);
 
 	float fl = f2lambda*f2lambda + f1lambda*f1lambda;
 	if (mFrictionValues)
@@ -167,15 +192,18 @@ void VehicleChassis::derivedSolve( float dt )
 		float invCoef = 1.0f/sqrtf(fl);
 		f1lambda = f1lambda*invCoef*maxFriction*f1coef;
 		f2lambda = f2lambda*invCoef*maxFriction*f2coef;
+		f2lambda_ = f2lambda_*invCoef*maxFriction*f2coef;
 		clampedFriction = true;
 	}
 
-	float wheelTorq = -f2a/(mWheelRadius*mWheelRadius*mWheelInvInertia);
-	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));
+	/*float wheelTorq = -f2a/(mWheelRadius*mWheelRadius*mWheelInvInertia);
+	wheelTorq = sign(wheelTorq)*fmin(fabs(wheelTorq), fabs(maxFriction));*/
 	//printf("t %.1f %.1f ", wheelTorq, mCollisionFrtCoef);
 
-	mWheelTorque += wheelTorq/2.0f/3.1415926f*mWheelRadius;
+	//mWheelTorque += wheelTorq/2.0f/3.1415926f*mWheelRadius;
 	//mWheelTorque += f2lambda/2.0f/3.1415926f*mWheelRadius;
+
+	mWheelTorque += f2n1*zvec*f2lambda_*mWheelRadius*mWheelInvInertia/2.0f/3.1415926f;
 
 	vec3 Jf = mCollisionPoint.t1*f1lambda + mCollisionPoint.t2*f2lambda;
 	mVehicle->applyImpulse(mCollisionPoint.mPoint, Jf);
@@ -199,7 +227,7 @@ void VehicleChassis::derivedPostSolve( float dt )
 
 	mPosition = mMaxPosition;
 	
-	mWheelAngVelocity += mWheelTorque*mWheelInvInertia;
+	mWheelAngVelocity += mWheelTorque;
 	mWheelTorque = 0;
 
 	mWheelAngVelocity -= sign(mWheelAngVelocity)*fmin((mBrakeForce1*mBrakeCoef1 + mBrakeForce2*mBrakeCoef2)*mWheelInvInertia*dt, 

@@ -56,7 +56,7 @@ cCar::cCar(vec3& Position, quat& Rotation)
 	//параметры двигателя/трансмиссии
 	const int torqueValuesCount = 8;  //количество значений графика
 	float torqueGraphic[torqueValuesCount] = { 0.4, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
-	float maxTorque = 4.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
+	float maxTorque = 150.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
 	float maxRpm = 7300.0f;       //макс кол-во оборотов
 	float engineFriction = 0.03f; //внутреннее трение двигателя
 	for (int i = 0; i < torqueValuesCount; i++)
