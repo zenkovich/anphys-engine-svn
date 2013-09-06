@@ -189,10 +189,11 @@ void VehicleChassis::derivedSolve( float dt )
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
 	{
+		float cc = f2lambda/f2lambda_;
 		float invCoef = 1.0f/sqrtf(fl);
 		f1lambda = f1lambda*invCoef*maxFriction*f1coef;
 		f2lambda = f2lambda*invCoef*maxFriction*f2coef;
-		f2lambda_ = f2lambda_*invCoef*maxFriction*f2coef;
+		f2lambda_ = f2lambda_*invCoef*maxFriction*f2coef*cc;
 		clampedFriction = true;
 	}
 
