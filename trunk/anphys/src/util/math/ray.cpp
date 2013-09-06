@@ -10,7 +10,16 @@ bool IntersectLinePolygon(const vec3& pa, const vec3& pb, const vec3& pc, const 
 	float ln = (lb - la).len();
 	vec3 dir = (lb - la)/ln;
 
-	if (norm*dir < 0) dir *= -1.0f;
+	bool invD = false;
+
+	if (ln < 0.01f)
+		return false;
+
+	if (norm*dir < 0) 
+	{
+		dir *= -1.0f;
+		invD = true;
+	}
 
 	vec3 v0 = pa, 
 		 v1 = pb, 
@@ -30,8 +39,16 @@ bool IntersectLinePolygon(const vec3& pa, const vec3& pb, const vec3& pc, const 
     vec3 qvec = tvec^edge1;
     float t = (edge2*qvec)/det;
 	
-	if (t < 0 || t > ln) 
-		return false;
+	if (invD)
+	{
+		if (t < -ln || t > 0)
+			return false;
+	}
+	else
+	{
+		if (t < 0 || t > ln) 
+			return false;
+	}
 
     float u = tvec*pvec;
 	if (u < 0 || u > det)
@@ -59,6 +76,9 @@ bool IntersectRayPolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt)
 	float ln = (lb - la).len();
 	vec3 dir = (lb - la)/ln;
 
+	if (ln < 0.01f)
+		return false;
+
 	vec3 v0 = pa, 
 		 v1 = pb, 
 		 v2 = pc;
@@ -77,7 +97,9 @@ bool IntersectRayPolygon(vec3 pa, vec3 pb, vec3 pc, vec3 la, vec3 lb, vec3 *pt)
 
     vec3 qvec = tvec ^ edge1;
     float t = (edge2*qvec)/det;
-
+	
+	if (t < 0 || t > ln)
+		return false;
 	
 	*pt = la + dir*t;
 

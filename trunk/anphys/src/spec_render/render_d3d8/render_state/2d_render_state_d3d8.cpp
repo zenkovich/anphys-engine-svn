@@ -44,7 +44,7 @@ void gr2DRenderStateBase::begin()
 	if (mPolygonCullMode == PCM_CLOCKWISE) polygonCullMode = D3DCULL_CW;
 	else                                   polygonCullMode = D3DCULL_CCW;
 
-	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_CULLMODE, polygonCullMode);
+	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	mRender->m_pDirect3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
