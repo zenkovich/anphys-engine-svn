@@ -7,6 +7,8 @@
 
 #if defined(RENDER_OGL)
 	#include "ogl/render_system_ogl.h"
+#elif defined(RENDER_D3D9C)
+	#include "d3d9c\render_system_d3d9c.h"
 #endif
 
 #endif //RENDER_SYSTEM_H

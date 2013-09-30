@@ -72,15 +72,15 @@ public:
 	/** Getting option. */
 	virtual void getOption(cApplicationOption::type option, ...) {}
 
-	/** Called on message processing. */
-	virtual void processMessage(cApplacationMessage::type message) {}
-
 protected:
 	/** Initializing all systems and log. Call it when creating applications*/
 	void initalizeSystems();
 
 	/** Deinitializing systems. */
 	void deinitializeSystems();
+
+	/** Called on message processing. */
+	virtual void processMessage(cApplacationMessage::type message) {}
 };
 
 CLOSE_O2_NAMESPACE

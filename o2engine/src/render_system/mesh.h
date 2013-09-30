@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 class grTexture;
 class grRenderSystem;
 
-/** Triangles mesh. COntaining verticies, indeces of polygons, texture. */
+/** Triangles mesh. Containing verticies, indeces of polygons, texture. */
 class grMesh
 {
 	friend class grRenderSystem;

@@ -13,7 +13,6 @@ class grRenderTarget:public grRenderTargetBaseInterface
 	friend class grRenderSystem;
 
 	GLuint mFrameBuffer; /**< Opengl framebuffer handle. */
-	bool   mReady;       /**< True, if we can use that rander target. */
 
 public:
 	/** ctor. */
@@ -25,9 +24,6 @@ public:
 	
 	/** dtor. */
 	~grRenderTarget();
-	
-	/** Returns true, if render target ready to use. */
-	bool isReady() const;
 
 protected:
 	void initializeBuffer();

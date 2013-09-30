@@ -13,7 +13,7 @@
 OPEN_O2_NAMESPACE
 
 grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, grTexture* texture ):
-	grRenderTargetBaseInterface(renderSystem, texture), mFrameBuffer(0), mReady(false)
+	grRenderTargetBaseInterface(renderSystem, texture), mFrameBuffer(0)
 {
 	if (!mRenderSystem || !mRenderTexture)
 		return;
@@ -23,7 +23,7 @@ grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, grTexture* texture
 
 grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, const vec2f& size /*= vec2f(0, 0)*/, 
 	                            grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
-	grRenderTargetBaseInterface(renderSystem, size, texFormat), mReady(false), mFrameBuffer(0)
+	grRenderTargetBaseInterface(renderSystem, size, texFormat), mFrameBuffer(0)
 {
 	if (!mRenderSystem || !mRenderTexture)
 		return;
@@ -61,11 +61,6 @@ void grRenderTarget::initializeBuffer()
 	mReady = true;
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER, 0);
-}
-
-bool grRenderTarget::isReady() const
-{
-	return mReady;
 }
 
 CLOSE_O2_NAMESPACE

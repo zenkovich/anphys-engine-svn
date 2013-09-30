@@ -16,6 +16,7 @@ class grRenderTargetBaseInterface
 protected:
 	grRenderSystem* mRenderSystem;  /**< Render system ptr. */
 	grTexture*      mRenderTexture; /**< Render texture ptr, usage must be RENDER_TARGET. */
+	bool            mReady;         /**< True, if we can use that rander target. */
 
 public:
 	/** ctor. */
@@ -34,11 +35,11 @@ public:
 	/** Unbinding this render target to render system. */
 	void unbind();
 
-	/** Returns true, if render target ready to use. */
-	virtual bool isReady() const { return false; }
-
 	/** Returns using render texture ptr. */
 	grTexture* getTexture() const;
+	
+	/** Returns true, if render target ready to use. */
+	bool isReady() const;
 };
 
 CLOSE_O2_NAMESPACE

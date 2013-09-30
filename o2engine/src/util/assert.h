@@ -9,6 +9,7 @@ OPEN_O2_NAMESPACE
 	if (!(x)) \
 	{ \
 		errorMessage(desc, __FILE__, __LINE__); \
+		_asm{ int 3 }; \
 	}
 
 void errorMessage(const char* desc, const char* file, long line);

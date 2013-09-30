@@ -5,6 +5,9 @@
  * Engine settings. 
  */
 
+/* Engine namespace. If not defined - no namespace. */
+#define ENGINE_NAMESPACE_NAME o2
+
 /* Using render system */
 //#define RENDER_OGL
 #define RENDER_D3D9C
@@ -27,5 +30,16 @@
 
 /* Global log file. */
 #define GLOBAL_LOG_FILENAME "log.txt"
+
+/* Memory manager logging. */
+#define MEMORY_TRACE
+
+/* Basic memory allocator. Variations: 
+ * -cStdAllocator: standart system allocator, see /util/mem_utils/std_allocator.h
+ * 
+ * BASIC_MEMORY_ALLOCATOR not defined - using standart system allocator */
+#define BASIC_MEMORY_ALLOCATOR cStdAllocator
+#define BASIC_MEMORY_ALLOCATOR_PARAMS 
+
 
 #endif //ENGINE_SETTINGS_H

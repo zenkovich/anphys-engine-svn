@@ -109,7 +109,7 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 		renderTarget = new o2::grRenderTarget(mRenderSystem);
 		sprite3 = new o2::grSprite(mRenderSystem, renderTarget->getTexture());
-		sprite3->setScale(o2::vec2f(0.3f, 0.3f));
+		sprite3->setScale(o2::vec2f(0.3f, 0.3f)).setPosition(o2::vec2f(mRenderSystem->getResolution().x - sprite3->getSize().x*0.3f, 0));
 
 		camera = new o2::grCamera();
 		
@@ -123,9 +123,16 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 void TestApp::onDraw()
 {
-	mRenderSystem->clear(o2::color4(0, 0, 0, 255));
+	mRenderSystem->clear(o2::color4(0, 100, 0, 255));
 
-	sprite->draw();
+	//
+	mRenderSystem->clearStencil();
+	mRenderSystem->beginRenderToStencilBuffer();
+	sprite2->draw();
+	mRenderSystem->endRenderToStencilBuffer();
+
+	mRenderSystem->enableStencilTest();
+	sprite->setPosition(o2::vec2f(50, 50)).draw();
 
 	mRenderSystem->bindRenderTarget(renderTarget);
 	mRenderSystem->clear(o2::color4(0, 0, 0, 255));
@@ -139,6 +146,8 @@ void TestApp::onDraw()
 	sprite2->setSize(mRenderSystem->getResolution().castTo<float>().scale(camera->mScale)).
 		     setAngle(o2::rad2deg(camera->mRotation)).
 			 setPosition(camera->mPosition).draw();
+
+	mRenderSystem->disableStencilTest();
 }
 
 void TestApp::drawBasis( o2::basis* bas )
