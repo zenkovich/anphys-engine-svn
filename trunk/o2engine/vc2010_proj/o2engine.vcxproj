@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\dependencies\zlib;..\dependencies;..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\pthreads;..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>..\src;$(SourcePath)</SourcePath>
@@ -50,8 +50,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\pthreads;..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
     <SourcePath>..\src;$(SourcePath)</SourcePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,7 +64,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +81,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\gl\glext.h" />
@@ -111,6 +117,8 @@
     <ClInclude Include="..\src\render_system\camera.h" />
     <ClInclude Include="..\src\render_system\d3d9c\d3d9c.h" />
     <ClInclude Include="..\src\render_system\d3d9c\render_system_d3d9c.h" />
+    <ClInclude Include="..\src\render_system\d3d9c\render_target_d3d9c.h" />
+    <ClInclude Include="..\src\render_system\d3d9c\texture_d3d9c.h" />
     <ClInclude Include="..\src\render_system\mesh.h" />
     <ClInclude Include="..\src\render_system\ogl\ogl.h" />
     <ClInclude Include="..\src\render_system\ogl\ogl_debug.h" />
@@ -128,6 +136,7 @@
     <ClInclude Include="..\src\util\anim\anim_obj.h" />
     <ClInclude Include="..\src\util\anim\param_animation.h" />
     <ClInclude Include="..\src\util\assert.h" />
+    <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
     <ClInclude Include="..\src\util\file_system\file_system.h" />
     <ClInclude Include="..\src\util\image\image.h" />
@@ -142,8 +151,14 @@
     <ClInclude Include="..\src\util\math\rect.h" />
     <ClInclude Include="..\src\util\math\vector2.h" />
     <ClInclude Include="..\src\util\math\vertex.h" />
+    <ClInclude Include="..\src\util\mem_utils\allocator_interface.h" />
+    <ClInclude Include="..\src\util\mem_utils\alloc_operators.h" />
+    <ClInclude Include="..\src\util\mem_utils\linear_allocator.h" />
+    <ClInclude Include="..\src\util\mem_utils\memory_manager.h" />
+    <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
+    <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +199,9 @@
     <ClCompile Include="..\src\app\application_base_interface.cpp" />
     <ClCompile Include="..\src\app\win\application_win.cpp" />
     <ClCompile Include="..\src\other\device_info.cpp" />
+    <ClCompile Include="..\src\render_system\d3d9c\render_system_d3d9c.cpp" />
+    <ClCompile Include="..\src\render_system\d3d9c\render_target_d3d9c.cpp" />
+    <ClCompile Include="..\src\render_system\d3d9c\texture_d3d9c.cpp" />
     <ClCompile Include="..\src\render_system\mesh.cpp" />
     <ClCompile Include="..\src\render_system\ogl\ogl_debug.cpp" />
     <ClCompile Include="..\src\render_system\ogl\ogl_ext_win.cpp" />
@@ -203,8 +221,14 @@
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
     <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
     <ClCompile Include="..\src\util\math\math.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\allocator_interface.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\alloc_operators.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\linear_allocator.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\memory_manager.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
+    <ClCompile Include="..\src\util\threads\thread.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />
     <ClCompile Include="..\src\util\log\log.cpp" />

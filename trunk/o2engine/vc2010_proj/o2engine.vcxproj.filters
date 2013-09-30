@@ -61,6 +61,9 @@
     <Filter Include="src\render_system\d3d9c">
       <UniqueIdentifier>{70f0f525-41e9-483a-a939-47db140c0a09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\threads">
+      <UniqueIdentifier>{6e789699-452a-4861-afa0-4f671284004f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -254,6 +257,33 @@
     <ClInclude Include="..\src\render_system\d3d9c\render_system_d3d9c.h">
       <Filter>src\render_system\d3d9c</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\render_system\d3d9c\texture_d3d9c.h">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\d3d9c\render_target_d3d9c.h">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\std_allocator.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\allocator_interface.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\memory_manager.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\alloc_operators.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\linear_allocator.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\threads\thread.h">
+      <Filter>src\util\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\callback.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -438,6 +468,33 @@
     </ClCompile>
     <ClCompile Include="..\src\other\device_info.cpp">
       <Filter>src\other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\d3d9c\render_system_d3d9c.cpp">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\d3d9c\texture_d3d9c.cpp">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\d3d9c\render_target_d3d9c.cpp">
+      <Filter>src\render_system\d3d9c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\memory_manager.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\alloc_operators.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\allocator_interface.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\linear_allocator.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\threads\thread.cpp">
+      <Filter>src\util\threads</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

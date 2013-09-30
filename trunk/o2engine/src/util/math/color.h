@@ -165,8 +165,8 @@ struct color4
 	{
 #ifdef RENDER_OGL
 		return ARGB();
-#elif defined(RENDER_D3D)
-		return ABGR()
+#elif defined(RENDER_D3D9C)
+		return ABGR();
 #endif
 	}
 
@@ -174,7 +174,7 @@ struct color4
 	{
 #ifdef RENDER_OGL
 		setARGB(color);
-#elif defined(RENDER_D3D)
+#elif defined(RENDER_D3D9C)
 		setABGR(color);
 #endif
 	}
@@ -183,7 +183,7 @@ struct color4
 	{
 #ifdef RENDER_OGL
 		return (unsigned long)( (a << 24) | (b << 16) | (g << 8) | r );
-#elif defined(RENDER_D3D)
+#elif defined(RENDER_D3D9C)
 		return (unsigned long)( (a << 24) | (r << 16) | (g << 8) | b );
 #endif
 	}

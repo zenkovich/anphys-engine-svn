@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* renderSystem, grTexture* texture ):
-	mRenderSystem(renderSystem)
+	mRenderSystem(renderSystem), mReady(false)
 {
 	if (!mRenderSystem)
 		return;
@@ -33,7 +33,7 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 
 grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* renderSystem, const vec2f& size /*= vec2f(0, 0)*/, 
 	                                                      grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
-	mRenderSystem(renderSystem)
+	mRenderSystem(renderSystem), mReady(false)
 {
 	if (!mRenderSystem)
 		return;
@@ -87,6 +87,11 @@ void grRenderTargetBaseInterface::unbind()
 grTexture* grRenderTargetBaseInterface::getTexture() const
 {
 	return mRenderTexture;
+}
+
+bool grRenderTargetBaseInterface::isReady() const
+{
+	return mReady;
 }
 
 CLOSE_O2_NAMESPACE

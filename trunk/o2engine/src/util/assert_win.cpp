@@ -15,8 +15,6 @@ void errorMessage( const char* desc, const char* file, long line )
 	//*gLog << message.c_str();
 
 	MessageBox(NULL, message, "Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
-		
-	ExitProcess ((UINT)-1);
 }
 
 CLOSE_O2_NAMESPACE

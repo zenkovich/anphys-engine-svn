@@ -49,10 +49,14 @@ void grTexture::create( grRenderSystem* renderSystem, const vec2f& size,
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	mReady = true;
 }
 
 void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 {
+	mRenderSystem = renderSystem;
+
 	cImage::Format imageFormat = image->getFormat();
 	if (imageFormat == cImage::FMT_NONE)
 		mFormat = grTexFormat::DEFAULT;
@@ -79,6 +83,8 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	mReady = true;
 }
 
 void grTexture::createFromFile( grRenderSystem* renderSystem, const std::string& fileName )

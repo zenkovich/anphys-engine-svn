@@ -8,11 +8,24 @@
 
 #include "engine_settings.h"
 
-/** Opening engine namespace macros. You can redefine it. */
-#define OPEN_O2_NAMESPACE namespace o2 {
+/* Engine namespace macros. */
+#ifdef ENGINE_NAMESPACE_NAME
 
-/** Closing engine namespace macros. You can redefine it. */
-#define CLOSE_O2_NAMESPACE }
+	/** Opening engine namespace macros. */
+	#define OPEN_O2_NAMESPACE namespace ENGINE_NAMESPACE_NAME {
+
+	/** Closing engine namespace macros.  */
+	#define CLOSE_O2_NAMESPACE }
+
+#else
+
+	/** Opening engine namespace macros. */
+	#define OPEN_O2_NAMESPACE
+
+	/** Closing engine namespace macros.  */
+	#define CLOSE_O2_NAMESPACE
+
+#endif //ENGINE_NAMESPACE_NAME
 
 /** Safe release object. */
 #define safe_release(obj) { if (obj != 0) delete obj; }
@@ -48,6 +61,12 @@ typedef long long          int64;
 #	pragma comment(lib, "odbc32.lib")
 #	pragma comment(lib, "odbccp32.lib")
 #elif defined(PLATFORM_WIN) && defined(RENDER_D3D9C)
+#	pragma comment(lib, __FILE__ "/../../dependencies/dx9c/Lib/d3d9.lib") // aww eeaaah bad ass combination
+#	pragma comment(lib, __FILE__ "/../../dependencies/dx9c/Lib/d3dx9.lib")
+#	pragma comment(lib, __FILE__ "/../../dependencies/pthreads/pthreadVC2.lib")
 #endif
+
+#include "util/mem_utils/memory_manager.h"
+#include "util/mem_utils/alloc_operators.h"
 
 #endif //PUBLIC_H
