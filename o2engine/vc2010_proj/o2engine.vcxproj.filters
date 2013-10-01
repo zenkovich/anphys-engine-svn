@@ -284,6 +284,12 @@
     <ClInclude Include="..\src\util\callback.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\threads\mutex.h">
+      <Filter>src\util\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\stack_allocator.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -495,6 +501,12 @@
     </ClCompile>
     <ClCompile Include="..\src\util\threads\thread.cpp">
       <Filter>src\util\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\threads\mutex.cpp">
+      <Filter>src\util\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\stack_allocator.cpp">
+      <Filter>src\util\mem_utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
