@@ -2,6 +2,7 @@
 
 #include "linear_allocator.h"
 #include "std_allocator.h"
+#include "pool_allocator.h"
 
 #include "util/log.h"
 #include "util/math/math.h"
