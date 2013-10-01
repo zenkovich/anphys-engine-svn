@@ -18,8 +18,8 @@
 	void* operator new(uint32 size, const char* location, int line);
 	void* operator new[](uint32 size, const char* location, int line);
 
-	void operator delete(void* ptr, const char* location, int line);
-	void operator delete[](void* ptr, const char* location, int line);
+	/*void operator delete(void* ptr, const char* location, int line);
+	void operator delete[](void* ptr, const char* location, int line);*/
 
 	#define mnew new (__FILE__, __LINE__) 
 	

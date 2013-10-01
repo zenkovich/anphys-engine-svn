@@ -155,6 +155,7 @@
     <ClInclude Include="..\src\util\mem_utils\alloc_operators.h" />
     <ClInclude Include="..\src\util\mem_utils\linear_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\memory_manager.h" />
+    <ClInclude Include="..\src\util\mem_utils\pool_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\stack_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="..\src\util\mem_utils\alloc_operators.cpp" />
     <ClCompile Include="..\src\util\mem_utils\linear_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\memory_manager.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\pool_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\stack_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
