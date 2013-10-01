@@ -1,5 +1,5 @@
-#ifndef LINEAR_ALLOCATOR_H
-#define LINEAR_ALLOCATOR_H
+#ifndef STACK_ALLOCATOR_H
+#define STACK_ALLOCATOR_H
 
 #include "allocator_interface.h"
 
@@ -7,7 +7,7 @@ OPEN_O2_NAMESPACE
 
 class cMutex;
 
-class cLinearAllocator:public IAllocator
+class cStackAllocator:public IAllocator
 {
 	IAllocator* mParentAllocator;
 	char*       mMemory;
@@ -16,15 +16,15 @@ class cLinearAllocator:public IAllocator
 	cMutex*     mMutex;
 
 public:
-	cLinearAllocator(uint32 size, IAllocator* parentAllocator = NULL);
-	~cLinearAllocator();
+	cStackAllocator(uint32 size, IAllocator* parentAllocator = NULL);
+	~cStackAllocator();
 
 	void* alloc(uint32 bytes);
 	void* realloc(void* ptr, uint32 bytes);
 	void free(void* ptr);
-	const char* getName() const { return "linear alloc"; }
+	const char* getName() const { return "stack alloc"; }
 };
 
 CLOSE_O2_NAMESPACE
 
-#endif //LINEAR_ALLOCATOR_H
+#endif //STACK_ALLOCATOR_H

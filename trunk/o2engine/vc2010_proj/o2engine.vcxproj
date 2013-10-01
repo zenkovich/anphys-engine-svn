@@ -155,9 +155,11 @@
     <ClInclude Include="..\src\util\mem_utils\alloc_operators.h" />
     <ClInclude Include="..\src\util\mem_utils\linear_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\memory_manager.h" />
+    <ClInclude Include="..\src\util\mem_utils\stack_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
+    <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
   </ItemGroup>
@@ -225,9 +227,11 @@
     <ClCompile Include="..\src\util\mem_utils\alloc_operators.cpp" />
     <ClCompile Include="..\src\util\mem_utils\linear_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\memory_manager.cpp" />
+    <ClCompile Include="..\src\util\mem_utils\stack_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
+    <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />

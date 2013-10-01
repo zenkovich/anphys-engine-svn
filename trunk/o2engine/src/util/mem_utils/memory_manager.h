@@ -8,6 +8,7 @@
 OPEN_O2_NAMESPACE
 
 class IAllocator;
+class cMutex;
 
 class cMemoryManager
 {
@@ -28,7 +29,8 @@ class cMemoryManager
 	typedef std::list<AllocSign> AllocSignsList;
 
 	AllocSignsList* mAllocSigns;
-	unsigned int    mUsedMemory;
+	uint32          mUsedMemory;
+	cMutex*         mAllocSignsMutex;
 
 	static cMemoryManager mStaticObj;
 
@@ -42,7 +44,7 @@ public:
 
 	static void dump();
 
-	static void registAlloc(void* memPtr, uint32 size, const char* source, unsigned short sourceLine, IAllocator* allocator);
+	static void registAlloc(void* memPtr, uint32 size, const char* source, unsigned int sourceLine, IAllocator* allocator);
 	static void unregistAlloc(void* memPtr);
 };
 

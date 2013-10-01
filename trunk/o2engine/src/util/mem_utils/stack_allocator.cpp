@@ -1,11 +1,11 @@
-#include "linear_allocator.h"
+#include "stack_allocator.h"
 
 #include "util/threads/mutex.h"
 #include "util/math/math.h"
 
 OPEN_O2_NAMESPACE
 
-cLinearAllocator::cLinearAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
+cStackAllocator::cStackAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
 	mParentAllocator(parentAllocator), mMemorySize(size)
 {
 	if (parentAllocator)
@@ -22,7 +22,7 @@ cLinearAllocator::cLinearAllocator( uint32 size, IAllocator* parentAllocator /*=
 	mUsedMemory = 0;
 }
 
-cLinearAllocator::~cLinearAllocator()
+cStackAllocator::~cStackAllocator()
 {
 	if (mParentAllocator)
 	{
@@ -36,8 +36,8 @@ cLinearAllocator::~cLinearAllocator()
 	safe_release(mMutex);
 }
 
-void* cLinearAllocator::alloc( uint32 bytes )
-{
+void* cStackAllocator::alloc( uint32 bytes )
+{	
 	mMutex->lock();
 
 	if (mUsedMemory + bytes >= mMemorySize)
@@ -53,11 +53,9 @@ void* cLinearAllocator::alloc( uint32 bytes )
 
 		mMutex->unlock();
 	}
-
-	return NULL;
 }
 
-void* cLinearAllocator::realloc( void* ptr, uint32 bytes )
+void* cStackAllocator::realloc( void* ptr, uint32 bytes )
 {
 	mMutex->lock();
 
@@ -69,8 +67,13 @@ void* cLinearAllocator::realloc( void* ptr, uint32 bytes )
 	return res;
 }
 
-void cLinearAllocator::free( void* ptr )
+void cStackAllocator::free( void* ptr )
 {
+	mMutex->lock();
+
+	mUsedMemory = (uint32)ptr - (uint32)mMemory;
+
+	mMutex->unlock();
 }
 
 CLOSE_O2_NAMESPACE
