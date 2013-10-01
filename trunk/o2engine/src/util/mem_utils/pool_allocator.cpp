@@ -74,7 +74,7 @@ void* cPoolAllocator::alloc( uint32 bytes )
 					mChunkSizes[j] = 0;				
 
 				for (uint32 j = i - reqChunks + 1; j < i; j++)
-					SetPixel(dc, j%1024, j/1024 + 20, RGB(255, 0, 0));
+					SetPixel(dc, j%1224, j/1224 + 20, RGB(255, 0, 0));
 
 				break;
 			}
@@ -105,7 +105,7 @@ void cPoolAllocator::free( void* ptr )
 	int idx = (uint32)((char*)ptr - mMemory)/mChunkSize;
 
 	for (uint32 i = idx; i < idx + mChunkSizes[idx]; i++)
-		SetPixel(dc, i%1024, i/1024 + 20, RGB(255, 255, 255));
+		SetPixel(dc, i%1224, i/1224 + 20, RGB(255, 255, 255));
 
 	mChunkSizes[idx] = 0;
 

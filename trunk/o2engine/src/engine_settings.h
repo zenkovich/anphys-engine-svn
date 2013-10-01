@@ -39,7 +39,7 @@
  * 
  * BASIC_MEMORY_ALLOCATOR not defined - using standart system allocator */
 #define BASIC_MEMORY_ALLOCATOR cPoolAllocator
-#define BASIC_MEMORY_ALLOCATOR_PARAMS 16*1024*1024
+#define BASIC_MEMORY_ALLOCATOR_PARAMS 24*1024*1024
 
 
 #endif //ENGINE_SETTINGS_H
