@@ -1,5 +1,0 @@
-Initializing OpenGL render..
-GL_VENDOR: ATI Technologies Inc.
-GL_RENDERER: AMD Radeon HD 6500 Series
-GL_VERSION: 4.1.10664 Compatibility Profile Context
-Created texture 'pic'

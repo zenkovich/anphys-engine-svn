@@ -293,6 +293,9 @@
     <ClInclude Include="..\src\util\mem_utils\pool_allocator.h">
       <Filter>src\util\mem_utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\mem_utils\test_allocator.h">
+      <Filter>src\util\mem_utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -512,6 +515,9 @@
       <Filter>src\util\mem_utils</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\mem_utils\pool_allocator.cpp">
+      <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp">
       <Filter>src\util\mem_utils</Filter>
     </ClCompile>
   </ItemGroup>
