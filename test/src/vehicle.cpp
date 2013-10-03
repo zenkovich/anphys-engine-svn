@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = true;
+	mDebugging = false;
 
 	int maxCollisionPoints = 50;
 
@@ -44,6 +44,7 @@ Vehicle::Vehicle()
 	mClutchCoef = 0;
 	mEngineTorque = 0;
 	mLastChangeGearTime = 0;
+	mAeroCoef1 = mAeroCoef3 = mAeroCoef2 = 0;
 
 	mTime = 0;
 }
@@ -107,6 +108,8 @@ void Vehicle::update( float dt )
 
 	solveCollisions(dt);
 	updateEngine(dt);
+
+	updateAerodynamics(dt);
 
 	mFrontLeftChassis->derivedSolve(dt);
 	mFrontRightChassis->derivedSolve(dt);
@@ -186,8 +189,7 @@ void Vehicle::updateEngine( float dt )
 		float fastestWheelSpeed = 0;
 		for (int i = 0; i < mDriveChassisCount; i++)
 		{
-			float wheelRadPlus = wheelsTorque*(mDriveChassisList[i]->mWheelInvInertia + 
-				                               mEngineInvInertia/(float)mDriveChassisCount);
+			float wheelRadPlus = wheelsTorque/(mDriveChassisList[i]->mWheelInertia + mEngineInertia*mResDriveCoef);
 
 			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
 				fastestWheelSpeed = mDriveChassisList[i]->mWheelAngVelocity;
@@ -195,7 +197,7 @@ void Vehicle::updateEngine( float dt )
 			mDriveChassisList[i]->mWheelAngVelocity += wheelRadPlus/2.0f/3.1415926f;
 		}
 
-		fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
+		//fastestWheelSpeed = mDriveChassisList[0]->mWheelAngVelocity;
 
 		if (mCurrentGear != 1 && mClutchCoef > 0.11f)
 		{
@@ -207,7 +209,7 @@ void Vehicle::updateEngine( float dt )
 			printf("vel = %.3f/%.3f rpm = %.1f/%.1f gear %i t1 %.2f t2 %.2f\n", -fastestWheelSpeed*2.0f*3.1415926*mDriveChassisList[0]->mWheelRadius*3.6f, mVelocity.len()*3.6f, mEngineRpm, fastestWheelSpeed, mCurrentGear, engineTorque, wheelsTorque/dt);
 	}
 	else
-		printf("RPM = %.3f\n", mEngineRpm);
+		if (mDebugging) printf("RPM = %.3f\n", mEngineRpm);
 }
 
 float Vehicle::getEngineTorqueFromGraphic()
@@ -631,6 +633,45 @@ void Vehicle::setupLanscapeFrtCoefs( float* coefs, int count /*= 256*/ )
 {
 	for (int i = 0; i < count; i++)
 		mLandscapeFrtCoefs[i] = coefs[i];
+}
+
+float Vehicle::getLandscapeDepthCoef( unsigned char id )
+{
+	return mLandscapeDepthCoefs[id];
+}
+
+void Vehicle::setupLanscapeDepthCoefs( float* coefs, int count /*= 256*/ )
+{
+	for (int i = 0; i < count; i++)
+		mLandscapeDepthCoefs[i] = coefs[i];
+}
+
+void Vehicle::setupAeroCoefs( float aeroFriction, const vec3& aeroPoint1, float aeroCoef1, const vec3& aeroPoint2, float aeroCoef2, const vec3& aeroPoint3, float aeroCoef3 )
+{
+	mAeroFriction = aeroFriction;
+	mAeroCoef1 = aeroCoef1;
+	mAeroPoint1 = aeroPoint1;
+	mAeroPoint2 = aeroPoint2;
+	mAeroPoint3 = aeroPoint3;
+}
+
+void Vehicle::updateAerodynamics( float dt )
+{
+	vec3 zvec = mOrient.getZVector();
+	vec3 yvec = mOrient.getYVector();
+	vec3 xvec = mOrient.getXVector();
+	
+	float zvproj = mVelocity*zvec;
+	float xvproj = mVelocity*xvec;
+
+	/*printf("%.2 %.2f %.2f %.2f %.2f\n", xvproj*xvproj*mAeroFriction*2.0f*dt, zvproj*zvproj*mAeroFriction*dt,
+		zvproj*zvproj*mAeroCoef1*dt, zvproj*zvproj*mAeroCoef2*dt, zvproj*zvproj*mAeroCoef3*dt);*/
+
+	mVelocity -= xvec*(xvproj*xvproj*mAeroFriction*2.0f*dt) + zvec*(zvproj*zvproj*mAeroFriction*dt);
+	
+	applyImpulse(mAeroPoint1, yvec*(-zvproj*zvproj*mAeroCoef1*dt));
+	applyImpulse(mAeroPoint2, yvec*(-zvproj*zvproj*mAeroCoef2*dt));
+	applyImpulse(mAeroPoint3, yvec*(-zvproj*zvproj*mAeroCoef3*dt));
 }
 
 }

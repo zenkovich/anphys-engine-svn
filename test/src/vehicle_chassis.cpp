@@ -169,7 +169,7 @@ void VehicleChassis::derivedSolve( float dt )
 	float w = mWheelAngVelocity + f2lambda*mWheelRadius*mWheelInvInertia/2.0f/3.1415926f;
 
 	vec3 vp = nv*f2n1 + f2w1*nw + n3*w*mWheelRadius*2.0f*3.1415926f;
-	printf("vp = %.2f %.2f", vp.len(), w);
+	//printf("vp = %.2f %.2f", vp.len(), w);
 
 	float fl = f2lambda*f2lambda + f1lambda*f1lambda;
 	if (mFrictionValues)
@@ -189,11 +189,9 @@ void VehicleChassis::derivedSolve( float dt )
 	bool clampedFriction = false;
 	if (fl > maxFriction*maxFriction)
 	{
-		float cc = f2lambda/f2lambda_;
 		float invCoef = 1.0f/sqrtf(fl);
 		f1lambda = f1lambda*invCoef*maxFriction*f1coef;
 		f2lambda = f2lambda*invCoef*maxFriction*f2coef;
-		f2lambda_ = f2lambda_*invCoef*maxFriction*f2coef*cc;
 		clampedFriction = true;
 	}
 
@@ -203,8 +201,9 @@ void VehicleChassis::derivedSolve( float dt )
 
 	//mWheelTorque += wheelTorq/2.0f/3.1415926f*mWheelRadius;
 	//mWheelTorque += f2lambda/2.0f/3.1415926f*mWheelRadius;
-
-	mWheelTorque += f2n1*zvec*f2lambda_*mWheelRadius*mWheelInvInertia/2.0f/3.1415926f;
+	
+	f2lambda_ = sign(f2lambda_)*fmin(fabs(f2lambda_), fabs(maxFriction));
+	mWheelTorque += f2lambda_*mWheelRadius*mWheelInvInertia/2.0f/3.1415926f;
 
 	vec3 Jf = mCollisionPoint.t1*f1lambda + mCollisionPoint.t2*f2lambda;
 	mVehicle->applyImpulse(mCollisionPoint.mPoint, Jf);
@@ -434,6 +433,10 @@ void VehicleChassis::checkCollision()
 		float ca = mVehicle->getLandscapeFrtCoef(fa);
 		float cb = mVehicle->getLandscapeFrtCoef(fb);
 		float cc = mVehicle->getLandscapeFrtCoef(fc);
+		
+		float da = mVehicle->getLandscapeDepthCoef(fa);
+		float db = mVehicle->getLandscapeDepthCoef(fb);
+		float dc = mVehicle->getLandscapeDepthCoef(fc);
 
 		float delim = B.x*C.y - B.y*C.x;
 		if (fabs(delim) < 0.00001f)
@@ -448,6 +451,8 @@ void VehicleChassis::checkCollision()
 		float d = (P.y*C.x - C.y*P.x)/delim2;
 
 		mCollisionFrtCoef = ca + d*(cb - ca) + e*(cc - ca);
+
+		mCollisionPoint.mDepth -= da + d*(db - da) + e*(dc - da);
 
 		mCollisionFrtCoefIdx = fa;
 		//printf("cc = %.3f (%.3f - %.3f) %.3f %.3f %.3f %i %i %i\n", mCollisionFrtCoef, e, d, ca, cb, cc, fa, fb, fc);
@@ -507,6 +512,25 @@ float VehicleChassis::getFrictionValue( float force )
 	float value2 = mFrictionValues[idx + 1];
 
 	return value1 + (value2 - value1)*scoef;
+}
+
+void VehicleChassis::getSupportPostition( float* positionVec )
+{	
+	vec3 locPos = (mGlobalPosition + mGlobalAxis.getYVector()*mPosition - mVehicle->mPosition)*mVehicle->mOrient.inverse();
+	vmask(positionVec, locPos);
+}
+
+void VehicleChassis::getSupportOrientation( float* orientMatrix )
+{	
+	mat3x3 m1;
+	if (mInvertedSide)
+		m1 = rotatedZMatrix(3.1415926f);
+
+	mat3x3 worldOrient = m1*mGlobalAxis;
+
+	mat3x3 locOrient = worldOrient*mVehicle->mOrient.inverse();
+
+	mmask(orientMatrix, locOrient);
 }
 
 }

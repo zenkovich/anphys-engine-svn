@@ -84,6 +84,9 @@ struct VehicleChassis
 
 	void getPosition(float* positionVec);
 	void getOrientation(float* orientMatrix);
+	
+	void getSupportPostition(float* positionVec);
+	void getSupportOrientation(float* orientMatrix);
 
 	float getFrictionValue(float force);
 

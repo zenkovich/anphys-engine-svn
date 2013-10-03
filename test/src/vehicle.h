@@ -82,6 +82,14 @@ struct Vehicle
 	float               mHandBrakeCoef;
 	float               mSteerWheelAngle;
 	float               mClutchCoef;
+	
+	vec3                mAeroPoint1;
+	vec3                mAeroPoint2;
+	vec3                mAeroPoint3;
+	float               mAeroFriction;
+	float               mAeroCoef1;
+	float               mAeroCoef2;
+	float               mAeroCoef3;
 
 //pointer to landscape polygons buffer
 	lPolygon**          mPolygonsBuffer;
@@ -92,8 +100,9 @@ struct Vehicle
 	float mTime;
 
 	float               mLastChangeGearTime;
-
+	
 	float               mLandscapeFrtCoefs[256];
+	float               mLandscapeDepthCoefs[256];
 
 	bool                mDebugging;
 
@@ -115,9 +124,16 @@ struct Vehicle
 	
 	void pushDbgLine(const vec3& p1, const vec3& p2, float cr, float cg, float cb, float ca);
 	void pushDbgPoint(const vec3& p1, float cr, float cg, float cb, float ca);
-
+	
 	float getLandscapeFrtCoef(unsigned char id);
 	void setupLanscapeFrtCoefs(float* coefs, int count = 256);
+
+	float getLandscapeDepthCoef(unsigned char id);
+	void setupLanscapeDepthCoefs(float* coefs, int count = 256);
+
+	void setupAeroCoefs(float aeroFriction, const vec3& aeroPoint1, float aeroCoef1,
+		                                    const vec3& aeroPoint2, float aeroCoef2,
+		                                    const vec3& aeroPoint3, float aeroCoef3);
 	
 protected:
 	void updateCollisionGeometry();
@@ -125,6 +141,7 @@ protected:
 	void solveCollisions(float dt);
 
 	void updateEngine(float dt);
+	void updateAerodynamics(float dt);
 
 	void solveEngineWheelDrive(  );
 
