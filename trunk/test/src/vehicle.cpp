@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = false;
+	mDebugging = true;
 
 	int maxCollisionPoints = 50;
 
@@ -139,7 +139,7 @@ void Vehicle::update( float dt )
 
 	mLastChangeGearTime += dt;
 
-	/*if (mDebugging)
+	if (mDebugging)
 	{
 		if (mCurrentGear > 0 && mEngineRpm > 6100 && mLastChangeGearTime > 0.5f)
 		{
@@ -154,7 +154,7 @@ void Vehicle::update( float dt )
 			mLastChangeGearTime = 0;
 			printf("gear down %i\n", mCurrentGear - 1);
 		}
-	}*/
+	}
 }
 
 void Vehicle::updateEngine( float dt )
@@ -650,6 +650,8 @@ void Vehicle::setupAeroCoefs( float aeroFriction, const vec3& aeroPoint1, float 
 {
 	mAeroFriction = aeroFriction;
 	mAeroCoef1 = aeroCoef1;
+	mAeroCoef2 = aeroCoef2;
+	mAeroCoef3 = aeroCoef3;
 	mAeroPoint1 = aeroPoint1;
 	mAeroPoint2 = aeroPoint2;
 	mAeroPoint3 = aeroPoint3;
@@ -657,6 +659,8 @@ void Vehicle::setupAeroCoefs( float aeroFriction, const vec3& aeroPoint1, float 
 
 void Vehicle::updateAerodynamics( float dt )
 {
+	//return;
+
 	vec3 zvec = mOrient.getZVector();
 	vec3 yvec = mOrient.getYVector();
 	vec3 xvec = mOrient.getXVector();
@@ -667,11 +671,24 @@ void Vehicle::updateAerodynamics( float dt )
 	/*printf("%.2 %.2f %.2f %.2f %.2f\n", xvproj*xvproj*mAeroFriction*2.0f*dt, zvproj*zvproj*mAeroFriction*dt,
 		zvproj*zvproj*mAeroCoef1*dt, zvproj*zvproj*mAeroCoef2*dt, zvproj*zvproj*mAeroCoef3*dt);*/
 
-	mVelocity -= xvec*(xvproj*xvproj*mAeroFriction*2.0f*dt) + zvec*(zvproj*zvproj*mAeroFriction*dt);
+	vec3 frImp = xvec*(xvproj*xvproj*mAeroFriction*2.0f*dt) + zvec*(zvproj*zvproj*mAeroFriction*dt);
+	mVelocity -= frImp;
 	
-	applyImpulse(mAeroPoint1, yvec*(-zvproj*zvproj*mAeroCoef1*dt));
-	applyImpulse(mAeroPoint2, yvec*(-zvproj*zvproj*mAeroCoef2*dt));
-	applyImpulse(mAeroPoint3, yvec*(-zvproj*zvproj*mAeroCoef3*dt));
+	vec3 p1 = mPosition + mAeroPoint1*mOrient;
+	vec3 p2 = mPosition + mAeroPoint2*mOrient;
+	vec3 p3 = mPosition + mAeroPoint3*mOrient;
+	
+	applyImpulse(p1, yvec*(-zvproj*zvproj*mAeroCoef1*dt));
+	applyImpulse(p2, yvec*(-zvproj*zvproj*mAeroCoef2*dt));
+	applyImpulse(p3, yvec*(-zvproj*zvproj*mAeroCoef3*dt));
+	
+	pushDbgLine(mPosition, mPosition - frImp/dt, 1, 0, 0, 1);
+	pushDbgLine(p1, p1 + yvec*(-zvproj*zvproj*mAeroCoef1*dt), 0, 1, 0, 1);
+	pushDbgLine(p2, p2 + yvec*(-zvproj*zvproj*mAeroCoef2*dt), 0, 0, 1, 1);
+	pushDbgLine(p3, p3 + yvec*(-zvproj*zvproj*mAeroCoef3*dt), 1, 1, 0, 1);
+	pushDbgPoint(p1, 0, 1, 0, 1);
+	pushDbgPoint(p2, 0, 0, 1, 1);
+	pushDbgPoint(p3, 1, 1, 0, 1);
 }
 
 }
