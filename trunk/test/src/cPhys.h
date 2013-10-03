@@ -34,6 +34,7 @@ public:
 	void getWheelOrient(float* matr, int idx);
 	unsigned char getWheelFrictionCoefIdx(int idx);
 	float getWheelSlideCoef(int idx);
+	float getWheelRPM(int idx);
 
 	int getDbgLinesCount();
 	void getDbgLine(int idx, float* p1, float* p2, float* colr);

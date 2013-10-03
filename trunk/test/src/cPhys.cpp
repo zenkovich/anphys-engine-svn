@@ -55,8 +55,8 @@ cCar::cCar(vec3& Position, quat& Rotation)
 
 	//параметры двигателя/трансмиссии
 	const int torqueValuesCount = 8;  //количество значений графика
-	float torqueGraphic[torqueValuesCount] = { 0.4, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
-	float maxTorque = 150.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
+	float torqueGraphic[torqueValuesCount] = { 0.2, 0.64f, 0.84f, 0.99f, 0.96f, 1.0f, 0.92f, 0.2f }; //приблизительный единичный график крутящего момента
+	float maxTorque = 500.0f;     //макс крутящий момент. !! Впринципе достаточно менять его и макс. кол-во оборотов
 	float maxRpm = 7300.0f;       //макс кол-во оборотов
 	float engineFriction = 0.03f; //внутреннее трение двигателя
 	for (int i = 0; i < torqueValuesCount; i++)
@@ -72,6 +72,8 @@ cCar::cCar(vec3& Position, quat& Rotation)
 	float topgear = 3.9f; //главная пара
 
 	Vehicle->setGearBoxParametres(gears, gearsCount, topgear, physics::Vehicle::WD_FULL);
+	Vehicle->setupAeroCoefs(0.01f, physics::vec3(0, -1.0f, -2), 0.01f, physics::vec3(0, 0, 0), 0.01f, 
+		physics::vec3(0, 0.6f, 2), 0.1f);
 
 	//точки геометрии, сталкивающейся с ландшафтом
 	//в данном случае заполняются 8 точек для параллелепипеда
@@ -97,6 +99,13 @@ cCar::cCar(vec3& Position, quat& Rotation)
 	frictionCoefs[3] = 0.5f;
 
 	Vehicle->setupLanscapeFrtCoefs(frictionCoefs, 4);
+	
+	float depthCoefs[256];
+	memset(depthCoefs, 0, sizeof(float)*256);
+	depthCoefs[0] = 0.0f;
+	depthCoefs[3] = 0.0f;
+
+	Vehicle->setupLanscapeDepthCoefs(depthCoefs, 4);
 }
 
 vec3 cCar::getPosition(){
@@ -217,6 +226,18 @@ float cCar::getWheelSlideCoef( int idx )
 		return Vehicle->mRearLeftChassis->mSlideCoef;
 
 	return Vehicle->mRearRightChassis->mSlideCoef;
+}
+
+float cCar::getWheelRPM( int idx )
+{
+	if (idx == 0) 
+		return Vehicle->mFrontLeftChassis->mWheelAngVelocity*60.0f;
+	if (idx == 1) 
+		return Vehicle->mFrontRightChassis->mWheelAngVelocity*60.0f;
+	if (idx == 2) 
+		return Vehicle->mRearLeftChassis->mWheelAngVelocity*60.0f;
+
+	return Vehicle->mRearRightChassis->mWheelAngVelocity*60.0f;
 }
 
 int cCar::getDbgLinesCount()
