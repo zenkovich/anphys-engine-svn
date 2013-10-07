@@ -51,6 +51,26 @@
 		#endif
 	}
 
+	void operator delete(void* ptr, const char* location, int line)
+	{
+		#ifdef BASIC_MEMORY_ALLOCATOR
+			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+		#else
+			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			free(ptr);
+		#endif
+	}
+
+	void operator delete[](void* ptr, const char* location, int line)
+	{
+		#ifdef BASIC_MEMORY_ALLOCATOR
+			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+		#else
+			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			free(ptr);
+		#endif
+	}
+
 	#ifdef FAKE_ENGINE_NAMESPACE_DEF
 		#undef ENGINE_NAMESPACE_NAME
 		#undef FAKE_ENGINE_NAMESPACE_DEF

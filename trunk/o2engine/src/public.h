@@ -27,12 +27,6 @@
 
 #endif //ENGINE_NAMESPACE_NAME
 
-/** Safe release object. */
-#define safe_release(obj) { if (obj != 0) delete obj; }
-
-/** Safe release array object. */
-#define safe_release_arr(obj) { if (obj != 0) delete[] obj; }
-
 //some includes
 #include "util/assert.h"
 #include <string>

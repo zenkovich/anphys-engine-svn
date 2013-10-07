@@ -10,20 +10,22 @@ cLinearAllocator::cLinearAllocator( uint32 size, IAllocator* parentAllocator /*=
 {
 	if (parentAllocator)
 	{
-		mMemory = (char*)ALLOC(parentAllocator, size);
+		mMemory = (char*)ALLOC(parentAllocator, size + sizeof(cMutex));
 	}
 	else
 	{
-		mMemory = (char*)malloc(size);
+		mMemory = (char*)malloc(size + sizeof(cMutex));
 	}
 
-	mMutex = mnew cMutex;
+	mMutex = new (mMemory + mMemorySize) cMutex;
 
 	mUsedMemory = 0;
 }
 
 cLinearAllocator::~cLinearAllocator()
 {
+	mMutex->~cMutex();
+
 	if (mParentAllocator)
 	{
 		FREE(mParentAllocator, mMemory);
@@ -32,41 +34,23 @@ cLinearAllocator::~cLinearAllocator()
 	{
 		free(mMemory);
 	}
-
-	safe_release(mMutex);
 }
 
 void* cLinearAllocator::alloc( uint32 bytes )
 {
 	mMutex->lock();
 
-	if (mUsedMemory + bytes >= mMemorySize)
-	{
-		return NULL;
-		mMutex->unlock();
-	}
-	else
+	void* res = NULL;
+
+	if (mUsedMemory + bytes < mMemorySize)
 	{
 		void* res = mMemory + mUsedMemory;
 		mUsedMemory +=  bytes;
-		return res;
-
-		mMutex->unlock();
 	}
-
-	return NULL;
-}
-
-void* cLinearAllocator::realloc( void* ptr, uint32 bytes )
-{
-	mMutex->lock();
-
-	void* res = alloc(bytes);
-	memcpy(res, ptr, min<uint32>(bytes, mMemory + mUsedMemory - (char*)ptr));
 
 	mMutex->unlock();
 
-	return res;
+	return NULL;
 }
 
 void cLinearAllocator::free( void* ptr )
