@@ -7,21 +7,31 @@ OPEN_O2_NAMESPACE
 
 class cMutex;
 
+/** Linear allocator. */
 class cLinearAllocator:public IAllocator
 {
-	IAllocator* mParentAllocator;
-	char*       mMemory;
-	uint32      mMemorySize;
-	uint32      mUsedMemory;
-	cMutex*     mMutex;
+	IAllocator* mParentAllocator; /**< Parent allocator. This allocator allocates memory from parent allocator. 
+								    *  If parent allocator not specified, using system allocator. */
+
+	char*       mMemory;          /**< Memory ptr. */
+	uint32      mMemorySize;      /**< Size of memory. */
+	uint32      mUsedMemory;      /**< Size of used memory. */
+	cMutex*     mMutex;           /**< Mutex. */
 
 public:
+	/** ctor. */
 	cLinearAllocator(uint32 size, IAllocator* parentAllocator = NULL);
+
+	/** dtor. */
 	~cLinearAllocator();
 
+	/** Allocates bytes memory. */
 	void* alloc(uint32 bytes);
-	void* realloc(void* ptr, uint32 bytes);
+
+	/** Frees memory by pointer. */
 	void free(void* ptr);
+
+	/** Returns allocator identificator. */
 	const char* getName() const { return "linear alloc"; }
 };
 

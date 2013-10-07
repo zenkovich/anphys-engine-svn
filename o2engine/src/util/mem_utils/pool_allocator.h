@@ -12,16 +12,18 @@ class cPoolAllocator:public IAllocator
 {
 	IAllocator* mParentAllocator;
 
-	char*       mBasicMemory;
-	char*       mMemory;
-	uint32      mMemorySize;
-	uint16      mChunkSize;
-	uint32      mChunksCount;
-	uint32*     mChunkSizes;
+	struct chunk
+	{
+		char* mData;
+	};
 
-	HDC dc;
-
-	cMutex*     mMutex;
+	char*   mMemory;
+	char*   mHead;
+	uint32  mMemorySize;
+	uint16  mChunkSize;
+	uint32  mChunksCount;
+	
+	cMutex* mMutex;
 
 public:
 	cPoolAllocator(uint32 chunksCount, uint16 chunkSize = 16, IAllocator* parentAllocator = NULL);

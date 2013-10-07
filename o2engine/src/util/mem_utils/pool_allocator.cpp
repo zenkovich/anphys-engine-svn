@@ -5,6 +5,8 @@
 
 OPEN_O2_NAMESPACE
 
+	//void mfree(void* ptr) { free(ptr); }
+
 cPoolAllocator::cPoolAllocator( uint32 chunksCount, uint16 chunkSize /*= 4*/, IAllocator* parentAllocator /*= NULL*/ ):
 	mParentAllocator(parentAllocator)
 {
@@ -12,104 +14,73 @@ cPoolAllocator::cPoolAllocator( uint32 chunksCount, uint16 chunkSize /*= 4*/, IA
 	mChunkSize = chunkSize;
 	mChunksCount = chunksCount;
 
-	uint32 offs = chunksCount*sizeof(uint32);
+	uint32 mutexSize = sizeof(cMutex);
 
 	if (parentAllocator)
 	{
-		mBasicMemory = (char*)ALLOC(parentAllocator, mMemorySize + offs);
+		mMemory = (char*)ALLOC(parentAllocator, mMemorySize + mutexSize);
 	}
 	else
 	{
-		mBasicMemory = (char*)malloc(mMemorySize + offs);
+		mMemory = (char*)malloc(mMemorySize + mutexSize);
 	}
-	mMemory = mBasicMemory + offs;
 
-	mChunkSizes = (uint32*)mBasicMemory;
-	memset(mChunkSizes, 0, offs);
+	for (uint32 i = 0; i < mChunksCount - 1; i++)
+	{
+		*(uint32*)(mMemory + i*mChunkSize) = (uint32)(mMemory + (i + 1)*mChunkSize);
+	}
+	*(uint32*)(mMemory + (mChunksCount - 1)*mChunkSize) = NULL;
 
-	dc = GetDC(NULL);
+	mHead = mMemory;
 
-	//mMutex = mnew cMutex;
+	mMutex = new (mMemory + mMemorySize) cMutex;
 }
 
 cPoolAllocator::~cPoolAllocator()
 {
+	mMutex->~cMutex();
+
 	if (mParentAllocator)
 	{
-		FREE(mParentAllocator, mBasicMemory);
+		FREE(mParentAllocator, mMemory);
 	}
 	else
 	{
-		//free(mBasicMemory);
+		mfree(mMemory);
 	}
-
-	//safe_release(mMutex);
 }
 
 void* cPoolAllocator::alloc( uint32 bytes )
 {	
-	//mMutex->lock();
+	mMutex->lock();
 
-	uint32 reqChunks = bytes/4 + ( bytes%4 > 0 ? 1:0 );
+	if (!mHead)
+		return NULL;
 
-	void* res = NULL;
+	void* res = mHead;
+	mHead = (char*)(*(uint32*)mHead);
 
-	uint32 curFreeChunksCount = 0;
-	for (uint32 i = 0; i < mChunksCount; i++)
-	{
-		if (mChunkSizes[i] > 0)
-		{
-			curFreeChunksCount = 0;
-			i += mChunkSizes[i] - 1;
-		}
-		else
-		{
-			curFreeChunksCount++;
-			if (curFreeChunksCount == reqChunks)
-			{
-				res = mMemory + (i - reqChunks + 1)*mChunkSize;
-				mChunkSizes[i - reqChunks + 1] = curFreeChunksCount;
-
-				for (uint32 j = i - reqChunks + 2; j < i; j++)
-					mChunkSizes[j] = 0;				
-
-				for (uint32 j = i - reqChunks + 1; j < i; j++)
-					SetPixel(dc, j%1224, j/1224 + 20, RGB(255, 0, 0));
-
-				break;
-			}
-		}
-	}
-
-	//mMutex->unlock();
+	mMutex->unlock();
 
 	return res;
 }
 
 void* cPoolAllocator::realloc( void* ptr, uint32 bytes )
 {
-	//mMutex->lock();
-	
-	//mMutex->unlock();
-
 	return ptr;
 }
 
 void cPoolAllocator::free( void* ptr )
 {
-	//mMutex->lock();
+	mMutex->lock();
 
 	if (!ptr)
 		return;
+	
+	*(uint32*)(ptr) = (uint32)(mHead);
+	mHead = (char*)ptr;
 
-	int idx = (uint32)((char*)ptr - mMemory)/mChunkSize;
-
-	for (uint32 i = idx; i < idx + mChunkSizes[idx]; i++)
-		SetPixel(dc, i%1224, i/1224 + 20, RGB(255, 255, 255));
-
-	mChunkSizes[idx] = 0;
-
-	//mMutex->unlock();
+	mMutex->unlock();
 }
 
 CLOSE_O2_NAMESPACE

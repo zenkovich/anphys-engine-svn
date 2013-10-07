@@ -4,9 +4,6 @@
 
 OPEN_O2_NAMESPACE
 
-void* mrealloc(void* ptr, uint32 newSize) { return realloc(ptr, newSize); }
-void mfree(void*ptr) { free(ptr); }
-
 cStdAllocator::cStdAllocator()
 {
 
