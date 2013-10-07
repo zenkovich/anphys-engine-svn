@@ -139,6 +139,7 @@
     <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
     <ClInclude Include="..\src\util\file_system\file_system.h" />
+    <ClInclude Include="..\src\util\graphics\stretch_rect.h" />
     <ClInclude Include="..\src\util\image\image.h" />
     <ClInclude Include="..\src\util\image\png_image_format.h" />
     <ClInclude Include="..\src\util\input\input_message.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="..\src\util\assert_win.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />
+    <ClCompile Include="..\src\util\graphics\stretch_rect.cpp" />
     <ClCompile Include="..\src\util\image\image.cpp" />
     <ClCompile Include="..\src\util\image\png_image_format.cpp" />
     <ClCompile Include="..\src\util\input\input_message.cpp" />
