@@ -64,6 +64,12 @@
     <Filter Include="src\util\threads">
       <UniqueIdentifier>{6e789699-452a-4861-afa0-4f671284004f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{3220bbbf-be57-45df-a887-6eaf93f0ac9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\graphics">
+      <UniqueIdentifier>{b4650c30-3978-4cb3-b08f-d50f1235ce0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -296,6 +302,9 @@
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h">
       <Filter>src\util\mem_utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\graphics\stretch_rect.h">
+      <Filter>src\util\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -519,6 +528,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp">
       <Filter>src\util\mem_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\graphics\stretch_rect.cpp">
+      <Filter>src\util\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
