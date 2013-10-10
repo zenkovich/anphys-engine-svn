@@ -305,6 +305,9 @@
     <ClInclude Include="..\src\util\graphics\stretch_rect.h">
       <Filter>src\util\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\xml_tools.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -531,6 +534,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\graphics\stretch_rect.cpp">
       <Filter>src\util\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\xml_tools.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

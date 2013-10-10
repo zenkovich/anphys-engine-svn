@@ -7,6 +7,11 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
+	std::string str = "123/312";
+	int p = str.find('*');
+	std::string ss = str.substr(0, p);
+
+
 	TestApp app;
 
 	o2::cPoolAllocator poolAllocator(4, 4*1024);

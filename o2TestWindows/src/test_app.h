@@ -34,8 +34,6 @@ public:
 	void processMessage(o2::cApplacationMessage::type message);
 
 	void drawBasis(o2::basis* bas);
-
-	void assTest();
 };
 
 #endif //TEST_APP_H

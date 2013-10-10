@@ -91,8 +91,8 @@ void TestApp::onUpdate( float dt )
 		camera->mScale.y *= 1.0f + 0.5f*dt;
 	}
 
-	if (mInputMessage.isKeyPressed('T'))
-		assTest();
+	/*if (mInputMessage.isKeyPressed('T'))
+		assTest();*/
 	
 }
 
@@ -167,30 +167,4 @@ void TestApp::drawBasis( o2::basis* bas )
 							   o2::vertex2(bas->offs.x + bas->yv.x*basisSize, bas->offs.y + bas->yv.y*basisSize, greenColor, 0, 0) };
 
 	mRenderSystem->drawLines(linesBuf, 2);
-}
-
-void TestApp::assTest()
-{
-	int cnt = 128;
-
-	char** pp = new char*[cnt];
-	int* lf = new int[cnt];
-
-	for (int i = 0; i < cnt - 2; i++)
-	{
-		char* p = mnew char[rand()%(128)];
-		pp[i] = p;
-		lf[i] = i + rand()%(cnt - 1 - i);
-
-		for (int j = 0; j < i; j++)
-		{
-			if (lf[j] == i)
-				safe_release_arr(pp[i]);
-		}
-
-		Sleep(330);
-	}
-
-	safe_release_arr(pp);
-	safe_release_arr(lf);
 }

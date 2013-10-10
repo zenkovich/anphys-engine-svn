@@ -13,9 +13,15 @@
     <ClCompile Include="src\test_app.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\man_field.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\test_app.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\man_field.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
