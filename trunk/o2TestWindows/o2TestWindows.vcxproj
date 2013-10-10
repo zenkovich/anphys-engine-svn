@@ -76,9 +76,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main_win.cpp" />
+    <ClCompile Include="src\man_field.cpp" />
     <ClCompile Include="src\test_app.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\man_field.h" />
     <ClInclude Include="src\test_app.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

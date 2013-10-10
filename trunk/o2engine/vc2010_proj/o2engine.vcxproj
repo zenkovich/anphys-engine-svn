@@ -165,6 +165,7 @@
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
+    <ClInclude Include="..\src\util\xml_tools.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\dependencies\libpng\png.c" />
@@ -240,6 +241,7 @@
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />
+    <ClCompile Include="..\src\util\xml_tools.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />
     <ClCompile Include="..\src\util\log\log.cpp" />
     <ClCompile Include="..\src\util\log\log_stream.cpp" />
