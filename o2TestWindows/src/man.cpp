@@ -10,6 +10,7 @@ OPEN_O2_NAMESPACE
 cMan::WalkAnimation::WalkAnimation( grSprite* animatingSprite, pugi::xml_node& xmlNode )
 {
 	mAnimatingSprite = animatingSprite;
+	mAnimating = false;
 
 	mCurrTime = 0;
 
@@ -43,6 +44,9 @@ void cMan::WalkAnimation::update( float dt )
 {
 	mCurrTime += dt;
 	int frameId = (int)(mCurrTime/mFramesDelay)%(mCurrAnim[1] - mCurrAnim[0]) + mCurrAnim[0];
+
+	if (!mAnimating)
+		frameId = mCurrAnim[0];
 
 	mAnimatingSprite->setTextureSrcRect(mFrames[frameId]);
 }
@@ -101,6 +105,26 @@ void cMan::setWayPoint( const vec2f& point )
 	}
 
 	mPosition = point;
+}
+
+
+void cMan::WalkPath::setupWaypoint( const vec2f& point )
+{
+	mWaypoints.clear();
+
+	int begin = mMan->mManField->mWaypointWeb->getNearestWaypoint(mMan->mPosition);
+	int end = mMan->mManField->mWaypointWeb->getNearestWaypoint(point);
+
+	astarSearchPath(*mMan->mManField->mWaypointWeb, mWaypoints, begin, end);
+
+	mCurrentWaypoint = 0;
+	mMovingTime = 0;
+}
+
+void cMan::WalkPath::update( float dt )
+{
+	mMovingTime += dt;
+	
 }
 
 CLOSE_O2_NAMESPACE

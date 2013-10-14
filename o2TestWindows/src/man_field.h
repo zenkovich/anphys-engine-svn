@@ -14,7 +14,7 @@ class cApplication;
 class grTexture;
 
 class cMan;
-class cWaypointWeb;
+struct cWaypointWeb;
 
 class cManField
 {

@@ -11,27 +11,29 @@ OPEN_O2_NAMESPACE
 
 struct cWaypointWeb
 {
+	struct link
+	{
+		typedef std::vector<link> LinksVec;
+
+		int mLinkWPId;;
+		float F, G, H;
+
+		link(int linkId, float g):mLinkWPId(linkId), G(g), F(0), H(0) {}
+	};
+	typedef std::vector<link> LinksVec;
+
 	struct waypoint
 	{
-		vec2f mPoint;
+		vec2f    mPoint;
+		LinksVec mLinks;
 
 		waypoint(const vec2f& point):mPoint(point) {}
 	};
 	typedef std::vector<waypoint> WaypointsVec;
 
-	struct link
-	{
-		typedef std::vector<link> LinksVec;
-
-		int mA, mB;
-		float F, G, H;
-
-		link(int a, int b, float g):mA(a), mB(b), G(g), F(0), H(0) {}
-	};
-	typedef std::vector<link> LinksVec;
-
 	WaypointsVec mWaypoints;
-	LinksVec     mLinks;
+
+	int getNearestWaypoint(const vec2f& point) const;
 };
 
 struct cWaypoint
