@@ -68,11 +68,11 @@ bool cInFile::close()
 	return true;
 }
 
-uint64 cInFile::readFullData( void *dataPtr )
+uint32 cInFile::readFullData( void *dataPtr )
 {
 	mIfstream.seekg(0, std::ios::beg);
 	mIfstream.seekg(0, std::ios::end);
-	uint64 length = (uint64)mIfstream.tellg();
+	uint32 length = (uint32)mIfstream.tellg();
 	mIfstream.seekg(0, std::ios::beg);
 
 	mIfstream.read((char*)dataPtr, length);
@@ -80,22 +80,22 @@ uint64 cInFile::readFullData( void *dataPtr )
 	return length;
 }
 
-void cInFile::readData( void *dataPtr, uint64 bytes )
+void cInFile::readData( void *dataPtr, uint32 bytes )
 {
 	mIfstream.read((char*)dataPtr, bytes);
 }
 
-void cInFile::setCaretPos( uint64 pos )
+void cInFile::setCaretPos( uint32 pos )
 {
 	mIfstream.seekg(pos, std::ios::beg);
 }
 
-uint64 cInFile::getCaretPos()
+uint32 cInFile::getCaretPos()
 {
-	return (uint64)mIfstream.tellg();
+	return (uint32)mIfstream.tellg();
 }
 
-uint64 cInFile::getDataSize()
+uint32 cInFile::getDataSize()
 {
 	mIfstream.seekg(0, std::ios::beg);
 	mIfstream.seekg(0, std::ios::end);
@@ -166,7 +166,7 @@ bool cOutFile::close()
 	return true;
 }
 
-void cOutFile::writeData( const void* dataPtr, uint64 bytes )
+void cOutFile::writeData( const void* dataPtr, uint32 bytes )
 {
 	mOfstream.write((const char*)dataPtr, bytes);
 }

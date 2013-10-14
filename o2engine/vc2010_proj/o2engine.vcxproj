@@ -162,6 +162,7 @@
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
+    <ClInclude Include="..\src\util\string.h" />
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
+    <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />

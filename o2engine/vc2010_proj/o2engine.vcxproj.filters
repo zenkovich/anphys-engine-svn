@@ -308,6 +308,9 @@
     <ClInclude Include="..\src\util\xml_tools.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\string.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -536,6 +539,9 @@
       <Filter>src\util\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\xml_tools.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\string.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>

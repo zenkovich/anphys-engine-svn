@@ -120,13 +120,7 @@ struct vec2
 		return x; 
 	}
 
-	inline void set(int i, T n) 
-	{ 
-		if (i == 0) x = n; 
-		if (i == 1) y = n; 
-	}
-
-	inline void set(float vx, float vy)
+	inline void set(T vx, T vy)
 	{
 		x = vx; y = vy;
 	}

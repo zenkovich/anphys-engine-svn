@@ -31,19 +31,19 @@ public:
 	bool close();
 		               
 	/** Read full file data and return size of readed data. */
-	uint64 readFullData(void *dataPtr);
+	uint32 readFullData(void *dataPtr);
 
 	/** Read data in dataPtr. */
-	void readData(void *dataPtr, uint64 bytes);
+	void readData(void *dataPtr, uint32 bytes);
 		               
 	/** Sets caret position. */
-	void setCaretPos(uint64 pos);
+	void setCaretPos(uint32 pos);
 
 	/** Return caret position. */
-	uint64 getCaretPos();
+	uint32 getCaretPos();
 		              
 	/** Returns full data size. */
-	uint64 getDataSize();
+	uint32 getDataSize();
 		               
 	/** Returns true, if file was opened. */
 	bool isOpened() const;
@@ -72,7 +72,7 @@ public:
 	bool close();
 		   
 	/** Write some data from dataPtr. */
-	void writeData(const void* dataPtr, uint64 bytes);
+	void writeData(const void* dataPtr, uint32 bytes);
 		               
 	/** Returns true, if file was opened. */
 	bool isOpened() const;

@@ -3,6 +3,7 @@
 #include "render_system.h"
 #include "texture.h"
 #include "mesh.h"
+#include "util/xml_tools.h"
 
 OPEN_O2_NAMESPACE
 
@@ -90,7 +91,7 @@ grSprite::grSprite( const grSprite& sprite )
 	serialize_(dataObject, AT_INPUT);
 }*/
 
-grSprite::grSprite(grRenderSystem* render, const std::string& file, const std::string& path)
+grSprite::grSprite(grRenderSystem* render, pugi::xml_node& xmlNode)
 {
 	//create mesh
 	mMesh = new grMesh(render, NULL, 4, 2);
@@ -103,6 +104,8 @@ grSprite::grSprite(grRenderSystem* render, const std::string& file, const std::s
 
 	mMesh->mVertexCount = 4;
 	mMesh->mPolyCount = 2;
+
+	serialize(xmlNode, cSerializeType::INPUT);
 
 	/*cDataObject* spriteDataObject = 
 		getDataObjectsManager().loadDataObject(file, cDataObjectsManager::DOT_XML)->getChild(path);

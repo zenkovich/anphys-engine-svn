@@ -12,113 +12,46 @@
 #include "util/math/vector2.h"
 #include "util/math/basis.h"
 
+#include "man_field.h"
+
 OPEN_O2_NAMESPACE
+
 DECLARE_SINGLETON(TestApp);
-CLOSE_O2_NAMESPACE
 
 TestApp::TestApp():
-	cApplication()
+	cApplication(), mManField(NULL)
 {
-	setOption(o2::cApplicationOption::WND_SIZE, o2::vec2i(800, 600));
-	setOption(o2::cApplicationOption::WND_CAPTION, (std::string)"bebebe");
+	setOption(cApplicationOption::WND_SIZE, vec2i(800, 600));
+	setOption(cApplicationOption::WND_CAPTION, (std::string)"Man field test");
+	setOption(cApplicationOption::RESIZIBLE, false);
 
-	texture = NULL;
-
-	o2::getFileSystem().setResourcePath("../data/");
+	getFileSystem().setResourcePath("../data/");
 }
 
 TestApp::~TestApp()
 {
-	mRenderSystem->removeTexture(texture);
+	safe_release(mManField);
+}
+
+void TestApp::onInitialized()
+{
+	mManField = mnew cManField(this);
 }
 
 void TestApp::onUpdate( float dt )
 {
-	//llog("update %.3f", dt);
-	/*o2::vec2i offs;
-	if (mInputMessage.isKeyPressed(VK_LEFT))
-		offs = o2::vec2i(-10, 0);
-	if (mInputMessage.isKeyPressed(VK_RIGHT))
-		offs = o2::vec2i(10, 0);
-	if (mInputMessage.isKeyPressed(VK_UP))
-		offs = o2::vec2i(0, -10);
-	if (mInputMessage.isKeyPressed(VK_DOWN))
-		offs = o2::vec2i(0, 10);
-
-	if (offs != o2::vec2i(0, 0))
-	{
-		if (mInputMessage.isKeyDown(VK_CONTROL))
-		{
-			setOption(o2::cApplicationOption::WND_SIZE, mWindowedSize + offs);
-		}
-		else
-		{
-			hlog("move wnd %i %i + %i %i", mWindowedPos.x, mWindowedPos.y, offs.x, offs.y);
-			setOption(o2::cApplicationOption::WND_POSITION, mWindowedPos + offs);
-		}
-	}
-
-	if (mInputMessage.isKeyPressed('Z'))
-		setOption(o2::cApplicationOption::RESIZIBLE, !mWindowResizible);*/
-	
-	if (mInputMessage.isKeyDown(VK_LEFT))
-		camera->mPosition.x -= 100.0f*dt;
-	
-	if (mInputMessage.isKeyDown(VK_RIGHT))
-		camera->mPosition.x += 100.0f*dt;
-	
-	if (mInputMessage.isKeyDown(VK_UP))
-		camera->mPosition.y -= 100.0f*dt;
-	
-	if (mInputMessage.isKeyDown(VK_DOWN))
-		camera->mPosition.y += 100.0f*dt;
-	
-	if (mInputMessage.isKeyDown(VK_NUMPAD4))
-		camera->mRotation -= o2::deg2rad(100.0f*dt);
-	
-	if (mInputMessage.isKeyDown(VK_NUMPAD6))
-		camera->mRotation += o2::deg2rad(100.0f*dt);
-	
-	if (mInputMessage.isKeyDown('O'))
-	{
-		camera->mScale.x *= 1.0f - 0.5f*dt;
-		camera->mScale.y *= 1.0f - 0.5f*dt;
-	}
-	
-	if (mInputMessage.isKeyDown('I'))
-	{
-		camera->mScale.x *= 1.0f + 0.5f*dt;
-		camera->mScale.y *= 1.0f + 0.5f*dt;
-	}
-
-	/*if (mInputMessage.isKeyPressed('T'))
-		assTest();*/
-	
+	mManField->update(dt);
 }
 
-void TestApp::processMessage( o2::cApplacationMessage::type message )
+void TestApp::processMessage( cApplacationMessage::type message )
 {
 	cApplication::processMessage(message);
 
-	if (message == o2::cApplacationMessage::ON_STARTED)
+	if (message == cApplacationMessage::ON_STARTED)
 	{
-		texture = mRenderSystem->createTexture("pic");
-
-		sprite = new o2::grSprite(mRenderSystem, texture);
-		sprite->setSize(mRenderSystem->getResolution().castTo<float>());
-
-		sprite2 = new o2::grSprite(mRenderSystem);
-		sprite2->setColor(o2::color4(255, 100, 100, 100));
-
-		renderTarget = new o2::grRenderTarget(mRenderSystem);
-		sprite3 = new o2::grSprite(mRenderSystem, renderTarget->getTexture());
-		sprite3->setScale(o2::vec2f(0.3f, 0.3f)).setPosition(o2::vec2f(mRenderSystem->getResolution().x - sprite3->getSize().x*0.3f, 0));
-
-		camera = new o2::grCamera();
-		
-		mRenderSystem->setLinesWidth(2);
+		onInitialized();
 	}
-	else if (message == o2::cApplacationMessage::ON_SIZING)
+	else if (message == cApplacationMessage::ON_SIZING)
 	{
 		draw();
 	}
@@ -126,45 +59,9 @@ void TestApp::processMessage( o2::cApplacationMessage::type message )
 
 void TestApp::onDraw()
 {
-	mRenderSystem->clear(o2::color4(0, 100, 0, 255));
+	mRenderSystem->clear(color4(0, 100, 0, 255));
 
-	//
-	mRenderSystem->clearStencil();
-	mRenderSystem->beginRenderToStencilBuffer();
-	sprite2->draw();
-	mRenderSystem->endRenderToStencilBuffer();
-
-	mRenderSystem->enableStencilTest();
-	sprite->setPosition(o2::vec2f(50, 50)).draw();
-
-	mRenderSystem->bindRenderTarget(renderTarget);
-	mRenderSystem->clear(o2::color4(0, 0, 0, 255));
-	mRenderSystem->bindCamera(camera);
-	sprite->draw();
-	mRenderSystem->bindCamera(NULL);
-	mRenderSystem->unbindRenderTarget();
-
-	sprite3->draw();
-
-	sprite2->setSize(mRenderSystem->getResolution().castTo<float>().scale(camera->mScale)).
-		     setAngle(o2::rad2deg(camera->mRotation)).
-			 setPosition(camera->mPosition).draw();
-
-	mRenderSystem->disableStencilTest();
+	mManField->draw();
 }
 
-void TestApp::drawBasis( o2::basis* bas )
-{
-	unsigned long redColor   = o2::color4::dword(255, 0, 0, 255);
-	unsigned long greenColor = o2::color4::dword(0, 255, 0, 255);
-
-	const float basisSize = 30;
-
-	o2::vertex2 linesBuf[] = { o2::vertex2(bas->offs.x, bas->offs.y, redColor, 0, 0),
-	                           o2::vertex2(bas->offs.x + bas->xv.x*basisSize, bas->offs.y + bas->xv.y*basisSize, redColor, 0, 0),
-
-							   o2::vertex2(bas->offs.x, bas->offs.y, greenColor, 0, 0),
-							   o2::vertex2(bas->offs.x + bas->yv.x*basisSize, bas->offs.y + bas->yv.y*basisSize, greenColor, 0, 0) };
-
-	mRenderSystem->drawLines(linesBuf, 2);
-}
+CLOSE_O2_NAMESPACE

@@ -57,6 +57,12 @@ public:
 	cApplicationBaseInterface();
 	virtual ~cApplicationBaseInterface();
 
+	/** Returns pointer to input message object. */
+	cInputMessage* getInputMessage();
+
+	/** Returns pointer to input message object. */
+	grRenderSystem* getRenderSystem() const;
+
 	/** Launching application cycle. */
 	virtual void launch() {}
 

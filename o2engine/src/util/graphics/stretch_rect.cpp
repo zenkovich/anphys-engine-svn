@@ -82,7 +82,7 @@ int cStretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const v
 
 void cStretchRect::removePart( int idx )
 {
-	if (idx < 0 || idx > mParts.size() - 1)
+	if (idx < 0 || idx > (int)mParts.size() - 1)
 		return;
 
 	mParts.erase(mParts.begin() + idx);

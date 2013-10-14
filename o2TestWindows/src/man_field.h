@@ -8,38 +8,41 @@
 
 OPEN_O2_NAMESPACE
 
-class grSprite;
+class grMesh;
 class cInputMessage;
+class cApplication;
+class grTexture;
 
 class cMan;
-
-struct cFieldCluster
-{
-	vec2i     mPosition;
-	grSprite* mSprite;
-	vec2f     mSpriteOffset;
-
-	cFieldCluster();
-	cFieldCluster(const cFieldCluster& cluster);
-	~cFieldCluster();
-};
+class cWaypointWeb;
 
 class cManField
 {
+	friend class cMan;
+
+	struct cFieldCluster
+	{
+		vec2i     mPosition;
+		float     mWayTime;
+	};
 	typedef std::vector<cFieldCluster> FieldClustersVec;
+	typedef std::vector<grMesh*> MeshVec;
+
+	cApplication*    mApplication;
+	cInputMessage*   mInputMessage;
 
 	vec2i            mFieldSize;
 	vec2f            mClusterSize;
 	FieldClustersVec mFieldClusters;
-	FieldClustersVec mFieldClusterPrototypes;
 
 	grCamera         mCamera;
+	MeshVec          mFieldMeshes;
 
-	cInputMessage*   mInputMessage;
+	cWaypointWeb*    mWaypointWeb;
 	cMan*            mMan;
 
 public:
-	cManField(cInputMessage* inputMsg);
+	cManField(cApplication* app);
 	~cManField();
 
 	void draw();
@@ -47,6 +50,9 @@ public:
 
 protected:
 	void loadConfig();
+	void initializeWaypointWeb();
+
+	grMesh* createMesh(int clustersCount, grTexture* texture);
 };
 
 CLOSE_O2_NAMESPACE
