@@ -143,6 +143,7 @@ void cManField::initializeWaypointWeb()
 		{
 			int idx = x*mFieldSize.y + y;
 			cFieldCluster* currCluster = &mFieldClusters[idx];
+			cWaypointWeb::waypoint* currWayPoint = &mWaypointWeb->mWaypoints[idx];
 
 			vec2i offs[4] = { vec2i(-1, 0), vec2i(1, 0), vec2i(0, -1), vec2i(0, 1) };
 			for (int i = 0; i < 4; i++)
@@ -156,7 +157,8 @@ void cManField::initializeWaypointWeb()
 				int ofIdx = ox*mFieldSize.y + oy;
 				cFieldCluster* offsCluster = &mFieldClusters[ofIdx];
 
-				mWaypointWeb->mLinks.push_back(cWaypointWeb::link(idx, ofIdx,0));
+				currWayPoint->mLinks.push_back(
+					cWaypointWeb::link(ofIdx, (currCluster->mWayTime + offsCluster->mWayTime)*0.5f));
 			}
 		}
 	}
