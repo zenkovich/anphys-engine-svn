@@ -43,4 +43,14 @@ void cApplicationBaseInterface::deinitializeSystems()
 	safe_release(gLog->getParentStream());
 }
 
+cInputMessage* cApplicationBaseInterface::getInputMessage()
+{
+	return &mInputMessage;
+}
+
+grRenderSystem* cApplicationBaseInterface::getRenderSystem() const
+{
+	return mRenderSystem;
+}
+
 CLOSE_O2_NAMESPACE

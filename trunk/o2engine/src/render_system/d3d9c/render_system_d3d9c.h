@@ -22,8 +22,8 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	friend class cDeviceInfo;
 	friend class grTexture;
 	
-	static const unsigned int mVertexBufferSize = 6000;  /** Maximum size of vertex buffer. */
-	static const unsigned int mIndexBufferSize = 6000*3; /** Maximum size of index buffer. */
+	static const unsigned int mVertexBufferSize = 12000;  /** Maximum size of vertex buffer. */
+	static const unsigned int mIndexBufferSize = 12000*3; /** Maximum size of index buffer. */
 
 //d3d context
 	LPDIRECT3D9             mDirect3D;               /**< o_O */

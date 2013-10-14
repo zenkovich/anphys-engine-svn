@@ -337,21 +337,21 @@ bool grRenderSystem::drawMesh( grMesh* mesh )
 	}
 
 //copy data
-	memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], mesh->mVerticies, sizeof(vertex2)*mesh->mVertexCount);
-	/*for (unsigned int i = mLastDrawVertex, j = 0; j < mesh->mVertexCount; j++, i++)
+	//memcpy(&mVertexData[mLastDrawVertex*sizeof(vertex2)], mesh->mVerticies, sizeof(vertex2)*mesh->mVertexCount);
+	for (unsigned int i = mLastDrawVertex, j = 0; j < mesh->mVertexCount; j++, i++)
 	{
 		vertex2* v = &((vertex2*)mVertexData)[i];
 		*v = mesh->mVerticies[j];
-		v->tv = 1.0f - v->tv;
-	}*/
+		//v->tv = 1.0f - v->tv;
+	}
 
 	for (unsigned int i = mLastDrawIdx, j = 0; j < mesh->mPolyCount*3; i++, j++)
 	{
 		mVertexIndexData[i] = mLastDrawVertex + mesh->mIndexes[j];
 	}
 
-	mTrianglesCount += 2;
-	mPrimitivesCount += 2;
+	mTrianglesCount += mesh->mPolyCount;
+	mPrimitivesCount += mesh->mPolyCount;
 	mLastDrawVertex += mesh->mVertexCount;
 	mLastDrawIdx += mesh->mPolyCount*3;
 

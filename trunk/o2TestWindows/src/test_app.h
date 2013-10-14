@@ -7,33 +7,25 @@
 
 OPEN_O2_NAMESPACE
 
-class grTexture;
-class grMesh;
-class grSprite;
-class grRenderTarget;
-class grCamera;
+class cManField;
 
-CLOSE_O2_NAMESPACE
-
-class TestApp:public o2::cApplication, public o2::cSingleton<TestApp>
+class TestApp:public cApplication, public cSingleton<TestApp>
 {
-public:
-	o2::grTexture*      texture;
-	o2::grSprite*       sprite;
-	o2::grSprite*       sprite2;
-	o2::grSprite*       sprite3;
-	o2::grRenderTarget* renderTarget;
-	o2::grCamera*       camera;
-	
+	cManField* mManField;
+
+public:	
 	TestApp();
 	~TestApp();
 
 	void onUpdate(float dt);
 	void onDraw();
 
-	void processMessage(o2::cApplacationMessage::type message);
+	void processMessage(cApplacationMessage::type message);
 
-	void drawBasis(o2::basis* bas);
+public:
+	void onInitialized();
 };
+
+CLOSE_O2_NAMESPACE
 
 #endif //TEST_APP_H

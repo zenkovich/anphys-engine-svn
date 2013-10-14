@@ -16,12 +16,24 @@
     <ClCompile Include="src\man_field.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\man.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\a_star.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\test_app.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\man_field.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\man.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\a_star.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

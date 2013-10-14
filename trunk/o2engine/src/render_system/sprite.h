@@ -46,7 +46,7 @@ public:
 	//grSprite(grRenderSystem* render, cDataObject& dataObject);
 	
 	/** ctor. Loads sprite from config file. */
-	grSprite(grRenderSystem* render, const std::string& file, const std::string& path);
+	grSprite(grRenderSystem* render, pugi::xml_node& xmlNode);
 
 	/** copy ctor. */
 	grSprite(const grSprite& sprite);
