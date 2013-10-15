@@ -9,42 +9,51 @@
 
 OPEN_O2_NAMESPACE
 
+/** Сеть возможных путей. */
 struct cWaypointWeb
 {
+	/** Соединение двух точек пути. */
 	struct link
 	{
 		typedef std::vector<link> LinksVec;
 
-		int mLinkWPId;;
-		float F, G, H;
+		int mLinkWPId; /**< Индекс соединяемой точки. */
+		float G;       /**< Оценка эффективности соединения. */
 
-		link(int linkId, float g):mLinkWPId(linkId), G(g), F(0), H(0) {}
+		/** констр. */
+		link(int linkId, float g):mLinkWPId(linkId), G(g) {}
 	};
 	typedef std::vector<link> LinksVec;
 
+	/** Точка пути. СОдержит позицию и список соединающихся соседей. */
 	struct waypoint
 	{
-		vec2f    mPoint;
-		LinksVec mLinks;
+		vec2f    mPoint; /**< Координаты. */
+		LinksVec mLinks; /**< Соседи. */
 
+		/** констр. */
 		waypoint(const vec2f& point):mPoint(point) {}
 	};
 	typedef std::vector<waypoint> WaypointsVec;
 
-	WaypointsVec mWaypoints;
+	WaypointsVec mWaypoints; /**< Список точек движения. */
 
+	/** Возвращает индекс ближайшей точки пути к указанной точке. */
 	int getNearestWaypoint(const vec2f& point) const;
 };
 
+/** Точка пути. */
 struct cWaypoint
 {
-	vec2f mPoint;
-	float mG;
+	vec2f mPoint; /**< Координаты. */
+	float mG;     /**< Оценка сложности достижения точки. */
 
+	/** констр. */
 	cWaypoint(const vec2f& point, float g):mPoint(point), mG(g) {}
 };
 typedef std::vector<cWaypoint> WayPointsVec;
 
+/** Ищет путь от точки beginIdx до endIdx, алгоритм - A*. */
 bool astarSearchPath(cWaypointWeb& web, WayPointsVec& path, int beginIdx, int endIdx);
 
 CLOSE_O2_NAMESPACE

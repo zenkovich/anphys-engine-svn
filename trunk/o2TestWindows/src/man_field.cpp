@@ -40,6 +40,7 @@ void cManField::loadConfig()
 {
 	const std::string configFileName = "config";
 
+	//загр файла
 	pugi::xml_document xmlDoc;
 	if (!cXmlTools::loadFromFile(configFileName, xmlDoc))
 	{
@@ -47,14 +48,17 @@ void cManField::loadConfig()
 		return;
 	}
 
+	//загр текстуры
 	std::string clusterTexFilename = xmlDoc.child("clusterTexture").attribute("file").value();
 	grTexture* texture = mApplication->getRenderSystem()->createTexture(clusterTexFilename);
 
+	//размер поля
 	if (pugi::xml_node node = xmlDoc.child("fieldSize"))
 		mFieldSize = cXmlTools::node2veci(node);
 	else
 		mFieldSize = vec2i(50, 50);	
 
+	//размер кластера
 	if (pugi::xml_node node = xmlDoc.child("clusterSize"))
 		mClusterSize = cXmlTools::node2vecf(xmlDoc.child("clusterSize"));
 	else
@@ -65,6 +69,7 @@ void cManField::loadConfig()
 			mClusterSize = vec2f(10.0f, 10.0f);
 	}
 
+	//инициализация кластеров, заполнение мешей
 	int reqClusters = mFieldSize.x*mFieldSize.y;
 	int maxCreatingClusters = 1000;
 	int creatingMeshClusters = min(maxCreatingClusters, reqClusters);

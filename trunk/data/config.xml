@@ -2,6 +2,14 @@
 <fieldSize x = "50" y = "50" />
 <clusterSize_ x = "10" y = "10" />
 <clusterTexture file = "grass" />
+<clusters>
+	<clust_0_0 wayTime = "0.2" />
+	<clust_1_1 wayTime = "0.2" />
+	<clust_1_0 wayTime = "0.2" />
+	<clust_4_0 wayTime = "1.2" />
+	<clust_5_1 wayTime = "1.2" />
+	<clust_5_0 wayTime = "1.2" />
+</clusters>
 <walkMan>
 	<sprite>
 		<texture v = "man_walk_frames" />

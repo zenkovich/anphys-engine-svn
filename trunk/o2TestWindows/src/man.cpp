@@ -65,13 +65,15 @@ cMan::cMan( cManField* manField, pugi::xml_node& xmlNode )
 	mSpriteOffset = cXmlTools::node2vecf(xmlNode.child("spriteOffset"));
 	mSprite = mnew grSprite(mManField->mApplication->getRenderSystem(), xmlNode.child("sprite"));
 
-	mWalkAnim = mnew  WalkAnimation(mSprite, xmlNode);
+	mWalkAnim = mnew WalkAnimation(mSprite, xmlNode);
+	mWalkPath = mnew WalkPath(this);
 }
 
 cMan::~cMan()
 {
 	safe_release(mWalkAnim);
 	safe_release(mSprite);
+	safe_release(mWalkPath);
 }
 
 void cMan::draw()
@@ -81,13 +83,12 @@ void cMan::draw()
 
 void cMan::update( float dt )
 {
-	mWalkAnim->update(dt);
-	mSprite->setPosition( mPosition.scale(mManField->mClusterSize) + mSpriteOffset );
-}
+	mSprite->setPosition( mPosition.scale(mManField->mClusterSize) + mSpriteOffset + mManField->mClusterSize*0.5f );
 
-void cMan::setWayPoint( const vec2f& point )
-{
-	vec2f diff = point - mPosition;
+	vec2f lastPos = mPosition;
+	mWalkPath->update(dt);
+
+	vec2f diff = mPosition - lastPos;
 
 	if (abs(diff.x) > abs(diff.y))
 	{
@@ -104,7 +105,13 @@ void cMan::setWayPoint( const vec2f& point )
 			mWalkAnim->setPlayingAnim("walk_down");
 	}
 
-	mPosition = point;
+	mWalkAnim->mAnimating = mWalkPath->mMoving;
+	mWalkAnim->update(dt);
+}
+
+void cMan::setWayPoint( const vec2f& point )
+{
+	mWalkPath->setupWaypoint(point);
 }
 
 
@@ -113,18 +120,47 @@ void cMan::WalkPath::setupWaypoint( const vec2f& point )
 	mWaypoints.clear();
 
 	int begin = mMan->mManField->mWaypointWeb->getNearestWaypoint(mMan->mPosition);
-	int end = mMan->mManField->mWaypointWeb->getNearestWaypoint(point);
+	int end = mMan->mManField->mWaypointWeb->getNearestWaypoint(point - vec2f(0.5f, 0.5f));
 
 	astarSearchPath(*mMan->mManField->mWaypointWeb, mWaypoints, begin, end);
 
 	mCurrentWaypoint = 0;
 	mMovingTime = 0;
+	mMoving = true;
 }
 
 void cMan::WalkPath::update( float dt )
 {
+	if (!mMoving)
+		return;
+
 	mMovingTime += dt;
-	
+
+	while (mCurrentWaypoint < (int)mWaypoints.size() - 1 && 
+		   mMovingTime > mWaypoints[mCurrentWaypoint + 1].mG)
+	{
+		mMovingTime -= mWaypoints[mCurrentWaypoint + 1].mG;
+		mCurrentWaypoint++;
+	}
+
+	if (mCurrentWaypoint == mWaypoints.size() - 1)
+	{
+		mMan->mPosition = mWaypoints[mCurrentWaypoint].mPoint;
+		mMoving = false;
+	}
+	else
+	{
+		float coef = mMovingTime/mWaypoints[mCurrentWaypoint + 1].mG;
+		
+		vec2f p1 = mWaypoints[mCurrentWaypoint].mPoint;
+		vec2f p2 = mWaypoints[mCurrentWaypoint + 1].mPoint;
+		mMan->mPosition = (p2 - p1)*coef + p1;
+	}
+}
+
+cMan::WalkPath::WalkPath( cMan* man ):
+	mMan(man), mCurrentWaypoint(0), mMoving(false)
+{
 }
 
 CLOSE_O2_NAMESPACE
