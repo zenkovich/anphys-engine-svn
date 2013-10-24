@@ -19,7 +19,7 @@
     <ClCompile Include="src\man.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\a_star.cpp">
+    <ClCompile Include="src\path_web.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,7 +33,7 @@
     <ClInclude Include="src\man.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\a_star.h">
+    <ClInclude Include="src\path_web.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -36,7 +36,7 @@
 		#ifdef BASIC_MEMORY_ALLOCATOR
 			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			//ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
 		#endif
 	}
@@ -46,7 +46,7 @@
 		#ifdef BASIC_MEMORY_ALLOCATOR
 			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			//ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
 		#endif
 	}

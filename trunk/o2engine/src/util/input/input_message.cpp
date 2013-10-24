@@ -32,7 +32,10 @@ bool cInputMessage::isKeyReleased( VKey key ) const
 
 const vec2f& cInputMessage::getCursorPos( int idx /*= 0*/ ) const
 {
-	return mCursorsPositions[clamp(idx, 0, (int)(mCursorsPositions.size() - 1))];
+	if (idx < 0 || idx > (int)(mCursorsPositions.size() - 1))
+		return vec2f();
+
+	return mCursorsPositions[idx];
 }
 
 void cInputMessage::keyPressed( VKey key )

@@ -31,13 +31,18 @@ struct cWaypointWeb
 		vec2f    mPoint; /**< Координаты. */
 		LinksVec mLinks; /**< Соседи. */
 
+		waypoint* mParent;
+		float     mPathG;
+		float     mG;
+		bool      mProcessed;
+
 		/** констр. */
-		waypoint(const vec2f& point):mPoint(point) {}
+		waypoint(const vec2f& point):mPoint(point), mPathG(0), mParent(NULL), mProcessed(false), mG(0) {}
 	};
 	typedef std::vector<waypoint> WaypointsVec;
 
 	WaypointsVec mWaypoints; /**< Список точек движения. */
-
+	
 	/** Возвращает индекс ближайшей точки пути к указанной точке. */
 	int getNearestWaypoint(const vec2f& point) const;
 };
@@ -53,8 +58,8 @@ struct cWaypoint
 };
 typedef std::vector<cWaypoint> WayPointsVec;
 
-/** Ищет путь от точки beginIdx до endIdx, алгоритм - A*. */
-bool astarSearchPath(cWaypointWeb& web, WayPointsVec& path, int beginIdx, int endIdx);
+/** Ищет путь от точки beginIdx до endIdx, алгоритм - дейкстра. */
+bool dijkstraPathSearch(cWaypointWeb& web, WayPointsVec& path, int beginIdx, int endIdx);
 
 CLOSE_O2_NAMESPACE
 

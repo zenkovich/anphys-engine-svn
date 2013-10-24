@@ -311,6 +311,12 @@
     <ClInclude Include="..\src\util\string.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\widget.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\type_indexation.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -543,6 +549,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\string.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\widget.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

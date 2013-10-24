@@ -32,7 +32,7 @@
 #define GLOBAL_LOG_FILENAME "log.txt"
 
 /* Memory manager logging. */
-//#define MEMORY_TRACE
+#define MEMORY_TRACE
 
 /* Basic memory allocator. Variations: 
  * -cStdAllocator: standart system allocator, see /util/mem_utils/std_allocator.h

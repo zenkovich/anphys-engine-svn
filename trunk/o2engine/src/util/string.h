@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-std::string format(const std::string& str, ...);
+std::string format(const char* str, ...);
 
 CLOSE_O2_NAMESPACE
 

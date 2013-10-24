@@ -9,7 +9,7 @@
 #include "util/xml_tools.h"
 #include "util/math/rect.h"
 
-#include "a_star.h"
+#include "path_web.h"
 
 OPEN_O2_NAMESPACE
 
