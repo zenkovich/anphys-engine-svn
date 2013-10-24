@@ -133,6 +133,7 @@
     <ClInclude Include="..\src\render_system\sprite.h" />
     <ClInclude Include="..\src\render_system\texture.h" />
     <ClInclude Include="..\src\render_system\texture_base_interface.h" />
+    <ClInclude Include="..\src\ui\widget.h" />
     <ClInclude Include="..\src\util\anim\anim_obj.h" />
     <ClInclude Include="..\src\util\anim\param_animation.h" />
     <ClInclude Include="..\src\util\assert.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
+    <ClInclude Include="..\src\util\type_indexation.h" />
     <ClInclude Include="..\src\util\xml_tools.h" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +221,7 @@
     <ClCompile Include="..\src\render_system\render_target_base_interface.cpp" />
     <ClCompile Include="..\src\render_system\sprite.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
+    <ClCompile Include="..\src\ui\widget.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />

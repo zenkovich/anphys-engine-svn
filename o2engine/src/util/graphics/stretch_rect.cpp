@@ -109,8 +109,9 @@ void cStretchRect::setPosition( const vec2f& pos )
 	if (pos == mRect.getltCorner())
 		return;
 	
-	mRect.left = pos.x;
-	mRect.top = pos.y;
+	vec2f diff = pos - mRect.getltCorner();
+
+	mRect = mRect + diff;
 
 	mNeedUpdateMesh = true;
 }
@@ -141,6 +142,9 @@ void cStretchRect::updateMesh()
 	if (!mMesh)
 		return;
 
+	vec2f texSize = (mMesh->getTexture()) ? mMesh->getTexture()->getSize():vec2f(1.0f, 1.0f);
+	vec2f invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
+
 	vec2f rectSize = mRect.getSize();
 	int i = 0;
 	for (PartsVec::iterator it = mParts.begin(); it != mParts.end(); ++it, i++)
@@ -148,11 +152,14 @@ void cStretchRect::updateMesh()
 		vec2f ltPoint = mRect.getltCorner() + rectSize.scale(it->mLTPosPercent) + it->mLTPosPixel;
 		vec2f rbPoint = mRect.getltCorner() + rectSize.scale(it->mRBPosPercent) + it->mRBPosPixel;
 		
-		mMesh->mVerticies[i*4    ].set(ltPoint, it->mVertexColors[0].dword());
-		mMesh->mVerticies[i*4 + 1].set(vec2f(rbPoint.x, ltPoint.y), it->mVertexColors[1].dword());
-		mMesh->mVerticies[i*4 + 2].set(rbPoint, it->mVertexColors[2].dword());
-		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), it->mVertexColors[3].dword());
+		mMesh->mVerticies[i*4    ].set(ltPoint,                     1.0f, it->mVertexColors[0].dword(), it->mTextureSrcRect.left*invTexSize.x, it->mTextureSrcRect.top*invTexSize.y);
+		mMesh->mVerticies[i*4 + 1].set(vec2f(rbPoint.x, ltPoint.y), 1.0f, it->mVertexColors[1].dword(), it->mTextureSrcRect.right*invTexSize.x, it->mTextureSrcRect.top*invTexSize.y);
+		mMesh->mVerticies[i*4 + 2].set(rbPoint,                     1.0f, it->mVertexColors[2].dword(), it->mTextureSrcRect.right*invTexSize.x, it->mTextureSrcRect.down*invTexSize.y);
+		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), 1.0f, it->mVertexColors[3].dword(), it->mTextureSrcRect.left*invTexSize.x, it->mTextureSrcRect.down*invTexSize.y);
 	}
+
+	mMesh->mVertexCount = mParts.size()*4;
+	mMesh->mPolyCount = mParts.size()*2;
 
 	mNeedUpdateMesh = false;
 }

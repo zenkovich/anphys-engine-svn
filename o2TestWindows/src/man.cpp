@@ -122,7 +122,7 @@ void cMan::WalkPath::setupWaypoint( const vec2f& point )
 	int begin = mMan->mManField->mWaypointWeb->getNearestWaypoint(mMan->mPosition);
 	int end = mMan->mManField->mWaypointWeb->getNearestWaypoint(point - vec2f(0.5f, 0.5f));
 
-	astarSearchPath(*mMan->mManField->mWaypointWeb, mWaypoints, begin, end);
+	dijkstraPathSearch(*mMan->mManField->mWaypointWeb, mWaypoints, begin, end);
 
 	mCurrentWaypoint = 0;
 	mMovingTime = 0;

@@ -13,7 +13,7 @@
 #include "util/xml_tools.h"
 
 #include "man.h"
-#include "a_star.h"
+#include "path_web.h"
 
 OPEN_O2_NAMESPACE
 	
@@ -151,6 +151,7 @@ void cManField::initializeWaypointWeb()
 			cWaypointWeb::waypoint* currWayPoint = &mWaypointWeb->mWaypoints[idx];
 
 			vec2i offs[4] = { vec2i(-1, 0), vec2i(1, 0), vec2i(0, -1), vec2i(0, 1) };
+
 			for (int i = 0; i < 4; i++)
 			{
 				int ox = x + offs[i].x;

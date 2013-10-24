@@ -25,17 +25,19 @@ struct vertex2:public vec2<float>
 	vertex2(float vx, float vy, unsigned long vcolor, float vtu, float vtv):
 		vec2<float>(vx, vy), z(1), color(vcolor), tu(vtu), tv(vtv) {}
 		
-	void set(const vec2f& pos, unsigned long ccolor) 
+	void set(const vec2f& pos, unsigned long ccolor, float u, float v) 
 	{
 		x = pos.x; y = pos.y;
 		color = ccolor;
+		tu = u; tv = v;
 	}
 
-	void set(const vec2f& pos, float cz, unsigned long ccolor)
+	void set(const vec2f& pos, float cz, unsigned long ccolor, float u, float v)
 	{
 		x = pos.x; y = pos.y;
 		z = cz;
 		color = ccolor;
+		tu = u; tv = v;
 	}
 };
 
