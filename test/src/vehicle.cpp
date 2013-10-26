@@ -6,7 +6,7 @@ namespace physics
 
 Vehicle::Vehicle()
 {	
-	mDebugging = true;
+	mDebugging = false;
 
 	int maxCollisionPoints = 50;
 
@@ -139,7 +139,7 @@ void Vehicle::update( float dt )
 
 	mLastChangeGearTime += dt;
 
-	if (mDebugging)
+	/*if (mDebugging)
 	{
 		if (mCurrentGear > 0 && mEngineRpm > 6100 && mLastChangeGearTime > 0.5f)
 		{
@@ -154,7 +154,7 @@ void Vehicle::update( float dt )
 			mLastChangeGearTime = 0;
 			printf("gear down %i\n", mCurrentGear - 1);
 		}
-	}
+	}*/
 }
 
 void Vehicle::updateEngine( float dt )
