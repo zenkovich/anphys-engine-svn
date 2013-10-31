@@ -4,14 +4,16 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const std::string& id /*= ""*/, uiWidget* parent /*= NULL*/, const vec2f& localPos /*= vec2f()*/ )
+uiWidget::uiWidget( const std::string& id /*= ""*/, uiWidget* parent /*= NULL*/, const vec2f& localPos /*= vec2f()*/ ):
+	mId(id), mLocalPosition(localPos), mGlobalPosition(localPos), mChildsOffset(), mParent(parent)
 {
-
 }
 
 uiWidget::uiWidget( const uiWidget& widget )
 {
-
+	mId = widget.mId;
+	mLocalPosition = widget.mLocalPosition;
+	mGlobalPosition = widget.mLocalPosition.value();
 }
 
 uiWidget::~uiWidget()
@@ -41,7 +43,7 @@ void uiWidget::setPosition( const vec2f& position )
 
 vec2f uiWidget::getPosition() const
 {
-	return mLocalPosition;
+	return mLocalPosition.value();
 }
 
 uiWidget* uiWidget::clone() const

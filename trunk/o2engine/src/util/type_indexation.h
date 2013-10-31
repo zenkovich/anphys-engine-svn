@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 #define UniqueType unsigned int
 struct TypeIdxContainer
 {
-	static UniqueType index = 0;
+	static UniqueType index;
 };
 
 #define DEFINE_TYPE(TYPENAME) public:                              \
