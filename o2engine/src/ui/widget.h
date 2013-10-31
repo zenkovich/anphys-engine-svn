@@ -9,6 +9,7 @@
 #include "util/type_indexation.h"
 #include "util/input/input_message.h"
 #include "util/math/vector2.h"
+#include "util/property.h"
 
 OPEN_O2_NAMESPACE
 
@@ -16,9 +17,6 @@ class uiWidget
 {
 	typedef std::list<uiWidget> WidgetsList;
 
-	std::string mId;
-
-	vec2f       mLocalPosition;
 	vec2f       mGlobalPosition;
 	vec2f       mChildsOffset;
 
@@ -27,6 +25,9 @@ class uiWidget
 
 public:
 	DEFINE_TYPE(uiWidget);
+
+	prop<std::string> mId;
+	prop<vec2f>       mLocalPosition;
 
 	uiWidget(const std::string& id = "", uiWidget* parent = NULL, const vec2f& localPos = vec2f());
 	uiWidget(const uiWidget& widget);
@@ -43,7 +44,7 @@ public:
 	virtual bool removeChild(uiWidget* widget);
 	virtual void removeAllChilds();
 
-	template<typename T = uiWidget>
+	template<typename T>
 	T* getWidgetByType(const std::string& id)
 	{
 		return static_cast<T*>(getWidget(id));
@@ -53,6 +54,9 @@ public:
 
 	void setPosition(const vec2f& position);
 	vec2f getPosition() const;
+
+	void setId(const std::string& id);
+	std::string getId() const;
 
 private:
 	virtual void localDraw() {}
