@@ -36,7 +36,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 	if (!log)
 		log = gLog;
 
-	cInFile* pngImageFile = new cInFile(fileName, cFileType::FT_IMAGE);
+	cInFile* pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
 	if (!pngImageFile->isOpened())
 	{
 		if (errors) log->out("ERROR: Can't load PNG file '%s'\n", fileName.c_str());
@@ -143,7 +143,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 	}
 
 	//row_pointers is for pointing to image_data for reading the png with libpng
-	png_bytep *row_pointers = new png_bytep[theight];
+	png_bytep *row_pointers = mnew png_bytep[theight];
 	if (!row_pointers) 
 	{
 		//clean up memory and close stuff
@@ -178,7 +178,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	if (!log)
 		log = gLog;
 
-	cOutFile* pngImageFile = new cOutFile(fileName);
+	cOutFile* pngImageFile = mnew cOutFile(fileName);
 	if (!pngImageFile)
 	{
 		log->out("ERROR: Can't save PNG file '%s'\n", fileName.c_str());
@@ -240,7 +240,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	// Row size in bytes.
 	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-	png_bytep *row_pointers = new png_bytep[(unsigned int)image->getSize().y];
+	png_bytep *row_pointers = mnew png_bytep[(unsigned int)image->getSize().y];
 
 	// set the individual row_pointers to point at the correct offsets of image_data
 	for (int i = 0; i < (int)image->getSize().y; ++i)

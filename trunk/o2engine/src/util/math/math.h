@@ -2,12 +2,15 @@
 #define MATH_H
 
 #include "public.h"
+#include <float.h>
 
 OPEN_O2_NAMESPACE
 	
 #undef min
 #undef max
 #undef clamp
+
+enum InterpolationType { IT_LINEAR = 0, IT_FORCIBLE, IT_EASY_IN, IT_EASY_OUT, IT_EASY_IN_OUT, IT_CURVE };
 	
 /* Basic Math functions. */
 template<typename T>
@@ -28,6 +31,14 @@ T clamp(const T& value, const T& minv, const T& maxv)
 		return maxv;
 
 	return value;
+}
+
+template<typename T>
+void mswap(T& v1, T& v2)
+{
+	T x = v1;
+	v1 = v2;
+	v2 = x;
 }
 
 template<typename T>
@@ -69,6 +80,30 @@ T random(const T& minValue = 0, const T& maxValue = 1)
 	return (T)((float)rand()/RAND_MAX*(float)(maxValue - minValue) + (float)minValue);
 }
 
+template<typename T>
+T interpolate(const T& a, const T& b, float coef)
+{
+	return (b - a)*coef + a;
+}
+
+template<typename T>
+T interpolateBezier(const T& a, const T& b, const T& c, const T&d, float coef)
+{
+	float m = 1 - coef;
+	float n = m*m;
+	float o = n*m;
+	float p = coef*coef;
+	float r = p*coef;
+
+	return a*o + b*3.0f*coef*n + c*3.0f*p*m + d*r;
+}
+
+inline bool equals(float a, float b)
+{
+	float x = a - b;
+	return x*x < FLT_EPSILON*FLT_EPSILON;
+}
+
 /* Trigonometry. */
 #define PI 3.1415926535897932384626433832795f
 
@@ -82,6 +117,11 @@ template<typename T>
 T rad2deg(const T& value)
 {
 	return value*( (T)(180.0f/PI) );
+}
+
+inline float f_sin(float r) 
+{
+	return sinf(r);
 }
 
 /* Matricies. */

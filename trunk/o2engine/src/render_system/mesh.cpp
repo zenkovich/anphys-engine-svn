@@ -57,8 +57,8 @@ void grMesh::resize( unsigned int vertexCount, unsigned int polyCount )
 	safe_release_arr(mVerticies);
 	safe_release_arr(mIndexes);
 
-	mVerticies = new vertex2[vertexCount];
-	mIndexes = new unsigned short[polyCount*3];
+	mVerticies = mnew vertex2[vertexCount];
+	mIndexes = mnew unsigned short[polyCount*3];
 
 	mMaxVertexCount = vertexCount;
 	mMaxPolyCount = polyCount;

@@ -89,7 +89,7 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 
 void grTexture::createFromFile( grRenderSystem* renderSystem, const std::string& fileName )
 {
-	cImage* image = new cImage;
+	cImage* image = mnew cImage;
 	if (image->load(fileName, cImage::IT_AUTO, renderSystem->mLog))
 		createFromImage(renderSystem, image);
 }

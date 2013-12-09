@@ -31,7 +31,7 @@ void cImage::create( Format format, const vec2i& size )
 	mFormat = format;
 	mSize = size;
 
-	mData = new unsigned char[ size.x*size.y*bpp[format] ];
+	mData = mnew unsigned char[ size.x*size.y*bpp[format] ];
 }
 
 bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog /*= NULL*/ )

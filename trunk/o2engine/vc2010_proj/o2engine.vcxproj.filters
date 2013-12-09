@@ -70,6 +70,9 @@
     <Filter Include="src\util\graphics">
       <UniqueIdentifier>{b4650c30-3978-4cb3-b08f-d50f1235ce0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\animation">
+      <UniqueIdentifier>{9f420916-3bda-4d7f-b6a9-676ab002c4ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -201,8 +204,6 @@
     <ClInclude Include="..\src\util\input\input_message.h">
       <Filter>src\util\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\anim\anim_obj.h" />
-    <ClInclude Include="..\src\util\anim\param_animation.h" />
     <ClInclude Include="..\src\app\win\application_win.h">
       <Filter>src\app\win</Filter>
     </ClInclude>
@@ -319,6 +320,27 @@
     </ClInclude>
     <ClInclude Include="..\src\util\property.h">
       <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\objects.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\smart_ptrs.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\animation\frame_interpolation.h">
+      <Filter>src\util\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\animation\frame.h">
+      <Filter>src\util\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\animation\animation_base.h">
+      <Filter>src\util\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\animation\animation.h">
+      <Filter>src\util\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\animation\animation_group.h">
+      <Filter>src\util\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -558,6 +580,12 @@
     </ClCompile>
     <ClCompile Include="..\src\util\type_indexation.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\animation\animation_base.cpp">
+      <Filter>src\util\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\animation\animation_group.cpp">
+      <Filter>src\util\animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

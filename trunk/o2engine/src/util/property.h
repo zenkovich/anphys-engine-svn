@@ -6,50 +6,80 @@
 #include "callback.h"
 
 OPEN_O2_NAMESPACE
-	
+
 template<typename T>
-class prop
+class cProperty
 {
 	T          mObject;
-	bool       mChanged;
-
-	ICallback* mChangedCallback;
+	T          mLastObject;
+	ICallback* mChangeCallback;
 
 public:
-	prop():mChanged(false), mChangedCallback(NULL) {}
-	prop(const T& obj):mObject(obj), mChanged(false), mChangedCallback(NULL) {}
+	cProperty() :mObject(), mLastObject(), mChangeCallback(0) {}
 
-	void setCallback(ICallback* callback)
+	cProperty(const T& object) :mObject(object), mLastObject(object), mChangeCallback(NULL) {}
+
+	~cProperty()
 	{
-		safe_release(mChangedCallback);
-		mChangedCallback = callback;
+		safe_release(mChangeCallback);
 	}
 
-	void reset() { mChanged = false; }
-	bool isChanged() const { return mChanged; }
 
-	const T& value() const { return mObject; }
-
-	prop<T>&& operator=(const T& obj)
+	void setChangeCallback(ICallback* callback)
 	{
-		if (obj != mObject)
+		safe_release(mChangeCallback);
+		mChangeCallback = callback;
+	}
+
+	bool check()
+	{
+		if (mObject != mLastObject)
 		{
-			mObject = obj;
-			mChanged = true;
-			if (mChangedCallback)
-				mChangedCallback->call();
+			mLastObject = mObject;
+			return true;
 		}
 
-		return this;
+		return false;
 	}
-	
-	//T& operator=(prop<T>& propp) { return propp.mObject; }
-	
-	prop<T>& operator=(const prop<T>& propp) { return *this; }
-};
 
-template<typename T>
-const T& operator=(const prop<T>& propp) { return propp.mObject; }
+	cProperty& operator=(const cProperty& prop)
+	{
+		*this = prop.mObject;
+		return *this;
+	}
+
+	cProperty& operator=(const T& obj)
+	{
+		if (mObject != obj)
+		{
+			mObject = obj;
+			if (mChangeCallback)
+				mChangeCallback->call();
+		}
+
+		return *this;
+	}
+
+	operator T&() 
+	{
+		return mObject;
+	}
+
+	T* operator ->()
+	{
+		return &mObject;
+	}
+
+	T& operator *()
+	{
+		return mObject;
+	}
+
+	const T& operator *() const
+	{
+		return mObject;
+	}
+};
 
 CLOSE_O2_NAMESPACE
 

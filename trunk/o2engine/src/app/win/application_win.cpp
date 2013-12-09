@@ -17,11 +17,11 @@ cApplication::cApplication():
 {
 	initializeWindow();
 
-	mTimer = new cTimer;
+	mTimer = mnew cTimer;
 	mTimer->reset();
 	mApplication = this;
 
-	mRenderSystem = new grRenderSystem(this);
+	mRenderSystem = mnew grRenderSystem(this);
 
 	cDeviceInfo::initializeSingleton();
 	deviceInfo().initialize(this);

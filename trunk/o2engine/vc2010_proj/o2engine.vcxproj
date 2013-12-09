@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,12 +19,14 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -134,8 +136,11 @@
     <ClInclude Include="..\src\render_system\texture.h" />
     <ClInclude Include="..\src\render_system\texture_base_interface.h" />
     <ClInclude Include="..\src\ui\widget.h" />
-    <ClInclude Include="..\src\util\anim\anim_obj.h" />
-    <ClInclude Include="..\src\util\anim\param_animation.h" />
+    <ClInclude Include="..\src\util\animation\animation.h" />
+    <ClInclude Include="..\src\util\animation\animation_group.h" />
+    <ClInclude Include="..\src\util\animation\frame.h" />
+    <ClInclude Include="..\src\util\animation\frame_interpolation.h" />
+    <ClInclude Include="..\src\util\animation\animation_base.h" />
     <ClInclude Include="..\src\util\assert.h" />
     <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
@@ -161,9 +166,11 @@
     <ClInclude Include="..\src\util\mem_utils\stack_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
+    <ClInclude Include="..\src\util\objects.h" />
     <ClInclude Include="..\src\util\property.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
+    <ClInclude Include="..\src\util\smart_ptrs.h" />
     <ClInclude Include="..\src\util\string.h" />
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
@@ -223,6 +230,8 @@
     <ClCompile Include="..\src\render_system\sprite.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
     <ClCompile Include="..\src\ui\widget.cpp" />
+    <ClCompile Include="..\src\util\animation\animation_base.cpp" />
+    <ClCompile Include="..\src\util\animation\animation_group.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />

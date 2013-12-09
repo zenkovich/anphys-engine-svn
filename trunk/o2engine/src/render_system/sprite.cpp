@@ -18,7 +18,7 @@ grSprite::grSprite( grRenderSystem* render,
 					const color4&   color          /*= color4(1.0f, 1.0f, 1.0f, 1.0f)*/ )
 {
 	//create mesh
-	mMesh = new grMesh(render, texture, 4, 2);
+	mMesh = mnew grMesh(render, texture, 4, 2);
 
 	mMesh->mIndexes[0] = 0; mMesh->mIndexes[1] = 1; mMesh->mIndexes[2] = 2;
 	mMesh->mIndexes[3] = 0; mMesh->mIndexes[4] = 2; mMesh->mIndexes[5] = 3;
@@ -66,7 +66,7 @@ grSprite::grSprite( grRenderSystem* render,
 grSprite::grSprite( const grSprite& sprite )
 {
 	//create mesh
-	mMesh = new grMesh(*sprite.mMesh);
+	mMesh = mnew grMesh(*sprite.mMesh);
 
 	mTextureSrcRect = sprite.mTextureSrcRect;
 	mPosition = sprite.mPosition;
@@ -94,7 +94,7 @@ grSprite::grSprite( const grSprite& sprite )
 grSprite::grSprite(grRenderSystem* render, pugi::xml_node& xmlNode)
 {
 	//create mesh
-	mMesh = new grMesh(render, NULL, 4, 2);
+	mMesh = mnew grMesh(render, NULL, 4, 2);
 
 	mMesh->mIndexes[0] = 0; mMesh->mIndexes[1] = 1; mMesh->mIndexes[2] = 2;
 	mMesh->mIndexes[3] = 0; mMesh->mIndexes[4] = 2; mMesh->mIndexes[5] = 3;
@@ -192,7 +192,7 @@ const fRect& grSprite::getTextureSrcRect() const
 
 grSprite* grSprite::clone() const
 {
-	return new grSprite(*this);
+	return mnew grSprite(*this);
 }
 
 grSprite& grSprite::setTexture( grTexture* texture )
