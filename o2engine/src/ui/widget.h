@@ -15,7 +15,7 @@ OPEN_O2_NAMESPACE
 
 class uiWidget
 {
-	typedef std::list<uiWidget> WidgetsList;
+	typedef std::vector<uiWidget*> WidgetsList;
 
 	vec2f       mGlobalPosition;
 	vec2f       mChildsOffset;
@@ -26,8 +26,8 @@ class uiWidget
 public:
 	DEFINE_TYPE(uiWidget);
 
-	prop<std::string> mId;
-	prop<vec2f>       mLocalPosition;
+	cProperty<std::string> mId;
+	cProperty<vec2f>       mLocalPosition;
 
 	uiWidget(const std::string& id = "", uiWidget* parent = NULL, const vec2f& localPos = vec2f());
 	uiWidget(const uiWidget& widget);
@@ -44,6 +44,8 @@ public:
 	virtual bool removeChild(uiWidget* widget);
 	virtual void removeAllChilds();
 
+	virtual void setParent(uiWidget* parent);
+
 	template<typename T>
 	T* getWidgetByType(const std::string& id)
 	{
@@ -52,15 +54,9 @@ public:
 
 	uiWidget* getWidget(const std::string& id);
 
-	void setPosition(const vec2f& position);
-	vec2f getPosition() const;
-
-	void setId(const std::string& id);
-	std::string getId() const;
-
 private:
 	virtual void localDraw() {}
-	virtual void localUpdate() {}
+	virtual void localUpdate(float dt) {}
 	virtual void localProcessInputMessage(const cInputMessage& msg) {}
 };
 

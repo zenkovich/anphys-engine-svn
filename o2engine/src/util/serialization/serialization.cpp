@@ -29,7 +29,7 @@ bool cSerialization::loadData( pugi::xml_document& doc, cInFile& file, cLogStrea
 		return false;
 
 	uint64 size = file.getDataSize();
-	char* buf = new char[(unsigned int)size];
+	char* buf = mnew char[(unsigned int)size];
 	file.readFullData((void*)buf);
 
 	pugi::xml_parse_result res = doc.load_buffer(buf, (unsigned int)size);

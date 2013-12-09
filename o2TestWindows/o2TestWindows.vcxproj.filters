@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\tests">
+      <UniqueIdentifier>{b98c831e-dc57-4863-aed1-972af6b8e36d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main_win.cpp">
@@ -13,28 +16,19 @@
     <ClCompile Include="src\test_app.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\man_field.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\man.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\path_web.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\tests\animation_test.cpp">
+      <Filter>src\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\test_app.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\man_field.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\tests\test_interface.h">
+      <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="src\man.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\path_web.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\tests\animation_test.h">
+      <Filter>src\tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

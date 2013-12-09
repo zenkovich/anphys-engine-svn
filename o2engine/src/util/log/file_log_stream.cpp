@@ -37,7 +37,7 @@ void cFileLogStream::outStrEx( const std::string& str )
 
 void cFileLogStream::openFile( const std::string& fileName )
 {
-	mOutFile = new cOutFile(fileName);
+	mOutFile = mnew cOutFile(fileName);
 }
 
 CLOSE_O2_NAMESPACE

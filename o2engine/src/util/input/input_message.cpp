@@ -30,7 +30,7 @@ bool cInputMessage::isKeyReleased( VKey key ) const
 	return false;
 }
 
-const vec2f& cInputMessage::getCursorPos( int idx /*= 0*/ ) const
+vec2f cInputMessage::getCursorPos( int idx /*= 0*/ ) const
 {
 	if (idx < 0 || idx > (int)(mCursorsPositions.size() - 1))
 		return vec2f();

@@ -22,13 +22,13 @@ cApplicationBaseInterface::~cApplicationBaseInterface()
 void cApplicationBaseInterface::initalizeSystems()
 {
 //file system
-	mFileSystem = new cFileSystem;
+	mFileSystem = mnew cFileSystem;
 
 //log
-	cFileLogStream* fileLog = new cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
-	gLog = new cConsoleLogStream(BASIC_LOG_LEVEL);
+	cFileLogStream* fileLog = mnew cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
+	gLog = mnew cConsoleLogStream(BASIC_LOG_LEVEL);
 	fileLog->bindStream(gLog);
-	mLog = new cFileLogStream("App", 2, "app_log.txt");
+	mLog = mnew cFileLogStream("App", 2, "app_log.txt");
 	gLog->bindStream(mLog);
 
 	mLog->out("All Systems initialized");

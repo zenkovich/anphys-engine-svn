@@ -51,6 +51,16 @@ struct basis
 		return *this;
 	}
 
+	inline bool operator==(const basis& cbasis)
+	{
+		return !(xv != cbasis.xv || yv != cbasis.yv || offs != cbasis.offs);
+	}
+
+	inline bool operator!=(const basis& cbasis)
+	{
+		return xv != cbasis.xv || yv != cbasis.yv || offs != cbasis.offs;
+	}
+
 	inline basis operator*(const basis& cbasis)
 	{ 
 		basis res;

@@ -14,7 +14,7 @@ public:
 			    
 	static T*   instancePtr()           { return mInstance; }
 
-	static void initializeSingleton()   { if (!mInstance) mInstance = new T; }
+	static void initializeSingleton()   { if (!mInstance) mInstance = mnew T; }
 	static void deinitializeSingleton() { safe_release(mInstance); }
 
 	static bool isSingletonInitialzed() { return (mInstance != NULL); }
@@ -24,7 +24,7 @@ protected:
 };
 
 #define DECLARE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = NULL
-#define CREATE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = new T
+#define CREATE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = mnew T
 
 CLOSE_O2_NAMESPACE
 

@@ -4,22 +4,19 @@
 #include "app/application.h"
 #include "util/singleton.h"
 #include "util/math/basis.h"
-#include "util/math/vector2.h"
+#include "util/property.h"
+#include "util/animation/animation.h"
+#include "util/math/color.h"
 
 OPEN_O2_NAMESPACE
 
 class cManField;
-class cStretchRect;
+class ITest;
 
 /** Тестовое приложение. Обрабатывает ввод, выводит графику и т.п. */
 class TestApp:public cApplication, public cSingleton<TestApp>
 {
-	cManField*    mManField; /** Указатель на экземпляр обекта мужикополя. */
-
-	vec2f         mLastCursorPos;
-	cStretchRect* mStretchRect;
-	bool          mDragRect;
-	bool          mResizeRect;
+	ITest* mTest;
 
 public:	
 	/** констр. */

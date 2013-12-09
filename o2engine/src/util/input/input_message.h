@@ -49,7 +49,7 @@ public:
 	bool isKeyReleased(VKey key) const;
 
 	/** Returns position of cursor. */
-	const vec2f& getCursorPos(int idx = 0) const;
+	vec2f getCursorPos(int idx = 0) const;
 
 	/** Call it when key pressed. */
 	void keyPressed(VKey key);

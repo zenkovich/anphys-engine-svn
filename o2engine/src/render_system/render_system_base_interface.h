@@ -60,6 +60,15 @@ public:
 	/** Forcible removing all textures. */
 	bool removeAllTextures();
 
+	/** Draw single line with color. */
+	void drawLine(const vec2f& a, const vec2f& b, const color4 color = color4(255));
+
+	/** Draw rect frame with color. */
+	void drawRectFrame(const vec2f& minp, const vec2f& maxp, const color4 color = color4(255));
+
+	/** Draw cross with color. */
+	void drawCross(const vec2f& pos, float size = 5, const color4 color = color4(255));
+
 	/** Beginning rendering. */
 	virtual bool beginRender() = 0;
 

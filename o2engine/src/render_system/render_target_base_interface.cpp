@@ -62,7 +62,7 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 		texSize.y = clamp<float>(texSize.y, 64.0f, (float)maxTextureSize.y);
 	}
 
-	mRenderTexture = mRenderSystem->addTexture(new grTexture(mRenderSystem, texSize, texFormat, grTexUsage::RENDER_TARGET));
+	mRenderTexture = mRenderSystem->addTexture(mnew grTexture(mRenderSystem, texSize, texFormat, grTexUsage::RENDER_TARGET));
 	mRenderTexture->incRefCount();
 }
 

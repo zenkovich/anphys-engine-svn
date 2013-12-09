@@ -31,6 +31,13 @@ struct vertex2:public vec2<float>
 		color = ccolor;
 		tu = u; tv = v;
 	}
+		
+	void set(float px, float py, unsigned long ccolor, float u, float v) 
+	{
+		x = px; y = py;
+		color = ccolor;
+		tu = u; tv = v;
+	}
 
 	void set(const vec2f& pos, float cz, unsigned long ccolor, float u, float v)
 	{

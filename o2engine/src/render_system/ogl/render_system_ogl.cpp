@@ -102,9 +102,9 @@ void grRenderSystem::initializeGL()
 
 #endif //PLATFORM_WIN
 
-	mVertexData = new unsigned char[mVertexBufferSize*sizeof(vertex2)];
+	mVertexData = mnew unsigned char[mVertexBufferSize*sizeof(vertex2)];
 
-	mVertexIndexData = new unsigned short[mIndexBufferSize];
+	mVertexIndexData = mnew unsigned short[mIndexBufferSize];
 	mLastDrawVertex = 0;
 	mTrianglesCount = 0;
 	mCurrentPrimitiveType = GL_TRIANGLES;

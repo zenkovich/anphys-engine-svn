@@ -13,7 +13,7 @@ OPEN_O2_NAMESPACE
 grRenderSystemBaseInterface::grRenderSystemBaseInterface( cApplication* application ):
 	mCurrentCamera(NULL), mApplication(application)
 {
-	mLog = new cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
+	mLog = mnew cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
 	gLog->bindStream(mLog);
 }
 
@@ -48,7 +48,7 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 		}
 	}
 
-	grTexture* newTexture = new grTexture((grRenderSystem*)this, fileName);
+	grTexture* newTexture = mnew grTexture((grRenderSystem*)this, fileName);
 	//newTexture->incRefCount();
 
 	mLog->hout("Created texture '%s'", fileName.c_str());
@@ -92,6 +92,31 @@ bool grRenderSystemBaseInterface::removeAllTextures()
 vec2i grRenderSystemBaseInterface::getResolution() const
 {
 	return mResolution;
+}
+
+void grRenderSystemBaseInterface::drawLine( const vec2f& a, const vec2f& b, const color4 color /*= color4(255)*/ )
+{
+	unsigned long dcolor = color.dword();
+	vertex2 v[] = { vertex2(a.x, a.y, dcolor, 0, 0), vertex2(b.x, b.y, dcolor, 0, 0) };
+	drawLines(v, 1);
+}
+
+void grRenderSystemBaseInterface::drawRectFrame( const vec2f& minp, const vec2f& maxp, const color4 color /*= color4(255)*/ )
+{
+	unsigned long dcolor = color.dword();
+	vertex2 v[] = { vertex2(minp.x, minp.y, dcolor, 0, 0), vertex2(maxp.x, minp.y, dcolor, 0, 0),
+	                vertex2(maxp.x, minp.y, dcolor, 0, 0), vertex2(maxp.x, maxp.y, dcolor, 0, 0),
+	                vertex2(maxp.x, maxp.y, dcolor, 0, 0), vertex2(minp.x, maxp.y, dcolor, 0, 0),
+	                vertex2(minp.x, maxp.y, dcolor, 0, 0), vertex2(minp.x, minp.y, dcolor, 0, 0) };
+	drawLines(v, 4);
+}
+
+void grRenderSystemBaseInterface::drawCross( const vec2f& pos, float size /*= 5*/, const color4 color /*= color4(255)*/ )
+{
+	unsigned long dcolor = color.dword();
+	vertex2 v[] = { vertex2(pos.x - size, pos.y, dcolor, 0, 0), vertex2(pos.x + size, pos.y, dcolor, 0, 0),
+	                vertex2(pos.x, pos.y - size, dcolor, 0, 0), vertex2(pos.x, pos.y + size, dcolor, 0, 0) };
+	drawLines(v, 2);
 }
 
 CLOSE_O2_NAMESPACE
