@@ -98,6 +98,19 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, uint16& obj, cLogStream* log /*= NULL*/ )
+{
+	pugi::xml_node chNode;
+	if (getNode(chNode, xmlNode, id))
+	{
+		obj = chNode.attribute("v").as_uint();
+
+		return true;
+	}
+
+	return false;
+}
+
 bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, float& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
@@ -223,6 +236,14 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 }
 
 bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, int obj, cLogStream* log /*= NULL*/ )
+{	
+	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
+	chNode.append_attribute("v") = obj;
+
+	return true;
+}
+
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, uint16 obj, cLogStream* log /*= NULL*/ )
 {	
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj;

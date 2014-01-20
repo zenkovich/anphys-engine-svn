@@ -107,16 +107,14 @@ inline bool equals(float a, float b)
 /* Trigonometry. */
 #define PI 3.1415926535897932384626433832795f
 
-template<typename T>
-T deg2rad(const T& value)
+inline float deg2rad(const float& value)
 {
-	return value*( (T)(PI/180.0f) );
+	return value*( PI/180.0f );
 }
 
-template<typename T>
-T rad2deg(const T& value)
+inline float rad2deg(const float& value)
 {
-	return value*( (T)(180.0f/PI) );
+	return value*( 180.0f/PI );
 }
 
 inline float f_sin(float r) 

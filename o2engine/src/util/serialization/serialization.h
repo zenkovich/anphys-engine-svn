@@ -43,6 +43,7 @@ struct cSerialization
 //NOTE: Do not use that functions !
 	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, cSerializableObj* obj, cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, int& obj, cLogStream* log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, uint16& obj, cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, float& obj, cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, bool& obj, cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const std::string& id, std::string& obj, cLogStream* log = NULL);	
@@ -54,6 +55,7 @@ struct cSerialization
 	
 	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, cSerializableObj* obj, cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, int obj, cLogStream* log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, uint16 obj, cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, float obj, cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, bool obj, cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const std::string& id, std::string& obj, cLogStream* log = NULL);	

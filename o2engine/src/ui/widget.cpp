@@ -9,13 +9,17 @@ REGIST_TYPE(uiWidget);
 uiWidget::uiWidget( const std::string& id /*= ""*/, uiWidget* parent /*= NULL*/, const vec2f& localPos /*= vec2f()*/ ):
 	mId(id), mLocalPosition(localPos), mGlobalPosition(localPos), mChildsOffset(), mParent(parent)
 {
+	initializeProperties();
+	updateLayout();
 }
 
 uiWidget::uiWidget( const uiWidget& widget )
 {
+	initializeProperties();
+
 	mId = widget.mId;
 	mLocalPosition = widget.mLocalPosition;
-	mGlobalPosition = *(widget.mLocalPosition);
+	mGlobalPosition = widget.mLocalPosition;
 	mParent = NULL;
 	mChildsOffset = widget.mChildsOffset;
 
@@ -23,6 +27,11 @@ uiWidget::uiWidget( const uiWidget& widget )
 	{
 		addChild((*it)->clone());
 	}
+
+	position = mGlobalPosition;
+	mGlobalPosition = position;
+
+	updateLayout();
 }
 
 uiWidget::~uiWidget()
@@ -43,11 +52,53 @@ void uiWidget::update( float dt )
 	localUpdate(dt);
 
 	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
-		(*it)->localUpdate(dt);
+		(*it)->update(dt);
+}
+
+void uiWidget::updateLayout()
+{
+	localUpdateLayout();
+	
+	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+		(*it)->updateLayout();
+}
+
+void uiWidget::localUpdateLayout()
+{
+	vec2f parentPos, parentSize;
+	if (mParent)
+	{
+		parentPos = mParent->mGlobalPosition;
+		parentSize = mParent->mSize;
+	}
+	
+	mSize.x = clamp(parentSize.x*mLayout.mRelSize.x - mLayout.mRelSizeBorder.x, mLayout.mMinSize.x, mLayout.mMaxSize.x);
+	mSize.y = clamp(parentSize.y*mLayout.mRelSize.y - mLayout.mRelSizeBorder.y, mLayout.mMinSize.y, mLayout.mMaxSize.y);
+
+	vec2f pivot = mSize.scale(mLayout.mRelPivot) + mLayout.mPxPivot;
+
+	mGlobalPosition = parentPos + parentSize.scale(mLayout.mRelPosition) - pivot;
+
+	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
+}
+
+bool uiWidget::isInside( const vec2f& point ) const
+{
+	if (!mBounds.isInside(point))
+		return false;
+
+	if (isLocalInside(point))
+		return true;
+
+	for (WidgetsList::const_iterator it = mChildWidgets.cbegin(); it != mChildWidgets.cend(); ++it)
+		if ((*it)->isInside(point))
+			return true;
 }
 
 void uiWidget::processInputMessage( const cInputMessage& msg )
 {
+	localProcessInputMessage(msg);
+
 	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 		(*it)->processInputMessage(msg);
 }
@@ -59,12 +110,11 @@ uiWidget* uiWidget::clone() const
 
 uiWidget* uiWidget::addChild( uiWidget* widget )
 {
-	mChildWidgets.push_back(widget);
-	widget->mParent = this;
+	widget->setParent(this);
 	return widget;
 }
 
-bool uiWidget::removeChild( uiWidget* widget )
+void uiWidget::removeChild( uiWidget* widget )
 {
 	WidgetsList::iterator fnd = std::find(mChildWidgets.begin(), mChildWidgets.end(), widget);
 	if (fnd != mChildWidgets.end())
@@ -73,7 +123,7 @@ bool uiWidget::removeChild( uiWidget* widget )
 	widget->mParent = NULL;
 	safe_release(widget);
 
-	return true;
+	updateLayout();
 }
 
 void uiWidget::removeAllChilds()
@@ -85,9 +135,11 @@ void uiWidget::removeAllChilds()
 	}
 
 	mChildWidgets.clear();
+
+	updateLayout();
 }
 
-void uiWidget::setParent(uiWidget* parent)
+void uiWidget::setParent(const uiWidgetPtr& parent)
 {
 	if (mParent)
 	{
@@ -102,6 +154,13 @@ void uiWidget::setParent(uiWidget* parent)
 	{
 		mParent->addChild(this);
 	}
+
+	updateLayout();
+}
+
+uiWidget* uiWidget::getParent()
+{
+	return mParent;
 }
 
 uiWidget* uiWidget::getWidget( const std::string& id )
@@ -124,7 +183,7 @@ uiWidget* uiWidget::getWidget( const std::string& id )
 
 	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 	{
-		if (*(*it)->mId == pathPart)
+		if ((*it)->mId == pathPart)
 		{
 			if (delPos == id.npos)
 				return (*it);
@@ -134,6 +193,67 @@ uiWidget* uiWidget::getWidget( const std::string& id )
 	}
 
 	return NULL;
+}
+
+void uiWidget::setPosition( const vec2f& position )
+{
+	mLocalPosition = position;
+	updateLayout();
+}
+
+vec2f uiWidget::getPosition()
+{
+	return mLocalPosition;
+}
+
+void uiWidget::setId( const std::string& id )
+{
+	mId = id;
+}
+
+std::string uiWidget::getId()
+{
+	return mId;
+}
+
+void uiWidget::setGlobalPosition( const vec2f& position )
+{
+	mLocalPosition = position;
+
+	if (mParent)
+		mLocalPosition -= mParent->mGlobalPosition;
+
+	updateLayout();
+}
+
+vec2f uiWidget::getGlobalPosition()
+{
+	return mGlobalPosition;
+}
+
+void uiWidget::setSize( const vec2f& size )
+{
+	mSize = size;
+	updateLayout();
+}
+
+vec2f uiWidget::getSize()
+{
+	return mSize;
+}
+
+cGeometry* uiWidget::getGeometry()
+{
+	return mGeometry;
+}
+
+void uiWidget::initializeProperties()
+{
+	position.init(this, &uiWidget::setPosition, &uiWidget::getPosition);
+	parent.init(this, &uiWidget::setParent, &uiWidget::getParent);
+	id.init(this, &uiWidget::setId, &uiWidget::getId);
+	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
+	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
 }
 
 CLOSE_O2_NAMESPACE

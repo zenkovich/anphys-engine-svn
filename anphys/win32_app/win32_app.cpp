@@ -19,8 +19,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	getFileSystem().mResourcesDirectory = "../data/";
 
 	//engine.addFrame(new apBoxCollisionTestFrame("anPhys box collision test", fRect(0,0,800,600)));
-	//getEngine().addFrame(new apPhysicsTestFrame("anPhys physics test", fRect(200,0,1224,730)));
-	getEngine().addFrame(new apMeshTestFrame("mesh test", fRect(200,0,1224,730)));
+	getEngine().addFrame(new apPhysicsTestFrame("anPhys physics test", fRect(200,0,1224,730)));
+	//getEngine().addFrame(new apMeshTestFrame("mesh test", fRect(200,0,1224,730)));
 	//engine.addFrame(new apTestFrame("anPhys2 test", fRect(0,0,800,600)));
 
 	getEngine().run();

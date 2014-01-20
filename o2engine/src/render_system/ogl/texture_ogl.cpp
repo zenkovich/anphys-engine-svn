@@ -7,18 +7,15 @@
 #include "../render_system.h"
 
 OPEN_O2_NAMESPACE
-
-grTexture::grTexture( grRenderSystem* renderSystem, const vec2f& size, grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
-                      grTexUsage::type usage /*= grTexUsage::DEFAULT*/ ):
-	grTextureBaseInterface(renderSystem), mHandle(0)
+	
+grTexture::grTexture():
+	grTextureBaseInterface(), mHandle(0)
 {
-	create(renderSystem, size, format, usage);
 }
 
-grTexture::grTexture( grRenderSystem* renderSystem, const std::string& fileName ):
-	grTextureBaseInterface(renderSystem)
+grTexture::grTexture( const grTexture& texture ):
+	grTextureBaseInterface(), mHandle(0)
 {
-	createFromFile(renderSystem, fileName);
 }
 
 grTexture::~grTexture()
@@ -26,10 +23,11 @@ grTexture::~grTexture()
 	glDeleteTextures(1, &mHandle);
 }
 
-void grTexture::create( grRenderSystem* renderSystem, const vec2f& size, 
-	                    grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
-						grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
+void grTexture::createSelf( grRenderSystem* renderSystem, const vec2f& size, 
+	                        grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
+						    grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
 {
+	mRenderSystem = renderSystem;
 	mFormat = format;
 	mUsage = usage;
 	mSize = size;
@@ -53,7 +51,7 @@ void grTexture::create( grRenderSystem* renderSystem, const vec2f& size,
 	mReady = true;
 }
 
-void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
+void grTexture::createSelfFromImage( grRenderSystem* renderSystem, cImage* image )
 {
 	mRenderSystem = renderSystem;
 
@@ -87,17 +85,17 @@ void grTexture::createFromImage( grRenderSystem* renderSystem, cImage* image )
 	mReady = true;
 }
 
-void grTexture::createFromFile( grRenderSystem* renderSystem, const std::string& fileName )
+void grTexture::createSelfFromFile( grRenderSystem* renderSystem, const std::string& fileName )
 {
 	cImage* image = mnew cImage;
 	if (image->load(fileName, cImage::IT_AUTO, renderSystem->mLog))
-		createFromImage(renderSystem, image);
+		createSelfFromImage(renderSystem, image);
 }
 
-void grTexture::createAsRenderTarget( grRenderSystem* renderSystem, const vec2f& size, 
-	                                  grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
+void grTexture::createSelfAsRenderTarget( grRenderSystem* renderSystem, const vec2f& size, 
+	                                      grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
 {
-	create(renderSystem, size, format, grTexUsage::RENDER_TARGET);
+	createSelf(renderSystem, size, format, grTexUsage::RENDER_TARGET);
 }
 
 CLOSE_O2_NAMESPACE

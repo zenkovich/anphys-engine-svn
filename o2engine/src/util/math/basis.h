@@ -11,8 +11,9 @@ struct basis
 {
 	vec2f xv, yv, offs;
 
-	inline basis()
-	{ 
+	inline basis():
+		xv(1, 0), yv(0, 1), offs()
+	{
 	}
 
 	inline basis(const vec2f& offsvec, const vec2f& xvec = vec2f(1, 0), const vec2f& yvec = vec2f(0, 1))
@@ -73,8 +74,8 @@ struct basis
 	inline vec2f operator*(const vec2f& vec) const
 	{
 		vec2f ret;
-		ret.x = xv.x*vec.x + xv.y*vec.y + offs.x;
-		ret.y = yv.x*vec.x + yv.y*vec.y + offs.y;
+		ret.x = xv.x*vec.x + yv.x*vec.y + offs.x;
+		ret.y = xv.y*vec.x + yv.y*vec.y + offs.y;
 		return ret;
 	}
 
@@ -92,25 +93,37 @@ struct basis
 		return vec2f( xv.len(), yv.len() );
 	}
 
-	inline void decompose(vec2f* offset, float* angle, vec2f* scale)
+	inline float getShift() const 
+	{
+		vec2f scale = getScale();
+		return getShiftFast(scale);
+	}
+
+	inline float getShiftFast(const vec2f& scale) const 
+	{
+		return (xv/scale.x)*(yv/scale.y);
+	}
+
+	inline void decompose(vec2f* offset, float* angle, vec2f* scale, float* shift) const
 	{
 		*offset = offs;
 		*angle = getAngle();
 		*scale = getScale();
+		*shift = getShiftFast(*scale);
 	}
 
 	inline basis inverted() const
 	{
 		float invdet = 1.0f/(xv.x*yv.y - yv.x*xv.y);
-		basis old = *this, res;   
+		basis res;   
 
-		res.xv.x=     old.yv.y*invdet;
-		res.yv.x=    -old.yv.x*invdet;
-		res.offs.x=  (old.yv.x*old.offs.y - old.offs.x*old.yv.y)*invdet;
+		res.xv.x=     yv.y*invdet;
+		res.yv.x=    -yv.x*invdet;
+		res.offs.x=  (yv.x*offs.y - offs.x*yv.y)*invdet;
 				    
-		res.xv.y=    -old.xv.y*invdet;
-		res.yv.y=     old.xv.x*invdet;
-		res.offs.y= -(old.xv.x*old.offs.y - old.offs.x*old.xv.y)*invdet;
+		res.xv.y=    -xv.y*invdet;
+		res.yv.y=     xv.x*invdet;
+		res.offs.y= -(xv.x*offs.y - offs.x*xv.y)*invdet;
 		
 		return res;
 	}
@@ -141,6 +154,18 @@ struct basis
 		xv = nxv; yv = nyv;
 	}
 
+	inline void transform(float& x, float& y) const
+	{
+		float lx = x, ly = y;
+		x = xv.x*lx + yv.x*ly + offs.x;
+		y = xv.y*lx + yv.y*ly + offs.y;
+	}
+
+	inline vec2f transform(const vec2f& vec) const
+	{
+		return vec2f(xv.x*vec.x + yv.x*vec.y + offs.x, xv.y*vec.x + yv.y*vec.y + offs.y);
+	}
+
 	inline static basis nullBasis()
 	{
 		return basis(vec2f(0, 0), vec2f(1, 0), vec2f(0, 1));
@@ -161,7 +186,57 @@ struct basis
 		float cs = cosf(angle), sn = sinf(angle);
 		basis(vec2f(0, 0), vec2f(cs, sn), vec2f(-sn, cs));
 	}
+
+	inline static basis buildBasis(const vec2f& position, const vec2f& scale, float angle, float shift)
+	{
+		float sn = sinf(angle), cs = cosf(angle);
+		vec2f x(scale.x*cs, sn*scale.x), y(-sn*scale.y, cs*scale.y);
+		y += x*shift;
+		return basis(position, x, y);
+	}
 };
+
+struct basisDef 
+{
+	vec2f mPosition;
+	vec2f mScale;
+	float mAngle;
+	float mShift;
+
+
+	inline basisDef(const vec2f& position = vec2f(), const vec2f& scale = vec2f(1, 1), float angle = 0, float shift = 0):
+		mPosition(position), mScale(scale), mAngle(angle), mShift(shift)
+	{
+	}
+
+	inline basisDef(const basisDef& def)
+	{
+		mPosition = def.mPosition;
+		mScale = def.mScale;
+		mAngle = def.mAngle;
+		mShift = def.mShift;
+	}
+
+	inline basisDef(const basis& bas)
+	{
+		bas.decompose(&mPosition, &mAngle, &mScale, &mShift);
+	}
+
+	inline basis build() const 
+	{
+		return basis::buildBasis(mPosition, mScale, mAngle, mShift);
+	}
+};
+
+inline basisDef basis2def(const basis& bas)
+{
+	return basisDef(bas);
+}
+
+inline basis def2basis(const basisDef& def)
+{
+	return def.build();
+}
 
 CLOSE_O2_NAMESPACE
 

@@ -16,6 +16,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	friend class cApplication;
 	friend class grSprite;
 	friend class grRenderTarget;
+	friend class grFont;
 	friend class cDeviceInfo;
 	
 	static const unsigned int mVertexBufferSize = 6000;  /** Maximum size of vertex buffer. */

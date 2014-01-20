@@ -7,6 +7,7 @@
 #include "../mesh.h"
 #include "../render_target.h"
 #include "../texture.h"
+#include "../font_manager.h"
 #include "app/application.h"
 #include "ogl_debug.h"
 #include "util/log/log_stream.h"
@@ -303,6 +304,7 @@ void grRenderSystem::deinitializeGL()
 
 	if (mGLContext)										
 	{		
+		mFontManager->unloadFonts();
 		removeAllTextures();
 
 		if (!wglMakeCurrent(NULL,NULL))				

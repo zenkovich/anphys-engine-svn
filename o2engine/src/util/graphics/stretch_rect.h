@@ -1,10 +1,11 @@
 #ifndef STRETCH_RECT_H
 #define STRETCH_RECT_H
 
-#include "public.h"
-
 #include <vector>
 
+#include "public.h"
+
+#include "util/objects.h"
 #include "util/math/color.h"
 #include "util/math/rect.h"
 #include "util/math/vector2.h"

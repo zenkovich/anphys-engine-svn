@@ -7,6 +7,7 @@
 #include "../mesh.h"
 #include "../render_target.h"
 #include "../texture.h"
+#include "../font_manager.h"
 #include "app/application.h"
 #include "util/log/log_stream.h"
 #include "util/math/math.h"
@@ -148,6 +149,7 @@ void grRenderSystem::deinitializeD3D()
 	if (!mReady)
 		return;
 
+	mFontManager->unloadFonts();
 	removeAllTextures();
 	
 	mVertexBuffer->Release();

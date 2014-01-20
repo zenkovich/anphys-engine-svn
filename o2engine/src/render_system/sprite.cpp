@@ -348,9 +348,8 @@ SERIALIZE_METHOD_IMPL(grSprite)
 		std::string textureName;
 		if (SERIALIZE_ID(textureName, "texture"))
 		{
-			grTexture* texture = mMesh->mRenderSystem->createTexture(textureName);
+			grTexture* texture = mMesh->mRenderSystem->getTextureFromFile(textureName);
 			mMesh->setTexture(texture);
-			texture->decrRefCount();
 
 			if (!SERIALIZE_ID(mTextureSrcRect, "textureSrcRect"))
 				mTextureSrcRect = fRect(vec2f(0, 0), texture->getSize());

@@ -189,7 +189,7 @@ void Vehicle::updateEngine( float dt )
 		float fastestWheelSpeed = 0;
 		for (int i = 0; i < mDriveChassisCount; i++)
 		{
-			float wheelRadPlus = wheelsTorque/(mDriveChassisList[i]->mWheelInertia + mEngineInertia*mResDriveCoef);
+			float wheelRadPlus = wheelsTorque/(mDriveChassisList[i]->mWheelInertia + mEngineInertia*fabs(mResDriveCoef));
 
 			if (fastestWheelSpeed < fabs(mDriveChassisList[i]->mWheelAngVelocity))
 				fastestWheelSpeed = mDriveChassisList[i]->mWheelAngVelocity;

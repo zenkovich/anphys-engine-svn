@@ -20,6 +20,20 @@ typedef int VKey;
 /** Input message. Containing pressed, down, released keys, cursors positions. */
 class cInputMessage
 {
+public:
+	/** Cursor definition. */
+	struct Cursor 
+	{
+		vec2f mPosition;
+		vec2f mDelta;
+		int   mId;
+		float mPressedTime;
+
+		Cursor(const vec2f& position, int id):mPosition(position), mDelta(), mId(id), mPressedTime(0) {}
+	};
+	typedef std::vector<Cursor> CursorVec;
+
+protected:
 	/** Key with pressed time. */
 	struct Key
 	{
@@ -29,14 +43,13 @@ class cInputMessage
 		Key(VKey key = 0):mKey(key), mPressedTime(0) {}
 	};
 
-	typedef std::vector<Key>   KeysVec;
-	typedef std::vector<vec2f> VecArr;
+	typedef std::vector<Key>    KeysVec;
 
-	KeysVec mPressedKeys; 
-	KeysVec mDownKeys;
-	KeysVec mReleasedKeys;     
+	KeysVec    mPressedKeys; 
+	KeysVec    mDownKeys;
+	KeysVec    mReleasedKeys;     
 
-	VecArr  mCursorsPositions; /**< Cursors positions. First - main cursor. */
+	CursorVec  mCursors; /**< Cursors positions. First - main cursor. */
 
 public:
 	/** Returns true if key was pressed at current frame. */
@@ -48,8 +61,21 @@ public:
 	/** Returns true, if key was released at current frame. */
 	bool isKeyReleased(VKey key) const;
 
+	/** Returns key pressing time.Returns  -1, if key not pressed. */
+	float getKeyPressingTime(VKey key) const;
+
 	/** Returns position of cursor. */
-	vec2f getCursorPos(int idx = 0) const;
+	vec2f getCursorPos(int id = 0) const;
+
+	/** Returns cursor pressed time. -1 if cursor not pressed. */
+	float getCursorPressingTime(int id = 0) const;
+
+	/** Returns cursor delta. */
+	vec2f getCursorDelta(int id = 0) const;
+
+	/** Returns cursors vector. */
+	CursorVec& getCursors();
+
 
 	/** Call it when key pressed. */
 	void keyPressed(VKey key);
@@ -57,8 +83,14 @@ public:
 	/** Call it when key released. */
 	void keyReleased(VKey key);
 
-	/** Call it when cursor changed position. Idx - index of cursor*/
-	void setCursorPos(const vec2f& pos, int idx = 0);
+	/** Call it when cursor pressed. */
+	void cursorPressed(const vec2f& pos, int id = 0);
+
+	/** Call it when cursor changed position. Id - index of cursor*/
+	void setCursorPos(const vec2f& pos, int id = 0);
+
+	/** Call it when cursor released. */
+	void cursorReleased(int id = 0);
 
 	/** Call it after frame update. */
 	void update(float dt);

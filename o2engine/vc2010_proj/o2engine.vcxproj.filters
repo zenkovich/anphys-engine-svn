@@ -73,6 +73,9 @@
     <Filter Include="src\util\animation">
       <UniqueIdentifier>{9f420916-3bda-4d7f-b6a9-676ab002c4ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\geometry">
+      <UniqueIdentifier>{7cc931e8-1277-4459-ac43-11db9bff3ddf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -342,6 +345,36 @@
     <ClInclude Include="..\src\util\animation\animation_group.h">
       <Filter>src\util\animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_drawable.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_sprite_drawable.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_stretch_rect_drawable.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_rect.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\geometry\geometry.h">
+      <Filter>src\util\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_button.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_widget_layout.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\font.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\font_manager.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render_system\text.h">
+      <Filter>src\render_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -586,6 +619,27 @@
     </ClCompile>
     <ClCompile Include="..\src\util\animation\animation_group.cpp">
       <Filter>src\util\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_sprite_drawable.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\geometry\geometry.cpp">
+      <Filter>src\util\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_widget_layout.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\font.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\font_manager.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\render_system\text.cpp">
+      <Filter>src\render_system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
