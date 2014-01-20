@@ -9,6 +9,8 @@
 #include "util/math/vertex.h"
 #include "util/math/rect.h"
 
+#include "texture_base_interface.h"
+
 OPEN_O2_NAMESPACE
 
 class cApplication;
@@ -17,23 +19,26 @@ class grCamera;
 class grMesh;
 class grRenderTarget;
 class grTexture;
+class grFontManager;
 
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
 class grRenderSystemBaseInterface
 {
 	friend class grTexture;
 	friend class grRenderTargetBaseInterface;	
+	friend class grFontManager;
 	friend class cDeviceInfo;
 
 public:
 	typedef std::vector<grTexture*> TexturesVec;
 
 protected:
-	vec2i         mResolution;    /**< Resolution of rendering frame. */
-	cApplication* mApplication;   /**< Application ptr. */
-	TexturesVec   mTextures;      /**< Textures array. */
-	grCamera*     mCurrentCamera; /**< Current camera. Null if standart camera. */
-	cLogStream*   mLog;           /**< Log stream for render messages. */
+	vec2i          mResolution;    /**< Resolution of rendering frame. */
+	cApplication*  mApplication;   /**< Application ptr. */
+	TexturesVec    mTextures;      /**< Textures array. */
+	grFontManager* mFontManager;   /**< Font manager. */
+	grCamera*      mCurrentCamera; /**< Current camera. Null if standart camera. */
+	cLogStream*    mLog;           /**< Log stream for render messages. */
 	 
 public:
 	/** ctor. */
@@ -48,17 +53,31 @@ public:
 	/** Binding camera. NULL - standart camera. */
 	bool bindCamera(grCamera* camera);
 
-	/** Adding texture into textures array. */
-	grTexture* addTexture(grTexture* texture);
+	/** Returns font manager. */
+	grFontManager* getFontManager() const;
 
 	/** Creating texture, if no exist, else returning created texture. */
-	grTexture* createTexture(const std::string& fileName);
+	grTexture* getTextureFromFile(const std::string& fileName);
+	
+	/** Creates texture 
+	 *  @size - size of texture
+	 *  @format - texture format
+	 *  @usage - texture usage. */
+	grTexture* createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	         grTexUsage::type usage = grTexUsage::DEFAULT);
+
+	/** Creates texture from image. */
+	grTexture* createTextureFromImage(cImage* image);
+				       
+	/** Creates texture as render target. 
+	 ** note: recomending to use grRenderTarget for rendering to texture*/
+	grTexture* createRenderTargetTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 
 	/** Trying to remove texture. Works by reference count. */
-	bool removeTexture(grTexture* texture);
+	void releaseTexture(grTexture* texture);
 
 	/** Forcible removing all textures. */
-	bool removeAllTextures();
+	void removeAllTextures();
 
 	/** Draw single line with color. */
 	void drawLine(const vec2f& a, const vec2f& b, const color4 color = color4(255));
@@ -141,6 +160,9 @@ protected:
 
 	/** Calls when frame changed client size. */
 	virtual void frameResized() = 0;
+
+	/** Adding texture an array and return pointer. */
+	grTexture* addTexture(grTexture* texture);
 };
 
 CLOSE_O2_NAMESPACE

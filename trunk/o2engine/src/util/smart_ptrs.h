@@ -11,27 +11,15 @@ class cAutoPtr
 	T* mObjPtr;
 
 public:
-	cAutoPtr():
-		mObjPtr(NULL) {}
+	cAutoPtr():mObjPtr(NULL) {}
+	cAutoPtr(T* objPtr) { mObjPtr = objPtr; }
+	~cAutoPtr() { safe_release(mObjPtr); }
 
-	cAutoPtr(T* objPtr) 
-	{
-		mObjPtr = objPtr;
-	}
+	bool isInitialized() const { return mObjPtr != NULL; }
+	T* get() { return mObjPtr; }
 
-	~cAutoPtr() 
-	{ 
-		safe_release(mObjPtr);
-	}
-
-	bool isInitialized() const 
-	{
-		return mObjPtr != NULL;
-	}
-
-	T* obj() { return mObjPtr; }
-
-	T& operator->() { return *mObjPtr; }
+	operator T*() { return mObjPtr; }
+	T* operator->() { return mObjPtr; }
 	T& operator*() { return *mObjPtr; }
 	
 	cAutoPtr& operator=(T* objPtr)

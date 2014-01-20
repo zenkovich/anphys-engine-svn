@@ -3,6 +3,7 @@
 
 #include "public.h"
 
+#include "util/objects.h"
 #include "util/math/vertex.h"
 #include "util/math/vector2.h"
 
@@ -12,7 +13,7 @@ class grTexture;
 class grRenderSystem;
 
 /** Triangles mesh. Containing verticies, indeces of polygons, texture. */
-class grMesh
+class grMesh: public IDrawable
 {
 	friend class grRenderSystem;
 	friend class grSprite;

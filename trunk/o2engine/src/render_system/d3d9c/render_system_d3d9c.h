@@ -19,6 +19,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	friend class cApplication;
 	friend class grSprite;
 	friend class grRenderTarget;
+	friend class grFont;
 	friend class cDeviceInfo;
 	friend class grTexture;
 	

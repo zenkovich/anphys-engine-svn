@@ -30,12 +30,13 @@ bool cInputMessage::isKeyReleased( VKey key ) const
 	return false;
 }
 
-vec2f cInputMessage::getCursorPos( int idx /*= 0*/ ) const
+vec2f cInputMessage::getCursorPos( int id /*= 0*/ ) const
 {
-	if (idx < 0 || idx > (int)(mCursorsPositions.size() - 1))
-		return vec2f();
+	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
+		if (it->mId == id) 
+			return it->mPosition;
 
-	return mCursorsPositions[idx];
+	return vec2f();
 }
 
 void cInputMessage::keyPressed( VKey key )
@@ -59,15 +60,14 @@ void cInputMessage::keyReleased( VKey key )
 	mReleasedKeys.push_back(key);
 }
 
-void cInputMessage::setCursorPos( const vec2f& pos, int idx /*= 0*/ )
+void cInputMessage::setCursorPos( const vec2f& pos, int id /*= 0*/ )
 {
-	if (idx > (int)mCursorsPositions.size() - 1)
-	{
-		for (int i = 0; i < idx + 1; i++)
-			mCursorsPositions.push_back(vec2f());
-	}
-
-	mCursorsPositions[0] = pos;
+	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it)
+		if (it->mId == id) {
+			it->mDelta = pos - it->mPosition;
+			it->mPosition = pos;
+			break;
+		}
 }
 
 void cInputMessage::update(float dt)
@@ -77,8 +77,59 @@ void cInputMessage::update(float dt)
 	mReleasedKeys.clear();
 
 	for (KeysVec::iterator it = mDownKeys.begin(); it != mDownKeys.end(); it++)
-	{
 		(*it).mPressedTime += dt;
+
+	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it)
+		(*it).mPressedTime += dt;
+}
+
+float cInputMessage::getKeyPressingTime( VKey key ) const
+{
+	for (KeysVec::const_iterator it = mReleasedKeys.cbegin(); it != mReleasedKeys.cend(); it++)
+		if (it->mKey == key)
+			return it->mPressedTime;
+
+	return -1;
+}
+
+float cInputMessage::getCursorPressingTime( int id /*= 0*/ ) const
+{
+	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
+		if (it->mId == id)
+			return it->mPressedTime;
+
+	return -1;
+}
+
+vec2f cInputMessage::getCursorDelta( int id /*= 0*/ ) const
+{
+	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
+		if (it->mId == id)
+			return it->mDelta;
+}
+
+cInputMessage::CursorVec& cInputMessage::getCursors()
+{
+	return mCursors;
+}
+
+void cInputMessage::cursorPressed( const vec2f& pos, int id /*= 0*/ )
+{
+	int cursorKeys[] = { VK_LBUTTON, VK_CURSOR_1, VK_CURSOR_2, VK_CURSOR_3, VK_CURSOR_4, VK_RBUTTON, VK_MBUTTON };
+	keyPressed(cursorKeys[id]);
+
+	mCursors.push_back(Cursor(pos, id));
+}
+
+void cInputMessage::cursorReleased( int id /*= 0*/ )
+{
+	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it)
+	{
+		if (it->mId == id)
+		{
+			mCursors.erase(it);
+			break;
+		}
 	}
 }
 

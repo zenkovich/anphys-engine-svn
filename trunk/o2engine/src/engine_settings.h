@@ -9,8 +9,8 @@
 #define ENGINE_NAMESPACE_NAME o2
 
 /* Using render system */
-#define RENDER_OGL
-//#define RENDER_D3D9C
+//#define RENDER_OGL
+#define RENDER_D3D9C
 //#define RENDER_GLES
 //#define RENDER_GLES2
 

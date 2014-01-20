@@ -2,6 +2,8 @@
 #define SPRITE_H
 
 #include "public.h"
+
+#include "util/objects.h"
 #include "util/math/vector2.h"
 #include "util/math/rect.h"
 #include "util/math/color.h"
@@ -14,7 +16,7 @@ class grRenderSystem;
 class grTexture;
 	
 /** Sprite, just a quad with texture. */
-class grSprite
+class grSprite:public IDrawable
 {
 	vec2f   mPosition;
 	vec2f   mSize;

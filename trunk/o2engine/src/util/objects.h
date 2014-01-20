@@ -22,7 +22,7 @@ public:
 };
 
 /** Basic dynamic drawable object. */
-class IDynamicDrawable :public virtual IDynamic, public virtual IDrawable {};
+class IDynamicDrawable: public virtual IDynamic, public virtual IDrawable {};
 
 CLOSE_O2_NAMESPACE
 

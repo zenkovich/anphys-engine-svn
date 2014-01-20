@@ -21,6 +21,7 @@ class ICallback
 public:
 	virtual ~ICallback() {}
 	virtual void call() = 0;
+	virtual void call(void* param, ...) { call(); }
 	virtual ICallback* clone() const = 0;
 };
 
@@ -170,6 +171,12 @@ public:
 		if (mObject && mObjectFunction) (mObject->*mObjectFunction)(mArg);
 		else if (mFunction) (*mFunction)(mArg);
 	}
+
+	void call(void* param, ...)
+	{
+		mArg = *((ArgT*)param);
+		call();
+	}
 	
 	ICallback* clone() const 
 	{
@@ -219,6 +226,19 @@ public:
 	{
 		if (mObject && mObjectFunction) (mObject->*mObjectFunction)(mArg, mArg2);
 		else if (mFunction) (*mFunction)(mArg, mArg2);
+	}
+
+	void call(void* param, ...)
+	{
+		va_list vlist;
+		va_start(vlist, param);
+		
+		mArg = *((ArgT*)param);
+		mArg = va_arg(vlist, ArgT2);
+
+		va_end(vlist);
+
+		call();
 	}
 	
 	ICallback* clone() const 

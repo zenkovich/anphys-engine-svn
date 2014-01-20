@@ -12,11 +12,13 @@ OPEN_O2_NAMESPACE
 
 class cManField;
 class ITest;
+class grText;
 
 /** Тестовое приложение. Обрабатывает ввод, выводит графику и т.п. */
 class TestApp:public cApplication, public cSingleton<TestApp>
 {
 	ITest* mTest;
+	grText* mText;
 
 public:	
 	/** констр. */

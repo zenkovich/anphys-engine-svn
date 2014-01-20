@@ -11,6 +11,8 @@ AnimationTest::AnimationTest( cApplication* app, cInputMessage* inputMsg ):
 	ITest(app, inputMsg), mCreatingFrames(false)
 {
 	mAnimation.setLoop(IAnimation::LT_TOGGLE);
+
+	mTestCallBack = callback<AnimationTest>(this, &AnimationTest::test);
 }
 
 float cf = 0.5f;
@@ -50,7 +52,10 @@ void AnimationTest::update( float dt )
 		mCreatingFrames = !mCreatingFrames;
 
 	if (mInputMessage->isKeyPressed(VK_SPACE))
+	{
 		mAnimation.play(true, false);
+		mTestCallBack->call();
+	}
 
 	if (mInputMessage->isKeyPressed('X'))
 		mAnimation.play(random(0.0f, mAnimation.getDuration()), random(0.0f, mAnimation.getDuration()));
@@ -58,7 +63,7 @@ void AnimationTest::update( float dt )
 	if (mInputMessage->isKeyPressed('Y'))
 		mAnimation.play(random(-100.0f, 100.0f), random(-100.0f, 100.0f));
 
-	llog("time = %.3f/%.3f", mAnimation.getTime(), mAnimation.getDuration());
+	//llog("time = %.3f/%.3f", mAnimation.getTime(), mAnimation.getDuration());
 
 	if (mCreatingFrames) 
 	{
@@ -75,6 +80,11 @@ void AnimationTest::update( float dt )
 	}
 
 	mAnimation.update(dt);
+}
+
+void AnimationTest::test()
+{
+	llog("TEST");
 }
 
 CLOSE_O2_NAMESPACE

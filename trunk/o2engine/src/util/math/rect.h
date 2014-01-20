@@ -63,6 +63,23 @@ struct Rect
 		return Rect<T>(left + v.x, top + v.y, right + v.x, down + v.y);
 	}
 
+	inline Rect<T> operator+(const Rect<T>& r) const
+	{ 
+		return Rect<T>(min(left, r.left), min(top, r.top), max(right, r.right), max(down, r.down));
+	}
+
+	inline void set(float vleft, float vtop, float vright, float vbottom)
+	{
+		left = vleft; top = vtop;
+		right = vright; down = vbottom;
+	}
+
+	inline void set(const vec2f& leftTop, const vec2f& rightDown)
+	{
+		left = leftTop.x; top = leftTop.y;
+		right = rightDown.x; down = rightDown.y;
+	}
+
 	inline vec2<T> getSize() const
 	{
 		return vec2<T>(getSizeX(), getSizeY()); 
@@ -98,7 +115,7 @@ struct Rect
 		return vec2<T>(right, down);; 
 	}
 
-	inline bool inRect(const vec2<T>& p) const
+	inline bool isInside(const vec2<T>& p) const
 	{
 		if (p.x < left || p.x > right ||
 			p.y < top  || p.y > down)

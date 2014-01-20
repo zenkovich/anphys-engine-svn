@@ -6,7 +6,7 @@
 #include "util/log.h"
 #include "app/application.h"
 #include "texture.h"
-#include "texture.h"
+#include "font_manager.h"
 
 OPEN_O2_NAMESPACE
 
@@ -15,10 +15,12 @@ grRenderSystemBaseInterface::grRenderSystemBaseInterface( cApplication* applicat
 {
 	mLog = mnew cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
 	gLog->bindStream(mLog);
+	mFontManager = mnew grFontManager((grRenderSystem*)this);
 }
 
 grRenderSystemBaseInterface::~grRenderSystemBaseInterface()
 {
+	safe_release(mFontManager);
 	removeAllTextures();
 	gLog->unbindStream(mLog);
 }
@@ -31,13 +33,12 @@ bool grRenderSystemBaseInterface::bindCamera( grCamera* camera )
 	return true;
 }
 
-grTexture* grRenderSystemBaseInterface::addTexture( grTexture* texture )
+grFontManager* grRenderSystemBaseInterface::getFontManager() const
 {
-	mTextures.push_back(texture);
-	return texture;
+	return mFontManager;
 }
 
-grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileName )
+grTexture* grRenderSystemBaseInterface::getTextureFromFile( const std::string& fileName )
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 	{
@@ -48,45 +49,65 @@ grTexture* grRenderSystemBaseInterface::createTexture( const std::string& fileNa
 		}
 	}
 
-	grTexture* newTexture = mnew grTexture((grRenderSystem*)this, fileName);
-	//newTexture->incRefCount();
+	grTexture* newTexture = mnew grTexture();
+	newTexture->createSelfFromFile((grRenderSystem*)this, fileName);
+	newTexture->incRefCount();
 
 	mLog->hout("Created texture '%s'", fileName.c_str());
 
 	return addTexture(newTexture);
 }
 
-bool grRenderSystemBaseInterface::removeTexture( grTexture* texture )
+grTexture* grRenderSystemBaseInterface::createTexture( const vec2f& size, 
+	                                                   grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
+													   grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
 {
+	grTexture* res = mnew grTexture();
+	res->createSelf((grRenderSystem*)this, size, format, usage);
+	res->incRefCount();
+	return res;
+}
+
+grTexture* grRenderSystemBaseInterface::createTextureFromImage( cImage* image )
+{
+	grTexture* res = mnew grTexture();
+	res->createSelfFromImage((grRenderSystem*)this, image);
+	res->incRefCount();
+	return res;
+}
+
+grTexture* grRenderSystemBaseInterface::createRenderTargetTexture( const vec2f& size, 
+	                                                               grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
+{
+	grTexture* res = mnew grTexture();
+	res->createSelfAsRenderTarget((grRenderSystem*)this, size, format);
+	res->incRefCount();
+	return res;
+}
+
+void grRenderSystemBaseInterface::releaseTexture( grTexture* texture )
+{
+	if (!texture)
+		return;
+
 	texture->decrRefCount();
 
 	if (texture->getRefCount() == 0)
 	{
-		bool inVec = false;
-
 		TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
 		if (fnd != mTextures.end())
-		{
 			mTextures.erase(fnd);
-			inVec = true;
-		}
 
 		safe_release(texture);
-
-		return inVec;
 	}
-
-	return true;
 }
 
-bool grRenderSystemBaseInterface::removeAllTextures()
+void grRenderSystemBaseInterface::removeAllTextures()
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 		safe_release(*it);
 
 	mTextures.clear();
-
-	return true;
 }
 
 vec2i grRenderSystemBaseInterface::getResolution() const
@@ -117,6 +138,12 @@ void grRenderSystemBaseInterface::drawCross( const vec2f& pos, float size /*= 5*
 	vertex2 v[] = { vertex2(pos.x - size, pos.y, dcolor, 0, 0), vertex2(pos.x + size, pos.y, dcolor, 0, 0),
 	                vertex2(pos.x, pos.y - size, dcolor, 0, 0), vertex2(pos.x, pos.y + size, dcolor, 0, 0) };
 	drawLines(v, 2);
+}
+
+grTexture* grRenderSystemBaseInterface::addTexture( grTexture* texture )
+{
+	mTextures.push_back(texture);
+	return texture;
 }
 
 CLOSE_O2_NAMESPACE

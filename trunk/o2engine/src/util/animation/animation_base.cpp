@@ -197,13 +197,13 @@ void IAnimation::setTimeCallback( float time, ICallback* cb )
 void IAnimation::checkBeginCallback()
 {
 	if (mBeginPlayingCallback.isInitialized())
-		mBeginPlayingCallback.obj()->call();
+		mBeginPlayingCallback->call();
 }
 
 void IAnimation::checkEndCallback()
 {
 	if (mEndPlayingCallback.isInitialized())
-		mEndPlayingCallback.obj()->call();
+		mEndPlayingCallback->call();
 }
 
 void IAnimation::checkTimeCallbacks( float begin, float end )
@@ -211,7 +211,7 @@ void IAnimation::checkTimeCallbacks( float begin, float end )
 	for (TimeCallbacksVec::iterator it = mTimedCallbacks.begin(); it != mTimedCallbacks.end(); ++it)
 	{
 		if (!(it->mTime < begin || it->mTime > end))
-			it->mCallback.obj()->call();
+			it->mCallback->call();
 	}
 }
 

@@ -15,7 +15,7 @@ struct color4
 
 	inline color4()
 	{
-		r = g = b = a = 0;
+		r = g = b = a = 255;
 	}
 
 	inline color4(int cr, int cg, int cb, int ca) 

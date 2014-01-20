@@ -1,85 +1,90 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
 
-#include "public.h"
+#include <cstdarg>
 
-#include "callback.h"
+#include "public.h"
 
 OPEN_O2_NAMESPACE
 
-template<typename T>
+template<typename _class, typename _type>
 class cProperty
 {
-	T          mObject;
-	T          mLastObject;
-	ICallback* mChangeCallback;
+	_class* mClass;
+	
+	void (_class::*mSetter)(const _type&);
+	_type (_class::*mGetter)();
 
 public:
-	cProperty() :mObject(), mLastObject(), mChangeCallback(0) {}
+	cProperty():mSetter(NULL), mGetter(NULL), mClass(NULL) {}
 
-	cProperty(const T& object) :mObject(object), mLastObject(object), mChangeCallback(NULL) {}
-
-	~cProperty()
+	void init(_class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)())
 	{
-		safe_release(mChangeCallback);
+		mClass = tclass;
+		mSetter = setter;
+		mGetter = getter;
 	}
 
-
-	void setChangeCallback(ICallback* callback)
+	operator _type() 
 	{
-		safe_release(mChangeCallback);
-		mChangeCallback = callback;
+		return (mClass->*mGetter)();
 	}
-
-	bool check()
+	
+	cProperty& operator=(const _type& value)
 	{
-		if (mObject != mLastObject)
-		{
-			mLastObject = mObject;
-			return true;
-		}
-
-		return false;
+		(mClass->*mSetter)(value);
+		return *this;
 	}
-
-	cProperty& operator=(const cProperty& prop)
+	
+	cProperty& operator+=(const _type& value)
 	{
-		*this = prop.mObject;
+		*this = *this + value;
 		return *this;
 	}
 
-	cProperty& operator=(const T& obj)
+	_type operator+(const _type& value)
 	{
-		if (mObject != obj)
-		{
-			mObject = obj;
-			if (mChangeCallback)
-				mChangeCallback->call();
-		}
-
+		return (mClass->*mGetter)() + value;
+	}
+	
+	cProperty& operator-=(const _type& value)
+	{
+		*this = *this - value;
 		return *this;
 	}
 
-	operator T&() 
+	_type operator-(const _type& value)
 	{
-		return mObject;
+		return (mClass->*mGetter)() - value;
+	}
+	
+	cProperty& operator*=(const _type& value)
+	{
+		*this = *this * value;
+		return *this;
 	}
 
-	T* operator ->()
+	_type operator*(const _type& value)
 	{
-		return &mObject;
+		return (mClass->*mGetter)() * value;
+	}
+	
+	cProperty& operator/=(const _type& value)
+	{
+		*this = *this / value;
+		return *this;
 	}
 
-	T& operator *()
+	_type operator/(const _type& value)
 	{
-		return mObject;
+		return (mClass->*mGetter)() / value;
 	}
 
-	const T& operator *() const
-	{
-		return mObject;
-	}
+protected:
+	cProperty& operator=(const cProperty& prop) { return *this; }
 };
+
+#define PROPERTY(_CLASS, _TYPE) cProperty<_CLASS, _TYPE>
 
 CLOSE_O2_NAMESPACE
 

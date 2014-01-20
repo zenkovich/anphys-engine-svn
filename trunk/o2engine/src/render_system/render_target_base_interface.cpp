@@ -27,7 +27,6 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 	else
 	{
 		mRenderTexture = texture;
-		mRenderTexture->incRefCount();
 	}
 }
 
@@ -62,14 +61,13 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 		texSize.y = clamp<float>(texSize.y, 64.0f, (float)maxTextureSize.y);
 	}
 
-	mRenderTexture = mRenderSystem->addTexture(mnew grTexture(mRenderSystem, texSize, texFormat, grTexUsage::RENDER_TARGET));
-	mRenderTexture->incRefCount();
+	mRenderTexture = mRenderSystem->createRenderTargetTexture(texSize, texFormat);
 }
 
 grRenderTargetBaseInterface::~grRenderTargetBaseInterface()
 {
 	if (mRenderTexture)
-		mRenderSystem->removeTexture(mRenderTexture);
+		mRenderSystem->releaseTexture(mRenderTexture);
 }
 
 void grRenderTargetBaseInterface::bind()
