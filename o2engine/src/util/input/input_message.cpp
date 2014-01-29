@@ -3,6 +3,11 @@
 #include <algorithm>
 
 #include "util/math/math.h"
+#include "util/log.h"
+
+#ifdef PLATFORM_WIN
+#include <Windows.h>
+#endif //PLATFORM_WIN
 
 OPEN_O2_NAMESPACE
 
@@ -79,8 +84,11 @@ void cInputMessage::update(float dt)
 	for (KeysVec::iterator it = mDownKeys.begin(); it != mDownKeys.end(); it++)
 		(*it).mPressedTime += dt;
 
-	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it)
+	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it) 
+	{
 		(*it).mPressedTime += dt;
+		it->mDelta = vec2f();
+	}
 }
 
 float cInputMessage::getKeyPressingTime( VKey key ) const
@@ -106,6 +114,8 @@ vec2f cInputMessage::getCursorDelta( int id /*= 0*/ ) const
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id)
 			return it->mDelta;
+
+	return vec2f();
 }
 
 cInputMessage::CursorVec& cInputMessage::getCursors()

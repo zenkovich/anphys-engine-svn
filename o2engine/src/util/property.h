@@ -29,6 +29,11 @@ public:
 	{
 		return (mClass->*mGetter)();
 	}
+
+	_type v() 
+	{
+		return (mClass->*mGetter)();
+	}
 	
 	cProperty& operator=(const _type& value)
 	{

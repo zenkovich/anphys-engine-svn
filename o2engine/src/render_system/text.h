@@ -71,6 +71,7 @@ public:
 	PROPERTY(grText, bool)        cursive;
 	PROPERTY(grText, bool)        bold;
 	PROPERTY(grText, bool)        shadow;
+	PROPERTY(grText, bool)        border;
 	PROPERTY(grText, bool)        gradient;
 	PROPERTY(grText, vec2f)       effectOffset;
 	PROPERTY(grText, color4)      color;
@@ -100,7 +101,7 @@ public:
 	void setText(const wstring& text);
 	wstring getText();
 
-	void setText(const std::string& text);
+	void setCText(const std::string& text);
 	std::string getCText();
 
 	void setTextStyle(const TextStyle& style);

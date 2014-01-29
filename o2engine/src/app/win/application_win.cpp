@@ -113,23 +113,29 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	RECT rt;
 	int key = 0;
 	vec2i size, pos;
+	GetCursorPos(&pt);
+	ScreenToClient(wnd, &pt);
 
 	switch(uMsg)
 	{	
 	case WM_LBUTTONDOWN:
-		mApplication->mInputMessage.keyPressed(VK_LBUTTON);
+		//mApplication->mInputMessage.keyPressed(VK_LBUTTON);
+		mApplication->mInputMessage.cursorPressed(vec2f((float)pt.x, (float)pt.y));
 		break;
 
 	case WM_LBUTTONUP:
-		mApplication->mInputMessage.keyReleased(VK_LBUTTON);
+		mApplication->mInputMessage.cursorReleased();
+		//mApplication->mInputMessage.keyReleased(VK_LBUTTON);
 		break;
 	
 	case WM_RBUTTONDOWN:
-		mApplication->mInputMessage.keyPressed(VK_RBUTTON);
+		mApplication->mInputMessage.cursorPressed(vec2f((float)pt.x, (float)pt.y), 5);
+		//mApplication->mInputMessage.keyPressed(VK_RBUTTON);
 		break;
 
 	case WM_RBUTTONUP:
-		mApplication->mInputMessage.keyReleased(VK_RBUTTON);
+		mApplication->mInputMessage.cursorReleased(5);
+		//mApplication->mInputMessage.keyReleased(VK_RBUTTON);
 		break;
 
 	case WM_KEYDOWN:
@@ -142,9 +148,6 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_MOUSEMOVE:
-		GetCursorPos(&pt);
-		ScreenToClient(wnd, &pt);
-
 		mApplication->mInputMessage.setCursorPos(vec2f((float)pt.x, (float)pt.y));
 		break;
 

@@ -30,7 +30,12 @@ TestApp::TestApp():
 	mTest = mnew AnimationTest(this, &mInputMessage);
 	mRenderSystem->getFontManager()->loadBMFont("arial");
 	mText = mnew grText(mRenderSystem, mRenderSystem->getFontManager()->getFont("arial"));
-	mText->setText("Prived text\nPrived text");
+	mText->ctext = "Prived\nI'm supertext\nwith SHADOWWW\natata ta ta ta tatat ta taa";
+	mText->areaSize = vec2f(400, 300);
+	mText->wordWrap = false;
+	mText->horAlign = grText::HA_BOTH;
+	mText->verAlign = grText::VA_BOTTOM;
+	mText->linesDistCoef = 0.5f;
 }
 
 TestApp::~TestApp()
@@ -52,7 +57,11 @@ void TestApp::onUpdate( float dt )
 	if (mInputMessage.isKeyPressed('B'))
 		mText->shadow = !mText->shadow;
 
-	llog("scale (%.3f %.3f)", mText->getScale().x, mText->getScale().y);
+	if (mInputMessage.isKeyDown(VK_LBUTTON))
+		mText->position += mInputMessage.getCursorDelta();
+
+	if (mInputMessage.isKeyDown(VK_RBUTTON))
+		mText->areaSize += mInputMessage.getCursorDelta();
 }
 
 void TestApp::processMessage( cApplacationMessage::type message )
