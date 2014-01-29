@@ -57,7 +57,12 @@ void grText::setText( const wstring& text )
 	mNeedUpdateMesh = true;
 }
 
-void grText::setText( const std::string& text )
+wstring grText::getText()
+{
+	return mText;
+}
+
+void grText::setCText( const std::string& text )
 {
 	mText = convString2Wide(text);
 	mNeedUpdateMesh = true;
@@ -368,8 +373,8 @@ float grText::getLinesDistCoef()
 void grText::initializeProperties()
 {
 	font.init(this, &grText::setFont, &grText::getFont);
-	//text.init(this, &grText::setText, &grText::getText);
-	//ctext.init(this, &grText::setText, &grText::getCText);
+	text.init(this, &grText::setText, &grText::getText);
+	ctext.init(this, &grText::setCText, &grText::getCText);
 	style.init(this, &grText::setTextStyle, &grText::getTextStyle);
 	verAlign.init(this, &grText::setVerAlign, &grText::getVerAlign);
 	horAlign.init(this, &grText::setHorAlign, &grText::getHorAlign);
@@ -377,6 +382,7 @@ void grText::initializeProperties()
 	cursive.init(this, &grText::setCursive, &grText::isCursive);
 	bold.init(this, &grText::setBold, &grText::isBold);
 	shadow.init(this, &grText::setShadow, &grText::isWithShadow);
+	border.init(this, &grText::setBorder, &grText::isWithBorder);
 	gradient.init(this, &grText::setGradient, &grText::isWithGradient);
 	effectOffset.init(this, &grText::setEffectOffset, &grText::getEffectOffset);
 	color.init(this, &grText::setColor, &grText::getColor);
@@ -412,7 +418,7 @@ void grText::updateMesh()
 	prepareMesh(textLen);
 
 	vec2f fullSize;
-	bool checkAreaBounds = mWordWrap || mAreaSize.x > FLT_EPSILON;
+	bool checkAreaBounds = mWordWrap || mAreaSize.x < FLT_EPSILON;
 	int wrapCharIdx = -1;
 	for (int i = 0; i < textLen; i++)
 	{
@@ -451,6 +457,8 @@ void grText::updateMesh()
 		}
 	}
 
+	fullSize.x = max(fullSize.x, curLine->mSize);
+
 	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
 	{
 		(*it)->mVertexCount = 0;
@@ -464,11 +472,11 @@ void grText::updateMesh()
 	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
 
 	if (mVerAlign == VA_CENTER)
-		yOffset = mAreaSize.y - (float)mLineDefs.size()*mFont->mLineHeight*0.5f;
+		yOffset = mAreaSize.y - (float)mLineDefs.size()*lineHeight*0.5f;
 	else if (mVerAlign == VA_BOTH)
 		lineHeight = mAreaSize.y/(float)mLineDefs.size();
 	else if (mVerAlign == VA_BOTTOM)
-		yOffset = mAreaSize.y - (float)mLineDefs.size()*mFont->mLineHeight;
+		yOffset = mAreaSize.y - (float)mLineDefs.size()*lineHeight;
 
 	for (LineDefVec::iterator it = mLineDefs.begin(); it != mLineDefs.end(); ++it)
 	{
@@ -499,13 +507,71 @@ void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb,
 	                     const vec2f& locOrigin )
 {
 	checkMeshEndless(mesh, meshIdx);
-
-	/*vec2f minp = mTransform.transform(locOrigin + symb.mPosition.getltCorner());
-	vec2f maxp = mTransform.transform(locOrigin + symb.mPosition.getrdCorner());*/
+	
 	vec2f points[4] = { mTransform.transform(locOrigin + symb.mPosition.getltCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getrtCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getrdCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getldCorner()) };
+
+	if (isWithShadow())
+	{
+		checkMeshEndless(mesh, meshIdx);
+
+		vec2f transfOffs = mTransform.transform(mEffectOffset);
+		vec2f cpoints[4];
+		for (int i = 0; i < 4; i++)
+			cpoints[i] = points[i] + transfOffs;
+
+		unsigned long shadowColor = mShadowColor.dword();
+	
+		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[0], shadowColor, symb.mTexSrc.left, symb.mTexSrc.top);
+		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[1], shadowColor, symb.mTexSrc.right, symb.mTexSrc.top);
+		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[2], shadowColor, symb.mTexSrc.right, symb.mTexSrc.down);
+		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[3], shadowColor, symb.mTexSrc.left, symb.mTexSrc.down);
+	
+		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
+		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
+		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
+		mesh->mPolyCount++;
+	
+		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
+		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
+		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
+		mesh->mPolyCount++;
+	}
+	else if (isWithBorder())
+	{
+		checkMeshEndless(mesh, meshIdx, 8);
+
+		vec2f offsets[4] = { vec2f(-mEffectOffset.x, -mEffectOffset.y), vec2f(mEffectOffset.x, -mEffectOffset.y),
+		                     vec2f(mEffectOffset.x, mEffectOffset.y), vec2f(-mEffectOffset.x, mEffectOffset.y) };
+
+		vec2f cpoints[4] = { points[0], points[1], points[2], points[3] };
+
+		for (int i = 0; i < 4; i++)
+		{
+			vec2f transfOffs = mTransform.transform(offsets[i]);
+			for (int j = 0; j < 4; j++)
+				cpoints[i] = points[i] + transfOffs;
+
+			unsigned long borderColor = mBorderColor.dword();
+	
+			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[0], borderColor, symb.mTexSrc.left, symb.mTexSrc.top);
+			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[1], borderColor, symb.mTexSrc.right, symb.mTexSrc.top);
+			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[2], borderColor, symb.mTexSrc.right, symb.mTexSrc.down);
+			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[3], borderColor, symb.mTexSrc.left, symb.mTexSrc.down);
+	
+			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
+			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
+			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
+			mesh->mPolyCount++;
+	
+			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
+			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
+			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
+			mesh->mPolyCount++;
+		}
+	}
 
 	unsigned long upColor, bottomColor;
 	if (isWithGradient())
@@ -530,63 +596,6 @@ void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb,
 	mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
 	mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
 	mesh->mPolyCount++;
-
-	if (isWithShadow())
-	{
-		checkMeshEndless(mesh, meshIdx);
-
-		vec2f transfOffs = mTransform.transform(mEffectOffset);
-		for (int i = 0; i < 4; i++)
-			points[i] += transfOffs;
-
-		unsigned long shadowColor = mShadowColor.dword();
-	
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[0], shadowColor, symb.mTexSrc.left, symb.mTexSrc.top);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[1], shadowColor, symb.mTexSrc.right, symb.mTexSrc.top);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[2], shadowColor, symb.mTexSrc.right, symb.mTexSrc.down);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[3], shadowColor, symb.mTexSrc.left, symb.mTexSrc.down);
-	
-		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
-		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
-		mesh->mPolyCount++;
-	
-		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
-		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
-		mesh->mPolyCount++;
-	}
-	else if (isWithGradient())
-	{
-		checkMeshEndless(mesh, meshIdx, 8);
-
-		vec2f offsets[4] = { vec2f(-mEffectOffset.x, -mEffectOffset.y), vec2f(mEffectOffset.x, -mEffectOffset.y),
-		                     vec2f(mEffectOffset.x, mEffectOffset.y), vec2f(-mEffectOffset.x, mEffectOffset.y) };
-		vec2f lpoints[4] = { points[0], points[1], points[2], points[3] };
-		for (int i = 0; i < 4; i++)
-		{
-			vec2f transfOffs = mTransform.transform(offsets[i]);
-			for (int j = 0; j < 4; j++)
-				points[i] = lpoints[i] + transfOffs;
-
-			unsigned long borderColor = mBorderColor.dword();
-	
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(lpoints[0], borderColor, symb.mTexSrc.left, symb.mTexSrc.top);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(lpoints[1], borderColor, symb.mTexSrc.right, symb.mTexSrc.top);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(lpoints[2], borderColor, symb.mTexSrc.right, symb.mTexSrc.down);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(lpoints[3], borderColor, symb.mTexSrc.left, symb.mTexSrc.down);
-	
-			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
-			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
-			mesh->mPolyCount++;
-	
-			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
-			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
-			mesh->mPolyCount++;
-		}
-	}
 }
 
 void grText::checkMeshEndless( grMesh*& mesh, int& meshIdx, int size )
@@ -606,15 +615,23 @@ void grText::prepareMesh( int charactersCount )
 	if (needCharactes < 0)
 		return;
 
-	int createSize = 500;
-	if (needCharactes < 100)
-		createSize = 100;
+	int effectsCoef = 1;
+	if (isWithShadow())
+		effectsCoef += 1;
+	if (isWithBorder())
+		effectsCoef += 4;
 
-	for (int i = 0; i < charactersCount/needCharactes + 1; i++)
-	{
-		grMesh* newMesh = mnew grMesh(mRenderSystem, mFont->mTexture, createSize*4, createSize*2);
-		mMeshes.push_back(newMesh);
+	if (needCharactes < 100)
+	{		
+		mMeshes.push_back(mnew grMesh(mRenderSystem, mFont->mTexture, needCharactes*4*effectsCoef, 
+			                          needCharactes*2*effectsCoef));
+		return;
 	}
+	
+	int createSize = 500;
+	for (int i = 0; i < charactersCount/needCharactes + 1; i++)
+		mMeshes.push_back(mnew grMesh(mRenderSystem, mFont->mTexture, createSize*4*effectsCoef, 
+		                              createSize*2*effectsCoef));
 }
 
 void grText::transformMesh( const basis& bas )

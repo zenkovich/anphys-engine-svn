@@ -164,18 +164,18 @@ struct color4
 	unsigned long dword() const 
 	{
 #ifdef RENDER_OGL
-		return ARGB();
-#elif defined(RENDER_D3D9C)
 		return ABGR();
+#elif defined(RENDER_D3D9C)
+		return ARGB();
 #endif
 	}
 
 	void setDword(unsigned long color)  
 	{
 #ifdef RENDER_OGL
-		setARGB(color);
-#elif defined(RENDER_D3D9C)
 		setABGR(color);
+#elif defined(RENDER_D3D9C)
+		setARGB(color);
 #endif
 	}
 
@@ -187,6 +187,12 @@ struct color4
 		return (unsigned long)( (a << 24) | (r << 16) | (g << 8) | b );
 #endif
 	}
+	
+	static color4 white() { return color4(255, 255, 255, 255); }
+	static color4 black() { return color4(0, 0, 0, 255); }
+	static color4 red() { return color4(255, 0, 0, 255); }
+	static color4 blue() { return color4(0, 0, 255, 255); }
+	static color4 green() { return color4(0, 255, 0, 255); }
 };
 
 CLOSE_O2_NAMESPACE
