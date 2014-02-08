@@ -12,6 +12,7 @@ OPEN_O2_NAMESPACE
 typedef int VKey;
 
 // multitouch cursors
+#define CURSOR_MAIN -1
 #define VK_CURSOR_1 -1
 #define VK_CURSOR_2 -2
 #define VK_CURSOR_3 -3
@@ -28,8 +29,11 @@ public:
 		vec2f mDelta;
 		int   mId;
 		float mPressedTime;
+		bool  mAlt;
+		bool  mAlt2;
 
-		Cursor(const vec2f& position, int id):mPosition(position), mDelta(), mId(id), mPressedTime(0) {}
+		Cursor(const vec2f& position, int id):mPosition(position), mDelta(), mId(id), mPressedTime(0), mAlt(false),
+			mAlt2(false) {}
 	};
 	typedef std::vector<Cursor> CursorVec;
 
@@ -50,6 +54,7 @@ protected:
 	KeysVec    mReleasedKeys;     
 
 	CursorVec  mCursors; /**< Cursors positions. First - main cursor. */
+	vec2f      mMainCursorPos;
 
 public:
 	/** Returns true if key was pressed at current frame. */
@@ -66,6 +71,8 @@ public:
 
 	/** Returns position of cursor. */
 	vec2f getCursorPos(int id = 0) const;
+
+	bool isCursorPressed(VKey cursor = )
 
 	/** Returns cursor pressed time. -1 if cursor not pressed. */
 	float getCursorPressingTime(int id = 0) const;
