@@ -21,7 +21,7 @@ grFont::grFont( const grFont& font ):
 
 grFont::~grFont()
 {
-	mRenderSystem->releaseTexture(mTexture);
+	mRenderSystem->removeTexture(mTexture);
 	safe_release_arr(mCharacters);
 	safe_release_arr(mCharacterIds);
 }
@@ -54,7 +54,7 @@ void grFont::createFromBMFont( grRenderSystem* renderSystem, const std::string& 
 		mName = commonNode.attribute("name").value();
 
 		std::string textureName = commonNode.attribute("texture").value();		
-		mRenderSystem->releaseTexture(mTexture);
+		mRenderSystem->removeTexture(mTexture);
 		mTexture = mRenderSystem->getTextureFromFile(textureName);
 
 		mLineHeight = commonNode.attribute("lineHeight").as_float();
@@ -140,7 +140,7 @@ SERIALIZE_METHOD_IMPL(grFont)
 
 	if (type == cSerializeType::INPUT)
 	{
-		mRenderSystem->releaseTexture(mTexture);
+		mRenderSystem->removeTexture(mTexture);
 		mTexture = mRenderSystem->getTextureFromFile(textureName);
 	}
 

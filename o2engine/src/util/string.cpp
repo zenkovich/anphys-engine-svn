@@ -48,6 +48,26 @@ std::string convWide2String(const wstring& wide)
 	return retvalue;
 }
 
+std::string toString( int value )
+{
+	return format("%i", value);
+}
+
+std::string toString( float value )
+{
+	return format("%f", value);
+}
+
+int toInt( const std::string& str )
+{
+	return atoi(str.c_str());
+}
+
+float toFloat( const std::string& str )
+{
+	return (float)atof(str.c_str());
+}
+
 #endif //PLATFORM_WIN
 
 CLOSE_O2_NAMESPACE

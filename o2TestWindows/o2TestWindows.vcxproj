@@ -80,11 +80,13 @@
   <ItemGroup>
     <ClCompile Include="src\main_win.cpp" />
     <ClCompile Include="src\tests\animation_test.cpp" />
+    <ClCompile Include="src\tests\input_msg_test.cpp" />
     <ClCompile Include="src\tests\text_test.cpp" />
     <ClCompile Include="src\test_app.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\tests\animation_test.h" />
+    <ClInclude Include="src\tests\input_msg_test.h" />
     <ClInclude Include="src\tests\test_interface.h" />
     <ClInclude Include="src\tests\text_test.h" />
     <ClInclude Include="src\test_app.h" />

@@ -22,6 +22,9 @@
     <ClCompile Include="src\tests\text_test.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
+    <ClCompile Include="src\tests\input_msg_test.cpp">
+      <Filter>src\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\test_app.h">
@@ -34,6 +37,9 @@
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="src\tests\text_test.h">
+      <Filter>src\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\input_msg_test.h">
       <Filter>src\tests</Filter>
     </ClInclude>
   </ItemGroup>
