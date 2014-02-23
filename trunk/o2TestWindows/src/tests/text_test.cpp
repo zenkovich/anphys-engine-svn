@@ -31,10 +31,10 @@ void cTextTest::draw()
 	                       mText->position + vec2f(0, mText->areaSize.v().y), mText->position + mText->areaSize };
 
 	grRenderSystem* rs = mApplication->getRenderSystem();
-	rs->drawLine(corners[0], corners[1], color4.red().dword());
-	rs->drawLine(corners[0], corners[3], color4.blue().dword());
-	rs->drawLine(corners[1], corners[2], color4.white().dword());
-	rs->drawLine(corners[3], corners[2], color4.white().dword());
+	rs->drawLine(corners[0], corners[1], color4::red().dword());
+	rs->drawLine(corners[0], corners[3], color4::blue().dword());
+	rs->drawLine(corners[1], corners[2], color4::white().dword());
+	rs->drawLine(corners[3], corners[2], color4::white().dword());
 }
 
 CLOSE_O2_NAMESPACE

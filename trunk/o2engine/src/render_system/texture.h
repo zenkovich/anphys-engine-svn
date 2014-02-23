@@ -11,4 +11,16 @@
 	#include "d3d9c/texture_d3d9c.h"
 #endif
 
+OPEN_O2_NAMESPACE
+
+class grTextureRef: public cReferenceObj<grTexture>
+{
+	friend class grRenderSystem;
+	friend class grMesh;
+
+	operator grTexture*() { return mObject; }
+};
+
+CLOSE_O2_NAMESPACE
+
 #endif //TEXTURE_H

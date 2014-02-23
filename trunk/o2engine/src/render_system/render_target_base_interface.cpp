@@ -67,7 +67,7 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 grRenderTargetBaseInterface::~grRenderTargetBaseInterface()
 {
 	if (mRenderTexture)
-		mRenderSystem->releaseTexture(mRenderTexture);
+		mRenderSystem->removeTexture(mRenderTexture);
 }
 
 void grRenderTargetBaseInterface::bind()

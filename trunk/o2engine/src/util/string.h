@@ -16,6 +16,18 @@ wstring convString2Wide(const std::string& str);
 /** Returns converted wide string to string. */
 std::string convWide2String(const wstring& wide);
 
+/** Converting int value to string. */
+std::string toString(int value);
+
+/** Converting float value to string. */
+std::string toString(float value);
+
+/** Converting string to integer. */
+int toInt(const std::string& str);
+
+/** Converting string to float. */
+float toFloat(const std::string& str);
+
 CLOSE_O2_NAMESPACE
 
 #endif //STRING_H

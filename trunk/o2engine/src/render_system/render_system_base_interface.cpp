@@ -85,21 +85,16 @@ grTexture* grRenderSystemBaseInterface::createRenderTargetTexture( const vec2f& 
 	return res;
 }
 
-void grRenderSystemBaseInterface::releaseTexture( grTexture* texture )
+void grRenderSystemBaseInterface::removeTexture( grTexture* texture )
 {
-	if (!texture)
+	if (!texture || texture->getRefCount() > 0)
 		return;
 
-	texture->decrRefCount();
+	TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
+	if (fnd != mTextures.end())
+		mTextures.erase(fnd);
 
-	if (texture->getRefCount() == 0)
-	{
-		TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
-		if (fnd != mTextures.end())
-			mTextures.erase(fnd);
-
-		safe_release(texture);
-	}
+	safe_release(texture);
 }
 
 void grRenderSystemBaseInterface::removeAllTextures()

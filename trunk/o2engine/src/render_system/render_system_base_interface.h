@@ -25,6 +25,7 @@ class grFontManager;
 class grRenderSystemBaseInterface
 {
 	friend class grTexture;
+	friend class grTextureBaseInterface;
 	friend class grRenderTargetBaseInterface;	
 	friend class grFontManager;
 	friend class cDeviceInfo;
@@ -57,24 +58,21 @@ public:
 	grFontManager* getFontManager() const;
 
 	/** Creating texture, if no exist, else returning created texture. */
-	grTexture* getTextureFromFile(const std::string& fileName);
+	grTextureRef getTextureFromFile(const std::string& fileName);
 	
 	/** Creates texture 
 	 *  @size - size of texture
 	 *  @format - texture format
 	 *  @usage - texture usage. */
-	grTexture* createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+	grTextureRef createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
 				  	         grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	grTexture* createTextureFromImage(cImage* image);
+	grTextureRef createTextureFromImage(cImage* image);
 				       
 	/** Creates texture as render target. 
 	 ** note: recomending to use grRenderTarget for rendering to texture*/
-	grTexture* createRenderTargetTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
-
-	/** Trying to remove texture. Works by reference count. */
-	void releaseTexture(grTexture* texture);
+	grTextureRef createRenderTargetTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 
 	/** Forcible removing all textures. */
 	void removeAllTextures();
@@ -163,6 +161,9 @@ protected:
 
 	/** Adding texture an array and return pointer. */
 	grTexture* addTexture(grTexture* texture);
+
+	/** Removes texture. */
+	void removeTexture(grTexture* texture);
 };
 
 CLOSE_O2_NAMESPACE

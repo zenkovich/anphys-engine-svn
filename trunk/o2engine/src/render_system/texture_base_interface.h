@@ -2,6 +2,7 @@
 #define TEXTURE_BASE_INTERFACE_H
 
 #include "public.h"
+#include "util/ref_counter.h"
 #include "util/math/vector2.h"
 
 OPEN_O2_NAMESPACE
@@ -24,21 +25,18 @@ struct grTexUsage
 class grTexture;
 
 /** Texture base interface. COntaining size, format, usage, file name, reference count. */
-class grTextureBaseInterface
+class grTextureBaseInterface: public IRefCounter
 {
 	friend class grRenderSystemBaseInterface;
+	friend class grTextureRef;
 
 protected:
 	grRenderSystem*   mRenderSystem; /**< Render system ptr. */
 
 	vec2f             mSize;         /**< Size of texture. */
-
 	grTexFormat::type mFormat;       /**< Texture format. */
 	grTexUsage::type  mUsage;        /**< Texture usage. */
-
 	std::string       mFileName;     /**< Texture file name. */
-	int               mRefCount;     /**< Reference count. */
-
 	bool              mReady;        /**< True, if texture ready for using. */
 
 	
@@ -64,35 +62,29 @@ protected:
 				       
 	/** Creates texture as render target. */
 	virtual void createSelfAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                                  grTexFormat::type format = grTexFormat::DEFAULT) {}
-				
-	/** Returns reference count. */
-	int getRefCount() const;
-				       
-	/** Increasing reference count by 1. */
-	void incRefCount();
-				       
-	/** Decraising reference count by 1. */
-	void decrRefCount();
-	
-public:				
+		                                  grTexFormat::type format = grTexFormat::DEFAULT) {}		
+
+	/** Runs when reference counter sets to zero. Inherited from IRefCounter. */
+	void onZeroRefCount();
+
+public:						
 	/** Creates texture 
 	 *  @size - size of texture
 	 *  @format - texture format
 	 *  @usage - texture usage. */
-	static grTexture* create(grRenderSystem* renderSystem, const vec2f& size, 
-		                     grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	         grTexUsage::type usage = grTexUsage::DEFAULT);
+	static grTextureRef create(grRenderSystem* renderSystem, const vec2f& size, 
+		                       grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	           grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	static grTexture* createFromImage(grRenderSystem* renderSystem, cImage* image);
+	static grTextureRef createFromImage(grRenderSystem* renderSystem, cImage* image);
 				       
 	/** Creates texture from file. */
-	static grTexture* createFromFile(grRenderSystem* renderSystem, const std::string& fileName);
+	static grTextureRef createFromFile(grRenderSystem* renderSystem, const std::string& fileName);
 				       
 	/** Creates texture as render target. */
-	static grTexture* createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                                   grTexFormat::type format = grTexFormat::DEFAULT);
+	static grTextureRef createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
+		                                     grTexFormat::type format = grTexFormat::DEFAULT);
 
 	/** Returns file name. */
 	const std::string& getFileName() const;

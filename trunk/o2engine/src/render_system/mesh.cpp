@@ -38,8 +38,9 @@ grMesh::~grMesh()
 
 void grMesh::setTexture( grTexture* texture )
 {
-	mRenderSystem->releaseTexture(mTexture);
+	mRenderSystem->removeTexture(mTexture);
 	mTexture = texture;
+	mTexture->incRefCount();
 }
 
 grTexture* grMesh::getTexture() const

@@ -6,27 +6,12 @@ OPEN_O2_NAMESPACE
 
 
 grTextureBaseInterface::grTextureBaseInterface():
-	mRenderSystem(NULL), mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT), mRefCount(0)
+	mRenderSystem(NULL), mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT)
 {
 }
 
 grTextureBaseInterface::~grTextureBaseInterface()
 {
-}
-
-int grTextureBaseInterface::getRefCount() const
-{
-	return mRefCount;
-}
-
-void grTextureBaseInterface::incRefCount()
-{
-	mRefCount++;
-}
-
-void grTextureBaseInterface::decrRefCount()
-{
-	mRefCount--;
 }
 
 const std::string& grTextureBaseInterface::getFileName() const
@@ -70,6 +55,11 @@ grTexture* grTextureBaseInterface::createAsRenderTarget( grRenderSystem* renderS
 	                                                     grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
 {
 	return renderSystem->createRenderTargetTexture(size, format);
+}
+
+void grTextureBaseInterface::onZeroRefCount()
+{
+	mRenderSystem->removeTexture((grTexture*)this);
 }
 
 CLOSE_O2_NAMESPACE

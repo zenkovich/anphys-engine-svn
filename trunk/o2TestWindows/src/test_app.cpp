@@ -12,7 +12,9 @@
 #include "util/log.h"
 #include "util/math/color.h"
 #include "util/math/vector2.h"
+
 #include "tests/animation_test.h"
+#include "tests/input_msg_test.h"
 
 OPEN_O2_NAMESPACE
 
@@ -27,15 +29,7 @@ TestApp::TestApp():
 
 	getFileSystem().setResourcePath("../data/");
 
-	mTest = mnew AnimationTest(this, &mInputMessage);
-	mRenderSystem->getFontManager()->loadBMFont("arial");
-	mText = mnew grText(mRenderSystem, mRenderSystem->getFontManager()->getFont("arial"));
-	mText->ctext = "Prived\nI'm supertext\nwith SHADOWWW\natata ta ta ta tatat ta taa";
-	mText->areaSize = vec2f(400, 300);
-	mText->wordWrap = false;
-	mText->horAlign = grText::HA_BOTH;
-	mText->verAlign = grText::VA_BOTTOM;
-	mText->linesDistCoef = 0.5f;
+	mTest = mnew InputMsgTest(this, &mInputMessage);
 }
 
 TestApp::~TestApp()
@@ -49,19 +43,7 @@ void TestApp::onInitialized()
 
 void TestApp::onUpdate( float dt )
 {
-	//mTest->update(dt);
-
-	if (mInputMessage.isKeyDown('M'))
-		mText->position = mInputMessage.getCursorPos();
-
-	if (mInputMessage.isKeyPressed('B'))
-		mText->shadow = !mText->shadow;
-
-	if (mInputMessage.isKeyDown(VK_LBUTTON))
-		mText->position += mInputMessage.getCursorDelta();
-
-	if (mInputMessage.isKeyDown(VK_RBUTTON))
-		mText->areaSize += mInputMessage.getCursorDelta();
+	mTest->update(dt);
 }
 
 void TestApp::processMessage( cApplacationMessage::type message )
@@ -82,7 +64,6 @@ void TestApp::onDraw()
 {
 	mRenderSystem->clear(color4(100, 0, 0, 255));
 	mTest->draw();
-	mText->draw();
 }
 
 CLOSE_O2_NAMESPACE
