@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "public.h"
+#include "util/singleton.h"
 #include "util/math/vector2.h"
 #include "util/math/color.h"
 #include "util/math/vertex.h"
@@ -13,7 +14,6 @@
 
 OPEN_O2_NAMESPACE
 
-class cApplication;
 class cLogStream;
 class grCamera;
 class grMesh;
@@ -22,7 +22,7 @@ class grTexture;
 class grFontManager;
 
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
-class grRenderSystemBaseInterface
+class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>
 {
 	friend class grTexture;
 	friend class grTextureBaseInterface;
@@ -35,7 +35,6 @@ public:
 
 protected:
 	vec2i          mResolution;    /**< Resolution of rendering frame. */
-	cApplication*  mApplication;   /**< Application ptr. */
 	TexturesVec    mTextures;      /**< Textures array. */
 	grFontManager* mFontManager;   /**< Font manager. */
 	grCamera*      mCurrentCamera; /**< Current camera. Null if standart camera. */
@@ -43,7 +42,7 @@ protected:
 	 
 public:
 	/** ctor. */
-	grRenderSystemBaseInterface(cApplication* application);
+	grRenderSystemBaseInterface();
 
 	/** dtor. */ 
 	virtual ~grRenderSystemBaseInterface();
@@ -65,7 +64,7 @@ public:
 	 *  @format - texture format
 	 *  @usage - texture usage. */
 	grTextureRef createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	         grTexUsage::type usage = grTexUsage::DEFAULT);
+				  	           grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
 	grTextureRef createTextureFromImage(cImage* image);

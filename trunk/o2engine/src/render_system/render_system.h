@@ -11,4 +11,6 @@
 	#include "d3d9c\render_system_d3d9c.h"
 #endif
 
+#define renderSystem() *(grRenderSystem*)grRenderSystemBaseInterface::instancePtr()
+
 #endif //RENDER_SYSTEM_H

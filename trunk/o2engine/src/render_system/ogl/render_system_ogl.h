@@ -57,7 +57,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 
 public:
 	/* ctor. */
-	grRenderSystem(cApplication* application);
+	grRenderSystem();
 	
 	/** dtor. */ 
 	~grRenderSystem();

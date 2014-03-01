@@ -8,6 +8,8 @@
 
 OPEN_O2_NAMESPACE
 
+DECLARE_SINGLETON(cApplicationBaseInterface);
+
 cApplicationBaseInterface::cApplicationBaseInterface():
 	mLog(NULL), mRenderSystem(NULL), mFileSystem(NULL)
 {

@@ -19,6 +19,10 @@ class grTextureRef: public cReferenceObj<grTexture>
 	friend class grMesh;
 
 	operator grTexture*() { return mObject; }
+
+public:
+	grTextureRef(grTexture* object):cReferenceObj(object) {}
+	grTextureRef(const cReferenceObj<T>& refObject):cReferenceObj(refObject) {}
 };
 
 CLOSE_O2_NAMESPACE

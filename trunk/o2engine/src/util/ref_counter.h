@@ -73,7 +73,7 @@ public:
 	}
 
 	/** dtor. */
-	~cReferenceObj() 
+	virtual ~cReferenceObj() 
 	{
 		mObject->decRefCount();
 	}
