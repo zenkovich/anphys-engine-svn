@@ -2,6 +2,7 @@
 #define APPLICATION_BASE_INTERFACE_H
 
 #include "public.h"
+#include "util/singleton.h"
 #include "util/input/input_message.h"
 
 OPEN_O2_NAMESPACE
@@ -44,7 +45,7 @@ class cFileSystem;
   * Render system
   * File system. 
  */
-class cApplicationBaseInterface
+class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
 {
 protected:
 	cInputMessage   mInputMessage; /**< While application user input message. */

@@ -9,4 +9,6 @@
 	#include "win/application_win.h"
 #endif
 
+#define application() *(cApplication*)cApplication::instancePtr()
+
 #endif //APPLICATION_H

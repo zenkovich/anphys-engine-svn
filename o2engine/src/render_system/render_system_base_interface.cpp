@@ -10,8 +10,10 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderSystemBaseInterface::grRenderSystemBaseInterface( cApplication* application ):
-	mCurrentCamera(NULL), mApplication(application)
+DECLARE_SINGLETON(grRenderSystemBaseInterface);
+
+grRenderSystemBaseInterface::grRenderSystemBaseInterface():
+	mCurrentCamera(NULL)
 {
 	mLog = mnew cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
 	gLog->bindStream(mLog);
@@ -29,7 +31,6 @@ bool grRenderSystemBaseInterface::bindCamera( grCamera* camera )
 {
 	mCurrentCamera = camera;
 	updateCameraTransforms();
-
 	return true;
 }
 
@@ -38,63 +39,50 @@ grFontManager* grRenderSystemBaseInterface::getFontManager() const
 	return mFontManager;
 }
 
-grTexture* grRenderSystemBaseInterface::getTextureFromFile( const std::string& fileName )
+grTextureRef grRenderSystemBaseInterface::getTextureFromFile( const std::string& fileName )
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 	{
 		if (fileName == (*it)->getFileName())
 		{
-			(*it)->incRefCount();
-			return *it;
+			return grTextureRef(*it);
 		}
 	}
 
 	grTexture* newTexture = mnew grTexture();
 	newTexture->createSelfFromFile((grRenderSystem*)this, fileName);
-	newTexture->incRefCount();
+	addTexture(newTexture);
 
 	mLog->hout("Created texture '%s'", fileName.c_str());
 
-	return addTexture(newTexture);
+	return grTextureRef(newTexture);
 }
 
-grTexture* grRenderSystemBaseInterface::createTexture( const vec2f& size, 
-	                                                   grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
-													   grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
+grTextureRef grRenderSystemBaseInterface::createTexture( const vec2f& size, 
+	                                                     grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
+													     grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
 {
 	grTexture* res = mnew grTexture();
 	res->createSelf((grRenderSystem*)this, size, format, usage);
-	res->incRefCount();
-	return res;
+	addTexture(res);
+	return grTextureRef(res);
 }
 
-grTexture* grRenderSystemBaseInterface::createTextureFromImage( cImage* image )
+grTextureRef grRenderSystemBaseInterface::createTextureFromImage( cImage* image )
 {
 	grTexture* res = mnew grTexture();
 	res->createSelfFromImage((grRenderSystem*)this, image);
-	res->incRefCount();
-	return res;
+	addTexture(res);
+	return grTextureRef(res);
 }
 
-grTexture* grRenderSystemBaseInterface::createRenderTargetTexture( const vec2f& size, 
-	                                                               grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
+grTextureRef grRenderSystemBaseInterface::createRenderTargetTexture( const vec2f& size, 
+	                                                                 grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
 {
 	grTexture* res = mnew grTexture();
 	res->createSelfAsRenderTarget((grRenderSystem*)this, size, format);
-	res->incRefCount();
-	return res;
-}
-
-void grRenderSystemBaseInterface::removeTexture( grTexture* texture )
-{
-	if (!texture || texture->getRefCount() > 0)
-		return;
-
-	TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
-	if (fnd != mTextures.end())
-		mTextures.erase(fnd);
-
-	safe_release(texture);
+	addTexture(res);
+	return grTextureRef(res);
 }
 
 void grRenderSystemBaseInterface::removeAllTextures()
@@ -139,6 +127,18 @@ grTexture* grRenderSystemBaseInterface::addTexture( grTexture* texture )
 {
 	mTextures.push_back(texture);
 	return texture;
+}
+
+void grRenderSystemBaseInterface::removeTexture( grTexture* texture )
+{
+	if (!texture || texture->getRefCount() > 0)
+		return;
+
+	TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
+	if (fnd != mTextures.end())
+		mTextures.erase(fnd);
+
+	safe_release(texture);
 }
 
 CLOSE_O2_NAMESPACE

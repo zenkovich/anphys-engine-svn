@@ -18,8 +18,6 @@
 
 OPEN_O2_NAMESPACE
 
-DECLARE_SINGLETON(TestApp);
-
 TestApp::TestApp():
 	cApplication()
 {

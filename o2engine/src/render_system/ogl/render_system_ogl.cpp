@@ -19,8 +19,8 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderSystem::grRenderSystem( cApplication* application ):
-	grRenderSystemBaseInterface(application), mReady(false), mStencilDrawing(false), mStencilTest(false), 
+grRenderSystem::grRenderSystem():
+	grRenderSystemBaseInterface(), mReady(false), mStencilDrawing(false), mStencilTest(false), 
 	mScissorTest(false)
 {
 	initializeGL();
@@ -35,7 +35,7 @@ void grRenderSystem::initializeGL()
 {
 	mLog->out("Initializing OpenGL render..");
 
-	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application().getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 
 #ifdef PLATFORM_WIN
 	GLuint pixelFormat;

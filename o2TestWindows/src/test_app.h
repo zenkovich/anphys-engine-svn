@@ -15,7 +15,7 @@ class ITest;
 class grText;
 
 /** Тестовое приложение. Обрабатывает ввод, выводит графику и т.п. */
-class TestApp:public cApplication, public cSingleton<TestApp>
+class TestApp:public cApplication
 {
 	ITest* mTest;
 	grText* mText;
