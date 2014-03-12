@@ -6,8 +6,8 @@
 
 OPEN_O2_NAMESPACE
 
-grText::grText( grRenderSystem* renerSystem, grFont* font ):
-	mRenderSystem(renerSystem), mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
+grText::grText( grFont* font ):
+	mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
 	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false), mColor(255, 255, 255, 255)
 {
 	initializeProperties();
@@ -33,11 +33,6 @@ void grText::draw()
 	
 	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
 		(*it)->draw();
-	
-	mRenderSystem->drawLine(mTransform.transform(vec2f()), mTransform.transform(vec2f(mAreaSize.x, 0)));
-	mRenderSystem->drawLine(mTransform.transform(vec2f(mAreaSize.x, 0)), mTransform.transform(vec2f(mAreaSize.x, mAreaSize.y)));
-	mRenderSystem->drawLine(mTransform.transform(vec2f(mAreaSize.x, mAreaSize.y)), mTransform.transform(vec2f(0, mAreaSize.y)));
-	mRenderSystem->drawLine(mTransform.transform(vec2f()), mTransform.transform(vec2f(0, mAreaSize.y)));
 }
 
 void grText::setFont( grFont* const& font )
@@ -377,7 +372,7 @@ void grText::setRect( const fRect& rect )
 
 fRect grText::getRect() const
 {
-	return fRect(mTransformDef.mPosition, mAreaSize);
+	return fRect(mTransformDef.mPosition, mTransformDef.mPosition + mAreaSize);
 }
 
 void grText::setHorAlign( const HorAlign& align )
@@ -499,7 +494,7 @@ void grText::updateMesh()
 	prepareMesh(textLen);
 
 	vec2f fullSize;
-	bool checkAreaBounds = mWordWrap || mAreaSize.x < FLT_EPSILON;
+	bool checkAreaBounds = mWordWrap && mAreaSize.x > FLT_EPSILON;
 	int wrapCharIdx = -1;
 	for (int i = 0; i < textLen; i++)
 	{
@@ -515,12 +510,23 @@ void grText::updateMesh()
 
 		if (mText[i] == '\n' || outOfBounds)
 		{
-			if (wrapCharIdx >= 0 && outOfBounds)
+			if (outOfBounds)
 			{
+				if (wrapCharIdx < 0)
+					wrapCharIdx = i;
+				else
+					curLine->mSpacesCount--;
+
 				int cutLen = wrapCharIdx - curLine->mLineBegSymbol;
 				curLine->mSymbols.erase(curLine->mSymbols.begin() + cutLen, curLine->mSymbols.end());
 				curLine->mString.erase(curLine->mString.begin() + cutLen, curLine->mString.end());
-				curLine->mSize = curLine->mSymbols.back().mPosition.right;
+
+
+				if (curLine->mSymbols.size() > 0) 
+					curLine->mSize = curLine->mSymbols.back().mPosition.right;
+				else
+					curLine->mSize = 0;
+
 				i = wrapCharIdx;
 				wrapCharIdx = -1;
 			}
@@ -553,9 +559,9 @@ void grText::updateMesh()
 	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
 
 	if (mVerAlign == VA_CENTER)
-		yOffset = mAreaSize.y - (float)mLineDefs.size()*lineHeight*0.5f;
+		yOffset = mAreaSize.y*0.5f - (float)mLineDefs.size()*lineHeight*0.5f;
 	else if (mVerAlign == VA_BOTH)
-		lineHeight = mAreaSize.y/(float)mLineDefs.size();
+		lineHeight = (mAreaSize.y - lineHeight)/(float)(mLineDefs.size() - 1);
 	else if (mVerAlign == VA_BOTTOM)
 		yOffset = mAreaSize.y - (float)mLineDefs.size()*lineHeight;
 
@@ -586,19 +592,30 @@ void grText::updateMesh()
 
 void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb, 
 	                     const vec2f& locOrigin )
-{
-	checkMeshEndless(mesh, meshIdx);
-	
+{	
 	vec2f points[4] = { mTransform.transform(locOrigin + symb.mPosition.getltCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getrtCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getrdCorner()),
 	                    mTransform.transform(locOrigin + symb.mPosition.getldCorner()) };
 
+	if (isBold())
+	{
+		float offs = symb.mPosition.getSize().x*0.2f;
+		points[0].x -= offs; points[3].x -= offs;
+		points[1].x += offs; points[2].x += offs;
+	}
+
+	if (isCursive())
+	{
+		float offs = symb.mPosition.getSize().x*0.2f;
+		points[0].x += offs; points[1].x += offs;
+	}
+
 	if (isWithShadow())
 	{
 		checkMeshEndless(mesh, meshIdx);
 
-		vec2f transfOffs = mTransform.transform(mEffectOffset);
+		vec2f transfOffs = mTransform.transform(mEffectOffset) - mTransform.offs;
 		vec2f cpoints[4];
 		for (int i = 0; i < 4; i++)
 			cpoints[i] = points[i] + transfOffs;
@@ -627,13 +644,13 @@ void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb,
 		vec2f offsets[4] = { vec2f(-mEffectOffset.x, -mEffectOffset.y), vec2f(mEffectOffset.x, -mEffectOffset.y),
 		                     vec2f(mEffectOffset.x, mEffectOffset.y), vec2f(-mEffectOffset.x, mEffectOffset.y) };
 
-		vec2f cpoints[4] = { points[0], points[1], points[2], points[3] };
+		vec2f cpoints[4];
 
 		for (int i = 0; i < 4; i++)
 		{
-			vec2f transfOffs = mTransform.transform(offsets[i]);
+			vec2f transfOffs = mTransform.transform(offsets[i]) - mTransform.offs;
 			for (int j = 0; j < 4; j++)
-				cpoints[i] = points[i] + transfOffs;
+				cpoints[j] = points[j] + transfOffs;
 
 			unsigned long borderColor = mBorderColor.dword();
 	
@@ -653,6 +670,8 @@ void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb,
 			mesh->mPolyCount++;
 		}
 	}
+
+	checkMeshEndless(mesh, meshIdx);
 
 	unsigned long upColor, bottomColor;
 	if (isWithGradient())
@@ -687,36 +706,36 @@ void grText::checkMeshEndless( grMesh*& mesh, int& meshIdx, int size )
 
 void grText::prepareMesh( int charactersCount )
 {
-	int needCharactes = charactersCount;
-	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
-	{
-		needCharactes -= (*it)->getMaxVertexCount()/4;
-	}
-
-	if (needCharactes < 0)
-		return;
-
 	int effectsCoef = 1;
 	if (isWithShadow())
 		effectsCoef += 1;
 	if (isWithBorder())
 		effectsCoef += 4;
 
-	if (needCharactes < 100)
+	int needPolygons = charactersCount*2*effectsCoef;
+	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
+		needPolygons -= (*it)->maxPolyCount;
+
+	if (needPolygons <= 0)
+		return;
+
+	if (needPolygons < 100 && mMeshes.size() > 0 && 
+		needPolygons + mMeshes.back()->maxPolyCount < nMeshMaxPolyCount)
 	{		
-		mMeshes.push_back(mnew grMesh(mFont->mTexture, needCharactes*4*effectsCoef, needCharactes*2*effectsCoef));
+		mMeshes.back()->resize(mMeshes.back()->maxVertexCount + (uint32)needPolygons*2, 
+			                   mMeshes.back()->maxPolyCount + (uint32)needPolygons);
 		return;
 	}
 	
-	int createSize = 500;
-	for (int i = 0; i < charactersCount/needCharactes + 1; i++)
-		mMeshes.push_back(mnew grMesh(mFont->mTexture, createSize*4*effectsCoef, createSize*2*effectsCoef));
+	for (int i = 0; i < charactersCount/needPolygons + 1; i++)
+		mMeshes.push_back(mnew grMesh(mFont->mTexture, nMeshMaxPolyCount*2, nMeshMaxPolyCount));
 }
 
 void grText::transformMesh( const basis& bas )
 {
 	mNeedTransformMesh = false;
-	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
+	//for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
+	FOREACH(MeshVec, mMeshes, it)
 	{
 		grMesh* mesh = *it;
 		for (unsigned int i = 0; i < mesh->mVertexCount; i++)

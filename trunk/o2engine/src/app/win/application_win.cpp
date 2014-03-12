@@ -100,7 +100,6 @@ void cApplication::launch()
 			onUpdate(dt);
 			draw();
 			mInputMessage.update(dt);
-
 		}
 	}
 

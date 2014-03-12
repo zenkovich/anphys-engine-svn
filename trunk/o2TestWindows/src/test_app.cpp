@@ -24,7 +24,7 @@ TestApp::TestApp():
 {
 	setOption(cApplicationOption::WND_SIZE, vec2i(800, 600));
 	setOption(cApplicationOption::WND_CAPTION, (std::string)"o2 test");
-	setOption(cApplicationOption::RESIZIBLE, false);
+	//setOption(cApplicationOption::RESIZIBLE, false);
 
 	getFileSystem().setResourcePath("../data/");
 
