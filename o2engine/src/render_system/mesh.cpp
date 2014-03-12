@@ -10,6 +10,7 @@ grMesh::grMesh( grTexture texture /*= grTexture()*/, uint32 vertexCount /*= 4*/,
 {
 	setTexture(texture);
 	resize(vertexCount, polyCount);
+	initializeProperties();
 }
 
 grMesh::grMesh( const grMesh& mesh ):
@@ -24,6 +25,8 @@ grMesh::grMesh( const grMesh& mesh ):
 
 	memcpy(mVerticies, mesh.mVerticies, mesh.mVertexCount*sizeof(vertex2));
 	memcpy(mIndexes, mesh.mIndexes, mesh.mPolyCount*3*sizeof(uint16));
+
+	initializeProperties();
 }
 
 grMesh::~grMesh()

@@ -18,6 +18,12 @@ OPEN_O2_NAMESPACE
 		return false; \
 	}
 
+#define FOREACH(_vector_type, _vector, _iterator) \
+	for (_vector_type::iterator _iterator = _vector.begin(); _iterator != _vector.end(); ++_iterator)
+
+#define CFOREACH(_vector_type, _vector, _iterator) \
+	for (_vector_type::const_iterator _iterator = _vector.cbegin(); _iterator != _vector.cend(); ++_iterator)
+
 
 CLOSE_O2_NAMESPACE
 
