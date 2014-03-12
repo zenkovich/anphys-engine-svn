@@ -18,7 +18,7 @@ class AnimationTest: public ITest
 	cAutoPtr<ICallback> mTestCallBack;
 
 public:
-	AnimationTest(cApplication* app, cInputMessage* inputMsg);
+	AnimationTest();
 
 	void draw();
 	void update(float dt);

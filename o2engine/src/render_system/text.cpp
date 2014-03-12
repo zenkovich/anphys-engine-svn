@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 grText::grText( grRenderSystem* renerSystem, grFont* font ):
 	mRenderSystem(renerSystem), mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
-	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(false), mWordWrap(false), mColor(255, 255, 255, 255)
+	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false), mColor(255, 255, 255, 255)
 {
 	initializeProperties();
 }
@@ -42,11 +42,14 @@ void grText::draw()
 
 void grText::setFont( grFont* const& font )
 {
+	if (equals(font, mFont))
+		return;
+
 	mFont = font;
 	mNeedUpdateMesh = true;
 }
 
-grFont* grText::getFont()
+grFont* grText::getFont() const
 {
 	return mFont;
 }
@@ -57,7 +60,7 @@ void grText::setText( const wstring& text )
 	mNeedUpdateMesh = true;
 }
 
-wstring grText::getText()
+wstring grText::getText() const
 {
 	return mText;
 }
@@ -68,24 +71,30 @@ void grText::setCText( const std::string& text )
 	mNeedUpdateMesh = true;
 }
 
-std::string grText::getCText()
+std::string grText::getCText() const
 {
 	return convWide2String(mText);
 }
 
 void grText::setTextStyle( const TextStyle& style )
 {
+	if (mStyle == style)
+		return;
+
 	mStyle = style;
 	mNeedUpdateMesh = true;
 }
 
-grText::TextStyle grText::getTextStyle()
+grText::TextStyle grText::getTextStyle() const
 {
 	return mStyle;
 }
 
 void grText::setCursive( const bool& flag )
 {
+	if (flag == isCursive())
+		return;
+
 	if (flag)
 		mStyle = (TextStyle)(mStyle | TS_CURSIVE);
 	else
@@ -94,13 +103,16 @@ void grText::setCursive( const bool& flag )
 	mNeedUpdateMesh = true;
 }
 
-bool grText::isCursive()
+bool grText::isCursive() const
 {
 	return (TextStyle)(mStyle & TS_CURSIVE) == TS_CURSIVE;
 }
 
 void grText::setBold( const bool& flag )
 {
+	if (flag == isBold())
+		return;
+
 	if (flag)
 		mStyle = (TextStyle)(mStyle | TS_BOLD);
 	else
@@ -109,13 +121,16 @@ void grText::setBold( const bool& flag )
 	mNeedUpdateMesh = true;
 }
 
-bool grText::isBold()
+bool grText::isBold() const
 {
 	return (TextStyle)(mStyle & TS_BOLD) == TS_BOLD;
 }
 
 void grText::setBorder( const bool& border )
 {
+	if (border == isWithBorder())
+		return;
+
 	if (border)
 	{
 		mStyle = (TextStyle)(mStyle | TS_BORDER);
@@ -127,13 +142,16 @@ void grText::setBorder( const bool& border )
 	mNeedUpdateMesh = true;
 }
 
-bool grText::isWithBorder()
+bool grText::isWithBorder() const
 {
 	return (TextStyle)(mStyle & TS_BORDER) == TS_BORDER;
 }
 
 void grText::setShadow( const bool& shadow )
 {
+	if (shadow == isWithShadow())
+		return;
+
 	if (shadow)
 	{
 		mStyle = (TextStyle)(mStyle | TS_SHADOW);
@@ -145,13 +163,16 @@ void grText::setShadow( const bool& shadow )
 	mNeedUpdateMesh = true;
 }
 
-bool grText::isWithShadow()
+bool grText::isWithShadow() const
 {
 	return (TextStyle)(mStyle & TS_SHADOW) == TS_SHADOW;
 }
 
 void grText::setGradient( const bool& gradient )
 {
+	if (gradient == isWithGradient())
+		return;
+
 	if (gradient)
 		mStyle = (TextStyle)(mStyle | TS_GRADIENT);
 	else
@@ -160,35 +181,44 @@ void grText::setGradient( const bool& gradient )
 	mNeedUpdateMesh = true;
 }
 
-bool grText::isWithGradient()
+bool grText::isWithGradient() const
 {
 	return (TextStyle)(mStyle & TS_GRADIENT) == TS_GRADIENT;
 }
 
 void grText::setEffectOffset( const vec2f& offset )
 {
+	if (offset == mEffectOffset)
+		return;
+
 	mEffectOffset = offset;
 	mNeedUpdateMesh = true;
 }
 
-vec2f grText::getEffectOffset()
+vec2f grText::getEffectOffset() const
 {
 	return mEffectOffset;
 }
 
 void grText::setColor( const color4& color )
 {
+	if (mColor == color)
+		return;
+
 	mColor = color;
 	mNeedUpdateMesh = true;
 }
 
-color4 grText::getColor()
+color4 grText::getColor() const
 {
 	return mColor;
 }
 
 void grText::setGradientColors( const color4& topColor, const color4& bottomColor )
 {
+	if (mGradientTopColor == topColor && mGradientBottomColor == bottomColor)
+		return;
+
 	mGradientTopColor = topColor;
 	mGradientBottomColor = bottomColor;
 	mNeedUpdateMesh = true;
@@ -196,77 +226,98 @@ void grText::setGradientColors( const color4& topColor, const color4& bottomColo
 
 void grText::setGradientTopColor( const color4& color )
 {
+	if (mGradientTopColor == color)
+		return;
+
 	mGradientTopColor = color;
 	mNeedUpdateMesh = true;
 }
 
 void grText::setGradientBottomColor( const color4& color )
 {
+	if (mGradientBottomColor == color)
+		return;
+
 	mGradientBottomColor = color;
 	mNeedUpdateMesh = true;
 }
 
-color4 grText::getGradientTopColor()
+color4 grText::getGradientTopColor() const
 {
 	return mGradientTopColor;
 }
 
-color4 grText::getGradientBottomColor()
+color4 grText::getGradientBottomColor() const
 {
 	return mGradientBottomColor;
 }
 
 void grText::setShadowColor( const color4& color )
 {
+	if (mShadowColor == color)
+		return;
+
 	mShadowColor = color;
 	mNeedUpdateMesh = true;
 }
 
-color4 grText::getShadowColor()
+color4 grText::getShadowColor() const
 {
 	return mShadowColor;
 }
 
 void grText::setBorderColor( const color4& color )
 {
+	if (mBorderColor == color)
+		return;
+
 	mBorderColor = color;
 	mNeedUpdateMesh = true;
 }
 
-color4 grText::getBorderColor()
+color4 grText::getBorderColor() const
 {
 	return mBorderColor;
 }
 
 void grText::setPosition( const vec2f& position )
 {
+	if (mTransformDef.mPosition == position)
+		return;
+
 	mTransformDef.mPosition = position;
 	mNeedTransformMesh = true;
 }
 
-vec2f grText::getPosition()
+vec2f grText::getPosition() const
 {
 	return mTransformDef.mPosition;
 }
 
 void grText::setAngle( const float& angle )
 {
+	if (equals(angle, mTransformDef.mAngle))
+		return;
+
 	mTransformDef.mAngle = angle;
 	mNeedTransformMesh = true;
 }
 
-float grText::getAngle()
+float grText::getAngle() const
 {
 	return mTransformDef.mAngle;
 }
 
 void grText::setScale( const vec2f& scale )
 {
+	if (equals(scale, mTransformDef.mScale))
+		return;
+
 	mTransformDef.mScale = scale;
 	mNeedTransformMesh = true;
 }
 
-vec2f grText::getScale()
+vec2f grText::getScale() const
 {
 	return mTransformDef.mScale;
 }
@@ -276,7 +327,7 @@ void grText::setCharactersHeight( const float& height )
 	setScale(vec2f(mTransformDef.mScale.x, height/mFont->getLineHeight()));
 }
 
-float grText::getCharactersHeight()
+float grText::getCharactersHeight() const
 {
 	return mTransformDef.mScale.y*mFont->getLineHeight();
 }
@@ -288,7 +339,7 @@ void grText::setTransform( const basis& bas )
 	transformMesh(mTransform*mLastTransform.inverted());
 }
 
-basis grText::getTransform()
+basis grText::getTransform() const
 {
 	return mTransform;
 }
@@ -299,73 +350,102 @@ void grText::setTransformDef( const basisDef& def )
 	mNeedTransformMesh = true;
 }
 
-basisDef grText::getTransformDef()
+basisDef grText::getTransformDef() const
 {
 	return mTransformDef;
 }
 
 void grText::setAreaSize( const vec2f& size )
 {
+	if (equals(size, mAreaSize))
+		return;
+
 	mAreaSize = size;
 	mNeedUpdateMesh = true;
 }
 
-vec2f grText::getAreaSize()
+vec2f grText::getAreaSize() const
 {
 	return mAreaSize;
 }
 
+void grText::setRect( const fRect& rect )
+{
+	setPosition(rect.getltCorner());
+	setAreaSize(rect.getSize());
+}
+
+fRect grText::getRect() const
+{
+	return fRect(mTransformDef.mPosition, mAreaSize);
+}
+
 void grText::setHorAlign( const HorAlign& align )
 {
+	if (align == mHorAlign)
+		return;
+
 	mHorAlign = align;
 	mNeedUpdateMesh = true;
 }
 
-grText::HorAlign grText::getHorAlign()
+grText::HorAlign grText::getHorAlign() const
 {
 	return mHorAlign;
 }
 
 void grText::setVerAlign( const VerAlign& align )
 {
+	if (align == mVerAlign)
+		return;
+
 	mVerAlign = align;
 	mNeedUpdateMesh = true;
 }
 
-grText::VerAlign grText::getVerAlign()
+grText::VerAlign grText::getVerAlign() const
 {
 	return mVerAlign;
 }
 
 void grText::setWordWrap( const bool& flag )
 {
+	if (flag == mWordWrap)
+		return;
+
 	mWordWrap = flag;
 	mNeedUpdateMesh = true;
 }
 
-bool grText::getWordWrap()
+bool grText::getWordWrap() const
 {
 	return mWordWrap;
 }
 
 void grText::setCharactersDistCoef( const float& coef )
 {
+	if (coef == mCharactersDistCoef)
+		return;
+
 	mCharactersDistCoef = coef;
 	mNeedUpdateMesh = true;
 }
 
-float grText::getCharactersDistCoef()
+float grText::getCharactersDistCoef() const
 {
 	return mCharactersDistCoef;
 }
 
 void grText::setLinesDistCoef( const float& coef )
 {
+	if (coef == mLinesDistCoef)
+		return;
+
 	mLinesDistCoef = coef;
 	mNeedUpdateMesh = true;
 }
 
-float grText::getLinesDistCoef()
+float grText::getLinesDistCoef() const
 {
 	return mLinesDistCoef;
 }
@@ -397,6 +477,7 @@ void grText::initializeProperties()
 	transform.init(this, &grText::setTransform, &grText::getTransform);
 	transformDef.init(this, &grText::setTransformDef, &grText::getTransformDef);
 	areaSize.init(this, &grText::setAreaSize, &grText::getAreaSize);
+	rect.init(this, &grText::setRect, &grText::getRect);
 	charactersDistCoef.init(this, &grText::setCharactersDistCoef, &grText::getCharactersDistCoef);
 	linesDistCoef.init(this, &grText::setLinesDistCoef, &grText::getLinesDistCoef);
 }
@@ -623,15 +704,13 @@ void grText::prepareMesh( int charactersCount )
 
 	if (needCharactes < 100)
 	{		
-		mMeshes.push_back(mnew grMesh(mRenderSystem, mFont->mTexture, needCharactes*4*effectsCoef, 
-			                          needCharactes*2*effectsCoef));
+		mMeshes.push_back(mnew grMesh(mFont->mTexture, needCharactes*4*effectsCoef, needCharactes*2*effectsCoef));
 		return;
 	}
 	
 	int createSize = 500;
 	for (int i = 0; i < charactersCount/needCharactes + 1; i++)
-		mMeshes.push_back(mnew grMesh(mRenderSystem, mFont->mTexture, createSize*4*effectsCoef, 
-		                              createSize*2*effectsCoef));
+		mMeshes.push_back(mnew grMesh(mFont->mTexture, createSize*4*effectsCoef, createSize*2*effectsCoef));
 }
 
 void grText::transformMesh( const basis& bas )

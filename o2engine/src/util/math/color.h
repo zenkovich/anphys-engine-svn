@@ -23,11 +23,6 @@ struct color4
 		r = cr; g = cg; b = cb; a = ca;
 	}
 
-	inline color4(int c) 
-	{ 
-		r = g = b = a = c;
-	}
-
 	inline color4(float cr, float cg, float cb, float ca) 
 	{ 
 		r = (int)(cr*255.0f);
@@ -97,9 +92,7 @@ struct color4
 
 	inline bool operator==(const color4& color)
 	{
-		if (abs(r - color.r) > 0 || abs(g - color.g) > 0 || abs(b - color.b) > 0 || abs(a - color.a) > 0)
-			return false;
-		return true;
+		return !(a != color.a || r != color.r || g != color.g || b != color.b);
 	}
 	
 	inline float rf() const

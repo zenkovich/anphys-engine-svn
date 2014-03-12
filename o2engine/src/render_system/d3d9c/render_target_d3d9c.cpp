@@ -10,15 +10,15 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, grTexture* texture ):
-	grRenderTargetBaseInterface(renderSystem, texture)
+grRenderTarget::grRenderTarget( grTextureDef* texture ):
+	grRenderTargetBaseInterface(texture)
 {
 	mReady = true;
 }
 
-grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, const vec2f& size /*= vec2f(0, 0)*/, 
+grRenderTarget::grRenderTarget( const vec2f& size /*= vec2f()*/, 
 	                            grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
-	grRenderTargetBaseInterface(renderSystem, size, texFormat)
+	grRenderTargetBaseInterface(size, texFormat)
 {
 	mReady = true;
 }

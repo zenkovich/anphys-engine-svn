@@ -7,22 +7,19 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* renderSystem, grTexture* texture ):
-	mRenderSystem(renderSystem), mReady(false)
+grRenderTargetBaseInterface::grRenderTargetBaseInterface( grTextureDef* texture ):
+	mReady(false)
 {
-	if (!mRenderSystem)
-		return;
 	
-	if (!mRenderSystem->isRenderTargetAvailable())
+	if (!renderSystem()->isRenderTargetAvailable())
 	{
-		mRenderSystem->mLog->out("ERROR: Render targets on current Renderer is not available!");
-		mRenderSystem = NULL;
+		renderSystem()->mLog->out("ERROR: Render targets on current Renderer is not available!");
 		return;
 	}
 
 	if (texture->getUsage() != grTexUsage::RENDER_TARGET)
 	{
-		mRenderSystem->mLog->out("ERROR: render target can't use not render target texture!");
+		renderSystem()->mLog->out("ERROR: render target can't use not render target texture!");
 	}
 	else
 	{
@@ -30,17 +27,13 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 	}
 }
 
-grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* renderSystem, const vec2f& size /*= vec2f(0, 0)*/, 
+grRenderTargetBaseInterface::grRenderTargetBaseInterface( const vec2f& size /*= vec2f(0, 0)*/, 
 	                                                      grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
-	mRenderSystem(renderSystem), mReady(false)
-{
-	if (!mRenderSystem)
-		return;
-	
-	if (!mRenderSystem->isRenderTargetAvailable())
+	mReady(false)
+{	
+	if (!renderSystem()->isRenderTargetAvailable())
 	{
-		mRenderSystem->mLog->out("ERROR: Render targets on current Renderer is not available!");
-		mRenderSystem = NULL;
+		renderSystem()->mLog->out("ERROR: Render targets on current Renderer is not available!");
 		mRenderTexture = NULL;
 		return;
 	}
@@ -48,43 +41,43 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grRenderSystem* render
 	vec2f texSize = size;
 	if (texSize.x < 1)
 	{
-		texSize = mRenderSystem->getResolution().castTo<float>();
+		texSize = renderSystem()->getResolution().castTo<float>();
 	}
 
-	vec2i maxTextureSize = mRenderSystem->getMaxTextureSize();
+	vec2i maxTextureSize = renderSystem()->getMaxTextureSize();
 	if (texSize.x > maxTextureSize.x || texSize.y > maxTextureSize.y)
 	{
-		mRenderSystem->mLog->out("WARNING: Render target size too large! size %ix%i boundin by max %ix%i",
-			(int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
+		renderSystem()->mLog->out("WARNING: Render target size too large! size %ix%i boundin by max %ix%i",
+			                      (int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
 		
 		texSize.x = clamp<float>(texSize.x, 64.0f, (float)maxTextureSize.x);
 		texSize.y = clamp<float>(texSize.y, 64.0f, (float)maxTextureSize.y);
 	}
 
-	mRenderTexture = mRenderSystem->createRenderTargetTexture(texSize, texFormat);
+	mRenderTexture = renderSystem()->createRenderTargetTexture(texSize, texFormat);
 }
 
 grRenderTargetBaseInterface::~grRenderTargetBaseInterface()
 {
 	if (mRenderTexture)
-		mRenderSystem->removeTexture(mRenderTexture);
+		renderSystem()->removeTextureDef(mRenderTexture);
 }
 
 void grRenderTargetBaseInterface::bind()
 {
-	if (mRenderTexture && mRenderSystem)
-		mRenderSystem->bindRenderTarget(static_cast<grRenderTarget*>(this));
+	if (mRenderTexture)
+		renderSystem()->bindRenderTarget(static_cast<grRenderTarget*>(this));
 }
 
 void grRenderTargetBaseInterface::unbind()
 {
-	if (mRenderTexture && mRenderSystem)
-		mRenderSystem->unbindRenderTarget();
+	if (mRenderTexture)
+		renderSystem()->unbindRenderTarget();
 }
 
-grTexture* grRenderTargetBaseInterface::getTexture() const
+grTexture grRenderTargetBaseInterface::getTexture() const
 {
-	return mRenderTexture;
+	return grTexture(mRenderTexture);
 }
 
 bool grRenderTargetBaseInterface::isReady() const

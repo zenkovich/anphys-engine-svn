@@ -35,7 +35,7 @@ void grRenderSystem::initializeGL()
 {
 	mLog->out("Initializing OpenGL render..");
 
-	application().getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 
 #ifdef PLATFORM_WIN
 	GLuint pixelFormat;
@@ -61,7 +61,7 @@ void grRenderSystem::initializeGL()
 		0, 0, 0										// Layer Masks Ignored
 	};
 
-	mHDC = GetDC(mApplication->mHWnd);
+	mHDC = GetDC(application()->mHWnd);
 	if (!mHDC)						
 	{					
 		mLog->out("ERROR: Can't Create A GL Device Context.\n");
@@ -325,7 +325,7 @@ void grRenderSystem::deinitializeGL()
 
 void grRenderSystem::frameResized()
 {
-	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 }
 
 bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
@@ -341,7 +341,7 @@ bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 
 		GL_CHECK_ERROR(mLog);
 
-		setupMatrix(renderTarget->getTexture()->getSize());
+		setupMatrix(renderTarget->getTexture().getSize());
 	}
 
 	mCurrentRenderTarget = renderTarget;

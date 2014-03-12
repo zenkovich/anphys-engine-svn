@@ -7,11 +7,10 @@
 
 OPEN_O2_NAMESPACE
 
-AnimationTest::AnimationTest( cApplication* app, cInputMessage* inputMsg ):
-	ITest(app, inputMsg), mCreatingFrames(false)
+AnimationTest::AnimationTest():
+	mCreatingFrames(false)
 {
 	mAnimation.setLoop(IAnimation::LT_TOGGLE);
-
 	mTestCallBack = callback<AnimationTest>(this, &AnimationTest::test);
 }
 
@@ -31,51 +30,51 @@ void AnimationTest::draw()
 	{
 		if (i > 0) 
 		{
-			mApplication->getRenderSystem()->drawLine((it - 1)->mValue, it->mValue, framesLineColr);
+			application()->getRenderSystem()->drawLine((it - 1)->mValue, it->mValue, framesLineColr);
 		}
 
-		mApplication->getRenderSystem()->drawCross(it->mValue, 3, frameCrossColr);
+		application()->getRenderSystem()->drawCross(it->mValue, 3, frameCrossColr);
 		lastFrameValue = it->mValue;
 	}
 		
-	mApplication->getRenderSystem()->drawCross((*mAnimation), 3, valueCrossColr);
+	application()->getRenderSystem()->drawCross((*mAnimation), 3, valueCrossColr);
 
 	if (mCreatingFrames) 
 	{
-		mApplication->getRenderSystem()->drawLine(lastFrameValue, mInputMessage->getCursorPos(), newFrameLineColr);
+		application()->getRenderSystem()->drawLine(lastFrameValue, appInput()->getCursorPos(), newFrameLineColr);
 	}
 }
 
 void AnimationTest::update( float dt )
 {
-	if (mInputMessage->isKeyPressed('C'))
+	if (appInput()->isKeyPressed('C'))
 		mCreatingFrames = !mCreatingFrames;
 
-	if (mInputMessage->isKeyPressed(VK_SPACE))
+	if (appInput()->isKeyPressed(VK_SPACE))
 	{
 		mAnimation.play(true, false);
 		mTestCallBack->call();
 	}
 
-	if (mInputMessage->isKeyPressed('X'))
+	if (appInput()->isKeyPressed('X'))
 		mAnimation.play(random(0.0f, mAnimation.getDuration()), random(0.0f, mAnimation.getDuration()));
 
-	if (mInputMessage->isKeyPressed('Y'))
+	if (appInput()->isKeyPressed('Y'))
 		mAnimation.play(random(-100.0f, 100.0f), random(-100.0f, 100.0f));
 
 	//llog("time = %.3f/%.3f", mAnimation.getTime(), mAnimation.getDuration());
 
 	if (mCreatingFrames) 
 	{
-		if (mInputMessage->isKeyPressed(VK_LBUTTON))
+		if (appInput()->isKeyPressed(VK_LBUTTON))
 		{
 			float speed = 200;
-			vec2f x = mInputMessage->getCursorPos();
+			vec2f x = appInput()->getCursorPos();
 			vec2f y;
 			if (mAnimation.getFrames().size() > 0)
 				y = mAnimation.getFrames().back().mValue;
 
-			mAnimation.addFrame(x, -1,	(y -x).len()/speed , false, IT_EASY_IN_OUT);
+			mAnimation.addFrame(x, -1,	(y -x).length()/speed , false, IT_EASY_IN_OUT);
 		}
 	}
 

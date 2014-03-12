@@ -14,13 +14,12 @@ class grRenderTarget:public grRenderTargetBaseInterface
 
 	GLuint mFrameBuffer; /**< Opengl framebuffer handle. */
 
-public:
 	/** ctor. */
-	grRenderTarget(grRenderSystem* renderSystem, grTexture* texture);
-	
+	grRenderTarget(grTextureDef* texture);
+
+public:	
 	/** ctor. */
-	grRenderTarget(grRenderSystem* renderSystem, const vec2f& size = vec2f(0, 0), 
-		           grTexFormat::type texFormat = grTexFormat::DEFAULT );
+	grRenderTarget(const vec2f& size = vec2f(), grTexFormat::type texFormat = grTexFormat::DEFAULT );
 	
 	/** dtor. */
 	~grRenderTarget();

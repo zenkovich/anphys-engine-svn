@@ -104,6 +104,11 @@ inline bool equals(float a, float b)
 	return x*x < FLT_EPSILON*FLT_EPSILON;
 }
 
+template<typename T>
+inline bool equals(const T& a, const T& b) {
+	return a == b;
+}
+
 /* Trigonometry. */
 #define PI 3.1415926535897932384626433832795f
 

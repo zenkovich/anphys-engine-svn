@@ -158,7 +158,7 @@ void uiWidget::setParent(const uiWidgetPtr& parent)
 	updateLayout();
 }
 
-uiWidget* uiWidget::getParent()
+uiWidget* uiWidget::getParent() const
 {
 	return mParent;
 }
@@ -201,7 +201,7 @@ void uiWidget::setPosition( const vec2f& position )
 	updateLayout();
 }
 
-vec2f uiWidget::getPosition()
+vec2f uiWidget::getPosition() const
 {
 	return mLocalPosition;
 }
@@ -211,7 +211,7 @@ void uiWidget::setId( const std::string& id )
 	mId = id;
 }
 
-std::string uiWidget::getId()
+std::string uiWidget::getId() const
 {
 	return mId;
 }
@@ -226,7 +226,7 @@ void uiWidget::setGlobalPosition( const vec2f& position )
 	updateLayout();
 }
 
-vec2f uiWidget::getGlobalPosition()
+vec2f uiWidget::getGlobalPosition() const
 {
 	return mGlobalPosition;
 }
@@ -237,12 +237,12 @@ void uiWidget::setSize( const vec2f& size )
 	updateLayout();
 }
 
-vec2f uiWidget::getSize()
+vec2f uiWidget::getSize() const
 {
 	return mSize;
 }
 
-cGeometry* uiWidget::getGeometry()
+cGeometry* uiWidget::getGeometry() const
 {
 	return mGeometry;
 }

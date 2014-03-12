@@ -12,7 +12,7 @@ class InputMsgTest: public ITest
 	grText*        mText;
 
 public:
-	InputMsgTest(cApplication* app, cInputMessage* inputMsg);
+	InputMsgTest();
 	~InputMsgTest();
 
 	void draw();

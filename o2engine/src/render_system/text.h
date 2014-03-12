@@ -86,6 +86,7 @@ public:
 	PROPERTY(grText, basis)       transform;
 	PROPERTY(grText, basisDef)    transformDef;
 	PROPERTY(grText, vec2f)       areaSize;
+	PROPERTY(grText, fRect)       rect;
 	PROPERTY(grText, float)       charactersDistCoef;
 	PROPERTY(grText, float)       linesDistCoef;
 
@@ -96,86 +97,89 @@ public:
 	void draw();	
 
 	void setFont(grFont* const& font);
-	grFont* getFont();
+	grFont* getFont() const;
 
 	void setText(const wstring& text);
-	wstring getText();
+	wstring getText() const;
 
 	void setCText(const std::string& text);
-	std::string getCText();
+	std::string getCText() const;
 
 	void setTextStyle(const TextStyle& style);
-	TextStyle getTextStyle();
+	TextStyle getTextStyle() const;
 
 	void setCursive(const bool& flag);
-	bool isCursive();
+	bool isCursive() const;
 
 	void setBold(const bool& flag);
-	bool isBold();
+	bool isBold() const;
 
 	void setBorder(const bool& border);
-	bool isWithBorder();
+	bool isWithBorder() const;
 
 	void setShadow(const bool& shadow);
-	bool isWithShadow();
+	bool isWithShadow() const;
 
 	void setGradient(const bool& gradient);
-	bool isWithGradient();
+	bool isWithGradient() const;
 
 	void setEffectOffset(const vec2f& offset);
-	vec2f getEffectOffset();
+	vec2f getEffectOffset() const;
 
 	void setColor(const color4& color);
-	color4 getColor();
+	color4 getColor() const;
 
 	void setGradientColors(const color4& topColor, const color4& bottomColor);
 	void setGradientTopColor(const color4& color);
 	void setGradientBottomColor(const color4& color);
 
-	color4 getGradientTopColor();
-	color4 getGradientBottomColor();
+	color4 getGradientTopColor() const;
+	color4 getGradientBottomColor() const;
 
 	void setShadowColor(const color4& color);
-	color4 getShadowColor();
+	color4 getShadowColor() const;
 
 	void setBorderColor(const color4& color);
-	color4 getBorderColor();
+	color4 getBorderColor() const;
 
 	void setPosition(const vec2f& position);
-	vec2f getPosition();
+	vec2f getPosition() const;
 
 	void setAngle(const float& angle);
-	float getAngle();
+	float getAngle() const;
 
 	void setScale(const vec2f& scale);
-	vec2f getScale();
+	vec2f getScale() const;
 
 	void setCharactersHeight(const float& height);
-	float getCharactersHeight();
+	float getCharactersHeight() const;
 
 	void setTransform(const basis& bas);
-	basis getTransform();
+	basis getTransform() const;
 
 	void setTransformDef(const basisDef& def);
-	basisDef getTransformDef();
+	basisDef getTransformDef() const;
 
 	void setAreaSize(const vec2f& size);
-	vec2f getAreaSize();
+	vec2f getAreaSize() const;
+
+	void setRect(const fRect& rect);
+	fRect getRect() const;
 
 	void setHorAlign(const HorAlign& align);
-	HorAlign getHorAlign();
+	HorAlign getHorAlign() const;
 
 	void setVerAlign(const VerAlign& align);
-	VerAlign getVerAlign();
+	VerAlign getVerAlign() const;
 
 	void setWordWrap(const bool& flag);
-	bool getWordWrap();
+	bool getWordWrap() const;
 
 	void setCharactersDistCoef(const float& coef);
-	float getCharactersDistCoef();
+	float getCharactersDistCoef() const;
 
 	void setLinesDistCoef(const float& coef);
-	float getLinesDistCoef();
+	float getLinesDistCoef() const;
 
 protected:
 	void initializeProperties();

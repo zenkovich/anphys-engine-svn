@@ -5,6 +5,7 @@
 
 #include "public.h"
 #include "util/singleton.h"
+#include "util/property.h"
 #include "util/math/vector2.h"
 #include "util/math/color.h"
 #include "util/math/vertex.h"
@@ -24,14 +25,14 @@ class grFontManager;
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
 class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>
 {
-	friend class grTexture;
-	friend class grTextureBaseInterface;
+	friend class grTextureDef;
+	friend class grTextureDefBaseInterface;
 	friend class grRenderTargetBaseInterface;	
 	friend class grFontManager;
 	friend class cDeviceInfo;
 
 public:
-	typedef std::vector<grTexture*> TexturesVec;
+	typedef std::vector<grTextureDef*> TexturesVec;
 
 protected:
 	vec2i          mResolution;    /**< Resolution of rendering frame. */
@@ -41,6 +42,10 @@ protected:
 	cLogStream*    mLog;           /**< Log stream for render messages. */
 	 
 public:
+	//properties
+	PROPERTY(grRenderSystemBaseInterface, grCamera*) camera; /** Camera property. Uses bindCamera and currentCamera. */
+
+
 	/** ctor. */
 	grRenderSystemBaseInterface();
 
@@ -51,39 +56,39 @@ public:
 	vec2i getResolution() const;
 
 	/** Binding camera. NULL - standart camera. */
-	bool bindCamera(grCamera* camera);
+	void bindCamera(grCamera* const& camera);
+
+	/** Returns current camera. */
+	grCamera* currentCamera() const;
 
 	/** Returns font manager. */
 	grFontManager* getFontManager() const;
 
 	/** Creating texture, if no exist, else returning created texture. */
-	grTextureRef getTextureFromFile(const std::string& fileName);
+	grTexture getTextureFromFile(const std::string& fileName);
 	
 	/** Creates texture 
 	 *  @size - size of texture
 	 *  @format - texture format
 	 *  @usage - texture usage. */
-	grTextureRef createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	           grTexUsage::type usage = grTexUsage::DEFAULT);
+	grTexture createTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	grTextureRef createTextureFromImage(cImage* image);
+	grTexture createTextureFromImage(cImage* image);
 				       
 	/** Creates texture as render target. 
 	 ** note: recomending to use grRenderTarget for rendering to texture*/
-	grTextureRef createRenderTargetTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
-
-	/** Forcible removing all textures. */
-	void removeAllTextures();
+	grTexture createRenderTargetTexture(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 
 	/** Draw single line with color. */
-	void drawLine(const vec2f& a, const vec2f& b, const color4 color = color4(255));
+	void drawLine(const vec2f& a, const vec2f& b, const color4 color = color4::white());
 
 	/** Draw rect frame with color. */
-	void drawRectFrame(const vec2f& minp, const vec2f& maxp, const color4 color = color4(255));
+	void drawRectFrame(const vec2f& minp, const vec2f& maxp, const color4 color = color4::white());
 
 	/** Draw cross with color. */
-	void drawCross(const vec2f& pos, float size = 5, const color4 color = color4(255));
+	void drawCross(const vec2f& pos, float size = 5, const color4 color = color4::white());
 
 	/** Beginning rendering. */
 	virtual bool beginRender() = 0;
@@ -92,7 +97,7 @@ public:
 	virtual bool endRender() = 0;
 
 	/** Clearing current frame buffer with color. */
-	virtual void clear(const color4& color = color4(0, 0, 0, 255)) = 0;
+	virtual void clear(const color4& color = color4::black()) = 0;
 
 	/** Beginning render to stencil buffer. */
 	virtual void beginRenderToStencilBuffer() = 0;
@@ -152,6 +157,9 @@ public:
 	virtual vec2i getMaxTextureSize() const = 0;
 
 protected:
+	/** Initializing propertes. */
+	void initializeProperties();
+
 	/** Calls for update camera transformations. */
 	virtual void updateCameraTransforms() = 0;
 
@@ -159,10 +167,13 @@ protected:
 	virtual void frameResized() = 0;
 
 	/** Adding texture an array and return pointer. */
-	grTexture* addTexture(grTexture* texture);
+	grTextureDef* addTextureDef(grTextureDef* texture);
 
 	/** Removes texture. */
-	void removeTexture(grTexture* texture);
+	void removeTextureDef(grTextureDef* texture);
+
+	/** Removes all textures. */
+	void removeAllTextures();
 };
 
 CLOSE_O2_NAMESPACE

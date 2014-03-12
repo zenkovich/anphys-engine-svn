@@ -61,13 +61,9 @@ public:
 		}
 
 		if (mBezier) 
-		{
 			value = interpolateBezier<T>(mBeginValue, mSupportValueBegin, mSupportValueEnd, mEndValue, frameCoef);
-		}
 		else
-		{
 			value = interpolate<T>(mBeginValue, mEndValue, frameCoef);
-		}
 	}
 };
 

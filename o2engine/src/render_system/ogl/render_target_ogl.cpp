@@ -12,23 +12,19 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, grTexture* texture ):
-	grRenderTargetBaseInterface(renderSystem, texture), mFrameBuffer(0)
+grRenderTarget::grRenderTarget( grTextureDef* texture ):
+	grRenderTargetBaseInterface(texture), mFrameBuffer(0)
 {
-	if (!mRenderSystem || !mRenderTexture)
-		return;
-
-	initializeBuffer();
+	if (mRenderTexture)
+		initializeBuffer();
 }
 
-grRenderTarget::grRenderTarget( grRenderSystem* renderSystem, const vec2f& size /*= vec2f(0, 0)*/, 
+grRenderTarget::grRenderTarget( const vec2f& size /*= vec2f()*/, 
 	                            grTexFormat::type texFormat /*= grTexFormat::DEFAULT */ ):
-	grRenderTargetBaseInterface(renderSystem, size, texFormat), mFrameBuffer(0)
+	grRenderTargetBaseInterface(size, texFormat), mFrameBuffer(0)
 {
-	if (!mRenderSystem || !mRenderTexture)
-		return;
-
-	initializeBuffer();
+	if (!mRenderTexture)
+		initializeBuffer();	
 }
 
 grRenderTarget::~grRenderTarget()
@@ -50,8 +46,8 @@ void grRenderTarget::initializeBuffer()
 	{
 		GLenum glError = glGetError();
 
-		mRenderSystem->mLog->out("ERROR: Failed to create GL framebuffer object! GL Error %x %s", glError,
-			getGLErrorDesc(glError));
+		renderSystem()->mLog->out("ERROR: Failed to create GL framebuffer object! GL Error %x %s", glError,
+			                      getGLErrorDesc(glError));
 
 		mReady = false;
 

@@ -6,7 +6,8 @@
 
 OPEN_O2_NAMESPACE
 
-class grTexture:public grTextureBaseInterface
+/** OpenGL texture definition. Contains OGL texture handle, derives from texture definition base interface. */
+class grTextureDef:public grTextureDefBaseInterface
 {
 	friend class grRenderSystemBaseInterface;
 	friend class grRenderSystem;
@@ -16,32 +17,27 @@ class grTexture:public grTextureBaseInterface
 
 
 	/** ctor. */
-	grTexture();
-
-	/** deprecated copy-ctor. */
-	grTexture(const grTexture& texture);
+	grTextureDef();
 
 	/** dtor. */
-	~grTexture();
+	~grTextureDef();
 
 	/** Creates texture 
 	 *  @size - size of texture
 	 *  @format - texture format
 	 *  @usage - texture usage. */
-	void createSelf(grRenderSystem* renderSystem, const vec2f& size, 
-	                grTexFormat::type format = grTexFormat::DEFAULT, 
-		  	        grTexUsage::type usage = grTexUsage::DEFAULT);
+	void create(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+		  	    grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	void createSelfFromImage(grRenderSystem* renderSystem, cImage* image);
+	void createFromImage(cImage* image);
 		       
 	/** Creates texture from file. */
-	void createSelfFromFile(grRenderSystem* renderSystem, const std::string& fileName);
+	void createFromFile(const std::string& fileName);
 		       
 	/** Creates texture as render target. 
 	 ** note: recomending to use grRenderTarget*/
-	void createSelfAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                          grTexFormat::type format = grTexFormat::DEFAULT);
+	void createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 };
 
 CLOSE_O2_NAMESPACE

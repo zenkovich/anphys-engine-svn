@@ -90,7 +90,7 @@ struct basis
 
 	inline vec2f getScale() const
 	{
-		return vec2f( xv.len(), yv.len() );
+		return vec2f( xv.length(), yv.length() );
 	}
 
 	inline float getShift() const 

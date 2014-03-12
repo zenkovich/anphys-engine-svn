@@ -38,7 +38,7 @@ public:
 	T getParameter(DeviceParam paramId);
 };
 
-#define deviceInfo() cDeviceInfo::instance()
+#define deviceInfo() cDeviceInfo::instancePtr()
 
 CLOSE_O2_NAMESPACE
 

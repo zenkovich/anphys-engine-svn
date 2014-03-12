@@ -8,42 +8,35 @@
 OPEN_O2_NAMESPACE
 
 grFont::grFont():
-	mCharacters(NULL), mCharacterIds(NULL), mCharactersCount(0), mTexture(NULL), mRenderSystem(NULL), 
-	mAllSymbolReturn(false)
+	mCharacters(NULL), mCharacterIds(NULL), mCharactersCount(0), mTexture(NULL), mAllSymbolReturn(false)
 {
-
 }
 
 grFont::grFont( const grFont& font ):
-	mCharacters(NULL), mCharacterIds(NULL), mCharactersCount(0), mTexture(NULL), mRenderSystem(NULL)
+	mCharacters(NULL), mCharacterIds(NULL), mCharactersCount(0), mTexture(NULL)
 {
 }
 
 grFont::~grFont()
 {
-	mRenderSystem->removeTexture(mTexture);
 	safe_release_arr(mCharacters);
 	safe_release_arr(mCharacterIds);
 }
 
-void grFont::create( grRenderSystem* renerSystem, const std::string& fontFile )
+void grFont::create( const std::string& fontFile )
 {
-	mRenderSystem = renerSystem;
-
 	pugi::xml_document doc;
 	cXmlTools::loadFromFile(fontFile, doc);
 	
-	serialize(doc, cSerializeType::INPUT, renerSystem->mLog);
+	serialize(doc, cSerializeType::INPUT, renderSystem()->mLog);
 }
 
-void grFont::createFromBMFont( grRenderSystem* renderSystem, const std::string& fontFile )
+void grFont::createFromBMFont( const std::string& fontFile )
 {
-	mRenderSystem = renderSystem;
-
 	pugi::xml_document doc;
 	if (!cXmlTools::loadFromFile(fontFile, doc))
 	{
-		mRenderSystem->mLog->hout("ERROR: Failed to load BMFont file: %s", fontFile.c_str());
+		renderSystem()->mLog->hout("ERROR: Failed to load BMFont file: %s", fontFile.c_str());
 		return;
 	}
 
@@ -53,16 +46,15 @@ void grFont::createFromBMFont( grRenderSystem* renderSystem, const std::string& 
 	{
 		mName = commonNode.attribute("name").value();
 
-		std::string textureName = commonNode.attribute("texture").value();		
-		mRenderSystem->removeTexture(mTexture);
-		mTexture = mRenderSystem->getTextureFromFile(textureName);
+		std::string textureName = commonNode.attribute("texture").value();	
+		mTexture = renderSystem()->getTextureFromFile(textureName);
 
 		mLineHeight = commonNode.attribute("lineHeight").as_float();
 		mBase = commonNode.attribute("base").as_float();
 	}
 	else
 	{
-		mRenderSystem->mLog->hout("ERROR: Failed to get common info in font: %s. Bad file format", fontFile.c_str());
+		renderSystem()->mLog->hout("ERROR: Failed to get common info in font: %s. Bad file format", fontFile.c_str());
 		return;
 	}
 
@@ -99,11 +91,11 @@ void grFont::createFromBMFont( grRenderSystem* renderSystem, const std::string& 
 	}
 	else
 	{
-		mRenderSystem->mLog->hout("ERROR: Failed to get characters node in BMFont file: %s. Bad file format", fontFile.c_str());
+		renderSystem()->mLog->hout("ERROR: Failed to get characters node in BMFont file: %s. Bad file format", fontFile.c_str());
 		return;
 	}
 
-	vec2f invTexSize(1.0f/mTexture->getSize().x, 1.0f/mTexture->getSize().y);
+	vec2f invTexSize(1.0f/mTexture.getSize().x, 1.0f/mTexture.getSize().y);
 	for (int i = 0; i < mCharactersCount; i++)
 	{
 		mCharacters[i].mSize = mCharacters[i].mTexSrc.getSize();
@@ -130,8 +122,8 @@ SERIALIZE_METHOD_IMPL(grFont)
 	SERIALIZE_ID(mName, "name");
 
 	std::string textureName;
-	if (type == cSerializeType::OUTPUT && mTexture)
-		textureName = mTexture->getFileName();
+	if (type == cSerializeType::OUTPUT)
+		textureName = mTexture.getFileName();
 	
 	SERIALIZE_ID(textureName, "texture");
 	SERIALIZE_ID(mLineHeight, "lineHeight");
@@ -139,10 +131,7 @@ SERIALIZE_METHOD_IMPL(grFont)
 	SERIALIZE_ID(mAllSymbolReturn, "allSymbolsReturn");
 
 	if (type == cSerializeType::INPUT)
-	{
-		mRenderSystem->removeTexture(mTexture);
-		mTexture = mRenderSystem->getTextureFromFile(textureName);
-	}
+		mTexture = renderSystem()->getTextureFromFile(textureName);
 
 	SERIALIZE_ID(mCharactersCount, "charactersCount");
 
@@ -173,7 +162,7 @@ SERIALIZE_METHOD_IMPL(grFont)
 
 float grFont::getLineHeight() const
 {
-	return mCharacters[mCharacterIds['A']].mTexSrc.getSizeY();
+	return mLineHeight;
 }
 
 CLOSE_O2_NAMESPACE

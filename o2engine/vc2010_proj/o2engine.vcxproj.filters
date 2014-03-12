@@ -647,5 +647,8 @@
     <ClCompile Include="..\src\render_system\text.cpp">
       <Filter>src\render_system</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\render_system\texture.cpp">
+      <Filter>src\render_system</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

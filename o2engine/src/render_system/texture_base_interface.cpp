@@ -5,61 +5,47 @@
 OPEN_O2_NAMESPACE
 
 
-grTextureBaseInterface::grTextureBaseInterface():
-	mRenderSystem(NULL), mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT)
+grTextureInterface::grTextureInterface():
+	mFormat(grTexFormat::DEFAULT), mUsage(grTexUsage::DEFAULT)
 {
 }
 
-grTextureBaseInterface::~grTextureBaseInterface()
+grTextureInterface::~grTextureInterface()
 {
 }
 
-const std::string& grTextureBaseInterface::getFileName() const
+const std::string& grTextureInterface::getFileName() const
 {
 	return mFileName;
 }
 
-grTexFormat::type grTextureBaseInterface::getFormat() const
+grTexFormat::type grTextureInterface::getFormat() const
 {
 	return mFormat;
 }
 
-grTexUsage::type grTextureBaseInterface::getUsage() const
+grTexUsage::type grTextureInterface::getUsage() const
 {
 	return mUsage;
 }
 
-vec2f grTextureBaseInterface::getSize() const
+vec2f grTextureInterface::getSize() const
 {
 	return mSize;
 }
 
-grTexture* grTextureBaseInterface::create( grRenderSystem* renderSystem, const vec2f& size, 
-	                                       grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
-									       grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
+void grTextureDefBaseInterface::onZeroRefCount()
 {
-	return renderSystem->createTexture(size, format, usage);
+	renderSystem()->removeTextureDef((grTextureDef*)this);
 }
 
-grTexture* grTextureBaseInterface::createFromImage( grRenderSystem* renderSystem, cImage* image )
+grTextureDefBaseInterface::grTextureDefBaseInterface():
+	grTextureInterface()
 {
-	return renderSystem->createTextureFromImage(image);
 }
 
-grTexture* grTextureBaseInterface::createFromFile( grRenderSystem* renderSystem, const std::string& fileName )
+grTextureDefBaseInterface::~grTextureDefBaseInterface()
 {
-	return renderSystem->getTextureFromFile(fileName);
-}
-
-grTexture* grTextureBaseInterface::createAsRenderTarget( grRenderSystem* renderSystem, const vec2f& size, 
-	                                                     grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
-{
-	return renderSystem->createRenderTargetTexture(size, format);
-}
-
-void grTextureBaseInterface::onZeroRefCount()
-{
-	mRenderSystem->removeTexture((grTexture*)this);
 }
 
 CLOSE_O2_NAMESPACE

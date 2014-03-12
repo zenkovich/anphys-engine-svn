@@ -3,13 +3,15 @@
 
 #include "public.h"
 
+#include "texture.h"
 #include "util/objects.h"
+#include "util/property.h"
 #include "util/math/vertex.h"
 #include "util/math/vector2.h"
 
+
 OPEN_O2_NAMESPACE
 
-class grTexture;
 class grRenderSystem;
 
 /** Triangles mesh. Containing verticies, indeces of polygons, texture. */
@@ -19,24 +21,26 @@ class grMesh: public IDrawable
 	friend class grSprite;
 
 public:
-	vertex2*        mVerticies;      /**< Vertex buffer. */
-	unsigned short* mIndexes;        /**< Index buffer. */
+	vertex2*  mVerticies;      /**< Vertex buffer. */
+	uint16*   mIndexes;        /**< Index buffer. */
 
-	unsigned int    mVertexCount;    /**< Current verticies count. */
-	unsigned int    mPolyCount;      /**< Current polygons in mesh. */
+	uint32    mVertexCount;    /**< Current verticies count. */
+	uint32    mPolyCount;      /**< Current polygons in mesh. */
 
 protected:
-	grRenderSystem* mRenderSystem;   /**< Render system ptr. */
+	grTexture mTexture;        /**< Texture. */
 
-	grTexture*      mTexture;        /**< Texture ptr. */
-
-	unsigned int    mMaxVertexCount; /**< Max size of vertex buffer. */
-	unsigned int    mMaxPolyCount;   /**< Max polygons count, mMaxPolyCount*3 - os index buffer max size. */
+	uint32    mMaxVertexCount; /**< Max size of vertex buffer. */
+	uint32    mMaxPolyCount;   /**< Max polygons count, mMaxPolyCount*3 - os index buffer max size. */
 
 public:
+	//properties
+	PROPERTY(grMesh, grTexture) texture;     /** Texture property, uses set/getTexture. */
+	PROPERTY(grMesh, uint32) maxVertexCount; /** Max vertex count property, uses set/getMaxVertexCount. */
+	PROPERTY(grMesh, uint32) maxPolyCount;   /** Max polygons count property, uses set/getMaxPolyCount. */
+
 	/** ctor. */
-	grMesh(grRenderSystem* renderSystem, grTexture* texture = NULL, unsigned int vertexCount = 4, 
-		   unsigned int polyCount = 2);
+	grMesh(grTexture texture = grTexture(), uint32 vertexCount = 4, uint32 polyCount = 2);
 
 	/** copy ctor. */
 	grMesh(const grMesh& mesh);
@@ -50,17 +54,27 @@ public:
 	/** Drawing mesh. */
 	void draw();
 
-	/** Sets texture, NULL - no texture. */
-	void setTexture(grTexture* texture);
+	/** Sets texture. */
+	void setTexture(const grTexture& texture);
 
 	/** Returns texture ptr. */
-	grTexture* getTexture() const;
+	grTexture getTexture() const;
+
+	/** Sets max vertex count buffer. */
+	void setMaxVertexCount(const uint32& count);
+
+	/** Sets max polygons count buffer. */
+	void setMaxPolyCount(const uint32& count);
 
 	/** Returns max vertex buffer size. */
-	unsigned int getMaxVertexCount() const;
+	uint32 getMaxVertexCount() const;
 
 	/** Returns max polygons count. */
-	unsigned int getMaxPolyCount() const;
+	uint32 getMaxPolyCount() const;
+
+protected:
+	/** Initializing properties. */
+	void initializeProperties();
 };
 
 CLOSE_O2_NAMESPACE

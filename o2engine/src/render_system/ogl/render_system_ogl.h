@@ -35,7 +35,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	GLenum          mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
 										     
 //batching parametres					     
-	grTexture*      mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	grTextureDef*   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
 	unsigned int    mLastDrawVertex;         /**< Last vertex idx for next DIP. */
 	unsigned int    mLastDrawIdx;            /**< Last vertex index for nex DIP. */
 	unsigned int    mTrianglesCount;         /**< Triatgles count for next DIP. */
@@ -69,7 +69,7 @@ public:
 	bool endRender();
 	
 	/** Clearing current frame buffer with color. */
-	void clear(const color4& color = color4(0, 0, 0, 255));
+	void clear(const color4& color = color4::black());
 	
 	/** Beginning render to stencil buffer. */
 	void beginRenderToStencilBuffer();
