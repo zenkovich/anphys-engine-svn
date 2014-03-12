@@ -10,9 +10,11 @@ cStretchRect::Part::Part()
 }
 
 cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
-	                      const fRect& texRect, const color4& vertex0Color /*= color4(255)*/, 
-						  const color4& vertex1Color /*= color4(255)*/, const color4& vertex2Color /*= color4(255)*/, 
-						  const color4& vertex3Color /*= color4(255)*/ ):
+	                      const fRect& texRect, 
+						  const color4& vertex0Color /*= color4::white()*/, 
+						  const color4& vertex1Color /*= color4::white()*/, 
+						  const color4& vertex2Color /*= color4::white()*/, 
+						  const color4& vertex3Color /*= color4::white()*/ ):
 	mLTPosPercent(LTPercent), mLTPosPixel(LTPixel), mRBPosPercent(RBPercent), mRBPosPixel(RBPixel), mTextureSrcRect(texRect)
 {
 	mVertexColors[0] = vertex0Color; mVertexColors[1] = vertex1Color; 
@@ -20,11 +22,11 @@ cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const ve
 }
 
 
-cStretchRect::cStretchRect( grRenderSystem* renderSystem, int parts /*= 0*/, grTexture* texture /*= NULL*/ ):
-	mMesh(NULL), mNeedUpdateMesh(true), mRenderSystem(renderSystem)
+cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTexture()*/ ):
+	mMesh(NULL), mNeedUpdateMesh(true)
 {
 	if (parts > 0)
-		createMesh(mRenderSystem, parts, texture);
+		createMesh(parts, texture);
 }
 
 cStretchRect::cStretchRect( const cStretchRect& stretchRect )
@@ -33,7 +35,6 @@ cStretchRect::cStretchRect( const cStretchRect& stretchRect )
 
 	mParts = stretchRect.mParts;
 	mRect = stretchRect.mRect;
-	mRenderSystem = stretchRect.mRenderSystem;
 
 	mNeedUpdateMesh = true;
 }
@@ -47,16 +48,15 @@ cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
 
 	mParts = stretchRect.mParts;
 	mRect = stretchRect.mRect;
-	mRenderSystem = stretchRect.mRenderSystem;
 
 	mNeedUpdateMesh = true;
 
 	return *this;
 }
 
-void cStretchRect::createMesh(grRenderSystem* renderSystem, int partsCount, grTexture* texture)
+void cStretchRect::createMesh(int partsCount, const grTexture& texture)
 {
-	mMesh = mnew grMesh(renderSystem, texture, partsCount*4, partsCount*2);
+	mMesh = mnew grMesh(texture, partsCount*4, partsCount*2);
 
 	for (int i = 0; i < partsCount; i++)
 	{
@@ -70,9 +70,11 @@ void cStretchRect::createMesh(grRenderSystem* renderSystem, int partsCount, grTe
 }
 
 int cStretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
-	                       const fRect& texRect, const color4& vertex0Color /*= color4(255)*/, 
-						   const color4& vertex1Color /*= color4(255)*/, const color4& vertex2Color /*= color4(255)*/, 
-						   const color4& vertex3Color /*= color4(255)*/ )
+	                       const fRect& texRect, 
+						   const color4& vertex0Color /*= color4::white()*/, 
+						   const color4& vertex1Color /*= color4::white()*/, 
+						   const color4& vertex2Color /*= color4::white()*/, 
+						   const color4& vertex3Color /*= color4::white()*/ )
 {
 	mParts.push_back(Part(LTPercent, LTPixel, RBPercent, RBPixel, texRect, vertex0Color, vertex1Color, vertex2Color,
 		                  vertex3Color));
@@ -142,7 +144,7 @@ void cStretchRect::updateMesh()
 	if (!mMesh)
 		return;
 
-	vec2f texSize = (mMesh->getTexture()) ? mMesh->getTexture()->getSize():vec2f(1.0f, 1.0f);
+	vec2f texSize = mMesh->getTexture().getSize();
 	vec2f invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
 
 	vec2f rectSize = mRect.getSize();

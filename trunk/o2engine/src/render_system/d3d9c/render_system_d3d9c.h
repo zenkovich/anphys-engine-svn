@@ -21,10 +21,10 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	friend class grRenderTarget;
 	friend class grFont;
 	friend class cDeviceInfo;
-	friend class grTexture;
+	friend class grTextureDef;
 	
-	static const unsigned int mVertexBufferSize = 12000;  /** Maximum size of vertex buffer. */
-	static const unsigned int mIndexBufferSize = 12000*3; /** Maximum size of index buffer. */
+	static const uint32 mVertexBufferSize = 12000;  /** Maximum size of vertex buffer. */
+	static const uint32 mIndexBufferSize = 12000*3; /** Maximum size of index buffer. */
 
 //d3d context
 	LPDIRECT3D9             mDirect3D;               /**< o_O */
@@ -44,7 +44,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	D3DPRIMITIVETYPE        mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
 						      				     
 //batching parametres 	     				     
-	grTexture*              mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	grTextureDef*           mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
 	unsigned int            mLastDrawVertex;         /**< Last vertex idx for next DIP. */
 	unsigned int            mLastDrawIdx;            /**< Last vertex index for nex DIP. */
 	unsigned int            mTrianglesCount;         /**< Triatgles count for next DIP. */
@@ -67,7 +67,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 
 public:
 	/* ctor. */
-	grRenderSystem(cApplication* application);
+	grRenderSystem();
 	
 	/** dtor. */ 
 	~grRenderSystem();
@@ -79,7 +79,7 @@ public:
 	bool endRender();
 	
 	/** Clearing current frame buffer with color. */
-	void clear(const color4& color = color4(0, 0, 0, 255));
+	void clear(const color4& color = color4::black());
 	
 	/** Beginning render to stencil buffer. */
 	void beginRenderToStencilBuffer();

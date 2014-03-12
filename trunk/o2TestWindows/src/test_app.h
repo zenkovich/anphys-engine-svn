@@ -18,7 +18,6 @@ class grText;
 class TestApp:public cApplication
 {
 	ITest* mTest;
-	grText* mText;
 
 public:	
 	/** констр. */

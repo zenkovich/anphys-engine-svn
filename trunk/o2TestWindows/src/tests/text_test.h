@@ -13,7 +13,7 @@ class cTextTest: public ITest
 	int mTouchCorner;
 
 public:
-	cTextTest(cApplication* app, cInputMessage* msg);
+	cTextTest();
 
 	void update(float dt);
 	void draw();

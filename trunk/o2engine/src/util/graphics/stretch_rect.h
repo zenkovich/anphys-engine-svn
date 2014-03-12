@@ -5,6 +5,7 @@
 
 #include "public.h"
 
+#include "render_system/texture.h"
 #include "util/objects.h"
 #include "util/math/color.h"
 #include "util/math/rect.h"
@@ -14,7 +15,6 @@
 OPEN_O2_NAMESPACE
 
 class grMesh;
-class grTexture;
 class grRenderSystem;
 
 class cStretchRect:public cSerializableObj
@@ -30,26 +30,25 @@ class cStretchRect:public cSerializableObj
 
 		Part();
 		Part(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, const fRect& texRect,
-			 const color4& vertex0Color = color4(255), const color4& vertex1Color = color4(255), 
-			 const color4& vertex2Color = color4(255), const color4& vertex3Color = color4(255));
+			 const color4& vertex0Color = color4::white(), const color4& vertex1Color = color4::white(), 
+			 const color4& vertex2Color = color4::white(), const color4& vertex3Color = color4::white());
 	};
 	typedef std::vector<Part> PartsVec;
 
-	grRenderSystem* mRenderSystem;
 	grMesh*         mMesh;
 	PartsVec        mParts;
 	fRect           mRect;
 	bool            mNeedUpdateMesh;
 
 public:
-	cStretchRect(grRenderSystem* renderSystem, int parts = 0, grTexture* texture = NULL);
+	cStretchRect(int parts = 0, const grTexture& texture = grTexture());
 	cStretchRect(const cStretchRect& stretchRect);
 
 	cStretchRect& operator=(const cStretchRect& stretchRect);
 
 	int addPart(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, const fRect& texRect,
-			    const color4& vertex0Color = color4(255), const color4& vertex1Color = color4(255), 
-			    const color4& vertex2Color = color4(255), const color4& vertex3Color = color4(255));
+			    const color4& vertex0Color = color4::white(), const color4& vertex1Color = color4::white(), 
+			    const color4& vertex2Color = color4::white(), const color4& vertex3Color = color4::white());
 
 	void removePart(int idx);
 
@@ -67,7 +66,7 @@ public:
 	SERIALIZE_METHOD_DECL();
 
 protected:
-	void createMesh(grRenderSystem* renderSystem, int partsCount, grTexture* texture);
+	void createMesh(int partsCount, const grTexture& texture);
 	void updateMesh();
 };
 

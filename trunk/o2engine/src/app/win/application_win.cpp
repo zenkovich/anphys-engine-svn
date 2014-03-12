@@ -21,10 +21,10 @@ cApplication::cApplication():
 	mTimer->reset();
 	mApplication = this;
 
-	mRenderSystem = mnew grRenderSystem(this);
+	mRenderSystem = mnew grRenderSystem();
 
 	cDeviceInfo::initializeSingleton();
-	deviceInfo().initialize(this);
+	deviceInfo()->initialize(this);
 }
 
 cApplication::~cApplication()

@@ -8,23 +8,21 @@
 OPEN_O2_NAMESPACE
 	
 class grRenderSystem;
-class grTexture;
+class grTextureDef;
 
 /** Render target base interface. */
 class grRenderTargetBaseInterface
 {
 protected:
-	grRenderSystem* mRenderSystem;  /**< Render system ptr. */
-	grTexture*      mRenderTexture; /**< Render texture ptr, usage must be RENDER_TARGET. */
+	grTextureDef*   mRenderTexture; /**< Render texture ptr, usage must be RENDER_TARGET. */
 	bool            mReady;         /**< True, if we can use that rander target. */
+	
+	/** ctor. */
+	grRenderTargetBaseInterface(grTextureDef* texture);
 
 public:
 	/** ctor. */
-	grRenderTargetBaseInterface(grRenderSystem* renderSystem, grTexture* texture);
-
-	/** ctor. */
-	grRenderTargetBaseInterface(grRenderSystem* renderSystem, const vec2f& size = vec2f(0, 0), 
-		                        grTexFormat::type texFormat = grTexFormat::DEFAULT );
+	grRenderTargetBaseInterface(const vec2f& size = vec2f(), grTexFormat::type texFormat = grTexFormat::DEFAULT );
 
 	/** dtor. */
 	virtual ~grRenderTargetBaseInterface();
@@ -36,7 +34,7 @@ public:
 	void unbind();
 
 	/** Returns using render texture ptr. */
-	grTexture* getTexture() const;
+	grTexture getTexture() const;
 	
 	/** Returns true, if render target ready to use. */
 	bool isReady() const;

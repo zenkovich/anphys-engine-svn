@@ -16,7 +16,7 @@ public:
 	float mRotation; /**< Rotation of camera, from left top corner. */
 
 	/** ctor. */
-	grCamera(const vec2f& pos = vec2f(0, 0), const vec2f& scale = vec2f(1, 1), float rotation = 0)
+	grCamera(const vec2f& pos = vec2f(), const vec2f& scale = vec2f(1, 1), float rotation = 0)
 	{
 		mPosition = pos;
 		mScale = scale;
@@ -24,7 +24,7 @@ public:
 	}
 
 	/** Sets the parametres of camera. */
-	void set(const vec2f& pos = vec2f(0, 0), const vec2f& scale = vec2f(1, 1), float rotation = 0)
+	void set(const vec2f& pos = vec2f(), const vec2f& scale = vec2f(1, 1), float rotation = 0)
 	{
 		mPosition = pos;
 		mScale = scale;

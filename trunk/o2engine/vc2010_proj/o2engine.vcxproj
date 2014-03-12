@@ -243,6 +243,7 @@
     <ClCompile Include="..\src\render_system\render_target_base_interface.cpp" />
     <ClCompile Include="..\src\render_system\sprite.cpp" />
     <ClCompile Include="..\src\render_system\text.cpp" />
+    <ClCompile Include="..\src\render_system\texture.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite_drawable.cpp" />
     <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp" />

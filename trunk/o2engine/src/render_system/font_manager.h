@@ -11,27 +11,37 @@ OPEN_O2_NAMESPACE
 class grFont;
 class grRenderSystem;
 
+/** Font manager. Containing set of fonts, loading/unloading fonts. */
 class grFontManager
 {
 	friend class grRenderSystemBaseInterface;
 
 public: 
-	typedef std::map<std::string, grFont*> FontsMap;
+	typedef std::map<std::string, grFont*> FontsMap; 
 
 protected:
-	grRenderSystem* mRenderSystem;
-	FontsMap        mFonts;
+	FontsMap mFonts; /** Fonts map. */
 	
+	/** ctor. */
+	grFontManager();
 
-	grFontManager(grRenderSystem* renderSystem);
+	/** dtor. */
 	~grFontManager();
 
 public:
+	/** Loading fonts set from file. */
 	void loadFontsSet(const std::string& fontsSetFile);
+
+	/** Loading font from file. */
 	void loadFont(const std::string& fontFile);
+
+	/** Loading BMFont from file. */
 	void loadBMFont(const std::string& fontFile);
+
+	/** Unloading all fonts. */
 	void unloadFonts();
 
+	/** Returns font by name. */
 	grFont* getFont(const std::string& name);
 };
 

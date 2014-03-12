@@ -11,6 +11,12 @@
 	#include "d3d9c\render_system_d3d9c.h"
 #endif
 
-#define renderSystem() *(grRenderSystem*)grRenderSystemBaseInterface::instancePtr()
+//#define renderSystem() (grRenderSystem*)grRenderSystem::instancePtr()
+OPEN_O2_NAMESPACE
+
+inline grRenderSystem* renderSystem() { return (grRenderSystem*)(grRenderSystem::instancePtr()); }
+inline grFontManager* fontsManager() { return renderSystem()->getFontManager(); }
+
+CLOSE_O2_NAMESPACE
 
 #endif //RENDER_SYSTEM_H

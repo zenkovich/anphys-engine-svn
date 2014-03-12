@@ -98,34 +98,34 @@ public:
 	void setParent(const uiWidgetPtr& parent);
 
 	/** Returns parent ptr. */
-	uiWidget* getParent();
+	uiWidget* getParent() const;
 
 	/** Sets the local position. */
 	void setPosition(const vec2f& position);
 
 	/** Returns local position. */
-	vec2f getPosition();
+	vec2f getPosition() const;
 
 	/** Sets the id. */
 	void setId(const std::string& id);
 
 	/** Returns the id. */
-	std::string getId();
+	std::string getId() const;
 
 	/** Sets the global position. */
 	void setGlobalPosition(const vec2f& position);
 
 	/** Returns the global position. */
-	vec2f getGlobalPosition();
+	vec2f getGlobalPosition() const;
 
 	/** Sets the size. */
 	void setSize(const vec2f& size);
 
 	/** Returns size. */
-	vec2f getSize();
+	vec2f getSize() const;
 
 	/** Returns geometry ptr. */
-	cGeometry* getGeometry();
+	cGeometry* getGeometry() const;
 
 private:
 	/** Updating current and child layouts: global positions and bounds. */

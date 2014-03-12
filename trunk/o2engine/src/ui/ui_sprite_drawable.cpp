@@ -47,7 +47,8 @@ vec2f uiSpriteDrawable::getSize() const
 
 void uiSpriteDrawable::setRect( const fRect& rect )
 {
-	mSprite->setPosition(rect.getltCorner()).setSize(rect.getSize());
+	mSprite->position = rect.getltCorner();
+	mSprite->size = rect.getSize();
 }
 
 fRect uiSpriteDrawable::getRect() const

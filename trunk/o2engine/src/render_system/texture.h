@@ -13,16 +13,34 @@
 
 OPEN_O2_NAMESPACE
 
-class grTextureRef: public cReferenceObj<grTexture>
+class grTexture: public cReferenceObj<grTextureDef>, public grTextureInterface
 {
 	friend class grRenderSystem;
+	friend class grRenderTargetBaseInterface;
 	friend class grMesh;
 
-	operator grTexture*() { return mObject; }
+	/** type convertion operator. */
+	operator grTextureDef*();
 
 public:
-	grTextureRef(grTexture* object):cReferenceObj(object) {}
-	grTextureRef(const cReferenceObj<T>& refObject):cReferenceObj(refObject) {}
+	/** ctor. */
+	grTexture(grTextureDef* object = NULL);
+	
+	/** Creates texture 
+	 *  @size - size of texture
+	 *  @format - texture format
+	 *  @usage - texture usage. */
+	static grTexture create(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
+
+	/** Creates texture from image. */
+	static grTexture createFromImage(cImage* image);
+				       
+	/** Creates texture from file. */
+	static grTexture createFromFile(const std::string& fileName);
+				       
+	/** Creates texture as render target. */
+	static grTexture createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 };
 
 CLOSE_O2_NAMESPACE

@@ -9,34 +9,28 @@
 
 OPEN_O2_NAMESPACE
 	
-grTexture::grTexture():
-	grTextureBaseInterface(), mTexturePtr(0)
+grTextureDef::grTextureDef():
+	grTextureDefBaseInterface(), mTexturePtr(0)
 {
 }
 
-grTexture::grTexture( const grTexture& texture ):
-	grTextureBaseInterface(), mTexturePtr(0)
-{
-}
-
-grTexture::~grTexture()
+grTextureDef::~grTextureDef()
 {	
 	if (mTexturePtr)
 		mTexturePtr->Release();
 }
 
-void grTexture::createSelf( grRenderSystem* renderSystem, const vec2f& size, 
-	                        grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
-						    grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
+void grTextureDef::create( const vec2f& size, grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
+						   grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
 {
-	mRenderSystem = renderSystem;
 	mFormat = format;
 	mUsage = usage;
 	mSize = size;
 	
 	D3DSURFACE_DESC desc;
-	mRenderSystem->mBackBufferSurface->GetDesc(&desc);
-	mRenderSystem->mBackBufferSurface->Release();
+
+	renderSystem()->mBackBufferSurface->GetDesc(&desc);
+	renderSystem()->mBackBufferSurface->Release();
 
 	D3DFORMAT texFormat = desc.Format;
 	if (mFormat == grTexFormat::R8G8B8A8)
@@ -52,17 +46,16 @@ void grTexture::createSelf( grRenderSystem* renderSystem, const vec2f& size,
 		dpool = D3DPOOL_DEFAULT;
 	}
 
-	if (FAILED(mRenderSystem->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
-		                                                     1, dusage, texFormat, dpool, &mTexturePtr, NULL)))
+	if (FAILED(renderSystem()->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
+		                                                      1, dusage, texFormat, dpool, &mTexturePtr, NULL)))
 	{
-		mRenderSystem->mLog->out("ERROR: Failed to create texture!");
+		renderSystem()->mLog->out("ERROR: Failed to create texture!");
 		return;
 	}
 }
 
-void grTexture::createSelfFromImage( grRenderSystem* renderSystem, cImage* image )
+void grTextureDef::createFromImage( cImage* image )
 {
-	mRenderSystem = renderSystem;
 
 	cImage::Format imageFormat = image->getFormat();
 	if (imageFormat == cImage::FMT_NONE)
@@ -80,17 +73,17 @@ void grTexture::createSelfFromImage( grRenderSystem* renderSystem, cImage* image
 	else if (mFormat == grTexFormat::R8G8B8)
 		texFormat = D3DFMT_R8G8B8;
 
-	if (FAILED(mRenderSystem->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
-		                                                     1, 0, texFormat, D3DPOOL_MANAGED, &mTexturePtr, NULL)))
+	if (FAILED(renderSystem()->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
+		                                                      1, 0, texFormat, D3DPOOL_MANAGED, &mTexturePtr, NULL)))
 	{
-		mRenderSystem->mLog->out("ERROR: Failed to create texture! Image:%s", image->getFilename());
+		renderSystem()->mLog->out("ERROR: Failed to create texture! Image:%s", image->getFilename());
 		return;
 	}
 
 	D3DLOCKED_RECT lockedRect;
 	if (FAILED(mTexturePtr->LockRect(0, &lockedRect, 0, D3DLOCK_DISCARD)))
 	{
-		mRenderSystem->mLog->out("ERROR: Failed to lock texture rect");
+		renderSystem()->mLog->out("ERROR: Failed to lock texture rect");
 		return;
 	}
 	
@@ -107,21 +100,18 @@ void grTexture::createSelfFromImage( grRenderSystem* renderSystem, cImage* image
 	}
 
 	mTexturePtr->UnlockRect(0);
-
-	mReady = true;
 }
 
-void grTexture::createSelfFromFile( grRenderSystem* renderSystem, const std::string& fileName )
+void grTextureDef::createFromFile( const std::string& fileName )
 {
 	cImage* image = mnew cImage;
-	if (image->load(fileName, cImage::IT_AUTO, renderSystem->mLog))
-		createSelfFromImage(renderSystem, image);
+	if (image->load(fileName, cImage::IT_AUTO, renderSystem()->mLog))
+		createFromImage(image);
 }
 
-void grTexture::createSelfAsRenderTarget( grRenderSystem* renderSystem, const vec2f& size, 
-	                                      grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
+void grTextureDef::createAsRenderTarget( const vec2f& size, grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
 {
-	createSelf(renderSystem, size, format, grTexUsage::RENDER_TARGET);
+	create(size, format, grTexUsage::RENDER_TARGET);
 }
 
 CLOSE_O2_NAMESPACE

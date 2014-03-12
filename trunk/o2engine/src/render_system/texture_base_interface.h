@@ -24,68 +24,26 @@ struct grTexUsage
 
 class grTexture;
 
-/** Texture base interface. COntaining size, format, usage, file name, reference count. */
-class grTextureBaseInterface: public IRefCounter
+/** Texture interface. Containing size, format, usage, file name. */
+class grTextureInterface
 {
-	friend class grRenderSystemBaseInterface;
-	friend class grTextureRef;
-
 protected:
-	grRenderSystem*   mRenderSystem; /**< Render system ptr. */
+	friend class grRenderSystemBaseInterface;
+	friend class grTexture;
 
 	vec2f             mSize;         /**< Size of texture. */
 	grTexFormat::type mFormat;       /**< Texture format. */
 	grTexUsage::type  mUsage;        /**< Texture usage. */
 	std::string       mFileName;     /**< Texture file name. */
-	bool              mReady;        /**< True, if texture ready for using. */
 
 	
 	/** ctor. */
-	grTextureBaseInterface();
+	grTextureInterface();
 
 	/** dtor. */
-	virtual ~grTextureBaseInterface();
+	virtual ~grTextureInterface();
 
-	/** Creates texture 
-	 *  @size - size of texture
-	 *  @format - texture format
-	 *  @usage - texture usage. */
-	virtual void createSelf(grRenderSystem* renderSystem, const vec2f& size, 
-		                    grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	        grTexUsage::type usage = grTexUsage::DEFAULT) {}
-
-	/** Creates texture from image. */
-	virtual void createSelfFromImage(grRenderSystem* renderSystem, cImage* image) {}
-				       
-	/** Creates texture from file. */
-	virtual void createSelfFromFile(grRenderSystem* renderSystem, const std::string& fileName) {}
-				       
-	/** Creates texture as render target. */
-	virtual void createSelfAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                                  grTexFormat::type format = grTexFormat::DEFAULT) {}		
-
-	/** Runs when reference counter sets to zero. Inherited from IRefCounter. */
-	void onZeroRefCount();
-
-public:						
-	/** Creates texture 
-	 *  @size - size of texture
-	 *  @format - texture format
-	 *  @usage - texture usage. */
-	static grTextureRef create(grRenderSystem* renderSystem, const vec2f& size, 
-		                       grTexFormat::type format = grTexFormat::DEFAULT, 
-				  	           grTexUsage::type usage = grTexUsage::DEFAULT);
-
-	/** Creates texture from image. */
-	static grTextureRef createFromImage(grRenderSystem* renderSystem, cImage* image);
-				       
-	/** Creates texture from file. */
-	static grTextureRef createFromFile(grRenderSystem* renderSystem, const std::string& fileName);
-				       
-	/** Creates texture as render target. */
-	static grTextureRef createAsRenderTarget(grRenderSystem* renderSystem, const vec2f& size, 
-		                                     grTexFormat::type format = grTexFormat::DEFAULT);
-
+public:		
 	/** Returns file name. */
 	const std::string& getFileName() const;
 
@@ -97,6 +55,37 @@ public:
 
 	/** Returns size of texture. */
 	vec2f getSize() const;
+};
+
+
+/** Texture definition base interface, derives from texture interface and reference counter. */
+class grTextureDefBaseInterface: public grTextureInterface, public IRefCounter 
+{
+protected:
+	/** ctor. */
+	grTextureDefBaseInterface();
+
+	/** dtor. */
+	~grTextureDefBaseInterface();
+
+	/** Creates texture 
+	 *  @size - size of texture
+	 *  @format - texture format
+	 *  @usage - texture usage. */
+	virtual void create(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT, 
+				  	        grTexUsage::type usage = grTexUsage::DEFAULT) {}
+
+	/** Creates texture from image. */
+	virtual void createFromImage(cImage* image) {}
+				       
+	/** Creates texture from file. */
+	virtual void createFromFile(const std::string& fileName) {}
+				       
+	/** Creates texture as render target. */
+	virtual void createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT) {}		
+
+	/** Runs when reference counter sets to zero. Inherited from IRefCounter. */
+	void onZeroRefCount();
 };
 
 CLOSE_O2_NAMESPACE

@@ -14,8 +14,8 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderSystem::grRenderSystem( cApplication* application ):
-	grRenderSystemBaseInterface(application), mReady(false), mStencilDrawing(false), mStencilTest(false), 
+grRenderSystem::grRenderSystem():
+	grRenderSystemBaseInterface(), mReady(false), mStencilDrawing(false), mStencilTest(false), 
 	mScissorTest(false)
 {
 	initializeD3D();
@@ -30,7 +30,7 @@ void grRenderSystem::initializeD3D()
 {
 	mReady = false;
 	
-	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 
 //initializing d3d8 render
 	mDirect3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -57,7 +57,7 @@ void grRenderSystem::initializeD3D()
 	mDirect3DParametr.EnableAutoDepthStencil = true;
 	mDirect3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
 
-	if(FAILED(mDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, mApplication->mHWnd, 
+	if(FAILED(mDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, application()->mHWnd, 
 		      D3DCREATE_SOFTWARE_VERTEXPROCESSING, &mDirect3DParametr, &mDirect3DDevice)))
 	{
 		mLog->out("ERROR: CreateDevice failed\n");
@@ -150,8 +150,9 @@ void grRenderSystem::deinitializeD3D()
 		return;
 
 	mFontManager->unloadFonts();
+
 	removeAllTextures();
-	
+
 	mVertexBuffer->Release();
 	mIndexBuffer->Release();
 	mDirect3DDevice->Release();
@@ -550,7 +551,7 @@ bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 			return false;
 		}
 
-		setupMatrix(renderTarget->getTexture()->getSize());
+		setupMatrix(renderTarget->getTexture().getSize());
 	}
 
 	mCurrentRenderTarget = renderTarget;
@@ -597,7 +598,7 @@ vec2i grRenderSystem::getMaxTextureSize() const
 
 void grRenderSystem::frameResized()
 {	
-	mApplication->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 }
 
 void grRenderSystem::checkCapatibles()

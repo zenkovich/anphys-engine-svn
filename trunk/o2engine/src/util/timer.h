@@ -15,7 +15,10 @@ class cTimer
 	LARGE_INTEGER mStartTime;
 
 public:
+	/** ctor. */
 	cTimer();
+
+	/** dtor. */
 	~cTimer();
 	
 	/** Resetting time. */

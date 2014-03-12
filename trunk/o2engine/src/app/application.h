@@ -9,6 +9,11 @@
 	#include "win/application_win.h"
 #endif
 
-#define application() *(cApplication*)cApplication::instancePtr()
+OPEN_O2_NAMESPACE
+
+inline cApplication* application() { return (cApplication*)(cApplication::instancePtr()); }
+inline cInputMessage* appInput() { return application()->getInputMessage(); }
+
+CLOSE_O2_NAMESPACE
 
 #endif //APPLICATION_H

@@ -56,33 +56,38 @@ protected:
 template<typename T>
 class cReferenceObj
 {
+protected:
 	T* mObject; /**< IRefCouner object. */
 
 public:
 	/** ctor. */
 	cReferenceObj(T* object):mObject(object)
 	{
-		mObject->incRefCount();
+		if (mObject)
+			mObject->incRefCount();
 	}
 
 	/** copy ctor. Increases reference. */
 	cReferenceObj(const cReferenceObj<T>& refObject)
 	{
 		mObject = refObject.mObject;
-		mObject->incRefCount();
+		if (mObject)
+			mObject->incRefCount();
 	}
 
 	/** dtor. */
 	virtual ~cReferenceObj() 
 	{
-		mObject->decRefCount();
+		if (mObject)
+			mObject->decRefCount();
 	}
 
 	/** copy operator. */
 	cReferenceObj<T> operator=(const cReferenceObj<T>& refObject)
 	{
-		mObject = refObject;
-		mObject->incRefCount();
+		mObject = refObject.mObject;
+		if (mObject)
+			mObject->incRefCount();
 		return *this;
 	}
 };

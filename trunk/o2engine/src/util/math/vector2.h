@@ -22,6 +22,12 @@ struct vec2
 		x = vx; y = vy;
 	}
 
+	template<typename RT>
+	inline operator vec2<RT>() 
+	{
+		return vec2<RT>((RT)x, (RT)y);
+	}
+
 	inline vec2 operator+(const vec2& v) const
 	{ 
 		return vec2(x + v.x, y + v.y);
@@ -130,14 +136,14 @@ struct vec2
 		return *this*v;
 	}
 
-	inline T len() const
+	inline T length() const
 	{
 		return sqrt((*this)*(*this));
 	}
 
 	inline vec2 normalize() const
 	{ 
-		T ln = len();
+		T ln = length();
 		if (ln > 0) 
 			return *this/ln; 
 		else 
@@ -205,9 +211,9 @@ inline vec2<T> operator^(float s, const vec2<T>& a)
 }
 
 template<typename T>
-inline float len(const vec2<T>& a, const vec2<T>& b)
+inline float length(const vec2<T>& a, const vec2<T>& b)
 { 
-	return (b - a).len();
+	return (b - a).length();
 }
 
 template<typename T>
