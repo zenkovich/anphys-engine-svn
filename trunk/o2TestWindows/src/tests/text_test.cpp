@@ -5,6 +5,7 @@
 #include "render_system/render_system.h"
 #include "render_system/font_manager.h"
 #include "util/log.h"
+#include "util/time_utils.h"
 
 OPEN_O2_NAMESPACE
 
@@ -25,6 +26,8 @@ cTextTest::cTextTest():
 
 void cTextTest::update( float dt )
 {	
+	mText->ctext = format("o2 test: FPS: %.1f, DT: %.3f ms", timeUtils()->getFPS(), timeUtils()->getDeltaTime()*1000.0f);
+
 	if (appInput()->isCursorPressed()) 
 	{
 		fRect textRect = mText->rect;

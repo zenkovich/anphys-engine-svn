@@ -38,6 +38,8 @@ struct cApplacationMessage
 class grRenderSystem;
 class cLogStream;
 class cFileSystem;
+class cScheduler;
+class cTimeUtil;
 	
 /** Basic application class. Not implementing frame data. 
   * Containing input message and systems:
@@ -53,6 +55,8 @@ protected:
 	cLogStream*     mLog;          /**< Log stream with id "app", using only for applacation messages. */
 	grRenderSystem* mRenderSystem; /**< Render system. */
 	cFileSystem*    mFileSystem;   /**< File system. */
+	cScheduler*     mScheduler;    /**< Scheduler. */
+	cTimeUtil*      mTimeUtils;    /**< Time utilities. */
 
 public:
 	cApplicationBaseInterface();

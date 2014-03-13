@@ -16,7 +16,7 @@ bool cSerialization::loadData( pugi::xml_document& doc, const std::string& fileN
 		if (!nlog)
 			nlog = gLog;
 
-		nlog->out("ERROR: Failed to open data file: '%s'", fileName.c_str());
+		nlog->error("Failed to open data file: '%s'", fileName.c_str());
 		return false;
 	}
 
@@ -39,7 +39,7 @@ bool cSerialization::loadData( pugi::xml_document& doc, cInFile& file, cLogStrea
 		if (!nlog)
 			nlog = gLog;
 
-		nlog->out("ERROR: Failed to load config file '%s': %s", file.getFilename().c_str(), res.description());
+		nlog->error("Failed to load config file '%s': %s", file.getFilename().c_str(), res.description());
 
 		return false;
 	}

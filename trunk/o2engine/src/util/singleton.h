@@ -4,27 +4,27 @@
 #include "public.h"
 OPEN_O2_NAMESPACE
 
-template <typename T> class cSingleton
+template <typename CLASS> class cSingleton
 {
 public:
-	cSingleton()                        { mInstance = static_cast<T*>(this); }
+	cSingleton()                        { mInstance = static_cast<CLASS*>(this); }
 	virtual ~cSingleton()               { mInstance = NULL; }
 
-	static T&   instance()              { assert(mInstance, "Singleton not initialized"); return *mInstance; }
+	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
-	static T*   instancePtr()           { return mInstance; }
+	static CLASS*   instancePtr()       { return mInstance; }
 
-	static void initializeSingleton()   { if (!mInstance) mInstance = mnew T; }
+	static void initializeSingleton()   { if (!mInstance) mInstance = mnew CLASS; }
 	static void deinitializeSingleton() { safe_release(mInstance); }
 
 	static bool isSingletonInitialzed() { return (mInstance != NULL); }
 
 protected:
-	static T* mInstance;
+	static CLASS* mInstance;
 };
 
-#define DECLARE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = NULL
-#define CREATE_SINGLETON(T) template<> T* cSingleton<T>::mInstance = mnew T
+#define DECLARE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = NULL
+#define CREATE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = mnew T
 
 CLOSE_O2_NAMESPACE
 

@@ -2,6 +2,8 @@
 
 #include "render_system/render_system.h"
 #include "util/file_system/file_system.h"
+#include "util/scheduler.h"
+#include "util/time_utils.h"
 #include "util/log.h"
 #include "util/log/console_log_stream.h"
 #include "util/log/file_log_stream.h"
@@ -34,11 +36,19 @@ void cApplicationBaseInterface::initalizeSystems()
 	gLog->bindStream(mLog);
 
 	mLog->out("All Systems initialized");
+
+//scheduler
+	mScheduler = mnew cScheduler();
+
+//timers
+	mTimeUtils = mnew cTimeUtil();
 }
 
 void cApplicationBaseInterface::deinitializeSystems()
 {
 	safe_release(mFileSystem);
+	safe_release(mScheduler);
+	safe_release(mTimeUtils);
 
 	mLog->out("All systems deinitialized");
 

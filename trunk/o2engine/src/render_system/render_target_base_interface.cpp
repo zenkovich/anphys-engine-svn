@@ -13,13 +13,13 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( grTextureDef* texture 
 	
 	if (!renderSystem()->isRenderTargetAvailable())
 	{
-		renderSystem()->mLog->out("ERROR: Render targets on current Renderer is not available!");
+		renderSystem()->mLog->error("Render targets on current Renderer is not available!");
 		return;
 	}
 
 	if (texture->getUsage() != grTexUsage::RENDER_TARGET)
 	{
-		renderSystem()->mLog->out("ERROR: render target can't use not render target texture!");
+		renderSystem()->mLog->error("render target can't use not render target texture!");
 	}
 	else
 	{
@@ -33,7 +33,7 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( const vec2f& size /*= 
 {	
 	if (!renderSystem()->isRenderTargetAvailable())
 	{
-		renderSystem()->mLog->out("ERROR: Render targets on current Renderer is not available!");
+		renderSystem()->mLog->error("Render targets on current Renderer is not available!");
 		mRenderTexture = NULL;
 		return;
 	}
@@ -47,8 +47,8 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( const vec2f& size /*= 
 	vec2i maxTextureSize = renderSystem()->getMaxTextureSize();
 	if (texSize.x > maxTextureSize.x || texSize.y > maxTextureSize.y)
 	{
-		renderSystem()->mLog->out("WARNING: Render target size too large! size %ix%i boundin by max %ix%i",
-			                      (int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
+		renderSystem()->mLog->warning("Render target size too large! size %ix%i boundin by max %ix%i",
+			                          (int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
 		
 		texSize.x = clamp<float>(texSize.x, 64.0f, (float)maxTextureSize.x);
 		texSize.y = clamp<float>(texSize.y, 64.0f, (float)maxTextureSize.y);

@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include <vector>
+#include <algorithm>
 
 OPEN_O2_NAMESPACE
 	
@@ -12,17 +13,23 @@ OPEN_O2_NAMESPACE
 		return false; \
 	}
 
-#define CVECTOR_CONTAINS(vectype, vec, pred) { \
+#define VECTOR_CONTAINS_CONST(vectype, vec, pred) { \
 		for (vectype::const_iterator it = vec.cbegin(); it != vec.cend(); ++it) \
 			if (pred) return true; \
 		return false; \
 	}
+	
+#define FIND(_vector, _search_object) \
+	std::find((_vector).begin(), (_vector).end(), (_search_object));
+	
+#define FINDS_CONST(_vector, _search_object) \
+	std::find((_vector).cbegin(), (_vector).cend(), (_search_object));
 
 #define FOREACH(_vector_type, _vector, _iterator) \
-	for (_vector_type::iterator _iterator = _vector.begin(); _iterator != _vector.end(); ++_iterator)
+	for (_vector_type::iterator _iterator = (_vector).begin(); _iterator != (_vector).end(); ++_iterator)
 
-#define CFOREACH(_vector_type, _vector, _iterator) \
-	for (_vector_type::const_iterator _iterator = _vector.cbegin(); _iterator != _vector.cend(); ++_iterator)
+#define FOREACH_CONST(_vector_type, _vector, _iterator) \
+	for (_vector_type::const_iterator _iterator = (_vector).cbegin(); _iterator != (_vector).cend(); ++_iterator)
 
 
 CLOSE_O2_NAMESPACE

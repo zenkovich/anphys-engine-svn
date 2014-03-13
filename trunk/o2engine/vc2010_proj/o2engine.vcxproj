@@ -180,6 +180,7 @@
     <ClInclude Include="..\src\util\objects.h" />
     <ClInclude Include="..\src\util\property.h" />
     <ClInclude Include="..\src\util\ref_counter.h" />
+    <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\smart_ptrs.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
     <ClInclude Include="..\src\util\timer.h" />
+    <ClInclude Include="..\src\util\time_utils.h" />
     <ClInclude Include="..\src\util\type_indexation.h" />
     <ClInclude Include="..\src\util\xml_tools.h" />
   </ItemGroup>
@@ -270,12 +272,14 @@
     <ClCompile Include="..\src\util\mem_utils\stack_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp" />
+    <ClCompile Include="..\src\util\scheduler.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />
     <ClCompile Include="..\src\util\timer.cpp" />
+    <ClCompile Include="..\src\util\time_utils.cpp" />
     <ClCompile Include="..\src\util\type_indexation.cpp" />
     <ClCompile Include="..\src\util\xml_tools.cpp" />
     <ClInclude Include="..\src\util\log\file_log_stream.h" />

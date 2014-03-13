@@ -36,14 +36,14 @@ void grRenderSystem::initializeD3D()
 	mDirect3D = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!mDirect3D)
 	{
-		mLog->out("ERROR: Direct3DCreate9 failed!");
+		mLog->error("Direct3DCreate9 failed!");
 		return;
 	}
 
 	D3DDISPLAYMODE Display;
 	if(FAILED(mDirect3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &Display)))
 	{
-		mLog->out("ERROR: GetAdapterDisplayMode failed\n");
+		mLog->error("GetAdapterDisplayMode failed\n");
 		return;
 	}
 
@@ -56,11 +56,12 @@ void grRenderSystem::initializeD3D()
 	mDirect3DParametr.BackBufferHeight = (unsigned int)(mResolution.y);  
 	mDirect3DParametr.EnableAutoDepthStencil = true;
 	mDirect3DParametr.AutoDepthStencilFormat = D3DFMT_D16;
+	mDirect3DParametr.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	if(FAILED(mDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, application()->mHWnd, 
 		      D3DCREATE_SOFTWARE_VERTEXPROCESSING, &mDirect3DParametr, &mDirect3DDevice)))
 	{
-		mLog->out("ERROR: CreateDevice failed\n");
+		mLog->error("CreateDevice failed\n");
 		return;
 	}
 
@@ -89,7 +90,7 @@ void grRenderSystem::initializeD3D()
 	if(FAILED(mDirect3DDevice->CreateVertexBuffer(mVertexBufferSize*sizeof(vertex2),
 		D3DUSAGE_DYNAMIC, D3DFVF_VERTEX_2D, D3DPOOL_DEFAULT, &mVertexBuffer, NULL)))
 	{
-		mLog->out("ERROR: Failed to create Direct3D8 Vertex Buffer\n");
+		mLog->error("Failed to create Direct3D8 Vertex Buffer\n");
 		return;
 	}
 
@@ -97,7 +98,7 @@ void grRenderSystem::initializeD3D()
 	if (FAILED(mDirect3DDevice->CreateIndexBuffer(mIndexBufferSize*sizeof(WORD), D3DUSAGE_DYNAMIC, 
 		D3DFMT_INDEX16, D3DPOOL_DEFAULT, &mIndexBuffer, NULL)))
 	{
-		mLog->out("ERROR: Failed to create Direct3D8 index buffer");
+		mLog->error("Failed to create Direct3D8 index buffer");
 		return;
 	}
 
@@ -130,7 +131,7 @@ void grRenderSystem::initializeD3D()
 	if (FAILED(mDirect3DDevice->CreateDepthStencilSurface(mResolution.x, mResolution.y, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, false, 
 		&mStencilBufferSurface, NULL)))
 	{
-		mLog->out("ERROR: failed to create depth stencil surface");
+		mLog->error("failed to create depth stencil surface");
 	}
 	
 	mDirect3DDevice->SetDepthStencilSurface(mStencilBufferSurface);
@@ -166,7 +167,7 @@ bool grRenderSystem::beginRender()
 
 	if (FAILED(mDirect3DDevice->BeginScene()))
 	{
-		mLog->out("ERROR: Failed to call mDirect3DDevice->BeginScene");
+		mLog->error("Failed to call mDirect3DDevice->BeginScene");
 		return false;
 	}
 
@@ -237,13 +238,13 @@ void grRenderSystem::lockBuffers()
 
 	if (FAILED(mVertexBuffer->Lock(0, 0, (void**)&mVertexData, D3DLOCK_DISCARD)))
 	{
-		mLog->out("ERROR: Failed to lock d3d vertex buffer\n");
+		mLog->error("Failed to lock d3d vertex buffer\n");
 		return;
 	}
 
 	if (FAILED(mIndexBuffer->Lock(0, 0, (void**)&mVertexIndexData, D3DLOCK_DISCARD)))
 	{
-		mLog->out("ERROR: Failed to lock d3d vertex buffer\n");
+		mLog->error("Failed to lock d3d vertex buffer\n");
 		return;
 	}
 
@@ -259,12 +260,12 @@ void grRenderSystem::unlockBuffers()
 
 	if (FAILED(mVertexBuffer->Unlock()))
 	{
-		mLog->out("ERROR: Failed to unlock vertex buffer");
+		mLog->error("Failed to unlock vertex buffer");
 	}
 
 	if (FAILED(mIndexBuffer->Unlock()))
 	{
-		mLog->out("ERROR: Failed to unlock vertex buffer");
+		mLog->error("Failed to unlock vertex buffer");
 	}
 }
 
@@ -277,7 +278,7 @@ void grRenderSystem::drawPrimitives()
 	{
 		if (FAILED(mDirect3DDevice->DrawIndexedPrimitive(mCurrentPrimitiveType, 0, 0, mLastDrawVertex, 0, mPrimitivesCount)))
 		{
-			mLog->out("ERROR: Failed call DrawIndexedPrimitive\n");
+			mLog->error("Failed call DrawIndexedPrimitive\n");
 		}
 	}
 
@@ -295,7 +296,7 @@ bool grRenderSystem::endRender()
 
 	if (FAILED(mDirect3DDevice->EndScene()))
 	{
-		mLog->out("ERROR: Failed EndScene\n");
+		mLog->error("Failed EndScene\n");
 		return false;
 	}
 
@@ -540,14 +541,14 @@ bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 		LPDIRECT3DTEXTURE9 renderTargetTexture = renderTarget->mRenderTexture->mTexturePtr;
 		if (FAILED(renderTargetTexture->GetSurfaceLevel(0, &renderTargetSurface)))
 		{
-			mLog->out("ERROR: Can't get surface level 0 from  render target texture %x", renderTarget);
+			mLog->error("Can't get surface level 0 from  render target texture %x", renderTarget);
 			return false;
 		}
 		if (renderTargetSurface) renderTargetSurface->Release();
 
 		if (FAILED(mDirect3DDevice->SetRenderTarget(0, renderTargetSurface)))
 		{
-			mLog->out("ERROR: Can't setup render target %x: failed SetRenderTarget", renderTarget);
+			mLog->error("Can't setup render target %x: failed SetRenderTarget", renderTarget);
 			return false;
 		}
 
@@ -570,7 +571,7 @@ bool grRenderSystem::unbindRenderTarget()
 
 	if (FAILED(mDirect3DDevice->SetRenderTarget(0, mBackBufferSurface)))
 	{
-		mLog->out("ERROR: Can't setup backbuffer render target %x", mBackBufferSurface);
+		mLog->error("Can't setup backbuffer render target %x", mBackBufferSurface);
 		return false;
 	}
 

@@ -36,7 +36,7 @@ void grFont::createFromBMFont( const std::string& fontFile )
 	pugi::xml_document doc;
 	if (!cXmlTools::loadFromFile(fontFile, doc))
 	{
-		renderSystem()->mLog->hout("ERROR: Failed to load BMFont file: %s", fontFile.c_str());
+		renderSystem()->mLog->error("Failed to load BMFont file: %s", fontFile.c_str());
 		return;
 	}
 
@@ -54,7 +54,7 @@ void grFont::createFromBMFont( const std::string& fontFile )
 	}
 	else
 	{
-		renderSystem()->mLog->hout("ERROR: Failed to get common info in font: %s. Bad file format", fontFile.c_str());
+		renderSystem()->mLog->error("Failed to get common info in font: %s. Bad file format", fontFile.c_str());
 		return;
 	}
 
@@ -91,7 +91,7 @@ void grFont::createFromBMFont( const std::string& fontFile )
 	}
 	else
 	{
-		renderSystem()->mLog->hout("ERROR: Failed to get characters node in BMFont file: %s. Bad file format", fontFile.c_str());
+		renderSystem()->mLog->error("Failed to get characters node in BMFont file: %s. Bad file format", fontFile.c_str());
 		return;
 	}
 

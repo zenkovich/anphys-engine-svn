@@ -13,7 +13,7 @@ PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
 {
 	PROC res = wglGetProcAddress(id);
 	if (!res)
-		log->out("ERROR: Failed to get func adress: '%s'", id);
+		log->error("Failed to get func adress: '%s'", id);
 
 	return res;
 }

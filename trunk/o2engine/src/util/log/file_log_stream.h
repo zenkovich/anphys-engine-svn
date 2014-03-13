@@ -19,6 +19,8 @@ public:
 
 protected:
 	void outStrEx(const std::string& str);
+	void outErrorEx(const std::string& srt);
+	void outWarningEx(const std::string& srt);
 	void openFile(const std::string& fileName);
 };
 

@@ -17,4 +17,10 @@ CLOSE_O2_NAMESPACE
 /** Puts data into global log with hight level. */
 #define hlog(str, ...) o2::gLog->hout(str, __VA_ARGS__);
 
+/** Puts error message into global log. */
+#define logError(str, ...) o2::gLog->error(str, __VA_ARGS__);
+
+/** Puts warning message into global log. */
+#define logWarning(str, ...) o2::gLog->warning(str, __VA_ARGS__);
+
 #endif //LOG_H

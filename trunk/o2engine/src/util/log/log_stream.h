@@ -83,12 +83,30 @@ public:
 	/** Out with hight level log. */
 	void hout(const char* format, ...);
 
+	/** Out error message. */
+	void error(const char* format, ...);
+
+	/** Out warning message. */
+	void warning(const char* format, ...);
+
 protected:
 	/** Out string to stream. */
 	virtual void outStrEx(const std::string& str) {}
 
-	/** Out string to current stream and parant stream. */
+	/** Out error to stream. */
+	virtual void outErrorEx(const std::string& srt) { outStrEx("ERROR:" + srt); }
+
+	/** Out warning to stream. */
+	virtual void outWarningEx(const std::string& srt) { outStrEx("WARNING:" + srt); }
+
+	/** Out string to current stream and parent stream. */
 	void outStr(const std::string& str);
+
+	/** Out error to current stream and parent stream. */
+	void outError(const std::string& str);
+
+	/** Out warning to current stream and parent stream. */
+	void outWarning(const std::string& str);
 };
 
 CLOSE_O2_NAMESPACE
