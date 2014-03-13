@@ -46,7 +46,7 @@ void grRenderTarget::initializeBuffer()
 	{
 		GLenum glError = glGetError();
 
-		renderSystem()->mLog->out("ERROR: Failed to create GL framebuffer object! GL Error %x %s", glError,
+		renderSystem()->mLog->error("Failed to create GL framebuffer object! GL Error %x %s", glError,
 			                      getGLErrorDesc(glError));
 
 		mReady = false;

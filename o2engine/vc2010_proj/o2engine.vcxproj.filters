@@ -381,6 +381,12 @@
     <ClInclude Include="..\src\util\ref_counter.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\scheduler.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\time_utils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -649,6 +655,12 @@
     </ClCompile>
     <ClCompile Include="..\src\render_system\texture.cpp">
       <Filter>src\render_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\scheduler.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\time_utils.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

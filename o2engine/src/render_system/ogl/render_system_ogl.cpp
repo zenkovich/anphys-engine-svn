@@ -64,33 +64,33 @@ void grRenderSystem::initializeGL()
 	mHDC = GetDC(application()->mHWnd);
 	if (!mHDC)						
 	{					
-		mLog->out("ERROR: Can't Create A GL Device Context.\n");
+		mLog->error("Can't Create A GL Device Context.\n");
 		return;						
 	}
 
 	pixelFormat = ChoosePixelFormat(mHDC, &pfd);
 	if (!pixelFormat)	
 	{	
-		mLog->out("ERROR: Can't Find A Suitable PixelFormat.\n");
+		mLog->error("Can't Find A Suitable PixelFormat.\n");
 		return;								
 	}
 
 	if (!SetPixelFormat(mHDC, pixelFormat, &pfd))	
 	{
-		mLog->out("ERROR: Can't Set The PixelFormat.\n");
+		mLog->error("Can't Set The PixelFormat.\n");
 		return;
 	}
 
 	mGLContext = wglCreateContext(mHDC);
 	if (!mGLContext)	
 	{
-		mLog->out("ERROR: Can't Create A GL Rendering Context.\n");
+		mLog->error("Can't Create A GL Rendering Context.\n");
 		return;
 	}
 
 	if(!wglMakeCurrent(mHDC, mGLContext))			
 	{
-		mLog->out("ERROR: Can't Activate The GL Rendering Context.\n");
+		mLog->error("Can't Activate The GL Rendering Context.\n");
 		return;
 	}
 
@@ -309,12 +309,12 @@ void grRenderSystem::deinitializeGL()
 
 		if (!wglMakeCurrent(NULL,NULL))				
 		{
-			mLog->out("ERROR: Release Of DC And RC Failed.\n");
+			mLog->error("Release Of DC And RC Failed.\n");
 		}
 
 		if (!wglDeleteContext(mGLContext))					
 		{
-			mLog->out("ERROR: Release Rendering Context Failed.\n");
+			mLog->error("Release Rendering Context Failed.\n");
 		}
 
 		mGLContext = NULL;				

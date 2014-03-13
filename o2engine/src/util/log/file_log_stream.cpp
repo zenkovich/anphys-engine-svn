@@ -40,4 +40,20 @@ void cFileLogStream::openFile( const std::string& fileName )
 	mOutFile = mnew cOutFile(fileName);
 }
 
+void cFileLogStream::outErrorEx( const std::string& srt )
+{
+	if (mOutFile)
+	{
+		mOutFile->writeData((void*)("ERROR:" + srt + '\n').c_str(), srt.length() + 7);
+	}
+}
+
+void cFileLogStream::outWarningEx( const std::string& srt )
+{
+	if (mOutFile)
+	{
+		mOutFile->writeData((void*)("WARNING:" + srt + '\n').c_str(), srt.length() + 9);
+	}
+}
+
 CLOSE_O2_NAMESPACE

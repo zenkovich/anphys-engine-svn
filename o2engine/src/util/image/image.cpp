@@ -48,7 +48,7 @@ bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog
 		if (loadPngImage(fileName, this, false, log)) 
 			return true;
 
-		log->out("ERROR: Can't load image '%s': unknown format", fileName.c_str());
+		log->error("Can't load image '%s': unknown format", fileName.c_str());
 	}
 
 	mFilename = "";
@@ -66,7 +66,7 @@ bool cImage::save( const std::string& fileName, ImageType type, cLogStream* clog
 		return savePngImage(fileName, this, log);
 	}
 
-	log->out("ERROR: Can't save image to '%s': unknown format specified", fileName.c_str());
+	log->error("Can't save image to '%s': unknown format specified", fileName.c_str());
 
 	return false;
 }

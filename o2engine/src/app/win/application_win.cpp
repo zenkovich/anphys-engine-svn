@@ -4,6 +4,8 @@
 #include "application_win.h"
 #include "other/device_info.h"
 #include "render_system/render_system.h"
+#include "util/scheduler.h"
+#include "util/time_utils.h"
 #include "util/log.h"
 #include "util/math/math.h"
 #include "util/timer.h"
@@ -56,7 +58,7 @@ void cApplication::initializeWindow()
 
 	if (!RegisterClassEx(&wndClass)) 
 	{
-		mLog->out("ERROR: Can't regist class");
+		mLog->error("Can't regist class");
 		return;
 	}
 
@@ -66,7 +68,7 @@ void cApplication::initializeWindow()
 						   NULL, NULL, NULL,  NULL))) 
 	{
 		
-		mLog->out("ERROR: Can't create window (CreateWindowEx)");
+		mLog->error("Can't create window (CreateWindowEx)");
 		return;
 	}
 
@@ -97,9 +99,15 @@ void cApplication::launch()
 		{
 			float dt = mTimer->getElapsedTime();
 
+			mTimeUtils->update(dt);
+
+			mScheduler->processBeforeFrame(dt);
+
 			onUpdate(dt);
 			draw();
 			mInputMessage.update(dt);
+
+			mScheduler->processAfterFrame(dt);
 		}
 	}
 
@@ -294,7 +302,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	{
 		mWndCaption = va_arg(vlist, std::string);
 
-		mLog->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
+		//mLog->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
 
 		SetWindowText(mHWnd, mWndCaption.c_str());
 	}

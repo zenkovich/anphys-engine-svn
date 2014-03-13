@@ -166,6 +166,38 @@ void cLogStream::hout( const char* format, ... )
 	}
 }
 
+void cLogStream::error( const char* format, ... )
+{
+	if (mLevel > 0)
+	{
+		va_list vlist;
+		va_start(vlist, format);
+
+		char buf[1024]; 
+		vsprintf(buf, format, vlist);
+
+		va_end(vlist);
+
+		outError(buf);
+	}
+}
+
+void cLogStream::warning( const char* format, ... )
+{
+	if (mLevel > 0)
+	{
+		va_list vlist;
+		va_start(vlist, format);
+
+		char buf[1024]; 
+		vsprintf(buf, format, vlist);
+
+		va_end(vlist);
+
+		outWarning(buf);
+	}
+}
+
 cLogStream* cLogStream::getParentStream() const
 {
 	return mParentStream;
@@ -181,6 +213,32 @@ void cLogStream::outStr( const std::string& str )
 			mParentStream->outStr(str);
 		else			
 			mParentStream->outStr(mId + ":" + str);
+	}
+}
+
+void cLogStream::outError( const std::string& str )
+{
+	outErrorEx(str);
+
+	if (mParentStream)
+	{
+		if (mId == "")
+			mParentStream->outError(str);
+		else			
+			mParentStream->outError(mId + ":" + str);
+	}
+}
+
+void cLogStream::outWarning( const std::string& str )
+{
+	outWarningEx(str);
+
+	if (mParentStream)
+	{
+		if (mId == "")
+			mParentStream->outWarning(str);
+		else			
+			mParentStream->outWarning(mId + ":" + str);
 	}
 }
 

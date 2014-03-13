@@ -39,7 +39,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 	cInFile* pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
 	if (!pngImageFile->isOpened())
 	{
-		if (errors) log->out("ERROR: Can't load PNG file '%s'\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());
 		return false;
 	}
 
@@ -55,7 +55,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 	{
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': not PNG\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': not PNG\n", fileName.c_str());
 		return false;
 	}
 
@@ -65,7 +65,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 	{
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -77,7 +77,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -89,7 +89,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -100,7 +100,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -138,7 +138,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -152,7 +152,7 @@ bool loadPngImage( const std::string& fileName, cImage* image, bool errors /*= t
 
 		safe_release(pngImageFile);
 
-		if (errors) log->out("ERROR: Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
+		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
 
@@ -181,7 +181,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	cOutFile* pngImageFile = mnew cOutFile(fileName);
 	if (!pngImageFile)
 	{
-		log->out("ERROR: Can't save PNG file '%s'\n", fileName.c_str());
+		log->error("Can't save PNG file '%s'\n", fileName.c_str());
 		return false;
 	}
 
@@ -193,20 +193,20 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 
 	if (!png_ptr)
 	{
-		log->out("ERROR: Can't save PNG file '%s': png_create_write_struct failed\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': png_create_write_struct failed\n", fileName.c_str());
 		return false;
 	}
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
-		log->out("ERROR: Can't save PNG file '%s': png_create_info_struct failed\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': png_create_info_struct failed\n", fileName.c_str());
 		return false;
 	}
 
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		log->out("ERROR: Can't save PNG file '%s': Error during init_io\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': Error during init_io\n", fileName.c_str());
 		return false;
 	}
 
@@ -217,7 +217,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	/* write header */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		log->out("ERROR: Can't save PNG file '%s': Error during writing header\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': Error during writing header\n", fileName.c_str());
 		return false;
 	}
 
@@ -233,7 +233,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	/* write bytes */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		log->out("ERROR: Can't save PNG file '%s': Error during writing bytes\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': Error during writing bytes\n", fileName.c_str());
 		return false;
 	}
 
@@ -251,7 +251,7 @@ bool savePngImage( const std::string& fileName, const cImage* image, cLogStream*
 	/* end write */
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		log->out("ERROR: Can't save PNG file '%s': Error during end of write\n", fileName.c_str());
+		log->error("Can't save PNG file '%s': Error during end of write\n", fileName.c_str());
 		return false;
 	}
 

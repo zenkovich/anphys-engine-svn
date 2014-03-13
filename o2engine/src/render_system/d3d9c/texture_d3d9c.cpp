@@ -49,7 +49,7 @@ void grTextureDef::create( const vec2f& size, grTexFormat::type format /*= grTex
 	if (FAILED(renderSystem()->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
 		                                                      1, dusage, texFormat, dpool, &mTexturePtr, NULL)))
 	{
-		renderSystem()->mLog->out("ERROR: Failed to create texture!");
+		renderSystem()->mLog->error("Failed to create texture!");
 		return;
 	}
 }
@@ -76,14 +76,14 @@ void grTextureDef::createFromImage( cImage* image )
 	if (FAILED(renderSystem()->mDirect3DDevice->CreateTexture((unsigned int)mSize.x, (unsigned int)mSize.y, 
 		                                                      1, 0, texFormat, D3DPOOL_MANAGED, &mTexturePtr, NULL)))
 	{
-		renderSystem()->mLog->out("ERROR: Failed to create texture! Image:%s", image->getFilename());
+		renderSystem()->mLog->error("Failed to create texture! Image:%s", image->getFilename());
 		return;
 	}
 
 	D3DLOCKED_RECT lockedRect;
 	if (FAILED(mTexturePtr->LockRect(0, &lockedRect, 0, D3DLOCK_DISCARD)))
 	{
-		renderSystem()->mLog->out("ERROR: Failed to lock texture rect");
+		renderSystem()->mLog->error("Failed to lock texture rect");
 		return;
 	}
 	

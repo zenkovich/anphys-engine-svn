@@ -10,6 +10,8 @@
 #include "render_system/camera.h"
 #include "util/file_system/file_system.h"
 #include "util/log.h"
+#include "util/time_utils.h"
+#include "util/scheduler.h"
 #include "util/math/color.h"
 #include "util/math/vector2.h"
 

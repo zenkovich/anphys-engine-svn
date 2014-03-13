@@ -22,7 +22,7 @@ void grFontManager::loadFontsSet( const std::string& fontsSetFile )
 	pugi::xml_document doc;
 	if (!cXmlTools::loadFromFile(fontsSetFile, doc))
 	{
-		renderSystem()->mLog->hout("ERROR: Failed to load font set file: %s", fontsSetFile.c_str());
+		renderSystem()->mLog->error("Failed to load font set file: %s", fontsSetFile.c_str());
 		return;
 	}
 
