@@ -6,7 +6,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const std::string& id /*= ""*/, uiWidget* parent /*= NULL*/, const vec2f& localPos /*= vec2f()*/ ):
+uiWidget::uiWidget( const string& id /*= ""*/, uiWidget* parent /*= NULL*/, const vec2f& localPos /*= vec2f()*/ ):
 	mId(id), mLocalPosition(localPos), mGlobalPosition(localPos), mChildsOffset(), mParent(parent)
 {
 	initializeProperties();
@@ -23,7 +23,7 @@ uiWidget::uiWidget( const uiWidget& widget )
 	mParent = NULL;
 	mChildsOffset = widget.mChildsOffset;
 
-	for (WidgetsList::const_iterator it = widget.mChildWidgets.cbegin(); it != widget.mChildWidgets.cend(); ++it)
+	for (WidgetsVec::const_iterator it = widget.mChildWidgets.cbegin(); it != widget.mChildWidgets.cend(); ++it)
 	{
 		addChild((*it)->clone());
 	}
@@ -43,7 +43,7 @@ void uiWidget::draw()
 {
 	localDraw();
 
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 		(*it)->draw();
 }
 
@@ -51,7 +51,7 @@ void uiWidget::update( float dt )
 {
 	localUpdate(dt);
 
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 		(*it)->update(dt);
 }
 
@@ -59,7 +59,7 @@ void uiWidget::updateLayout()
 {
 	localUpdateLayout();
 	
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 		(*it)->updateLayout();
 }
 
@@ -90,7 +90,7 @@ bool uiWidget::isInside( const vec2f& point ) const
 	if (isLocalInside(point))
 		return true;
 
-	for (WidgetsList::const_iterator it = mChildWidgets.cbegin(); it != mChildWidgets.cend(); ++it)
+	for (WidgetsVec::const_iterator it = mChildWidgets.cbegin(); it != mChildWidgets.cend(); ++it)
 		if ((*it)->isInside(point))
 			return true;
 }
@@ -99,7 +99,7 @@ void uiWidget::processInputMessage( const cInputMessage& msg )
 {
 	localProcessInputMessage(msg);
 
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 		(*it)->processInputMessage(msg);
 }
 
@@ -116,7 +116,7 @@ uiWidget* uiWidget::addChild( uiWidget* widget )
 
 void uiWidget::removeChild( uiWidget* widget )
 {
-	WidgetsList::iterator fnd = std::find(mChildWidgets.begin(), mChildWidgets.end(), widget);
+	WidgetsVec::iterator fnd = std::find(mChildWidgets.begin(), mChildWidgets.end(), widget);
 	if (fnd != mChildWidgets.end())
 		mChildWidgets.erase(fnd);
 
@@ -128,7 +128,7 @@ void uiWidget::removeChild( uiWidget* widget )
 
 void uiWidget::removeAllChilds()
 {
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 	{
 		(*it)->mParent = NULL;
 		safe_release(*it);
@@ -143,7 +143,7 @@ void uiWidget::setParent(const uiWidgetPtr& parent)
 {
 	if (mParent)
 	{
-		WidgetsList::iterator fnd = std::find(mParent->mChildWidgets.begin(), mParent->mChildWidgets.end(), this);
+		WidgetsVec::iterator fnd = std::find(mParent->mChildWidgets.begin(), mParent->mChildWidgets.end(), this);
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
 	}
@@ -163,10 +163,10 @@ uiWidget* uiWidget::getParent() const
 	return mParent;
 }
 
-uiWidget* uiWidget::getWidget( const std::string& id )
+uiWidget* uiWidget::getWidget( const string& id )
 {
 	int delPos = id.find("/");
-	std::string pathPart = id.substr(0, delPos);
+	string pathPart = id.substr(0, delPos);
 
 	if (pathPart == "..")
 	{
@@ -181,7 +181,7 @@ uiWidget* uiWidget::getWidget( const std::string& id )
 		return NULL;
 	}
 
-	for (WidgetsList::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
+	for (WidgetsVec::iterator it = mChildWidgets.begin(); it != mChildWidgets.end(); ++it)
 	{
 		if ((*it)->mId == pathPart)
 		{
@@ -206,12 +206,12 @@ vec2f uiWidget::getPosition() const
 	return mLocalPosition;
 }
 
-void uiWidget::setId( const std::string& id )
+void uiWidget::setId( const string& id )
 {
 	mId = id;
 }
 
-std::string uiWidget::getId() const
+string uiWidget::getId() const
 {
 	return mId;
 }

@@ -6,7 +6,7 @@ struct cTestSerializeObjA:public cSerializableObj
 {
 	int         a, b;
 	float       c, d;
-	std::string e, f;
+	string e, f;
 	int         g[16];
 
 	cTestSerializeObjA()
@@ -37,7 +37,7 @@ SERIALIZE_METHOD_IMPL(cTestSerializeObjA)
 struct cTestSerializeObjB:public cTestSerializeObjA
 {
 	vec2i       v;
-	std::string h;
+	string h;
 
 	cTestSerializeObjB():cTestSerializeObjA()
 	{

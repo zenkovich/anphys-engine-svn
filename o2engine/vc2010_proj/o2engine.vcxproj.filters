@@ -387,6 +387,9 @@
     <ClInclude Include="..\src\util\time_utils.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_state.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -661,6 +664,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\time_utils.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_state.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

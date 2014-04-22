@@ -72,7 +72,7 @@ void grTextureDef::createFromImage( cImage* image )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
-void grTextureDef::createFromFile( const std::string& fileName )
+void grTextureDef::createFromFile( const string& fileName )
 {
 	cImage* image = mnew cImage;
 	if (image->load(fileName, cImage::IT_AUTO, renderSystem()->mLog))

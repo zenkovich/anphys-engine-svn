@@ -329,7 +329,7 @@ SERIALIZE_METHOD_IMPL(grSprite)
 	{
 		if (mMesh->mTexture.getFileName() != "")
 		{
-			std::string texFilename = mMesh->mTexture.getFileName();
+			string texFilename = mMesh->mTexture.getFileName();
 			SERIALIZE_ID(texFilename, "texture");
 			SERIALIZE_ID(mTextureSrcRect, "textureSrcRect");
 		}
@@ -338,7 +338,7 @@ SERIALIZE_METHOD_IMPL(grSprite)
 	{
 		mMesh->setTexture(NULL);
 
-		std::string textureName;
+		string textureName;
 		if (SERIALIZE_ID(textureName, "texture"))
 		{
 			grTexture texture = renderSystem()->getTextureFromFile(textureName);

@@ -102,7 +102,7 @@ void grTextureDef::createFromImage( cImage* image )
 	mTexturePtr->UnlockRect(0);
 }
 
-void grTextureDef::createFromFile( const std::string& fileName )
+void grTextureDef::createFromFile( const string& fileName )
 {
 	cImage* image = mnew cImage;
 	if (image->load(fileName, cImage::IT_AUTO, renderSystem()->mLog))

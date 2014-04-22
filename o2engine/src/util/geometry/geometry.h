@@ -101,7 +101,7 @@ class cGroupGeometry:public cGeometry
 	friend class cGeometry;
 
 public:
-	typedef std::vector<cGeometry*> PartsVec;
+	typedef vector<cGeometry*> PartsVec;
 
 protected:
 	PartsVec mParts;

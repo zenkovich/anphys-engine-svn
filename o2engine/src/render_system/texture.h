@@ -37,7 +37,7 @@ public:
 	static grTexture createFromImage(cImage* image);
 				       
 	/** Creates texture from file. */
-	static grTexture createFromFile(const std::string& fileName);
+	static grTexture createFromFile(const string& fileName);
 				       
 	/** Creates texture as render target. */
 	static grTexture createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);

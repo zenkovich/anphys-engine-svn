@@ -12,7 +12,7 @@ OPEN_O2_NAMESPACE
 class cAnimationGroup: virtual public IAnimation
 {
 public:
-	typedef std::vector<IAnimation*> AnimationsVec;
+	typedef vector<IAnimation*> AnimationsVec;
 
 protected:
 	AnimationsVec mAnimations; /**< Animations. */

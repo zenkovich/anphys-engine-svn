@@ -23,7 +23,7 @@ grFont::~grFont()
 	safe_release_arr(mCharacterIds);
 }
 
-void grFont::create( const std::string& fontFile )
+void grFont::create( const string& fontFile )
 {
 	pugi::xml_document doc;
 	cXmlTools::loadFromFile(fontFile, doc);
@@ -31,7 +31,7 @@ void grFont::create( const std::string& fontFile )
 	serialize(doc, cSerializeType::INPUT, renderSystem()->mLog);
 }
 
-void grFont::createFromBMFont( const std::string& fontFile )
+void grFont::createFromBMFont( const string& fontFile )
 {
 	pugi::xml_document doc;
 	if (!cXmlTools::loadFromFile(fontFile, doc))
@@ -46,7 +46,7 @@ void grFont::createFromBMFont( const std::string& fontFile )
 	{
 		mName = commonNode.attribute("name").value();
 
-		std::string textureName = commonNode.attribute("texture").value();	
+		string textureName = commonNode.attribute("texture").value();	
 		mTexture = renderSystem()->getTextureFromFile(textureName);
 
 		mLineHeight = commonNode.attribute("lineHeight").as_float();
@@ -121,7 +121,7 @@ SERIALIZE_METHOD_IMPL(grFont)
 {
 	SERIALIZE_ID(mName, "name");
 
-	std::string textureName;
+	string textureName;
 	if (type == cSerializeType::OUTPUT)
 		textureName = mTexture.getFileName();
 	

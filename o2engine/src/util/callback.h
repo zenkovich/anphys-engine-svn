@@ -93,7 +93,7 @@ inline IRetCallback<RetType>* callback(RetType (*function)()) { return mnew cRet
 class cCallbackChain:public ICallback
 {
 public:
-	typedef std::vector<ICallback*> CallbacksVec;
+	typedef vector<ICallback*> CallbacksVec;
 
 protected:
 	CallbacksVec mCallbacks;

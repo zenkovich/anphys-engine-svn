@@ -13,15 +13,15 @@ class cFileLogStream:public cLogStream
 	cOutFile* mOutFile;
 
 public:
-	cFileLogStream(uint8 level, const std::string& fileName);
-	cFileLogStream(const std::string& id, uint8 level, const std::string& fileName);
+	cFileLogStream(uint8 level, const string& fileName);
+	cFileLogStream(const string& id, uint8 level, const string& fileName);
 	~cFileLogStream();
 
 protected:
-	void outStrEx(const std::string& str);
-	void outErrorEx(const std::string& srt);
-	void outWarningEx(const std::string& srt);
-	void openFile(const std::string& fileName);
+	void outStrEx(const string& str);
+	void outErrorEx(const string& srt);
+	void outWarningEx(const string& srt);
+	void openFile(const string& fileName);
 };
 
 CLOSE_O2_NAMESPACE

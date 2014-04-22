@@ -32,7 +32,7 @@ class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface
 	friend class cDeviceInfo;
 
 public:
-	typedef std::vector<grTextureDef*> TexturesVec;
+	typedef vector<grTextureDef*> TexturesVec;
 
 protected:
 	vec2i          mResolution;    /**< Resolution of rendering frame. */
@@ -65,7 +65,7 @@ public:
 	grFontManager* getFontManager() const;
 
 	/** Creating texture, if no exist, else returning created texture. */
-	grTexture getTextureFromFile(const std::string& fileName);
+	grTexture getTextureFromFile(const string& fileName);
 	
 	/** Creates texture 
 	 *  @size - size of texture

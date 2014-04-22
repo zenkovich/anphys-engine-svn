@@ -66,5 +66,14 @@ typedef long long          int64;
 #include "util/mem_utils/alloc_operators.h"
 #include "util/data_utils.h"
 #include <string>
+#include <vector>
+
+//some basic types
+OPEN_O2_NAMESPACE
+#define vector std::vector
+typedef std::string string;
+
+#define StringsVec vector<string>
+CLOSE_O2_NAMESPACE
 
 #endif //PUBLIC_H

@@ -28,7 +28,7 @@ public:
 
 		Cursor(const vec2f& position, int id):mPosition(position), mDelta(), mId(id), mPressedTime(0) {}
 	};
-	typedef std::vector<Cursor> CursorVec;
+	typedef vector<Cursor> CursorVec;
 
 protected:
 	/** Key with pressed time. */
@@ -40,7 +40,7 @@ protected:
 		Key(VKey key = 0):mKey(key), mPressedTime(0) {}
 	};
 
-	typedef std::vector<Key>    KeysVec;
+	typedef vector<Key>    KeysVec;
 
 	KeysVec   mPressedKeys; 
 	KeysVec   mDownKeys;

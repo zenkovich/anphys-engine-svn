@@ -34,7 +34,7 @@ void cImage::create( Format format, const vec2i& size )
 	mData = mnew unsigned char[ size.x*size.y*bpp[format] ];
 }
 
-bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog /*= NULL*/ )
+bool cImage::load( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ )
 {
 	cLogStream* log = clog;
 	if (!log) log = gLog;
@@ -56,7 +56,7 @@ bool cImage::load( const std::string& fileName, ImageType type, cLogStream* clog
 	return false;
 }
 
-bool cImage::save( const std::string& fileName, ImageType type, cLogStream* clog /*= NULL*/ ) const
+bool cImage::save( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ ) const
 {
 	cLogStream* log = clog;
 	if (!log) log = gLog;
@@ -98,7 +98,7 @@ const unsigned char* cImage::getDataConst() const
 	return mData;
 }
 
-const std::string& cImage::getFilename() const
+const string& cImage::getFilename() const
 {
 	return mFilename;
 }

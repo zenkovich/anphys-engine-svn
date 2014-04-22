@@ -29,7 +29,7 @@ protected:
 		/** ctor. */
 		TimeCallback(ICallback* cb, float time):mTime(time), mCallback(cb) {}
 	};
-	typedef std::vector<TimeCallback> TimeCallbacksVec;
+	typedef vector<TimeCallback> TimeCallbacksVec;
 
 	cAutoPtr<ICallback> mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
 	cAutoPtr<ICallback> mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */

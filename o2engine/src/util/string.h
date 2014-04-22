@@ -8,25 +8,25 @@ OPEN_O2_NAMESPACE
 typedef std::basic_string<uint16> wstring;
 
 /** Returns formatted string, Works same as sprintf(). */
-std::string format(const char* str, ...);
+string format(const char* str, ...);
 
 /** Returns converted string to wide string. */
-wstring convString2Wide(const std::string& str);
+wstring convString2Wide(const string& str);
 
 /** Returns converted wide string to string. */
-std::string convWide2String(const wstring& wide);
+string convWide2String(const wstring& wide);
 
 /** Converting int value to string. */
-std::string toString(int value);
+string toString(int value);
 
 /** Converting float value to string. */
-std::string toString(float value);
+string toString(float value);
 
 /** Converting string to integer. */
-int toInt(const std::string& str);
+int toInt(const string& str);
 
 /** Converting string to float. */
-float toFloat(const std::string& str);
+float toFloat(const string& str);
 
 CLOSE_O2_NAMESPACE
 

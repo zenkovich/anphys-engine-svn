@@ -35,7 +35,7 @@ public:
 protected:
 	enum { nMaxSymbolId = 0xffff };
 
-	std::string mName;            /** Font name. */
+	string mName;            /** Font name. */
 	character*  mCharacters;      /** Characters array. */
 	int         mCharactersCount; /** Characters count in array. */
 	bool        mAllSymbolReturn; /** True, when all symbols is new line symbols. */
@@ -54,10 +54,10 @@ protected:
 	~grFont();
 
 	/** Create font from config file. */
-	void create(const std::string& fontFile);
+	void create(const string& fontFile);
 
 	/** Create font from BMFont config file. */
-	void createFromBMFont(const std::string& fontFile);
+	void createFromBMFont(const string& fontFile);
 
 public:
 	/** Returns line height. */

@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-bool cSerialization::loadData( pugi::xml_document& doc, const std::string& fileName, 
+bool cSerialization::loadData( pugi::xml_document& doc, const string& fileName, 
 	                           cFileType::value fileType /*= cFileType::FT_FILE*/, cLogStream* log /*= NULL*/ )
 {
 	cInFile file(fileName, fileType);
@@ -47,7 +47,7 @@ bool cSerialization::loadData( pugi::xml_document& doc, cInFile& file, cLogStrea
 	return true;
 }
 
-bool cSerialization::saveData( pugi::xml_document& doc, const std::string& fileName, cFileType::value fileType /*= cFileType::FT_FILE*/ )
+bool cSerialization::saveData( pugi::xml_document& doc, const string& fileName, cFileType::value fileType /*= cFileType::FT_FILE*/ )
 {
 	cOutFile file(fileName, fileType);
 	return saveData(doc, file);
@@ -74,7 +74,7 @@ bool cSerialization::saveData( pugi::xml_document& doc, cOutFile& file )
 	return true;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -85,7 +85,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, int& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, int& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -98,7 +98,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, uint16& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, uint16& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -111,7 +111,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, float& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, float& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -124,7 +124,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, std::string& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, string& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -137,7 +137,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, vec2i& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, vec2i& obj, cLogStream* log /*= NULL*/ )
 {	
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -151,7 +151,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, vec2f& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, vec2f& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -165,7 +165,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, fRect& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, fRect& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -181,7 +181,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, iRect& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, iRect& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -197,7 +197,7 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, color4& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, color4& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
@@ -215,12 +215,12 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id, bool& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, bool& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
 	if (getNode(chNode, xmlNode, id))
 	{
-		std::string value = chNode.attribute("v").value();
+		string value = chNode.attribute("v").value();
 		obj = value == "true" || value == "TRUE" || value == "YES" || value == "1";
 
 		return true;
@@ -229,13 +229,13 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const std::string& id
 	return false;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	return obj->serialize(xmlNode, cSerializeType::INPUT, log);
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, int obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, int obj, cLogStream* log /*= NULL*/ )
 {	
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj;
@@ -243,7 +243,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, uint16 obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, uint16 obj, cLogStream* log /*= NULL*/ )
 {	
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj;
@@ -251,7 +251,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, float obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, float obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj;
@@ -259,7 +259,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, std::string& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, string& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj.c_str();
@@ -267,7 +267,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, vec2i& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, vec2i& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("x") = obj.x;
@@ -276,7 +276,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, vec2f& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, vec2f& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("x") = obj.x;
@@ -285,7 +285,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, fRect& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, fRect& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("left") = obj.left;
@@ -296,7 +296,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, iRect& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, iRect& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("left") = obj.left;
@@ -307,7 +307,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, color4& obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, color4& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("r") = obj.rf();
@@ -318,7 +318,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& id, bool obj, cLogStream* log /*= NULL*/ )
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, bool obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj ? "true":"false";
@@ -326,7 +326,7 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const std::string& i
 	return true;
 }
 
-bool cSerialization::getNode( pugi::xml_node& node, const pugi::xml_node& parent, const std::string& id )
+bool cSerialization::getNode( pugi::xml_node& node, const pugi::xml_node& parent, const string& id )
 {
 	node = parent.child(id.c_str());
 	return !node.empty();

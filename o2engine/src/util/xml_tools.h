@@ -14,10 +14,10 @@ OPEN_O2_NAMESPACE
 struct cXmlTools
 {
 	/** Loads xml file. */
-	static bool loadFromFile(const std::string& fileName, pugi::xml_document& xmlDoc);
+	static bool loadFromFile(const string& fileName, pugi::xml_document& xmlDoc);
 
 	/** Returns node by path, Path format "node/node/node". */
-	static pugi::xml_node getNode(const pugi::xml_node& node, const std::string& path);
+	static pugi::xml_node getNode(const pugi::xml_node& node, const string& path);
 
 	/** Getting vec2f data from xml node. */
 	static vec2f node2vecf(const pugi::xml_node& node);

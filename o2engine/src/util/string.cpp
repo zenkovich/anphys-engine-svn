@@ -4,7 +4,7 @@
 
 OPEN_O2_NAMESPACE
 
-std::string format( const char* str, ... )
+string format( const char* str, ... )
 {
 	const uint32 bufsz = 1096;
 	static char buf[bufsz];
@@ -14,13 +14,13 @@ std::string format( const char* str, ... )
 	vsnprintf(buf, bufsz, str, ap);
 	va_end(ap);
 
-	return std::string(buf);
+	return string(buf);
 }
 
 #ifdef PLATFORM_WIN
 #include <Windows.h>
 
-wstring convString2Wide(const std::string& str)
+wstring convString2Wide(const string& str)
 {
 	int len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.size(), 0, 0);
 	
@@ -33,13 +33,13 @@ wstring convString2Wide(const std::string& str)
 	return retvalue;
 }
 
-std::string convWide2String(const wstring& wide)
+string convWide2String(const wstring& wide)
 {
 	const wchar_t* wideptr = reinterpret_cast<const wchar_t*>(wide.data());
 
 	int len =  WideCharToMultiByte(CP_ACP, 0, wideptr, wide.size(), NULL, 0, 0, 0);
 	
-	std::string retvalue;
+	string retvalue;
 	retvalue.resize(len, 0);
 	char* retvalueptr = const_cast<char*>(retvalue.data());
 
@@ -48,22 +48,22 @@ std::string convWide2String(const wstring& wide)
 	return retvalue;
 }
 
-std::string toString( int value )
+string toString( int value )
 {
 	return format("%i", value);
 }
 
-std::string toString( float value )
+string toString( float value )
 {
 	return format("%f", value);
 }
 
-int toInt( const std::string& str )
+int toInt( const string& str )
 {
 	return atoi(str.c_str());
 }
 
-float toFloat( const std::string& str )
+float toFloat( const string& str )
 {
 	return (float)atof(str.c_str());
 }

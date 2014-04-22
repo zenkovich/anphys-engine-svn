@@ -33,7 +33,7 @@ class grTextureDef:public grTextureDefBaseInterface
 	void createFromImage(cImage* image);
 		       
 	/** Creates texture from file. */
-	void createFromFile(const std::string& fileName);
+	void createFromFile(const string& fileName);
 		       
 	/** Creates texture as render target. */
 	void createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);

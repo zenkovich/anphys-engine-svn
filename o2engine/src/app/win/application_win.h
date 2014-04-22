@@ -30,7 +30,7 @@ protected:
 	bool         mAutoAjustByScreen;   /**< True, if app in windowed mode and window ajusting by available screen space. */
 	vec2f        mAutoAjustScale;      /**< Auto ajust scale. */
 									   
-	std::string  mWndCaption;          /**< Window caption. */
+	string  mWndCaption;          /**< Window caption. */
 									   
 	bool         mActive;              /**< True, if window is active. */
 									   

@@ -20,7 +20,7 @@ public:
 	PROPERTY(uiButton, ICallback*) onSelect;
 
 
-	uiButton(ICallback* onClickCB = NULL, ICallback* onSelectCB = NULL, const std::string& id = "", uiWidget* parent = NULL, 
+	uiButton(ICallback* onClickCB = NULL, ICallback* onSelectCB = NULL, const string& id = "", uiWidget* parent = NULL, 
 		     const vec2f& localPos = vec2f());
 
 	uiButton(const uiButton& button);

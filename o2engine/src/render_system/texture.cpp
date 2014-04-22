@@ -36,7 +36,7 @@ grTexture grTexture::createFromImage( cImage* image )
 	return grTexture(renderSystem()->createTextureFromImage(image));
 }
 
-grTexture grTexture::createFromFile( const std::string& fileName )
+grTexture grTexture::createFromFile( const string& fileName )
 {
 	return grTexture(renderSystem()->getTextureFromFile(fileName));
 }

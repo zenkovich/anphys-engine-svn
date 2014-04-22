@@ -30,7 +30,7 @@ const char* cLogStream::BindValue::getStr()
 		break;
 		
 	case BV_STRING:
-		strncpy(mBuffer, (*(std::string*)mValuePtr).c_str(), 255);
+		strncpy(mBuffer, (*(string*)mValuePtr).c_str(), 255);
 		mBuffer[255] = '\0';
 		break;
 	};
@@ -44,7 +44,7 @@ cLogStream::cLogStream():
 
 }
 
-cLogStream::cLogStream( const std::string& id ):
+cLogStream::cLogStream( const string& id ):
 	mParentStream(NULL), mId(id), mLevel(2)
 {
 }
@@ -68,7 +68,7 @@ uint8 cLogStream::getLevel() const
 	return mLevel;
 }
 
-const std::string& cLogStream::getId() const
+const string& cLogStream::getId() const
 {
 	return mId;
 }
@@ -99,7 +99,7 @@ void cLogStream::unbindAllStreams()
 	mChildStreams.clear();
 }
 
-void cLogStream::bindValue( void* valuePtr, BindValType type, const std::string& id )
+void cLogStream::bindValue( void* valuePtr, BindValType type, const string& id )
 {
 	mBindedValues.push_back(BindValue(valuePtr, type, id));
 }
@@ -203,7 +203,7 @@ cLogStream* cLogStream::getParentStream() const
 	return mParentStream;
 }
 
-void cLogStream::outStr( const std::string& str )
+void cLogStream::outStr( const string& str )
 {
 	outStrEx(str);
 
@@ -216,7 +216,7 @@ void cLogStream::outStr( const std::string& str )
 	}
 }
 
-void cLogStream::outError( const std::string& str )
+void cLogStream::outError( const string& str )
 {
 	outErrorEx(str);
 
@@ -229,7 +229,7 @@ void cLogStream::outError( const std::string& str )
 	}
 }
 
-void cLogStream::outWarning( const std::string& str )
+void cLogStream::outWarning( const string& str )
 {
 	outWarningEx(str);
 

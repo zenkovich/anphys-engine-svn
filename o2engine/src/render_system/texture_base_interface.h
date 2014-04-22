@@ -34,7 +34,7 @@ protected:
 	vec2f             mSize;         /**< Size of texture. */
 	grTexFormat::type mFormat;       /**< Texture format. */
 	grTexUsage::type  mUsage;        /**< Texture usage. */
-	std::string       mFileName;     /**< Texture file name. */
+	string       mFileName;     /**< Texture file name. */
 
 	
 	/** ctor. */
@@ -45,7 +45,7 @@ protected:
 
 public:		
 	/** Returns file name. */
-	const std::string& getFileName() const;
+	const string& getFileName() const;
 
 	/** Returns format of texture. */
 	grTexFormat::type getFormat() const;
@@ -79,7 +79,7 @@ protected:
 	virtual void createFromImage(cImage* image) {}
 				       
 	/** Creates texture from file. */
-	virtual void createFromFile(const std::string& fileName) {}
+	virtual void createFromFile(const string& fileName) {}
 				       
 	/** Creates texture as render target. */
 	virtual void createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT) {}		
