@@ -44,7 +44,7 @@ grFontManager* grRenderSystemBaseInterface::getFontManager() const
 	return mFontManager;
 }
 
-grTexture grRenderSystemBaseInterface::getTextureFromFile( const std::string& fileName )
+grTexture grRenderSystemBaseInterface::getTextureFromFile( const string& fileName )
 {
 	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
 	{

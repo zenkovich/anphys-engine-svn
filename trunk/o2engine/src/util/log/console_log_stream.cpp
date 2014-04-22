@@ -16,7 +16,7 @@ cConsoleLogStream::cConsoleLogStream(uint8 level):
 		initConsole();
 }
 
-cConsoleLogStream::cConsoleLogStream( const std::string& id, uint8 level ):
+cConsoleLogStream::cConsoleLogStream( const string& id, uint8 level ):
 	cLogStream(id)
 {
 	setLevel(level);
@@ -29,7 +29,7 @@ cConsoleLogStream::~cConsoleLogStream()
 	FreeConsole();
 }
 
-void cConsoleLogStream::outStrEx( const std::string& str )
+void cConsoleLogStream::outStrEx( const string& str )
 {
 	printf(str.c_str());
 	printf("\n");	

@@ -15,17 +15,17 @@ struct cFileType
 class cInFile
 {
 	std::ifstream mIfstream; /**< Input stream. */
-	std::string   mFilename; /**< File name. */
+	string   mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:
 	cInFile();
-	cInFile(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
+	cInFile(const string& filename, cFileType::value type = cFileType::FT_FILE);
 	~cInFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with extension string from file system. */
-	bool open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
+	bool open(const string& filename, cFileType::value type = cFileType::FT_FILE);
 
 	/** Closing file. */
 	bool close();
@@ -49,24 +49,24 @@ public:
 	bool isOpened() const;
 
 	/** Return file name. */
-	const std::string& getFilename() const;
+	const string& getFilename() const;
 };
 
 /** Output file. */
 class cOutFile
 {
 	std::ofstream mOfstream; /**< Output stream. */
-	std::string   mFilename; /**< File name. */
+	string   mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:
 	cOutFile();
-	cOutFile(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
+	cOutFile(const string& filename, cFileType::value type = cFileType::FT_FILE);
 	~cOutFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with first extension string from file system. */
-	bool open(const std::string& filename, cFileType::value type = cFileType::FT_FILE);
+	bool open(const string& filename, cFileType::value type = cFileType::FT_FILE);
 
 	/** Close file. */
 	bool close();
@@ -78,7 +78,7 @@ public:
 	bool isOpened() const;
 
 	/** Returns file name. */
-	const std::string& getFilename() const;
+	const string& getFilename() const;
 };
 
 CLOSE_O2_NAMESPACE

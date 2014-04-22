@@ -14,7 +14,7 @@ grTextureInterface::~grTextureInterface()
 {
 }
 
-const std::string& grTextureInterface::getFileName() const
+const string& grTextureInterface::getFileName() const
 {
 	return mFileName;
 }

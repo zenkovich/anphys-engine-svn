@@ -17,7 +17,7 @@ grFontManager::~grFontManager()
 	unloadFonts();
 }
 
-void grFontManager::loadFontsSet( const std::string& fontsSetFile )
+void grFontManager::loadFontsSet( const string& fontsSetFile )
 {
 	pugi::xml_document doc;
 	if (!cXmlTools::loadFromFile(fontsSetFile, doc))
@@ -32,14 +32,14 @@ void grFontManager::loadFontsSet( const std::string& fontsSetFile )
 	}
 }
 
-void grFontManager::loadFont( const std::string& fontFile )
+void grFontManager::loadFont( const string& fontFile )
 {
 	grFont* newFont = mnew grFont;
 	newFont->create(fontFile);
 	mFonts[fontFile] = newFont;
 }
 
-void grFontManager::loadBMFont( const std::string& fontFile )
+void grFontManager::loadBMFont( const string& fontFile )
 {
 	grFont* newFont = mnew grFont;
 	newFont->createFromBMFont(fontFile);
@@ -54,7 +54,7 @@ void grFontManager::unloadFonts()
 	mFonts.clear();
 }
 
-grFont* grFontManager::getFont( const std::string& name )
+grFont* grFontManager::getFont( const string& name )
 {
 	return mFonts.at(name);
 }

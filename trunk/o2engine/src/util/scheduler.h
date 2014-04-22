@@ -33,7 +33,7 @@ protected:
 		/** Executes the callback and returning true, when task must be repeated. */
 		bool execute();
 	};
-	typedef std::vector<Task*> TaskVec;
+	typedef vector<Task*> TaskVec;
 
 	TaskVec  mTasks[2];     /** Tasks vectors. One for current tasks, other for next tasks. */
 	TaskVec* mCurrentTasks; /** Current tasks vector ptr. */

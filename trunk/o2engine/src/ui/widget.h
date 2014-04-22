@@ -20,19 +20,19 @@ class cGeometry;
 /** Basic widget object. Contains id, parent, childs, position and other strange data. */
 class uiWidget
 {
-	typedef std::vector<uiWidget*> WidgetsList;
+	typedef vector<uiWidget*> WidgetsVec;
 	
 	uiWidget*      mParent;         /**< Parent widget. NULL if no parent. */
-	std::string    mId;             /**< Identificator or name. */
+	string    mId;             /**< Identificator or name. */
 	uiWidgetLayout mLayout;         /**< Widget layout. */
-	vec2f          mLocalPosition;	 /**< Position relative to the parent. */
-	vec2f          mChildsOffset;   /**< Offset for childrens. */
+	vec2f          mLocalPosition;	/**< Position relative to the parent. */
 	vec2f          mGlobalPosition; /**< Position in screen space. */
 	vec2f          mSize;           /**< Size of widget. Not including childs. */
+	vec2f          mChildsOffset;   /**< Offset for childrens. */
 	cGeometry*     mGeometry;       /**< Geometry. May be NULL. */
 	fRect          mBounds;         /**< Widget with childs bounds. */
 
-	WidgetsList mChildWidgets;   /**< Childs widgets. */
+	WidgetsVec mChildWidgets;       /**< Childs widgets. */
 
 public:
 	typedef uiWidget* uiWidgetPtr;
@@ -42,14 +42,14 @@ public:
 
 	//properties
 	PROPERTY(uiWidget, uiWidgetPtr) parent;         /**< Parent property. Using setParent/getParent. */
-	PROPERTY(uiWidget, std::string) id;             /**< Identificator property. Using setId/getId. */
+	PROPERTY(uiWidget, string) id;             /**< Identificator property. Using setId/getId. */
 	PROPERTY(uiWidget, vec2f)       position;       /**< Local position property. Using setPosition/getPosition. */
 	PROPERTY(uiWidget, vec2f)       globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)       size;           /**< Size property. Using setSize/getSize. */
 
 
 	/** ctor. */
-	uiWidget(const std::string& id = "", uiWidget* parent = NULL, const vec2f& localPos = vec2f());
+	uiWidget(const string& id = "", uiWidget* parent = NULL, const vec2f& localPos = vec2f());
 
 	/** copy-ctor. */
 	uiWidget(const uiWidget& widget);
@@ -83,13 +83,13 @@ public:
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
 	template<typename T>
-	T* getWidgetByType(const std::string& id)
+	T* getWidgetByType(const string& id)
 	{
 		return static_cast<T*>(getWidget(id));
 	}
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
-	uiWidget* getWidget(const std::string& id);
+	uiWidget* getWidget(const string& id);
 
 
 	//setters and getters
@@ -107,10 +107,10 @@ public:
 	vec2f getPosition() const;
 
 	/** Sets the id. */
-	void setId(const std::string& id);
+	void setId(const string& id);
 
 	/** Returns the id. */
-	std::string getId() const;
+	string getId() const;
 
 	/** Sets the global position. */
 	void setGlobalPosition(const vec2f& position);

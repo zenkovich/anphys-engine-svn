@@ -20,7 +20,7 @@ protected:
 	Format         mFormat;   /**< Image format. */
 	unsigned char* mData;     /**< Data array. */
 	vec2i          mSize;     /**< Size of image, in pixels. */
-	std::string    mFilename; /**< File name. Empty if no file. */
+	string    mFilename; /**< File name. Empty if no file. */
 
 public:
 	cImage();
@@ -31,10 +31,10 @@ public:
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const std::string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
+	bool load(const string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
 
 	/** Saving image to file. */
-	bool save(const std::string& fileName, ImageType type, cLogStream* clog = NULL) const;
+	bool save(const string& fileName, ImageType type, cLogStream* clog = NULL) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);
@@ -52,7 +52,7 @@ public:
 	Format getFormat() const;
 
 	/** Return file name. */
-	const std::string& getFilename() const;
+	const string& getFilename() const;
 };
 
 CLOSE_O2_NAMESPACE

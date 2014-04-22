@@ -4,7 +4,7 @@
 
 OPEN_O2_NAMESPACE
 
-bool cXmlTools::loadFromFile( const std::string& fileName, pugi::xml_document& xmlDoc )
+bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc )
 {
 	cInFile inFile(fileName, cFileType::FT_CONFIG);
 
@@ -23,10 +23,10 @@ bool cXmlTools::loadFromFile( const std::string& fileName, pugi::xml_document& x
 	return res.status == pugi::status_ok;
 }
 
-pugi::xml_node cXmlTools::getNode( const pugi::xml_node& node, const std::string& path )
+pugi::xml_node cXmlTools::getNode( const pugi::xml_node& node, const string& path )
 {
 	int slashPos = path.find('/');
-	std::string currNode = path.substr(0, slashPos);
+	string currNode = path.substr(0, slashPos);
 	
 	if (slashPos == path.npos)
 		return node.child(currNode.c_str());

@@ -1,7 +1,6 @@
 #ifndef FONT_MANAGER_H
 #define FONT_MANAGER_H
 
-#include <vector>
 #include <map>
 
 #include "public.h"
@@ -17,7 +16,7 @@ class grFontManager
 	friend class grRenderSystemBaseInterface;
 
 public: 
-	typedef std::map<std::string, grFont*> FontsMap; 
+	typedef std::map<string, grFont*> FontsMap; 
 
 protected:
 	FontsMap mFonts; /** Fonts map. */
@@ -30,19 +29,19 @@ protected:
 
 public:
 	/** Loading fonts set from file. */
-	void loadFontsSet(const std::string& fontsSetFile);
+	void loadFontsSet(const string& fontsSetFile);
 
 	/** Loading font from file. */
-	void loadFont(const std::string& fontFile);
+	void loadFont(const string& fontFile);
 
 	/** Loading BMFont from file. */
-	void loadBMFont(const std::string& fontFile);
+	void loadBMFont(const string& fontFile);
 
 	/** Unloading all fonts. */
 	void unloadFonts();
 
 	/** Returns font by name. */
-	grFont* getFont(const std::string& name);
+	grFont* getFont(const string& name);
 };
 
 CLOSE_O2_NAMESPACE

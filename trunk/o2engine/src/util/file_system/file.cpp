@@ -9,7 +9,7 @@ cInFile::cInFile():
 {
 }
 
-cInFile::cInFile( const std::string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
+cInFile::cInFile( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
 	mOpened(false)
 {
 	open(filename, type);
@@ -20,7 +20,7 @@ cInFile::~cInFile()
 	close();
 }
 
-bool cInFile::open( const std::string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
+bool cInFile::open( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
 {
 	close();
 
@@ -40,7 +40,7 @@ bool cInFile::open( const std::string& filename, cFileType::value type /*= cFile
 		const cFileSystem::ExtensionsVec extensions = getFileSystem().getExtensions(type);
 		for (cFileSystem::ExtensionsVec::const_iterator it = extensions.cbegin(); it != extensions.cend(); ++it)
 		{
-			std::string resFilename = getFileSystem().getResourcePath() + filename + "." + (*it);
+			string resFilename = getFileSystem().getResourcePath() + filename + "." + (*it);
 
 			mIfstream.open(resFilename.c_str(), std::ios::binary);
 
@@ -102,7 +102,7 @@ uint32 cInFile::getDataSize()
 	return (long unsigned int)mIfstream.tellg();
 }
 
-const std::string& cInFile::getFilename() const
+const string& cInFile::getFilename() const
 {
 	return mFilename;
 }
@@ -119,7 +119,7 @@ cOutFile::cOutFile():
 
 }
 
-cOutFile::cOutFile( const std::string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
+cOutFile::cOutFile( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
 	mOpened(false)
 {
 	open(filename, type);
@@ -130,14 +130,14 @@ cOutFile::~cOutFile()
 	close();
 }
 
-bool cOutFile::open( const std::string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
+bool cOutFile::open( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
 {
 	close();
 
-	std::string resFilename = filename;
+	string resFilename = filename;
 	if (type != cFileType::FT_FILE)
 	{
-		std::string extensionStr;		
+		string extensionStr;		
 		const cFileSystem::ExtensionsVec extensions = getFileSystem().getExtensions(type);
 
 		if (extensions.size() > 0)
@@ -171,7 +171,7 @@ void cOutFile::writeData( const void* dataPtr, uint32 bytes )
 	mOfstream.write((const char*)dataPtr, bytes);
 }
 
-const std::string& cOutFile::getFilename() const
+const string& cOutFile::getFilename() const
 {
 	return mFilename;
 }

@@ -16,7 +16,7 @@ template<typename T>
 class cAnimation: virtual public IAnimation
 {
 	friend class AnimationTest;
-	typedef std::vector< cAnimFrame<T> > FramesVec;
+	typedef vector< cAnimFrame<T> > FramesVec;
 
 public:
 	

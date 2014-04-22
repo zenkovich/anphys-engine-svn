@@ -4,7 +4,7 @@
 
 OPEN_O2_NAMESPACE
 
-cFileLogStream::cFileLogStream( uint8 level, const std::string& fileName ):
+cFileLogStream::cFileLogStream( uint8 level, const string& fileName ):
 	cLogStream(), mOutFile(NULL)
 {
 	setLevel(level);
@@ -13,7 +13,7 @@ cFileLogStream::cFileLogStream( uint8 level, const std::string& fileName ):
 		openFile(fileName);
 }
 
-cFileLogStream::cFileLogStream( const std::string& id, uint8 level, const std::string& fileName ):
+cFileLogStream::cFileLogStream( const string& id, uint8 level, const string& fileName ):
 	cLogStream(id), mOutFile(NULL)
 {
 	setLevel(level);
@@ -27,7 +27,7 @@ cFileLogStream::~cFileLogStream()
 	safe_release(mOutFile);
 }
 
-void cFileLogStream::outStrEx( const std::string& str )
+void cFileLogStream::outStrEx( const string& str )
 {
 	if (mOutFile)
 	{
@@ -35,12 +35,12 @@ void cFileLogStream::outStrEx( const std::string& str )
 	}
 }
 
-void cFileLogStream::openFile( const std::string& fileName )
+void cFileLogStream::openFile( const string& fileName )
 {
 	mOutFile = mnew cOutFile(fileName);
 }
 
-void cFileLogStream::outErrorEx( const std::string& srt )
+void cFileLogStream::outErrorEx( const string& srt )
 {
 	if (mOutFile)
 	{
@@ -48,7 +48,7 @@ void cFileLogStream::outErrorEx( const std::string& srt )
 	}
 }
 
-void cFileLogStream::outWarningEx( const std::string& srt )
+void cFileLogStream::outWarningEx( const string& srt )
 {
 	if (mOutFile)
 	{

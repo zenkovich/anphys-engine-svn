@@ -300,7 +300,7 @@ void cApplication::setOption( cApplicationOption::type option, ... )
 	}
 	else if (option == cApplicationOption::WND_CAPTION)
 	{
-		mWndCaption = va_arg(vlist, std::string);
+		mWndCaption = va_arg(vlist, string);
 
 		//mLog->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
 
@@ -356,7 +356,7 @@ void cApplication::getOption( cApplicationOption::type option, ... )
 	}
 	else if (option == cApplicationOption::WND_CAPTION)
 	{
-		std::string* res = va_arg(vlist, std::string*);
+		string* res = va_arg(vlist, string*);
 		*res = mWndCaption;
 	}
 

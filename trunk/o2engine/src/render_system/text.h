@@ -35,7 +35,7 @@ public:
 	enum { nMeshMaxPolyCount = 2048 };
 
 protected:
-	typedef std::vector<grMesh*> MeshVec;
+	typedef vector<grMesh*> MeshVec;
 
 	wstring         mText;                /** Wide char string, containing rendering text. */
 	grFont*         mFont;                /** Using font. */
@@ -64,7 +64,7 @@ public:
 	//properties
 	PROPERTY(grText, grFont*)     font;                /** Font pointer property. Uses set/getFont. */
 	PROPERTY(grText, wstring)     text;                /** Text property, wstring. Uses set/getText. */
-	PROPERTY(grText, std::string) ctext;               /** Text property, std::string. Uses set/getCText. */
+	PROPERTY(grText, string) ctext;               /** Text property, string. Uses set/getCText. */
 	PROPERTY(grText, TextStyle)   style;               /** Style bit mask property. Uses set/gettextStyle. */
 	PROPERTY(grText, VerAlign)    verAlign;            /** vertical align property. Uses set/getVerAlign. */
 	PROPERTY(grText, HorAlign)    horAlign;            /** Horisontal align property. Uses set/getHorAlign. */
@@ -113,10 +113,10 @@ public:
 	wstring getText() const;
 
 	/** Sets text. */
-	void setCText(const std::string& text);
+	void setCText(const string& text);
 
-	/** Returns text as std::string. */
-	std::string getCText() const;
+	/** Returns text as string. */
+	string getCText() const;
 
 	/** Sets text style bit mask. */
 	void setTextStyle(const TextStyle& style);
@@ -295,7 +295,7 @@ protected:
 		symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId):
 			mPosition(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
 	};
-	typedef std::vector<symbolDef> SymbolDefVec;
+	typedef vector<symbolDef> SymbolDefVec;
 
 	/** Line definition structure. */
 	struct lineDef
@@ -308,7 +308,7 @@ protected:
 
 		lineDef():mSize(0), mLineBegSymbol(0), mSpacesCount(0) {}
 	};
-	typedef std::vector<lineDef> LineDefVec;
+	typedef vector<lineDef> LineDefVec;
 	
 	/** Push symbol to meshes. */
 	void pushSymbol(grMesh*& mesh, int& meshIdx, const symbolDef& symb, const vec2f& locOrigin);

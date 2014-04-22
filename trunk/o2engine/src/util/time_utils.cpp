@@ -54,7 +54,7 @@ void cTimeUtil::setLocalTime( float time )
 
 int cTimeUtil::getCurrentFrame() const
 {
-	return mCurrentFrame;
+	return (int)mCurrentFrame;
 }
 
 float cTimeUtil::getDeltaTime() const
@@ -66,5 +66,4 @@ float cTimeUtil::getFPS() const
 {
 	return mFPS;
 }
-
 CLOSE_O2_NAMESPACE

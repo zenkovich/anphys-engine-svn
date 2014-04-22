@@ -60,13 +60,13 @@ wstring grText::getText() const
 	return mText;
 }
 
-void grText::setCText( const std::string& text )
+void grText::setCText( const string& text )
 {
 	mText = convString2Wide(text);
 	mNeedUpdateMesh = true;
 }
 
-std::string grText::getCText() const
+string grText::getCText() const
 {
 	return convWide2String(mText);
 }

@@ -10,11 +10,11 @@ class cConsoleLogStream:public cLogStream
 {
 public:
 	cConsoleLogStream(uint8 level);
-	cConsoleLogStream(const std::string& id, uint8 level);
+	cConsoleLogStream(const string& id, uint8 level);
 	~cConsoleLogStream();
 
 protected:
-	void outStrEx(const std::string& str);
+	void outStrEx(const string& str);
 	void initConsole();
 };
 

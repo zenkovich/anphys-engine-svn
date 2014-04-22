@@ -20,20 +20,20 @@ protected:
 		void*       mValuePtr;    /**< Pointer to binded value. */
 		BindValType mType;        /**< Type of binded value. */
 		char        mBuffer[256]; /**< Buffer for formatted data by type. */
-		std::string mId;          /**< Id of binded value. Using as prefix .*/
+		string mId;          /**< Id of binded value. Using as prefix .*/
 
-		BindValue(void* valuePtr, BindValType type, const std::string& id):
+		BindValue(void* valuePtr, BindValType type, const string& id):
 			mValuePtr(valuePtr), mType(type), mId(id) { mBuffer[0] = '\0'; }
 
 		/** Returns formatted string data by value type. */
 		const char* getStr();
 	};
-	typedef std::vector<BindValue> BindValVec;
-	typedef std::vector<cLogStream*> LogSteamsVec;
+	typedef vector<BindValue> BindValVec;
+	typedef vector<cLogStream*> LogSteamsVec;
 
 	cLogStream*  mParentStream; /**< Parent stream. NULL if no parent. */
 
-	std::string  mId;           /**< Name of log stream. */
+	string  mId;           /**< Name of log stream. */
 	uint8        mLevel;        /**< Log level. */
 
 	LogSteamsVec mChildStreams; /**< Child streams. */
@@ -41,7 +41,7 @@ protected:
 
 public:
 	cLogStream();
-	cLogStream(const std::string& id);
+	cLogStream(const string& id);
 	virtual ~cLogStream();
 
 	/** Sets log level, for childs too. */
@@ -51,7 +51,7 @@ public:
 	uint8 getLevel() const;
 
 	/** Return name of stream. */
-	const std::string& getId() const;
+	const string& getId() const;
 
 	/** Binding child stream. */
 	void bindStream(cLogStream* stream);
@@ -66,7 +66,7 @@ public:
 	cLogStream* getParentStream() const;
 
 	/** Binding value. */
-	void bindValue(void* valuePtr, BindValType type, const std::string& id);
+	void bindValue(void* valuePtr, BindValType type, const string& id);
 
 	/** Unbind value. */
 	void unbindvalue(void* valuePtr);
@@ -91,22 +91,22 @@ public:
 
 protected:
 	/** Out string to stream. */
-	virtual void outStrEx(const std::string& str) {}
+	virtual void outStrEx(const string& str) {}
 
 	/** Out error to stream. */
-	virtual void outErrorEx(const std::string& srt) { outStrEx("ERROR:" + srt); }
+	virtual void outErrorEx(const string& srt) { outStrEx("ERROR:" + srt); }
 
 	/** Out warning to stream. */
-	virtual void outWarningEx(const std::string& srt) { outStrEx("WARNING:" + srt); }
+	virtual void outWarningEx(const string& srt) { outStrEx("WARNING:" + srt); }
 
 	/** Out string to current stream and parent stream. */
-	void outStr(const std::string& str);
+	void outStr(const string& str);
 
 	/** Out error to current stream and parent stream. */
-	void outError(const std::string& str);
+	void outError(const string& str);
 
 	/** Out warning to current stream and parent stream. */
-	void outWarning(const std::string& str);
+	void outWarning(const string& str);
 };
 
 CLOSE_O2_NAMESPACE

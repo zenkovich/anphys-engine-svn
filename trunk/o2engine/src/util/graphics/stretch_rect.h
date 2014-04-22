@@ -33,7 +33,7 @@ class cStretchRect:public cSerializableObj
 			 const color4& vertex0Color = color4::white(), const color4& vertex1Color = color4::white(), 
 			 const color4& vertex2Color = color4::white(), const color4& vertex3Color = color4::white());
 	};
-	typedef std::vector<Part> PartsVec;
+	typedef vector<Part> PartsVec;
 
 	grMesh*         mMesh;
 	PartsVec        mParts;
