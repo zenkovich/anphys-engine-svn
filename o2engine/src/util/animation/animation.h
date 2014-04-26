@@ -1,8 +1,6 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include <vector>
-
 #include "animation_base.h"
 #include "frame.h"
 #include "frame_interpolation.h"

@@ -1,11 +1,10 @@
 #ifndef CALLBACK_H
 #define CALLBACK_H
 
-#include <vector>
 #include <cstdarg>
-#include <algorithm>
 
 #include "public.h"
+#include "smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 	
@@ -45,12 +44,12 @@ public:
 template<typename RetType, typename ClassType = Dummy>
 class cRetCallback:public IRetCallback<RetType>
 {
-	ClassType* mObject;
+	ptr(ClassType) mObject;
 	RetType (ClassType::*mObjectFunction)();
 	RetType (*mFunction)();
 
 public:
-	cRetCallback(ClassType* object, RetType (ClassType::*function)()):
+	cRetCallback(ptr(ClassType) object, RetType (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cRetCallback(RetType (*function)()):
@@ -80,7 +79,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename RetType, typename ClassType>
-IRetCallback<RetType>* callback(ClassType* object, RetType (ClassType::*function)()) { return mnew cRetCallback<RetType, ClassType>(object, function); }
+IRetCallback<RetType>* callback(ptr(ClassType) object, RetType (ClassType::*function)()) { return mnew cRetCallback<RetType, ClassType>(object, function); }
 
 /** Fast callback creation function. */
 template<typename RetType>
@@ -93,7 +92,7 @@ inline IRetCallback<RetType>* callback(RetType (*function)()) { return mnew cRet
 class cCallbackChain:public ICallback
 {
 public:
-	typedef vector<ICallback*> CallbacksVec;
+	typedef vector<ptr(ICallback)> CallbacksVec;
 
 protected:
 	CallbacksVec mCallbacks;
@@ -127,12 +126,12 @@ public:
 			safe_release(*it);
 	}
 
-	void add(ICallback* callback)
+	void add(ptr(ICallback) callback)
 	{
 		mCallbacks.push_back(callback);
 	}
 
-	void remove(ICallback* callback) 
+	void remove(ptr(ICallback) callback) 
 	{
 		CallbacksVec::iterator fnd = std::find(mCallbacks.begin(), mCallbacks.end(), callback);
 		if (fnd != mCallbacks.end())

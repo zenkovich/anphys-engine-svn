@@ -18,6 +18,7 @@ class grText;
 class TestApp:public cApplication
 {
 	ITest* mTest;
+	ptr(vec2f) xx;
 
 public:	
 	/** констр. */

@@ -14,7 +14,7 @@
 //#define renderSystem() (grRenderSystem*)grRenderSystem::instancePtr()
 OPEN_O2_NAMESPACE
 
-inline grRenderSystem* renderSystem() { return (grRenderSystem*)(grRenderSystem::instancePtr()); }
+inline grRenderSystem* renderSystem() { return (grRenderSystem*)((grRenderSystemBaseInterface*)grRenderSystem::instancePtr()); }
 inline grFontManager* fontsManager() { return renderSystem()->getFontManager(); }
 
 CLOSE_O2_NAMESPACE

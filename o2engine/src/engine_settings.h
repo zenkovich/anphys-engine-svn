@@ -41,5 +41,8 @@
 //#define BASIC_MEMORY_ALLOCATOR cStdAllocator
 //#define BASIC_MEMORY_ALLOCATOR_PARAMS 
 
+/* Turns on debugging objects as ptr(type). */
+#define DEBUG_POINTERS
+
 
 #endif //ENGINE_SETTINGS_H

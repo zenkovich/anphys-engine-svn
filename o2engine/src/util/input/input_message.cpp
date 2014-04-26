@@ -1,7 +1,5 @@
 #include "input_message.h"
 
-#include <algorithm>
-
 #include "util/math/math.h"
 #include "util/data_utils.h"
 #include "util/log.h"

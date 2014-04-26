@@ -1,7 +1,5 @@
 #include "geometry.h"
 
-#include <algorithm>
-
 OPEN_O2_NAMESPACE
 
 cGroupGeometry::cGroupGeometry()

@@ -12,7 +12,7 @@ uiState::~uiState()
 {
 
 }
-
+/*
 ICallback* uiState::registOnStateActivatedCallback( ICallback* callback, int stateId )
 {
 
@@ -31,7 +31,7 @@ ICallback* uiState::registOnStateDeactivatedCallback( ICallback* callback, int s
 void uiState::unregistOnStateDeactivatedCallback( ICallback* callback )
 {
 
-}
+}*/
 
 void uiState::initializeProperties()
 {

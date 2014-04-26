@@ -1,12 +1,11 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#include <vector>
-
 #include "public.h"
 
 #include "singleton.h"
 #include "callback.h"
+#include "smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
@@ -23,17 +22,17 @@ protected:
 	/** Task container struct. */
 	struct Task
 	{
-		float       mDelay;               /** Delay to next execution. */
-		float       mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
-		ExecStage   mExecStage;           /** Execution stage. */
-		ICallback*  mCallback;            /** Execution callback. */
-		bool        mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
-		int         mId;                  /** Task id. */
+		float          mDelay;               /** Delay to next execution. */
+		float          mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
+		ExecStage      mExecStage;           /** Execution stage. */
+		ptr(ICallback) mCallback;            /** Execution callback. */
+		bool           mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
+		int            mId;                  /** Task id. */
 		
 		/** Executes the callback and returning true, when task must be repeated. */
 		bool execute();
 	};
-	typedef vector<Task*> TaskVec;
+	typedef vector<ptr(Task)> TaskVec;
 
 	TaskVec  mTasks[2];     /** Tasks vectors. One for current tasks, other for next tasks. */
 	TaskVec* mCurrentTasks; /** Current tasks vector ptr. */
@@ -49,13 +48,13 @@ protected:
 
 public:	
 	/** Adding once time execution callback. Return id of task. */
-	int addTask(ICallback* callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addTask(ptr(ICallback) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Adding repeating callback, repeats with repeatDelay seconds and never stops. Returns task id. */
-	int addRepeatTask(ICallback* callback, float repeatDelay, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addRepeatTask(ptr(ICallback) callback, float repeatDelay, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Adding repeating callback, repeat delay gets from callback result. Returns task id. */
-	int addRepeatTask(IRetCallback<float>* callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addRepeatTask(ptr(IRetCallback<float>) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Removes task by id, task will never executed. */
 	void removeTask(int id);
@@ -74,7 +73,7 @@ protected:
 	void processCurrentTasks(float dt, ExecStage stage);
 
 	/** Returns task sample filled with specified parametres. */
-	Task* getTask(ICallback* callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
+	Task* getTask(ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
 };
 
 #define scheduler() cScheduler::instancePtr()

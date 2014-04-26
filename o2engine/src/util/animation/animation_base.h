@@ -1,8 +1,6 @@
 #ifndef ANIMATION_BASE_H
 #define ANIMATION_BASE_H
 
-#include <vector>
-
 #include "public.h"
 
 #include "util/objects.h"

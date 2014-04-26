@@ -1,7 +1,6 @@
 #ifndef UI_WIDGET_H
 #define UI_WIDGET_H
 
-#include <vector>
 #include <list>
 
 #include "public.h"

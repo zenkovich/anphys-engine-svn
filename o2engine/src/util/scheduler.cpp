@@ -10,7 +10,7 @@ bool cScheduler::Task::execute()
 {
 	if (mVariableRepeatDelay)
 	{
-		mDelay = ((IRetCallback<float>*)mCallback)->callWithRes();
+		mDelay = ((IRetCallback<float>*)(ICallback*)mCallback)->callWithRes();
 	}
 	else
 	{
@@ -85,7 +85,7 @@ void cScheduler::processCurrentTasks(float dt, ExecStage stage)
 	}
 }
 
-int cScheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
+int cScheduler::addTask( ptr(ICallback) callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
 	Task* newTask = getTask(callback, execDelay, -1, stage, false);
@@ -93,7 +93,7 @@ int cScheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecSt
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( ICallback* callback, float repeatDelay, float execDelay /*= 0.0f*/, 
+int cScheduler::addRepeatTask( ptr(ICallback) callback, float repeatDelay, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
@@ -102,11 +102,11 @@ int cScheduler::addRepeatTask( ICallback* callback, float repeatDelay, float exe
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( IRetCallback<float>* callback, float execDelay /*= 0.0f*/, 
+int cScheduler::addRepeatTask( ptr(IRetCallback<float>) callback, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	Task* newTask = getTask(callback, execDelay, -1, stage, true);
+	Task* newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -146,7 +146,7 @@ void cScheduler::removeTask( int id )
 	}
 }
 
-cScheduler::Task* cScheduler::getTask( ICallback* callback, float delay, float repeatDelay, ExecStage stage, 
+cScheduler::Task* cScheduler::getTask( ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
 	                                   bool variableRepeatDelay )
 {
 	Task* res;

@@ -1,8 +1,6 @@
 #ifndef STRETCH_RECT_H
 #define STRETCH_RECT_H
 
-#include <vector>
-
 #include "public.h"
 
 #include "render_system/texture.h"

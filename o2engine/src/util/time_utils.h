@@ -2,7 +2,6 @@
 #define TIME_UTILS_H
 
 #include "public.h"
-
 #include "singleton.h"
 
 OPEN_O2_NAMESPACE

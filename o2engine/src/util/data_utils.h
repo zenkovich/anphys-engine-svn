@@ -2,8 +2,6 @@
 #define DATA_UTILS_H
 
 #include "public.h"
-#include <vector>
-#include <algorithm>
 
 OPEN_O2_NAMESPACE
 	

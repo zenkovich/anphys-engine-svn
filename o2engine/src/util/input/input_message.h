@@ -1,8 +1,6 @@
 #ifndef INPUT_MESSAGE_H
 #define INPUT_MESSAGE_H
 
-#include <vector>
-
 #include "public.h"
 #include "util/math/vector2.h"
 
