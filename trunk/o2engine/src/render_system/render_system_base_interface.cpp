@@ -1,7 +1,5 @@
 #include "render_system_base_interface.h"
 
-#include <algorithm>
-
 #include "util/log/file_log_stream.h"
 #include "util/log.h"
 #include "app/application.h"

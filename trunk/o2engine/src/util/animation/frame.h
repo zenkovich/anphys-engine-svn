@@ -1,8 +1,6 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <vector>
-
 #include "public.h"
 #include "util/math/math.h"
 

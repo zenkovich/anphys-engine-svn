@@ -18,8 +18,10 @@
 #include "tests/animation_test.h"
 #include "tests/input_msg_test.h"
 #include "tests/text_test.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
+
 
 TestApp::TestApp():
 	cApplication()
@@ -32,6 +34,14 @@ TestApp::TestApp():
 
 	//mTest = mnew InputMsgTest(this, &mInputMessage);
 	mTest = mnew cTextTest();
+
+	vec2f vv;
+	ptr(vec2f) vecPtr = mnew vec2f();
+	safe_release(vecPtr);
+	xx = vecPtr;
+	ptr(vec2f) xxy;
+	if(!xxy)
+		xxy = xx;
 }
 
 TestApp::~TestApp()

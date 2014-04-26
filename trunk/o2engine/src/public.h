@@ -67,6 +67,7 @@ typedef long long          int64;
 #include "util/data_utils.h"
 #include <string>
 #include <vector>
+#include <algorithm>
 
 //some basic types
 OPEN_O2_NAMESPACE

@@ -1,8 +1,6 @@
 #ifndef RENDER_SYSTEM_BASE_INTERFACE_H
 #define RENDER_SYSTEM_BASE_INTERFACE_H
 
-#include <vector>
-
 #include "public.h"
 #include "util/singleton.h"
 #include "util/property.h"

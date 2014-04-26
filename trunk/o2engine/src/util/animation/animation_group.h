@@ -1,8 +1,6 @@
 #ifndef ANIMATION_GROUP_H
 #define ANIMATION_GROUP_H
 
-#include <vector>
-
 #include "public.h"
 #include "animation.h"
 

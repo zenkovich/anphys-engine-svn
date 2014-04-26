@@ -1,7 +1,5 @@
 #include "animation_group.h"
 
-#include <algorithm>
-
 #include "util/math/math.h"
 
 OPEN_O2_NAMESPACE

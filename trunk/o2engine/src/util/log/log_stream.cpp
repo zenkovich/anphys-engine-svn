@@ -1,6 +1,5 @@
 #include "log_stream.h"
 
-#include <algorithm>
 #include <cstdarg>
 
 OPEN_O2_NAMESPACE

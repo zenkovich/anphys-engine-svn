@@ -1,8 +1,6 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include <vector>
-
 #include "public.h"
 
 #include "util/string.h"

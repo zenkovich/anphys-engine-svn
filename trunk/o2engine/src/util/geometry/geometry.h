@@ -1,8 +1,6 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#include <vector>
-
 #include "public.h"
 #include "util/math/rect.h"
 #include "util/math/vector2.h"

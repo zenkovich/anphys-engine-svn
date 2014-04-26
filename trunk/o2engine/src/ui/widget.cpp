@@ -1,7 +1,5 @@
 #include "widget.h"
 
-#include <algorithm>
-
 OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
