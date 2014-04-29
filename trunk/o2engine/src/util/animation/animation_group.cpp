@@ -13,13 +13,13 @@ cAnimationGroup::~cAnimationGroup()
 	removeAllAnimations();
 }
 
-void cAnimationGroup::addAnimation( IAnimation* animation )
+void cAnimationGroup::addAnimation( ptr(IAnimation) animation )
 {
 	mAnimations.push_back(animation);
 	mDuration = max(mDuration, animation->getDuration());
 }
 
-void cAnimationGroup::removeAnimation( IAnimation* animation )
+void cAnimationGroup::removeAnimation( ptr(IAnimation) animation )
 {
 	AnimationsVec::iterator fnd = std::find(mAnimations.begin(), mAnimations.end(), animation);
 	if (fnd != mAnimations.end())

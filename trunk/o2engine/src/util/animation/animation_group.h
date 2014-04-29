@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include "animation.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
@@ -10,7 +11,7 @@ OPEN_O2_NAMESPACE
 class cAnimationGroup: virtual public IAnimation
 {
 public:
-	typedef vector<IAnimation*> AnimationsVec;
+	typedef vector<ptr(IAnimation)> AnimationsVec;
 
 protected:
 	AnimationsVec mAnimations; /**< Animations. */
@@ -23,10 +24,10 @@ public:
 	~cAnimationGroup();
 
 	/** Adding animation in group. */
-	void addAnimation(IAnimation* animation);
+	void addAnimation(ptr(IAnimation) animation);
 
 	/** Removing animation. */
-	void removeAnimation(IAnimation* animation);
+	void removeAnimation(ptr(IAnimation) animation);
 
 	/** Removing all animations. */
 	void removeAllAnimations();

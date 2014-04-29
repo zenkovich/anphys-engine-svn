@@ -174,12 +174,12 @@ inline ICallback* callbackChain(int count, ...)
 template<typename T = Dummy>
 class cCallback:public ICallback
 {
-	T* mObject;
+	ptr(T) mObject;
 	void (T::*mObjectFunction)();
 	void (*mFunction)();
 
 public:
-	cCallback(T* object, void (T::*function)()):
+	cCallback(ptr(T) object, void (T::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cCallback(void (*function)()):
@@ -206,7 +206,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename T>
-ICallback* callback(T* object, void (T::*function)()) { return mnew cCallback<T>(object, function); }
+ICallback* callback(ptr(T) object, void (T::*function)()) { return mnew cCallback<T>(object, function); }
 
 /** Fast callback creation function. */
 inline ICallback* callback(void (*function)()) { return mnew cCallback<Dummy>(function); }
@@ -219,12 +219,12 @@ template<typename ArgT, typename T = Dummy>
 class cCallback1Param:public ICallback
 {
 	ArgT mArg;
-	T* mObject;
+	ptr(T) mObject;
 	void (T::*mObjectFunction)(ArgT);
 	void (*mFunction)(ArgT);
 
 public:
-	cCallback1Param(T* object, void (T::*function)(ArgT), const ArgT& arg):
+	cCallback1Param(ptr(T) object, void (T::*function)(ArgT), const ArgT& arg):
 	  mObject(object), mObjectFunction(function) { mArg = arg; }
 
 	cCallback1Param(void (*function)(ArgT), const ArgT& arg):
@@ -258,7 +258,7 @@ public:
 
 /** Fast callback1 creation function. */
 template<typename ArgT, typename T>
-ICallback* callback(T* object, void (T::*function)(ArgT), const ArgT& arg)
+ICallback* callback(ptr(T) object, void (T::*function)(ArgT), const ArgT& arg)
 { 
 	return mnew cCallback1Param<T>(object, function, arg);
 }
@@ -272,19 +272,19 @@ ICallback* callback(void (*function)(ArgT), const ArgT& arg)
 
 
 /************************************************************************/
-/** Callback with 2 parametres. */
+/** Callback with 2 parameters. */
 /************************************************************************/
 template<typename ArgT, typename ArgT2, typename T = Dummy>
 class cCallback2Param:public ICallback
 {
-	ArgT  mArg;
-	ArgT2 mArg2;
-	T*    mObject;
+	ArgT   mArg;
+	ArgT2  mArg2;
+	ptr(T) mObject;
 	void (T::*mObjectFunction)(ArgT, ArgT2);
 	void (*mFunction)(ArgT, ArgT2);
 
 public:
-	cCallback2Param(T* object, void (T::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
+	cCallback2Param(ptr(T) object, void (T::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
 		mObject(object), mObjectFunction(function), mArg(arg1), mArg2(arg2) {}
 
 	cCallback2Param(void (*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2):
@@ -326,7 +326,7 @@ public:
 
 /** Fast callback2 creation function. */
 template<typename ArgT, typename ArgT2, typename T>
-ICallback* callback(T* object, void (T::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
+ICallback* callback(ptr(T) object, void (T::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
 { 
 	return mnew cCallback2Param<T>(object, function, arg, arg2);
 }

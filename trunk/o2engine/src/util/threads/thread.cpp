@@ -12,7 +12,7 @@ cThread::~cThread()
 {
 }
 
-int cThread::start( ICallback* threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
+int cThread::start( ptr(ICallback) threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
 {
 	mThreadFunc = threadCallback;
 

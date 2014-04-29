@@ -37,8 +37,8 @@ TestApp::TestApp():
 
 	vec2f vv;
 	ptr(vec2f) vecPtr = mnew vec2f();
-	safe_release(vecPtr);
 	xx = vecPtr;
+	safe_release(vecPtr);
 	ptr(vec2f) xxy;
 	if(!xxy)
 		xxy = xx;

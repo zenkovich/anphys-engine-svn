@@ -4,6 +4,7 @@
 #include "public.h"
 #include "util/math/rect.h"
 #include "util/math/vector2.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 	
@@ -99,7 +100,7 @@ class cGroupGeometry:public cGeometry
 	friend class cGeometry;
 
 public:
-	typedef vector<cGeometry*> PartsVec;
+	typedef vector<ptr(cGeometry)> PartsVec;
 
 protected:
 	PartsVec mParts;
@@ -115,7 +116,7 @@ public:
 
 	int getPartsCount() const;
 	
-	int addPart(cGeometry* geom);
+	int addPart(ptr(cGeometry) geom);
 	void removePart(int idx);
 	void removeAllParts();
 

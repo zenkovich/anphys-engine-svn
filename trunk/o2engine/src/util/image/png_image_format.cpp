@@ -30,7 +30,7 @@ void customPngWriteFn(png_structp png_ptr, png_bytep bytes, png_size_t byteCount
 
 void customPngFlushFn(png_structp png_ptr) {}
 
-bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, cLogStream* plog /*= NULL*/ )
+bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, ptr(cLogStream) plog /*= NULL*/ )
 {	
 	cLogStream* log = plog;
 	if (!log)
@@ -172,7 +172,7 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	return true;
 }
 
-bool savePngImage( const string& fileName, const cImage* image, cLogStream* plog /*= NULL*/ )
+bool savePngImage( const string& fileName, const cImage* image, ptr(cLogStream) plog /*= NULL*/ )
 {
 	cLogStream* log = plog;
 	if (!log)
