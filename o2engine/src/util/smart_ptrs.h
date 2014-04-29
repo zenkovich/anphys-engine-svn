@@ -37,18 +37,17 @@ private:
 template<typename T>
 class SafePtr
 {
-	typedef T* tp;
-
 protected:
 	T*            mObject;
 	unsigned int* mRefCount;
-	bool          mIsBasic;
+	bool*         mValid;
 
 public:
 	SafePtr()
 	{
 		mObject = NULL;
 		mRefCount = NULL;
+		mValid = NULL;
 	}
 
 	SafePtr(T* object) 
@@ -66,32 +65,40 @@ public:
 		release();
 	}
 
-	operator tp() 
+	template<typename P>
+	operator P*()
 	{
+		checkValid();
+		return (P*)mObject;
+	}
+
+	operator T*() 
+	{
+		checkValid();
 		return mObject;
 	}
 
 	T* operator->() 
 	{
-		if (mRefCount == NULL) 
-			logError("Using unitialized pointer %x!", this);
-
+		checkValid();
 		return mObject;
 	}
 
 	T* const operator->() const
 	{
-		if (mRefCount == NULL) 
-			logError("Using unitialized pointer %x!", this);
-
+		checkValid();
 		return mObject;
 	}
 
 	T& operator*() 
 	{ 
-		if (mRefCount == NULL)
-			logError("Using unitialized pointer %x!", this);
+		checkValid();
+		return *mObject;
+	}
 
+	T& operator*() const
+	{ 
+		checkValid();
 		return *mObject;
 	}
 
@@ -116,7 +123,40 @@ public:
 
 	operator bool()
 	{
+		checkValid();
 		return mObject != NULL;
+	}
+
+	void* force_release()
+	{
+		void* res = NULL;
+		if (mObject)
+		{
+			if (!*mValid)
+			{
+				logError("Failed to delete object %x: object already deleted!");
+				*mRefCount -= 1;
+			}
+			else
+			{
+				res = mObject;
+
+				*mValid = false;
+
+				release();
+
+				if (*mRefCount > 0)
+					logWarning("Possible using destroyed object %x - there are %i links on this object", res, *mRefCount);
+
+				initialize(NULL);
+			}
+		}
+		else
+		{
+			logError("Failed to delete object - object is null!");
+		}
+
+		return res;
 	}
 
 protected:
@@ -126,25 +166,28 @@ protected:
 		{
 			mObject = NULL;
 			mRefCount = NULL;
-			mIsBasic = false;
+			mValid = NULL;
 			return;
 		}
 
 		mObject = object;
 		mRefCount = mnew unsigned int;
 		*mRefCount = 1;
-		mIsBasic = true;
+		mValid = mnew bool;
+		*mValid = true;
 	}
 
 	void initialize(const SafePtr<T>& ref) 
 	{
+		if (ref.mValid && *(ref.mValid) == false)
+			logError("Using not valid pointer %x - at pointer initialization", ref.mObject);
+
 		mObject = ref.mObject;
 		mRefCount = ref.mRefCount;
+		mValid = ref.mValid;
 
 		if (mRefCount)
 			*mRefCount += 1;
-
-		mIsBasic = false;
 	}
 
 	void release()
@@ -155,18 +198,40 @@ protected:
 		*mRefCount -= 1;
 		if (*mRefCount == 0)
 		{
+			if (*mValid)
+				logError("Memory leak: object %x was not destroyed, but all pointers are released!");
+
 			safe_release(mRefCount);
+			safe_release(mValid);
 		}
-		else if (mIsBasic) 
-		{
-			logError("At destroying base object by %x: there are %i unreleased links!", this, *mRefCount);
-		}
+	}
+
+	void checkValid() const
+	{
+		if (mRefCount == NULL)
+			return;
+
+		if (*mValid == false)
+			logError("Using not valid pointer %x", mObject);
 	}
 };
 
 
 #ifdef DEBUG_POINTERS
 #	define ptr(type) SafePtr<type>
+
+	template<typename T>
+	void* safe_release_(SafePtr<T>& ptr)
+	{
+		return ptr.force_release();
+	}
+
+	template<typename T>
+	void* safe_release_arr_(SafePtr<T>& ptr)
+	{
+		return ptr.force_release();
+	}
+
 #else
 #	define ptr(type) type*
 #endif

@@ -9,6 +9,7 @@
 #include "util/math/rect.h"
 #include "util/math/vector2.h"
 #include "util/serialization/serialization.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
@@ -33,10 +34,10 @@ class cStretchRect:public cSerializableObj
 	};
 	typedef vector<Part> PartsVec;
 
-	grMesh*         mMesh;
-	PartsVec        mParts;
-	fRect           mRect;
-	bool            mNeedUpdateMesh;
+	ptr(grMesh) mMesh;
+	PartsVec    mParts;
+	fRect       mRect;
+	bool        mNeedUpdateMesh;
 
 public:
 	cStretchRect(int parts = 0, const grTexture& texture = grTexture());

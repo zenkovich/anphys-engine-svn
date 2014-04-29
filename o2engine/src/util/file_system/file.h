@@ -15,7 +15,7 @@ struct cFileType
 class cInFile
 {
 	std::ifstream mIfstream; /**< Input stream. */
-	string   mFilename; /**< File name. */
+	string        mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:
@@ -56,7 +56,7 @@ public:
 class cOutFile
 {
 	std::ofstream mOfstream; /**< Output stream. */
-	string   mFilename; /**< File name. */
+	string        mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:

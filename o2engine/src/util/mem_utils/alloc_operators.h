@@ -51,11 +51,46 @@
 
 #endif //MEMORY_TRACE
 
-/** Safe release object. */
-#define safe_release(obj) { if (obj != 0) delete obj; }
+OPEN_O2_NAMESPACE
 
-/** Safe release array object. */
-#define safe_release_arr(obj) { if (obj != 0) delete[] obj; }
+#ifndef DEBUG_POINTERS
+/** Safe release object. */
+#	define safe_release(obj) { if (obj != 0) delete obj; }
+
+	/** Safe release array object. */
+#	define safe_release_arr(obj) { if (obj != 0) delete[] obj; }
+#else
+
+#define safe_release(obj) \
+{ \
+	void* obj_ptr = safe_release_(obj); \
+	if(obj_ptr != 0)                    \
+		delete obj_ptr;                 \
+}
+
+#define safe_release_arr(obj) \
+{ \
+	void* obj_ptr = safe_release_arr_(obj); \
+	if(obj_ptr != 0)                        \
+		delete[] obj_ptr;                   \
+}
+
+
+	template<typename T>
+	void* safe_release_(T* object)
+	{
+		return object;
+	}
+
+	template<typename T>
+	void* safe_release_arr_(T* object)
+	{
+		return object;
+	}
+
+#endif
+
+CLOSE_O2_NAMESPACE
 
 
 #endif //ALLOC_OPERATORS_H

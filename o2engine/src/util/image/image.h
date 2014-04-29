@@ -4,6 +4,7 @@
 #include "public.h"
 #include "util/math/vector2.h"
 #include "util/math/color.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
@@ -20,7 +21,7 @@ protected:
 	Format         mFormat;   /**< Image format. */
 	unsigned char* mData;     /**< Data array. */
 	vec2i          mSize;     /**< Size of image, in pixels. */
-	string    mFilename; /**< File name. Empty if no file. */
+	string         mFilename; /**< File name. Empty if no file. */
 
 public:
 	cImage();
@@ -31,10 +32,10 @@ public:
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
+	bool load(const string& fileName, ImageType type = IT_AUTO, ptr(cLogStream) clog = NULL);
 
 	/** Saving image to file. */
-	bool save(const string& fileName, ImageType type, cLogStream* clog = NULL) const;
+	bool save(const string& fileName, ImageType type, ptr(cLogStream) clog = NULL) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);
