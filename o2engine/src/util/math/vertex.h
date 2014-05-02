@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "public.h"
+#include "util/public_namespace.h"
 #include "vector2.h"
 
 OPEN_O2_NAMESPACE

@@ -180,6 +180,11 @@
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
     <ClInclude Include="..\src\util\objects.h" />
     <ClInclude Include="..\src\util\property.h" />
+    <ClInclude Include="..\src\util\public_includes.h" />
+    <ClInclude Include="..\src\util\public_libs.h" />
+    <ClInclude Include="..\src\util\public_namespace.h" />
+    <ClInclude Include="..\src\util\public_platforms.h" />
+    <ClInclude Include="..\src\util\public_types.h" />
     <ClInclude Include="..\src\util\ref_counter.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
@@ -277,6 +282,7 @@
     <ClCompile Include="..\src\util\scheduler.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
+    <ClCompile Include="..\src\util\smart_ptrs.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />

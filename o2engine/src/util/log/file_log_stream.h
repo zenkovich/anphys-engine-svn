@@ -1,7 +1,6 @@
 #ifndef FILE_LOG_STREAM_H
 #define FILE_LOG_STREAM_H
 
-#include "public.h"
 #include "log_stream.h"
 
 OPEN_O2_NAMESPACE

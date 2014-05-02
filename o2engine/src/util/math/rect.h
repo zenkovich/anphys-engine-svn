@@ -3,7 +3,7 @@
 
 #include <float.h>
 
-#include "public.h"
+#include "util/public_namespace.h"
 #include "vector2.h"
 #include "math.h"
 

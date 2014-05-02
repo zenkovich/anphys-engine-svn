@@ -13,7 +13,7 @@ public:
 
 	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
-	static ptr(CLASS) instancePtr()     { return mInstance; }
+	static sharedPtr(CLASS) instancePtr()     { return mInstance; }
 
 	static void initializeSingleton()   { if (!mInstance) mInstance = mnew CLASS; }
 	static void deinitializeSingleton() { safe_release(mInstance); }
@@ -21,11 +21,11 @@ public:
 	static bool isSingletonInitialzed() { return (mInstance != NULL); }
 
 protected:
-	static ptr(CLASS) mInstance;
+	static sharedPtr(CLASS) mInstance;
 };
 
-#define DECLARE_SINGLETON(CLASS) template<> ptr(CLASS) cSingleton<CLASS>::mInstance = NULL
-#define CREATE_SINGLETON(CLASS) template<> ptr(CLASS) cSingleton<CLASS>::mInstance = mnew T
+#define DECLARE_SINGLETON(CLASS) template<> sharedPtr(CLASS) cSingleton<CLASS>::mInstance = NULL
+#define CREATE_SINGLETON(CLASS) template<> sharedPtr(CLASS) cSingleton<CLASS>::mInstance = mnew T
 
 CLOSE_O2_NAMESPACE
 

@@ -1,10 +1,10 @@
 #ifndef SMART_PTRS_H
 #define SMART_PTRS_H
 
-#include "public.h"
-#include "util/log.h"
+#include "log.h"
 
 OPEN_O2_NAMESPACE
+	
 
 template<typename T, bool arr>
 class cAutoPtr
@@ -68,8 +68,8 @@ private:
 #define autoArr(type) cAutoPtr<type, true>
 
 
-template<typename T>
-class SafePtr
+template<typename T, bool arr>
+class cSharedPtr
 {
 protected:
 	T*            mObject;
@@ -77,24 +77,24 @@ protected:
 	bool*         mValid;
 
 public:
-	SafePtr()
+	cSharedPtr()
 	{
 		mObject = NULL;
 		mRefCount = NULL;
 		mValid = NULL;
 	}
 
-	SafePtr(T* object) 
+	cSharedPtr(T* object) 
 	{
 		initialize(object);
 	}
 
-	SafePtr(const SafePtr<T>& ref) 
+	cSharedPtr(const cSharedPtr<T, arr>& ref) 
 	{
 		initialize(ref);
 	}
 
-	~SafePtr() 
+	~cSharedPtr() 
 	{
 		release();
 	}
@@ -136,19 +136,19 @@ public:
 		return *mObject;
 	}
 
-	SafePtr& operator=(T* object) 
+	cSharedPtr& operator=(T* object) 
 	{
 		release();
 		initialize(object);
 		return *this;
 	}
 
-	bool operator==(const SafePtr& ref)
+	bool operator==(const cSharedPtr& ref)
 	{
 		return ref.mObject == mObject;
 	}
 
-	SafePtr& operator=(const SafePtr& ref) 
+	cSharedPtr& operator=(const cSharedPtr& ref) 
 	{
 		release();
 		initialize(ref);
@@ -168,7 +168,7 @@ public:
 		{
 			if (!*mValid)
 			{
-				logError("Failed to delete object %x: object already deleted!");
+				gLog->error("Failed to delete object %x: object already deleted!");
 				*mRefCount -= 1;
 			}
 			else
@@ -180,14 +180,14 @@ public:
 				release();
 
 				if (*mRefCount > 0)
-					logWarning("Possible using destroyed object %x - there are %i links on this object", res, *mRefCount);
+					gLog->warning("Possible using destroyed object %x - there are %i links on this object", res, *mRefCount);
 
 				initialize(NULL);
 			}
 		}
 		else
 		{
-			logError("Failed to delete object - object is null!");
+			gLog->error("Failed to delete object - object is null!");
 		}
 
 		return res;
@@ -211,10 +211,10 @@ protected:
 		*mValid = true;
 	}
 
-	void initialize(const SafePtr<T>& ref) 
+	void initialize(const cSharedPtr<T, arr>& ref) 
 	{
 		if (ref.mValid && *(ref.mValid) == false)
-			logError("Using not valid pointer %x - at pointer initialization", ref.mObject);
+			gLog->error("Using not valid pointer %x - at pointer initialization", ref.mObject);
 
 		mObject = ref.mObject;
 		mRefCount = ref.mRefCount;
@@ -233,10 +233,19 @@ protected:
 		if (*mRefCount == 0)
 		{
 			if (*mValid)
-				logError("Memory leak: object %x was not destroyed, but all pointers are released!");
+				gLog->error("Memory leak: object %x was not destroyed, but all pointers are released!");
 
 			safe_release(mRefCount);
 			safe_release(mValid);
+
+			if (arr)
+			{
+				safe_release(mObject);
+			}
+			else
+			{
+				safe_release_arr(mObject);
+			}
 		}
 	}
 
@@ -246,29 +255,26 @@ protected:
 			return;
 
 		if (*mValid == false)
-			logError("Using not valid pointer %x", mObject);
+			gLog->error("Using not valid pointer %x", mObject);
 	}
 };
 
+#define sharedPtr(type) cSharedPtr<type, false>
+#define sharedArr(type) cSharedPtr<type, true>
 
-#ifdef DEBUG_POINTERS
-#	define ptr(type) SafePtr<type>
+#define ptr(type) void*
 
-	template<typename T>
-	void* safe_release_(SafePtr<T>& ptr)
-	{
-		return ptr.force_release();
-	}
+template<typename T, bool arr>
+void* _safe_release(cSharedPtr<T, arr>& ptr)
+{
+	return ptr.force_release();
+}
 
-	template<typename T>
-	void* safe_release_arr_(SafePtr<T>& ptr)
-	{
-		return ptr.force_release();
-	}
-
-#else
-#	define ptr(type) type*
-#endif
+template<typename T, bool arr>
+void* _safe_release_arr(cSharedPtr<T, arr>& ptr)
+{
+	return ptr.force_release();
+}
 
 CLOSE_O2_NAMESPACE
 

@@ -1,6 +1,8 @@
 #include "log_stream.h"
 
 #include <cstdarg>
+#include <algorithm>
+#include "util/mem_utils/alloc_operators.h"
 
 OPEN_O2_NAMESPACE
 

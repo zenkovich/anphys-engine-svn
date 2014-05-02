@@ -1,7 +1,7 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
-#include "public.h"
+#include "util/public_namespace.h"
 
 OPEN_O2_NAMESPACE
 

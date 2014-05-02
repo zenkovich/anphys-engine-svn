@@ -85,28 +85,28 @@ void cScheduler::processCurrentTasks(float dt, ExecStage stage)
 	}
 }
 
-int cScheduler::addTask( ptr(ICallback) callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
+int cScheduler::addTask( sharedPtr(ICallback) callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	ptr(Task) newTask = getTask(callback, execDelay, -1, stage, false);
+	sharedPtr(Task) newTask = getTask(callback, execDelay, -1, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( ptr(ICallback) callback, float repeatDelay, float execDelay /*= 0.0f*/, 
+int cScheduler::addRepeatTask( sharedPtr(ICallback) callback, float repeatDelay, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	ptr(Task) newTask = getTask(callback, execDelay, repeatDelay, stage, false);
+	sharedPtr(Task) newTask = getTask(callback, execDelay, repeatDelay, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( ptr(IRetCallback<float>) callback, float execDelay /*= 0.0f*/, 
+int cScheduler::addRepeatTask( sharedPtr(IRetCallback<float>) callback, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	ptr(Task) newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
+	sharedPtr(Task) newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -146,10 +146,10 @@ void cScheduler::removeTask( int id )
 	}
 }
 
-ptr(cScheduler::Task) cScheduler::getTask( ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
+sharedPtr(cScheduler::Task) cScheduler::getTask( sharedPtr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
 	                                   bool variableRepeatDelay )
 {
-	ptr(Task) res;
+	sharedPtr(Task) res;
 
 	if (mUnusedTasks.size() > 0)
 	{

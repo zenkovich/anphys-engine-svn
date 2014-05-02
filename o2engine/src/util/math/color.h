@@ -1,8 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "public.h"
-#include "engine_settings.h"
+#include "util/public_namespace.h"
 #include "math.h"
 
 OPEN_O2_NAMESPACE

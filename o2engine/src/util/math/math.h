@@ -1,8 +1,9 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include "public.h"
+#include "util/public_namespace.h"
 #include <float.h>
+#include <math.h>
 
 OPEN_O2_NAMESPACE
 	

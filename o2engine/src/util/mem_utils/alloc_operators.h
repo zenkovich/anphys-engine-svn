@@ -23,7 +23,7 @@
 	void operator delete(void* ptr, const char* location, int line);
 	void operator delete[](void* ptr, const char* location, int line);
 
-	/* Basic engine allocation comand, what tracing source of allocation. */
+	/* Basic engine allocation command, what tracing source of allocation. */
 	#define mnew new (__FILE__, __LINE__) 
 	
 	/** Alloc memory from allocator with specified size. Tracing location, if enabled. */
@@ -53,42 +53,31 @@
 
 OPEN_O2_NAMESPACE
 
-#ifndef DEBUG_POINTERS
-/** Safe release object. */
-#	define safe_release(obj) { if (obj != 0) delete obj; }
-
-	/** Safe release array object. */
-#	define safe_release_arr(obj) { if (obj != 0) delete[] obj; }
-#else
-
 #define safe_release(obj) \
 { \
-	void* obj_ptr = safe_release_(obj); \
+	void* obj_ptr = _safe_release(obj); \
 	if(obj_ptr != 0)                    \
 		delete obj_ptr;                 \
 }
 
 #define safe_release_arr(obj) \
 { \
-	void* obj_ptr = safe_release_arr_(obj); \
+	void* obj_ptr = _safe_release_arr(obj); \
 	if(obj_ptr != 0)                        \
 		delete[] obj_ptr;                   \
 }
+	
+template<typename T>
+void* _safe_release(T* object)
+{
+	return object;
+}
 
-
-	template<typename T>
-	void* safe_release_(T* object)
-	{
-		return object;
-	}
-
-	template<typename T>
-	void* safe_release_arr_(T* object)
-	{
-		return object;
-	}
-
-#endif
+template<typename T>
+void* _safe_release_arr(T* object)
+{
+	return object;
+}
 
 CLOSE_O2_NAMESPACE
 

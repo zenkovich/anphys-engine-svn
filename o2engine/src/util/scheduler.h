@@ -25,14 +25,14 @@ protected:
 		float          mDelay;               /** Delay to next execution. */
 		float          mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
 		ExecStage      mExecStage;           /** Execution stage. */
-		ptr(ICallback) mCallback;            /** Execution callback. */
+		sharedPtr(ICallback) mCallback;            /** Execution callback. */
 		bool           mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
 		int            mId;                  /** Task id. */
 		
 		/** Executes the callback and returning true, when task must be repeated. */
 		bool execute();
 	};
-	typedef vector<ptr(Task)> TaskVec;
+	typedef vector<sharedPtr(Task)> TaskVec;
 
 	TaskVec  mTasks[2];     /** Tasks vectors. One for current tasks, other for next tasks. */
 	TaskVec* mCurrentTasks; /** Current tasks vector ptr. */
@@ -48,13 +48,13 @@ protected:
 
 public:	
 	/** Adding once time execution callback. Return id of task. */
-	int addTask(ptr(ICallback) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addTask(sharedPtr(ICallback) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Adding repeating callback, repeats with repeatDelay seconds and never stops. Returns task id. */
-	int addRepeatTask(ptr(ICallback) callback, float repeatDelay, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addRepeatTask(sharedPtr(ICallback) callback, float repeatDelay, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Adding repeating callback, repeat delay gets from callback result. Returns task id. */
-	int addRepeatTask(ptr(IRetCallback<float>) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
+	int addRepeatTask(sharedPtr(IRetCallback<float>) callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
 	/** Removes task by id, task will never executed. */
 	void removeTask(int id);
@@ -73,7 +73,7 @@ protected:
 	void processCurrentTasks(float dt, ExecStage stage);
 
 	/** Returns task sample filled with specified parametres. */
-	ptr(Task) getTask(ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
+	sharedPtr(Task) getTask(sharedPtr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
 };
 
 #define scheduler() cScheduler::instancePtr()
