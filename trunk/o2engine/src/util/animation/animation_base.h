@@ -22,15 +22,15 @@ protected:
 	struct TimeCallback
 	{
 		float               mTime;     /**< Time, when callback will be invoke. */
-		cAutoPtr<ICallback> mCallback; /**< Callback. */
+		autoPtr(ICallback) mCallback; /**< Callback. */
 
 		/** ctor. */
 		TimeCallback(ptr(ICallback) cb, float time):mTime(time), mCallback(cb) {}
 	};
 	typedef vector<TimeCallback> TimeCallbacksVec;
 
-	cAutoPtr<ICallback> mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
-	cAutoPtr<ICallback> mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
+	autoPtr(ICallback) mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
+	autoPtr(ICallback) mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
 	TimeCallbacksVec    mTimedCallbacks;       /**< Callback, what calls by time. */
 	
 	float     mTime;           /**< Local time, in [0...mDuration].*/

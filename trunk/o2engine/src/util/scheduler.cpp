@@ -10,7 +10,7 @@ bool cScheduler::Task::execute()
 {
 	if (mVariableRepeatDelay)
 	{
-		mDelay = ((IRetCallback<float>*)(ICallback*)mCallback)->callWithRes();
+		mDelay = ((IRetCallback<float>*)mCallback)->callWithRes();
 	}
 	else
 	{
@@ -88,7 +88,7 @@ void cScheduler::processCurrentTasks(float dt, ExecStage stage)
 int cScheduler::addTask( ptr(ICallback) callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	Task* newTask = getTask(callback, execDelay, -1, stage, false);
+	ptr(Task) newTask = getTask(callback, execDelay, -1, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -97,7 +97,7 @@ int cScheduler::addRepeatTask( ptr(ICallback) callback, float repeatDelay, float
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	Task* newTask = getTask(callback, execDelay, repeatDelay, stage, false);
+	ptr(Task) newTask = getTask(callback, execDelay, repeatDelay, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -106,7 +106,7 @@ int cScheduler::addRepeatTask( ptr(IRetCallback<float>) callback, float execDela
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	Task* newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
+	ptr(Task) newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -146,10 +146,10 @@ void cScheduler::removeTask( int id )
 	}
 }
 
-cScheduler::Task* cScheduler::getTask( ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
+ptr(cScheduler::Task) cScheduler::getTask( ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
 	                                   bool variableRepeatDelay )
 {
-	Task* res;
+	ptr(Task) res;
 
 	if (mUnusedTasks.size() > 0)
 	{

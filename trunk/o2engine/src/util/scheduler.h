@@ -73,7 +73,7 @@ protected:
 	void processCurrentTasks(float dt, ExecStage stage);
 
 	/** Returns task sample filled with specified parametres. */
-	Task* getTask(ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
+	ptr(Task) getTask(ptr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
 };
 
 #define scheduler() cScheduler::instancePtr()
