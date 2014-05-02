@@ -34,7 +34,7 @@ class cStretchRect:public cSerializableObj
 	};
 	typedef vector<Part> PartsVec;
 
-	ptr(grMesh) mMesh;
+	sharedPtr(grMesh) mMesh;
 	PartsVec    mParts;
 	fRect       mRect;
 	bool        mNeedUpdateMesh;

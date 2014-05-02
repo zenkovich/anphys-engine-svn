@@ -1,7 +1,6 @@
 #ifndef CONSOLE_LOG_STREAM_H
 #define CONSOLE_LOG_STREAM_H
 
-#include "public.h"
 #include "log_stream.h"
 
 OPEN_O2_NAMESPACE

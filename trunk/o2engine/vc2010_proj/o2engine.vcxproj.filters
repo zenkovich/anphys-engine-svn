@@ -390,6 +390,21 @@
     <ClInclude Include="..\src\ui\ui_state.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\public_types.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\public_namespace.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\public_platforms.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\public_includes.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\public_libs.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -667,6 +682,9 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_state.cpp">
       <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\smart_ptrs.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

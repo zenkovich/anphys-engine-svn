@@ -2,6 +2,7 @@
 #define UI_WIDGET_H
 
 #include <list>
+#include <map>
 
 #include "public.h"
 
@@ -15,14 +16,16 @@
 OPEN_O2_NAMESPACE
 
 class cGeometry;
+class uiState;
 
 /** Basic widget object. Contains id, parent, childs, position and other strange data. */
 class uiWidget
 {
 	typedef vector<uiWidget*> WidgetsVec;
+	typedef std::map<string, uiState*> StatesMap;
 	
 	uiWidget*      mParent;         /**< Parent widget. NULL if no parent. */
-	string    mId;             /**< Identificator or name. */
+	string         mId;             /**< Identificator or name. */
 	uiWidgetLayout mLayout;         /**< Widget layout. */
 	vec2f          mLocalPosition;	/**< Position relative to the parent. */
 	vec2f          mGlobalPosition; /**< Position in screen space. */
@@ -30,6 +33,9 @@ class uiWidget
 	vec2f          mChildsOffset;   /**< Offset for childrens. */
 	cGeometry*     mGeometry;       /**< Geometry. May be NULL. */
 	fRect          mBounds;         /**< Widget with childs bounds. */
+
+	StatesMap      mStates;
+	uiState*       mVisibleState;
 
 	WidgetsVec mChildWidgets;       /**< Childs widgets. */
 
@@ -41,7 +47,7 @@ public:
 
 	//properties
 	PROPERTY(uiWidget, uiWidgetPtr) parent;         /**< Parent property. Using setParent/getParent. */
-	PROPERTY(uiWidget, string) id;             /**< Identificator property. Using setId/getId. */
+	PROPERTY(uiWidget, string)      id;             /**< Identificator property. Using setId/getId. */
 	PROPERTY(uiWidget, vec2f)       position;       /**< Local position property. Using setPosition/getPosition. */
 	PROPERTY(uiWidget, vec2f)       globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)       size;           /**< Size property. Using setSize/getSize. */

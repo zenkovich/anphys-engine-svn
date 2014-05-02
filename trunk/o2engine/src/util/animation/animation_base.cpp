@@ -179,17 +179,17 @@ void IAnimation::setPlaying( bool playing )
 		stop();
 }
 
-void IAnimation::setBeginPlayingCallback( ptr(ICallback) cb )
+void IAnimation::setBeginPlayingCallback( sharedPtr(ICallback) cb )
 {
 	mBeginPlayingCallback = (ICallback*)cb;
 }
 
-void IAnimation::setEndPlayingCallback( ptr(ICallback) cb )
+void IAnimation::setEndPlayingCallback( sharedPtr(ICallback) cb )
 {
 	mEndPlayingCallback = (ICallback*)cb;
 }
 
-void IAnimation::setTimeCallback( float time, ptr(ICallback) cb )
+void IAnimation::setTimeCallback( float time, sharedPtr(ICallback) cb )
 {
 	mTimedCallbacks.push_back(TimeCallback(cb, time));
 }

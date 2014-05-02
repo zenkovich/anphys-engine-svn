@@ -1,6 +1,6 @@
 #include "../log.h"
 
-#include "engine_settings.h"
+#include "util/public_namespace.h"
 
 OPEN_O2_NAMESPACE
 

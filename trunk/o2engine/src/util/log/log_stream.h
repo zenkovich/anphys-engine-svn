@@ -1,9 +1,8 @@
 #ifndef LOG_STREAM_H
 #define LOG_STREAM_H
 
-#include <list>
-
-#include "public.h"
+#include "util/public_namespace.h"
+#include "util/public_types.h"
 OPEN_O2_NAMESPACE
 
 /** Basic log stream. Contains interfaces of outing data, binding values, parent and child streams. */
@@ -32,7 +31,7 @@ protected:
 
 	cLogStream*  mParentStream; /**< Parent stream. NULL if no parent. */
 
-	string  mId;           /**< Name of log stream. */
+	string       mId;           /**< Name of log stream. */
 	uint8        mLevel;        /**< Log level. */
 
 	LogSteamsVec mChildStreams; /**< Child streams. */
@@ -43,7 +42,7 @@ public:
 	cLogStream(const string& id);
 	virtual ~cLogStream();
 
-	/** Sets log level, for childs too. */
+	/** Sets log level, for childes too. */
 	void setLevel(uint8 level);
 
 	/** Returns log level. */

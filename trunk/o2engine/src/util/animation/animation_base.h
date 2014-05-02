@@ -25,7 +25,7 @@ protected:
 		autoPtr(ICallback) mCallback; /**< Callback. */
 
 		/** ctor. */
-		TimeCallback(ptr(ICallback) cb, float time):mTime(time), mCallback(cb) {}
+		TimeCallback(sharedPtr(ICallback) cb, float time):mTime(time), mCallback(cb) {}
 	};
 	typedef vector<TimeCallback> TimeCallbacksVec;
 
@@ -101,13 +101,13 @@ public:
 	virtual void setPlaying(bool playing);
 
 	/** Setting begin callback. */
-	virtual void setBeginPlayingCallback(ptr(ICallback) cb);
+	virtual void setBeginPlayingCallback(sharedPtr(ICallback) cb);
 
 	/** Setting end playing callback. */
-	virtual void setEndPlayingCallback(ptr(ICallback) cb);
+	virtual void setEndPlayingCallback(sharedPtr(ICallback) cb);
 
 	/** Adding time callback. */
-	virtual void setTimeCallback(float time, ptr(ICallback) cb);
+	virtual void setTimeCallback(float time, sharedPtr(ICallback) cb);
 
 protected:
 	/** Invoke begin callback, if exist. */
