@@ -9,7 +9,6 @@ cTimer::cTimer()
 
 cTimer::~cTimer()
 {
-
 }
 
 void cTimer::reset()

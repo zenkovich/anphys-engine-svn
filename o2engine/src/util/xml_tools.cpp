@@ -1,6 +1,7 @@
 #include "xml_tools.h"
 
 #include "util/file_system/file.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
@@ -12,13 +13,11 @@ bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc
 		return false;
 
 	uint32 dataSize = inFile.getDataSize();
-	char* buffer = mnew char[dataSize];
+	autoArr(char) buffer = mnew char[dataSize];
 
 	inFile.readFullData(buffer);
 
 	pugi::xml_parse_result res = xmlDoc.load_buffer(buffer, dataSize);
-
-	safe_release_arr(buffer);
 
 	return res.status == pugi::status_ok;
 }

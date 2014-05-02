@@ -6,26 +6,56 @@
 
 OPEN_O2_NAMESPACE
 
-template<typename T>
+template<typename T, bool arr>
 class cAutoPtr
 {
 	T* mObjPtr;
 
 public:
 	cAutoPtr():mObjPtr(NULL) {}
-	cAutoPtr(T* objPtr) { mObjPtr = objPtr; }
-	~cAutoPtr() { safe_release(mObjPtr); }
 
-	bool isInitialized() const { return mObjPtr != NULL; }
-	T* get() { return mObjPtr; }
+	cAutoPtr(T* objPtr) 
+	{
+		mObjPtr = objPtr; 
+	}
 
+	~cAutoPtr() 
+	{
+		if(arr)
+		{
+			safe_release_arr(mObjPtr);
+		}
+		else 
+		{
+			safe_release(mObjPtr);
+		}
+	}
+
+	bool isInitialized() const
+	{
+		return mObjPtr != NULL;
+	}
+
+	T* get() 
+	{
+		return mObjPtr;
+	}
+
+	operator bool() { return mObjPtr != NULL; }
 	operator T*() { return mObjPtr; }
 	T* operator->() { return mObjPtr; }
 	T& operator*() { return *mObjPtr; }
 	
 	cAutoPtr& operator=(T* objPtr)
 	{
-		safe_release(mObjPtr);
+		if(arr)
+		{
+			safe_release_arr(mObjPtr); 
+		}
+		else 
+		{
+			safe_release(mObjPtr);
+		}
 		mObjPtr = objPtr;
 		return *this;
 	}
@@ -33,6 +63,10 @@ public:
 private:
 	cAutoPtr& operator=(const cAutoPtr* ptr) { return *this; }
 };
+
+#define autoPtr(type) cAutoPtr<type, false>
+#define autoArr(type) cAutoPtr<type, true>
+
 
 template<typename T>
 class SafePtr
