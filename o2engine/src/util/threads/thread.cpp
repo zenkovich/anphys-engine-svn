@@ -10,6 +10,7 @@ cThread::cThread():mStarted(false), mThreadFunc(NULL)
 
 cThread::~cThread()
 {
+	safe_release(mThreadFunc);
 }
 
 int cThread::start( sharedPtr(ICallback) threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )

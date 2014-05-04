@@ -13,6 +13,16 @@
 OPEN_O2_NAMESPACE
 
 
+class A
+{
+	int avalue;
+};
+
+class B: public A
+{
+	int bvalue;
+};
+
 cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
 	mAutoAjustByScreen(false), mAutoAjustScale(1, 1), mWindowResizible(true), mActive(false), mTimer(NULL)
@@ -24,6 +34,9 @@ cApplication::cApplication():
 	mApplication = this;
 
 	mRenderSystem = mnew grRenderSystem();
+
+	sharedPtr(B) b = mnew B;
+	sharedPtr(A) a = sharedPtr(A)(b);
 
 	cDeviceInfo::initializeSingleton();
 	deviceInfo()->initialize(this);

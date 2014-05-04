@@ -28,14 +28,6 @@ TestApp::TestApp():
 
 	//mTest = mnew InputMsgTest(this, &mInputMessage);
 	mTest = mnew cTextTest();
-
-	vec2f vv;
-	ptr(vec2f) vecPtr = mnew vec2f();
-	xx = vecPtr;
-	safe_release(vecPtr);
-	ptr(vec2f) xxy;
-	if(!xxy)
-		xxy = xx;
 }
 
 TestApp::~TestApp()

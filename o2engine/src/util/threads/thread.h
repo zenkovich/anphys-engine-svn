@@ -17,9 +17,9 @@ public:
 	enum ThreadPriority { TP_NORMAL = 0, TP_LOW, TP_HIGHT };
 
 protected:
-	pthread_t      mThreadId;   /** Thread id. */
+	pthread_t            mThreadId;   /** Thread id. */
 	sharedPtr(ICallback) mThreadFunc; /** Function starting in thread. */
-	bool           mStarted;    /** True, when started. */
+	bool                 mStarted;    /** True, when started. */
 
 	/** copy ctor. */
 	cThread(const cThread& thread) {}

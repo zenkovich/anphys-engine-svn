@@ -10,15 +10,16 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
+	friend class sharedPtr(cTimeUtil);
 
 	float   mApplicationTime;     /** Application working time, seconds. */
 	float   mLocalTime;           /** Local timer working, seconds. Controlling by user. */
-	uint64  mCurrentFrame;        /** Currentframe index. */
+	uint64  mCurrentFrame;        /** Current frame index. */
 	float   mDeltaTime;           /** Frame delta time. */
 	float   mFPS;                 /** Average frames per second. */
 	 
 	float   mFPSSum;              /** Summary of fps. */
-	float   mFramesSum;           /** Frames summry. */
+	float   mFramesSum;           /** Frames summary. */
 	float   mLastFPSCheckingTime; /** Last average fps checking time. */
 
 	/** ctor. */
