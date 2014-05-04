@@ -18,7 +18,7 @@ protected:
 		void*       mValuePtr;    /**< Pointer to binded value. */
 		BindValType mType;        /**< Type of binded value. */
 		char        mBuffer[256]; /**< Buffer for formatted data by type. */
-		string mId;               /**< Id of binded value. Using as prefix .*/
+		string      mId;          /**< Id of binded value. Using as prefix .*/
 
 		BindValue(void* valuePtr, BindValType type, const string& id):
 			mValuePtr(valuePtr), mType(type), mId(id) { mBuffer[0] = '\0'; }

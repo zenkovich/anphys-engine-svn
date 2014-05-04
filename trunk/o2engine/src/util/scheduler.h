@@ -14,6 +14,7 @@ class cScheduler: public cSingleton<cScheduler>
 {
 	friend class cApplication;
 	friend class cApplicationBaseInterface;
+	friend class sharedPtr(cScheduler);
 
 public:
 	enum ExecStage { ES_BEFORE_FRAME = 0, ES_AFTER_FRAME };
@@ -22,12 +23,12 @@ protected:
 	/** Task container struct. */
 	struct Task
 	{
-		float          mDelay;               /** Delay to next execution. */
-		float          mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
-		ExecStage      mExecStage;           /** Execution stage. */
+		float                mDelay;               /** Delay to next execution. */
+		float                mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
+		ExecStage            mExecStage;           /** Execution stage. */
 		sharedPtr(ICallback) mCallback;            /** Execution callback. */
-		bool           mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
-		int            mId;                  /** Task id. */
+		bool                 mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
+		int                  mId;                  /** Task id. */
 		
 		/** Executes the callback and returning true, when task must be repeated. */
 		bool execute();

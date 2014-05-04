@@ -2,11 +2,12 @@
 #define LOG_H
 
 #include "log/log_stream.h"
+#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
 /** Global log stream. Use it for putting data in log. */
-extern cLogStream* gLog;
+extern sharedPtr(cLogStream) gLog;
 
 
 /** Puts data into global log with low level. */

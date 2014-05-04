@@ -44,12 +44,12 @@ public:
 template<typename RetType, typename ClassType = Dummy>
 class cRetCallback:public IRetCallback<RetType>
 {
-	sharedPtr(ClassType) mObject;
+	ClassType* mObject;
 	RetType (ClassType::*mObjectFunction)();
 	RetType (*mFunction)();
 
 public:
-	cRetCallback(sharedPtr(ClassType) object, RetType (ClassType::*function)()):
+	cRetCallback(ClassType* object, RetType (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cRetCallback(RetType (*function)()):
@@ -79,11 +79,17 @@ public:
 
 /** Fast callback creation function. */
 template<typename RetType, typename ClassType>
-IRetCallback<RetType>* callback(sharedPtr(ClassType) object, RetType (ClassType::*function)()) { return mnew cRetCallback<RetType, ClassType>(object, function); }
+IRetCallback<RetType>* callback(ClassType* object, RetType (ClassType::*function)()) 
+{
+	return mnew cRetCallback<RetType, ClassType>(object, function);
+}
 
 /** Fast callback creation function. */
 template<typename RetType>
-inline IRetCallback<RetType>* callback(RetType (*function)()) { return mnew cRetCallback<RetType, Dummy>(function); }
+inline IRetCallback<RetType>* callback(RetType (*function)()) 
+{
+	return mnew cRetCallback<RetType, Dummy>(function); 
+}
 
 
 /************************************************************************/
@@ -113,8 +119,7 @@ public:
 
 	cCallbackChain(const cCallbackChain& callbackChain)
 	{
-		for (CallbacksVec::const_iterator it = callbackChain.mCallbacks.cbegin(); it != callbackChain.mCallbacks.cend(); 
-			 ++it)
+		FOREACH_CONST(CallbacksVec, callbackChain.mCallbacks, it)
 		{
 			mCallbacks.push_back((*it)->clone());
 		}
@@ -152,6 +157,7 @@ public:
 	}
 };
 
+
 /** Fast callback chain creation function. */
 inline ICallback* callbackChain(int count, ...) 
 {
@@ -171,15 +177,15 @@ inline ICallback* callbackChain(int count, ...)
 /************************************************************************/
 /** Callback without parametres. */
 /************************************************************************/
-template<typename T = Dummy>
+template<typename ClassType = Dummy>
 class cCallback:public ICallback
 {
-	sharedPtr(T) mObject;
-	void (T::*mObjectFunction)();
+	ClassType* mObject;
+	void (ClassType::*mObjectFunction)();
 	void (*mFunction)();
 
 public:
-	cCallback(sharedPtr(T) object, void (T::*function)()):
+	cCallback(ClassType* object, void (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cCallback(void (*function)()):
@@ -200,13 +206,13 @@ public:
 
 	ICallback* clone() const
 	{
-		return mnew cCallback<T>(*this);
+		return mnew cCallback<ClassType>(*this);
 	}
 };
 
 /** Fast callback creation function. */
-template<typename T>
-ICallback* callback(sharedPtr(T) object, void (T::*function)()) { return mnew cCallback<T>(object, function); }
+template<typename ClassType>
+ICallback* callback(ClassType* object, void (ClassType::*function)()) { return mnew cCallback<ClassType>(object, function); }
 
 /** Fast callback creation function. */
 inline ICallback* callback(void (*function)()) { return mnew cCallback<Dummy>(function); }
@@ -215,22 +221,22 @@ inline ICallback* callback(void (*function)()) { return mnew cCallback<Dummy>(fu
 /************************************************************************/
 /** Callback with 1 parameter. */
 /************************************************************************/
-template<typename ArgT, typename T = Dummy>
+template<typename ArgT, typename ClassType = Dummy>
 class cCallback1Param:public ICallback
 {
-	ArgT mArg;
-	sharedPtr(T) mObject;
-	void (T::*mObjectFunction)(ArgT);
+	ArgT       mArg;
+	ClassType* mObject;
+	void (ClassType::*mObjectFunction)(ArgT);
 	void (*mFunction)(ArgT);
 
 public:
-	cCallback1Param(sharedPtr(T) object, void (T::*function)(ArgT), const ArgT& arg):
+	cCallback1Param(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg):
 	  mObject(object), mObjectFunction(function) { mArg = arg; }
 
 	cCallback1Param(void (*function)(ArgT), const ArgT& arg):
 	  mObject(NULL), mObjectFunction(NULL), mFunction(function) { mArg = arg; }
 
-	cCallback1Param(const cCallback1Param<ArgT, T>& callback)
+	cCallback1Param(const cCallback1Param<ArgT, ClassType>& callback)
 	{
 		mObject = callback.mObject;
 		mObjectFunction = callback.mObjectFunction;
@@ -252,15 +258,15 @@ public:
 	
 	ICallback* clone() const 
 	{
-		return mnew cCallback1Param<ArgT, T>(*this);
+		return mnew cCallback1Param<ArgT, ClassType>(*this);
 	}
 };
 
 /** Fast callback1 creation function. */
-template<typename ArgT, typename T>
-ICallback* callback(sharedPtr(T) object, void (T::*function)(ArgT), const ArgT& arg)
+template<typename ArgT, typename ClassType>
+ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg)
 { 
-	return mnew cCallback1Param<T>(object, function, arg);
+	return mnew cCallback1Param<ClassType>(object, function, arg);
 }
 
 /** Fast callback1 creation function. */
@@ -274,23 +280,23 @@ ICallback* callback(void (*function)(ArgT), const ArgT& arg)
 /************************************************************************/
 /** Callback with 2 parameters. */
 /************************************************************************/
-template<typename ArgT, typename ArgT2, typename T = Dummy>
+template<typename ArgT, typename ArgT2, typename ClassType = Dummy>
 class cCallback2Param:public ICallback
 {
-	ArgT   mArg;
-	ArgT2  mArg2;
-	sharedPtr(T) mObject;
-	void (T::*mObjectFunction)(ArgT, ArgT2);
+	ArgT       mArg;
+	ArgT2      mArg2;
+	ClassType* mObject;
+	void (ClassType::*mObjectFunction)(ArgT, ArgT2);
 	void (*mFunction)(ArgT, ArgT2);
 
 public:
-	cCallback2Param(sharedPtr(T) object, void (T::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
+	cCallback2Param(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
 		mObject(object), mObjectFunction(function), mArg(arg1), mArg2(arg2) {}
 
 	cCallback2Param(void (*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2):
 		mObject(NULL), mObjectFunction(NULL), mFunction(function), mArg(arg1), mArg2(arg2) {}
 	
-	cCallback2Param(const cCallback2Param<ArgT, ArgT2, T>& callback)
+	cCallback2Param(const cCallback2Param<ArgT, ArgT2, ClassType>& callback)
 	{
 		mObject = callback.mObject;
 		mObjectFunction = callback.mObjectFunction;
@@ -320,15 +326,15 @@ public:
 	
 	ICallback* clone() const 
 	{
-		return mnew cCallback2Param<ArgT, ArgT2, T>(*this);
+		return mnew cCallback2Param<ArgT, ArgT2, ClassType>(*this);
 	}
 };
 
 /** Fast callback2 creation function. */
-template<typename ArgT, typename ArgT2, typename T>
-ICallback* callback(sharedPtr(T) object, void (T::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
+template<typename ArgT, typename ArgT2, typename ClassType>
+ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
 { 
-	return mnew cCallback2Param<T>(object, function, arg, arg2);
+	return mnew cCallback2Param<ClassType>(object, function, arg, arg2);
 }
 
 /** Fast callback2 creation function. */

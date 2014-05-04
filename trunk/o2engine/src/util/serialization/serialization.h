@@ -43,28 +43,28 @@ struct cSerialization
 
 //NOTE: Do not use that functions !
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, int& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, uint16& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, float& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, bool& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, string& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, vec2i& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, vec2f& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, fRect& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, iRect& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, color4& obj, sharedPtr(cLogStream) log = NULL);
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, int& obj,              sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, uint16& obj,           sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, float& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, bool& obj,             sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, string& obj,           sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, vec2i& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, vec2f& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, fRect& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, iRect& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, color4& obj,           sharedPtr(cLogStream) log = NULL);
 	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, int obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, uint16 obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, float obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, bool obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, string& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, vec2i& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, vec2f& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, fRect& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, iRect& obj, sharedPtr(cLogStream) log = NULL);	
-	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, color4& obj, sharedPtr(cLogStream) log = NULL);
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, int obj,               sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, uint16 obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, float obj,             sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, bool obj,              sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, string& obj,           sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, vec2i& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, vec2f& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, fRect& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, iRect& obj,            sharedPtr(cLogStream) log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, color4& obj,           sharedPtr(cLogStream) log = NULL);
 
 	template<typename T> 
 	static bool serialize(pugi::xml_node& xmlNode, const string& id, T& obj, cSerializeType::v type, 
@@ -139,13 +139,13 @@ protected:
 	bool CLASS::serialize(pugi::xml_node& xmlNode, cSerializeType::v type, sharedPtr(cLogStream) log)
 
 /** Declare serialize method for inherited class. You must define parent and target class. */
-#define SERIALIZE_INHERITED_METHOD_DECL(BASIC_CLASS, CLASS)                                             \
-	virtual bool serializeInh(pugi::xml_node& xmlNode, cSerializeType::v type, sharedPtr(cLogStream) log = NULL); \
-	virtual bool serialize(pugi::xml_node& xmlNode, cSerializeType::v type, sharedPtr(cLogStream) log = NULL)     \
-	{                                                                                                   \
-	    pugi::xml_node basicClassNode = (type == cSerializeType::INPUT) ? (xmlNode.child(#BASIC_CLASS)):(xmlNode.append_child(#BASIC_CLASS));                             \
-		if (!BASIC_CLASS::serialize(basicClassNode, type, log)) return false;                           \
-		return CLASS::serializeInh(xmlNode, type, log);                                                 \
+#define SERIALIZE_INHERITED_METHOD_DECL(BASIC_CLASS, CLASS)                                                                                   \
+	virtual bool serializeInh(pugi::xml_node& xmlNode, cSerializeType::v type, sharedPtr(cLogStream) log = NULL);                             \
+	virtual bool serialize(pugi::xml_node& xmlNode, cSerializeType::v type, sharedPtr(cLogStream) log = NULL)                                 \
+	{                                                                                                                                         \
+	    pugi::xml_node basicClassNode = (type == cSerializeType::INPUT) ? (xmlNode.child(#BASIC_CLASS)):(xmlNode.append_child(#BASIC_CLASS)); \
+		if (!BASIC_CLASS::serialize(basicClassNode, type, log)) return false;                                                                 \
+		return CLASS::serializeInh(xmlNode, type, log);                                                                                       \
 	}
 
 /** Implementation of serialize method for inherited class. */

@@ -106,7 +106,7 @@ int cScheduler::addRepeatTask( sharedPtr(IRetCallback<float>) callback, float ex
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	sharedPtr(Task) newTask = getTask((ICallback*)callback, execDelay, -1, stage, true);
+	sharedPtr(Task) newTask = getTask(callback, execDelay, -1, stage, true);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -147,7 +147,7 @@ void cScheduler::removeTask( int id )
 }
 
 sharedPtr(cScheduler::Task) cScheduler::getTask( sharedPtr(ICallback) callback, float delay, float repeatDelay, ExecStage stage, 
-	                                   bool variableRepeatDelay )
+	                                             bool variableRepeatDelay )
 {
 	sharedPtr(Task) res;
 
