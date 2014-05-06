@@ -36,8 +36,8 @@ public:
 
 	/** ctor. */
 	cAnimation(int frames = 0, float duration = 1.0f): IAnimation(),
-		mCurrentFrame(0), mCurrentFrameBeginTime(0), mCurrentFrameEndTime(0), mCurrentFrameDuration(0),
-		mCurrentFrameInvDuration(1)
+		       mCurrentFrame(0), mCurrentFrameBeginTime(0), mCurrentFrameEndTime(0), mCurrentFrameDuration(0),
+		       mCurrentFrameInvDuration(1)
 	{
 		mBindValue = &mValue;
 
@@ -80,9 +80,7 @@ public:
 	int addFrame(const cAnimFrame<T>& frm, int position = -1) 
 	{
 		if (mFrames.size() == 0)
-		{
 			mDuration -= frm.mTime;
-		}
 
 		if (position < 0)
 		{

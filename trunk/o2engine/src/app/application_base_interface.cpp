@@ -55,12 +55,12 @@ void cApplicationBaseInterface::deinitializeSystems()
 	safe_release(gLog->getParentStream());
 }
 
-cInputMessage* cApplicationBaseInterface::getInputMessage()
+shared(cInputMessage) cApplicationBaseInterface::getInputMessage()
 {
 	return &mInputMessage;
 }
 
-grRenderSystem* cApplicationBaseInterface::getRenderSystem() const
+shared(grRenderSystem) cApplicationBaseInterface::getRenderSystem() const
 {
 	return mRenderSystem;
 }

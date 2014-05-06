@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 class cAnimationGroup: virtual public IAnimation
 {
 public:
-	typedef vector<sharedPtr(IAnimation)> AnimationsVec;
+	typedef vector<shared(IAnimation)> AnimationsVec;
 
 protected:
 	AnimationsVec mAnimations; /**< Animations. */
@@ -24,10 +24,10 @@ public:
 	~cAnimationGroup();
 
 	/** Adding animation in group. */
-	void addAnimation(sharedPtr(IAnimation) animation);
+	void addAnimation(shared(IAnimation) animation);
 
 	/** Removing animation. */
-	void removeAnimation(sharedPtr(IAnimation) animation);
+	void removeAnimation(shared(IAnimation) animation);
 
 	/** Removing all animations. */
 	void removeAllAnimations();
@@ -44,7 +44,7 @@ public:
 	/** Stop animation. */
 	void stop();
 	
-	/** Setting absolutee time. */
+	/** Setting absolute time. */
 	void setTime(float time);
 };
 

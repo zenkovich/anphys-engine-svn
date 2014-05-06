@@ -3,6 +3,7 @@
 
 #include "util/public_namespace.h"
 #include "util/public_types.h"
+#include "util/smart_ptrs.h"
 OPEN_O2_NAMESPACE
 
 /** Basic log stream. Contains interfaces of outing data, binding values, parent and child streams. */
@@ -27,9 +28,9 @@ protected:
 		const char* getStr();
 	};
 	typedef vector<BindValue> BindValVec;
-	typedef vector<cLogStream*> LogSteamsVec;
+	typedef vector<shared(cLogStream)> LogSteamsVec;
 
-	cLogStream*  mParentStream; /**< Parent stream. NULL if no parent. */
+	shared(cLogStream)  mParentStream; /**< Parent stream. NULL if no parent. */
 
 	string       mId;           /**< Name of log stream. */
 	uint8        mLevel;        /**< Log level. */
@@ -52,16 +53,16 @@ public:
 	const string& getId() const;
 
 	/** Binding child stream. */
-	void bindStream(cLogStream* stream);
+	void bindStream(shared(cLogStream) stream);
 
 	/** Unbinding child stream. Function destroying stream object. */
-	void unbindStream(cLogStream* stream);
+	void unbindStream(shared(cLogStream) stream);
 
 	/** Unbind and destroy all child streams. */
 	void unbindAllStreams();
 
 	/** Returns parent stream. Null if no parent. */
-	cLogStream* getParentStream() const;
+	shared(cLogStream) getParentStream() const;
 
 	/** Binding value. */
 	void bindValue(void* valuePtr, BindValType type, const string& id);

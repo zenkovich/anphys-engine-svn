@@ -18,7 +18,7 @@ public:
 
 protected:
 	pthread_t            mThreadId;   /** Thread id. */
-	sharedPtr(ICallback) mThreadFunc; /** Function starting in thread. */
+	shared(ICallback) mThreadFunc; /** Function starting in thread. */
 	bool                 mStarted;    /** True, when started. */
 
 	/** copy ctor. */
@@ -38,7 +38,7 @@ public:
 	~cThread();
 
 	/** Starts function with priority. */
-	int start(sharedPtr(ICallback) threadCallback, ThreadPriority threadPriority = TP_NORMAL);
+	int start(shared(ICallback) threadCallback, ThreadPriority threadPriority = TP_NORMAL);
 
 	/** Join. */
 	int join();

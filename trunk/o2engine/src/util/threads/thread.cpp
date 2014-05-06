@@ -13,7 +13,7 @@ cThread::~cThread()
 	safe_release(mThreadFunc);
 }
 
-int cThread::start( sharedPtr(ICallback) threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
+int cThread::start( shared(ICallback) threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
 {
 	mThreadFunc = threadCallback;
 

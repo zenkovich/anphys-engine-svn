@@ -14,10 +14,11 @@ class cFileSystem:public cSingleton<cFileSystem>
 {
 public:
 	typedef vector<string> ExtensionsVec;
+	typedef std::map<cFileType::value, ExtensionsVec> ExtensionsMap;
 
 private:
-	string                               mResourcePath; /**< Basic application resources path. */
-	std::map<cFileType::value, ExtensionsVec> mExtensions;   /**< Extensions strings map. */
+	string        mResourcePath; /**< Basic application resources path. */
+	ExtensionsMap mExtensions;   /**< Extensions strings map. */
 
 public:
 	cFileSystem();

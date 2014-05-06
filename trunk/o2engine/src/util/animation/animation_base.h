@@ -21,22 +21,22 @@ protected:
 	/** Callback by time. */
 	struct TimeCallback
 	{
-		float               mTime;     /**< Time, when callback will be invoke. */
-		autoPtr(ICallback) mCallback; /**< Callback. */
+		float             mTime;     /**< Time, when callback will be invoke. */
+		shared(ICallback) mCallback; /**< Callback. */
 
 		/** ctor. */
-		TimeCallback(sharedPtr(ICallback) cb, float time):mTime(time), mCallback(cb) {}
+		TimeCallback(shared(ICallback) cb, float time):mTime(time), mCallback(cb) {}
 	};
 	typedef vector<TimeCallback> TimeCallbacksVec;
 
-	autoPtr(ICallback) mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
-	autoPtr(ICallback) mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
-	TimeCallbacksVec    mTimedCallbacks;       /**< Callback, what calls by time. */
+	shared(ICallback) mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
+	shared(ICallback) mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
+	TimeCallbacksVec  mTimedCallbacks;       /**< Callback, what calls by time. */
 	
 	float     mTime;           /**< Local time, in [0...mDuration].*/
-	float     mLastFrameTime;  /**< Last local time. Fo calling callbacks by time. */
+	float     mLastFrameTime;  /**< Last local time. For calling callbacks by time. */
 	float     mAbsoluteTime;   /**< Absolute time. */
-	float     mAnimationSpeed; /**< Animation speed coeficient. 1 - standart coef, less - slower animation. */
+	float     mAnimationSpeed; /**< Animation speed coefficient. 1 - standard coef, less - slower animation. */
 	float     mDirectionSign;  /**< Is -1 if animation playing reversed. */
 	LoopType  mLoop;           /**< Loop type. */
 	float     mDuration;       /**< Duration of local time animation. */
@@ -70,7 +70,7 @@ public:
 	/** Returns current local time. */
 	virtual float getLocalTime() const;
 
-	/** Setting absolutee time. */
+	/** Setting absolute time. */
 	virtual void setTime(float time);
 
 	/** Returns duration of local animation. */
@@ -101,13 +101,13 @@ public:
 	virtual void setPlaying(bool playing);
 
 	/** Setting begin callback. */
-	virtual void setBeginPlayingCallback(sharedPtr(ICallback) cb);
+	virtual void setBeginPlayingCallback(shared(ICallback) cb);
 
 	/** Setting end playing callback. */
-	virtual void setEndPlayingCallback(sharedPtr(ICallback) cb);
+	virtual void setEndPlayingCallback(shared(ICallback) cb);
 
 	/** Adding time callback. */
-	virtual void setTimeCallback(float time, sharedPtr(ICallback) cb);
+	virtual void setTimeCallback(float time, shared(ICallback) cb);
 
 protected:
 	/** Invoke begin callback, if exist. */
