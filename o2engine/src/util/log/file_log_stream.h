@@ -9,7 +9,7 @@ class cOutFile;
 
 class cFileLogStream:public cLogStream
 {
-	cOutFile* mOutFile;
+	shared(cOutFile) mOutFile;
 
 public:
 	cFileLogStream(uint8 level, const string& fileName);

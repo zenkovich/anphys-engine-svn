@@ -50,23 +50,25 @@ class cTimeUtil;
 class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
 {
 protected:
-	cInputMessage   mInputMessage; /**< While application user input message. */
-
-	cLogStream*     mLog;          /**< Log stream with id "app", using only for applacation messages. */
-	grRenderSystem* mRenderSystem; /**< Render system. */
-	cFileSystem*    mFileSystem;   /**< File system. */
-	cScheduler*     mScheduler;    /**< Scheduler. */
-	cTimeUtil*      mTimeUtils;    /**< Time utilities. */
+	shared(cInputMessage)  mInputMessage; /**< While application user input message. */
+	shared(cLogStream)     mLog;          /**< Log stream with id "app", using only for application messages. */
+	shared(grRenderSystem) mRenderSystem; /**< Render system. */
+	shared(cFileSystem)    mFileSystem;   /**< File system. */
+	shared(cScheduler)     mScheduler;    /**< Scheduler. */
+	shared(cTimeUtil)      mTimeUtils;    /**< Time utilities. */
 
 public:
+	/** ctor. */
 	cApplicationBaseInterface();
+
+	/** dtor. */
 	virtual ~cApplicationBaseInterface();
 
 	/** Returns pointer to input message object. */
-	cInputMessage* getInputMessage();
+	shared(cInputMessage) getInputMessage();
 
 	/** Returns pointer to input message object. */
-	grRenderSystem* getRenderSystem() const;
+	shared(grRenderSystem) getRenderSystem() const;
 
 	/** Launching application cycle. */
 	virtual void launch() {}

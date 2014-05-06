@@ -25,7 +25,7 @@ public:
 	virtual void setPosition(const vec2f& pos) = 0;
 };
 
-/** Rectange geometry, aligned by axis. */
+/** Rectangle geometry, aligned by axis. */
 class cRectGeometry:public cGeometry
 {
 	fRect mRect;
@@ -58,14 +58,14 @@ public:
 	/** Sets the size of rect. */
 	void setSize(const vec2f& size);
 
-	/** Sets rectange. */
+	/** Sets rectangle. */
 	void set(const fRect& rect);
 
-	/** Sets rectangle by parametres. */
+	/** Sets rectangle by parameters. */
 	void set(const vec2f& minp, const vec2f& maxp);
 };
 
-/** Circle geometry. Determinde by center position and radius. */
+/** Circle geometry. Determined by center position and radius. */
 class cCircleGeometry: public cGeometry
 {
 	vec2f mCenter;    /**< Center position. */
@@ -91,7 +91,7 @@ public:
 	/** Sets the position. */
 	void setPosition(const vec2f& pos);
 
-	/** Sets by parametres. */
+	/** Sets by parameters. */
 	void set(const vec2f& center, float radius);
 };
 
@@ -100,7 +100,7 @@ class cGroupGeometry:public cGeometry
 	friend class cGeometry;
 
 public:
-	typedef vector<sharedPtr(cGeometry)> PartsVec;
+	typedef vector<shared(cGeometry)> PartsVec;
 
 protected:
 	PartsVec mParts;
@@ -116,7 +116,7 @@ public:
 
 	int getPartsCount() const;
 	
-	int addPart(sharedPtr(cGeometry) geom);
+	int addPart(shared(cGeometry) geom);
 	void removePart(int idx);
 	void removeAllParts();
 

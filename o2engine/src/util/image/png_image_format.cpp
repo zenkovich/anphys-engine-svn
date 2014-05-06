@@ -30,13 +30,11 @@ void customPngWriteFn(png_structp png_ptr, png_bytep bytes, png_size_t byteCount
 
 void customPngFlushFn(png_structp png_ptr) {}
 
-bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, sharedPtr(cLogStream) plog /*= NULL*/ )
+bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, shared(cLogStream) plog /*= NULL*/ )
 {	
-	cLogStream* log = plog;
-	if (!log)
-		log = gLog;
+	shared(cLogStream) log = plog ? plog:gLog;
 
-	cInFile* pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
+	shared(cInFile) pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
 	if (!pngImageFile->isOpened())
 	{
 		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());
@@ -53,8 +51,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	int is_png = !png_sig_cmp(header, 0, 8);
 	if (!is_png) 
 	{
-		safe_release(pngImageFile);
-
 		if (errors) log->error("Can't load PNG file '%s': not PNG\n", fileName.c_str());
 		return false;
 	}
@@ -63,8 +59,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) 
 	{
-		safe_release(pngImageFile);
-
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
@@ -74,8 +68,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	if (!info_ptr) 
 	{
 		png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
-
-		safe_release(pngImageFile);
 
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
@@ -87,8 +79,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	{
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp) NULL);
 
-		safe_release(pngImageFile);
-
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
@@ -97,8 +87,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	if (setjmp(png_jmpbuf(png_ptr))) 
 	{
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-
-		safe_release(pngImageFile);
 
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
@@ -136,8 +124,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 		//clean up memory and close stuff
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
-		safe_release(pngImageFile);
-
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
 	}
@@ -149,8 +135,6 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 		//clean up memory and close stuff
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		safe_release_arr(image_data);
-
-		safe_release(pngImageFile);
 
 		if (errors) log->error("Can't load PNG file '%s': TEXTURE_LOAD_ERROR\n", fileName.c_str());
 		return false;
@@ -167,18 +151,14 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 	safe_release_arr(row_pointers);
 
-	safe_release(pngImageFile);
-
 	return true;
 }
 
-bool savePngImage( const string& fileName, const cImage* image, sharedPtr(cLogStream) plog /*= NULL*/ )
+bool savePngImage( const string& fileName, const cImage* image, shared(cLogStream) plog /*= NULL*/ )
 {
-	cLogStream* log = plog;
-	if (!log)
-		log = gLog;
+	shared(cLogStream) log = plog ? plog:gLog;
 
-	cOutFile* pngImageFile = mnew cOutFile(fileName);
+	shared(cOutFile) pngImageFile = mnew cOutFile(fileName);
 	if (!pngImageFile)
 	{
 		log->error("Can't save PNG file '%s'\n", fileName.c_str());
@@ -258,8 +238,6 @@ bool savePngImage( const string& fileName, const cImage* image, sharedPtr(cLogSt
 	png_write_end(png_ptr, NULL);
 
 	safe_release_arr(row_pointers);
-
-	safe_release(pngImageFile);
 
 	return true;
 }

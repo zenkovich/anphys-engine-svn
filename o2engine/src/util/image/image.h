@@ -32,10 +32,10 @@ public:
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const string& fileName, ImageType type = IT_AUTO, sharedPtr(cLogStream) clog = NULL);
+	bool load(const string& fileName, ImageType type = IT_AUTO, shared(cLogStream) clog = NULL);
 
 	/** Saving image to file. */
-	bool save(const string& fileName, ImageType type, sharedPtr(cLogStream) clog = NULL) const;
+	bool save(const string& fileName, ImageType type, shared(cLogStream) clog = NULL) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);

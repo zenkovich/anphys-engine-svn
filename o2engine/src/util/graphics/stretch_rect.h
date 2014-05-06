@@ -34,10 +34,10 @@ class cStretchRect:public cSerializableObj
 	};
 	typedef vector<Part> PartsVec;
 
-	sharedPtr(grMesh) mMesh;
-	PartsVec    mParts;
-	fRect       mRect;
-	bool        mNeedUpdateMesh;
+	shared(grMesh) mMesh;
+	PartsVec       mParts;
+	fRect          mRect;
+	bool           mNeedUpdateMesh;
 
 public:
 	cStretchRect(int parts = 0, const grTexture& texture = grTexture());

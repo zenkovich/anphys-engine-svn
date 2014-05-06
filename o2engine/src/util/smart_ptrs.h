@@ -273,7 +273,7 @@ protected:
 	}
 };
 
-#define sharedPtr(type) cSharedPtr<type, false>
+#define shared(type) cSharedPtr<type, false>
 #define sharedArr(type) cSharedPtr<type, true>
 
 #define ptr(type) void*

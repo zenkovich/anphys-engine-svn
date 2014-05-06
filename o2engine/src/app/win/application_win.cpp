@@ -35,8 +35,8 @@ cApplication::cApplication():
 
 	mRenderSystem = mnew grRenderSystem();
 
-	sharedPtr(B) b = mnew B;
-	sharedPtr(A) a = sharedPtr(A)(b);
+	shared(B) b = mnew B;
+	shared(A) a = shared(A)(b);
 
 	cDeviceInfo::initializeSingleton();
 	deviceInfo()->initialize(this);
