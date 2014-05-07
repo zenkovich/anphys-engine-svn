@@ -26,21 +26,21 @@ class grSprite:public IDrawable
 	vec2f   mPivot;          /** Pivot position, in pixels. */
 	fRect   mTextureSrcRect; /** texture src rect. */
 
-	grMesh* mMesh;           /** Mesh. */
+	shared(grMesh) mMesh;                    /** Mesh. */
 
-	bool    mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
-	bool    mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
+	bool           mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
+	bool           mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
 
 public:
 	//properties
-	PROPERTY(grSprite, vec2f) position;       /** Position property. Uses set/getPosition. */
-	PROPERTY(grSprite, vec2f) size;           /** Size property. Uses set/getSize. */
-	PROPERTY(grSprite, vec2f) scale;          /** Scale property. Uses set/getScale. */
-	PROPERTY(grSprite, float) angle;          /** Angle property. Uses set/getAngle. */
-	PROPERTY(grSprite, vec2f) pivot;          /** Pivot property. Uses set/getPivot. */
-	PROPERTY(grSprite, vec2f) relativePivot;  /** Relative pivot property. Uses set/getRelativePivot. */
-	PROPERTY(grSprite, fRect) textureSrcRect; /** Texture src rect property. Uses set/getTextureSrcRect. */	
-	PROPERTY(grSprite, grTexture) texture;    /** Texture property. uses set/getTexture. */
+	PROPERTY(grSprite, vec2f)     position;       /** Position property. Uses set/getPosition. */
+	PROPERTY(grSprite, vec2f)     size;           /** Size property. Uses set/getSize. */
+	PROPERTY(grSprite, vec2f)     scale;          /** Scale property. Uses set/getScale. */
+	PROPERTY(grSprite, float)     angle;          /** Angle property. Uses set/getAngle. */
+	PROPERTY(grSprite, vec2f)     pivot;          /** Pivot property. Uses set/getPivot. */
+	PROPERTY(grSprite, vec2f)     relativePivot;  /** Relative pivot property. Uses set/getRelativePivot. */
+	PROPERTY(grSprite, fRect)     textureSrcRect; /** Texture src rect property. Uses set/getTextureSrcRect. */	
+	PROPERTY(grSprite, grTexture) texture;        /** Texture property. uses set/getTexture. */
 
 	/** ctor.
 	 *  @param texture        - texture ptr, use NULL if no texture 
@@ -133,10 +133,10 @@ protected:
 	/** Initializing properties. */
 	void initializeProperties();
 
-	/** Updating mesh verticies positions. */
+	/** Updating mesh vertices positions. */
 	void updateMeshVerticies();
 
-	/** Updating mesh verticies texture coords. */
+	/** Updating mesh vertices texture coords. */
 	void updateMeshTexCoords();
 };
 

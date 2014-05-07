@@ -1,5 +1,6 @@
 #include "render_system_base_interface.h"
 
+#include "util/image/image.h"
 #include "util/log/file_log_stream.h"
 #include "util/log.h"
 #include "app/application.h"
@@ -26,25 +27,25 @@ grRenderSystemBaseInterface::~grRenderSystemBaseInterface()
 	gLog->unbindStream(mLog);
 }
 
-void grRenderSystemBaseInterface::bindCamera( grCamera* const& camera )
+void grRenderSystemBaseInterface::bindCamera( const shared(grCamera)& camera )
 {
 	mCurrentCamera = camera;
 	updateCameraTransforms();
 }
 
-grCamera* grRenderSystemBaseInterface::currentCamera() const
+shared(grCamera) grRenderSystemBaseInterface::currentCamera() const
 {
 	return mCurrentCamera;
 }
 
-grFontManager* grRenderSystemBaseInterface::getFontManager() const
+shared(grFontManager) grRenderSystemBaseInterface::getFontManager() const
 {
 	return mFontManager;
 }
 
 grTexture grRenderSystemBaseInterface::getTextureFromFile( const string& fileName )
 {
-	for (TexturesVec::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
+	FOREACH(TexturesVec, mTextures, it)
 	{
 		if (fileName == (*it)->getFileName())
 		{
@@ -52,7 +53,7 @@ grTexture grRenderSystemBaseInterface::getTextureFromFile( const string& fileNam
 		}
 	}
 
-	grTextureDef* newTexture = mnew grTextureDef();
+	shared(grTextureDef) newTexture = mnew grTextureDef();
 	newTexture->createFromFile(fileName);
 	addTextureDef(newTexture);
 
@@ -65,26 +66,37 @@ grTexture grRenderSystemBaseInterface::createTexture( const vec2f& size,
 	                                                  grTexFormat::type format /*= grTexFormat::DEFAULT*/, 
 													  grTexUsage::type usage /*= grTexUsage::DEFAULT*/ )
 {
-	grTextureDef* res = mnew grTextureDef();
+	shared(grTextureDef) res = mnew grTextureDef();
 	res->create(size, format, usage);
 	addTextureDef(res);
+
+	mLog->hout("Created texture %ix%i, format: %s, usage: %s", (int)size.x, (int)size.y, grTexFormat::getId(format),
+		       grTexUsage::getId(usage));
+
 	return grTexture(res);
 }
 
-grTexture grRenderSystemBaseInterface::createTextureFromImage( cImage* image )
+grTexture grRenderSystemBaseInterface::createTextureFromImage( shared(cImage) image )
 {
-	grTextureDef* res = mnew grTextureDef();
+	shared(grTextureDef) res = mnew grTextureDef();
 	res->createFromImage(image);
 	addTextureDef(res);
+
+	mLog->hout("Created texture %ix%i, format: %s, usage: %s from image", (int)res->getSize().x, (int)res->getSize().y, 
+		       grTexFormat::getId(res->getFormat()), grTexUsage::getId(res->getUsage()));
+
 	return grTexture(res);
 }
 
 grTexture grRenderSystemBaseInterface::createRenderTargetTexture( const vec2f& size, 
 	                                                              grTexFormat::type format /*= grTexFormat::DEFAULT*/ )
 {
-	grTextureDef* res = mnew grTextureDef();
+	shared(grTextureDef) res = mnew grTextureDef();
 	res->createAsRenderTarget(size, format);
 	addTextureDef(res);
+
+	mLog->hout("Created render texture %ix%i, format: %s", (int)size.x, (int)size.y, grTexFormat::getId(res->getFormat()));
+
 	return grTexture(res);
 }
 
@@ -118,18 +130,19 @@ void grRenderSystemBaseInterface::drawCross( const vec2f& pos, float size /*= 5*
 	drawLines(v, 2);
 }
 
-grTextureDef* grRenderSystemBaseInterface::addTextureDef( grTextureDef* texture )
+shared(grTextureDef) grRenderSystemBaseInterface::addTextureDef( shared(grTextureDef) texture )
 {
 	mTextures.push_back(texture);
 	return texture;
 }
 
-void grRenderSystemBaseInterface::removeTextureDef( grTextureDef* texture )
+void grRenderSystemBaseInterface::removeTextureDef( shared(grTextureDef) texture )
 {
 	if (!texture/* || texture->getRefCount() > 0*/)
 		return;
 
-	TexturesVec::iterator fnd = std::find(mTextures.begin(), mTextures.end(), texture);
+	
+	TexturesVec::iterator fnd = FIND(mTextures, texture);
 	if (fnd != mTextures.end())
 		mTextures.erase(fnd);
 

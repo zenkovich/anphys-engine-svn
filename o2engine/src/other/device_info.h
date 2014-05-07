@@ -31,7 +31,7 @@ public:
 	~cDeviceInfo();
 
 	/** Getting parametres from application systems. */
-	void initialize(cApplication* app);
+	void initialize(shared(cApplication) app);
 
 	/** Returns parameter with specified type cast. */
 	template<typename T>

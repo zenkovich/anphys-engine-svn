@@ -57,7 +57,7 @@ void cApplicationBaseInterface::deinitializeSystems()
 
 shared(cInputMessage) cApplicationBaseInterface::getInputMessage()
 {
-	return &mInputMessage;
+	return mInputMessage;
 }
 
 shared(grRenderSystem) cApplicationBaseInterface::getRenderSystem() const

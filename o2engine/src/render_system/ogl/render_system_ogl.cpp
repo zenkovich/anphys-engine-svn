@@ -94,12 +94,12 @@ void grRenderSystem::initializeGL()
 		return;
 	}
 
-	//get gl extensions
+	//get opengl extensions
 	getGLExtensions(mLog);
 
 	GL_CHECK_ERROR(mLog);
 
-	checkCapatibles();
+	checkCompatibles();
 
 #endif //PLATFORM_WIN
 
@@ -188,7 +188,7 @@ bool grRenderSystem::endRender()
 	return true;
 }
 
-bool grRenderSystem::drawMesh( grMesh* mesh )
+bool grRenderSystem::drawMesh( shared(grMesh) mesh )
 {
 	if (!mReady)
 		return false;
@@ -328,7 +328,7 @@ void grRenderSystem::frameResized()
 	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 }
 
-bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
+bool grRenderSystem::bindRenderTarget( shared(grRenderTarget) renderTarget )
 {
 	if (!renderTarget)
 		return false;
@@ -367,7 +367,7 @@ bool grRenderSystem::unbindRenderTarget()
 	return true;
 }
 
-grRenderTarget* grRenderSystem::getCurrentRenderTarget() const
+shared(grRenderTarget) grRenderSystem::getCurrentRenderTarget() const
 {
 	return mCurrentRenderTarget;
 }
@@ -523,7 +523,7 @@ vec2i grRenderSystem::getMaxTextureSize() const
 	return mMaxTextureSize;
 }
 
-void grRenderSystem::checkCapatibles()
+void grRenderSystem::checkCompatibles()
 {	
 //check render targets available
 	char* extensions[] = { "GL_ARB_framebuffer_object", "GL_EXT_framebuffer_object", "GL_EXT_framebuffer_blit", 

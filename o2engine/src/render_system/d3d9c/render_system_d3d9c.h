@@ -164,7 +164,7 @@ protected:
 	void setupMatrix(const vec2f& size);
 
 	/** Checking capatibles on this device. */
-	void checkCapatibles();
+	void checkCompatibles();
 };
 
 CLOSE_O2_NAMESPACE

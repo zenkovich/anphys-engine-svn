@@ -26,7 +26,7 @@ protected:
 		float                mDelay;               /** Delay to next execution. */
 		float                mRepeatDelay;         /** Repeat delay. If no repeat == -1. */
 		ExecStage            mExecStage;           /** Execution stage. */
-		shared(ICallback) mCallback;            /** Execution callback. */
+		shared(ICallback)    mCallback;            /** Execution callback. */
 		bool                 mVariableRepeatDelay; /** True, when repeat delay will be get from callback result. */
 		int                  mId;                  /** Task id. */
 		
@@ -67,13 +67,13 @@ protected:
 	/** Processing tasks before frame. */
 	void processBeforeFrame(float dt);
 
-	/** Processing tasts after frame. */
+	/** Processing tasks after frame. */
 	void processAfterFrame(float dt);
 
 	/** Processing mCurrentTasks with specified dt and stage. */
 	void processCurrentTasks(float dt, ExecStage stage);
 
-	/** Returns task sample filled with specified parametres. */
+	/** Returns task sample filled with specified parameters. */
 	shared(Task) getTask(shared(ICallback) callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
 };
 

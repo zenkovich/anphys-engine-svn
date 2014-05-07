@@ -35,9 +35,9 @@ protected:
 
 public:
 	//properties
-	PROPERTY(grMesh, grTexture) texture;     /** Texture property, uses set/getTexture. */
-	PROPERTY(grMesh, uint32) maxVertexCount; /** Max vertex count property, uses set/getMaxVertexCount. */
-	PROPERTY(grMesh, uint32) maxPolyCount;   /** Max polygons count property, uses set/getMaxPolyCount. */
+	PROPERTY(grMesh, grTexture) texture;        /** Texture property, uses set/getTexture. */
+	PROPERTY(grMesh, uint32)    maxVertexCount; /** Max vertex count property, uses set/getMaxVertexCount. */
+	PROPERTY(grMesh, uint32)    maxPolyCount;   /** Max polygons count property, uses set/getMaxPolyCount. */
 
 	/** ctor. */
 	grMesh(grTexture texture = grTexture(), uint32 vertexCount = 4, uint32 polyCount = 2);

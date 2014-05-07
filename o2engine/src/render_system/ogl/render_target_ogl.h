@@ -12,10 +12,10 @@ class grRenderTarget:public grRenderTargetBaseInterface
 {
 	friend class grRenderSystem;
 
-	GLuint mFrameBuffer; /**< Opengl framebuffer handle. */
+	GLuint mFrameBuffer; /**< Opengl frame buffer handle. */
 
 	/** ctor. */
-	grRenderTarget(grTextureDef* texture);
+	grRenderTarget(shared(grTextureDef) texture);
 
 public:	
 	/** ctor. */

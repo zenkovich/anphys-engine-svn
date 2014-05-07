@@ -185,6 +185,7 @@
     <ClInclude Include="..\src\util\public_namespace.h" />
     <ClInclude Include="..\src\util\public_platforms.h" />
     <ClInclude Include="..\src\util\public_types.h" />
+    <ClInclude Include="..\src\util\public_utils.h" />
     <ClInclude Include="..\src\util\ref_counter.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />

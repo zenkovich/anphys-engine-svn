@@ -13,16 +13,6 @@
 OPEN_O2_NAMESPACE
 
 
-class A
-{
-	int avalue;
-};
-
-class B: public A
-{
-	int bvalue;
-};
-
 cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
 	mAutoAjustByScreen(false), mAutoAjustScale(1, 1), mWindowResizible(true), mActive(false), mTimer(NULL)
@@ -35,16 +25,14 @@ cApplication::cApplication():
 
 	mRenderSystem = mnew grRenderSystem();
 
-	shared(B) b = mnew B;
-	shared(A) a = shared(A)(b);
-
 	cDeviceInfo::initializeSingleton();
-	deviceInfo()->initialize(this);
+	deviceInfo()->initialize(shared(cApplication)(this).disableAutoRelease());
 }
 
 cApplication::~cApplication()
 {	
 	safe_release(mRenderSystem);
+	safe_release(mTimer);
 
 	cDeviceInfo::deinitializeSingleton();
 }
@@ -118,7 +106,7 @@ void cApplication::launch()
 
 			onUpdate(dt);
 			draw();
-			mInputMessage.update(dt);
+			mInputMessage->update(dt);
 
 			mScheduler->processAfterFrame(dt);
 		}
@@ -140,40 +128,40 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	switch(uMsg)
 	{	
 	case WM_LBUTTONDOWN:
-		mApplication->mInputMessage.cursorPressed(cursorPos);
+		mApplication->mInputMessage->cursorPressed(cursorPos);
 		break;
 
 	case WM_LBUTTONUP:
-		mApplication->mInputMessage.cursorReleased();
+		mApplication->mInputMessage->cursorReleased();
 		break;
 	
 	case WM_RBUTTONDOWN:
-		mApplication->mInputMessage.altCursorPressed(cursorPos);
+		mApplication->mInputMessage->altCursorPressed(cursorPos);
 		break;
 
 	case WM_RBUTTONUP:
-		mApplication->mInputMessage.altCursorReleased();
+		mApplication->mInputMessage->altCursorReleased();
 		break;
 
 	case WM_MBUTTONDOWN:
-		mApplication->mInputMessage.alt2CursorPressed(cursorPos);
+		mApplication->mInputMessage->alt2CursorPressed(cursorPos);
 		break;
 
 	case WM_MBUTTONUP:
-		mApplication->mInputMessage.alt2CursorReleased();
+		mApplication->mInputMessage->alt2CursorReleased();
 		break;
 
 	case WM_KEYDOWN:
 		key = (int)wParam;
-		mApplication->mInputMessage.keyPressed(key);
+		mApplication->mInputMessage->keyPressed(key);
 		break;
 
 	case WM_KEYUP:
-		mApplication->mInputMessage.keyReleased((int)wParam);
+		mApplication->mInputMessage->keyReleased((int)wParam);
 		break;
 
 	case WM_MOUSEMOVE:
-		mApplication->mInputMessage.setCursorPos(cursorPos);
+		mApplication->mInputMessage->setCursorPos(cursorPos);
 		break;
 
 	case WM_ACTIVATE:
@@ -422,7 +410,7 @@ void cApplication::autoAjustByScreenSpace()
 
 void cApplication::setFullscreen()
 {
-	mLog->hout("Setting fullscreen");
+	mLog->hout("Setting full screen");
 }
 
 void cApplication::onUpdate( float dt )

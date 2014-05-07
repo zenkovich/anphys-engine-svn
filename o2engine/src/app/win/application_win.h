@@ -19,24 +19,24 @@ protected:
 	friend class grRenderSystem;
 	friend class cDeviceInfo;
 
-	HWND         mHWnd;                /**< Window handle. */
-	unsigned int mWndStyle;            /**< Window styles data. */
-		         					   
-	bool         mWindowed;            /**< True if app in windowed mode, false if in fullscreen mode. */
-	bool         mWindowResizible;     /**< True, if window can be sized by user. */
-	vec2i        mWindowedSize;        /**< Size of window. */
-	vec2i        mWindowedPos;         /**< Position of window. */
+	HWND           mHWnd;                /**< Window handle. */
+	unsigned int   mWndStyle;            /**< Window styles data. */
+		           					   
+	bool           mWindowed;            /**< True if app in windowed mode, false if in fullscreen mode. */
+	bool           mWindowResizible;     /**< True, if window can be sized by user. */
+	vec2i          mWindowedSize;        /**< Size of window. */
+	vec2i          mWindowedPos;         /**< Position of window. */
+				   				   
+	bool           mAutoAjustByScreen;   /**< True, if app in windowed mode and window ajusting by available screen space. */
+	vec2f          mAutoAjustScale;      /**< Auto ajust scale. */
+				   				   
+	string         mWndCaption;          /**< Window caption. */
+				   				   
+	bool           mActive;              /**< True, if window is active. */
 									   
-	bool         mAutoAjustByScreen;   /**< True, if app in windowed mode and window ajusting by available screen space. */
-	vec2f        mAutoAjustScale;      /**< Auto ajust scale. */
-									   
-	string  mWndCaption;          /**< Window caption. */
-									   
-	bool         mActive;              /**< True, if window is active. */
-									   
-	cTimer*      mTimer;               /**< Timer for detecting delta time for update. */
+	shared(cTimer) mTimer;               /**< Timer for detecting delta time for update. */
 
-	static cApplication* mApplication; /**< Static ptr for wndProc func. */
+	static cApplication* mApplication;   /**< Static ptr for wndProc func. */
 
 public:
 	cApplication();
@@ -64,16 +64,16 @@ protected:
 	/** Initializing window. */
 	void initializeWindow();
 
-	/** Sets window parametres as windowed mode */
+	/** Sets window parameters as windowed mode */
 	void setWindowed();
 
-	/** Sets window parametres as fullscreen mode. */
+	/** Sets window parameters as full screen mode. */
 	void setFullscreen();
 
-	/** Sets window parametres as adjusting by screen mode. */
+	/** Sets window parameters as adjusting by screen mode. */
 	void autoAjustByScreenSpace();
 
-	/** Reset window by window parametres. */
+	/** Reset window by window parameters. */
 	void resetWnd();
 
 	/** Window proc func. */

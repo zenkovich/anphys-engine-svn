@@ -336,7 +336,7 @@ SERIALIZE_METHOD_IMPL(grSprite)
 	}
 	else
 	{
-		mMesh->setTexture(NULL);
+		mMesh->setTexture(grTexture());
 
 		string textureName;
 		if (SERIALIZE_ID(textureName, "texture"))

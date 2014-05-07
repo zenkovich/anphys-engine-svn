@@ -17,6 +17,7 @@ class grFont: public cSerializableObj
 {
 	friend class grFontManager;
 	friend class grText;
+	friend class shared(grFont);
 	
 public:
 	/** Characret definition structure. Conatining texture source rect, size, offset, advance and characted id. */
@@ -35,13 +36,13 @@ public:
 protected:
 	enum { nMaxSymbolId = 0xffff };
 
-	string mName;            /** Font name. */
+	string      mName;            /** Font name. */
 	character*  mCharacters;      /** Characters array. */
 	int         mCharactersCount; /** Characters count in array. */
 	bool        mAllSymbolReturn; /** True, when all symbols is new line symbols. */
 	float       mLineHeight;      /** Line height, in pixels. */
 	float       mBase;            /** Base, in pixels. */
-	uint16*     mCharacterIds;    /** Charactes ids array. */
+	uint16*     mCharacterIds;    /** Characters ids array. */
 	grTexture   mTexture;         /** Texture. */
 
 	/** ctor. */

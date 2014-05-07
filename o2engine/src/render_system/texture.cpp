@@ -1,10 +1,11 @@
 #include "texture.h"
 
 #include "render_system.h"
+#include "util/image/image.h"
 
 OPEN_O2_NAMESPACE
 
-grTexture::grTexture( grTextureDef* object ):
+grTexture::grTexture( shared(grTextureDef) object ):
 	cReferenceObj(object)
 {
 	if (object) {
@@ -31,7 +32,7 @@ grTexture grTexture::create( const vec2f& size, grTexFormat::type format /*= grT
 	return grTexture(renderSystem()->createTexture(size, format, usage));
 }
 
-grTexture grTexture::createFromImage( cImage* image )
+grTexture grTexture::createFromImage( shared(cImage) image )
 {
 	return grTexture(renderSystem()->createTextureFromImage(image));
 }

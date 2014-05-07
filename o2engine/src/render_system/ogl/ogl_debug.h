@@ -11,11 +11,10 @@ OPEN_O2_NAMESPACE
 /** Returns opengl error description by id. */
 const char* getGLErrorDesc(GLenum errorId);
 
-class cLogStream;
-void glCheckError(cLogStream* log, const char* filename = NULL, unsigned int line = 0);
+void glCheckError(shared(cLogStream) log, const char* filename = NULL, unsigned int line = 0);
 
 #ifdef RENDER_DEBUG
-    // checking ogl errors
+    // checking opengl errors
 #	define GL_CHECK_ERROR(log) glCheckError(log, __FILE__, __LINE__);
 #else
 #	define GL_CHECK_ERROR(log) 
