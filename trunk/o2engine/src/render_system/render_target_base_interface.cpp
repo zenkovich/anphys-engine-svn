@@ -7,7 +7,7 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTargetBaseInterface::grRenderTargetBaseInterface( grTextureDef* texture ):
+grRenderTargetBaseInterface::grRenderTargetBaseInterface( shared(grTextureDef) texture ):
 	mReady(false)
 {
 	
@@ -47,7 +47,7 @@ grRenderTargetBaseInterface::grRenderTargetBaseInterface( const vec2f& size /*= 
 	vec2i maxTextureSize = renderSystem()->getMaxTextureSize();
 	if (texSize.x > maxTextureSize.x || texSize.y > maxTextureSize.y)
 	{
-		renderSystem()->mLog->warning("Render target size too large! size %ix%i boundin by max %ix%i",
+		renderSystem()->mLog->warning("Render target size too large! size %ix%i bounding by max %ix%i",
 			                          (int)texSize.x, (int)texSize.y, maxTextureSize.x, maxTextureSize.y);
 		
 		texSize.x = clamp<float>(texSize.x, 64.0f, (float)maxTextureSize.x);

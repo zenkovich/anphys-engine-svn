@@ -13,16 +13,14 @@ PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
 {
 	PROC res = wglGetProcAddress(id);
 	if (!res)
-		log->error("Failed to get func adress: '%s'", id);
+		log->error("Failed to get func address: '%s'", id);
 
 	return res;
 }
 
-void getGLExtensions( cLogStream* log /*= NULL*/ )
+void getGLExtensions( shared(cLogStream) log /*= NULL*/ )
 {
-	cLogStream* llog = log;
-	if (!llog)
-		llog = gLog;
+	shared(cLogStream) llog = log ? log:gLog;
 	
 	glGenFramebuffersEXT        = (PFNGLGENFRAMEBUFFERSEXTPROC) getSafeWGLProcAddress("glGenFramebuffersEXT", llog);
 	glBindFramebufferEXT        = (PFNGLBINDFRAMEBUFFEREXTPROC) getSafeWGLProcAddress("glBindFramebufferEXT", llog);

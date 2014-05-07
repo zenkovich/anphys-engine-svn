@@ -136,7 +136,7 @@ void grRenderSystem::initializeD3D()
 	
 	mDirect3DDevice->SetDepthStencilSurface(mStencilBufferSurface);
 
-	checkCapatibles();
+	checkCompatibles();
 
 	mCurrentRenderTarget = NULL;
 
@@ -602,7 +602,7 @@ void grRenderSystem::frameResized()
 	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 }
 
-void grRenderSystem::checkCapatibles()
+void grRenderSystem::checkCompatibles()
 {
 	D3DCAPS9 caps;
 	mDirect3DDevice->GetDeviceCaps(&caps);

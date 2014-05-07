@@ -12,7 +12,7 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTarget::grRenderTarget( grTextureDef* texture ):
+grRenderTarget::grRenderTarget( shared(grTextureDef) texture ):
 	grRenderTargetBaseInterface(texture), mFrameBuffer(0)
 {
 	if (mRenderTexture)
@@ -46,7 +46,7 @@ void grRenderTarget::initializeBuffer()
 	{
 		GLenum glError = glGetError();
 
-		renderSystem()->mLog->error("Failed to create GL framebuffer object! GL Error %x %s", glError,
+		renderSystem()->mLog->error("Failed to create GL frame buffer object! GL Error %x %s", glError,
 			                      getGLErrorDesc(glError));
 
 		mReady = false;

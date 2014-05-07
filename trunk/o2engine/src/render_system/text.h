@@ -33,18 +33,18 @@ public:
 	enum { nMeshMaxPolyCount = 2048 };
 
 protected:
-	typedef vector<grMesh*> MeshVec;
+	typedef vector< shared(grMesh) > MeshVec;
 
 	wstring         mText;                /** Wide char string, containing rendering text. */
-	grFont*         mFont;                /** Using font. */
+	shared(grFont)  mFont;                /** Using font. */
 	basis           mTransform;           /** Transformation. */
 	basisDef        mTransformDef;        /** Transform definition. */
 	vec2f           mAreaSize;            /** Size of text area. */
-	float           mCharactersDistCoef;  /** Characters distance coef, 1 is standart. */
-	float           mLinesDistCoef;       /** Lines distance coef, 1 is standart. */
+	float           mCharactersDistCoef;  /** Characters distance coef, 1 is standard. */
+	float           mLinesDistCoef;       /** Lines distance coef, 1 is standard. */
 	TextStyle       mStyle;               /** Style bit mask. */
 	VerAlign        mVerAlign;            /** Vertical align. */
-	HorAlign        mHorAlign;            /** Horisontal align. */
+	HorAlign        mHorAlign;            /** Horizontal align. */
 	bool            mWordWrap;            /** True, when words wrapping. */
 	color4          mColor;               /** Color of the text. */
 	color4          mGradientTopColor;    /** Gradient effect top color. */
@@ -56,38 +56,38 @@ protected:
 	MeshVec         mMeshes;              /** Meshes vector. */
 	basis           mLastTransform;       /** Last mesh update transformation. */
 	bool            mNeedUpdateMesh;      /** True, when need rebuild meshes. */
-	bool            mNeedTransformMesh;   /** True, whe need transform meshes. */
+	bool            mNeedTransformMesh;   /** True, when need transform meshes. */
 
 public:
 	//properties
-	PROPERTY(grText, grFont*)     font;                /** Font pointer property. Uses set/getFont. */
-	PROPERTY(grText, wstring)     text;                /** Text property, wstring. Uses set/getText. */
-	PROPERTY(grText, string) ctext;               /** Text property, string. Uses set/getCText. */
-	PROPERTY(grText, TextStyle)   style;               /** Style bit mask property. Uses set/gettextStyle. */
-	PROPERTY(grText, VerAlign)    verAlign;            /** vertical align property. Uses set/getVerAlign. */
-	PROPERTY(grText, HorAlign)    horAlign;            /** Horisontal align property. Uses set/getHorAlign. */
-	PROPERTY(grText, bool)        wordWrap;            /** Words wrapping flag property. Uses set/getWordWrap. */
-	PROPERTY(grText, bool)        cursive;             /** Cursive flag property. Uses set/isCursive. */
-	PROPERTY(grText, bool)        bold;                /** Bold flag property. Uses set/isBold. */
-	PROPERTY(grText, bool)        shadow;              /** Shadow flag property. Uses setShadow/isWithShadow. */
-	PROPERTY(grText, bool)        border;              /** Border flag property. Uses setBorder/isWithBorder. */
-	PROPERTY(grText, bool)        gradient;            /** Gradient flag property. Uses setGradient/isWithGradient. */
-	PROPERTY(grText, vec2f)       effectOffset;        /** Effects offset property. Uses set/getEffectsOffset. */
-	PROPERTY(grText, color4)      color;               /** Text color property. Uses set/getColor. */
-	PROPERTY(grText, color4)      borderColor;         /** Border color property. Uses set/getBorderColor. */
-	PROPERTY(grText, color4)      shadowColor;         /** Shadow color property. Uses set/getShadowColor. */
-	PROPERTY(grText, color4)      gradientColorTop;    /** Gradient top color property. Uses set/getGradientBottomColor. */
-	PROPERTY(grText, color4)      gradientColorBottom; /** Gradient bottom color property. Uses set/getGradientBottomColor. */
-	PROPERTY(grText, vec2f)       position;            /** Position property. Uses set/getPosition. */
-	PROPERTY(grText, float)       angle;               /** Angle of rotation property. Uses set/getAngle. */
-	PROPERTY(grText, vec2f)       scale;               /** Scale property. Uses set/getScale. */
-	PROPERTY(grText, float)       charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
-	PROPERTY(grText, basis)       transform;           /** Transformation property. Uses set/getTransform. */
-	PROPERTY(grText, basisDef)    transformDef;        /** Transform definition property. Uses set/getTransformDef. */
-	PROPERTY(grText, vec2f)       areaSize;            /** Area size property. Uses set/getAreaSize. */
-	PROPERTY(grText, fRect)       rect;                /** Text rectangle area. Uses set/getRect. */
-	PROPERTY(grText, float)       charactersDistCoef;  /** Characters distance coef, 1 is standart. Uses set/getCharactersDistCoef. */
-	PROPERTY(grText, float)       linesDistCoef;       /** Lines distance coef, 1 is standart. Uses set/getLinesDistCoef. */
+	PROPERTY(grText, shared(grFont)) font;                /** Font pointer property. Uses set/getFont. */
+	PROPERTY(grText, wstring)        text;                /** Text property, wstring. Uses set/getText. */
+	PROPERTY(grText, string)         ctext;               /** Text property, string. Uses set/getCText. */
+	PROPERTY(grText, TextStyle)      style;               /** Style bit mask property. Uses set/gettextStyle. */
+	PROPERTY(grText, VerAlign)       verAlign;            /** vertical align property. Uses set/getVerAlign. */
+	PROPERTY(grText, HorAlign)       horAlign;            /** Horizontal align property. Uses set/getHorAlign. */
+	PROPERTY(grText, bool)           wordWrap;            /** Words wrapping flag property. Uses set/getWordWrap. */
+	PROPERTY(grText, bool)           cursive;             /** Cursive flag property. Uses set/isCursive. */
+	PROPERTY(grText, bool)           bold;                /** Bold flag property. Uses set/isBold. */
+	PROPERTY(grText, bool)           shadow;              /** Shadow flag property. Uses setShadow/isWithShadow. */
+	PROPERTY(grText, bool)           border;              /** Border flag property. Uses setBorder/isWithBorder. */
+	PROPERTY(grText, bool)           gradient;            /** Gradient flag property. Uses setGradient/isWithGradient. */
+	PROPERTY(grText, vec2f)          effectOffset;        /** Effects offset property. Uses set/getEffectsOffset. */
+	PROPERTY(grText, color4)         color;               /** Text color property. Uses set/getColor. */
+	PROPERTY(grText, color4)         borderColor;         /** Border color property. Uses set/getBorderColor. */
+	PROPERTY(grText, color4)         shadowColor;         /** Shadow color property. Uses set/getShadowColor. */
+	PROPERTY(grText, color4)         gradientColorTop;    /** Gradient top color property. Uses set/getGradientBottomColor. */
+	PROPERTY(grText, color4)         gradientColorBottom; /** Gradient bottom color property. Uses set/getGradientBottomColor. */
+	PROPERTY(grText, vec2f)          position;            /** Position property. Uses set/getPosition. */
+	PROPERTY(grText, float)          angle;               /** Angle of rotation property. Uses set/getAngle. */
+	PROPERTY(grText, vec2f)          scale;               /** Scale property. Uses set/getScale. */
+	PROPERTY(grText, float)          charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
+	PROPERTY(grText, basis)          transform;           /** Transformation property. Uses set/getTransform. */
+	PROPERTY(grText, basisDef)       transformDef;        /** Transform definition property. Uses set/getTransformDef. */
+	PROPERTY(grText, vec2f)          areaSize;            /** Area size property. Uses set/getAreaSize. */
+	PROPERTY(grText, fRect)          rect;                /** Text rectangle area. Uses set/getRect. */
+	PROPERTY(grText, float)          charactersDistCoef;  /** Characters distance coef, 1 is standart. Uses set/getCharactersDistCoef. */
+	PROPERTY(grText, float)          linesDistCoef;       /** Lines distance coef, 1 is standart. Uses set/getLinesDistCoef. */
 
 	/** ctor. */
 	grText(grFont* font);
@@ -99,10 +99,10 @@ public:
 	void draw();	
 
 	/** Sets using font. */
-	void setFont(grFont* const& font);
+	void setFont(const shared(grFont)& font);
 
 	/** Returns using font. */
-	grFont* getFont() const;
+	shared(grFont) getFont() const;
 
 	/** Sets text. */
 	void setText(const wstring& text);
@@ -176,7 +176,7 @@ public:
 	/** Returns gradient top color. */
 	color4 getGradientTopColor() const;
 
-	/** Retuns gradient bottom color. */
+	/** Returns gradient bottom color. */
 	color4 getGradientBottomColor() const;
 
 	/** Sets shadow color. */
@@ -221,7 +221,7 @@ public:
 	/** Returns text transformation. */
 	basis getTransform() const;
 
-	/** Sets text transformation defnition. */
+	/** Sets text transformation definition. */
 	void setTransformDef(const basisDef& def);
 
 	/** Returns text transformation definition. */
@@ -233,16 +233,16 @@ public:
 	/** Returns area size. */
 	vec2f getAreaSize() const;
 
-	/** Sets text rectange (position and area size). */
+	/** Sets text rectangle (position and area size). */
 	void setRect(const fRect& rect);
 
 	/** Returns text rectangle. */
 	fRect getRect() const;
 
-	/** Sets gorisontal oalign. */
+	/** Sets horizontal align. */
 	void setHorAlign(const HorAlign& align);
 
-	/** Returns horisontal align. */
+	/** Returns horizontal align. */
 	HorAlign getHorAlign() const;
 
 	/** Sets vertical align. */
@@ -257,16 +257,16 @@ public:
 	/** Returns word wrapping. */
 	bool getWordWrap() const;
 
-	/** Sets characters distance coeficient. */
+	/** Sets characters distance coefficient. */
 	void setCharactersDistCoef(const float& coef = 1);
 
 	/** Returns characters distance coef. */
 	float getCharactersDistCoef() const;
 
-	/** Sets lines distance coeficient. */
+	/** Sets lines distance coefficient. */
 	void setLinesDistCoef(const float& coef = 1);
 
-	/** Returns lines distance coeficient. */
+	/** Returns lines distance coefficient. */
 	float getLinesDistCoef() const;
 
 protected:
@@ -282,7 +282,7 @@ protected:
 	/** Preparing meshes for characters count. */
 	void prepareMesh(int charactersCount);
 
-	/** Simple symol definition structure. */
+	/** Simple symbol definition structure. */
 	struct symbolDef
 	{
 		fRect  mPosition; /** Rect positioning. */

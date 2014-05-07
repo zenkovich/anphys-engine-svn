@@ -13,5 +13,6 @@
 #include "util/public_platforms.h"
 #include "util/public_libs.h"
 #include "util/public_includes.h"
+#include "util/public_utils.h"
 
 #endif //PUBLIC_H

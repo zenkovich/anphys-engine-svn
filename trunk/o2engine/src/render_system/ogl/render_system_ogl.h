@@ -22,38 +22,38 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	static const unsigned int mVertexBufferSize = 6000;  /** Maximum size of vertex buffer. */
 	static const unsigned int mIndexBufferSize = 6000*3; /** Maximum size of index buffer. */
 
-//gl context
-	HGLRC           mGLContext;              /**< OpenGL context. */
-	HDC             mHDC;                    /**< Win frame device context. */
-
-	bool            mRenderTargetsAvailable; /**< True, if render targets is available. */
-	vec2i           mMaxTextureSize;         /**< Max texture size. */
+//opengl context
+	HGLRC                  mGLContext;              /**< OpenGL context. */
+	HDC                    mHDC;                    /**< Win frame device context. */
+					       
+	bool                   mRenderTargetsAvailable; /**< True, if render targets is available. */
+	vec2i                  mMaxTextureSize;         /**< Max texture size. */
 										   
 //vertex & index buffers				   
-	unsigned char*  mVertexData;             /**< Vertex data buffer. */
-	unsigned short* mVertexIndexData;        /**< Index data buffer. */
-	GLenum          mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
+	unsigned char*         mVertexData;             /**< Vertex data buffer. */
+	unsigned short*        mVertexIndexData;        /**< Index data buffer. */
+	GLenum                 mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
 										     
-//batching parametres					     
-	grTextureDef*   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
-	unsigned int    mLastDrawVertex;         /**< Last vertex idx for next DIP. */
-	unsigned int    mLastDrawIdx;            /**< Last vertex index for nex DIP. */
-	unsigned int    mTrianglesCount;         /**< Triatgles count for next DIP. */
-	unsigned int    mFrameTrianglesCount;    /**< Total triangles at current frame. */
-	unsigned int    mDIPCount;               /**< DrawIndexedPrimitives calls count. */
-										     
-//stencil
-	bool            mStencilDrawing;         /**< True, if drawing in stencil buffer. */
-	bool            mStencilTest;            /**< True, if drawing with stencil test. */
-
-//scissor test
-	fRect           mScissorRect;            /**< Scissor rect, in screen space. */
-	bool            mScissorTest;            /**< True, if scissor test enabled. */
+//batching parameters					     
+	shared(grTextureDef)   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	unsigned int           mLastDrawVertex;         /**< Last vertex idx for next DIP. */
+	unsigned int           mLastDrawIdx;            /**< Last vertex index for next DIP. */
+	unsigned int           mTrianglesCount;         /**< Triangles count for next DIP. */
+	unsigned int           mFrameTrianglesCount;    /**< Total triangles at current frame. */
+	unsigned int           mDIPCount;               /**< DrawIndexedPrimitives calls count. */
+					       					     
+//stencil			       
+	bool                   mStencilDrawing;         /**< True, if drawing in stencil buffer. */
+	bool                   mStencilTest;            /**< True, if drawing with stencil test. */
+					       
+//scissor test		       
+	fRect                  mScissorRect;            /**< Scissor rect, in screen space. */
+	bool                   mScissorTest;            /**< True, if scissor test enabled. */
 										
 //other
-	grRenderTarget* mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
+	shared(grRenderTarget) mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
 
-	bool            mReady;                  /**< True, if render system initialized. */
+	bool                   mReady;                  /**< True, if render system initialized. */
 
 public:
 	/* ctor. */
@@ -105,7 +105,7 @@ public:
 	bool isScissorTestEnabled() const;
 	
 	/** Drawing mesh. */
-	bool drawMesh(grMesh* mesh);
+	bool drawMesh(shared(grMesh) mesh);
 	
 	/** Drawing lines. */
 	bool drawLines(vertex2* verticies, int count);
@@ -114,13 +114,13 @@ public:
 	void setLinesWidth(float width);
 	
 	/** Binding render target. */
-	bool bindRenderTarget(grRenderTarget* renderTarget);
+	bool bindRenderTarget(shared(grRenderTarget) renderTarget);
 	
 	/** Unbinding render target. */
 	bool unbindRenderTarget();
 	
 	/** Returns current render target. Returns NULL if no render target. */
-	grRenderTarget* getCurrentRenderTarget() const;	
+	shared(grRenderTarget) getCurrentRenderTarget() const;	
 
 	/** Returns true, if render target is can be used with current device. */
 	bool isRenderTargetAvailable() const;
@@ -149,8 +149,8 @@ protected:
 	/** Returns true, if device supports specified extension. */
 	static bool isExtensionSupported(const char *extension);
 
-	/** Checking capatibles on this device. */
-	void checkCapatibles();
+	/** Checking compatibles on this device. */
+	void checkCompatibles();
 };
 
 CLOSE_O2_NAMESPACE

@@ -62,7 +62,7 @@ void grMesh::resize( uint32 vertexCount, uint32 polyCount )
 
 void grMesh::draw()
 {
-	renderSystem()->drawMesh(this);
+	renderSystem()->drawMesh( shared(grMesh)(this).disableAutoRelease() );
 }
 
 uint32 grMesh::getMaxVertexCount() const

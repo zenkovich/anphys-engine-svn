@@ -405,6 +405,9 @@
     <ClInclude Include="..\src\util\public_libs.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\public_utils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">

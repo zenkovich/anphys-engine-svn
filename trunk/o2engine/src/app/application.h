@@ -11,7 +11,7 @@
 
 OPEN_O2_NAMESPACE
 
-inline shared(cApplication) application() { return cApplication::instancePtr()); }
+inline shared(cApplication) application() { return cApplication::instancePtr(); }
 inline shared(cInputMessage) appInput() { return application()->getInputMessage(); }
 
 CLOSE_O2_NAMESPACE

@@ -35,16 +35,16 @@ void grText::draw()
 		(*it)->draw();
 }
 
-void grText::setFont( grFont* const& font )
+void grText::setFont( const shared(grFont)& font )
 {
-	if (equals(font, mFont))
+	if (font == mFont)
 		return;
 
 	mFont = font;
 	mNeedUpdateMesh = true;
 }
 
-grFont* grText::getFont() const
+shared(grFont) grText::getFont() const
 {
 	return mFont;
 }
@@ -734,7 +734,7 @@ void grText::prepareMesh( int charactersCount )
 void grText::transformMesh( const basis& bas )
 {
 	mNeedTransformMesh = false;
-	//for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
+
 	FOREACH(MeshVec, mMeshes, it)
 	{
 		grMesh* mesh = *it;

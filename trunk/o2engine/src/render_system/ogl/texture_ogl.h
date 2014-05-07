@@ -12,6 +12,7 @@ class grTextureDef:public grTextureDefBaseInterface
 	friend class grRenderSystemBaseInterface;
 	friend class grRenderSystem;
 	friend class grRenderTarget;
+	friend class shared(grTextureDef);
 
 	GLuint mHandle; /**< Texture handle. */
 
@@ -30,13 +31,13 @@ class grTextureDef:public grTextureDefBaseInterface
 		  	    grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	void createFromImage(cImage* image);
+	void createFromImage(shared(cImage) image);
 		       
 	/** Creates texture from file. */
 	void createFromFile(const string& fileName);
 		       
 	/** Creates texture as render target. 
-	 ** note: recomending to use grRenderTarget*/
+	 ** note: recommending to use grRenderTarget*/
 	void createAsRenderTarget(const vec2f& size, grTexFormat::type format = grTexFormat::DEFAULT);
 };
 
