@@ -7,6 +7,7 @@
 
 #include "util/math/vector2.h"
 #include "util/math/vertex.h"
+#include "render_system/ogl/texture_ogl.h"
 
 OPEN_O2_NAMESPACE
 

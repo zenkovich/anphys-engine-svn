@@ -1,7 +1,7 @@
 #ifndef UI_RECT_H
 #define UI_RECT_H
 
-#include "widget.h"
+#include "ui_widget.h"
 
 OPEN_O2_NAMESPACE
 

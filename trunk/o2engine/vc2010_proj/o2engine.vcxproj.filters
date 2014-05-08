@@ -315,9 +315,6 @@
     <ClInclude Include="..\src\util\string.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ui\widget.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\type_indexation.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -407,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="..\src\util\public_utils.h">
       <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_widget.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -641,9 +641,6 @@
     <ClCompile Include="..\src\util\string.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ui\widget.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\util\type_indexation.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
@@ -688,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\smart_ptrs.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_widget.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,8 +9,8 @@ class grSprite;
 
 class uiSpriteDrawable:public uiDrawable
 {
-	grSprite* mSprite;    /**< Sprite. */
-	bool      mOwnSprite; /**< True, if sprite contains here and can be removed. */
+	shared(grSprite) mSprite;    /**< Sprite. */
+	bool             mOwnSprite; /**< True, if sprite contains here and can be removed. */
 
 public:
 	/** ctor. */
@@ -19,7 +19,7 @@ public:
 	/** ctor. 
 	 ** @param sprite - sprite ptr
 	 ** @param ownSprite - is sprite own and can be removed */
-	uiSpriteDrawable(grSprite* sprite, bool ownSprite = true);
+	uiSpriteDrawable(shared(grSprite) sprite, bool ownSprite = true);
 
 	/** dtor. */
 	~uiSpriteDrawable();
@@ -31,7 +31,7 @@ public:
 	void draw();
 
 	/** Set sprite. */
-	void setSprite(grSprite* sprite, bool ownSprite = true);
+	void setSprite(shared(grSprite) sprite, bool ownSprite = true);
 
 	/** Setting the position. */
 	void setPosition(const vec2f& pos);

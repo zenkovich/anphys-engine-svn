@@ -11,14 +11,15 @@
 
 #include "texture_base_interface.h"
 #include "font_manager.h"
+#include "camera.h"
 
 OPEN_O2_NAMESPACE
 
 class cLogStream;
-class grCamera;
 class grMesh;
 class grRenderTarget;
 class grTexture;
+class grTextureDef;
 
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
 class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>

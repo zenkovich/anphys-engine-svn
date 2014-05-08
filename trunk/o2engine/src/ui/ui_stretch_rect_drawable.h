@@ -10,14 +10,14 @@ class cStretchRect;
 class uiStretchRectDrawable: public uiDrawable
 {
 public:
-	cStretchRect* mStretchRect;
+	shared(cStretchRect) mStretchRect;
 
 
 	/** ctor. */
 	uiStretchRectDrawable();
 
 	/** ctor. */
-	uiStretchRectDrawable(cStretchRect* stretchRect);
+	uiStretchRectDrawable(shared(cStretchRect) stretchRect);
 
 	/** dtor. */
 	~uiStretchRectDrawable();

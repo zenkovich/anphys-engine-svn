@@ -1,7 +1,7 @@
 #ifndef UI_BUTTON_H
 #define UI_BUTTON_H
 
-#include "widget.h"
+#include "ui_widget.h"
 
 #include "util/callback.h"
 
@@ -9,27 +9,25 @@ OPEN_O2_NAMESPACE
 
 class uiButton:public uiWidget
 {
-	ICallback* mOnClick;
-	ICallback* mOnSelect;
+	shared(ICallback) mOnClick;
+	shared(ICallback) mOnSelect;
 
 public:
 	DEFINE_TYPE(uiButton);
 
 	//properties
-	PROPERTY(uiButton, ICallback*) onClick;
-	PROPERTY(uiButton, ICallback*) onSelect;
+	PROPERTY(uiButton, shared(ICallback)) onClick;
+	PROPERTY(uiButton, shared(ICallback)) onSelect;
 
 
-	uiButton(ICallback* onClickCB = NULL, ICallback* onSelectCB = NULL, const string& id = "", uiWidget* parent = NULL, 
-		     const vec2f& localPos = vec2f());
+	uiButton(shared(ICallback) onClickCB = NULL, shared(ICallback) onSelectCB = NULL, const string& id = "", 
+		     shared(uiWidget) parent = NULL, const vec2f& localPos = vec2f());
 
 	uiButton(const uiButton& button);
 
 	~uiButton();
 
-	uiWidget* clone() const;
-
-
+	shared(uiWidget) clone() const;
 };
 
 CLOSE_O2_NAMESPACE
