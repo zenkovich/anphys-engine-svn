@@ -9,11 +9,11 @@
 #include "util/math/basis.h"
 #include "util/math/rect.h"
 #include "util/math/color.h"
+#include "font.h"
 
 OPEN_O2_NAMESPACE
 
 class grMesh;
-class grFont;
 class grRenderSystem;
 
 /** Text renderer class. Using font, basis and many style parametres. Caching text into meshes. */

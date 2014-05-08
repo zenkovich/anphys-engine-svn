@@ -145,7 +145,7 @@
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\ui_stretch_rect_drawable.h" />
     <ClInclude Include="..\src\ui\ui_widget_layout.h" />
-    <ClInclude Include="..\src\ui\widget.h" />
+    <ClInclude Include="..\src\ui\ui_widget.h" />
     <ClInclude Include="..\src\util\animation\animation.h" />
     <ClInclude Include="..\src\util\animation\animation_group.h" />
     <ClInclude Include="..\src\util\animation\frame.h" />
@@ -258,7 +258,7 @@
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp" />
     <ClCompile Include="..\src\ui\ui_widget_layout.cpp" />
-    <ClCompile Include="..\src\ui\widget.cpp" />
+    <ClCompile Include="..\src\ui\ui_widget.cpp" />
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />

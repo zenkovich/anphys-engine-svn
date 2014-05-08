@@ -20,7 +20,7 @@ class grTexture: public cReferenceObj<grTextureDef>, public grTextureInterface
 	friend class grMesh;
 
 	/** type conversion operator. */
-	operator grTextureDef*();
+	operator shared(grTextureDef)();
 
 public:
 	/** ctor. */

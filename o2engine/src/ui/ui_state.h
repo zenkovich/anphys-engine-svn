@@ -14,11 +14,13 @@ OPEN_O2_NAMESPACE
 class uiState
 {
 	string     mName;
-	cCallbackChain* mOnActiveStateCallbacks;
-	cCallbackChain* mOnDeactiveStateCallbacks;
 
 public: 
 	PROPERTY(uiState, int) state;
+
+	cCallbackChain mOnActiveStateCallbacks;
+	cCallbackChain mOnDeactiveStateCallbacks;
+
 
 	uiState(const string& name, int maxStatesCount = 2);
 	virtual ~uiState();
@@ -27,14 +29,6 @@ public:
 	virtual int getState() const { return 0; }
 
 	virtual void update(float dt) {}
-
-	ICallback* registOnStateActivatedCallback(ICallback* callback, int stateId);
-	void unregistOnStateActivatedCallback(ICallback* callback);
-	void unregistAllOnActivatedStateCallbacks();
-
-	ICallback* registOnStateDeactivatedCallback(ICallback* callback, int stateId);
-	void unregistOnStateDeactivatedCallback(ICallback* callback);
-	void unregistAllOnDeactivatedStateCallbacks();
 
 protected:
 	void initializeProperties();

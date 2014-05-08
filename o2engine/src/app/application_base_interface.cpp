@@ -25,8 +25,10 @@ cApplicationBaseInterface::~cApplicationBaseInterface()
 
 void cApplicationBaseInterface::initalizeSystems()
 {
+	mInputMessage = mnew cInputMessage();
+
 //file system
-	mFileSystem = mnew cFileSystem;
+	mFileSystem = mnew cFileSystem();
 
 //log
 	cFileLogStream* fileLog = mnew cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
@@ -52,7 +54,7 @@ void cApplicationBaseInterface::deinitializeSystems()
 
 	mLog->out("All systems deinitialized");
 
-	safe_release(gLog->getParentStream());
+	//safe_release(gLog->getParentStream());
 }
 
 shared(cInputMessage) cApplicationBaseInterface::getInputMessage()

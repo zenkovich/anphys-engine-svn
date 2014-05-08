@@ -162,6 +162,16 @@ public:
 		return ref.mObject == mObject;
 	}
 
+	bool operator!=(const _shared<T>& ref)
+	{
+		return ref.mObject != mObject;
+	}
+
+	bool operator!=(const _shared<T>& ref) const
+	{
+		return ref.mObject != mObject;
+	}
+
 	_shared<T>& operator=(const _shared<T>& ref) 
 	{
 		release();
@@ -220,7 +230,7 @@ public:
 
 				*mValid = false;
 
-				if (*mRefCount > 0)
+				if (*mRefCount > 1)
 					xlog("Possible using destroyed object - there are %i links on this object");
 
 				*mRefCount = 1;
@@ -399,6 +409,16 @@ public:
 		release();
 		initialize(ref);
 		return *this;
+	}
+
+	bool operator!=(const _shared_arr<T>& ref)
+	{
+		return ref.mObject != mObject;
+	}
+
+	bool operator!=(const _shared_arr<T>& ref) const
+	{
+		return ref.mObject != mObject;
 	}
 
 	template<typename P>

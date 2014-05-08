@@ -21,7 +21,7 @@ grTexture::grTexture( shared(grTextureDef) object ):
 	}
 }
 
-grTexture::operator grTextureDef*()
+grTexture::operator shared(grTextureDef)()
 {
 	return mObject;
 }

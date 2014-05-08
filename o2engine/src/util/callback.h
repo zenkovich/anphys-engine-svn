@@ -127,8 +127,7 @@ public:
 
 	~cCallbackChain()
 	{
-		for (CallbacksVec::iterator it = mCallbacks.begin(); it != mCallbacks.end(); ++it)
-			safe_release(*it);
+		removeAll();
 	}
 
 	void add(shared(ICallback) callback)
@@ -143,6 +142,14 @@ public:
 			mCallbacks.erase(fnd);
 
 		safe_release(callback);
+	}
+
+	void removeAll()
+	{
+		for (CallbacksVec::iterator it = mCallbacks.begin(); it != mCallbacks.end(); ++it)
+			safe_release(*it);
+
+		mCallbacks.clear();
 	}
 
 	void call()
