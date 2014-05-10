@@ -28,6 +28,12 @@ public:
 	~uiButton();
 
 	shared(uiWidget) clone() const;
+
+	void setOnClickCallback(const shared(ICallback)& callback);
+	shared(ICallback) getOnClickCallback() const;
+
+	void setOnSelectCallback(const shared(ICallback)& callback);
+	shared(ICallback) getOnSelectCallback() const;
 };
 
 CLOSE_O2_NAMESPACE
