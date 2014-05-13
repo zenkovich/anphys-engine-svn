@@ -138,8 +138,11 @@
     <ClInclude Include="..\src\render_system\text.h" />
     <ClInclude Include="..\src\render_system\texture.h" />
     <ClInclude Include="..\src\render_system\texture_base_interface.h" />
+    <ClInclude Include="..\src\scene\node_component.h" />
+    <ClInclude Include="..\src\scene\scene_node.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_drawable.h" />
+    <ClInclude Include="..\src\ui\ui_controller.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
     <ClInclude Include="..\src\ui\ui_sprite_drawable.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
@@ -254,6 +257,8 @@
     <ClCompile Include="..\src\render_system\text.cpp" />
     <ClCompile Include="..\src\render_system\texture.cpp" />
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp" />
+    <ClCompile Include="..\src\scene\node_component.cpp" />
+    <ClCompile Include="..\src\scene\scene_node.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite_drawable.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp" />

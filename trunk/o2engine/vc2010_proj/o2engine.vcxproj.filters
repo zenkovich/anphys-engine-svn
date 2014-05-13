@@ -76,6 +76,9 @@
     <Filter Include="src\util\geometry">
       <UniqueIdentifier>{7cc931e8-1277-4459-ac43-11db9bff3ddf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{c05d0d7d-f25c-4ada-881c-1d9eebbf13da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -408,6 +411,15 @@
     <ClInclude Include="..\src\ui\ui_widget.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_controller.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\scene_node.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\node_component.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -688,6 +700,12 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_widget.cpp">
       <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\scene_node.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\node_component.cpp">
+      <Filter>src\scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
