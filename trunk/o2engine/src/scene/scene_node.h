@@ -17,6 +17,8 @@ protected:
 	string           mId;
 	basis            mTransform;
 	basisDef         mTransformDef;
+	float            mDepth;
+	float            mColor;
 	shared(scNode)   mParent;
 	ComponentsVector mComponents;
 
