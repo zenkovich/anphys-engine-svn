@@ -91,7 +91,7 @@ public:
 	template<typename T>
 	shared(T) getWidgetByType(const string& id)
 	{
-		return static_cast<shared(T)>(getWidget(id));
+		return shared(T)(getWidget(id));
 	}
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
