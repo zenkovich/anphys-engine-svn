@@ -6,25 +6,35 @@
 #include "node_component.h"
 #include "util/property.h"
 #include "util/math/basis.h"
+#include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 
 class scNode
 {
-	typedef vector< shared(scComponent) > ComponentsVector;
+	typedef vector< shared(scComponent) > ComponentsVec;
+	typedef vector< scNode > NodesVec;
 
 protected:
-	string           mId;
-	basis            mTransform;
-	basisDef         mTransformDef;
-	float            mDepth;
-	float            mColor;
-	shared(scNode)   mParent;
-	ComponentsVector mComponents;
+	string            mId;
+	bool              mEnabled;
+	bool              mVisible;
+	basis             mTransform;
+	basisDef          mTransformDef;
+	float             mDepth;
+	color4            mColor;
+	shared(scNode)    mParent;
+	ComponentsVec     mComponents;
+	NodesVec          mChilds;
+
+	shared(ICallback) mOnEnabled;
+	shared(ICallback) mOnDisabled;
 
 public:
 	PROPERTY(scNode, string)         id;
 	PROPERTY(scNode, shared(scNode)) parent;
+	PROPERTY(scNode, bool)           enabled;
+	PROPERTY(scNode, bool)           visible;
 	PROPERTY(scNode, basis)          basis_;
 	PROPERTY(scNode, basis)          localBasis;
 	PROPERTY(scNode, basisDef)       transform;
@@ -39,18 +49,15 @@ public:
 	PROPERTY(scNode, float)          localRotation;
 	PROPERTY(scNode, float)          shift;
 	PROPERTY(scNode, float)          localShift;
+	PROPERTY(scNode, float)          depth;
+	PROPERTY(scNode, color4)         color;
 
 	
 	scNode();
 	scNode(const scNode& node);
 	virtual ~scNode();
 
-	virtual shared(scNode) clone() const;
-
 	scNode& operator=(const scNode& node);
-
-	virtual void update(float dt);
-	virtual void draw();
 
 	shared(scNode) addNode(const shared(scNode)& node);
 	bool removeNode(const shared(scNode)& node);
@@ -116,22 +123,34 @@ public:
 	void setLocalSize(const vec2f& size);
 	vec2f getLocalSize() const;
 
-	void setRotation(float angle);
+	void setRotation(const float& angle);
 	float getRotation();
 
-	void setLocalRotation(float angle);
+	void setLocalRotation(const float& angle);
 	float getLocalRotation();
 
-	void setShift(float shift);
+	void setShift(const float& shift);
 	float getShift() const;
 
-	void setLocalShift(float shift);
+	void setLocalShift(const float& shift);
 	float getLocalShift() const;
+
+	void setEnable(const bool& enable);
+	bool isEnable() const;
+
+	void setVisible(const bool& visible);
+	bool isVisible() const;
+
+	void setDepth(const float& depth);
+	float getDepth() const;
+
+	void setColor(const color4& color);
+	color4 getColor() const;
 
 protected:
 	void initializeProperties();
-	virtual void localUpdate(float dt);
-	virtual void localDraw();
+	void update(float dt);
+	void draw();
 };
 
 CLOSE_O2_NAMESPACE
