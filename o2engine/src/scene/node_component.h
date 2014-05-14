@@ -5,6 +5,7 @@
 
 #include "util/type_indexation.h"
 #include "util/property.h"
+#include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 
@@ -13,13 +14,18 @@ class scNode;
 class scComponent
 {
 protected:
-	string         mId;
-	shared(scNode) mOwnerNode;
+	shared(scNode)    mOwnerNode;
+	bool              mEnable;
+
+	shared(ICallback) mOnEnabled;
+	shared(ICallback) mOnDisabled;
 
 	DEFINE_TYPE(scComponent);
 
 public:
-	PROPERTY(scComponent, string) id;
+	PROPERTY(scComponent, bool)              enable;
+	PROPERTY(scComponent, shared(ICallback)) onEnabled;
+	PROPERTY(scComponent, shared(ICallback)) onDisabled;
 
 	scComponent(const shared(scNode)& ownerNode);
 	virtual ~scComponent();
@@ -29,8 +35,16 @@ public:
 	virtual void update(float dt) {}
 	virtual void draw() {}
 
-	void setId(const string& id);
-	string getId() const;
+	shared(scNode) node() const;
+
+	void setEnable(const bool& enable);
+	bool isEnable() const;
+
+	void setOnEnabled(const shared(ICallback)& callback);
+	shared(ICallback) getOnEnabled() const;
+
+	void setOnDisabled(const shared(ICallback)& callback);
+	shared(ICallback) getOnDisabled() const;
 
 protected:
 	void initializeProperties();

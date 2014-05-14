@@ -420,6 +420,9 @@
     <ClInclude Include="..\src\scene\node_component.h">
       <Filter>src\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\scene\scene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -705,6 +708,9 @@
       <Filter>src\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene\node_component.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\scene.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
   </ItemGroup>
