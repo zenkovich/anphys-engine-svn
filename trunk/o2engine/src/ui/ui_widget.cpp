@@ -90,12 +90,12 @@ bool uiWidget::isInside( const vec2f& point ) const
 	return false;
 }
 
-void uiWidget::processInputMessage( const cInputMessage& msg )
+void uiWidget::processInputMessage( const cInputMessage& msg, bool& caught )
 {
-	localProcessInputMessage(msg);
+	localProcessInputMessage(msg, caught);
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
-		(*it)->processInputMessage(msg);
+		(*it)->processInputMessage(msg, caught);
 }
 
 shared(uiWidget) uiWidget::clone() const

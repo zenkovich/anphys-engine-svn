@@ -73,7 +73,7 @@ public:
 	virtual void update(float dt);
 
 	/** Process message in widget, and after in childs. */
-	virtual void processInputMessage(const cInputMessage& msg);
+	virtual void processInputMessage(const cInputMessage& msg, bool& caught);
 
 	/** Returns true, if point inside widget or inside childs. */
 	virtual bool isInside(const vec2f& point) const;
@@ -147,7 +147,7 @@ private:
 	virtual void localUpdateLayout();
 
 	/** Processing input message in current widget. */
-	virtual void localProcessInputMessage(const cInputMessage& msg) {}
+	virtual void localProcessInputMessage(const cInputMessage& msg, bool& caught) {}
 
 	/** Returns true, if point inside current widget. */
 	virtual bool isLocalInside(const vec2f& point) const { return false; }
