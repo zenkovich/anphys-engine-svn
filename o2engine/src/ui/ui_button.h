@@ -5,10 +5,18 @@
 
 #include "util/callback.h"
 
+class cStretchRect;
+
 OPEN_O2_NAMESPACE
 
 class uiButton:public uiWidget
 {
+protected:
+	shared(cStretchRect) mRegularDrawable;
+	shared(cStretchRect) mSelectedDrawable;
+	shared(cStretchRect) mHoverDrawable;
+	shared(cStretchRect) mPressedDrawable;
+
 	shared(ICallback) mOnClick;
 	shared(ICallback) mOnSelect;
 
