@@ -14,7 +14,9 @@ class cProperty
 	_class* mClass; /** Basic class. */
 	
 	void (_class::*mSetter)(const _type&);  /** Awww yeaaahh it's setter function pointer %) */
+	void (_class::*mSetterNonConst)(_type);  /** Setter function pointer for non const parameter */
 	_type (_class::*mGetter)() const;       /** Getter function pointer. */
+	_type (_class::*mGetterNonConst)();       /** Getter function pointer. */
 
 public:
 	/** ctor. */
@@ -25,24 +27,64 @@ public:
 	{
 		mClass = tclass;
 		mSetter = setter;
+		mSetterNonConst = NULL;
 		mGetter = getter;
+		mGetterNonConst = NULL;
 	}
 
-	/** Type convertion operator. */
+	/** Initialization of property. */
+	void initNonConstGetter(_class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)())
+	{
+		mClass = tclass;
+		mSetter = setter;
+		mSetterNonConst = NULL;
+		mGetter = NULL;
+		mGetterNonConst = getter;
+	}
+
+	/** Initialization of property. */
+	void initNonConstSetter(_class* tclass, void (_class::*setter)(_type), _type (_class::*getter)() const)
+	{
+		mClass = tclass;
+		mSetter = NULL;
+		mSetterNonConst = setter;
+		mGetter = getter;
+		mGetterNonConst = NULL;
+	}
+
+	/** Initialization of property. */
+	void initNonConst(_class* tclass, void (_class::*setter)(_type), _type (_class::*getter)())
+	{
+		mClass = tclass;
+		mSetter = NULL;
+		mSetterNonConst = setter;
+		mGetter = NULL;
+		mGetterNonConst = getter;
+	}
+
+	/** Type conversion operator. */
 	operator _type() 
 	{
-		return (mClass->*mGetter)();
+		return get();
 	}
 
 	/** Returns value. */
-	_type v() 
+	_type get() 
 	{
-		return (mClass->*mGetter)();
+		return mGetter != NULL ? (mClass->*mGetter)():(mClass->*mGetterNonConst)();
+	}
+
+	void set(const _type& value)
+	{
+		if (mSetter != NULL)
+			(mClass->*mSetter)(value);
+		else
+			(mClass->*mSetterNonConst)(value);
 	}
 	
 	cProperty& operator=(const _type& value)
 	{
-		(mClass->*mSetter)(value);
+		set(value);
 		return *this;
 	}
 	
@@ -54,7 +96,7 @@ public:
 
 	_type operator+(const _type& value)
 	{
-		return (mClass->*mGetter)() + value;
+		return get() + value;
 	}
 	
 	cProperty& operator-=(const _type& value)
@@ -65,7 +107,7 @@ public:
 
 	_type operator-(const _type& value)
 	{
-		return (mClass->*mGetter)() - value;
+		return get() - value;
 	}
 	
 	cProperty& operator*=(const _type& value)
@@ -76,7 +118,7 @@ public:
 
 	_type operator*(const _type& value)
 	{
-		return (mClass->*mGetter)() * value;
+		return get() * value;
 	}
 	
 	cProperty& operator/=(const _type& value)
@@ -87,7 +129,7 @@ public:
 
 	_type operator/(const _type& value)
 	{
-		return (mClass->*mGetter)() / value;
+		return get() / value;
 	}
 
 protected:
@@ -95,7 +137,7 @@ protected:
 	cProperty& operator=(const cProperty& prop) { return *this; }
 };
 
-/** Simple macros for hightlighting. */
+/** Simple macros for highlighting. */
 #define PROPERTY(_CLASS, _TYPE) cProperty<_CLASS, _TYPE>
 
 CLOSE_O2_NAMESPACE

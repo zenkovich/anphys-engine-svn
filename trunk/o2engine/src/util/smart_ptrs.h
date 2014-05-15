@@ -193,6 +193,12 @@ public:
 		return mObject != NULL;
 	}
 
+	operator bool() const
+	{
+		checkValid();
+		return mObject != NULL;
+	}
+
 	_shared<T>& setAutoRelease(bool enable)
 	{
 		if (!mRefCount)
