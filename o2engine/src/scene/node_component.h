@@ -13,6 +13,8 @@ class scNode;
 
 class scComponent
 {
+	friend class scNode;
+
 protected:
 	shared(scNode)    mOwnerNode;
 	bool              mEnable;
