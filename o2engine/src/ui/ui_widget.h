@@ -22,19 +22,23 @@ class uiState;
 /** Basic widget object. Contains id, parent, childs, position and other strange data. */
 class uiWidget
 {
+	friend class uiController;
+
 	typedef vector< shared(uiWidget) > WidgetsVec;
 	typedef std::map<string, shared(uiState)> StatesMap;
 	
 	string            mId;             /**< Identificator or name. */
 	shared(uiWidget)  mParent;         /**< Parent widget. NULL if no parent. */
 	uiWidgetLayout    mLayout;         /**< Widget layout. */
-	WidgetsVec        mChildWidgets;   /**< Childs widgets. */
+	WidgetsVec        mChildWidgets;   /**< Chiles widgets. */
 	vec2f             mLocalPosition;  /**< Position relative to the parent. */
 	vec2f             mGlobalPosition; /**< Position in screen space. */
-	vec2f             mSize;           /**< Size of widget. Not including childs. */
+	vec2f             mSize;           /**< Size of widget. Not including childes. */
 	vec2f             mChildsOffset;   /**< Offset for childrens. */
 	shared(cGeometry) mGeometry;       /**< Geometry. May be NULL. */
-	fRect             mBounds;         /**< Widget with childs bounds. */
+	fRect             mBounds;         /**< Widget with childes bounds. */
+	bool              mVisible;
+	bool              mFocused;
 				      
 	StatesMap         mStates;
 	shared(uiState)   mVisibleState;
@@ -66,16 +70,16 @@ public:
 	/** Returns clone of widget. */
 	virtual shared(uiWidget) clone() const;
 
-	/** Draw widget and childs. */
+	/** Draw widget and childes. */
 	virtual void draw();
 
-	/** Update widget and childs. */
+	/** Update widget and childes. */
 	virtual void update(float dt);
 
-	/** Process message in widget, and after in childs. */
-	virtual void processInputMessage(const cInputMessage& msg, bool& caught);
+	/** Process message in widget, and after in childes. */
+	virtual bool processInputMessage(const cInputMessage& msg);
 
-	/** Returns true, if point inside widget or inside childs. */
+	/** Returns true, if point inside widget or inside childes. */
 	virtual bool isInside(const vec2f& point) const;
 
 	/** Adding child widget. */
@@ -99,6 +103,19 @@ public:
 
 
 	//setters and getters
+
+	virtual bool isFocusable() const;
+
+	void setFocused(bool focused);
+	bool isFocused() const;
+	void makeFocused();
+	void releaseFocus();
+
+	void setState(const string& stateId, bool value);
+	bool getState(const string& stateId);
+
+	void setVisible(bool visible);
+	bool isVisible() const;
 	
 	/** Sets widget's parent. */
 	void setParent(const shared(uiWidget)& parent);
@@ -147,10 +164,14 @@ private:
 	virtual void localUpdateLayout();
 
 	/** Processing input message in current widget. */
-	virtual void localProcessInputMessage(const cInputMessage& msg, bool& caught) {}
+	virtual bool localProcessInputMessage(const cInputMessage& msg) { return false; }
 
 	/** Returns true, if point inside current widget. */
 	virtual bool isLocalInside(const vec2f& point) const { return false; }
+
+	virtual void onFocused();
+
+	virtual void onFocusLost();
 
 	/** Initialize all properties. */
 	void initializeProperties();

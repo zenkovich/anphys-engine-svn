@@ -5,7 +5,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiWidget);
 
 uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared(uiWidget) parent/* = NULL*/ ):
-	mId(id), mChildsOffset(), mParent(parent)
+	mId(id), mChildsOffset(), mParent(parent), mVisible(true), mFocused(false)
 {
 	mLayout = layout;
 	initializeProperties();
@@ -20,6 +20,8 @@ uiWidget::uiWidget( const uiWidget& widget )
 	mLayout = widget.mLayout;
 	mParent = NULL;
 	mChildsOffset = widget.mChildsOffset;
+	mVisible = widget.mVisible;
+	mFocused = false;
 
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
 		addChild((*it)->clone());
@@ -34,6 +36,9 @@ uiWidget::~uiWidget()
 
 void uiWidget::draw()
 {
+	if (!mVisible)
+		return;
+
 	localDraw();
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
@@ -42,6 +47,9 @@ void uiWidget::draw()
 
 void uiWidget::update( float dt )
 {
+	if (!mVisible)
+		return;
+
 	localUpdate(dt);
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
@@ -90,12 +98,20 @@ bool uiWidget::isInside( const vec2f& point ) const
 	return false;
 }
 
-void uiWidget::processInputMessage( const cInputMessage& msg, bool& caught )
+bool uiWidget::processInputMessage( const cInputMessage& msg )
 {
-	localProcessInputMessage(msg, caught);
+	if (!mVisible)
+		return false;
+
+	if (!isInside(msg.getCursorPos()))
+		return false;
+
+	if (localProcessInputMessage(msg))
+		return true;
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
-		(*it)->processInputMessage(msg, caught);
+		if ((*it)->processInputMessage(msg))
+			return true;
 }
 
 shared(uiWidget) uiWidget::clone() const
@@ -249,6 +265,61 @@ void uiWidget::initializeProperties()
 	id.init(this, &uiWidget::setId, &uiWidget::getId);
 	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
 	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
+}
+
+bool uiWidget::isFocusable() const
+{
+
+}
+
+void uiWidget::setFocused(bool focused)
+{
+
+}
+
+bool uiWidget::isFocused() const
+{
+
+}
+
+void uiWidget::makeFocused()
+{
+
+}
+
+void uiWidget::releaseFocus()
+{
+
+}
+
+void uiWidget::setState(const string& stateId, bool value)
+{
+
+}
+
+bool uiWidget::getState(const string& stateId)
+{
+
+}
+
+void uiWidget::setVisible(bool visible)
+{
+
+}
+
+bool uiWidget::isVisible() const
+{
+
+}
+
+void uiWidget::onFocused()
+{
+	mFocused = true;
+}
+
+void uiWidget::onFocusLost()
+{
+	mFocused = false;
 }
 
 CLOSE_O2_NAMESPACE
