@@ -713,5 +713,8 @@
     <ClCompile Include="..\src\scene\scene.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ui\ui_controller.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,7 +12,8 @@ class uiController: public cSingleton<uiController>
 {
 	typedef vector< shared(uiWidget) > WidgetsVec;
 
-	WidgetsVec mWidgets;
+	WidgetsVec       mWidgets;
+	shared(uiWidget) mFocusWidget;
 
 public:
 	uiController();
@@ -20,7 +21,23 @@ public:
 
 	void update(float dt);
 	void draw();
+
+	shared(uiWidget) addWidget(const shared(uiWidget)& widget);
+	bool removeWidget(const shared(uiWidget)& widget);
+	bool removeAllWidgets();
+
+	shared(uiWidget) getWidget(const string& idPath);
+
+	void focusOnWidget(const shared(uiWidget)& widget);
+
+	template<typename T>
+	shared(T) getWidgetByType(const string& idPath)
+	{
+		return getWidget(idPath);
+	}
 };
+
+#define uiHost() uiController::instance()
 
 CLOSE_O2_NAMESPACE
 
