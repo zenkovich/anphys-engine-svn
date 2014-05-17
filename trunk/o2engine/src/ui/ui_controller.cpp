@@ -26,12 +26,14 @@ void uiController::update(float dt)
 
 void uiController::draw()
 {
-
+	FOREACH(WidgetsVec, mWidgets, widget)
+		(*widget)->draw();
 }
 
 shared(uiWidget) uiController::addWidget(const shared(uiWidget)& widget)
 {
-
+	mWidgets.push_back(widget);
+	return widget;
 }
 
 bool uiController::removeWidget(const shared(uiWidget)& widget)
@@ -60,7 +62,7 @@ void uiController::focusOnWidget(const shared(uiWidget)& widget)
 	{
 		mFocusWidget->onFocusLost();
 		mWidgets.erase( FIND(mWidgets, mFocusWidget) );
-
+		mWidgets.push_back(mFocusWidget);
 	}
 }
 
