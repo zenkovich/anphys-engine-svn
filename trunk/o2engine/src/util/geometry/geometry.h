@@ -100,7 +100,7 @@ class cGroupGeometry:public cGeometry
 	friend class cGeometry;
 
 public:
-	typedef vector<shared(cGeometry)> PartsVec;
+	typedef vector< shared<cGeometry> > PartsVec;
 
 protected:
 	PartsVec mParts;
@@ -116,7 +116,7 @@ public:
 
 	int getPartsCount() const;
 	
-	int addPart(shared(cGeometry) geom);
+	int addPart(shared<cGeometry> geom);
 	void removePart(int idx);
 	void removeAllParts();
 

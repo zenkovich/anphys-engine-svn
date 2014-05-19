@@ -22,7 +22,7 @@ T cDeviceInfo::getParameter( DeviceParam paramId )
 	return (*(T*)mDeviceParametres[clamp<int>(paramId, 0, DEVICE_PARAMETRES_COUNT - 1)]);
 }
 
-void cDeviceInfo::initialize( shared(cApplication) app )
+void cDeviceInfo::initialize( shared<cApplication> app )
 {
 	const bool logInfo = true;
 

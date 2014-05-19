@@ -20,11 +20,11 @@ class grTexture: public cReferenceObj<grTextureDef>, public grTextureInterface
 	friend class grMesh;
 
 	/** type conversion operator. */
-	operator shared(grTextureDef)();
+	operator shared<grTextureDef>();
 
 public:
 	/** ctor. */
-	grTexture(shared(grTextureDef) object = NULL);
+	grTexture(shared<grTextureDef> object = NULL);
 	
 	/** Creates texture 
 	 *  @size - size of texture
@@ -34,7 +34,7 @@ public:
 				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	static grTexture createFromImage(shared(cImage) image);
+	static grTexture createFromImage(shared<cImage> image);
 				       
 	/** Creates texture from file. */
 	static grTexture createFromFile(const string& fileName);

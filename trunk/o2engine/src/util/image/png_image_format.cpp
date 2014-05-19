@@ -30,11 +30,11 @@ void customPngWriteFn(png_structp png_ptr, png_bytep bytes, png_size_t byteCount
 
 void customPngFlushFn(png_structp png_ptr) {}
 
-bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, shared(cLogStream) plog /*= NULL*/ )
+bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, shared<cLogStream> plog /*= NULL*/ )
 {	
-	shared(cLogStream) log = plog ? plog:gLog;
+	shared<cLogStream> log = plog ? plog:gLog;
 
-	shared(cInFile) pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
+	shared<cInFile> pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
 	if (!pngImageFile->isOpened())
 	{
 		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());
@@ -154,11 +154,11 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	return true;
 }
 
-bool savePngImage( const string& fileName, const cImage* image, shared(cLogStream) plog /*= NULL*/ )
+bool savePngImage( const string& fileName, const cImage* image, shared<cLogStream> plog /*= NULL*/ )
 {
-	shared(cLogStream) log = plog ? plog:gLog;
+	shared<cLogStream> log = plog ? plog:gLog;
 
-	shared(cOutFile) pngImageFile = mnew cOutFile(fileName);
+	shared<cOutFile> pngImageFile = mnew cOutFile(fileName);
 	if (!pngImageFile)
 	{
 		log->error("Can't save PNG file '%s'\n", fileName.c_str());

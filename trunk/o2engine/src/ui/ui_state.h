@@ -16,17 +16,19 @@ class uiState
 	string     mName;
 
 public: 
-	PROPERTY(uiState, int) state;
+	PROPERTY(uiState, bool) state;
 
 	cCallbackChain mOnActiveStateCallbacks;
 	cCallbackChain mOnDeactiveStateCallbacks;
 
 
-	uiState(const string& name, int maxStatesCount = 2);
+	uiState(const string& name);
 	virtual ~uiState();
 
-	virtual void setState(const int& state) {}
-	virtual int getState() const { return 0; }
+	virtual shared<uiState> clone() const = 0;
+
+	virtual void setState(bool state) {}
+	virtual bool getState() const { return false; }
 
 	virtual void update(float dt) {}
 

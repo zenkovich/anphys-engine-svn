@@ -14,10 +14,10 @@ class grRenderSystem;
 class grFontManager
 {
 	friend class grRenderSystemBaseInterface;
-	friend class shared(grFontManager);
+	friend class shared<grFontManager>;
 
 public: 
-	typedef std::map< string, shared(grFont) > FontsMap; 
+	typedef std::map< string, shared<grFont> > FontsMap; 
 
 protected:
 	FontsMap mFonts; /** Fonts map. */
@@ -42,7 +42,7 @@ public:
 	void unloadFonts();
 
 	/** Returns font by name. */
-	shared(grFont) getFont(const string& name);
+	shared<grFont> getFont(const string& name);
 };
 
 CLOSE_O2_NAMESPACE

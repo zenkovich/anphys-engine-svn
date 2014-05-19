@@ -9,7 +9,7 @@ uiStretchRectDrawable::uiStretchRectDrawable():
 {
 }
 
-uiStretchRectDrawable::uiStretchRectDrawable( shared(cStretchRect) stretchRect ):
+uiStretchRectDrawable::uiStretchRectDrawable( shared<cStretchRect> stretchRect ):
 	mStretchRect(stretchRect)
 {
 }

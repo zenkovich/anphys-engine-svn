@@ -188,7 +188,7 @@ bool grRenderSystem::endRender()
 	return true;
 }
 
-bool grRenderSystem::drawMesh( shared(grMesh) mesh )
+bool grRenderSystem::drawMesh( shared<grMesh> mesh )
 {
 	if (!mReady)
 		return false;
@@ -328,7 +328,7 @@ void grRenderSystem::frameResized()
 	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
 }
 
-bool grRenderSystem::bindRenderTarget( shared(grRenderTarget) renderTarget )
+bool grRenderSystem::bindRenderTarget( shared<grRenderTarget> renderTarget )
 {
 	if (!renderTarget)
 		return false;
@@ -367,7 +367,7 @@ bool grRenderSystem::unbindRenderTarget()
 	return true;
 }
 
-shared(grRenderTarget) grRenderSystem::getCurrentRenderTarget() const
+shared<grRenderTarget> grRenderSystem::getCurrentRenderTarget() const
 {
 	return mCurrentRenderTarget;
 }

@@ -10,7 +10,7 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
-	friend class shared(cTimeUtil);
+	friend class shared<cTimeUtil>;
 
 	float   mApplicationTime;     /** Application working time, seconds. */
 	float   mLocalTime;           /** Local timer working, seconds. Controlling by user. */

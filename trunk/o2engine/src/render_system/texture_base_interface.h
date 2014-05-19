@@ -88,7 +88,7 @@ protected:
 				  	    grTexUsage::type usage = grTexUsage::DEFAULT) = 0;
 
 	/** Creates texture from image. */
-	virtual void createFromImage(shared(cImage) image) = 0;
+	virtual void createFromImage(shared<cImage> image) = 0;
 				       
 	/** Creates texture from file. */
 	virtual void createFromFile(const string& fileName) = 0;

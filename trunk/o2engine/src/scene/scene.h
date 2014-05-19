@@ -18,8 +18,8 @@ public:
 	void update(float dt);
 	void draw();
 
-	shared(scNode) addNode(const shared(scNode)& node);
-	bool removeNode(const shared(scNode)& node);
+	shared<scNode> addNode(const shared<scNode>& node);
+	bool removeNode(const shared<scNode>& node);
 	bool removeAllNodes();
 };
 

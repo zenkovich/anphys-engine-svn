@@ -7,7 +7,7 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTargetBaseInterface::grRenderTargetBaseInterface( shared(grTextureDef) texture ):
+grRenderTargetBaseInterface::grRenderTargetBaseInterface( shared<grTextureDef> texture ):
 	mReady(false)
 {
 	

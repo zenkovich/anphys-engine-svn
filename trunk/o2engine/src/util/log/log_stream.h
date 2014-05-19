@@ -28,9 +28,9 @@ protected:
 		const char* getStr();
 	};
 	typedef vector<BindValue> BindValVec;
-	typedef vector<shared(cLogStream)> LogSteamsVec;
+	typedef vector< shared<cLogStream> > LogSteamsVec;
 
-	shared(cLogStream)  mParentStream; /**< Parent stream. NULL if no parent. */
+	shared<cLogStream>  mParentStream; /**< Parent stream. NULL if no parent. */
 
 	string       mId;           /**< Name of log stream. */
 	uint8        mLevel;        /**< Log level. */
@@ -53,16 +53,16 @@ public:
 	const string& getId() const;
 
 	/** Binding child stream. */
-	void bindStream(shared(cLogStream) stream);
+	void bindStream(shared<cLogStream> stream);
 
 	/** Unbinding child stream. Function destroying stream object. */
-	void unbindStream(shared(cLogStream) stream);
+	void unbindStream(shared<cLogStream> stream);
 
 	/** Unbind and destroy all child streams. */
 	void unbindAllStreams();
 
 	/** Returns parent stream. Null if no parent. */
-	shared(cLogStream) getParentStream() const;
+	shared<cLogStream> getParentStream() const;
 
 	/** Binding value. */
 	void bindValue(void* valuePtr, BindValType type, const string& id);

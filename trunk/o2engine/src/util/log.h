@@ -7,7 +7,7 @@
 OPEN_O2_NAMESPACE
 
 /** Global log stream. Use it for putting data in log. */
-extern shared(cLogStream) gLog;
+extern shared<cLogStream> gLog;
 
 
 /** Puts data into global log with low level. */

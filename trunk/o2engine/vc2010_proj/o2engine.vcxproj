@@ -148,6 +148,7 @@
     <ClInclude Include="..\src\ui\ui_sprite_drawable.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\ui_stretch_rect_drawable.h" />
+    <ClInclude Include="..\src\ui\ui_transition_state.h" />
     <ClInclude Include="..\src\ui\ui_widget_layout.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
     <ClInclude Include="..\src\util\animation\animation.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\src\ui\ui_sprite_drawable.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp" />
+    <ClCompile Include="..\src\ui\ui_transition_state.cpp" />
     <ClCompile Include="..\src\ui\ui_widget_layout.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />

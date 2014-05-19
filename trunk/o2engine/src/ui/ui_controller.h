@@ -10,10 +10,10 @@ OPEN_O2_NAMESPACE
 
 class uiController: public cSingleton<uiController>
 {
-	typedef vector< shared(uiWidget) > WidgetsVec;
+	typedef vector< shared<uiWidget> > WidgetsVec;
 
 	WidgetsVec       mWidgets;
-	shared(uiWidget) mFocusWidget;
+	shared<uiWidget> mFocusWidget;
 
 public:
 	uiController();
@@ -22,16 +22,16 @@ public:
 	void update(float dt);
 	void draw();
 
-	shared(uiWidget) addWidget(const shared(uiWidget)& widget);
-	bool removeWidget(const shared(uiWidget)& widget);
+	shared<uiWidget> addWidget(const shared<uiWidget>& widget);
+	bool removeWidget(const shared<uiWidget>& widget);
 	bool removeAllWidgets();
 
-	shared(uiWidget) getWidget(const string& idPath);
+	shared<uiWidget> getWidget(const string& idPath);
 
-	void focusOnWidget(const shared(uiWidget)& widget);
+	void focusOnWidget(const shared<uiWidget>& widget);
 
 	template<typename T>
-	shared(T) getWidgetByType(const string& idPath)
+	shared<T> getWidgetByType(const string& idPath)
 	{
 		return getWidget(idPath);
 	}
