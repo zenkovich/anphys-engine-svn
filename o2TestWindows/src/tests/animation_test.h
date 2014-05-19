@@ -15,7 +15,7 @@ class AnimationTest: public ITest
 	cAnimation<vec2f> mAnimation;
 	bool              mCreatingFrames;
 
-	shared(ICallback) mTestCallBack;
+	shared<ICallback> mTestCallBack;
 
 public:
 	AnimationTest();

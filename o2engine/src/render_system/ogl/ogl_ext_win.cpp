@@ -18,9 +18,9 @@ PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
 	return res;
 }
 
-void getGLExtensions( shared(cLogStream) log /*= NULL*/ )
+void getGLExtensions( shared<cLogStream> log /*= NULL*/ )
 {
-	shared(cLogStream) llog = log ? log:gLog;
+	shared<cLogStream> llog = log ? log:gLog;
 	
 	glGenFramebuffersEXT        = (PFNGLGENFRAMEBUFFERSEXTPROC) getSafeWGLProcAddress("glGenFramebuffersEXT", llog);
 	glBindFramebufferEXT        = (PFNGLBINDFRAMEBUFFEREXTPROC) getSafeWGLProcAddress("glBindFramebufferEXT", llog);

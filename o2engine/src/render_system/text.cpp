@@ -35,7 +35,7 @@ void grText::draw()
 		(*it)->draw();
 }
 
-void grText::setFont( const shared(grFont)& font )
+void grText::setFont( const shared<grFont>& font )
 {
 	if (font == mFont)
 		return;
@@ -44,7 +44,7 @@ void grText::setFont( const shared(grFont)& font )
 	mNeedUpdateMesh = true;
 }
 
-shared(grFont) grText::getFont() const
+shared<grFont> grText::getFont() const
 {
 	return mFont;
 }

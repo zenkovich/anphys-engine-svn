@@ -1,10 +1,12 @@
 #include "ui_widget.h"
 
+#include "ui_controller.h"
+
 OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared(uiWidget) parent/* = NULL*/ ):
+uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
 	mId(id), mChildsOffset(), mParent(parent), mVisible(true), mFocused(false)
 {
 	mLayout = layout;
@@ -114,18 +116,18 @@ bool uiWidget::processInputMessage( const cInputMessage& msg )
 			return true;
 }
 
-shared(uiWidget) uiWidget::clone() const
+shared<uiWidget> uiWidget::clone() const
 {
 	return mnew uiWidget(*this);
 }
 
-shared(uiWidget) uiWidget::addChild( shared(uiWidget) widget )
+shared<uiWidget> uiWidget::addChild( shared<uiWidget> widget )
 {
 	widget->setParent(this);
 	return widget;
 }
 
-void uiWidget::removeChild( shared(uiWidget) widget )
+void uiWidget::removeChild( shared<uiWidget> widget )
 {
 	WidgetsVec::iterator fnd = FIND(mChildWidgets, widget);
 	if (fnd != mChildWidgets.end())
@@ -150,11 +152,11 @@ void uiWidget::removeAllChilds()
 	updateLayout();
 }
 
-void uiWidget::setParent(const shared(uiWidget)& parent)
+void uiWidget::setParent(const shared<uiWidget>& parent)
 {
 	if (mParent)
 	{
-		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, shared(uiWidget)(this).disableAutoRelease());
+		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, shared<uiWidget>(this).disableAutoRelease());
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
 	}
@@ -169,12 +171,12 @@ void uiWidget::setParent(const shared(uiWidget)& parent)
 	updateLayout();
 }
 
-shared(uiWidget) uiWidget::getParent() const
+shared<uiWidget> uiWidget::getParent() const
 {
 	return mParent;
 }
 
-shared(uiWidget) uiWidget::getWidget( const string& id )
+shared<uiWidget> uiWidget::getWidget( const string& id )
 {
 	int delPos = id.find("/");
 	string pathPart = id.substr(0, delPos);
@@ -253,7 +255,7 @@ vec2f uiWidget::getSize() const
 	return mSize;
 }
 
-shared(cGeometry) uiWidget::getGeometry() const
+shared<cGeometry> uiWidget::getGeometry() const
 {
 	return mGeometry;
 }
@@ -269,47 +271,62 @@ void uiWidget::initializeProperties()
 
 bool uiWidget::isFocusable() const
 {
-
+	return false;
 }
 
 void uiWidget::setFocused(bool focused)
 {
+	if (focused == mFocused)
+		return;
 
+	if (focused)
+		uiHost().focusOnWidget(shared<uiWidget>(this).disableAutoRelease());
+	else
+		uiHost().focusOnWidget(NULL);
 }
 
 bool uiWidget::isFocused() const
 {
-
+	return mFocused;
 }
 
 void uiWidget::makeFocused()
 {
-
+	setFocused(true);
 }
 
 void uiWidget::releaseFocus()
 {
-
+	setFocused(false);
 }
 
 void uiWidget::setState(const string& stateId, bool value)
 {
-
+	shared<uiState> state = getState(stateId);
+	if (state)
+		state->setState(value);
 }
 
-bool uiWidget::getState(const string& stateId)
+shared<uiState> uiWidget::getState(const string& stateId)
 {
+	StatesMap::iterator fnd = mStates.find(stateId);
+	if (fnd == mStates.end())
+		return NULL;
 
+	return mStates[stateId];
 }
 
 void uiWidget::setVisible(bool visible)
 {
-
+	if (mVisibleState)
+		mVisibleState->setState(visible);
+	else
+		mVisible = visible;	
 }
 
 bool uiWidget::isVisible() const
 {
-
+	return mVisible;
 }
 
 void uiWidget::onFocused()

@@ -31,18 +31,18 @@ class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface
 	friend class cDeviceInfo;
 
 public:
-	typedef vector< shared(grTextureDef) > TexturesVec;
+	typedef vector< shared<grTextureDef> > TexturesVec;
 
 protected:
 	vec2i                 mResolution;    /**< Resolution of rendering frame. */
 	TexturesVec           mTextures;      /**< Textures array. */
-	shared(grFontManager) mFontManager;   /**< Font manager. */
-	shared(grCamera)      mCurrentCamera; /**< Current camera. Null if standard camera. */
-	shared(cLogStream)    mLog;           /**< Log stream for render messages. */
+	shared<grFontManager> mFontManager;   /**< Font manager. */
+	shared<grCamera>      mCurrentCamera; /**< Current camera. Null if standard camera. */
+	shared<cLogStream>    mLog;           /**< Log stream for render messages. */
 	 
 public:
 	//properties
-	PROPERTY(grRenderSystemBaseInterface, shared(grCamera)) camera; /** Camera property. Uses bindCamera and currentCamera. */
+	PROPERTY(grRenderSystemBaseInterface, shared<grCamera>) camera; /** Camera property. Uses bindCamera and currentCamera. */
 
 
 	/** ctor. */
@@ -55,13 +55,13 @@ public:
 	vec2i getResolution() const;
 
 	/** Binding camera. NULL - standard camera. */
-	void bindCamera(const shared(grCamera)& camera);
+	void bindCamera(const shared<grCamera>& camera);
 
 	/** Returns current camera. */
-	shared(grCamera) currentCamera() const;
+	shared<grCamera> currentCamera() const;
 
 	/** Returns font manager. */
-	shared(grFontManager) getFontManager() const;
+	shared<grFontManager> getFontManager() const;
 
 	/** Creating texture, if no exist, else returning created texture. */
 	grTexture getTextureFromFile(const string& fileName);
@@ -74,7 +74,7 @@ public:
 				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	grTexture createTextureFromImage(shared(cImage) image);
+	grTexture createTextureFromImage(shared<cImage> image);
 				       
 	/** Creates texture as render target. 
 	 ** note: recommending to use grRenderTarget for rendering to texture*/
@@ -132,7 +132,7 @@ public:
 	virtual bool isScissorTestEnabled() const = 0;
 
 	/** Drawing mesh. */
-	virtual bool drawMesh(shared(grMesh) mesh) = 0;
+	virtual bool drawMesh(shared<grMesh> mesh) = 0;
 
 	/** Drawing lines. */
 	virtual bool drawLines(vertex2* verticies, int count) = 0;
@@ -141,13 +141,13 @@ public:
 	virtual void setLinesWidth(float width) = 0;
 	
 	/** Binding render target. */
-	virtual bool bindRenderTarget(shared(grRenderTarget) renderTarget) = 0;
+	virtual bool bindRenderTarget(shared<grRenderTarget> renderTarget) = 0;
 
 	/** Unbinding render target. */
 	virtual bool unbindRenderTarget() = 0;
 
 	/** Returns current render target. Returns NULL if no render target. */
-	virtual shared(grRenderTarget) getCurrentRenderTarget() const = 0;
+	virtual shared<grRenderTarget> getCurrentRenderTarget() const = 0;
 
 	/** Returns true, if render target is can be used with current device. */
 	virtual bool isRenderTargetAvailable() const = 0;
@@ -166,10 +166,10 @@ protected:
 	virtual void frameResized() = 0;
 
 	/** Adding texture an array and return pointer. */
-	shared(grTextureDef) addTextureDef(shared(grTextureDef) texture);
+	shared<grTextureDef> addTextureDef(shared<grTextureDef> texture);
 
 	/** Removes texture. */
-	void removeTextureDef(shared(grTextureDef) texture);
+	void removeTextureDef(shared<grTextureDef> texture);
 
 	/** Removes all textures. */
 	void removeAllTextures();

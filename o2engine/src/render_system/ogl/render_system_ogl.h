@@ -36,7 +36,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	GLenum                 mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
 										     
 //batching parameters					     
-	shared(grTextureDef)   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	shared<grTextureDef>   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
 	unsigned int           mLastDrawVertex;         /**< Last vertex idx for next DIP. */
 	unsigned int           mLastDrawIdx;            /**< Last vertex index for next DIP. */
 	unsigned int           mTrianglesCount;         /**< Triangles count for next DIP. */
@@ -52,7 +52,7 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	bool                   mScissorTest;            /**< True, if scissor test enabled. */
 										
 //other
-	shared(grRenderTarget) mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
+	shared<grRenderTarget> mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
 
 	bool                   mReady;                  /**< True, if render system initialized. */
 
@@ -106,7 +106,7 @@ public:
 	bool isScissorTestEnabled() const;
 	
 	/** Drawing mesh. */
-	bool drawMesh(shared(grMesh) mesh);
+	bool drawMesh(shared<grMesh> mesh);
 	
 	/** Drawing lines. */
 	bool drawLines(vertex2* verticies, int count);
@@ -115,13 +115,13 @@ public:
 	void setLinesWidth(float width);
 	
 	/** Binding render target. */
-	bool bindRenderTarget(shared(grRenderTarget) renderTarget);
+	bool bindRenderTarget(shared<grRenderTarget> renderTarget);
 	
 	/** Unbinding render target. */
 	bool unbindRenderTarget();
 	
 	/** Returns current render target. Returns NULL if no render target. */
-	shared(grRenderTarget) getCurrentRenderTarget() const;	
+	shared<grRenderTarget> getCurrentRenderTarget() const;	
 
 	/** Returns true, if render target is can be used with current device. */
 	bool isRenderTargetAvailable() const;

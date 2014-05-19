@@ -9,7 +9,7 @@ uiSpriteDrawable::uiSpriteDrawable():
 {
 }
 
-uiSpriteDrawable::uiSpriteDrawable( shared(grSprite) sprite, bool ownSprite /*= true*/ ):
+uiSpriteDrawable::uiSpriteDrawable( shared<grSprite> sprite, bool ownSprite /*= true*/ ):
 	mSprite(sprite), mOwnSprite(ownSprite)
 {
 }

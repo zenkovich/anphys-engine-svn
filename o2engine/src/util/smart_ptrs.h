@@ -71,7 +71,7 @@ void xlog(const char* res);
 /** Object that defines a shared type. Object containing reference count and some checking functionality, as default 
  ** releasing object, when reference count is zero. */
 template<typename T>
-class _shared
+class shared
 {
 public:
 	T*            mObject;
@@ -79,7 +79,7 @@ public:
 	bool*         mValid;
 	bool*         mAutoRelease;
 
-	_shared()
+	shared()
 	{
 		mObject = NULL;
 		mRefCount = NULL;
@@ -87,23 +87,23 @@ public:
 		mAutoRelease = NULL;
 	}
 
-	_shared(T* object) 
+	shared(T* object) 
 	{
 		initialize(object);
 	}
 
-	_shared(const _shared<T>& ref) 
+	shared(const shared<T>& ref) 
 	{
 		initialize(ref);
 	}
 
 	template<typename P>
-	_shared(const _shared<P>& ref) 
+	shared(const shared<P>& ref) 
 	{
 		initialize(ref);
 	}
 
-	~_shared() 
+	~shared() 
 	{
 		release();
 	}
@@ -145,34 +145,34 @@ public:
 		return *mObject;
 	}
 
-	_shared& operator=(T* object) 
+	shared& operator=(T* object) 
 	{
 		release();
 		initialize(object);
 		return *this;
 	}
 
-	bool operator==(const _shared<T>& ref)
+	bool operator==(const shared<T>& ref)
 	{
 		return ref.mObject == mObject;
 	}
 
-	bool operator==(const _shared<T>& ref) const
+	bool operator==(const shared<T>& ref) const
 	{
 		return ref.mObject == mObject;
 	}
 
-	bool operator!=(const _shared<T>& ref)
+	bool operator!=(const shared<T>& ref)
 	{
 		return ref.mObject != mObject;
 	}
 
-	bool operator!=(const _shared<T>& ref) const
+	bool operator!=(const shared<T>& ref) const
 	{
 		return ref.mObject != mObject;
 	}
 
-	_shared<T>& operator=(const _shared<T>& ref) 
+	shared<T>& operator=(const shared<T>& ref) 
 	{
 		release();
 		initialize(ref);
@@ -180,7 +180,7 @@ public:
 	}
 
 	template<typename P>
-	_shared<T>& operator=(const _shared<P>& ref) 
+	shared<T>& operator=(const shared<P>& ref) 
 	{
 		release();
 		initialize(ref);
@@ -199,7 +199,7 @@ public:
 		return mObject != NULL;
 	}
 
-	_shared<T>& setAutoRelease(bool enable)
+	shared<T>& setAutoRelease(bool enable)
 	{
 		if (!mRefCount)
 			return *this;
@@ -210,12 +210,12 @@ public:
 		return *this;
 	}
 	
-	_shared<T>& enableAutoRelease()
+	shared<T>& enableAutoRelease()
 	{
 		return setAutoRelease(true);
 	}
 	
-	_shared<T>& disableAutoRelease()
+	shared<T>& disableAutoRelease()
 	{
 		return setAutoRelease(false);
 	}
@@ -276,7 +276,7 @@ protected:
 	}
 
 	template<typename P>
-	void initialize(const _shared<P>& ref) 
+	void initialize(const shared<P>& ref) 
 	{
 		if (ref.mValid && *(ref.mValid) == false)
 			xlog("Using not valid pointer - at pointer initialization");
@@ -324,7 +324,7 @@ protected:
 /** Object that defines a shared array type. Object containing reference count and some checking functionality, as default 
  ** releasing object, when reference count is zero. */
 template<typename T>
-class _shared_arr
+class sharedArr
 {
 public:
 	T*            mObject;
@@ -332,7 +332,7 @@ public:
 	bool*         mValid;
 	bool*         mAutoRelease;
 
-	_shared_arr()
+	sharedArr()
 	{
 		mObject = NULL;
 		mRefCount = NULL;
@@ -340,23 +340,23 @@ public:
 		mAutoRelease = NULL;
 	}
 
-	_shared_arr(T* object) 
+	sharedArr(T* object) 
 	{
 		initialize(object);
 	}
 
-	_shared_arr(const _shared_arr<T>& ref) 
+	sharedArr(const sharedArr<T>& ref) 
 	{
 		initialize(ref);
 	}
 
 	template<typename P>
-	_shared_arr(const _shared_arr<P>& ref) 
+	sharedArr(const sharedArr<P>& ref) 
 	{
 		initialize(ref);
 	}
 
-	~_shared_arr() 
+	~sharedArr() 
 	{
 		release();
 	}
@@ -398,37 +398,37 @@ public:
 		return *mObject;
 	}
 
-	_shared_arr& operator=(T* object) 
+	sharedArr& operator=(T* object) 
 	{
 		release();
 		initialize(object);
 		return *this;
 	}
 
-	bool operator==(const _shared_arr& ref)
+	bool operator==(const sharedArr& ref)
 	{
 		return ref.mObject == mObject;
 	}
 
-	_shared_arr<T>& operator=(const _shared_arr<T>& ref) 
+	sharedArr<T>& operator=(const sharedArr<T>& ref) 
 	{
 		release();
 		initialize(ref);
 		return *this;
 	}
 
-	bool operator!=(const _shared_arr<T>& ref)
+	bool operator!=(const sharedArr<T>& ref)
 	{
 		return ref.mObject != mObject;
 	}
 
-	bool operator!=(const _shared_arr<T>& ref) const
+	bool operator!=(const sharedArr<T>& ref) const
 	{
 		return ref.mObject != mObject;
 	}
 
 	template<typename P>
-	_shared_arr<T>& operator=(const _shared_arr<P>& ref) 
+	sharedArr<T>& operator=(const sharedArr<P>& ref) 
 	{
 		release();
 		initialize(ref);
@@ -441,7 +441,7 @@ public:
 		return mObject != NULL;
 	}
 
-	_shared_arr<T>& setAutoRelease(bool enable)
+	sharedArr<T>& setAutoRelease(bool enable)
 	{
 		if (!mRefCount)
 			return *this;
@@ -452,12 +452,12 @@ public:
 		return *this;
 	}
 	
-	_shared_arr<T>& enableAutoRelease()
+	sharedArr<T>& enableAutoRelease()
 	{
 		return setAutoRelease(true);
 	}
 	
-	_shared_arr<T>& disableAutoRelease()
+	sharedArr<T>& disableAutoRelease()
 	{
 		return setAutoRelease(false);
 	}
@@ -518,7 +518,7 @@ protected:
 	}
 
 	template<typename P>
-	void initialize(const _shared_arr<P>& ref) 
+	void initialize(const sharedArr<P>& ref) 
 	{
 		if (ref.mValid && *(ref.mValid) == false)
 			xlog("Using not valid pointer - at pointer initialization");
@@ -564,18 +564,14 @@ protected:
 };
 
 
-
-#define shared(type) _shared<type>
-#define sharedArr(type) _shared_arr<type>
-
 template<typename T>
-void* _safe_release(_shared<T>& ptr)
+void* _safe_release(shared<T>& ptr)
 {
 	return ptr.force_release();
 }
 
 template<typename T>
-void* _safe_release_arr(_shared_arr<T>& ptr)
+void* _safe_release_arr(sharedArr<T>& ptr)
 {
 	return ptr.force_release();
 }

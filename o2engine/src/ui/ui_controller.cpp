@@ -30,19 +30,19 @@ void uiController::draw()
 		(*widget)->draw();
 }
 
-shared(uiWidget) uiController::addWidget(const shared(uiWidget)& widget)
+shared<uiWidget> uiController::addWidget(const shared<uiWidget>& widget)
 {
 	mWidgets.push_back(widget);
 	return widget;
 }
 
-bool uiController::removeWidget(const shared(uiWidget)& widget)
+bool uiController::removeWidget(const shared<uiWidget>& widget)
 {
 	WidgetsVec::iterator fnd = FIND(mWidgets, widget);
 	if (fnd == mWidgets.end())
 		return false;
 
-	safe_release( shared(uiWidget)(widget));
+	safe_release( shared<uiWidget>(widget));
 	mWidgets.erase(fnd);
 	return true;
 }
@@ -59,7 +59,7 @@ bool uiController::removeAllWidgets()
 	return true;
 }
 
-shared(uiWidget) uiController::getWidget(const string& idPath)
+shared<uiWidget> uiController::getWidget(const string& idPath)
 {
 	int delPos = idPath.find("/");
 	string pathPart = idPath.substr(0, delPos);
@@ -81,7 +81,7 @@ shared(uiWidget) uiController::getWidget(const string& idPath)
 	return NULL;
 }
 
-void uiController::focusOnWidget(const shared(uiWidget)& widget)
+void uiController::focusOnWidget(const shared<uiWidget>& widget)
 {
 	if (mFocusWidget)
 		mFocusWidget->onFocusLost();

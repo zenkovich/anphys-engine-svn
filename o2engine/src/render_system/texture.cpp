@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-grTexture::grTexture( shared(grTextureDef) object ):
+grTexture::grTexture( shared<grTextureDef> object ):
 	cReferenceObj(object)
 {
 	if (object) {
@@ -21,7 +21,7 @@ grTexture::grTexture( shared(grTextureDef) object ):
 	}
 }
 
-grTexture::operator shared(grTextureDef)()
+grTexture::operator shared<grTextureDef>()
 {
 	return mObject;
 }
@@ -32,7 +32,7 @@ grTexture grTexture::create( const vec2f& size, grTexFormat::type format /*= grT
 	return grTexture(renderSystem()->createTexture(size, format, usage));
 }
 
-grTexture grTexture::createFromImage( shared(cImage) image )
+grTexture grTexture::createFromImage( shared<cImage> image )
 {
 	return grTexture(renderSystem()->createTextureFromImage(image));
 }

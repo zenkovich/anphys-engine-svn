@@ -57,11 +57,11 @@ template<typename T>
 class cReferenceObj
 {
 protected:
-	shared(T) mObject; /**< IRefCouner object. */
+	shared<T> mObject; /**< IRefCouner object. */
 
 public:
 	/** ctor. */
-	cReferenceObj(shared(T) object):mObject(object)
+	cReferenceObj(shared<T> object):mObject(object)
 	{
 		if (mObject)
 			mObject->incRefCount();

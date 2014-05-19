@@ -98,7 +98,7 @@ inline IRetCallback<RetType>* callback(RetType (*function)())
 class cCallbackChain:public ICallback
 {
 public:
-	typedef vector<shared(ICallback)> CallbacksVec;
+	typedef vector<shared<ICallback>> CallbacksVec;
 
 protected:
 	CallbacksVec mCallbacks;
@@ -130,12 +130,12 @@ public:
 		removeAll();
 	}
 
-	void add(shared(ICallback) callback)
+	void add(shared<ICallback> callback)
 	{
 		mCallbacks.push_back(callback);
 	}
 
-	void remove(shared(ICallback) callback) 
+	void remove(shared<ICallback> callback) 
 	{
 		CallbacksVec::iterator fnd = std::find(mCallbacks.begin(), mCallbacks.end(), callback);
 		if (fnd != mCallbacks.end())

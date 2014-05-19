@@ -7,7 +7,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(scComponent);
 
 
-scComponent::scComponent(const shared(scNode)& ownerNode):
+scComponent::scComponent(const shared<scNode>& ownerNode):
 	mOwnerNode(ownerNode)
 {
 }
@@ -37,27 +37,27 @@ bool scComponent::isEnable() const
 	return mEnable;
 }
 
-shared(scNode) scComponent::node() const
+shared<scNode> scComponent::node() const
 {
 	return mOwnerNode;
 }
 
-void scComponent::setOnEnabled(const shared(ICallback)& callback)
+void scComponent::setOnEnabled(const shared<ICallback>& callback)
 {
 	mOnEnabled = callback;
 }
 
-shared(ICallback) scComponent::getOnEnabled() const
+shared<ICallback> scComponent::getOnEnabled() const
 {
 	return mOnEnabled;
 }
 
-void scComponent::setOnDisabled(const shared(ICallback)& callback)
+void scComponent::setOnDisabled(const shared<ICallback>& callback)
 {
 	mOnDisabled = callback;
 }
 
-shared(ICallback) scComponent::getOnDisabled() const
+shared<ICallback> scComponent::getOnDisabled() const
 {
 	return mOnDisabled;
 }

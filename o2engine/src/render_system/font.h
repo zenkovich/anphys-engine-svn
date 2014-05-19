@@ -17,7 +17,7 @@ class grFont: public cSerializableObj
 {
 	friend class grFontManager;
 	friend class grText;
-	friend class shared(grFont);
+	friend class shared<grFont>;
 	
 public:
 	/** Characret definition structure. Conatining texture source rect, size, offset, advance and characted id. */

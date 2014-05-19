@@ -33,10 +33,10 @@ public:
 	enum { nMeshMaxPolyCount = 2048 };
 
 protected:
-	typedef vector< shared(grMesh) > MeshVec;
+	typedef vector< shared<grMesh> > MeshVec;
 
 	wstring         mText;                /** Wide char string, containing rendering text. */
-	shared(grFont)  mFont;                /** Using font. */
+	shared<grFont>  mFont;                /** Using font. */
 	basis           mTransform;           /** Transformation. */
 	basisDef        mTransformDef;        /** Transform definition. */
 	vec2f           mAreaSize;            /** Size of text area. */
@@ -60,7 +60,7 @@ protected:
 
 public:
 	//properties
-	PROPERTY(grText, shared(grFont)) font;                /** Font pointer property. Uses set/getFont. */
+	PROPERTY(grText, shared<grFont>) font;                /** Font pointer property. Uses set/getFont. */
 	PROPERTY(grText, wstring)        text;                /** Text property, wstring. Uses set/getText. */
 	PROPERTY(grText, string)         ctext;               /** Text property, string. Uses set/getCText. */
 	PROPERTY(grText, TextStyle)      style;               /** Style bit mask property. Uses set/gettextStyle. */
@@ -99,10 +99,10 @@ public:
 	void draw();	
 
 	/** Sets using font. */
-	void setFont(const shared(grFont)& font);
+	void setFont(const shared<grFont>& font);
 
 	/** Returns using font. */
-	shared(grFont) getFont() const;
+	shared<grFont> getFont() const;
 
 	/** Sets text. */
 	void setText(const wstring& text);

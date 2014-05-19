@@ -72,21 +72,21 @@ scNode& scNode::operator=(const scNode& node)
 	return *this;
 }
 
-shared(scNode) scNode::addNode(const shared(scNode)& node)
+shared<scNode> scNode::addNode(const shared<scNode>& node)
 {
 	mChilds.push_back(node);
 	node->mParent = this;
 	return node;
 }
 
-bool scNode::removeNode(const shared(scNode)& node)
+bool scNode::removeNode(const shared<scNode>& node)
 {
 	NodesVec::iterator fnd = FIND(mChilds, node);
 	if (fnd == mChilds.end())
 		return false;
 
 	mChilds.erase(fnd);
-	safe_release(shared(scNode)(node));
+	safe_release(shared<scNode>(node));
 	return true;
 }
 
@@ -103,7 +103,7 @@ bool scNode::removeAllNodes()
 	return true;
 }
 
-shared(scNode) scNode::getNode(const string& id) const
+shared<scNode> scNode::getNode(const string& id) const
 {
 	int delPos = id.find("/");
 	string pathPart = id.substr(0, delPos);
@@ -135,21 +135,21 @@ shared(scNode) scNode::getNode(const string& id) const
 	return NULL;
 }
 
-shared(scComponent) scNode::addComponent(const shared(scComponent)& component)
+shared<scComponent> scNode::addComponent(const shared<scComponent>& component)
 {
 	mComponents.push_back(component);
 	component->mOwnerNode = this;
 	return component;
 }
 
-bool scNode::removeComponent(const shared(scComponent)& component)
+bool scNode::removeComponent(const shared<scComponent>& component)
 {
 	ComponentsVec::iterator fnd = FIND(mComponents, component);
 	
 	if (fnd == mComponents.end())
 		return false;
 	
-	safe_release(shared(scComponent)(component));
+	safe_release(shared<scComponent>(component));
 	mComponents.erase(fnd);
 	return true;
 }
@@ -177,11 +177,11 @@ string scNode::getId() const
 	return mId;
 }
 
-void scNode::setParent(const shared(scNode)& parent)
+void scNode::setParent(const shared<scNode>& parent)
 {	
 	if (mParent)
 	{
-		NodesVec::iterator fnd = FIND(mParent->mChilds, shared(scNode)(this).disableAutoRelease());
+		NodesVec::iterator fnd = FIND(mParent->mChilds, shared<scNode>(this).disableAutoRelease());
 		if (fnd != mParent->mChilds.end())
 			mParent->mChilds.erase(fnd);
 	}
@@ -194,7 +194,7 @@ void scNode::setParent(const shared(scNode)& parent)
 	updateTransform();
 }
 
-shared(scNode) scNode::getParent() const
+shared<scNode> scNode::getParent() const
 {
 	return mParent;
 }
@@ -446,7 +446,7 @@ void scNode::draw()
 
 }
 
-shared(scNode) scNode::loadFromFile(const string& fileName)
+shared<scNode> scNode::loadFromFile(const string& fileName)
 {
 	return mnew scNode();
 }

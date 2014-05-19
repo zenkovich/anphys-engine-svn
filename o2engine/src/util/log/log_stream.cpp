@@ -74,14 +74,14 @@ const string& cLogStream::getId() const
 	return mId;
 }
 
-void cLogStream::bindStream( shared(cLogStream) stream )
+void cLogStream::bindStream( shared<cLogStream> stream )
 {
 	stream->mParentStream = this;
 	stream->mLevel = mLevel;
 	mChildStreams.push_back(stream);
 }
 
-void cLogStream::unbindStream( shared(cLogStream) stream )
+void cLogStream::unbindStream( shared<cLogStream> stream )
 {
 	LogSteamsVec::iterator fnd = std::find(mChildStreams.begin(), mChildStreams.end(), stream);
 	if (fnd != mChildStreams.end())
@@ -199,7 +199,7 @@ void cLogStream::warning( const char* format, ... )
 	}
 }
 
-shared(cLogStream) cLogStream::getParentStream() const
+shared<cLogStream> cLogStream::getParentStream() const
 {
 	return mParentStream;
 }

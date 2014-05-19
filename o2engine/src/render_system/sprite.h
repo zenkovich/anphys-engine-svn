@@ -26,7 +26,7 @@ class grSprite:public IDrawable
 	vec2f   mPivot;          /** Pivot position, in pixels. */
 	fRect   mTextureSrcRect; /** texture src rect. */
 
-	shared(grMesh) mMesh;                    /** Mesh. */
+	shared<grMesh> mMesh;                    /** Mesh. */
 
 	bool           mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
 	bool           mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
