@@ -10,19 +10,61 @@ OPEN_O2_NAMESPACE
 class uiTransitionState
 {
 public:
+	struct IProperty
+	{
+		virtual void update(float dt) = 0;
+		virtual void setState(bool state) = 0;
+		virtual bool isComplete() = 0;
+	};
+
 	template<typename T>
-	struct valueProperty
+	struct valueProperty: public IProperty
 	{
 		T*                     mPropertyPtr;
 		cAnimFrame<T>          mStateOff;
 		cAnimFrame<T>          mStateOn;
 		cFrameInterpolation<T> mInterpolator;
 		float                  mTime;
+		bool                   mTargetState;
+		bool                   mComplete;
 
-		valueProperty(T* propertyPtr, const T& stateOff, const T& stateOn);
-		valueProperty(T* propertyPtr, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn);
+		valueProperty(T* propertyPtr, const T& stateOff, const T& stateOn, float duration)
+		{
+			mPropertyPtr = propertyPtr;
+			mStateOff = cAnimFrame<T>(stateOff, duration);
+			mStateOn = cAnimFrame<T>(stateOn, duration);
+			mInterpolator.initialize(&mStateOff, &mStateOn);
+			mTime = 0;
+			mTargetState = false;
+			mComplete = true;
+		}
+
+		valueProperty(T* propertyPtr, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn)	
+		{
+			mPropertyPtr = propertyPtr;
+			mStateOff = stateOff;
+			mStateOn = stateOn;
+			mInterpolator.initialize(&mStateOff, &mStateOn);
+			mTime = 0;
+			mTargetState = false;
+			mComplete = true;
+		}
+
+		void update(float dt)
+		{
+			if (mTargetState)
+			{
+			}
+			else
+			{
+			}
+		}
+
+		void setState(bool state);
+		bool isComplete();
 	};
-	typedef vector<valueProperty> PropertiesVec;
+
+	typedef vector< shared<IProperty> > PropertiesVec;
 
 protected:
 	PropertiesVec mProperties;
