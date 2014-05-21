@@ -7,16 +7,19 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiWidget);
 
 uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
-	mId(id), mChildsOffset(), mParent(parent), mVisible(true), mFocused(false), mTransparency(1.0f)
+	mId(id), mParent(parent), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f),
+	mVisibleState(NULL)
 {
 	mLayout = layout;
 	initializeProperties();
+	initializePropertiesList();
 	updateLayout();
 }
 
 uiWidget::uiWidget( const uiWidget& widget )
 {
 	initializeProperties();
+	initializePropertiesList();
 
 	mId = widget.mId;
 	mLayout = widget.mLayout;
@@ -29,12 +32,18 @@ uiWidget::uiWidget( const uiWidget& widget )
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
 		addChild((*it)->clone());
 
+	FOREACH_CONST(StatesMap, mStates, state)
+		addState(state->second->clone());
+
 	updateLayout();
 }
 
 uiWidget::~uiWidget()
 {
 	removeAllChilds();
+
+	FOREACH_CONST(StatesMap, mStates, state)
+		safe_release(state->second);
 }
 
 void uiWidget::draw()
@@ -76,8 +85,8 @@ void uiWidget::localUpdateLayout()
 		parentSize = mParent->mSize;
 	}
 	
-	mSize.x = clamp(parentSize.x*mLayout.mRelSize.x - mLayout.mRelSizeBorder.x, mLayout.mMinSize.x, mLayout.mMaxSize.x);
-	mSize.y = clamp(parentSize.y*mLayout.mRelSize.y - mLayout.mRelSizeBorder.y, mLayout.mMinSize.y, mLayout.mMaxSize.y);
+	mSize.x = clamp(parentSize.x*mLayout.mRelSize.x + mLayout.mPxSize.x, mLayout.mMinSize.x, mLayout.mMaxSize.x);
+	mSize.y = clamp(parentSize.y*mLayout.mRelSize.y + mLayout.mPxSize.y, mLayout.mMinSize.y, mLayout.mMaxSize.y);
 
 	vec2f pivot = mSize.scale(mLayout.mRelPivot) + mLayout.mPxPivot;
 
@@ -136,8 +145,6 @@ void uiWidget::removeChild( shared<uiWidget> widget )
 
 	widget->mParent = NULL;
 	safe_release(widget);
-
-	updateLayout();
 }
 
 void uiWidget::removeAllChilds()
@@ -149,8 +156,6 @@ void uiWidget::removeAllChilds()
 	}
 
 	mChildWidgets.clear();
-
-	updateLayout();
 }
 
 void uiWidget::setParent(const shared<uiWidget>& parent)
@@ -247,7 +252,7 @@ vec2f uiWidget::getGlobalPosition() const
 
 void uiWidget::setSize( const vec2f& size )
 {
-	mSize = size;
+	mLayout.mPxSize = size;
 	updateLayout();
 }
 
@@ -351,7 +356,7 @@ void uiWidget::initializePropertiesList()
 shared<uiState> uiWidget::addState(const shared<uiState>& state)
 {
 	mStates[state->mName] = state;
-	state->mOwnerWidget = shared<uiWidget>(this).disableAutoRelease();
+	state->setOwnerWidget(shared<uiWidget>(this).disableAutoRelease());
 	return state;
 }
 

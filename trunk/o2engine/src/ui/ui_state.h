@@ -26,16 +26,19 @@ public:
 
 
 	uiState(const string& name);
+	uiState(const uiState& state);
 	virtual ~uiState();
 
 	virtual shared<uiState> clone() const = 0;
 
-	virtual void setState(bool state) {}
+	virtual void setState(bool state, bool forcible = false) {}
 	virtual bool getState() const { return false; }
 
 	virtual void update(float dt) {}
 
 protected:
+	virtual void setOwnerWidget(const shared<uiWidget>& ownerWidget);
+
 	void initializeProperties();
 };
 

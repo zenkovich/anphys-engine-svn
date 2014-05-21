@@ -8,44 +8,57 @@ namespace _uiTransitionState
 {
 
 template<typename T>
-class ValueProperty: public IProperty
+class ValueProperty: public uiTransitionState::IProperty
 {
-	T*                     mPropertyPtr;
-	cAnimFrame<T>          mStateOff;
-	cAnimFrame<T>          mStateOn;
-	cFrameInterpolation<T> mInterpolator;
-	float                  mTime;
-	float                  mInvDuration;
-	bool                   mTargetState;
-	bool                   mComplete;
-	shared<ICallback>      mOnChanged;
-	string                 mWidgetPropertyId;
+	T*                        mPropertyPtr;
+	cAnimFrame<T>             mStateOff;
+	cAnimFrame<T>             mStateOn;
+	cFrameInterpolation<T>    mInterpolator;
+	float                     mTime;
+	float                     mInvDuration;
+	bool                      mTargetState;
+	bool                      mComplete;
+	shared<ICallback>         mOnChanged;
+	string                    mWidgetPropertyId;
+	shared<uiTransitionState> mStateOwner;
 
 public:
-	ValueProperty(T* propertyPtr, const T& stateOff, const T& stateOn, float duration, 
+	ValueProperty(const std::string& propertyId, const T& stateOff, const T& stateOn, float duration, 
 		          const shared<ICallback>& onChanged = NULL)
 	{
-		mPropertyPtr = propertyPtr;
+		mPropertyPtr = NULL;
 		mStateOff = cAnimFrame<T>(stateOff, duration);
 		mStateOn = cAnimFrame<T>(stateOn, duration);
 		mInterpolator.initialize(&mStateOff, &mStateOn);
 		mTime = 0;
+		mInvDuration = 1.0f;
 		mTargetState = false;
 		mComplete = true;
 		mOnChanged = onChanged;
+		mWidgetPropertyId = propertyId;
+		mStateOwner = NULL;
 	}
 
-	ValueProperty(T* propertyPtr, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+	ValueProperty(const std::string& propertyId, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
 		          const shared<ICallback>& onChanged = NULL)	
 	{
-		mPropertyPtr = propertyPtr;
+		mPropertyPtr = NULL;
 		mStateOff = stateOff;
 		mStateOn = stateOn;
 		mInterpolator.initialize(&mStateOff, &mStateOn);
 		mTime = 0;
+		mInvDuration = 1.0f;
 		mTargetState = false;
 		mComplete = true;
 		mOnChanged = onChanged;
+		mWidgetPropertyId = propertyId;
+		mStateOwner = NULL;
+	}
+
+	shared<uiTransitionState::IProperty> clone() const
+	{
+		shared<ValueProperty> res = mnew ValueProperty(mWidgetPropertyId, mStateOff, mStateOn, mOnChanged);
+		return res;
 	}
 
 	void update(float dt)
@@ -69,14 +82,22 @@ public:
 			}
 		}
 
-		*mPropertyPtr = mInterpolator.getValue(*mPropertyPtr, mTime*mInvDuration);
+		mInterpolator.getValue(*mPropertyPtr, mTime*mInvDuration);
 
 		if (mOnChanged)
 			mOnChanged->call();
 	}
 
-	void setState(bool state)
+	void setState(bool state, bool forcible = false)
 	{
+		if (forcible)
+		{
+			mComplete = true;
+			mInterpolator.getValue(*mPropertyPtr, state ? 1.0f:0.0f);
+
+			return;
+		}
+
 		mComplete = false;
 		mTargetState = state;
 		if (mTargetState)
@@ -95,20 +116,29 @@ public:
 	{
 		return mComplete;
 	}
+
+	void setOwner(const shared<uiTransitionState>& owner)
+	{
+		mStateOwner = owner;
+		mPropertyPtr = owner->mOwnerWidget->getProperty(mWidgetPropertyId);
+	}
 };
 
 } //_uiTransitionState
 
 
 uiTransitionState::uiTransitionState(const string& name):
-	uiState(name), mState(false)
+	uiState(name), mState(false), mChangingState(false)
 {
 }
 
 uiTransitionState::uiTransitionState(const uiTransitionState& transitionState):
-	uiState(transitionState.mName)
+	uiState(transitionState), mChangingState(false)
 {
-	FOREACH()
+	FOREACH(PropertiesVec, mProperties, prop)
+		addProperty((*prop)->clone());
+
+	mState = transitionState.mState;
 }
 
 uiTransitionState::~uiTransitionState()
@@ -119,27 +149,68 @@ uiTransitionState::~uiTransitionState()
 
 shared<uiState> uiTransitionState::clone() const
 {
-	shared<uiTransitionState> res = mnew uiTransitionState(mName);
+	shared<uiTransitionState> res = mnew uiTransitionState(*this);
+	return res;
 }
 
-void uiTransitionState::setState(bool state)
+void uiTransitionState::setState(bool state, bool forcible = false)
 {
+	if (mState == state)
+		return;
 
+	mState = state;
+	mChangingState = !forcible;
+
+	FOREACH(PropertiesVec, mProperties, prop)
+		(*prop)->setState(state, forcible);
 }
 
 bool uiTransitionState::getState() const
 {
-
+	return mState;
 }
 
 void uiTransitionState::update(float dt)
 {
+	if (!mChangingState)
+		return;
 
+	bool complete = true;
+	FOREACH(PropertiesVec, mProperties, prop)
+	{
+		if ((*prop)->isComplete())
+			continue;
+
+		(*prop)->update(dt);
+		complete = false;
+	}
+
+	mChangingState = !complete;
+	if (complete)
+	{
+		if (mState)
+			mOnActiveStateCallbacks.call();
+		else
+			mOnDeactiveStateCallbacks.call();
+	}
 }
 
 shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared<IProperty>& property)
 {
+	mProperties.push_back(property);
 
+	if (mOwnerWidget)
+		property->setOwner(shared<uiTransitionState>(this).disableAutoRelease());
+
+	return property;
+}
+
+void uiTransitionState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
+{
+	uiState::setOwnerWidget(ownerWidget);
+	shared<uiTransitionState> thisShared = shared<uiTransitionState>(this).disableAutoRelease();
+	FOREACH(PropertiesVec, mProperties, prop)
+		(*prop)->setOwner(thisShared);
 }
 
 CLOSE_O2_NAMESPACE

@@ -12,12 +12,12 @@ class uiTransitionState: public uiState
 public:
 	class IProperty
 	{
-		shared<uiTransitionState> mStateOwner;
-
 	public:
+		virtual shared<IProperty> clone() const = 0;
 		virtual void update(float dt) = 0;
-		virtual void setState(bool state) = 0;
+		virtual void setState(bool state, bool forcible = false) = 0;
 		virtual bool isComplete() = 0;
+		virtual void setOwner(const shared<uiTransitionState>& owner) = 0;
 	};
 
 	typedef vector< shared<IProperty> > PropertiesVec;
@@ -25,6 +25,7 @@ public:
 protected:
 	PropertiesVec mProperties;
 	bool          mState;
+	bool          mChangingState;
 
 public:
 	uiTransitionState(const string& name);
@@ -33,12 +34,15 @@ public:
 
 	shared<uiState> clone() const;
 
-	void setState(bool state);
+	void setState(bool state, bool forcible = false);
 	bool getState() const;
 
 	shared<IProperty> addProperty(const shared<IProperty>& property);
 
 	void update(float dt);
+
+protected:
+	void setOwnerWidget(const shared<uiWidget>& ownerWidget);
 };
 
 CLOSE_O2_NAMESPACE

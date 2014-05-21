@@ -7,6 +7,12 @@ uiState::uiState( const string& name):
 {
 }
 
+uiState::uiState( const uiState& state )
+{
+	mName = state.mName;
+	mOwnerWidget = NULL;
+}
+
 uiState::~uiState()
 {
 }
@@ -14,6 +20,11 @@ uiState::~uiState()
 void uiState::initializeProperties()
 {
 	state.initNonConstSetter(this, &uiState::setState, &uiState::getState);
+}
+
+void uiState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
+{
+	mOwnerWidget = ownerWidget;
 }
 
 CLOSE_O2_NAMESPACE
