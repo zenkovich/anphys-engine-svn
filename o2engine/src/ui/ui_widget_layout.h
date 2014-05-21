@@ -17,11 +17,11 @@ struct uiWidgetLayout
 	vec2f mMinSize;
 	vec2f mMaxSize;
 	vec2f mRelSize;
-	vec2f mRelSizeBorder;
+	vec2f mPxSize;
 
 	uiWidgetLayout(const vec2f& pxPosition = vec2f(), const vec2f& minSize = vec2f(), 
 		           const vec2f& relPosition = vec2f(), const vec2f& maxSize = vec2f(FLT_MAX, FLT_MAX), 
-			       const vec2f& relSize = vec2f(), const vec2f& relSizeBorder = vec2f(),
+			       const vec2f& relSize = vec2f(), const vec2f& pxSize = vec2f(),
 			       const vec2f& relPivot = vec2f(), const vec2f& pxPivot = vec2f());
 
 	uiWidgetLayout(const uiWidgetLayout& layout);

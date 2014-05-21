@@ -9,11 +9,14 @@
 #include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
-
 	
 class uiState
 {
-	string     mName;
+	friend class uiWidget;
+
+protected:
+	string           mName;
+	shared<uiWidget> mOwnerWidget; 
 
 public: 
 	PROPERTY(uiState, bool) state;
