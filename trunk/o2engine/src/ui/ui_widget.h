@@ -11,6 +11,7 @@
 #include "util/math/vector2.h"
 #include "util/property.h"
 #include "util/geometry/geometry.h"
+#include "util/property_list.h"
 #include "ui_widget_layout.h"
 #include "ui_state.h"
 
@@ -20,18 +21,20 @@ class cGeometry;
 class uiState;
 
 /** Basic widget object. Contains id, parent, childs, position and other strange data. */
-class uiWidget
+class uiWidget: public cObjectWithPropertyList
 {
 	friend class uiController;
+	friend class uiState;
 
+public:
 	typedef vector< shared<uiWidget> > WidgetsVec;
 	typedef std::map< string, shared<uiState> > StatesMap;
 	
+protected:
 	string            mId;             /**< Identificator or name. */
 	shared<uiWidget>  mParent;         /**< Parent widget. NULL if no parent. */
 	uiWidgetLayout    mLayout;         /**< Widget layout. */
 	WidgetsVec        mChildWidgets;   /**< Chiles widgets. */
-	vec2f             mLocalPosition;  /**< Position relative to the parent. */
 	vec2f             mGlobalPosition; /**< Position in screen space. */
 	vec2f             mSize;           /**< Size of widget. Not including childes. */
 	vec2f             mChildsOffset;   /**< Offset for childrens. */
@@ -39,6 +42,7 @@ class uiWidget
 	fRect             mBounds;         /**< Widget with childes bounds. */
 	bool              mVisible;
 	bool              mFocused;
+	float             mTransparency;
 				      
 	StatesMap         mStates;
 	shared<uiState>   mVisibleState;
@@ -111,6 +115,7 @@ public:
 	void makeFocused();
 	void releaseFocus();
 
+	shared<uiState> addState(const shared<uiState>& state);
 	void setState(const string& stateId, bool value);
 	shared<uiState> getState(const string& stateId);
 
@@ -175,6 +180,8 @@ private:
 
 	/** Initialize all properties. */
 	void initializeProperties();
+
+	void initializePropertiesList();
 };
 
 CLOSE_O2_NAMESPACE
