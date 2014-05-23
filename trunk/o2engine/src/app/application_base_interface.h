@@ -40,6 +40,8 @@ class cLogStream;
 class cFileSystem;
 class cScheduler;
 class cTimeUtil;
+class cTimer;
+class uiController;
 	
 /** Basic application class. Not implementing frame data. 
   * Containing input message and systems:
@@ -56,6 +58,8 @@ protected:
 	shared<cFileSystem>    mFileSystem;   /**< File system. */
 	shared<cScheduler>     mScheduler;    /**< Scheduler. */
 	shared<cTimeUtil>      mTimeUtils;    /**< Time utilities. */
+	shared<uiController>   mUIController; /**< User interface controller host. */									   
+	shared<cTimer>         mTimer;        /**< Timer for detecting delta time for update. */
 
 public:
 	/** ctor. */
@@ -91,6 +95,8 @@ protected:
 
 	/** Deinitializing systems. */
 	void deinitializeSystems();
+
+	void processFrame();
 
 	/** Called on message processing. */
 	virtual void processMessage(cApplacationMessage::type message) {}

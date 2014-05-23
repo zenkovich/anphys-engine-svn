@@ -33,8 +33,6 @@ protected:
 	string         mWndCaption;          /**< Window caption. */
 				   				   
 	bool           mActive;              /**< True, if window is active. */
-									   
-	shared<cTimer> mTimer;               /**< Timer for detecting delta time for update. */
 
 	static cApplication* mApplication;   /**< Static ptr for wndProc func. */
 

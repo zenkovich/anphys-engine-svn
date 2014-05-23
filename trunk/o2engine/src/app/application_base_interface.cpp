@@ -7,6 +7,8 @@
 #include "util/log.h"
 #include "util/log/console_log_stream.h"
 #include "util/log/file_log_stream.h"
+#include "util/timer.h"
+#include "ui/ui_controller.h"
 
 OPEN_O2_NAMESPACE
 
@@ -42,8 +44,15 @@ void cApplicationBaseInterface::initalizeSystems()
 //scheduler
 	mScheduler = mnew cScheduler();
 
+//timer
+	mTimer = mnew cTimer();
+	mTimer->reset();
+
 //timers
 	mTimeUtils = mnew cTimeUtil();
+
+//ui
+	mUIController = mnew uiController();
 }
 
 void cApplicationBaseInterface::deinitializeSystems()
@@ -51,6 +60,7 @@ void cApplicationBaseInterface::deinitializeSystems()
 	safe_release(mFileSystem);
 	safe_release(mScheduler);
 	safe_release(mTimeUtils);
+	safe_release(mUIController);
 
 	mLog->out("All systems deinitialized");
 
@@ -65,6 +75,25 @@ shared<cInputMessage> cApplicationBaseInterface::getInputMessage()
 shared<grRenderSystem> cApplicationBaseInterface::getRenderSystem() const
 {
 	return mRenderSystem;
+}
+
+void cApplicationBaseInterface::processFrame()
+{	
+	float dt = mTimer->getElapsedTime();
+
+	mTimeUtils->update(dt);
+
+	mScheduler->processBeforeFrame(dt);
+
+	onUpdate(dt);
+
+	mRenderSystem->beginRender();
+	onDraw();
+	mRenderSystem->endRender();
+
+	mInputMessage->update(dt);
+
+	mScheduler->processAfterFrame(dt);
 }
 
 CLOSE_O2_NAMESPACE

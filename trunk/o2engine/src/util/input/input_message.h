@@ -12,6 +12,7 @@ typedef int VKey;
 /** Input message. Containing pressed, down, released keys, cursors positions. */
 class cInputMessage
 {
+	friend class cApplicationBaseInterface;
 	friend class cApplication;
 	friend class InputMsgTest;
 

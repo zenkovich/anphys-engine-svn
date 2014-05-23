@@ -153,7 +153,7 @@ shared<uiState> uiTransitionState::clone() const
 	return res;
 }
 
-void uiTransitionState::setState(bool state, bool forcible = false)
+void uiTransitionState::setState(bool state, bool forcible)
 {
 	if (mState == state)
 		return;

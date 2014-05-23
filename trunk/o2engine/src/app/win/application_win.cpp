@@ -8,7 +8,6 @@
 #include "util/time_utils.h"
 #include "util/log.h"
 #include "util/math/math.h"
-#include "util/timer.h"
 
 OPEN_O2_NAMESPACE
 
@@ -19,8 +18,6 @@ cApplication::cApplication():
 {
 	initializeWindow();
 
-	mTimer = mnew cTimer;
-	mTimer->reset();
 	mApplication = this;
 
 	mRenderSystem = mnew grRenderSystem();
@@ -98,17 +95,7 @@ void cApplication::launch()
 		} 
 		else
 		{
-			float dt = mTimer->getElapsedTime();
-
-			mTimeUtils->update(dt);
-
-			mScheduler->processBeforeFrame(dt);
-
-			onUpdate(dt);
-			draw();
-			mInputMessage->update(dt);
-
-			mScheduler->processAfterFrame(dt);
+			processFrame();
 		}
 	}
 
@@ -419,16 +406,10 @@ void cApplication::onUpdate( float dt )
 
 void cApplication::onDraw()
 {
-
 }
 
 void cApplication::draw()
 {
-	mRenderSystem->beginRender();
-
-	onDraw();
-
-	mRenderSystem->endRender();
 }
 
 cApplication* cApplication::mApplication = NULL;

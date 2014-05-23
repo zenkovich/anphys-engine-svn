@@ -68,7 +68,9 @@ public:
 	~grSprite();
 
 	/** Returns cloned sprite. */
-	grSprite* clone() const;
+	shared<grSprite> clone() const;
+
+	grSprite& operator=(const grSprite& sprite);
 
 	/** Drawing that sprite. */
 	void draw();

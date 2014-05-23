@@ -42,8 +42,8 @@ uiWidget::~uiWidget()
 {
 	removeAllChilds();
 
-	FOREACH_CONST(StatesMap, mStates, state)
-		safe_release(state->second);
+	/*FOREACH_CONST(StatesMap, mStates, state)
+		safe_release(state->second);*/
 }
 
 void uiWidget::draw()
@@ -93,6 +93,8 @@ void uiWidget::localUpdateLayout()
 	mGlobalPosition = parentPos + parentSize.scale(mLayout.mRelPosition) - pivot + mLayout.mPxPosition;
 
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
+
+	layoutUpdated();
 }
 
 bool uiWidget::isInside( const vec2f& point ) const
