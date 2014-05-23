@@ -4,12 +4,8 @@
 #include "public.h"
 
 #include "render_system/texture.h"
-#include "util/objects.h"
-#include "util/math/color.h"
-#include "util/math/rect.h"
-#include "util/math/vector2.h"
 #include "util/serialization/serialization.h"
-#include "util/smart_ptrs.h"
+#include "util/property.h"
 
 OPEN_O2_NAMESPACE
 
@@ -40,6 +36,10 @@ class cStretchRect:public cSerializableObj
 	bool           mNeedUpdateMesh;
 
 public:
+	PROPERTY(cStretchRect, fRect) rect;
+	PROPERTY(cStretchRect, vec2f) position;
+	PROPERTY(cStretchRect, vec2f) size;
+
 	cStretchRect(int parts = 0, const grTexture& texture = grTexture());
 	cStretchRect(const cStretchRect& stretchRect);
 
@@ -52,7 +52,7 @@ public:
 	void removePart(int idx);
 
 	void setRect(const fRect& rect);
-	const fRect& getRect() const;
+	fRect getRect() const;
 
 	void setPosition(const vec2f& pos);
 	vec2f getPosition() const;
@@ -67,6 +67,7 @@ public:
 protected:
 	void createMesh(int partsCount, const grTexture& texture);
 	void updateMesh();
+	void initializeProperties();
 };
 
 CLOSE_O2_NAMESPACE

@@ -168,6 +168,8 @@ private:
 	/** Updating current widget layout: global position and bounds. */
 	virtual void localUpdateLayout();
 
+	virtual void layoutUpdated() {}
+
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg) { return false; }
 

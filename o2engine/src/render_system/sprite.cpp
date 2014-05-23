@@ -110,6 +110,25 @@ grSprite::~grSprite()
 	safe_release(mMesh);
 }
 
+shared<grSprite> grSprite::clone() const
+{
+	return mnew grSprite(*this);
+}
+
+grSprite& grSprite::operator=(const grSprite& sprite)
+{
+	mTextureSrcRect = sprite.mTextureSrcRect;
+	mPosition = sprite.mPosition;
+	mSize = sprite.mSize;
+	mScale = sprite.mScale;
+	mAngle = sprite.mAngle;
+	mPivot = sprite.mPivot;
+
+	mNeedUpdateMeshVerticies = true;
+	mNeedUpdateMeshTexCoords = true;
+
+}
+
 void grSprite::setPosition( const vec2f& position )
 {
 	if (!(fabs(position.x - mPosition.x) > FLT_EPSILON || fabs(position.y - mPosition.y) > FLT_EPSILON))
@@ -185,11 +204,6 @@ void grSprite::setTextureSrcRect( const fRect& rect )
 fRect grSprite::getTextureSrcRect() const
 {
 	return mTextureSrcRect;
-}
-
-grSprite* grSprite::clone() const
-{
-	return mnew grSprite(*this);
 }
 
 void grSprite::setTexture( const grTexture& texture )

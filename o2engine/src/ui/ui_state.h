@@ -38,6 +38,7 @@ public:
 
 protected:
 	virtual void setOwnerWidget(const shared<uiWidget>& ownerWidget);
+	void setStateNonForcible(bool state);
 
 	void initializeProperties();
 };

@@ -4,6 +4,8 @@
 
 OPEN_O2_NAMESPACE
 
+DECLARE_SINGLETON(uiController);
+
 uiController::uiController():
 	mFocusWidget(NULL)
 {

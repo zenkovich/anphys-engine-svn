@@ -101,7 +101,7 @@ void cStretchRect::setRect( const fRect& rect )
 	mNeedUpdateMesh = true;
 }
 
-const fRect& cStretchRect::getRect() const
+fRect cStretchRect::getRect() const
 {
 	return mRect;
 }
@@ -178,6 +178,13 @@ void cStretchRect::draw()
 SERIALIZE_METHOD_IMPL(cStretchRect)
 {
 	return true;
+}
+
+void cStretchRect::initializeProperties()
+{
+	rect.init(this, &cStretchRect::setRect, &cStretchRect::getRect);
+	position.init(this, &cStretchRect::setPosition, &cStretchRect::getPosition);
+	size.init(this, &cStretchRect::setSize, &cStretchRect::getSize);
 }
 
 CLOSE_O2_NAMESPACE

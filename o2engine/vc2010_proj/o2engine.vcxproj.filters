@@ -345,15 +345,6 @@
     <ClInclude Include="..\src\util\animation\animation_group.h">
       <Filter>src\util\animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ui\ui_drawable.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ui\ui_sprite_drawable.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ui\ui_stretch_rect_drawable.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ui\ui_rect.h">
       <Filter>src\ui</Filter>
     </ClInclude>
@@ -428,6 +419,12 @@
     </ClInclude>
     <ClInclude Include="..\src\util\property_list.h">
       <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_skin.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ui\ui_sprite.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -671,12 +668,6 @@
     <ClCompile Include="..\src\util\animation\animation_group.cpp">
       <Filter>src\util\animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ui\ui_sprite_drawable.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ui\ui_stretch_rect_drawable.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\util\geometry\geometry.cpp">
       <Filter>src\util\geometry</Filter>
     </ClCompile>
@@ -727,6 +718,15 @@
     </ClCompile>
     <ClCompile Include="..\src\util\property_list.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_skin.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_rect.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_sprite.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
