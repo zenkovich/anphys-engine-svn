@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 class cTimer;
 
 /** Windows applacation. 
-  * Contains window handle, options, timer
+  * Contains window handle, options
   */
 class cApplication:public cApplicationBaseInterface
 {

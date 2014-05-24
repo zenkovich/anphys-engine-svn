@@ -40,12 +40,12 @@ protected:
 	vec2f             mChildsOffset;   /**< Offset for childrens. */
 	shared<cGeometry> mGeometry;       /**< Geometry. May be NULL. */
 	fRect             mBounds;         /**< Widget with childes bounds. */
-	bool              mVisible;
-	bool              mFocused;
-	float             mTransparency;
+	bool              mVisible;        /**< True, if widget is visible. */
+	bool              mFocused;        /**< True, if widget on focus. */
+	float             mTransparency;   /**< Transparency of widget. */
 				      
-	StatesMap         mStates;
-	shared<uiState>   mVisibleState;
+	StatesMap         mStates;         /**< States map. */
+	shared<uiState>   mVisibleState;   /**< Shared to visible state. */
 
 
 public:
@@ -107,19 +107,34 @@ public:
 
 
 	//setters and getters
-
+	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
 
+	/** Setting focus on widget. */
 	void setFocused(bool focused);
+
+	/** Return true, when widget on focus. */
 	bool isFocused() const;
+
+	/** Makes widget focused. */
 	void makeFocused();
+
+	/** Releases widgets focus. */
 	void releaseFocus();
 
+	/** Adding new state to widget. */
 	shared<uiState> addState(const shared<uiState>& state);
+
+	/** Setting state parameter. */
 	void setState(const string& stateId, bool value);
+
+	/** Returns shared state by id. */
 	shared<uiState> getState(const string& stateId);
 
+	/** Sets vidget visible. */
 	void setVisible(bool visible);
+
+	/** Returns true, if widget is visible. */
 	bool isVisible() const;
 	
 	/** Sets widget's parent. */
