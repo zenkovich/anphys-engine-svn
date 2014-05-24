@@ -117,6 +117,7 @@ shared<grSprite> grSprite::clone() const
 
 grSprite& grSprite::operator=(const grSprite& sprite)
 {
+	mMesh->setTexture(sprite.getTexture());
 	mTextureSrcRect = sprite.mTextureSrcRect;
 	mPosition = sprite.mPosition;
 	mSize = sprite.mSize;
@@ -127,6 +128,7 @@ grSprite& grSprite::operator=(const grSprite& sprite)
 	mNeedUpdateMeshVerticies = true;
 	mNeedUpdateMeshTexCoords = true;
 
+	return *this;
 }
 
 void grSprite::setPosition( const vec2f& position )

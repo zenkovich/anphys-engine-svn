@@ -18,7 +18,7 @@ struct cAnimFrame
 	uint32            mDataSize; /** Size of additive data. */
 
 	/** ctor. */
-	cAnimFrame():mTime(0), mDataSize(0) {}
+	cAnimFrame():mTime(0), mDataSize(0), mData(0) {}
 
 	/** ctor. */
 	cAnimFrame(const T& value, float time = 1.0f, bool bezier = false, InterpolationType type = IT_LINEAR, 

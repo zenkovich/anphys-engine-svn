@@ -37,7 +37,7 @@ public:
 	}
 };
 
-#define uiHost() uiController::instance()
+#define uiHost() uiController::instancePtr()
 
 CLOSE_O2_NAMESPACE
 

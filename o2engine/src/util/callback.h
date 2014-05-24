@@ -44,12 +44,12 @@ public:
 template<typename RetType, typename ClassType = Dummy>
 class cRetCallback:public IRetCallback<RetType>
 {
-	ClassType* mObject;
+	shared<ClassType> mObject;
 	RetType (ClassType::*mObjectFunction)();
 	RetType (*mFunction)();
 
 public:
-	cRetCallback(ClassType* object, RetType (ClassType::*function)()):
+	cRetCallback(shared<ClassType> object, RetType (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cRetCallback(RetType (*function)()):
@@ -79,7 +79,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename RetType, typename ClassType>
-IRetCallback<RetType>* callback(ClassType* object, RetType (ClassType::*function)()) 
+IRetCallback<RetType>* callback(shared<ClassType> object, RetType (ClassType::*function)()) 
 {
 	return mnew cRetCallback<RetType, ClassType>(object, function);
 }
@@ -187,12 +187,12 @@ inline ICallback* callbackChain(int count, ...)
 template<typename ClassType = Dummy>
 class cCallback:public ICallback
 {
-	ClassType* mObject;
+	shared<ClassType> mObject;
 	void (ClassType::*mObjectFunction)();
 	void (*mFunction)();
 
 public:
-	cCallback(ClassType* object, void (ClassType::*function)()):
+	cCallback(shared<ClassType> object, void (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cCallback(void (*function)()):
@@ -219,7 +219,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename ClassType>
-ICallback* callback(ClassType* object, void (ClassType::*function)()) { return mnew cCallback<ClassType>(object, function); }
+ICallback* callback(shared<ClassType> object, void (ClassType::*function)()) { return mnew cCallback<ClassType>(object, function); }
 
 /** Fast callback creation function. */
 inline ICallback* callback(void (*function)()) { return mnew cCallback<Dummy>(function); }
@@ -232,12 +232,12 @@ template<typename ArgT, typename ClassType = Dummy>
 class cCallback1Param:public ICallback
 {
 	ArgT       mArg;
-	ClassType* mObject;
+	shared<ClassType> mObject;
 	void (ClassType::*mObjectFunction)(ArgT);
 	void (*mFunction)(ArgT);
 
 public:
-	cCallback1Param(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg):
+	cCallback1Param(shared<ClassType> object, void (ClassType::*function)(ArgT), const ArgT& arg):
 	  mObject(object), mObjectFunction(function) { mArg = arg; }
 
 	cCallback1Param(void (*function)(ArgT), const ArgT& arg):
@@ -271,16 +271,16 @@ public:
 
 /** Fast callback1 creation function. */
 template<typename ArgT, typename ClassType>
-ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg)
+ICallback* callback(shared<ClassType> object, void (ClassType::*function)(ArgT), const ArgT& arg)
 { 
-	return mnew cCallback1Param<ClassType>(object, function, arg);
+	return mnew cCallback1Param<ArgT, ClassType>(object, function, arg);
 }
 
 /** Fast callback1 creation function. */
 template<typename ArgT>
 ICallback* callback(void (*function)(ArgT), const ArgT& arg) 
 {
-	return mnew cCallback1Param(function, arg);
+	return mnew cCallback1Param<ArgT>(function, arg);
 }
 
 
@@ -292,12 +292,12 @@ class cCallback2Param:public ICallback
 {
 	ArgT       mArg;
 	ArgT2      mArg2;
-	ClassType* mObject;
+	shared<ClassType> mObject;
 	void (ClassType::*mObjectFunction)(ArgT, ArgT2);
 	void (*mFunction)(ArgT, ArgT2);
 
 public:
-	cCallback2Param(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
+	cCallback2Param(shared<ClassType> object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
 		mObject(object), mObjectFunction(function), mArg(arg1), mArg2(arg2) {}
 
 	cCallback2Param(void (*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2):
@@ -339,7 +339,7 @@ public:
 
 /** Fast callback2 creation function. */
 template<typename ArgT, typename ArgT2, typename ClassType>
-ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
+ICallback* callback(shared<ClassType> object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
 { 
 	return mnew cCallback2Param<ClassType>(object, function, arg, arg2);
 }

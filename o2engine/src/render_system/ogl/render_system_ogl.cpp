@@ -35,7 +35,7 @@ void grRenderSystem::initializeGL()
 {
 	mLog->out("Initializing OpenGL render..");
 
-	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	mResolution = application()->getContentSize();
 
 #ifdef PLATFORM_WIN
 	GLuint pixelFormat;
@@ -325,7 +325,7 @@ void grRenderSystem::deinitializeGL()
 
 void grRenderSystem::frameResized()
 {
-	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	mResolution = application()->getContentSize();
 }
 
 bool grRenderSystem::bindRenderTarget( shared<grRenderTarget> renderTarget )

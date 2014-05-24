@@ -4,17 +4,18 @@
 #include "application_win.h"
 #include "other/device_info.h"
 #include "render_system/render_system.h"
-#include "util/scheduler.h"
-#include "util/time_utils.h"
 #include "util/log.h"
 #include "util/math/math.h"
+#include "util/scheduler.h"
+#include "util/time_utils.h"
+#include "util/timer.h"
 
 OPEN_O2_NAMESPACE
 
 
 cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
-	mAutoAjustByScreen(false), mAutoAjustScale(1, 1), mWindowResizible(true), mActive(false)
+	mWindowResizible(true), mActive(false)
 {
 	initializeWindow();
 
@@ -56,7 +57,7 @@ void cApplication::initializeWindow()
 
 	if (!RegisterClassEx(&wndClass)) 
 	{
-		mLog->error("Can't regist class");
+		mLog->error("Can't register class");
 		return;
 	}
 
@@ -79,7 +80,8 @@ void cApplication::launch()
 	
 	mLog->hout("Application launched!");
 
-	processMessage(cApplacationMessage::ON_STARTED);
+	onStarted();
+	onStartedEvent.call();
 
 	MSG msg;
 	memset(&msg, 0, sizeof(msg));
@@ -99,7 +101,8 @@ void cApplication::launch()
 		}
 	}
 
-	processMessage(cApplacationMessage::ON_CLOSING);
+	onClosing();
+	onClosingEvent.call();
 }
 
 LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -159,12 +162,14 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
 			{
 				mApplication->mActive = true;
-				mApplication->processMessage(cApplacationMessage::ON_ACTIVATED);
+				mApplication->onActivated();
+				mApplication->onActivatedEvent.call();
 			}
 			else
 			{
 				mApplication->mActive = false;
-				mApplication->processMessage(cApplacationMessage::ON_DEACTIVATED);
+				mApplication->onDeactivated();
+				mApplication->onDeactivatedEvent.call();
 			}
 		}
 		break;
@@ -176,7 +181,9 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		if (size.x > 0 && size.y > 0 && size != mApplication->mWindowedSize)
 		{
 			mApplication->mWindowedSize = size;
-			mApplication->processMessage(cApplacationMessage::ON_SIZING);
+			mApplication->onResizing();
+			mApplication->mRenderSystem->frameResized();
+			mApplication->onResizingEvent.call();
 		}
 		break;
 
@@ -188,7 +195,8 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		{
 			mApplication->mWindowedPos = pos;
 			//hlog("WND POS %i %i", pos.x, pos.y);
-			mApplication->processMessage(cApplacationMessage::ON_MOVING);
+			mApplication->onMoved();
+			mApplication->onMovingEvent.call();
 		}
 		break;
 
@@ -198,165 +206,6 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		break;
 	}
 	return DefWindowProc(wnd, uMsg, wParam, lParam);
-}
-
-void cApplication::setOption( cApplicationOption::type option, ... )
-{
-	va_list vlist;
-	va_start(vlist, option);
-
-	if (option == cApplicationOption::WINDOWED)
-	{
-		mWindowed = true;
-
-		mLog->hout("cApplication::setOptions( WINDOWED )");
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::FULLSCREEN)
-	{
-		mWindowed = false;
-
-		mLog->hout("cApplication::setOptions( FULLSCREEN )");
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::RESIZIBLE)
-	{
-		bool isResizible = va_arg(vlist, bool);
-		if (isResizible != mWindowResizible)
-		{
-			mWindowResizible = isResizible;
-
-			if (mWindowResizible)
-				mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX;
-			else
-				mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX;
-
-			mLog->hout("cApplication::setOptions( RESIZIBLE, %s )", ( mWindowResizible ? "true":"false" ));
-
-			SetWindowLong(mHWnd, GWL_STYLE, mWndStyle);
-		}
-	}
-	else if (option == cApplicationOption::AUTO_AJUST_BY_SCREEN_SPACE)
-	{
-		mAutoAjustScale = va_arg(vlist, vec2f);
-		mAutoAjustByScreen = true;
-		mWindowed = true;		
-
-		mLog->hout("cApplication::setOptions( AUTO_AJUST_BY_SCREEN_SPACE, v2(%.3f %.3f), %s )", 
-			mAutoAjustScale.x, mAutoAjustScale.y, ( mAutoAjustByScreen ? "true":"false" ));
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::WND_SIZE)
-	{
-		mWindowedSize = va_arg(vlist, vec2i);
-
-		mLog->hout("cApplication::setOptions( WND_SIZE, v2((%i %i) )", 
-			mWindowedSize.x, mWindowedSize.y);
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::WND_POSITION)
-	{
-		mWindowedPos = va_arg(vlist, vec2i);
-
-		mLog->hout("cApplication::setOptions( WND_POSITION, v2(%i %i) )", 
-			mWindowedPos.x, mWindowedPos.y);
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::CLIENT_RECT)
-	{
-		vec2i clientRectSize = va_arg(vlist, vec2i);
-
-		RECT clientRect;
-		GetClientRect(mHWnd, &clientRect);
-		clientRect.right = clientRect.left + clientRectSize.x;
-		clientRect.bottom = clientRect.top + clientRectSize.y;
-
-		AdjustWindowRect(&clientRect, mWndStyle, false);
-
-		mWindowedPos = vec2i(clientRect.left, clientRect.top);
-		mWindowedSize = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
-
-		mLog->hout("cApplication::setOptions( CLIENT_RECT, v2(%i %i) )", 
-			clientRectSize.x, clientRectSize.y);
-
-		resetWnd();
-	}
-	else if (option == cApplicationOption::WND_CAPTION)
-	{
-		mWndCaption = va_arg(vlist, string);
-
-		//mLog->hout("cApplication::setOptions( WND_CAPTION, %s )", mWndCaption.c_str());
-
-		SetWindowText(mHWnd, mWndCaption.c_str());
-	}
-
-	va_end(vlist);
-}
-
-void cApplication::getOption( cApplicationOption::type option, ... )
-{	
-	va_list vlist;
-	va_start(vlist, option);
-
-	if (option == cApplicationOption::WINDOWED)
-	{
-		bool* res = va_arg(vlist, bool*);
-		*res = mWindowed;
-	}
-	else if (option == cApplicationOption::FULLSCREEN)
-	{
-		bool* res = va_arg(vlist, bool*);
-		*res = !mWindowed;
-	}
-	else if (option == cApplicationOption::RESIZIBLE)
-	{		
-		bool* res = va_arg(vlist, bool*);
-		*res = mWindowResizible && mWindowed;
-	}
-	else if (option == cApplicationOption::AUTO_AJUST_BY_SCREEN_SPACE)
-	{
-		bool* res = va_arg(vlist, bool*);
-		*res = mAutoAjustByScreen && mWindowed;
-	}
-	else if (option == cApplicationOption::WND_SIZE)
-	{
-		vec2i* res = va_arg(vlist, vec2i*);
-		*res = mWindowedSize;
-	}
-	else if (option == cApplicationOption::WND_POSITION)
-	{		
-		vec2i* res = va_arg(vlist, vec2i*);
-		*res = mWindowedPos;
-	}
-	else if (option == cApplicationOption::CLIENT_RECT)
-	{		
-		vec2i* res = va_arg(vlist, vec2i*);
-
-		RECT clientRect;
-		GetClientRect(mHWnd, &clientRect);
-
-		*res = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
-	}
-	else if (option == cApplicationOption::WND_CAPTION)
-	{
-		string* res = va_arg(vlist, string*);
-		*res = mWndCaption;
-	}
-
-	va_end(vlist);
-}
-
-void cApplication::processMessage( cApplacationMessage::type message )
-{
-	if (message == cApplacationMessage::ON_SIZING)
-	{
-		mRenderSystem->frameResized();
-	}
 }
 
 void cApplication::resetWnd()
@@ -382,21 +231,13 @@ void cApplication::setWindowed()
 	SetWindowPos(mHWnd, HWND_NOTOPMOST, mWindowedPos.x, mWindowedPos.y, 
 		         mWindowedSize.x, mWindowedSize.y, SWP_SHOWWINDOW);
 
-	if (mAutoAjustByScreen)
-	{
-		autoAjustByScreenSpace();
-	}
-	
+	mRenderSystem->frameResized();		
 	mLog->hout("Complete");
-}
-
-void cApplication::autoAjustByScreenSpace()
-{
-	mLog->hout("Setting autoAjustByScreenSpace");
 }
 
 void cApplication::setFullscreen()
 {
+	mRenderSystem->frameResized();		
 	mLog->hout("Setting full screen");
 }
 
@@ -408,8 +249,92 @@ void cApplication::onDraw()
 {
 }
 
-void cApplication::draw()
+bool cApplication::isFullScreen() const
 {
+	return !mWindowed;
+}
+
+void cApplication::setResizible(bool resizible)
+{
+	if (resizible == mWindowResizible)
+		return;
+
+	mWindowResizible = resizible;
+
+	if (mWindowResizible)
+		mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX;
+	else
+		mWndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_MINIMIZEBOX;
+
+	mLog->hout("set resizible: %s ", ( mWindowResizible ? "true":"false" ));
+
+	SetWindowLong(mHWnd, GWL_STYLE, mWndStyle);
+}
+
+bool cApplication::isResizible() const
+{
+	return mWindowResizible;
+}
+
+void cApplication::setWindowSize(const vec2i& size)
+{
+	mWindowedSize = size;
+	mLog->hout("setWindowSize: %ix%i", mWindowedSize.x, mWindowedSize.y);
+	resetWnd();
+}
+
+vec2i cApplication::getWindowSize() const
+{
+	return mWindowedSize;
+}
+
+void cApplication::setWindowPosition(const vec2i& position)
+{
+	mWindowedPos = position;
+	mLog->hout("set Window Position: %i, %i", mWindowedPos.x, mWindowedPos.y);
+	resetWnd();
+}
+
+vec2i cApplication::getWindowPosition() const
+{
+	return mWindowedPos;
+}
+
+void cApplication::setWindowCaption(const string& caption)
+{
+	mWndCaption = caption;
+	SetWindowText(mHWnd, mWndCaption.c_str());
+}
+
+ENGINE_NAMESPACE_NAME::string cApplication::getWindowCaption() const
+{
+	return mWndCaption;
+}
+
+void cApplication::setContentSize(const vec2i& size)
+{
+	vec2i clientRectSize = size;
+
+	RECT clientRect;
+	GetClientRect(mHWnd, &clientRect);
+	clientRect.right = clientRect.left + size.x;
+	clientRect.bottom = clientRect.top + size.y;
+
+	AdjustWindowRect(&clientRect, mWndStyle, false);
+
+	mWindowedPos = vec2i(clientRect.left, clientRect.top);
+	mWindowedSize = vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
+
+	mLog->hout("set Content Size: %ix%i", size.x, size.y);
+
+	resetWnd();
+}
+
+vec2i cApplication::getContentSize() const
+{
+	RECT clientRect;
+	GetClientRect(mHWnd, &clientRect);
+	return vec2i(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
 }
 
 cApplication* cApplication::mApplication = NULL;

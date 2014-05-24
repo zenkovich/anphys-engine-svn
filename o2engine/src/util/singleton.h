@@ -9,7 +9,7 @@ template <typename CLASS> class cSingleton
 {
 public:
 	cSingleton()                        { mInstance = static_cast<CLASS*>(this); }
-	virtual ~cSingleton()               { /*mInstance = NULL;*/ }
+	virtual ~cSingleton()               { mInstance = NULL; }
 
 	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    

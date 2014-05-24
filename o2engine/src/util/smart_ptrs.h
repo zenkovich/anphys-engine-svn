@@ -239,10 +239,6 @@ public:
 				if (*mRefCount > 1)
 					xlog("Possible using destroyed object - there are %i links on this object");
 
-				*mRefCount = 1;
-
-				release();
-
 				initialize(NULL);
 			}
 		}

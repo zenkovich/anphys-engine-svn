@@ -32,12 +32,9 @@ public:
 	/** Вызывается при отрисовке кадра. */
 	void onDraw();
 
-	/** Обрабатывает сообщения приложения. */
-	void processMessage(cApplacationMessage::type message);
-
 public:
-	/** Вызывается в сообщении инициализации приложения. */
-	void onInitialized();
+	/** Calls when application is starting. */
+	void onStarted();
 };
 
 CLOSE_O2_NAMESPACE

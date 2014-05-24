@@ -21,8 +21,10 @@ protected:
 public: 
 	PROPERTY(uiState, bool) state;
 
-	cCallbackChain mOnActiveStateCallbacks;
-	cCallbackChain mOnDeactiveStateCallbacks;
+	cCallbackChain onActiveStateCallbacks;
+	cCallbackChain onBeginActiveStateCallbacks;
+	cCallbackChain onDeactiveStateCallbacks;
+	cCallbackChain onBeginDeactiveStateCallbacks;
 
 
 	uiState(const string& name);
