@@ -13,6 +13,7 @@
 #include "tests/animation_test.h"
 #include "tests/input_msg_test.h"
 #include "tests/text_test.h"
+#include "tests/ui_test.h"
 
 OPEN_O2_NAMESPACE
 
@@ -20,14 +21,15 @@ OPEN_O2_NAMESPACE
 TestApp::TestApp():
 	cApplication()
 {
-	setOption(cApplicationOption::WND_SIZE, vec2i(800, 600));
-	setOption(cApplicationOption::WND_CAPTION, (string)"o2 test");
+	setWindowSize(vec2i(800, 600));
+	setWindowCaption("o2 test");
 	//setOption(cApplicationOption::RESIZIBLE, false);
 
 	getFileSystem().setResourcePath("../data/");
 
 	//mTest = mnew InputMsgTest(this, &mInputMessage);
-	mTest = mnew cTextTest();
+	//mTest = mnew cTextTest();
+	mTest = mnew cUITest();
 }
 
 TestApp::~TestApp()
@@ -35,27 +37,13 @@ TestApp::~TestApp()
 	safe_release(mTest);
 }
 
-void TestApp::onInitialized()
+void TestApp::onStarted()
 {
 }
 
 void TestApp::onUpdate( float dt )
 {
 	mTest->update(dt);
-}
-
-void TestApp::processMessage( cApplacationMessage::type message )
-{
-	cApplication::processMessage(message);
-
-	if (message == cApplacationMessage::ON_STARTED)
-	{
-		onInitialized();
-	}
-	else if (message == cApplacationMessage::ON_SIZING)
-	{
-		draw();
-	}
 }
 
 void TestApp::onDraw()

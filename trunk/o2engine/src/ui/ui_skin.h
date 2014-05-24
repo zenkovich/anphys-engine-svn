@@ -11,9 +11,13 @@ class uiSprite;
 
 class uiSkin
 {
+public:
 	static shared<uiWidget> createWidget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
 	static shared<uiSprite> createSprite(const grTexture& texture, const vec2f& size = vec2f(), 
 		                                 const vec2f& position = vec2f(), const string& id = "");
+
+protected:
+	static void addVisibleState(const shared<uiWidget>& widget);
 };
 
 CLOSE_O2_NAMESPACE

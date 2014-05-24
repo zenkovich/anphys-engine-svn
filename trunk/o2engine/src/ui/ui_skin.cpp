@@ -2,6 +2,7 @@
 
 #include "ui_widget.h"
 #include "ui_sprite.h"
+#include "ui_transition_state.h"
 
 OPEN_O2_NAMESPACE
 
@@ -17,7 +18,18 @@ shared<uiSprite> uiSkin::createSprite(const grTexture& texture, const vec2f& siz
 	shared<uiSprite> sprite = mnew uiSprite(uiStaightPixelLayout(position, size), id);
 	sprite->mSprite.setTexture(texture);
 	sprite->mSprite.setTextureSrcRect(fRect(vec2f(), texture.getSize()));
+	addVisibleState(sprite);
 	return sprite;
+}
+
+void uiSkin::addVisibleState(const shared<uiWidget>& widget)
+{
+	shared<uiTransitionState> visibleState = mnew uiTransitionState("visible");
+	visibleState->onBeginActiveStateCallbacks.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, true ) );
+	visibleState->onDeactiveStateCallbacks.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, false ) );
+	visibleState->addProperty<float>("transparency", 0.0f, 1.0f);
+
+	widget->addState(visibleState);
 }
 
 CLOSE_O2_NAMESPACE

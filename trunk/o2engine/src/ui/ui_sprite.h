@@ -9,6 +9,8 @@ OPEN_O2_NAMESPACE
 
 class uiSprite:public uiWidget
 {
+	float mLastTransparency;
+
 public:
 	grSprite mSprite;
 

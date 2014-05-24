@@ -4,36 +4,9 @@
 #include "public.h"
 #include "util/singleton.h"
 #include "util/input/input_message.h"
+#include "util/callback.h"
 
 OPEN_O2_NAMESPACE
-
-/** Applacation options. */
-struct cApplicationOption
-{
-	enum type {
-		WINDOWED = 0,               /**< Frame in windowed mode. Available on WIN, MAC. */
-		FULLSCREEN,                 /**< Frame in fulscreen mode. Available on WIN, MAC. */
-		RESIZIBLE,                  /**< Frame as resizible by user. Available on WIN, MAC. */
-		AUTO_AJUST_BY_SCREEN_SPACE, /**< Frame as auto ajusting by available screen space. Available on WIN, MAC. */
-		WND_SIZE,                   /**< Frame size. Available on WIN, MAC. */
-		WND_POSITION,               /**< Frame position. Available on WIN, MAC. */
-		WND_CAPTION,                /**< Frame caption. Available on WIN, MAC. */
-		CLIENT_RECT                 /**< Frame client area rect. */
-	};
-};
-
-/** Application message. */
-struct cApplacationMessage
-{
-	enum type {
-		ON_ACTIVATED = 0, /**< Application activated. */
-		ON_DEACTIVATED,   /**< Application deactivated. */
-		ON_STARTED,       /**< Application started. */
-		ON_CLOSING,       /**< Application closing. */
-		ON_SIZING,        /**< Application frame changed size. Available on WIN, MAC. */
-		ON_MOVING         /**< Application frame changed position. Available on WIN, MAC. */
-	};
-};
 
 class grRenderSystem;
 class cLogStream;
@@ -65,6 +38,13 @@ protected:
 	shared<cTimer>         mTimer;        /**< Timer for detecting delta time for update. */
 
 public:
+	cCallbackChain onActivatedEvent;      /**< On Activated event callbacks. */
+	cCallbackChain onDeactivatedEvent;    /**< On deactivated event callbacks. */
+	cCallbackChain onStartedEvent;        /**< On started event callbacks. */
+	cCallbackChain onClosingEvent;        /**< On closing event callbacks. */
+	cCallbackChain onResizingEvent;       /**< On resized app window callbacks. Ignoring on mobiles/tables. */
+	cCallbackChain onMovingEvent;         /**< On moving app window callbacks. Ignoring on mobiles/tables. */
+
 	/** ctor. */
 	cApplicationBaseInterface();
 
@@ -105,7 +85,13 @@ public:
 	virtual void setWindowSize(const vec2i& size) {}
 
 	/** Returns application window size. On mobiles/tablets returns content size. */
-	virtual vec2i getWindowSize() const { getContentSize(); }
+	virtual vec2i getWindowSize() const { return getContentSize(); }
+
+	/** Sets application window position. On mobiles/tablets has no effect, just ignoring. */
+	virtual void setWindowPosition(const vec2i& position) {}
+
+	/** Returns application window position. On mobiles/tablets return zero vector. */
+	virtual vec2i getWindowPosition() const { return vec2i(); }
 
 	/** Sets application window caption. On mobiles/tablets has no effect, just ignoring. */
 	virtual void setWindowCaption(const string& caption) {}
@@ -129,11 +115,23 @@ protected:
 	/** Processing frame update, drawing and input messages. */
 	void processFrame();
 
-	/** Called on message processing. */
-	virtual void processMessage(cApplacationMessage::type message) {}
-
+	/** Calls when application activated. */
 	virtual void onActivated() {}
+
+	/** Calls when application deactivated. */
 	virtual void onDeactivated() {}
+
+	/** Calls when application is starting. */
+	virtual void onStarted() {}
+
+	/** Calls when application is closing. */
+	virtual void onClosing() {}
+
+	/** Calls when application window resized. Ignoring on mobiles/tablets. */
+	virtual void onResizing() {}
+
+	/** Calls when application window moved. Ignoring on mobiles/tablets. */
+	virtual void onMoved() {}
 };
 
 CLOSE_O2_NAMESPACE

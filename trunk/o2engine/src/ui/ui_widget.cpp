@@ -32,7 +32,7 @@ uiWidget::uiWidget( const uiWidget& widget )
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
 		addChild((*it)->clone());
 
-	FOREACH_CONST(StatesMap, mStates, state)
+	FOREACH_CONST(StatesMap, widget.mStates, state)
 		addState(state->second->clone());
 
 	updateLayout();
@@ -62,10 +62,17 @@ void uiWidget::update( float dt )
 	if (!mVisible)
 		return;
 
+	updateStates(dt);
 	localUpdate(dt);
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		(*it)->update(dt);
+}
+
+void uiWidget::updateStates(float dt)
+{
+	FOREACH(StatesMap, mStates, state)
+		(*state).second->update(dt);
 }
 
 void uiWidget::updateLayout()
@@ -268,15 +275,6 @@ shared<cGeometry> uiWidget::getGeometry() const
 	return mGeometry;
 }
 
-void uiWidget::initializeProperties()
-{
-	position.init(this, &uiWidget::setPosition, &uiWidget::getPosition);
-	parent.init(this, &uiWidget::setParent, &uiWidget::getParent);
-	id.init(this, &uiWidget::setId, &uiWidget::getId);
-	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
-	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
-}
-
 bool uiWidget::isFocusable() const
 {
 	return false;
@@ -288,9 +286,9 @@ void uiWidget::setFocused(bool focused)
 		return;
 
 	if (focused)
-		uiHost().focusOnWidget(shared<uiWidget>(this).disableAutoRelease());
+		uiHost()->focusOnWidget(shared<uiWidget>(this).disableAutoRelease());
 	else
-		uiHost().focusOnWidget(NULL);
+		uiHost()->focusOnWidget(NULL);
 }
 
 bool uiWidget::isFocused() const
@@ -306,6 +304,22 @@ void uiWidget::makeFocused()
 void uiWidget::releaseFocus()
 {
 	setFocused(false);
+}
+
+shared<uiState> uiWidget::addState(const shared<uiState>& state)
+{
+	mStates[state->mName] = state;
+	state->setOwnerWidget(shared<uiWidget>(this).disableAutoRelease());
+
+	if (state->mName == "visible")
+	{
+		mVisibleState = state;
+		state->onActiveStateCallbacks.add(shared<cCallbackChain>(&onVisibleOn).disableAutoRelease());
+		state->onDeactiveStateCallbacks.add(shared<cCallbackChain>(&onVisibleOff).disableAutoRelease());
+		state->setState(mVisible, true);
+	}
+
+	return state;
 }
 
 void uiWidget::setState(const string& stateId, bool value)
@@ -327,13 +341,24 @@ shared<uiState> uiWidget::getState(const string& stateId)
 void uiWidget::setVisible(bool visible)
 {
 	if (mVisibleState)
+	{
 		mVisibleState->setState(visible);
+	}
 	else
+	{
 		mVisible = visible;	
+		if (mVisible)
+			onVisibleOn.call();
+		else
+			onVisibleOff.call();
+	}
 }
 
 bool uiWidget::isVisible() const
 {
+	if (mVisibleState)
+		return mVisibleState->getState();
+
 	return mVisible;
 }
 
@@ -355,11 +380,19 @@ void uiWidget::initializePropertiesList()
 	registProperty(mTransparency, "transparency");
 }
 
-shared<uiState> uiWidget::addState(const shared<uiState>& state)
+void uiWidget::initializeProperties()
 {
-	mStates[state->mName] = state;
-	state->setOwnerWidget(shared<uiWidget>(this).disableAutoRelease());
-	return state;
+	position.init(this, &uiWidget::setPosition, &uiWidget::getPosition);
+	parent.init(this, &uiWidget::setParent, &uiWidget::getParent);
+	id.init(this, &uiWidget::setId, &uiWidget::getId);
+	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
+	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
+	visible.initNonConstSetter(this, &uiWidget::setVisible, &uiWidget::isVisible);
+}
+
+void uiWidget::setVisibleParam(bool param)
+{
+	mVisible = param;
 }
 
 CLOSE_O2_NAMESPACE

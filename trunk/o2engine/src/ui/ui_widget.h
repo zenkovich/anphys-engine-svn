@@ -20,11 +20,12 @@ OPEN_O2_NAMESPACE
 class cGeometry;
 class uiState;
 
-/** Basic widget object. Contains id, parent, childs, position and other strange data. */
+/** Basic widget object. Contains id, parent, childes, position and other strange data. */
 class uiWidget: public cObjectWithPropertyList
 {
 	friend class uiController;
 	friend class uiState;
+	friend class uiSkin;
 
 public:
 	typedef vector< shared<uiWidget> > WidgetsVec;
@@ -54,12 +55,16 @@ public:
 	//Type definition
 	DEFINE_TYPE(uiWidget);
 
+	cCallbackChain onVisibleOn;
+	cCallbackChain onVisibleOff;
+
 	//properties
 	PROPERTY(uiWidget, shared<uiWidget>) parent;         /**< Parent property. Using setParent/getParent. */
 	PROPERTY(uiWidget, string)           id;             /**< Identificator property. Using setId/getId. */
 	PROPERTY(uiWidget, vec2f)            position;       /**< Local position property. Using setPosition/getPosition. */
 	PROPERTY(uiWidget, vec2f)            globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)            size;           /**< Size property. Using setSize/getSize. */
+	PROPERTY(uiWidget, bool)             visible;        /**< Visibility property. Using set/isVisible. */
 
 
 	/** ctor. */
@@ -131,7 +136,7 @@ public:
 	/** Returns shared state by id. */
 	shared<uiState> getState(const string& stateId);
 
-	/** Sets vidget visible. */
+	/** Sets widget visible. */
 	void setVisible(bool visible);
 
 	/** Returns true, if widget is visible. */
@@ -174,6 +179,9 @@ private:
 	/** Updating current and child layouts: global positions and bounds. */
 	virtual void updateLayout();
 
+	/** Updating states. */
+	virtual void updateStates(float dt);
+
 	/** Drawing current widget. */
 	virtual void localDraw() {}
 
@@ -183,6 +191,7 @@ private:
 	/** Updating current widget layout: global position and bounds. */
 	virtual void localUpdateLayout();
 
+	/** Calls when widget's layout updated. */
 	virtual void layoutUpdated() {}
 
 	/** Processing input message in current widget. */
@@ -191,14 +200,20 @@ private:
 	/** Returns true, if point inside current widget. */
 	virtual bool isLocalInside(const vec2f& point) const { return false; }
 
+	/** Calls when widget focused. */
 	virtual void onFocused();
 
+	/** Calls when widget lost focus. */
 	virtual void onFocusLost();
 
 	/** Initialize all properties. */
 	void initializeProperties();
 
+	/** Initializing property list. */
 	void initializePropertiesList();
+
+	/** Setting mVisible value. */
+	void setVisibleParam(bool param);
 };
 
 CLOSE_O2_NAMESPACE

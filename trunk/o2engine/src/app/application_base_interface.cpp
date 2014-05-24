@@ -86,9 +86,11 @@ void cApplicationBaseInterface::processFrame()
 	mScheduler->processBeforeFrame(dt);
 
 	onUpdate(dt);
+	mUIController->update(dt);
 
 	mRenderSystem->beginRender();
 	onDraw();
+	mUIController->draw();
 	mRenderSystem->endRender();
 
 	mInputMessage->update(dt);

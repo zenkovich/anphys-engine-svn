@@ -30,10 +30,10 @@ OPEN_O2_NAMESPACE
 	for (_vector_type::const_iterator _iterator = (_vector).cbegin(); _iterator != (_vector).cend(); ++_iterator)
 
 #define FOREACH_BACK(_vector_type, _vector, _iterator) \
-	for (_vector_type::iterator _iterator = (_vector).end(); _iterator != (_vector).begin(); --_iterator)
+	for (_vector_type::reverse_iterator _iterator = (_vector).rbegin(); _iterator != (_vector).rend(); ++_iterator)
 
 #define FOREACH_BACK_CONST(_vector_type, _vector, _iterator) \
-	for (_vector_type::const_iterator _iterator = (_vector).cend(); _iterator != (_vector).cbegin(); --_iterator)
+	for (_vector_type::const_reverse_iterator _iterator = (_vector).crbegin(); _iterator != (_vector).crend(); ++_iterator)
 
 
 CLOSE_O2_NAMESPACE
