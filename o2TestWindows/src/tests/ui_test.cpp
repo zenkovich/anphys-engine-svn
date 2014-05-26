@@ -17,6 +17,10 @@ cUITest::cUITest()
 	wdg = spr->clone();
 	wdg->position = vec2f(100, 200);
 	uiHost()->addWidget(wdg);
+
+	rect = uiSkin::createRectangle(renderSystem()->getTextureFromFile("ui_test"), fRect(), 30, 30, 30, 30, vec2f(300, 300),
+		                           vec2f(200, 100));
+	uiHost()->addWidget(rect);
 }
 
 void cUITest::update(float dt)
@@ -26,6 +30,9 @@ void cUITest::update(float dt)
 	
 	if (appInput()->isKeyPressed('W'))
 		wdg->visible = !wdg->visible;
+	
+	if (appInput()->isKeyPressed('E'))
+		rect->visible = !rect->visible;
 }
 
 void cUITest::draw()

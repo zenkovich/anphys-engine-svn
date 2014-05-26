@@ -3,6 +3,7 @@
 #include "ui_widget.h"
 #include "ui_sprite.h"
 #include "ui_transition_state.h"
+#include "ui_rect.h"
 
 OPEN_O2_NAMESPACE
 
@@ -25,11 +26,24 @@ shared<uiSprite> uiSkin::createSprite(const grTexture& texture, const vec2f& siz
 void uiSkin::addVisibleState(const shared<uiWidget>& widget)
 {
 	shared<uiTransitionState> visibleState = mnew uiTransitionState("visible");
-	visibleState->onBeginActiveStateCallbacks.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, true ) );
-	visibleState->onDeactiveStateCallbacks.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, false ) );
+	visibleState->onBeginActiveStateEvent.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, true ) );
+	visibleState->onDeactiveStateEvent.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, false ) );
 	visibleState->addProperty<float>("transparency", 0.0f, 1.0f);
 
 	widget->addState(visibleState);
+}
+
+shared<uiRect> uiSkin::createRectangle(const grTexture& texture, const fRect& texRect, 
+	                                   int left, int top, int right, int bottom, 
+									   const vec2f& size /*= vec2f()*/, const vec2f& position /*= vec2f()*/, 
+									   const string& id /*= ""*/)
+{
+	shared<uiRect> rect = mnew uiRect(uiStaightPixelLayout(position, size), id);
+	rect->mStretchRect = cStretchRect(texture, left, top, right, bottom, texRect);
+	rect->position = position;
+	rect->size = size;
+	addVisibleState(rect);
+	return rect;
 }
 
 CLOSE_O2_NAMESPACE

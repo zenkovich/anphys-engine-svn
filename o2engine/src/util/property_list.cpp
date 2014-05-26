@@ -32,13 +32,13 @@ void cObjectWithPropertyList::registProperty(vec2f& value, const string& id)
 	mPropertiesList.push_back(Property(&value, id, Property::TP_VEC2));
 }
 
-cObjectWithPropertyList::Property cObjectWithPropertyList::getProperty(const string& id)
+shared<cObjectWithPropertyList::Property> cObjectWithPropertyList::getProperty(const string& id)
 {
 	FOREACH(PropertiesVec, mPropertiesList, prop)
 		if (prop->mId == id)
-			return *prop;
+			return shared<Property>(&(*prop)).disableAutoRelease();
 
-	return Property(NULL, "", Property::TP_INT);
+	return NULL;
 }
 
 CLOSE_O2_NAMESPACE

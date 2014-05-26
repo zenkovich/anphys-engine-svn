@@ -7,11 +7,14 @@
 
 OPEN_O2_NAMESPACE
 
+/** UI rect. Widget that drawing cStretchRect. */
 class uiRect:public uiWidget
 {
 public:
-	cStretchRect mStretchRect;
+	cStretchRect mStretchRect; /** Stretching rect drawable. */
 
+
+	/** ctor. */
 	uiRect(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
@@ -27,7 +30,11 @@ private:
 	/** Drawing current widget. */
 	void localDraw();
 
+	/** Calls when widget layout updated. Here updating stretch rect position and size. */
 	void layoutUpdated();
+
+	/** Calls when parameter "transparency" was changed. */
+	void transparencyChanged();
 };
 
 CLOSE_O2_NAMESPACE

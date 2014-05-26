@@ -12,6 +12,7 @@ class cUITest: public ITest
 {
 	shared<uiSprite> spr;
 	shared<uiWidget> wdg;
+	shared<uiWidget> rect;
 
 public:
 	cUITest();

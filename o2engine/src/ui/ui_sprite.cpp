@@ -3,16 +3,22 @@
 OPEN_O2_NAMESPACE
 
 uiSprite::uiSprite(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
-	uiWidget(layout, id, parent), mLastTransparency(-1.0f)
+	uiWidget(layout, id, parent)
 {
 	layoutUpdated();
+
+	getProperty("transparency")->mOnChange.add(
+		callback<uiSprite>(shared<uiSprite>(this).disableAutoRelease(), &uiSprite::transparencyChanged));
 }
 
 uiSprite::uiSprite(const uiSprite& spriteWidget):
-	uiWidget(spriteWidget), mLastTransparency(-1.0f)
+	uiWidget(spriteWidget)
 {
 	mSprite = spriteWidget.mSprite;
 	layoutUpdated();
+
+	getProperty("transparency")->mOnChange.add(
+		callback<uiSprite>(shared<uiSprite>(this).disableAutoRelease(), &uiSprite::transparencyChanged));
 }
 
 uiSprite::~uiSprite()
@@ -26,13 +32,6 @@ shared<uiWidget> uiSprite::clone() const
 
 void uiSprite::localDraw()
 {
-	if (!equals(mTransparency, mLastTransparency))
-	{
-		color4 spriteColor = mSprite.getColor();
-		spriteColor.a = (int)(mTransparency*255.0f);
-		mLastTransparency = mTransparency;
-		mSprite.setColor(spriteColor);
-	}
 
 	mSprite.draw();
 }
@@ -41,6 +40,13 @@ void uiSprite::layoutUpdated()
 {
 	mSprite.setPosition(mGlobalPosition);
 	mSprite.setSize(mSize); 
+}
+
+void uiSprite::transparencyChanged()
+{
+	color4 spriteColor = mSprite.getColor();
+	spriteColor.a = (int)(mTransparency*255.0f);
+	mSprite.setColor(spriteColor);
 }
 
 CLOSE_O2_NAMESPACE

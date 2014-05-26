@@ -262,6 +262,7 @@
     <ClCompile Include="..\src\scene\node_component.cpp" />
     <ClCompile Include="..\src\scene\scene.cpp" />
     <ClCompile Include="..\src\scene\scene_node.cpp" />
+    <ClCompile Include="..\src\ui\ui_button.cpp" />
     <ClCompile Include="..\src\ui\ui_controller.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
     <ClCompile Include="..\src\ui\ui_skin.cpp" />

@@ -133,6 +133,8 @@ bool uiWidget::processInputMessage( const cInputMessage& msg )
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		if ((*it)->processInputMessage(msg))
 			return true;
+
+	return false;
 }
 
 shared<uiWidget> uiWidget::clone() const
@@ -314,8 +316,8 @@ shared<uiState> uiWidget::addState(const shared<uiState>& state)
 	if (state->mName == "visible")
 	{
 		mVisibleState = state;
-		state->onActiveStateCallbacks.add(shared<cCallbackChain>(&onVisibleOn).disableAutoRelease());
-		state->onDeactiveStateCallbacks.add(shared<cCallbackChain>(&onVisibleOff).disableAutoRelease());
+		state->onActiveStateEvent.add(shared<cCallbackChain>(&onVisibleOn).disableAutoRelease());
+		state->onDeactiveStateEvent.add(shared<cCallbackChain>(&onVisibleOff).disableAutoRelease());
 		state->setState(mVisible, true);
 	}
 

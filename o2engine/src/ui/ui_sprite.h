@@ -7,13 +7,14 @@
 
 OPEN_O2_NAMESPACE
 
+/** UI sprite widget. Just draing a sprite. */
 class uiSprite:public uiWidget
 {
-	float mLastTransparency;
-
 public:
-	grSprite mSprite;
+	grSprite mSprite; /** Sprite drawable. */
 
+
+	/** ctor. */
 	uiSprite(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
@@ -29,7 +30,11 @@ private:
 	/** Drawing current widget. */
 	void localDraw();
 
+	/** Calls when widget layout was updated. */
 	void layoutUpdated();
+
+	/** Calls when parameter "transparency" was changed. */
+	void transparencyChanged();
 };
 
 CLOSE_O2_NAMESPACE

@@ -58,6 +58,7 @@ OPEN_O2_NAMESPACE
 	void* obj_ptr = _safe_release(obj); \
 	if(obj_ptr != 0)                    \
 		delete obj_ptr;                 \
+	obj = NULL;                         \
 }
 
 #define safe_release_arr(obj) \
@@ -65,6 +66,7 @@ OPEN_O2_NAMESPACE
 	void* obj_ptr = _safe_release_arr(obj); \
 	if(obj_ptr != 0)                        \
 		delete[] obj_ptr;                   \
+	obj = NULL;                             \
 }
 	
 template<typename T>
