@@ -728,5 +728,8 @@
     <ClCompile Include="..\src\ui\ui_sprite.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ui\ui_button.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

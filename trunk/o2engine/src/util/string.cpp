@@ -58,6 +58,11 @@ string toString( float value )
 	return format("%f", value);
 }
 
+string toString(const color4& value)
+{
+	return format("(%i %i %i %i)", value.r, value.g, value.b, value.a);
+}
+
 int toInt( const string& str )
 {
 	return atoi(str.c_str());

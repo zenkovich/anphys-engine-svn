@@ -34,13 +34,18 @@ class cStretchRect:public cSerializableObj
 	PartsVec       mParts;
 	fRect          mRect;
 	bool           mNeedUpdateMesh;
+	bool           mNeedUpdateTransparency;
+	float          mTransparency;
 
 public:
 	PROPERTY(cStretchRect, fRect) rect;
 	PROPERTY(cStretchRect, vec2f) position;
 	PROPERTY(cStretchRect, vec2f) size;
+	PROPERTY(cStretchRect, float) transparency;
 
 	cStretchRect(int parts = 0, const grTexture& texture = grTexture());
+	cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, const fRect& texRect = fRect(), 
+		         const color4& color = color4::white());
 	cStretchRect(const cStretchRect& stretchRect);
 
 	cStretchRect& operator=(const cStretchRect& stretchRect);
@@ -60,13 +65,17 @@ public:
 	void setSize(const vec2f& size);
 	vec2f getSize() const;
 
-	void draw();
+	void setTransparency(float transparency);
+	float getTransparency() const;
+
+	void draw(bool debug = false);
 
 	SERIALIZE_METHOD_DECL();
 
 protected:
 	void createMesh(int partsCount, const grTexture& texture);
 	void updateMesh();
+	void updateTransparency();
 	void initializeProperties();
 };
 

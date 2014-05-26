@@ -32,4 +32,9 @@ void uiState::setStateNonForcible(bool state)
 	setState(state, false);
 }
 
+string uiState::getName() const
+{
+	return mName;
+}
+
 CLOSE_O2_NAMESPACE

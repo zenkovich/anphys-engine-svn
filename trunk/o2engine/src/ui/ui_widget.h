@@ -175,9 +175,12 @@ public:
 	/** Returns geometry ptr. */
 	shared<cGeometry> getGeometry() const;
 
-private:
+protected:
 	/** Updating current and child layouts: global positions and bounds. */
 	virtual void updateLayout();
+
+	/** Calls when added some state. */
+	virtual void addedState(const shared<uiState>& state) {}
 
 	/** Updating states. */
 	virtual void updateStates(float dt);

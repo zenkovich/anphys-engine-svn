@@ -39,9 +39,9 @@ void uiTransitionState::setState(bool state, bool forcible)
 	mChangingState = !forcible;
 
 	if (state)
-		onBeginActiveStateCallbacks.call();
+		onBeginActiveStateEvent.call();
 	else
-		onBeginDeactiveStateCallbacks.call();
+		onBeginDeactiveStateEvent.call();
 
 	FOREACH(PropertiesVec, mProperties, prop)
 		(*prop)->setState(state, forcible);
@@ -49,9 +49,9 @@ void uiTransitionState::setState(bool state, bool forcible)
 	if (forcible)
 	{
 		if (state)
-			onActiveStateCallbacks.call();
+			onActiveStateEvent.call();
 		else
-			onDeactiveStateCallbacks.call();
+			onDeactiveStateEvent.call();
 	}
 }
 
@@ -79,9 +79,9 @@ void uiTransitionState::update(float dt)
 	if (complete)
 	{
 		if (mState)
-			onActiveStateCallbacks.call();
+			onActiveStateEvent.call();
 		else
-			onDeactiveStateCallbacks.call();
+			onDeactiveStateEvent.call();
 	}
 }
 

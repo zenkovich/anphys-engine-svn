@@ -125,6 +125,11 @@ struct Rect
 
 		return true;
 	}
+
+	inline bool isZero() const 
+	{
+		return (left == 0.0f && right == 0.0f && top == 0.0f && down == 0.0f);
+	}
 };
 
 #define fRect Rect<float>
