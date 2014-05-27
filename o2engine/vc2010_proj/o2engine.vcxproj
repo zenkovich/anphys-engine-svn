@@ -147,6 +147,7 @@
     <ClInclude Include="..\src\ui\ui_skin.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
+    <ClInclude Include="..\src\ui\ui_std_skin_initializer.h" />
     <ClInclude Include="..\src\ui\ui_transition_state.h" />
     <ClInclude Include="..\src\ui\ui_widget_layout.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="..\src\ui\ui_skin.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />
+    <ClCompile Include="..\src\ui\ui_std_skin_initializer.cpp" />
     <ClCompile Include="..\src\ui\ui_transition_state.cpp" />
     <ClCompile Include="..\src\ui\ui_widget_layout.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />

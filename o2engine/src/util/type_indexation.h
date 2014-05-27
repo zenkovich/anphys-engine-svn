@@ -17,6 +17,8 @@ struct TypeIdxContainer
 	virtual UniqueType getType() { return TYPENAME ## Type; }      \
 	virtual const char* getTypeName() { return #TYPENAME; }
 
+#define DEFINE_TEMPLATE_TYPE(TYPENAME, T) DEFINE_TYPE(TYPENAME ## T)
+
 #define REGIST_TYPE(TYPENAME) UniqueType TYPENAME::TYPENAME ## Type = TypeIdxContainer::index++;
 
 CLOSE_O2_NAMESPACE

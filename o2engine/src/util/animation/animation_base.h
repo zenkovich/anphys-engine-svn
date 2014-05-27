@@ -46,6 +46,8 @@ protected:
 	bool      mPlayed;         /**< True, when local time was expected. */
 
 public:
+	cCallbackChain onChangedEvent;  /** Calls when animation changed, after evaluate(). */
+
 	/** ctor. */
 	IAnimation();
 

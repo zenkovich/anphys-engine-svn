@@ -14,9 +14,9 @@ class cProperty
 	_class* mClass; /** Basic class. */
 	
 	void (_class::*mSetter)(const _type&);  /** Awww yeaaahh it's setter function pointer %) */
-	void (_class::*mSetterNonConst)(_type);  /** Setter function pointer for non const parameter */
+	void (_class::*mSetterNonConst)(_type); /** Setter function pointer for non const parameter */
 	_type (_class::*mGetter)() const;       /** Getter function pointer. */
-	_type (_class::*mGetterNonConst)();       /** Getter function pointer. */
+	_type (_class::*mGetterNonConst)();     /** Non const getter function pointer. */
 
 public:
 	/** ctor. */

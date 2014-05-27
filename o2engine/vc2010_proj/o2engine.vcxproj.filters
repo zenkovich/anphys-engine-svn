@@ -426,6 +426,9 @@
     <ClInclude Include="..\src\ui\ui_sprite.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_std_skin_initializer.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -729,6 +732,9 @@
       <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_button.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_std_skin_initializer.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
