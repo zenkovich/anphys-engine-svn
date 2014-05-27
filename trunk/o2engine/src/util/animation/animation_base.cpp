@@ -37,6 +37,7 @@ void IAnimation::play( float begin, float end )
 	mLastFrameTime = mTime;
 
 	evaluate();
+	onChangedEvent.call();
 	checkBeginCallback();
 }
 
@@ -56,6 +57,7 @@ void IAnimation::update( float dt )
 	
 	updateTime();
 	evaluate();
+	onChangedEvent.call();
 
 	if (mTime > mLastFrameTime)
 		checkTimeCallbacks(mLastFrameTime, mTime);
@@ -125,6 +127,7 @@ void IAnimation::setTime( float time )
 	updateTime();
 	mLastFrameTime = mTime;
 	evaluate();
+	onChangedEvent.call();
 }
 
 void IAnimation::setLoop( LoopType type /*= LT_REPEAT*/ )

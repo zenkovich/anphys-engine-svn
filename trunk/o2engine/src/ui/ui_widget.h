@@ -25,7 +25,7 @@ class uiWidget: public cObjectWithPropertyList
 {
 	friend class uiController;
 	friend class uiState;
-	friend class uiSkin;
+	friend class uiSkinManager;
 
 public:
 	typedef vector< shared<uiWidget> > WidgetsVec;

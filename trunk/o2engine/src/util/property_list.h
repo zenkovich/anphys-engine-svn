@@ -4,6 +4,8 @@
 #include "public.h"
 
 #include "util/callback.h"
+#include "type_indexation.h"
+#include "property.h"
 
 OPEN_O2_NAMESPACE
 
@@ -31,6 +33,85 @@ public:
 			return (T*)mObjectPtr;
 		}
 	};
+
+	struct IProperty
+	{
+		string mId;
+		cCallbackChain mOnChange;
+
+		DEFINE_TYPE(IProperty);
+
+		IProperty(const string& id):mId(id) {}
+	};
+
+	template<typename T>
+	struct DataProperty: public IProperty
+	{
+		T  mLastDataValue;
+		T* mDataPtr;
+
+		DEFINE_TEMPLATE_TYPE(DataProperty, T);
+
+		DataProperty(T* dataPtr, const string& id):
+			IProperty(id)
+		{ 
+			mDataPtr = dataPtr;
+			mLastDataValue = *dataPtr;
+		}
+
+		DataProperty& operator=(const T& value)
+		{
+			set(value);
+			return *this;
+		}
+	
+		DataProperty& operator+=(const T& value)
+		{
+			*this = *this + value;
+			return *this;
+		}
+
+		T operator+(const T& value)
+		{
+			return get() + value;
+		}
+	
+		DataProperty& operator-=(const T& value)
+		{
+			*this = *this - value;
+			return *this;
+		}
+
+		T operator-(const T& value)
+		{
+			return get() - value;
+		}
+	
+		DataProperty& operator*=(const T& value)
+		{
+			*this = *this * value;
+			return *this;
+		}
+
+		T operator*(const T& value)
+		{
+			return get() * value;
+		}
+	
+		DataProperty& operator/=(const T& value)
+		{
+			*this = *this / value;
+			return *this;
+		}
+
+		T operator/(const T& value)
+		{
+			return get() / value;
+		}
+	};
+
+
+
 	typedef vector<Property> PropertiesVec;
 
 protected:

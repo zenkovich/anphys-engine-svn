@@ -4,37 +4,18 @@
 
 OPEN_O2_NAMESPACE
 
-uiButton::uiButton(const uiWidgetLayout& layout, const shared<cStretchRect>& regularDrawable, 
-                   const shared<cStretchRect>& hoverDrawable /*= NULL*/, const shared<cStretchRect>& focusedDrawable /*= NULL*/, 
-				   const shared<cStretchRect>& pressedDrawable /*= NULL*/, 
-				   const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
-	uiWidget(layout, id, parent), mRegularDrawable(regularDrawable), mFocusedDrawable(focusedDrawable), 
-	mHoverDrawable(hoverDrawable), mPressedDrawable(pressedDrawable), mHoverState(NULL), mFocusedState(NULL),
-	mPressedState(NULL)
-{
+REGIST_TYPE(uiButton);
 
+uiButton::uiButton(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
+	uiWidget(layout, id, parent), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mHover(false), mPressed(false)
+{
 }
 
 uiButton::uiButton(const uiButton& button):
-	uiWidget(button)
+	uiWidget(button), mHover(false), mPressed(false)
 {
-	mRegularDrawable = mnew cStretchRect(*(button.mRegularDrawable));
-
-	if (button.mFocusedDrawable)
-		mFocusedDrawable = mnew cStretchRect(*(button.mFocusedDrawable));
-	else
-		mFocusedDrawable = NULL;
-
-	
-	if (button.mHoverDrawable)
-		mHoverDrawable = mnew cStretchRect(*(button.mHoverDrawable));
-	else
-		mHoverDrawable = NULL;
-	
-	if (button.mPressedDrawable)
-		mPressedDrawable = mnew cStretchRect(*(button.mPressedDrawable));
-	else
-		mPressedDrawable = NULL;
+	FOREACH_CONST(RectsVec, button.mDrawables, rt)
+		mDrawables.push_back(mnew cStretchRect(**rt));
 	
 	onClickEvent = button.onClickEvent;
 	onHoverEvent = button.onHoverEvent;
@@ -45,10 +26,8 @@ uiButton::uiButton(const uiButton& button):
 
 uiButton::~uiButton()
 {
-	safe_release(mRegularDrawable);
-	safe_release(mFocusedDrawable);
-	safe_release(mHoverDrawable);
-	safe_release(mPressedDrawable);
+	FOREACH(RectsVec, mDrawables, rt)
+		safe_release(*rt);
 }
 
 shared<uiWidget> uiButton::clone() const
@@ -73,38 +52,46 @@ void uiButton::addedState(const shared<uiState>& state)
 
 void uiButton::localDraw()
 {
-	mRegularDrawable->draw();
-	
-	if (mFocusedDrawable)
-		mFocusedDrawable->draw();
-
-	if (mHoverDrawable)
-		mHoverDrawable->draw();
-
-	if (mPressedDrawable)
-		mPressedDrawable->draw();
+	FOREACH(RectsVec, mDrawables, rt)
+		(*rt)->draw();
 }
 
 void uiButton::localUpdate(float dt)
 {
+	if (mHoverState)
+		mHoverState->setState(mHover);
+
+	mHover = false;
 }
 
 void uiButton::layoutUpdated()
-{
-	mRegularDrawable->setRect(mBounds);
-	
-	if (mFocusedDrawable)
-		mFocusedDrawable->setRect(mBounds);
-
-	if (mHoverDrawable)
-		mHoverDrawable->setRect(mBounds);
-
-	if (mPressedDrawable)
-		mPressedDrawable->setRect(mBounds);
+{	
+	FOREACH(RectsVec, mDrawables, rt)
+		(*rt)->setRect(mBounds);
 }
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 {
+	mHover = true;
+
+	if (msg.isCursorPressed())
+	{
+		mPressed = true;
+
+		if (mPressedState)
+			mPressedState->setState(true);
+	}
+	else if (msg.isCursorReleased())
+	{
+		mPressed = false;
+
+		if (mPressedState)
+			mPressedState->setState(false);
+
+		if (isInside(msg.getCursorPos()))
+			onClickEvent.call();
+	}
+
 	return false;
 }
 
@@ -122,6 +109,14 @@ void uiButton::onFocusLost()
 
 	if (mFocusedState)
 		mFocusedState->setState(false);
+}
+
+int uiButton::addDrawable(const shared<cStretchRect>& drawable)
+{
+	mDrawables.push_back(drawable);
+	int idx = mDrawables.size() - 1;
+	registProperty(drawable->mTransparency, format("%i_transparency", idx));
+	return idx;
 }
 
 CLOSE_O2_NAMESPACE

@@ -10,18 +10,20 @@ OPEN_O2_NAMESPACE
 
 class uiButton:public uiWidget
 {
+public:
+	typedef vector< shared<cStretchRect> > RectsVec;
+
 protected:
 	shared<uiState> mHoverState;    /** Hover state. Activates when cursor hover widget. */
 	shared<uiState> mFocusedState;  /** Focused state. Activates when widget is focused. */
 	shared<uiState> mPressedState;  /** Pressed state. Activates when button pressed. */
+	RectsVec        mDrawables;     /** Drawables vector. */
+
+	bool            mHover;
+	bool            mPressed;
 
 public:
 	DEFINE_TYPE(uiButton);
-	
-	shared<cStretchRect> mRegularDrawable;  /** Regular button state drawable. */
-	shared<cStretchRect> mFocusedDrawable;  /** Focused state drawable. */
-	shared<cStretchRect> mHoverDrawable;    /** Hover state drawable. */
-	shared<cStretchRect> mPressedDrawable;  /** Pressed state drawable. */
 
 	cCallbackChain onClickEvent;            /** On click event. */
 	cCallbackChain onHoverEvent;            /** On hover event. */
@@ -31,10 +33,7 @@ public:
 
 
 	/** ctor. */
-	uiButton(const uiWidgetLayout& layout, 
-		     const shared<cStretchRect>& regularDrawable, const shared<cStretchRect>& hoverDrawable = NULL,
-		     const shared<cStretchRect>& focusedDrawable = NULL, const shared<cStretchRect>& pressedDrawable = NULL, 
-			 const string& id = "", shared<uiWidget> parent = NULL);
+	uiButton(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiButton(const uiButton& button);
@@ -47,6 +46,9 @@ public:
 
 	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
+
+	/** Adding drawable and return index of drawable. */
+	int addDrawable(const shared<cStretchRect>& drawable);
 
 protected:
 	/** Calls when added some state. */
