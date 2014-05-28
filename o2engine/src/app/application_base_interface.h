@@ -25,7 +25,7 @@ class uiController;
   * Time utils,
   * UI controller
  */
-class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
+class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>, public virtual ShareObj
 {
 protected:
 	shared<cInputMessage>  mInputMessage; /**< While application user input message. */

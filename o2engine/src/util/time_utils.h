@@ -6,7 +6,7 @@
 
 OPEN_O2_NAMESPACE
 
-class cTimeUtil: public cSingleton<cTimeUtil>
+class cTimeUtil: public cSingleton<cTimeUtil>, public virtual ShareObj
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;

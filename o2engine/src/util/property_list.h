@@ -13,33 +13,10 @@ OPEN_O2_NAMESPACE
 class cObjectWithPropertyList
 {
 public:
-	/** Property object. Contains pointer to some value, type of value, id and callback on changing value. */
-	struct Property
-	{
-		enum Type { TP_INT = 0, TP_FLOAT, TP_STRING, TP_VEC2 };
-
-		void*          mObjectPtr; /** Object value pointer. */
-		string         mId;        /** Identificator. */
-		Type           mType;      /** Value type. */
-		cCallbackChain mOnChange;  /** On change callbacks. */
-
-		/** ctor. */
-		Property(void* ptr, const string& id, Property::Type type);
-
-		/** Returns casted pointer. */
-		template<typename T>
-		T* ptr() const
-		{
-			return (T*)mObjectPtr;
-		}
-	};
-
-	struct IProperty
+	struct IProperty: public virtual ShareObj
 	{
 		string mId;
 		cCallbackChain mOnChange;
-
-		DEFINE_TYPE(IProperty);
 
 		IProperty(const string& id):mId(id) {}
 	};
@@ -47,16 +24,27 @@ public:
 	template<typename T>
 	struct DataProperty: public IProperty
 	{
-		T  mLastDataValue;
 		T* mDataPtr;
 
-		DEFINE_TEMPLATE_TYPE(DataProperty, T);
+		virtual void set(const T& value)
+		{
+			if (equals(value, get()))
+				return;
+
+			*mDataPtr = value;
+
+			mOnChange.call();
+		}
+
+		virtual T get() const
+		{
+			return *mDataPtr;
+		}
 
 		DataProperty(T* dataPtr, const string& id):
 			IProperty(id)
 		{ 
 			mDataPtr = dataPtr;
-			mLastDataValue = *dataPtr;
 		}
 
 		DataProperty& operator=(const T& value)
@@ -110,9 +98,41 @@ public:
 		}
 	};
 
+	template<typename _class, typename _type>
+	struct FuncProperty: public DataProperty<_type>
+	{
+		cProperty<_class, _type> mProperty;
+
+		FuncProperty(const cProperty<_class, _type>& prop, const string& id):
+			DataProperty(NULL, id)
+		{
+			prop.copy(mProperty);
+		}
+
+		FuncProperty(_class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true):
+			DataProperty(NULL, id)
+		{
+			mProperty = cProperty<_class, _type>(tclass, setterFunc, getterFunc, setterConst, getterConst);
+		}
+
+		virtual void set(const _type& value)
+		{
+			if (equals(get(), value))
+				return;
+
+			mProperty = value;
+
+			mOnChange.call();
+		}
+
+		virtual _type get() const
+		{
+			return mProperty.get();
+		}
+	};
 
 
-	typedef vector<Property> PropertiesVec;
+	typedef vector< shared<IProperty> > PropertiesVec;
 
 protected:
 	PropertiesVec mPropertiesList;
@@ -120,25 +140,38 @@ protected:
 	/** Initialization properties func. Must be implemented. */
 	virtual void initializePropertiesList() = 0;
 
-	/** Registering property in list. */
-	void registProperty(void* ptr, const string& id, Property::Type type);
+	/** Registering data pointer property. */
+	template<typename T>
+	void registProperty(T* valuePtr, const string& id)
+	{
+		mPropertiesList.push_back( mnew DataProperty<T>(valuePtr, id) );
+	}
 
-	/** Registering int property in list. */
-	void registProperty(int& value, const string& id);
+	/** Registering property property %). */
+	template<typename _class, typename _type>
+	void registProperty(const cProperty<_class, _type>& prop, const string& id)
+	{
+		mPropertiesList.push_back( mnew FuncProperty<_class, _type>(prop, id) );
+	}
 
-	/** Registering float property in list. */
-	void registProperty(float& value, const string& id);
-
-	/** Registering string property in list. */
-	void registProperty(string& value, const string& id);
-
-	/** Registering vector property in list. */
-	void registProperty(vec2f& value, const string& id);
-
+	/** Registering property by set/get functions. */
+	template<typename _class, typename _type>
+	void registProperty(_class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
+	{
+		mPropertiesList.push_back( mnew FuncProperty<_class, _type>(tclass, setterFunc, getterFunc, setterConst, getterConst) );
+	}
 
 public:
 	/** Returns property by id. */
-	shared<Property> getProperty(const string& id);
+	template<typename T>
+	shared< DataProperty<T> > getProperty(const string& id)
+	{
+		FOREACH(PropertiesVec, mPropertiesList, prop)
+			if ((*prop)->mId == id)
+				return *prop;
+
+		return NULL;
+	}
 };
 
 CLOSE_O2_NAMESPACE

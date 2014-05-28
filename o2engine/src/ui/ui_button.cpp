@@ -1,6 +1,7 @@
 #include "ui_button.h"
 
 #include "util/graphics/stretch_rect.h"
+#include "util/string.h"
 
 OPEN_O2_NAMESPACE
 
@@ -15,13 +16,16 @@ uiButton::uiButton(const uiButton& button):
 	uiWidget(button), mHover(false), mPressed(false)
 {
 	FOREACH_CONST(RectsVec, button.mDrawables, rt)
-		mDrawables.push_back(mnew cStretchRect(**rt));
+		addDrawable(mnew cStretchRect(**rt));
 	
 	onClickEvent = button.onClickEvent;
 	onHoverEvent = button.onHoverEvent;
 	onHoverOffEvent = button.onHoverOffEvent;
 	onFocusedEvent = button.onFocusedEvent;
 	onFocusLostEvent = button.onFocusLostEvent;
+
+	FOREACH(StatesMap, mStates, state)
+		(*state).second->setOwnerWidget( getShared<uiButton>(this) );
 }
 
 uiButton::~uiButton()
@@ -32,7 +36,7 @@ uiButton::~uiButton()
 
 shared<uiWidget> uiButton::clone() const
 {
-	return mnew uiWidget(*this);
+	return mnew uiButton(*this);
 }
 
 bool uiButton::isFocusable() const
@@ -115,7 +119,7 @@ int uiButton::addDrawable(const shared<cStretchRect>& drawable)
 {
 	mDrawables.push_back(drawable);
 	int idx = mDrawables.size() - 1;
-	registProperty(drawable->mTransparency, format("%i_transparency", idx));
+	registProperty(drawable->transparency, format("drawable_%i_transparency", idx));
 	return idx;
 }
 

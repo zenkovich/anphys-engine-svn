@@ -1,5 +1,0 @@
-Initializing OpenGL render..
-GL_VENDOR: NVIDIA Corporation
-GL_RENDERER: GeForce GTX 650 Ti BOOST/PCIe/SSE2
-GL_VERSION: 4.3.0
-Created texture 'ui_test'

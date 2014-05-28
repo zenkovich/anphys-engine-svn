@@ -4,6 +4,7 @@
 #include "public.h"
 #include "render_system/texture.h"
 #include "util/singleton.h"
+#include "ui_widget_layout.h"
 
 OPEN_O2_NAMESPACE
 
@@ -13,14 +14,18 @@ class uiRect;
 class uiButton;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
-class uiSkinManager: public cSingleton<uiSkinManager>
+class uiSkinManager: public cSingleton<uiSkinManager>, public virtual ShareObj
 {
 protected:
 	shared<uiButton> mButtonSample;
+	shared<uiRect> mBackgroundSamble;
 
 public:
 	/** Creates widget. */
 	shared<uiWidget> createWidget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
+
+	/** Creates background rectangle widget. */
+	shared<uiRect> createBackground(const uiWidgetLayout& layout = uiBothLayout(), const string& id = "");
 
 	/** Creates sprite widget. */
 	shared<uiSprite> createSprite(const grTexture& texture, const vec2f& size = vec2f(), 
@@ -33,6 +38,7 @@ public:
 	shared<uiButton> createButton(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
 
 	void setButtonSample(const shared<uiButton>& buttonSample);
+	void setBackgroundSamble(const shared<uiRect>& backgroundSample);
 
 protected:
 

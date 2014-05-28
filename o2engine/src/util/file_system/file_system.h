@@ -10,7 +10,7 @@
 OPEN_O2_NAMESPACE
 	
 /** File system, singleton. Containing basic resource path, extension strings. */
-class cFileSystem:public cSingleton<cFileSystem>
+class cFileSystem:public cSingleton<cFileSystem>, public virtual ShareObj
 {
 public:
 	typedef vector<string> ExtensionsVec;

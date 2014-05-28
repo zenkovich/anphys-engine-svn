@@ -14,6 +14,7 @@ cUITest::cUITest()
 {
 	uiStdSkinInitializer::initialize();
 
+	uiHost()->addWidget( uiSkin()->createBackground() );
 	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 300)) );
 }
 

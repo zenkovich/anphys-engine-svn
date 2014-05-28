@@ -5,10 +5,11 @@
 
 #include "pthreads/pthread.h"
 #include "util/smart_ptrs.h"
+#include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 
-class ICallback;
+//class ICallback;
 
 /** Thread starter class. Uses POSIX. */
 class cThread

@@ -181,7 +181,7 @@ void scNode::setParent(const shared<scNode>& parent)
 {	
 	if (mParent)
 	{
-		NodesVec::iterator fnd = FIND(mParent->mChilds, shared<scNode>(this).disableAutoRelease());
+		NodesVec::iterator fnd = FIND(mParent->mChilds, getShared<scNode>(this) );
 		if (fnd != mParent->mChilds.end())
 			mParent->mChilds.erase(fnd);
 	}

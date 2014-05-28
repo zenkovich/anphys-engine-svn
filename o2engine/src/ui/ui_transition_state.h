@@ -73,7 +73,7 @@ public:
 	template<typename T>
 	class ValueProperty: public uiTransitionState::IProperty
 	{
-		typedef cObjectWithPropertyList::Property Prop;
+		typedef cObjectWithPropertyList::DataProperty<T> Prop;
 
 		shared<Prop>              mProperty;
 		cAnimFrame<T>             mStateOff;         /** Off state animation frame. */
@@ -151,7 +151,7 @@ public:
 				}
 			}
 
-			mInterpolator.getValue(*(T*)(mProperty->mObjectPtr), mTime*mInvDuration);
+			*mProperty = mInterpolator.getValue(mTime*mInvDuration);
 
 			mProperty->mOnChange.call();
 
@@ -168,7 +168,7 @@ public:
 
 				if (mStateOwner)
 				{
-					mInterpolator.getValue(*(T*)(mProperty->mObjectPtr), state ? 1.0f:0.0f);
+					*mProperty = mInterpolator.getValue(state ? 1.0f:0.0f);
 					mProperty->mOnChange.call();
 				}
 
@@ -201,7 +201,7 @@ public:
 		void setOwner(const shared<uiTransitionState>& owner)
 		{
 			mStateOwner = owner;
-			mProperty = (owner->mOwnerWidget->getProperty(mWidgetPropertyId));
+			mProperty = owner->mOwnerWidget->getProperty<T>(mWidgetPropertyId);
 		}
 	};
 	

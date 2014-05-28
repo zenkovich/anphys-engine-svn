@@ -130,7 +130,7 @@ bool uiWidget::processInputMessage( const cInputMessage& msg )
 	if (localProcessInputMessage(msg))
 		return true;
 
-	FOREACH(WidgetsVec, mChildWidgets, it)
+	FOREACH_BACK(WidgetsVec, mChildWidgets, it)
 		if ((*it)->processInputMessage(msg))
 			return true;
 
@@ -144,7 +144,7 @@ shared<uiWidget> uiWidget::clone() const
 
 shared<uiWidget> uiWidget::addChild( shared<uiWidget> widget )
 {
-	widget->setParent(this);
+	widget->setParent( getShared<uiWidget>(this) );
 	return widget;
 }
 
@@ -173,7 +173,7 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 {
 	if (mParent)
 	{
-		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, shared<uiWidget>(this).disableAutoRelease());
+		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, getShared<uiWidget>(this) );
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
 	}
@@ -182,7 +182,7 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 
 	if (mParent)
 	{
-		mParent->addChild(this);
+		mParent->mChildWidgets.push_back(this);
 	}
 
 	updateLayout();
@@ -288,7 +288,7 @@ void uiWidget::setFocused(bool focused)
 		return;
 
 	if (focused)
-		uiHost()->focusOnWidget(shared<uiWidget>(this).disableAutoRelease());
+		uiHost()->focusOnWidget( getShared<uiWidget>(this) );
 	else
 		uiHost()->focusOnWidget(NULL);
 }
@@ -311,13 +311,13 @@ void uiWidget::releaseFocus()
 shared<uiState> uiWidget::addState(const shared<uiState>& state)
 {
 	mStates[state->mName] = state;
-	state->setOwnerWidget(shared<uiWidget>(this).disableAutoRelease());
+	state->setOwnerWidget( getShared<uiWidget>(this) );
 
 	if (state->mName == "visible")
 	{
 		mVisibleState = state;
-		state->onActiveStateEvent.add(shared<cCallbackChain>(&onVisibleOn).disableAutoRelease());
-		state->onDeactiveStateEvent.add(shared<cCallbackChain>(&onVisibleOff).disableAutoRelease());
+		state->onActiveStateEvent.add( getShared<cCallbackChain>(&onVisibleOn) );
+		state->onDeactiveStateEvent.add( getShared<cCallbackChain>(&onVisibleOff) );
 		state->setState(mVisible, true);
 	}
 
@@ -376,10 +376,10 @@ void uiWidget::onFocusLost()
 
 void uiWidget::initializePropertiesList()
 {
-	registProperty(mId, "id");
-	registProperty(mLayout.mPxPosition, "px position");
-	registProperty(mLayout.mPxSize, "px size");
-	registProperty(mTransparency, "transparency");
+	registProperty(&mId, "id");
+	registProperty(&mLayout.mPxPosition, "px position");
+	registProperty(&mLayout.mPxSize, "px size");
+	registProperty(&mTransparency, "transparency");
 }
 
 void uiWidget::initializeProperties()
@@ -390,11 +390,23 @@ void uiWidget::initializeProperties()
 	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
 	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
 	visible.initNonConstSetter(this, &uiWidget::setVisible, &uiWidget::isVisible);
+	layout.init(this, &uiWidget::setlayout, &uiWidget::getlayout);
 }
 
 void uiWidget::setVisibleParam(bool param)
 {
 	mVisible = param;
+}
+
+void uiWidget::setlayout(const uiWidgetLayout& layout)
+{
+	mLayout = layout;
+	updateLayout();
+}
+
+uiWidgetLayout uiWidget::getlayout() const
+{
+	return mLayout;
 }
 
 CLOSE_O2_NAMESPACE

@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 class cApplication;
 
 /** Device info. Containin different parametres about device, render etc. */
-class cDeviceInfo:public cSingleton<cDeviceInfo>
+class cDeviceInfo:public cSingleton<cDeviceInfo>, public virtual ShareObj
 {
 public:
 	enum DeviceParam { DP_RENDER_TARGET_AVAILABLE = 0,

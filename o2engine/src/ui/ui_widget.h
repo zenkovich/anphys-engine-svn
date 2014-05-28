@@ -21,7 +21,7 @@ class cGeometry;
 class uiState;
 
 /** Basic widget object. Contains id, parent, childes, position and other strange data. */
-class uiWidget: public cObjectWithPropertyList
+class uiWidget: public cObjectWithPropertyList, public virtual ShareObj
 {
 	friend class uiController;
 	friend class uiState;
@@ -65,6 +65,7 @@ public:
 	PROPERTY(uiWidget, vec2f)            globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)            size;           /**< Size property. Using setSize/getSize. */
 	PROPERTY(uiWidget, bool)             visible;        /**< Visibility property. Using set/isVisible. */
+	PROPERTY(uiWidget, uiWidgetLayout)   layout;         /**< Widget layout. Using set/getLayout. */
 
 
 	/** ctor. */
@@ -171,6 +172,12 @@ public:
 
 	/** Returns size. */
 	vec2f getSize() const;
+
+	/** Sets widget layout. */
+	void setlayout(const uiWidgetLayout& layout);
+
+	/** Returns widget layout. */
+	uiWidgetLayout getlayout() const;
 
 	/** Returns geometry ptr. */
 	shared<cGeometry> getGeometry() const;

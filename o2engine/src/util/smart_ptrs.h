@@ -67,6 +67,23 @@ private:
 #define autoArr(type) cAutoPtr<type, true>
 
 void xlog(const char* res);
+void xrelease(void* data);
+
+class ShareObj
+{
+public:
+	int  mRefCount;
+	bool mValid;
+
+	ShareObj()
+	{
+		mRefCount = 1;
+		mValid = true;
+	}
+
+private:
+	virtual void awShiieeetDontUseMe() {}
+};
 
 /** Object that defines a shared type. Object containing reference count and some checking functionality, as default 
  ** releasing object, when reference count is zero. */
@@ -74,17 +91,30 @@ template<typename T>
 class shared
 {
 public:
-	T*            mObject;
-	unsigned int* mRefCount;
-	bool*         mValid;
-	bool*         mAutoRelease;
+	ShareObj* mShareObj;
+
+protected:	
+	T* value() 
+	{ 
+		T* res = dynamic_cast<T*>(mShareObj);
+		if (res == 0)
+			xlog("Failed to cast shared pointer object. Object not derived from ShareObj");
+		return res;
+	}
+
+	T* value() const 
+	{ 
+		T* res = dynamic_cast<T*>(mShareObj);
+		if (res == 0)
+			xlog("Failed to cast shared pointer object. Object not derived from ShareObj");
+		return res;
+	}
+
+public:
 
 	shared()
 	{
-		mObject = NULL;
-		mRefCount = NULL;
-		mValid = NULL;
-		mAutoRelease = NULL;
+		initialize(NULL);
 	}
 
 	shared(T* object) 
@@ -112,37 +142,37 @@ public:
 	operator P*()
 	{
 		checkValid();
-		return (P*)mObject;
+		return (P*)value();
 	}
 
 	operator T*() 
 	{
 		checkValid();
-		return mObject;
+		return value();
 	}
 
 	T* operator->() 
 	{
 		checkValid();
-		return mObject;
+		return value();
 	}
 
 	T* const operator->() const
 	{
 		checkValid();
-		return mObject;
+		return value();
 	}
 
 	T& operator*() 
 	{ 
 		checkValid();
-		return *mObject;
+		return *value();
 	}
 
 	T& operator*() const
 	{ 
 		checkValid();
-		return *mObject;
+		return *value();
 	}
 
 	shared& operator=(T* object) 
@@ -154,22 +184,22 @@ public:
 
 	bool operator==(const shared<T>& ref)
 	{
-		return ref.mObject == mObject;
+		return ref.mShareObj == mShareObj;
 	}
 
 	bool operator==(const shared<T>& ref) const
 	{
-		return ref.mObject == mObject;
+		return ref.mShareObj == mShareObj;
 	}
 
 	bool operator!=(const shared<T>& ref)
 	{
-		return ref.mObject != mObject;
+		return ref.mShareObj != mShareObj;
 	}
 
 	bool operator!=(const shared<T>& ref) const
 	{
-		return ref.mObject != mObject;
+		return ref.mShareObj != mShareObj;
 	}
 
 	shared<T>& operator=(const shared<T>& ref) 
@@ -190,53 +220,32 @@ public:
 	operator bool()
 	{
 		checkValid();
-		return mObject != NULL;
+		return mShareObj != NULL;
 	}
 
 	operator bool() const
 	{
 		checkValid();
-		return mObject != NULL;
-	}
-
-	shared<T>& setAutoRelease(bool enable)
-	{
-		if (!mRefCount)
-			return *this;
-
-		checkValid();
-		*mAutoRelease = enable;
-
-		return *this;
-	}
-	
-	shared<T>& enableAutoRelease()
-	{
-		return setAutoRelease(true);
-	}
-	
-	shared<T>& disableAutoRelease()
-	{
-		return setAutoRelease(false);
+		return mShareObj != NULL;
 	}
 
 	void* force_release()
 	{
 		void* res = NULL;
-		if (mObject)
+		if (mShareObj)
 		{
-			if (!*mValid)
+			if (!mShareObj->mValid)
 			{
 				xlog("Failed to delete object: object already deleted!");
-				*mRefCount -= 1;
+				mShareObj -= 1;
 			}
 			else
 			{
-				res = mObject;
+				res = mShareObj;
 
-				*mValid = false;
+				mShareObj->mValid = false;
 
-				if (*mRefCount > 1)
+				if (mShareObj->mRefCount > 1)
 					xlog("Possible using destroyed object - there are %i links on this object");
 
 				initialize(NULL);
@@ -255,67 +264,59 @@ protected:
 	{
 		if (object == NULL)
 		{
-			mObject = NULL;
-			mRefCount = NULL;
-			mValid = NULL;
-			mAutoRelease = NULL;
+			mShareObj = NULL;
 			return;
 		}
 
-		mObject = object;
-		mRefCount = new unsigned int;
-		*mRefCount = 1;
-		mValid = new bool;
-		*mValid = true;
-		mAutoRelease = new bool;
-		*mAutoRelease = true;
+		mShareObj = dynamic_cast<ShareObj*>(object);
+		if (mShareObj == 0)
+			xlog("Failed to cast shared pointer object. Object not derived from ShareObj");
 	}
 
 	template<typename P>
 	void initialize(const shared<P>& ref) 
 	{
-		if (ref.mValid && *(ref.mValid) == false)
+		if (ref.mShareObj != NULL && !ref.mShareObj->mValid)
 			xlog("Using not valid pointer - at pointer initialization");
 
-		mObject = (T*)ref.mObject;
-		mRefCount = ref.mRefCount;
-		mValid = ref.mValid;
-		mAutoRelease = ref.mAutoRelease;
+		mShareObj = ref.mShareObj;
 
-		if (mRefCount)
-			*mRefCount += 1;
+		if (mShareObj)
+			mShareObj->mRefCount++;
 	}
 
 	void release()
 	{
-		if (!mRefCount)
+		if (!mShareObj)
 			return;
 
-		*mRefCount -= 1;
-		if (*mRefCount == 0)
+		mShareObj->mRefCount -= 1;
+		if (mShareObj->mRefCount == 0)
 		{
-			if (*mValid)
+			if (mShareObj->mValid)
 			{
-				delete mRefCount;
-				delete mValid;
-
-				if (*mAutoRelease)
-					delete mObject;
-
-				delete mAutoRelease;
+				xrelease(mShareObj);
 			}
 		}
 	}
 
 	void checkValid() const
 	{
-		if (mRefCount == 0)
+		if (!mShareObj)
 			return;
 
-		if (*mValid == false)
+		if (!mShareObj->mValid)
 			xlog("Using not valid pointer");
 	}
 };
+
+template<typename T>
+shared<T> getShared(ShareObj* sharedObj)
+{
+	shared<T> res;
+	res.mShareObj = sharedObj;
+	return res;
+}
 
 /** Object that defines a shared array type. Object containing reference count and some checking functionality, as default 
  ** releasing object, when reference count is zero. */
@@ -558,6 +559,7 @@ protected:
 			xlog("Using not valid pointer");
 	}
 };
+
 
 
 template<typename T>

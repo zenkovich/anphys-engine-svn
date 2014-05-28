@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Camera. Contains position, scale and rotations. Works as sprite. */
-class grCamera
+class grCamera: public virtual ShareObj
 {
 public:
 	vec2f mPosition; /**< Position of left top corner camera. */
