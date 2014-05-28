@@ -134,7 +134,7 @@ protected:
 
 		float timeCoef = mCurrentFrameInvDuration*(mTime - mCurrentFrameBeginTime);
 
-		mFrameInterp.getValue(mValue, timeCoef);
+		mValue = mFrameInterp.getValue(timeCoef);
 		
 		mLastValue = mValue;
 		*mBindValue = mValue;

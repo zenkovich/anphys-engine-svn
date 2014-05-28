@@ -67,4 +67,18 @@ void uiSkinManager::setButtonSample(const shared<uiButton>& buttonSample)
 	mButtonSample = buttonSample;
 }
 
+shared<uiRect> uiSkinManager::createBackground(const uiWidgetLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
+{
+	shared<uiRect> background = mBackgroundSamble->clone();
+	background->setlayout(layout);
+	background->setId(id);
+
+	return background;
+}
+
+void uiSkinManager::setBackgroundSamble(const shared<uiRect>& backgroundSample)
+{
+	mBackgroundSamble = backgroundSample;
+}
+
 CLOSE_O2_NAMESPACE

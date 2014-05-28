@@ -7,13 +7,15 @@
 #include "util/property.h"
 #include "util/callback.h"
 #include "util/smart_ptrs.h"
+#include "ui_widget.h"
 
 OPEN_O2_NAMESPACE
 	
 /** Widget state interface. Widget can get bool parameter and change some parameters from widget. */
-class uiState
+class uiState: public virtual ShareObj
 {
 	friend class uiWidget;
+	friend class uiButton;
 
 protected:
 	string           mName;        /** Name of state. */

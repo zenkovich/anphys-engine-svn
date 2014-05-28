@@ -22,7 +22,7 @@ class grTexture;
 class grTextureDef;
 
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
-class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>
+class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>, public virtual ShareObj
 {
 	friend class grTextureDef;
 	friend class grTextureDefBaseInterface;

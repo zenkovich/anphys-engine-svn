@@ -9,7 +9,7 @@
 OPEN_O2_NAMESPACE
 	
 /** Stupid simple class. */
-struct Dummy
+struct Dummy: public ShareObj
 {
 	Dummy() {}
 	~Dummy() {}
@@ -17,7 +17,7 @@ struct Dummy
 
 
 /** Callback interface. */
-class ICallback
+class ICallback: public ShareObj
 {
 public:
 	virtual ~ICallback() {}

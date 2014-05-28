@@ -12,7 +12,7 @@ struct cFileType
 };
 
 /** Input file. */
-class cInFile
+class cInFile: public virtual ShareObj
 {
 	std::ifstream mIfstream; /**< Input stream. */
 	string        mFilename; /**< File name. */
@@ -53,7 +53,7 @@ public:
 };
 
 /** Output file. */
-class cOutFile
+class cOutFile: public virtual ShareObj
 {
 	std::ofstream mOfstream; /**< Output stream. */
 	string        mFilename; /**< File name. */

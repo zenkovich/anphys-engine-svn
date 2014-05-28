@@ -7,8 +7,8 @@ uiSprite::uiSprite(const uiWidgetLayout& layout, const string& id /*= ""*/, shar
 {
 	layoutUpdated();
 
-	getProperty("transparency")->mOnChange.add(
-		callback<uiSprite>(shared<uiSprite>(this).disableAutoRelease(), &uiSprite::transparencyChanged));
+	getProperty<float>("transparency")->mOnChange.add(
+		callback<uiSprite>( getShared<uiSprite>(this), &uiSprite::transparencyChanged));
 }
 
 uiSprite::uiSprite(const uiSprite& spriteWidget):
@@ -17,8 +17,8 @@ uiSprite::uiSprite(const uiSprite& spriteWidget):
 	mSprite = spriteWidget.mSprite;
 	layoutUpdated();
 
-	getProperty("transparency")->mOnChange.add(
-		callback<uiSprite>(shared<uiSprite>(this).disableAutoRelease(), &uiSprite::transparencyChanged));
+	getProperty<float>("transparency")->mOnChange.add(
+		callback<uiSprite>( getShared<uiSprite>(this), &uiSprite::transparencyChanged));
 }
 
 uiSprite::~uiSprite()

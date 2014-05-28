@@ -12,12 +12,13 @@ cStretchRect::Part::Part()
 }
 
 cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
-	                      const fRect& texRect, 
+	                      const fRect& texRect, bool wrapTexture /*= false*/,
 						  const color4& vertex0Color /*= color4::white()*/, 
 						  const color4& vertex1Color /*= color4::white()*/, 
 						  const color4& vertex2Color /*= color4::white()*/, 
 						  const color4& vertex3Color /*= color4::white()*/ ):
-	mLTPosPercent(LTPercent), mLTPosPixel(LTPixel), mRBPosPercent(RBPercent), mRBPosPixel(RBPixel), mTextureSrcRect(texRect)
+	mLTPosPercent(LTPercent), mLTPosPixel(LTPixel), mRBPosPercent(RBPercent), mRBPosPixel(RBPixel), mTextureSrcRect(texRect),
+	mWrapTexture(wrapTexture)
 {
 	mVertexColors[0] = vertex0Color; mVertexColors[1] = vertex1Color; 
 	mVertexColors[2] = vertex2Color; mVertexColors[3] = vertex3Color;
@@ -29,6 +30,8 @@ cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTe
 {
 	if (parts > 0)
 		createMesh(parts, texture);
+
+	initializeProperties();
 }
 
 cStretchRect::cStretchRect( const cStretchRect& stretchRect )
@@ -41,6 +44,8 @@ cStretchRect::cStretchRect( const cStretchRect& stretchRect )
 
 	mNeedUpdateMesh = true;
 	mNeedUpdateTransparency = false;
+
+	initializeProperties();
 }
 
 cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, 
@@ -62,43 +67,44 @@ cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int righ
 
 	// left top
 	addPart(vec2f(0, 0), vec2f(0, 0), vec2f(0, 0), vec2f(_left, _top), 
-		   fRect(rt.left, rt.top, rt.left + _left, rt.top + _top), color, color, color, color);	
+		   fRect(rt.left, rt.top, rt.left + _left, rt.top + _top), false, color, color, color, color);	
 
 	// top
 	addPart(vec2f(0, 0), vec2f(_left, 0), vec2f(1, 0), vec2f(-_right, _top), 
-		   fRect(rt.left + _left, rt.top, rt.right - _right, rt.top + _top), color, color, color, color);
+		   fRect(rt.left + _left, rt.top, rt.right - _right, rt.top + _top), false, color, color, color, color);
 
 	//right top
 	addPart(vec2f(1, 0), vec2f(-_right, 0), vec2f(1, 0), vec2f(0, _top), 
-		   fRect(rt.right - _right, rt.top, rt.right, rt.top + _top), color, color, color, color);
+		   fRect(rt.right - _right, rt.top, rt.right, rt.top + _top), false, color, color, color, color);
 	
 
 	//left
 	addPart(vec2f(0, 0), vec2f(0, _top), vec2f(0, 1), vec2f(_left, -_bottom), 
-		   fRect(rt.left, rt.top + _top, rt.left + _left, rt.down - _bottom), color, color, color, color);
+		   fRect(rt.left, rt.top + _top, rt.left + _left, rt.down - _bottom), false, color, color, color, color);
 
 	//center
 	addPart(vec2f(0, 0), vec2f(_left, _top), vec2f(1, 1), vec2f(-_right, -_bottom), 
-		   fRect(rt.left + _left, rt.top + _top, rt.right - _right, rt.down - _bottom), color, color, color, color);
+		   fRect(rt.left + _left, rt.top + _top, rt.right - _right, rt.down - _bottom), false, color, color, color, color);
 
 	//right
 	addPart(vec2f(1, 0), vec2f(-_right, _top), vec2f(1, 1), vec2f(0, -_bottom), 
-		   fRect(rt.right - _right, rt.top + _top, rt.right, rt.down - _bottom), color, color, color, color);
+		   fRect(rt.right - _right, rt.top + _top, rt.right, rt.down - _bottom), false, color, color, color, color);
 	
 
 	//left bottom
 	addPart(vec2f(0, 1), vec2f(0, -_bottom), vec2f(0, 1), vec2f(_left, 0), 
-		   fRect(rt.left, rt.down - _bottom, rt.left + _left, rt.down), color, color, color, color);
+		   fRect(rt.left, rt.down - _bottom, rt.left + _left, rt.down), false, color, color, color, color);
 
 	//bottom
 	addPart(vec2f(0, 1), vec2f(_left, -_bottom), vec2f(1, 1), vec2f(-_right, 0), 
-		   fRect(rt.left + _left, rt.down - _bottom, rt.right - _right, rt.down), color, color, color, color);
+		   fRect(rt.left + _left, rt.down - _bottom, rt.right - _right, rt.down), false, color, color, color, color);
 
 	//right bottom
 	addPart(vec2f(1, 1), vec2f(-_right, -_bottom), vec2f(1, 1), vec2f(0, 0), 
-		   fRect(rt.right - _right, rt.down - _bottom, rt.right, rt.down), color, color, color, color);
+		   fRect(rt.right - _right, rt.down - _bottom, rt.right, rt.down), false, color, color, color, color);
 
 	updateMesh();
+	initializeProperties();
 }
 
 cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
@@ -134,13 +140,13 @@ void cStretchRect::createMesh(int partsCount, const grTexture& texture)
 }
 
 int cStretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
-	                       const fRect& texRect, 
+	                       const fRect& texRect, bool wrapTexture /*= false*/, 
 						   const color4& vertex0Color /*= color4::white()*/, 
 						   const color4& vertex1Color /*= color4::white()*/, 
 						   const color4& vertex2Color /*= color4::white()*/, 
 						   const color4& vertex3Color /*= color4::white()*/ )
 {
-	mParts.push_back(Part(LTPercent, LTPixel, RBPercent, RBPixel, texRect, vertex0Color, vertex1Color, vertex2Color,
+	mParts.push_back(Part(LTPercent, LTPixel, RBPercent, RBPixel, texRect, wrapTexture, vertex0Color, vertex1Color, vertex2Color,
 		                  vertex3Color));
 	mNeedUpdateMesh = true;
 
@@ -222,11 +228,22 @@ void cStretchRect::updateMesh()
 		color4 colors[4] = { it->mVertexColors[0], it->mVertexColors[1], it->mVertexColors[2], it->mVertexColors[3] };
 		for(int j = 0; j < 4; j++)
 			colors[j].a = (int)((float)colors[j].a*mTransparency);
+
+		float ltex = it->mTextureSrcRect.left*invTexSize.x;
+		float ttex = it->mTextureSrcRect.top*invTexSize.y;
+		float rtex = it->mTextureSrcRect.right*invTexSize.x;
+		float btex = it->mTextureSrcRect.down*invTexSize.y;
+
+		if (it->mWrapTexture)
+		{
+			rtex *= (rbPoint.x - ltPoint.x)/it->mTextureSrcRect.getSizeX();
+			btex *= (rbPoint.y - ltPoint.y)/it->mTextureSrcRect.getSizeY();
+		}
 		
-		mMesh->mVerticies[i*4    ].set(ltPoint,                     1.0f, colors[0].dword(), it->mTextureSrcRect.left*invTexSize.x, it->mTextureSrcRect.top*invTexSize.y);
-		mMesh->mVerticies[i*4 + 1].set(vec2f(rbPoint.x, ltPoint.y), 1.0f, colors[1].dword(), it->mTextureSrcRect.right*invTexSize.x, it->mTextureSrcRect.top*invTexSize.y);
-		mMesh->mVerticies[i*4 + 2].set(rbPoint,                     1.0f, colors[2].dword(), it->mTextureSrcRect.right*invTexSize.x, it->mTextureSrcRect.down*invTexSize.y);
-		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), 1.0f, colors[3].dword(), it->mTextureSrcRect.left*invTexSize.x, it->mTextureSrcRect.down*invTexSize.y);
+		mMesh->mVerticies[i*4    ].set(ltPoint,                     1.0f, colors[0].dword(), ltex, ttex);
+		mMesh->mVerticies[i*4 + 1].set(vec2f(rbPoint.x, ltPoint.y), 1.0f, colors[1].dword(), rtex, ttex);
+		mMesh->mVerticies[i*4 + 2].set(rbPoint,                     1.0f, colors[2].dword(), rtex, btex);
+		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), 1.0f, colors[3].dword(), ltex, btex);
 	}
 
 	mMesh->mVertexCount = mParts.size()*4;

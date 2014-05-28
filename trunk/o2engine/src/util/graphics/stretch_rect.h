@@ -21,10 +21,12 @@ class cStretchRect:public cSerializableObj
 		vec2f  mRBPosPercent;
 		vec2f  mRBPosPixel;
 		fRect  mTextureSrcRect;
+		bool   mWrapTexture;
 		color4 mVertexColors[4];
 
 		Part();
-		Part(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, const fRect& texRect,
+		Part(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
+			 const fRect& texRect, bool wrapTexture = false,
 			 const color4& vertex0Color = color4::white(), const color4& vertex1Color = color4::white(), 
 			 const color4& vertex2Color = color4::white(), const color4& vertex3Color = color4::white());
 	};
@@ -50,7 +52,8 @@ public:
 
 	cStretchRect& operator=(const cStretchRect& stretchRect);
 
-	int addPart(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, const fRect& texRect,
+	int addPart(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
+		        const fRect& texRect, bool wrapTexture = false,
 			    const color4& vertex0Color = color4::white(), const color4& vertex1Color = color4::white(), 
 			    const color4& vertex2Color = color4::white(), const color4& vertex3Color = color4::white());
 

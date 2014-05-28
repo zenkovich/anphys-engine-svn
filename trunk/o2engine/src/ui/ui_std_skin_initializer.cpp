@@ -1,6 +1,7 @@
 #include "ui_std_skin_initializer.h"
 
 #include "ui_button.h"
+#include "ui_rect.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,6 +15,7 @@ void uiStdSkinInitializer::initialize()
 	mSkinManager = mnew uiSkinManager();
 
 	initButton();
+	initBackground();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -34,7 +36,6 @@ void uiStdSkinInitializer::initButton()
 	const int rectBorderBottom = 14;
 
 	shared<uiButton> button = mnew uiButton(uiStaightPixelLayout(vec2f(), vec2f(50, 50)));
-	uiButton::RectsVec drawables = button->getDrawables();
 
 	//drawables
 	shared<cStretchRect> regDrawable = mnew cStretchRect(
@@ -53,13 +54,38 @@ void uiStdSkinInitializer::initButton()
 		grTexture::createFromFile(pressedDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 
 	//adding drawables
-	drawables.push_back(shadowDrawable);
-	drawables.push_back(focusDrawable);
-	drawables.push_back(regDrawable);
-	drawables.push_back(hoverDrawable);
-	drawables.push_back(pressedDrawable);
+	button->addDrawable(shadowDrawable);
+	button->addDrawable(focusDrawable);
+	button->addDrawable(regDrawable);
+	button->addDrawable(hoverDrawable);
+	button->addDrawable(pressedDrawable);
 
 	mSkinManager->setButtonSample(button);
+}
+
+void uiStdSkinInitializer::initBackground()
+{
+	const string basicBackgroundTexName = "ui_skin/background";
+	const string shadowTexName = "ui_skin/background_shadow";
+
+	shared<uiRect> background = mnew uiRect(uiStaightPixelLayout(vec2f(), vec2f(50, 50)), "bgSample");
+	shared<uiRect> shadow = mnew uiRect(uiBothLayout(vec2f()), "shadow"); 
+
+
+	grTexture basicBackgroundTex = grTexture::createFromFile(basicBackgroundTexName);
+	grTexture shadowTex = grTexture::createFromFile(shadowTexName);
+
+	shadow->mStretchRect = cStretchRect(1, shadowTex);
+	shadow->mStretchRect.addPart(vec2f(0, 0), vec2f(0, 0), vec2f(1, 1), vec2f(0, 0), 
+		                         fRect(vec2f(), shadowTex.getSize()));
+
+	background->mStretchRect = cStretchRect(1, basicBackgroundTex);
+	background->mStretchRect.addPart(vec2f(0, 0), vec2f(0, 0), vec2f(1, 1), vec2f(0, 0), 
+		                             fRect(vec2f(), basicBackgroundTex.getSize()), true);
+
+	background->addChild(shadow);
+
+	mSkinManager->setBackgroundSamble(background);
 }
 
 CLOSE_O2_NAMESPACE

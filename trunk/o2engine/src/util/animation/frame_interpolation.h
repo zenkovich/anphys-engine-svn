@@ -43,7 +43,7 @@ public:
 	}
 
 	/** Interpolate value with coeficient. */
-	void getValue(T& value, float coef)
+	T getValue(float coef)
 	{		
 		float frameCoef;
 		switch (mInterpolationType)
@@ -61,9 +61,9 @@ public:
 		}
 
 		if (mBezier) 
-			value = interpolateBezier<T>(mBeginValue, mSupportValueBegin, mSupportValueEnd, mEndValue, frameCoef);
+			return interpolateBezier<T>(mBeginValue, mSupportValueBegin, mSupportValueEnd, mEndValue, frameCoef);
 		else
-			value = interpolate<T>(mBeginValue, mEndValue, frameCoef);
+			return interpolate<T>(mBeginValue, mEndValue, frameCoef);
 	}
 };
 

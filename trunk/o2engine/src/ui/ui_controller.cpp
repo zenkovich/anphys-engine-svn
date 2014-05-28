@@ -1,86 +1,54 @@
 #include "ui_controller.h"
 
 #include "app/application.h"
+#include "render_system/render_system.h"
 
 OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(uiController);
 
 uiController::uiController():
-	mFocusWidget(NULL)
+	mFocusWidget(NULL), mBasicWidget(uiWidgetLayout(), "UIController")
 {
 }
 
 uiController::~uiController()
 {
-	removeAllWidgets();
 }
 
 void uiController::update(float dt)
 {
-	FOREACH(WidgetsVec, mWidgets, widget)
-		(*widget)->update(dt);
-
-	FOREACH_BACK(WidgetsVec, mWidgets, widget)
-		if ((*widget)->processInputMessage(*appInput()))
-			return;
+	mBasicWidget.size = renderSystem()->getResolution();
+	mBasicWidget.update(dt);
+	mBasicWidget.processInputMessage(*appInput());
 }
 
 void uiController::draw()
 {
-	FOREACH(WidgetsVec, mWidgets, widget)
-		(*widget)->draw();
+	mBasicWidget.draw();
 }
 
 shared<uiWidget> uiController::addWidget(const shared<uiWidget>& widget)
 {
-	mWidgets.push_back(widget);
+	mBasicWidget.addChild(widget);
 	return widget;
 }
 
 bool uiController::removeWidget(const shared<uiWidget>& widget)
 {
-	WidgetsVec::iterator fnd = FIND(mWidgets, widget);
-	if (fnd == mWidgets.end())
-		return false;
-
-	safe_release( shared<uiWidget>(widget));
-	mWidgets.erase(fnd);
+	mBasicWidget.removeChild(widget);
 	return true;
 }
 
 bool uiController::removeAllWidgets()
 {
-	if (mWidgets.size() == 0)
-		return false;
-
-	FOREACH(WidgetsVec, mWidgets, widget)
-		safe_release(*widget);
-
-	mWidgets.clear();
+	mBasicWidget.removeAllChilds();
 	return true;
 }
 
 shared<uiWidget> uiController::getWidget(const string& idPath)
 {
-	int delPos = idPath.find("/");
-	string pathPart = idPath.substr(0, delPos);
-
-	if (pathPart == "..")
-		return NULL;
-
-	FOREACH(WidgetsVec, mWidgets, it)
-	{
-		if ((*it)->mId == pathPart)
-		{
-			if (delPos == idPath.npos)
-				return (*it);
-			else
-				return (*it)->getWidget(idPath.substr(delPos + 1));
-		}
-	}
-
-	return NULL;
+	return mBasicWidget.getWidget(idPath);
 }
 
 void uiController::focusOnWidget(const shared<uiWidget>& widget)
@@ -93,8 +61,8 @@ void uiController::focusOnWidget(const shared<uiWidget>& widget)
 	if (mFocusWidget)
 	{
 		mFocusWidget->onFocusLost();
-		mWidgets.erase( FIND(mWidgets, mFocusWidget) );
-		mWidgets.push_back(mFocusWidget);
+		mBasicWidget.mChildWidgets.erase( FIND(mBasicWidget.mChildWidgets, mFocusWidget) );
+		mBasicWidget.mChildWidgets.push_back(mFocusWidget);
 	}
 }
 

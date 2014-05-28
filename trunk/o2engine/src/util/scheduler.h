@@ -10,7 +10,7 @@
 OPEN_O2_NAMESPACE
 
 /** Scheduler class. Processing tasks at begin and end frame. */
-class cScheduler: public cSingleton<cScheduler>
+class cScheduler: public cSingleton<cScheduler>, public ShareObj
 {
 	friend class cApplication;
 	friend class cApplicationBaseInterface;
@@ -21,7 +21,7 @@ public:
 
 protected:
 	/** Task container struct. */
-	struct Task
+	struct Task: public virtual ShareObj
 	{
 		float                mDelay;               /** Delay to next execution. */
 		float                mRepeatDelay;         /** Repeat delay. If no repeat == -1. */

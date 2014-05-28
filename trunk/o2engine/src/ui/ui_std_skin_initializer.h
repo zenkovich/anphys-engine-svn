@@ -17,6 +17,7 @@ public:
 
 protected:
 	static void initButton();
+	static void initBackground();
 };
 
 CLOSE_O2_NAMESPACE

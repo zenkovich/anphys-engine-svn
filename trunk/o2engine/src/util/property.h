@@ -22,6 +22,15 @@ public:
 	/** ctor. */
 	cProperty():mSetter(NULL), mGetter(NULL), mClass(NULL) {}
 
+	cProperty(_class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
+	{
+		mClass = tclass;
+		mSetter = setterConst ? NULL:setterFunc;
+		mSetterNonConst = setterConst ? setterFunc:NULL;
+		mGetter = getterConst ? NULL:getterFunc;
+		mGetterNonConst = getterConst ? getterFunc:NULL;
+	}
+
 	/** Initialization of property. */
 	void init(_class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)() const)
 	{
@@ -69,7 +78,7 @@ public:
 	}
 
 	/** Returns value. */
-	_type get() 
+	_type get() const
 	{
 		return mGetter != NULL ? (mClass->*mGetter)():(mClass->*mGetterNonConst)();
 	}
@@ -132,9 +141,27 @@ public:
 		return get() / value;
 	}
 
+	void copy(cProperty& prop) const
+	{
+		prop.mClass = mClass;
+		prop.mSetterNonConst = mSetterNonConst;
+		prop.mSetter = mSetter;
+		prop.mGetter = mGetter;
+		prop.mGetterNonConst = mGetterNonConst;
+	}
+
 protected:
 	/** Please, don't copy this. */
-	cProperty& operator=(const cProperty& prop) { return *this; }
+	cProperty& operator=(const cProperty& prop) 
+	{ 
+		mClass = prop.mClass;
+		mSetterNonConst = prop.mSetterNonConst;
+		mSetter = prop.mSetter;
+		mGetter = prop.mGetter;
+		mGetterNonConst = prop.mGetterNonConst;
+
+		return *this; 
+	}
 };
 
 /** Simple macros for highlighting. */

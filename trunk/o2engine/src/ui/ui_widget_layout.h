@@ -29,7 +29,7 @@ struct uiWidgetLayout
 
 uiWidgetLayout uiStaightPixelLayout(const vec2f& position, const vec2f& size);
 
-uiWidgetLayout uiBothLayout(const vec2f& border);
+uiWidgetLayout uiBothLayout(const vec2f& border = vec2f());
 
 CLOSE_O2_NAMESPACE
 
