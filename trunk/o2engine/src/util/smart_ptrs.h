@@ -276,8 +276,8 @@ public:
 
 				if (mBasics->mRefCount > 0)
 					SharedsErrorOut("Possible using destroyed object - there are %i links on this object", false);
-
-				mBasics->mValid = false;
+				else
+					SharedBasics::instance->free(mBasics);
 
 				initialize(NULL);
 			}

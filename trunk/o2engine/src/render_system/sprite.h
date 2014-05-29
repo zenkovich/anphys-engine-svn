@@ -4,7 +4,7 @@
 #include "public.h"
 
 #include "texture.h"
-#include "util/objects.h"
+#include "util/graphics/rect_drawable.h"
 #include "util/property.h"
 #include "util/math/vector2.h"
 #include "util/math/rect.h"
@@ -17,28 +17,23 @@ class grMesh;
 class grRenderSystem;
 	
 /** Sprite, just a quad with texture. */
-class grSprite:public IDrawable
+class grSprite: public IRectDrawable
 {
-	vec2f   mPosition;       /** Position of the sprite. All sprite position already depends on mPivot too. */
-	vec2f   mSize;           /** Size of sprite, in pixels. Real sprite size is mSize*mScale. */
-	vec2f   mScale;          /** Scale of sprite. Real sprite size is mSize*mScale. */
-	float   mAngle;          /** Rotation angle. */
-	vec2f   mPivot;          /** Pivot position, in pixels. */
-	fRect   mTextureSrcRect; /** texture src rect. */
+	vec2f          mScale;           /** Scale of sprite. Real sprite size is mSize*mScale. */
+	float          mAngle;           /** Rotation angle. */
+	fRect          mTextureSrcRect;  /** texture src rect. */
+	color4         mVertexColors[4]; /** Vertex colors. */
 
 	shared<grMesh> mMesh;                    /** Mesh. */
 
 	bool           mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
 	bool           mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
+	bool           mNeedUpdateMeshColors;    /** True, when mesh vertex colors needs to update. */
 
 public:
 	//properties
-	PROPERTY(grSprite, vec2f)     position;       /** Position property. Uses set/getPosition. */
-	PROPERTY(grSprite, vec2f)     size;           /** Size property. Uses set/getSize. */
 	PROPERTY(grSprite, vec2f)     scale;          /** Scale property. Uses set/getScale. */
 	PROPERTY(grSprite, float)     angle;          /** Angle property. Uses set/getAngle. */
-	PROPERTY(grSprite, vec2f)     pivot;          /** Pivot property. Uses set/getPivot. */
-	PROPERTY(grSprite, vec2f)     relativePivot;  /** Relative pivot property. Uses set/getRelativePivot. */
 	PROPERTY(grSprite, fRect)     textureSrcRect; /** Texture src rect property. Uses set/getTextureSrcRect. */	
 	PROPERTY(grSprite, grTexture) texture;        /** Texture property. uses set/getTexture. */
 
@@ -52,9 +47,9 @@ public:
 	 *  @param rotationCenter - center of sprite rotation
 	 *  @param color          - color of the sprite. */
 	grSprite(grTexture texture = grTexture(), const fRect& textureSrcRect = fRect(-1.0f, 0.0f, 0.0f, 0.0f), 
-		     const vec2f& position = vec2f(0.0f, 0.0f), const vec2f& size = vec2f(-1.0f, 0.0f), 
-			 const vec2f& scale = vec2f(1.0f, 1.0f), float angle = 0, const vec2f& rotationCenter = vec2f(0.0f, 0.0f),
-			 const color4& color = color4(1.0f, 1.0f, 1.0f, 1.0f));
+		     const vec2f& position = vec2f(), const vec2f& size = vec2f(-1.0f, 0.0f), 
+			 const vec2f& scale = vec2f(1.0f, 1.0f), float angle = 0, const vec2f& pivot = vec2f(),
+			 const color4& color = color4::white());
 
 	//grSprite(grRenderSystem* render, cDataObject& dataObject);
 	
@@ -75,12 +70,6 @@ public:
 	/** Drawing that sprite. */
 	void draw();
 
-	/** Sets position of sprite. */
-	void setPosition(const vec2f& position);
-
-	/** Returns position of sprite. */
-	vec2f getPosition() const;
-
 	/** Sets scale of sprite. */
 	void setScale(const vec2f& scale);
 
@@ -92,18 +81,6 @@ public:
 
 	/** Returns angle of sprite. */
 	float getAngle() const;
-
-	/** Sets rotation center of sprite. */
-	void setPivot(const vec2f& center);
-
-	/** Returns rotation center of sprite. */
-	vec2f getPivot() const;
-
-	/** Sets relative pivot. */
-	void setRelativePivot(const vec2f& relCenter);
-
-	/** Returns relative pivot position. */
-	vec2f getRelativePivot() const;
 
 	/** Sets texture source rect of sprite. */
 	void setTextureSrcRect(const fRect& rect);
@@ -117,21 +94,20 @@ public:
 	/** Returns texture of sprite. */
 	grTexture getTexture() const;
 
-	/** Sets size of sprite. */
-	void setSize(const vec2f& size);
-
-	/** Returns size of sprite. */
-	vec2f getSize() const;
-
-	/** Sets the color of vertex sprite. If vertex id < 0 - setting color for all sprite. */
-	void setColor(const color4& color, int vertexId = -1);
+	/** Sets the color of vertex sprite. */
+	void setVertexColor(const color4& color, int vertexId);
 
 	/** Returns color of the sprite vertex. */
-	color4 getColor(int vertexId = 0);
+	color4 getVertexColor(int vertexId) const;
 
 	SERIALIZE_METHOD_DECL();
 
-protected:
+protected:	
+	void positionChanged();
+	void sizeChanged();
+	void pivotChanged();
+	void colorChanged();
+
 	/** Initializing properties. */
 	void initializeProperties();
 
@@ -140,6 +116,9 @@ protected:
 
 	/** Updating mesh vertices texture coords. */
 	void updateMeshTexCoords();
+
+	/** Updating mesh verticies colors. */
+	void updateMeshColors();
 };
 
 CLOSE_O2_NAMESPACE

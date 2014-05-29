@@ -76,12 +76,15 @@ struct color4
 
 	inline color4 operator*(const color4& v) const
 	{ 
-		return color4(r*v.r, g*v.g, b*v.g, a*v.a);
+		return color4(r*v.r/255, g*v.g/255, b*v.g/255, a*v.a/255);
 	}
 
 	inline color4 operator/(const color4& v) const
 	{ 
-		return color4(r/v.r, g/v.g, b/v.g, a/v.a);
+		return color4( (int)( 255.0f*(rf()/v.rf()) ),
+			           (int)( 255.0f*(gf()/v.gf()) ),
+					   (int)( 255.0f*(bf()/v.bf()) ),
+					   (int)( 255.0f*(af()/v.af()) ) );
 	}
 
 	inline color4 operator*=(const color4& v) const
@@ -89,7 +92,7 @@ struct color4
 		return *this*v; 
 	}
 
-	inline bool operator==(const color4& color)
+	inline bool operator==(const color4& color) const
 	{
 		return !(a != color.a || r != color.r || g != color.g || b != color.b);
 	}
@@ -185,6 +188,7 @@ struct color4
 	static color4 red() { return color4(255, 0, 0, 255); }
 	static color4 blue() { return color4(0, 0, 255, 255); }
 	static color4 green() { return color4(0, 255, 0, 255); }
+	static color4 someColor(int idx) { return color4((idx*33)%255, (idx*58)%255, (idx*77)%255, 255); }
 };
 
 CLOSE_O2_NAMESPACE

@@ -48,7 +48,7 @@ void TestApp::onUpdate( float dt )
 
 void TestApp::onDraw()
 {
-	mRenderSystem->clear(color4(100, 0, 0, 255));
+	mRenderSystem->clear(color4::white());
 	mTest->draw();
 }
 

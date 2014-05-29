@@ -119,6 +119,11 @@ struct vec2
 		return vec2(x*v.x, y*v.y);
 	}	
 
+	inline vec2 invScale(const vec2& v) const
+	{
+		return vec2(x/v.x, y/v.y);
+	}
+
 	inline T& get(int i) 
 	{ 
 		if (i == 0) return x; 

@@ -3,10 +3,19 @@
 OPEN_O2_NAMESPACE
 
 IRectDrawable::IRectDrawable(const vec2f& size /*= vec2f()*/, const vec2f& position /*= vec2f()*/, 
-                             float rotation /*= 0.0f*/, const color4& color /*= color4::white()*/, 
-							 const vec2f& pivot /*= vec2f()*/):
-	mPivot(pivot), mPosition(position), mSize(size), mRotation(rotation), mColor(color)
+                             const color4& color /*= color4::white()*/, const vec2f& pivot /*= vec2f()*/):
+	mPivot(pivot), mPosition(position), mSize(size), mColor(color)
 {
+	initializeProperties();
+}
+
+IRectDrawable::IRectDrawable( const IRectDrawable& drawable )
+{
+	mPosition = drawable.mPosition;
+	mPivot = drawable.mPivot;
+	mSize = drawable.mSize;
+	mColor = drawable.mColor;
+
 	initializeProperties();
 }
 
@@ -54,12 +63,12 @@ vec2f IRectDrawable::getPivot() const
 
 void IRectDrawable::setRect(const fRect& rect)
 {
-	vec2f lt = mPosition - mPivot.scale(mSize);
+	vec2f lt = mPosition - mPivot;
 	if (equals(lt, rect.getltCorner()) && equals(lt + mSize, rect.getrdCorner()))
 		return;
 
 	mSize = rect.getSize();
-	mPosition = rect.getltCorner() + mPivot.scale(mSize);
+	mPosition = rect.getltCorner() + mPivot;
 
 	positionChanged();
 	sizeChanged();
@@ -67,7 +76,7 @@ void IRectDrawable::setRect(const fRect& rect)
 
 fRect IRectDrawable::getRect() const
 {
-	vec2f lt = mPosition - mPivot.scale(mSize);
+	vec2f lt = mPosition - mPivot;
 	return fRect(lt, lt + mSize);
 }
 
@@ -85,20 +94,6 @@ color4 IRectDrawable::getColor() const
 	return mColor;
 }
 
-void IRectDrawable::setRotation(float rotation)
-{
-	if (equals(rotation, mRotation))
-		return;
-
-	mRotation = rotation;
-	rotationChanged();
-}
-
-float IRectDrawable::getRotation() const
-{
-	return mRotation;
-}
-
 void IRectDrawable::setTransparency(float transparency)
 {
 	if (equals(mColor.af(), transparency))
@@ -113,13 +108,23 @@ float IRectDrawable::getTransparency() const
 	return mColor.af();
 }
 
+void IRectDrawable::setRelativePivot( const vec2f& relPivot )
+{
+	setPivot(relPivot.scale(mSize));
+}
+
+vec2f IRectDrawable::getRelativePivot() const
+{
+	return mPivot.invScale(mSize);
+}
+
 void IRectDrawable::initializeProperties()
 {
 	position.init(this, &IRectDrawable::setPosition, &IRectDrawable::getPosition);
 	size.init(this, &IRectDrawable::setSize, &IRectDrawable::getSize);
 	pivot.init(this, &IRectDrawable::setPivot, &IRectDrawable::getPivot);
+	relPivot.init(this, &IRectDrawable::setRelativePivot, &IRectDrawable::getRelativePivot);
 	rect.init(this, &IRectDrawable::setRect, &IRectDrawable::getRect);
-	rotation.initNonConstSetter(this, &IRectDrawable::setRotation, &IRectDrawable::getRotation);
 	transparency.initNonConstSetter(this, &IRectDrawable::setTransparency, &IRectDrawable::getTransparency);
 	color.init(this, &IRectDrawable::setColor, &IRectDrawable::getColor);
 }
