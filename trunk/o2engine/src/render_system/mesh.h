@@ -15,7 +15,7 @@ OPEN_O2_NAMESPACE
 class grRenderSystem;
 
 /** Triangles mesh. Containing verticies, indeces of polygons, texture. */
-class grMesh: public virtual IDrawable, public virtual ShareObj
+class grMesh: public virtual IDrawable
 {
 	friend class grRenderSystem;
 	friend class grSprite;

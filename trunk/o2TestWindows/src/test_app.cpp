@@ -21,7 +21,7 @@ OPEN_O2_NAMESPACE
 TestApp::TestApp():
 	cApplication()
 {
-	setWindowSize(vec2i(800, 600));
+	setContentSize(vec2i(800, 600));
 	setWindowCaption("o2 test");
 	//setOption(cApplicationOption::RESIZIBLE, false);
 

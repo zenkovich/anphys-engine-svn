@@ -14,7 +14,7 @@ class uiRect;
 class uiButton;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
-class uiSkinManager: public cSingleton<uiSkinManager>, public virtual ShareObj
+class uiSkinManager: public cSingleton<uiSkinManager>
 {
 protected:
 	shared<uiButton> mButtonSample;

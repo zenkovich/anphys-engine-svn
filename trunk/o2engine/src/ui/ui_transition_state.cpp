@@ -32,7 +32,7 @@ shared<uiState> uiTransitionState::clone() const
 
 void uiTransitionState::setState(bool state, bool forcible)
 {
-	if (mState == state)
+	if (!forcible && mState == state)
 		return;
 
 	mState = state;
@@ -90,7 +90,7 @@ shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared
 	mProperties.push_back(property);
 
 	if (mOwnerWidget)
-		property->setOwner( getShared<uiTransitionState>(this) );
+		property->setOwner( tempShared<uiTransitionState>(this) );
 
 	return property;
 }
@@ -98,9 +98,10 @@ shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared
 void uiTransitionState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
 {
 	uiState::setOwnerWidget(ownerWidget);
-	shared<uiTransitionState> thisShared = getShared<uiTransitionState>(this);
+	shared<uiTransitionState> thisShared = tempShared<uiTransitionState>(this);
 	FOREACH(PropertiesVec, mProperties, prop)
 		(*prop)->setOwner(thisShared);
+	setState(getState(), true);
 }
 
 CLOSE_O2_NAMESPACE

@@ -116,7 +116,7 @@ bool uiWidget::isInside( const vec2f& point ) const
 		if ((*it)->isInside(point))
 			return true;
 
-	return false;
+	return true;
 }
 
 bool uiWidget::processInputMessage( const cInputMessage& msg )
@@ -144,7 +144,7 @@ shared<uiWidget> uiWidget::clone() const
 
 shared<uiWidget> uiWidget::addChild( shared<uiWidget> widget )
 {
-	widget->setParent( getShared<uiWidget>(this) );
+	widget->setParent( tempShared<uiWidget>(this) );
 	return widget;
 }
 
@@ -173,7 +173,7 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 {
 	if (mParent)
 	{
-		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, getShared<uiWidget>(this) );
+		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, tempShared<uiWidget>(this) );
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
 	}
@@ -264,6 +264,7 @@ vec2f uiWidget::getGlobalPosition() const
 void uiWidget::setSize( const vec2f& size )
 {
 	mLayout.mPxSize = size;
+	mLayout.mMinSize = size;
 	updateLayout();
 }
 
@@ -288,7 +289,7 @@ void uiWidget::setFocused(bool focused)
 		return;
 
 	if (focused)
-		uiHost()->focusOnWidget( getShared<uiWidget>(this) );
+		uiHost()->focusOnWidget( tempShared<uiWidget>(this) );
 	else
 		uiHost()->focusOnWidget(NULL);
 }
@@ -311,13 +312,13 @@ void uiWidget::releaseFocus()
 shared<uiState> uiWidget::addState(const shared<uiState>& state)
 {
 	mStates[state->mName] = state;
-	state->setOwnerWidget( getShared<uiWidget>(this) );
+	state->setOwnerWidget( tempShared<uiWidget>(this) );
 
 	if (state->mName == "visible")
 	{
 		mVisibleState = state;
-		state->onActiveStateEvent.add( getShared<cCallbackChain>(&onVisibleOn) );
-		state->onDeactiveStateEvent.add( getShared<cCallbackChain>(&onVisibleOff) );
+		state->onActiveStateEvent.add( tempShared<cCallbackChain>(&onVisibleOn) );
+		state->onDeactiveStateEvent.add( tempShared<cCallbackChain>(&onVisibleOff) );
 		state->setState(mVisible, true);
 	}
 

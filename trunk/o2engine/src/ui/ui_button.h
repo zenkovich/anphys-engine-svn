@@ -14,9 +14,9 @@ public:
 	typedef vector< shared<cStretchRect> > RectsVec;
 
 protected:
-	shared<uiState> mHoverState;    /** Hover state. Activates when cursor hover widget. */
-	shared<uiState> mFocusedState;  /** Focused state. Activates when widget is focused. */
-	shared<uiState> mPressedState;  /** Pressed state. Activates when button pressed. */
+	shared<uiState> mHoverState;    /** Hover state, must have name "hover". Activates when cursor hover widget. */
+	shared<uiState> mFocusedState;  /** Focused state, must have name "focus". Activates when widget is focused. */
+	shared<uiState> mPressedState;  /** Pressed state, must have name "pressed". Activates when button pressed. */
 	RectsVec        mDrawables;     /** Drawables vector. */
 
 	bool            mHover;

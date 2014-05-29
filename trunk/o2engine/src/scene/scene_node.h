@@ -10,7 +10,7 @@
 
 OPEN_O2_NAMESPACE
 
-class scNode: public virtual ShareObj
+class scNode
 {
 	typedef vector< shared<scComponent> > ComponentsVec;
 	typedef vector< shared<scNode> > NodesVec;

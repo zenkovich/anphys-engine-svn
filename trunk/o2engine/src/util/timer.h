@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Timer class, Containing elapsed time from last getElapsedTime() call and elapsed time from reset() call. */
-class cTimer: public virtual ShareObj
+class cTimer
 {
 	LONGLONG      mLastElapsedTime;
 	LARGE_INTEGER mFrequency;

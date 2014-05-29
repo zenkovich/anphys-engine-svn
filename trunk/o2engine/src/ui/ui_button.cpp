@@ -25,7 +25,10 @@ uiButton::uiButton(const uiButton& button):
 	onFocusLostEvent = button.onFocusLostEvent;
 
 	FOREACH(StatesMap, mStates, state)
-		(*state).second->setOwnerWidget( getShared<uiButton>(this) );
+	{
+		addedState((*state).second);
+		(*state).second->setOwnerWidget( tempShared<uiButton>(this) );
+	}
 }
 
 uiButton::~uiButton()
@@ -57,7 +60,7 @@ void uiButton::addedState(const shared<uiState>& state)
 void uiButton::localDraw()
 {
 	FOREACH(RectsVec, mDrawables, rt)
-		(*rt)->draw();
+		(*rt)->draw(false);
 }
 
 void uiButton::localUpdate(float dt)
@@ -70,8 +73,12 @@ void uiButton::localUpdate(float dt)
 
 void uiButton::layoutUpdated()
 {	
+	float off = 0.0f;
 	FOREACH(RectsVec, mDrawables, rt)
-		(*rt)->setRect(mBounds);
+	{
+		//off += 20.0f;
+		(*rt)->setRect(mBounds + vec2f(off, off));
+	}
 }
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)
