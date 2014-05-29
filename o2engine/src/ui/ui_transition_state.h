@@ -79,8 +79,8 @@ public:
 		cAnimFrame<T>             mStateOff;         /** Off state animation frame. */
 		cAnimFrame<T>             mStateOn;          /** On State animation frame. */
 		cFrameInterpolation<T>    mInterpolator;     /** Frame interpolator. */
-		float                     mTime;             /** Interpolation time. */
-		float                     mInvDuration;      /** Inverted animation duration. */
+		float                     mCoef;             /** Interpolation coeficient. 0 - off state, 1 - on state. */
+		float                     mCoefTime;         /** Coef time multiplier. */
 		bool                      mTargetState;      /** Target state. */
 		bool                      mComplete;         /** True, if animation completed. */
 		shared<ICallback>         mOnChanged;        /** On change callback. */
@@ -96,8 +96,8 @@ public:
 			mStateOff = cAnimFrame<T>(stateOff, duration);
 			mStateOn = cAnimFrame<T>(stateOn, duration);
 			mInterpolator.initialize(&mStateOff, &mStateOn);
-			mTime = 0;
-			mInvDuration = 1.0f;
+			mCoef = 0;
+			mCoefTime = 1.0f;
 			mTargetState = false;
 			mComplete = true;
 			mOnChanged = onChanged;
@@ -113,8 +113,8 @@ public:
 			mStateOff = stateOff;
 			mStateOn = stateOn;
 			mInterpolator.initialize(&mStateOff, &mStateOn);
-			mTime = 0;
-			mInvDuration = 1.0f;
+			mCoef = 0;
+			mCoefTime = 1.0f;
 			mTargetState = false;
 			mComplete = true;
 			mOnChanged = onChanged;
@@ -134,24 +134,26 @@ public:
 		{
 			if (mTargetState)
 			{
-				mTime += dt;
-				if (mTime > mStateOn.mTime)
+				mCoef += dt*mCoefTime;
+				if (mCoef > 1.0f)
 				{
 					mComplete = true;
-					mTime = mStateOn.mTime;
+					mCoef = 1.0f;
 				}
 			}
 			else
 			{
-				mTime -= dt;
-				if (mTime < 0)
+				mCoef -= dt*mCoefTime;
+				if (mCoef < 0)
 				{
-					mTime = 0;
+					mCoef = 0;
 					mComplete = true;
 				}
 			}
 
-			*mProperty = mInterpolator.getValue(mTime*mInvDuration);
+			*mProperty = mInterpolator.getValue(mCoef);
+
+			//printf("coef %.3f value %.3f %s\n", mCoef, mInterpolator.getValue(mCoef), mWidgetPropertyId.c_str());
 
 			mProperty->mOnChange.call();
 
@@ -162,6 +164,9 @@ public:
 		/** Setting state. */
 		void setState(bool state, bool forcible = false)
 		{
+			if (!mProperty)
+				return;
+
 			if (forcible)
 			{
 				mComplete = true;
@@ -172,7 +177,7 @@ public:
 					mProperty->mOnChange.call();
 				}
 
-				mTime = state ? mStateOn.mTime:0.0f;
+				mCoef = state ? 1.0f:0.0f;
 
 				return;
 			}
@@ -181,12 +186,12 @@ public:
 			mTargetState = state;
 			if (mTargetState)
 			{
-				mInvDuration = 1.0f/mStateOn.mTime;
+				mCoefTime = 1.0f/mStateOn.mTime;
 				//mTime = 0;
 			}
 			else
 			{
-				mInvDuration = 1.0f/mStateOff.mTime;
+				mCoefTime = 1.0f/mStateOff.mTime;
 				//mTime = mStateOff.mTime;
 			}
 		}

@@ -7,7 +7,7 @@
 OPEN_O2_NAMESPACE
 
 /** Basic log stream. Contains interfaces of outing data, binding values, parent and child streams. */
-class cLogStream: public ShareObj
+class cLogStream
 {
 protected:
 	/** Type of bind value. */

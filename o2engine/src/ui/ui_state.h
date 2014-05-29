@@ -12,7 +12,7 @@
 OPEN_O2_NAMESPACE
 	
 /** Widget state interface. Widget can get bool parameter and change some parameters from widget. */
-class uiState: public virtual ShareObj
+class uiState
 {
 	friend class uiWidget;
 	friend class uiButton;

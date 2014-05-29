@@ -13,7 +13,7 @@ OPEN_O2_NAMESPACE
 class cObjectWithPropertyList
 {
 public:
-	struct IProperty: public virtual ShareObj
+	struct IProperty
 	{
 		string mId;
 		cCallbackChain mOnChange;

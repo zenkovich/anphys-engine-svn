@@ -7,7 +7,7 @@ uiRect::uiRect(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<u
 {
 
 	getProperty<float>("transparency")->mOnChange.add(
-		callback<uiRect>( getShared<uiRect>(this), &uiRect::transparencyChanged));
+		callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
 }
 
 uiRect::uiRect(const uiRect& rectWidget):
@@ -16,7 +16,7 @@ uiRect::uiRect(const uiRect& rectWidget):
 	mStretchRect = rectWidget.mStretchRect;
 
 	getProperty<float>("transparency")->mOnChange.add(
-		callback<uiRect>( getShared<uiRect>(this), &uiRect::transparencyChanged));
+		callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
 }
 
 uiRect::~uiRect()

@@ -2,6 +2,8 @@
 
 #include "ui_button.h"
 #include "ui_rect.h"
+#include "ui_transition_state.h"
+#include "util\string.h"
 
 OPEN_O2_NAMESPACE
 
@@ -35,6 +37,13 @@ void uiStdSkinInitializer::initButton()
 	const int rectBorderRight = 14;
 	const int rectBorderBottom = 14;
 
+	const float hoverDelayOn = 0.1f;
+	const float hoverDelayOff = 0.3f;
+	const float pressingDelayOn = 0.01f;
+	const float pressingDelayOff= 0.1f;
+	const float focusingDelayOn = 0.2f;
+	const float focusingDelayOff= 0.2f;
+
 	shared<uiButton> button = mnew uiButton(uiStaightPixelLayout(vec2f(), vec2f(50, 50)));
 
 	//drawables
@@ -54,12 +63,44 @@ void uiStdSkinInitializer::initButton()
 		grTexture::createFromFile(pressedDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 
 	//adding drawables
-	button->addDrawable(shadowDrawable);
-	button->addDrawable(focusDrawable);
-	button->addDrawable(regDrawable);
-	button->addDrawable(hoverDrawable);
-	button->addDrawable(pressedDrawable);
+	int shadowDrawableIdx = button->addDrawable(shadowDrawable);
+	int focusDrawableIdx = button->addDrawable(focusDrawable);
+	int regDrawableIdx = button->addDrawable(regDrawable);
+	int hoverDrawableIdx = button->addDrawable(hoverDrawable);
+	int pressedDrawableIdx = button->addDrawable(pressedDrawable);
 
+	//hover state
+	shared<uiTransitionState> hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(
+		format("drawable_%i_transparency", hoverDrawableIdx), 
+		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
+
+	//pressed state
+	shared<uiTransitionState> pressedState = mnew uiTransitionState("pressed");
+	pressedState->addProperty(
+		format("drawable_%i_transparency", pressedDrawableIdx), 
+		cAnimFrame<float>(0.0f, pressingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, pressingDelayOn, false, IT_LINEAR));
+
+	pressedState->addProperty(
+		format("drawable_%i_transparency", shadowDrawableIdx), 
+		cAnimFrame<float>(1.0f, pressingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(0.0f, pressingDelayOn, false, IT_LINEAR));
+
+	//focus state
+	shared<uiTransitionState> focusState = mnew uiTransitionState("focus");
+	focusState->addProperty(
+		format("drawable_%i_transparency", focusDrawableIdx), 
+		cAnimFrame<float>(0.0f, focusingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, focusingDelayOn, false, IT_LINEAR));
+	
+	//adding states
+	button->addState(hoverState);
+	button->addState(pressedState);
+	button->addState(focusState);
+
+	//set as sample in skin manager
 	mSkinManager->setButtonSample(button);
 }
 

@@ -11,7 +11,7 @@ class grFont;
 class grRenderSystem;
 
 /** Font manager. Containing set of fonts, loading/unloading fonts. */
-class grFontManager: public virtual ShareObj
+class grFontManager
 {
 	friend class grRenderSystemBaseInterface;
 	friend class shared<grFontManager>;

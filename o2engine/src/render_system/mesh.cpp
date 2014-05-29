@@ -23,8 +23,8 @@ grMesh::grMesh( const grMesh& mesh ):
 	mVertexCount = mesh.mVertexCount;
 	mPolyCount = mesh.mPolyCount;
 
-	memcpy(mVerticies, mesh.mVerticies, mesh.mVertexCount*sizeof(vertex2));
-	memcpy(mIndexes, mesh.mIndexes, mesh.mPolyCount*3*sizeof(uint16));
+	memcpy(mVerticies, mesh.mVerticies, mesh.mMaxVertexCount*sizeof(vertex2));
+	memcpy(mIndexes, mesh.mIndexes, mesh.mMaxPolyCount*3*sizeof(uint16));
 
 	initializeProperties();
 }
@@ -62,7 +62,7 @@ void grMesh::resize( uint32 vertexCount, uint32 polyCount )
 
 void grMesh::draw()
 {
-	renderSystem()->drawMesh( getShared<grMesh>(this) );
+	renderSystem()->drawMesh( tempShared<grMesh>(this) );
 }
 
 uint32 grMesh::getMaxVertexCount() const

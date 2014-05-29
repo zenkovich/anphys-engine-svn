@@ -1,0 +1,11 @@
+Initializing OpenGL render..
+GL_VENDOR: NVIDIA Corporation
+GL_RENDERER: GeForce GTX 650 Ti BOOST/PCIe/SSE2
+GL_VERSION: 4.3.0
+Created texture 'ui_skin/btn_regular'
+Created texture 'ui_skin/btn_shadow'
+Created texture 'ui_skin/btn_hover'
+Created texture 'ui_skin/btn_glow'
+Created texture 'ui_skin/btn_pressed'
+Created texture 'ui_skin/background'
+Created texture 'ui_skin/background_shadow'

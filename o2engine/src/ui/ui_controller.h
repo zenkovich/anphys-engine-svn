@@ -9,7 +9,7 @@
 OPEN_O2_NAMESPACE
 
 /** User interface controller. Processing and drawing widgets. */
-class uiController: public cSingleton<uiController>, public virtual ShareObj
+class uiController: public cSingleton<uiController>
 {
 	typedef vector< shared<uiWidget> > WidgetsVec;
 

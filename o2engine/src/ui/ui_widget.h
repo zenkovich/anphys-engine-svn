@@ -21,7 +21,7 @@ class cGeometry;
 class uiState;
 
 /** Basic widget object. Contains id, parent, childes, position and other strange data. */
-class uiWidget: public cObjectWithPropertyList, public virtual ShareObj
+class uiWidget: public cObjectWithPropertyList
 {
 	friend class uiController;
 	friend class uiState;

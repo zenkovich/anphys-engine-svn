@@ -24,7 +24,7 @@ cApplication::cApplication():
 	mRenderSystem = mnew grRenderSystem();
 
 	cDeviceInfo::initializeSingleton();
-	deviceInfo()->initialize( getShared<cApplication>(this) );
+	deviceInfo()->initialize( tempShared<cApplication>(this) );
 }
 
 cApplication::~cApplication()
