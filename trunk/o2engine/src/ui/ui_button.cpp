@@ -2,6 +2,8 @@
 
 #include "util/graphics/stretch_rect.h"
 #include "util/string.h"
+#include "util/time_utils.h"
+#include "app/application.h"
 
 OPEN_O2_NAMESPACE
 
@@ -86,6 +88,11 @@ void uiButton::layoutUpdated()
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 {
+	hlog("button processing %.i cursorPos %i %i", timeUtils()->getCurrentFrame(), (int)(appInput()->getCursorPos()).x, (int)(appInput()->getCursorPos()).y);
+
+	if (timeUtils()->getCurrentFrame() == 5000)
+		mHover = mHover;
+
 	mHover = true;
 
 	if (msg.isCursorPressed())
@@ -94,8 +101,10 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 
 		if (mPressedState)
 			mPressedState->setState(true);
+
+		makeFocused();
 	}
-	else if (msg.isCursorReleased())
+	else if (msg.isCursorReleased() && mFocused)
 	{
 		mPressed = false;
 
@@ -123,6 +132,9 @@ void uiButton::onFocusLost()
 
 	if (mFocusedState)
 		mFocusedState->setState(false);
+
+	if (mPressedState)
+		mPressedState = false;
 }
 
 int uiButton::addDrawable(const shared<cStretchRect>& drawable)

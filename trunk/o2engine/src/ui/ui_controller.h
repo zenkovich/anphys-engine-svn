@@ -15,6 +15,7 @@ class uiController: public cSingleton<uiController>
 
 	uiWidget         mBasicWidget;
 	shared<uiWidget> mFocusWidget; /** Focused widget. */
+	bool             mChangedFocusWidget;
 
 public:
 	/** ctor. */

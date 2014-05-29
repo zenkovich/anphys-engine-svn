@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 DECLARE_SINGLETON(uiController);
 
 uiController::uiController():
-	mFocusWidget(NULL), mBasicWidget(uiWidgetLayout(), "UIController")
+	mFocusWidget(NULL), mBasicWidget(uiWidgetLayout(), "UIController"), mChangedFocusWidget(false)
 {
 }
 
@@ -18,6 +18,15 @@ uiController::~uiController()
 
 void uiController::update(float dt)
 {
+	if (mChangedFocusWidget)
+	{
+		mFocusWidget->onFocused();
+		mBasicWidget.mChildWidgets.erase( FIND(mBasicWidget.mChildWidgets, mFocusWidget) );
+		mBasicWidget.mChildWidgets.push_back(mFocusWidget);
+
+		mChangedFocusWidget = false;
+	}
+
 	mBasicWidget.size = renderSystem()->getResolution();
 	mBasicWidget.update(dt);
 	mBasicWidget.processInputMessage(*appInput());
@@ -59,11 +68,7 @@ void uiController::focusOnWidget(const shared<uiWidget>& widget)
 	mFocusWidget = widget;
 
 	if (mFocusWidget)
-	{
-		mFocusWidget->onFocusLost();
-		mBasicWidget.mChildWidgets.erase( FIND(mBasicWidget.mChildWidgets, mFocusWidget) );
-		mBasicWidget.mChildWidgets.push_back(mFocusWidget);
-	}
+		mChangedFocusWidget = true;
 }
 
 CLOSE_O2_NAMESPACE
