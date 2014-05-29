@@ -106,7 +106,8 @@ inline bool equals(float a, float b)
 }
 
 template<typename T>
-inline bool equals(const T& a, const T& b) {
+inline bool equals(const T& a, const T& b)
+{
 	return a == b;
 }
 

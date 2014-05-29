@@ -155,7 +155,7 @@ public:
 
 			//printf("coef %.3f value %.3f %s\n", mCoef, mInterpolator.getValue(mCoef), mWidgetPropertyId.c_str());
 
-			mProperty->mOnChange.call();
+			mProperty->onChangeEvent.call();
 
 			if (mOnChanged)
 				mOnChanged->call();
@@ -174,7 +174,7 @@ public:
 				if (mStateOwner)
 				{
 					*mProperty = mInterpolator.getValue(state ? 1.0f:0.0f);
-					mProperty->mOnChange.call();
+					mProperty->onChangeEvent.call();
 				}
 
 				mCoef = state ? 1.0f:0.0f;

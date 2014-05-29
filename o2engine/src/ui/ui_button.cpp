@@ -59,8 +59,11 @@ void uiButton::addedState(const shared<uiState>& state)
 
 void uiButton::localDraw()
 {
-	FOREACH(RectsVec, mDrawables, rt)
-		(*rt)->draw(false);
+	FOREACH(RectsVec, mDrawables, rt) 
+	{
+		(*rt)->draw();
+		//(*rt)->drawDebug();
+	}
 }
 
 void uiButton::localUpdate(float dt)

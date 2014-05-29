@@ -13,19 +13,22 @@ OPEN_O2_NAMESPACE
 class cObjectWithPropertyList
 {
 public:
+	/** Basic property struct. */
 	struct IProperty
 	{
-		string mId;
-		cCallbackChain mOnChange;
+		string mId;               /** Property id. */
+		cCallbackChain onChangeEvent; /** On change event. */
 
 		IProperty(const string& id):mId(id) {}
 	};
 
+	/** Template data property. Contains pointer to data object. */
 	template<typename T>
 	struct DataProperty: public IProperty
 	{
-		T* mDataPtr;
+		T* mDataPtr; /** Pointer to data object. */
 
+		/** Set function. */
 		virtual void set(const T& value)
 		{
 			if (equals(value, get()))
@@ -33,14 +36,16 @@ public:
 
 			*mDataPtr = value;
 
-			mOnChange.call();
+			onChangeEvent.call();
 		}
 
+		/** Get function. */
 		virtual T get() const
 		{
 			return *mDataPtr;
 		}
 
+		/** ctor. */
 		DataProperty(T* dataPtr, const string& id):
 			IProperty(id)
 		{ 
@@ -98,10 +103,11 @@ public:
 		}
 	};
 
+	/** Functional property. Contains something another property, what uses setters ans getters. */
 	template<typename _class, typename _type>
 	struct FuncProperty: public DataProperty<_type>
 	{
-		cProperty<_class, _type> mProperty;
+		cProperty<_class, _type> mProperty; /** Function propety. */
 
 		FuncProperty(const cProperty<_class, _type>& prop, const string& id):
 			DataProperty(NULL, id)
@@ -122,7 +128,7 @@ public:
 
 			mProperty = value;
 
-			mOnChange.call();
+			onChangeEvent.call();
 		}
 
 		virtual _type get() const
@@ -135,7 +141,7 @@ public:
 	typedef vector< shared<IProperty> > PropertiesVec;
 
 protected:
-	PropertiesVec mPropertiesList;
+	PropertiesVec mPropertiesList; /** Properties array .*/
 
 	/** Initialization properties func. Must be implemented. */
 	virtual void initializePropertiesList() = 0;

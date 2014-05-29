@@ -63,6 +63,16 @@ struct Rect
 		return Rect<T>(left + v.x, top + v.y, right + v.x, down + v.y);
 	}
 
+	inline Rect<T> operator*(const vec2<T>& v) const
+	{ 
+		return Rect<T>(left*v.x, top*v.y, right*v.x, down*v.y);
+	}
+
+	inline Rect<T> operator/(const vec2<T>& v) const
+	{ 
+		return Rect<T>(left/v.x, top/v.y, right/v.x, down/v.y);
+	}
+
 	inline Rect<T> operator+(const Rect<T>& r) const
 	{ 
 		return Rect<T>(min(left, r.left), min(top, r.top), max(right, r.right), max(down, r.down));

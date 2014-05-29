@@ -9,12 +9,13 @@ OPEN_O2_NAMESPACE
 
 grSprite::grSprite( grTexture       texture        /*= NULL*/, 
 	                const fRect&    textureSrcRect /*= fRect(-1.0f, 0.0f, 0.0f, 0.0f)*/, 
-	                const vec2f&    position       /*= vec2f(0.0f, 0.0f)*/, 
+	                const vec2f&    position       /*= vec2f()*/, 
 					const vec2f&    size           /*= vec2f(-1.0f, 0.0f)*/, 
 					const vec2f&    scale          /*= vec2f(1.0f, 1.0f)*/, 
 					float           angle          /*= 0*/, 
-					const vec2f&    rotationCenter /*= vec2f(0.0f, 0.0f)*/, 
-					const color4&   color          /*= color4(1.0f, 1.0f, 1.0f, 1.0f)*/ )
+					const vec2f&    pivot          /*= vec2f()*/, 
+					const color4&   color          /*= color4::white()*/ ):
+	IRectDrawable(size, position, color, pivot)
 {
 	//create mesh
 	mMesh = mnew grMesh(texture, 4, 2);
@@ -29,7 +30,7 @@ grSprite::grSprite( grTexture       texture        /*= NULL*/,
 	mMesh->mPolyCount = 2;
 	
 	if (textureSrcRect.left < 0)
-		mTextureSrcRect = fRect(vec2f(0.0f, 0.0f), texture.getSize());
+		mTextureSrcRect = fRect(vec2f(), texture.getSize());
 	else
 		mTextureSrcRect = textureSrcRect;
 
@@ -38,33 +39,32 @@ grSprite::grSprite( grTexture       texture        /*= NULL*/,
 	else
 		mSize = size;
 
-	mPosition = position;
+	for (int i = 0; i < 4; i++)
+		mVertexColors[i] = color4::white();
+
 	mScale = scale;
 	mAngle = angle;
-	mPivot = rotationCenter;
-
-	setColor(color);
 
 	mNeedUpdateMeshVerticies = true;
 	mNeedUpdateMeshTexCoords = true;
+	mNeedUpdateMeshColors = true;
 
 	initializeProperties();
 }
 
-grSprite::grSprite( const grSprite& sprite )
+grSprite::grSprite( const grSprite& sprite ):
+	IRectDrawable(sprite)
 {
 	//create mesh
 	mMesh = mnew grMesh(*sprite.mMesh);
 
 	mTextureSrcRect = sprite.mTextureSrcRect;
-	mPosition = sprite.mPosition;
-	mSize = sprite.mSize;
 	mScale = sprite.mScale;
 	mAngle = sprite.mAngle;
-	mPivot = sprite.mPivot;
 
 	mNeedUpdateMeshVerticies = true;
 	mNeedUpdateMeshTexCoords = true;
+	mNeedUpdateMeshColors = true;
 
 	initializeProperties();
 }
@@ -127,27 +127,14 @@ grSprite& grSprite::operator=(const grSprite& sprite)
 
 	mNeedUpdateMeshVerticies = true;
 	mNeedUpdateMeshTexCoords = true;
+	mNeedUpdateMeshColors = true;
 
 	return *this;
 }
 
-void grSprite::setPosition( const vec2f& position )
-{
-	if (!(fabs(position.x - mPosition.x) > FLT_EPSILON || fabs(position.y - mPosition.y) > FLT_EPSILON))
-		return;
-
-	mPosition = position;
-	mNeedUpdateMeshVerticies = true;
-}
-
-vec2f grSprite::getPosition() const
-{
-	return mPosition;
-}
-
 void grSprite::setScale( const vec2f& scale )
 {
-	if (!(fabs(scale.x - mScale.x) > FLT_EPSILON || fabs(scale.y - mScale.y) > FLT_EPSILON))
+	if (equals(mScale, scale))
 		return;
 
 	mScale = scale;
@@ -161,7 +148,7 @@ vec2f grSprite::getScale() const
 
 void grSprite::setAngle( const float& angle )
 {
-	if (fabs(angle - mAngle) < FLT_EPSILON)
+	if (equals(angle, mAngle))
 		return;
 
 	mAngle = angle;
@@ -173,32 +160,11 @@ float grSprite::getAngle() const
 	return mAngle;
 }
 
-void grSprite::setPivot( const vec2f& center )
-{
-	if (!(fabs(center.x - mPivot.x) > FLT_EPSILON || fabs(center.y - mPivot.y) > FLT_EPSILON))
-		return;
-
-	mPivot = center;
-	mNeedUpdateMeshVerticies = true;
-}
-
-vec2f grSprite::getPivot() const
-{
-	return mPivot;
-}
-
-void grSprite::setRelativePivot( const vec2f& relCenter )
-{
-	setPivot(relCenter.scale(mSize));
-}
-
-vec2f grSprite::getRelativePivot() const
-{
-	return vec2f(mPivot.x/mSize.x, mPivot.y/mSize.y);
-}
-
 void grSprite::setTextureSrcRect( const fRect& rect )
 {
+	if (equals(mTextureSrcRect, rect))
+		return;
+
 	mTextureSrcRect = rect;
 	mNeedUpdateMeshTexCoords = true;
 }
@@ -218,40 +184,35 @@ grTexture grSprite::getTexture() const
 	return mMesh->getTexture();
 }
 
-void grSprite::setSize( const vec2f& size )
+void grSprite::setVertexColor( const color4& color, int vertexId )
 {
-	if (!(fabs(size.x - mSize.x) > FLT_EPSILON || fabs(size.y - mSize.y) > FLT_EPSILON))
-		return;
+	mVertexColors[clamp(vertexId, 0, 3)] = color;
+	mNeedUpdateMeshColors = true;
+}
 
-	mSize = size;
+color4 grSprite::getVertexColor( int vertexId ) const
+{
+	return mVertexColors[clamp(vertexId, 0, 3)];
+}
+
+void grSprite::positionChanged()
+{
 	mNeedUpdateMeshVerticies = true;
 }
 
-vec2f grSprite::getSize() const
+void grSprite::sizeChanged()
 {
-	return mSize;
+	mNeedUpdateMeshVerticies = true;
 }
 
-void grSprite::setColor( const color4& color, int vertexId /*= -1*/ )
+void grSprite::pivotChanged()
 {
-	unsigned long ccolor = color.dword();
-
-	if (vertexId < 0)
-	{
-		for (unsigned int i = 0; i < 4; i++)
-			mMesh->mVerticies[i].color = ccolor;
-	}
-	else
-	{
-		mMesh->mVerticies[min(vertexId, 3)].color = ccolor;
-	}
+	mNeedUpdateMeshVerticies = true;
 }
 
-color4 grSprite::getColor( int vertexId /*= 0*/ )
+void grSprite::colorChanged()
 {
-	color4 res;
-	res.setDword(mMesh->mVerticies[max(min(vertexId, 4), 0)].color);
-	return res;
+	mNeedUpdateMeshColors = true;
 }
 
 void grSprite::draw()
@@ -260,6 +221,8 @@ void grSprite::draw()
 		updateMeshVerticies();
 	if (mNeedUpdateMeshTexCoords)
 		updateMeshTexCoords();
+	if (mNeedUpdateMeshColors)
+		updateMeshColors();
 
 	mMesh->draw();
 }
@@ -268,7 +231,7 @@ void grSprite::updateMeshVerticies()
 {
 	mNeedUpdateMeshVerticies = false;
 
-	if (mAngle > FLT_EPSILON || mAngle < -FLT_EPSILON)
+	if (!equals(mAngle, 0.0f))
 	{
 		float radAngle = deg2rad(mAngle);
 
@@ -281,9 +244,10 @@ void grSprite::updateMeshVerticies()
 		vec2f yvec(-sn, cs);
 
 		vec2f offs = mPosition;
+		vec2f piv = mPivot.scale(mScale);
 
-		if (fabs(mPivot.x) > FLT_EPSILON || fabs(mPivot.y) > FLT_EPSILON)
-			offs = offs + xvec*(-mPivot.x) - yvec*mPivot.y;
+		if (!equals(mPivot, vec2f()))
+			offs = offs - xvec*piv.x - yvec*piv.y;
 
 		vec2f xsize = xvec*realSize.x;
 		vec2f ysize = yvec*realSize.y;
@@ -297,11 +261,12 @@ void grSprite::updateMeshVerticies()
 	else
 	{
 		vec2f realSize = mSize.scale(mScale);
+		vec2f pos = mPosition - mPivot.scale(mScale);
 
-		mMesh->mVerticies[0].x = mPosition.x;              mMesh->mVerticies[0].y = mPosition.y;
-		mMesh->mVerticies[1].x = mPosition.x + realSize.x; mMesh->mVerticies[1].y = mPosition.y;
-		mMesh->mVerticies[2].x = mPosition.x + realSize.x; mMesh->mVerticies[2].y = mPosition.y + realSize.y;
-		mMesh->mVerticies[3].x = mPosition.x;              mMesh->mVerticies[3].y = mPosition.y + realSize.y;
+		mMesh->mVerticies[0].x = pos.x;              mMesh->mVerticies[0].y = pos.y;
+		mMesh->mVerticies[1].x = pos.x + realSize.x; mMesh->mVerticies[1].y = pos.y;
+		mMesh->mVerticies[2].x = pos.x + realSize.x; mMesh->mVerticies[2].y = pos.y + realSize.y;
+		mMesh->mVerticies[3].x = pos.x;              mMesh->mVerticies[3].y = pos.y + realSize.y;
 	}
 }
 
@@ -310,22 +275,26 @@ void grSprite::updateMeshTexCoords()
 	mNeedUpdateMeshTexCoords = false;
 
 	vec2f texSize = mMesh->getTexture().getSize();
-	if (texSize == vec2f()) return;
+	if (equals(texSize, vec2f())) 
+		return;
 
 	vec2f invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
+	fRect tex = mTextureSrcRect*invTexSize;
 
-	mMesh->mVerticies[0].tu = mTextureSrcRect.left*invTexSize.x;
-	mMesh->mVerticies[0].tv = mTextureSrcRect.top*invTexSize.y;
-
-	mMesh->mVerticies[1].tu = mTextureSrcRect.right*invTexSize.x;
-	mMesh->mVerticies[1].tv = mTextureSrcRect.top*invTexSize.y;
-
-	mMesh->mVerticies[2].tu = mTextureSrcRect.right*invTexSize.x;
-	mMesh->mVerticies[2].tv = mTextureSrcRect.down*invTexSize.y;
-
-	mMesh->mVerticies[3].tu = mTextureSrcRect.left*invTexSize.x;
-	mMesh->mVerticies[3].tv = mTextureSrcRect.down*invTexSize.y;
+	mMesh->mVerticies[0].tu = tex.left;  mMesh->mVerticies[0].tv = tex.top;
+	mMesh->mVerticies[1].tu = tex.right; mMesh->mVerticies[1].tv = tex.top;
+	mMesh->mVerticies[2].tu = tex.right; mMesh->mVerticies[2].tv = tex.down;
+	mMesh->mVerticies[3].tu = tex.left;  mMesh->mVerticies[3].tv = tex.down;
 }
+
+void grSprite::updateMeshColors()
+{
+	for (int i = 0; i < 4; i++)
+		mMesh->mVerticies[i].color = (mVertexColors[i]*mColor).dword();
+
+	mNeedUpdateMeshColors = false;
+}
+
 
 SERIALIZE_METHOD_IMPL(grSprite)
 {
@@ -380,7 +349,7 @@ SERIALIZE_METHOD_IMPL(grSprite)
 				setColor(spriteColor);
 			}
 			else 
-				setColor(color4(255, 255, 255, 255));
+				setColor(color4::white());
 		}
 		else
 		{
@@ -419,13 +388,9 @@ SERIALIZE_METHOD_IMPL(grSprite)
 }
 
 void grSprite::initializeProperties()
-{
-	position.init(this, &grSprite::setPosition, &grSprite::getPosition);       
-	size.init(this, &grSprite::setSize, &grSprite::getSize);           
+{          
 	scale.init(this, &grSprite::setScale, &grSprite::getScale);          
 	angle.init(this, &grSprite::setAngle, &grSprite::getAngle);          
-	pivot.init(this, &grSprite::setPivot, &grSprite::getPivot);                 
-	relativePivot.init(this, &grSprite::setRelativePivot, &grSprite::getRelativePivot);          
 	textureSrcRect.init(this, &grSprite::setTextureSrcRect, &grSprite::getTextureSrcRect);          
 	texture.init(this, &grSprite::setTexture, &grSprite::getTexture);          
 }
