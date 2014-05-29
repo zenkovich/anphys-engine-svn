@@ -219,7 +219,7 @@ void cInputMessage::setCursorPos( const vec2f& pos, int id /*= 0*/ )
 		if (it->mId == id) {
 			it->mDelta = pos - it->mPosition;
 			it->mPosition = pos;
-			return;
+			break;
 		}
 	}
 

@@ -27,7 +27,7 @@ TestApp::TestApp():
 
 	getFileSystem().setResourcePath("../data/");
 
-	//mTest = mnew InputMsgTest(this, &mInputMessage);
+	//mTest = mnew InputMsgTest();
 	//mTest = mnew cTextTest();
 	mTest = mnew cUITest();
 }
