@@ -93,9 +93,9 @@ void uiButton::layoutUpdated()
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 {
-	hlog("button processing %.i cursorPos %i %i cursor %i", 
+	/*hlog("button processing %.i cursorPos %i %i cursor %i", 
 		timeUtils()->getCurrentFrame(), (int)(appInput()->getCursorPos()).x, (int)(appInput()->getCursorPos()).y,
-		(int)mPressedByButton);
+		(int)mPressedByButton);*/
 
 	bool pressedCursor = msg.isCursorPressed() && mCursorInside;
 	bool pressedKey = mFocused && (msg.isKeyPressed(VK_SPACE) || msg.isKeyPressed(VK_RETURN));
@@ -119,8 +119,8 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 			if (mCursorInside || releasedKey)
 			{
 				onClickEvent.call();
-				hlog("CLICK!");
-				releaseFocus();
+				if (!mPressedByButton)
+					releaseFocus();
 			}
 		}
 	}
