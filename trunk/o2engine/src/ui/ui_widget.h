@@ -32,21 +32,26 @@ public:
 	typedef std::map< string, shared<uiState> > StatesMap;
 	
 protected:
-	string            mId;             /**< Identificator or name. */
-	shared<uiWidget>  mParent;         /**< Parent widget. NULL if no parent. */
-	uiWidgetLayout    mLayout;         /**< Widget layout. */
-	WidgetsVec        mChildWidgets;   /**< Chiles widgets. */
-	vec2f             mGlobalPosition; /**< Position in screen space. */
-	vec2f             mSize;           /**< Size of widget. Not including childes. */
-	vec2f             mChildsOffset;   /**< Offset for childrens. */
-	shared<cGeometry> mGeometry;       /**< Geometry. May be NULL. */
-	fRect             mBounds;         /**< Widget with childes bounds. */
-	bool              mVisible;        /**< True, if widget is visible. */
-	bool              mFocused;        /**< True, if widget on focus. */
-	float             mTransparency;   /**< Transparency of widget. */
-				      
-	StatesMap         mStates;         /**< States map. */
-	shared<uiState>   mVisibleState;   /**< Shared to visible state. */
+	string            mId;                    /**< Identificator or name. */
+	shared<uiWidget>  mParent;                /**< Parent widget. NULL if no parent. */
+	uiWidgetLayout    mLayout;                /**< Widget layout. */
+	WidgetsVec        mChildWidgets;          /**< Chiles widgets. */
+	vec2f             mGlobalPosition;        /**< Position in screen space. */
+	vec2f             mSize;                  /**< Size of widget. Not including childes. */
+	vec2f             mChildsOffset;          /**< Offset for childrens. */
+	shared<cGeometry> mGeometry;              /**< Colliding geometry. May be NULL. */
+	fRect             mBounds;                /**< Widget with childes bounds. */
+	bool              mVisible;               /**< True, if widget is visible. */
+	bool              mFocused;               /**< True, if widget on focus. */
+	bool              mCursorInside;          /**< True, when cursor is inside widget. */
+	float             mTransparency;          /**< Transparency of widget. */
+				      				          
+	StatesMap         mStates;                /**< States map. */
+	shared<uiState>   mVisibleState;          /**< Shared to visible state. */
+
+	unsigned int      mUpdatedAtFrame;        /** Last update frame index. */
+	unsigned int      mDrawedAtFrame;         /** Last drawing frame index. */
+	unsigned int      mProcessedInputAtFrame; /** Last input processing frame index. */
 
 
 public:
@@ -179,7 +184,10 @@ public:
 	/** Returns widget layout. */
 	uiWidgetLayout getlayout() const;
 
-	/** Returns geometry ptr. */
+	/** Sets the colliding geometry. */
+	void setGeometry(const shared<cGeometry>& geometry);
+
+	/** Returns colliding geometry ptr. */
 	shared<cGeometry> getGeometry() const;
 
 protected:
@@ -208,7 +216,7 @@ protected:
 	virtual bool localProcessInputMessage(const cInputMessage& msg) { return false; }
 
 	/** Returns true, if point inside current widget. */
-	virtual bool isLocalInside(const vec2f& point) const { return false; }
+	virtual bool isLocalInside(const vec2f& point) const { return true; }
 
 	/** Calls when widget focused. */
 	virtual void onFocused();

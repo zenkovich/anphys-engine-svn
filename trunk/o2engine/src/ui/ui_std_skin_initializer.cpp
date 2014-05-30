@@ -4,6 +4,7 @@
 #include "ui_rect.h"
 #include "ui_transition_state.h"
 #include "util\string.h"
+#include "util\geometry\geometry.h"
 
 OPEN_O2_NAMESPACE
 

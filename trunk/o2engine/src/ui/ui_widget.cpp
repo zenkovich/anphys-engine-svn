@@ -1,6 +1,7 @@
 #include "ui_widget.h"
 
 #include "ui_controller.h"
+#include "util\time_utils.h"
 
 OPEN_O2_NAMESPACE
 
@@ -8,7 +9,7 @@ REGIST_TYPE(uiWidget);
 
 uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
 	mId(id), mParent(parent), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f),
-	mVisibleState(NULL)
+	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
 	mLayout = layout;
 	initializeProperties();
@@ -16,7 +17,8 @@ uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, sha
 	updateLayout();
 }
 
-uiWidget::uiWidget( const uiWidget& widget )
+uiWidget::uiWidget( const uiWidget& widget ):
+	mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
 	initializeProperties();
 	initializePropertiesList();
@@ -48,8 +50,10 @@ uiWidget::~uiWidget()
 
 void uiWidget::draw()
 {
-	if (!mVisible)
+	if (!mVisible || mDrawedAtFrame == timeUtils()->getCurrentFrame())
 		return;
+
+	mDrawedAtFrame = timeUtils()->getCurrentFrame();
 
 	localDraw();
 
@@ -59,14 +63,18 @@ void uiWidget::draw()
 
 void uiWidget::update( float dt )
 {
-	if (!mVisible)
+	if (!mVisible || mUpdatedAtFrame == timeUtils()->getCurrentFrame())
 		return;
+
+	mUpdatedAtFrame = timeUtils()->getCurrentFrame();
 
 	updateStates(dt);
 	localUpdate(dt);
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		(*it)->update(dt);
+	
+	mCursorInside = false;
 }
 
 void uiWidget::updateStates(float dt)
@@ -109,22 +117,21 @@ bool uiWidget::isInside( const vec2f& point ) const
 	if (!mBounds.isInside(point))
 		return false;
 
-	if (isLocalInside(point))
-		return true;
-
-	FOREACH_CONST(WidgetsVec, mChildWidgets, it)
-		if ((*it)->isInside(point))
-			return true;
+	if (!isLocalInside(point))
+		return false;
 
 	return true;
 }
 
 bool uiWidget::processInputMessage( const cInputMessage& msg )
 {
-	if (!mVisible)
+	if (!mVisible || mProcessedInputAtFrame == timeUtils()->getCurrentFrame())
 		return false;
 
-	if (!isInside(msg.getCursorPos()))
+	mProcessedInputAtFrame = timeUtils()->getCurrentFrame();
+	mCursorInside = isInside(msg.getCursorPos());
+
+	if (!mFocused && !mCursorInside)
 		return false;
 
 	if (localProcessInputMessage(msg))
@@ -271,6 +278,12 @@ void uiWidget::setSize( const vec2f& size )
 vec2f uiWidget::getSize() const
 {
 	return mSize;
+}
+
+void uiWidget::setGeometry(const shared<cGeometry>& geometry)
+{
+	safe_release(mGeometry);
+	mGeometry = geometry;
 }
 
 shared<cGeometry> uiWidget::getGeometry() const

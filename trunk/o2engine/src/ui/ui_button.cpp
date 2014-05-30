@@ -10,12 +10,13 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiButton);
 
 uiButton::uiButton(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
-	uiWidget(layout, id, parent), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mHover(false), mPressed(false)
+	uiWidget(layout, id, parent), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
+	mPressedByButton(false)
 {
 }
 
 uiButton::uiButton(const uiButton& button):
-	uiWidget(button), mHover(false), mPressed(false)
+	uiWidget(button), mPressed(false), mPressedByButton(false)
 {
 	FOREACH_CONST(RectsVec, button.mDrawables, rt)
 		addDrawable(mnew cStretchRect(**rt));
@@ -71,9 +72,13 @@ void uiButton::localDraw()
 void uiButton::localUpdate(float dt)
 {
 	if (mHoverState)
-		mHoverState->setState(mHover);
+		mHoverState->setState(mCursorInside);
 
-	mHover = false;
+	if (mPressedState)
+		mPressedState->setState((mCursorInside || mPressedByButton) && mPressed);
+
+	if (mFocusedState)
+		mFocusedState->setState(mFocused && !mPressed);
 }
 
 void uiButton::layoutUpdated()
@@ -88,31 +93,36 @@ void uiButton::layoutUpdated()
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 {
-	hlog("button processing %.i cursorPos %i %i", timeUtils()->getCurrentFrame(), (int)(appInput()->getCursorPos()).x, (int)(appInput()->getCursorPos()).y);
+	hlog("button processing %.i cursorPos %i %i cursor %i", 
+		timeUtils()->getCurrentFrame(), (int)(appInput()->getCursorPos()).x, (int)(appInput()->getCursorPos()).y,
+		(int)mPressedByButton);
 
-	if (timeUtils()->getCurrentFrame() == 5000)
-		mHover = mHover;
+	bool pressedCursor = msg.isCursorPressed() && mCursorInside;
+	bool pressedKey = mFocused && (msg.isKeyPressed(VK_SPACE) || msg.isKeyPressed(VK_RETURN));
 
-	mHover = true;
-
-	if (msg.isCursorPressed())
+	if (pressedCursor || pressedKey)
 	{
 		mPressed = true;
-
-		if (mPressedState)
-			mPressedState->setState(true);
+		mPressedByButton = pressedKey;
 
 		makeFocused();
 	}
-	else if (msg.isCursorReleased() && mFocused)
+	else 
 	{
-		mPressed = false;
+		bool releasedCursor = msg.isCursorReleased() && mFocused;
+		bool releasedKey = mFocused && (msg.isKeyReleased(VK_SPACE) || msg.isKeyReleased(VK_RETURN));
 
-		if (mPressedState)
-			mPressedState->setState(false);
+		if (releasedCursor || releasedKey)
+		{
+			mPressed = false;
 
-		if (isInside(msg.getCursorPos()))
-			onClickEvent.call();
+			if (mCursorInside || releasedKey)
+			{
+				onClickEvent.call();
+				hlog("CLICK!");
+				releaseFocus();
+			}
+		}
 	}
 
 	return false;
@@ -121,20 +131,14 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 void uiButton::onFocused()
 {
 	uiWidget::onFocused();
-
-	if (mFocusedState)
-		mFocusedState->setState(true);
 }
 
 void uiButton::onFocusLost()
 {
 	uiWidget::onFocusLost();
 
-	if (mFocusedState)
-		mFocusedState->setState(false);
-
 	if (mPressedState)
-		mPressedState = false;
+		mPressedState->setState(false);
 }
 
 int uiButton::addDrawable(const shared<cStretchRect>& drawable)

@@ -28,8 +28,8 @@ TestApp::TestApp():
 	getFileSystem().setResourcePath("../data/");
 
 	//mTest = mnew InputMsgTest();
-	//mTest = mnew cTextTest();
-	mTest = mnew cUITest();
+	mTest = mnew cTextTest();
+	//mTest = mnew cUITest();
 }
 
 TestApp::~TestApp()
@@ -48,7 +48,7 @@ void TestApp::onUpdate( float dt )
 
 void TestApp::onDraw()
 {
-	mRenderSystem->clear(color4::white());
+	mRenderSystem->clear(color4::green());
 	mTest->draw();
 }
 

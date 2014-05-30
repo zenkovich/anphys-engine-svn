@@ -13,8 +13,8 @@ cTextTest::cTextTest():
 	mTouchCorner(-1)
 {
 	grRenderSystem* rs = renderSystem();
-	rs->getFontManager()->loadBMFont("arial");
-	mText = mnew grText(rs->getFontManager()->getFont("arial"));
+	rs->getFontManager()->loadBMFont("o2_font/myriad");
+	mText = mnew grText(rs->getFontManager()->getFont("o2_font/myriad"));
 	mText->ctext = "Prived, i'm super\nmany strings\ntext!!\nWith digits 1234567890\nAnd Looooooooooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiineeeeeeeeeeeeeeeesssssssssssssss";
 	//mText->ctext = "qwertyuioplkjhgfdsazxcvbnm1234567890";
 	mText->rect = fRect(100, 100, 300, 300);
