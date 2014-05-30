@@ -29,6 +29,10 @@ void uiController::update(float dt)
 
 	mBasicWidget.size = renderSystem()->getResolution();
 	mBasicWidget.update(dt);
+
+	if (mFocusWidget)
+		mFocusWidget->processInputMessage(*appInput());
+
 	mBasicWidget.processInputMessage(*appInput());
 }
 

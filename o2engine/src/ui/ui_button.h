@@ -19,8 +19,8 @@ protected:
 	shared<uiState> mPressedState;  /** Pressed state, must have name "pressed". Activates when button pressed. */
 	RectsVec        mDrawables;     /** Drawables vector. */
 
-	bool            mHover;
 	bool            mPressed;
+	bool            mPressedByButton;
 
 public:
 	DEFINE_TYPE(uiButton);

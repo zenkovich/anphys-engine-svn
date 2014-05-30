@@ -17,10 +17,10 @@ cUITest::cUITest()
 
 	uiHost()->addWidget( uiSkin()->createBackground() );
 	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 300)) );
-	/*uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 330)) );
+	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 330)) );
 	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 360)) );
 	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 390)) );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 420)) );*/
+	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 420)) );
 
 	//sprite = mnew grSprite(grTexture::createFromFile("test"));
 	sprite = mnew cStretchRect( grTexture::createFromFile("ui_skin/btn_regular"), 10, 10, 14, 14 );
