@@ -14,7 +14,7 @@ InputMsgTest::InputMsgTest():
 	grRenderSystem* rs = renderSystem();
 	rs->getFontManager()->loadBMFont("arial");
 	mText = mnew grText(rs->getFontManager()->getFont("arial"));
-	mText->areaSize = vec2f(1000, 1000);
+	mText->size = vec2f(1000, 1000);
 }
 
 InputMsgTest::~InputMsgTest()

@@ -4,26 +4,31 @@
 #include <cstdarg>
 
 #include "public.h"
+#include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 
+class cPropertyList;
+
 /** Super-duper-mega cpp property! Hello from C#. I think not bad feature :). */
 template<typename _class, typename _type>
-class cProperty
+class cProperty: public cPropertyList::Property
 {
-	_class* mClass; /** Basic class. */
+	_class* mClass;                         /** Basic class. */
 	
 	void (_class::*mSetter)(const _type&);  /** Awww yeaaahh it's setter function pointer %) */
 	void (_class::*mSetterNonConst)(_type); /** Setter function pointer for non const parameter */
 	_type (_class::*mGetter)() const;       /** Getter function pointer. */
 	_type (_class::*mGetterNonConst)();     /** Non const getter function pointer. */
 
+
 public:
 	/** ctor. */
 	cProperty():mSetter(NULL), mGetter(NULL), mClass(NULL) {}
 
-	cProperty(_class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
+	cProperty(const string& name, _class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
 	{
+		mName = name;
 		mClass = tclass;
 		mSetter = setterConst ? NULL:setterFunc;
 		mSetterNonConst = setterConst ? setterFunc:NULL;
@@ -32,8 +37,9 @@ public:
 	}
 
 	/** Initialization of property. */
-	void init(_class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)() const)
+	void init(const string& name, _class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)() const)
 	{
+		mName = name;
 		mClass = tclass;
 		mSetter = setter;
 		mSetterNonConst = NULL;
@@ -42,8 +48,9 @@ public:
 	}
 
 	/** Initialization of property. */
-	void initNonConstGetter(_class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)())
+	void initNonConstGetter(const string& name, _class* tclass, void (_class::*setter)(const _type&), _type (_class::*getter)())
 	{
+		mName = name;
 		mClass = tclass;
 		mSetter = setter;
 		mSetterNonConst = NULL;
@@ -52,8 +59,9 @@ public:
 	}
 
 	/** Initialization of property. */
-	void initNonConstSetter(_class* tclass, void (_class::*setter)(_type), _type (_class::*getter)() const)
+	void initNonConstSetter(const string& name, _class* tclass, void (_class::*setter)(_type), _type (_class::*getter)() const)
 	{
+		mName = name;
 		mClass = tclass;
 		mSetter = NULL;
 		mSetterNonConst = setter;
@@ -62,8 +70,9 @@ public:
 	}
 
 	/** Initialization of property. */
-	void initNonConst(_class* tclass, void (_class::*setter)(_type), _type (_class::*getter)())
+	void initNonConst(const string& name, _class* tclass, void (_class::*setter)(_type), _type (_class::*getter)())
 	{
+		mName = name;
 		mClass = tclass;
 		mSetter = NULL;
 		mSetterNonConst = setter;
@@ -89,56 +98,8 @@ public:
 			(mClass->*mSetter)(value);
 		else
 			(mClass->*mSetterNonConst)(value);
-	}
-	
-	cProperty& operator=(const _type& value)
-	{
-		set(value);
-		return *this;
-	}
-	
-	cProperty& operator+=(const _type& value)
-	{
-		*this = *this + value;
-		return *this;
-	}
 
-	_type operator+(const _type& value)
-	{
-		return get() + value;
-	}
-	
-	cProperty& operator-=(const _type& value)
-	{
-		*this = *this - value;
-		return *this;
-	}
-
-	_type operator-(const _type& value)
-	{
-		return get() - value;
-	}
-	
-	cProperty& operator*=(const _type& value)
-	{
-		*this = *this * value;
-		return *this;
-	}
-
-	_type operator*(const _type& value)
-	{
-		return get() * value;
-	}
-	
-	cProperty& operator/=(const _type& value)
-	{
-		*this = *this / value;
-		return *this;
-	}
-
-	_type operator/(const _type& value)
-	{
-		return get() / value;
+		onChangeEvent.call();
 	}
 
 	void copy(cProperty& prop) const
@@ -166,6 +127,18 @@ protected:
 
 /** Simple macros for highlighting. */
 #define PROPERTY(_CLASS, _TYPE) cProperty<_CLASS, _TYPE>
+
+#define REG_PROPERTY(_CLASS, _PROPERTY, _SETTER, _GETTER) \
+	_PROPERTY.init(#_PROPERTY, this, &_CLASS::_SETTER, &_CLASS::_GETTER)
+
+#define REG_PROPERTY_SETTER_NONCONST(_CLASS, _PROPERTY, _SETTER, _GETTER) \
+	_PROPERTY.initNonConstSetter(#_PROPERTY, this, &_CLASS::_SETTER, &_CLASS::_GETTER)
+
+#define REG_PROPERTY_GETTER_NONCONST(_CLASS, _PROPERTY, _SETTER, _GETTER) \
+	_PROPERTY.initNonConstGetter(#_PROPERTY, this, &_CLASS::_SETTER, &_CLASS::_GETTER)
+
+#define REG_PROPERTY_NONCONST(_CLASS, _PROPERTY, _SETTER, _GETTER) \
+	_PROPERTY.initNonConst(#_PROPERTY, this, &_CLASS::_SETTER, &_CLASS::_GETTER)
 
 CLOSE_O2_NAMESPACE
 

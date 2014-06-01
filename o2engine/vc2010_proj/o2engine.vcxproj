@@ -143,6 +143,7 @@
     <ClInclude Include="..\src\scene\scene_node.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_controller.h" />
+    <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
     <ClInclude Include="..\src\ui\ui_skin.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="..\src\scene\scene_node.cpp" />
     <ClCompile Include="..\src\ui\ui_button.cpp" />
     <ClCompile Include="..\src\ui\ui_controller.cpp" />
+    <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
     <ClCompile Include="..\src\ui\ui_skin.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />

@@ -33,10 +33,10 @@ public:
 	void loadFontsSet(const string& fontsSetFile);
 
 	/** Loading font from file. */
-	void loadFont(const string& fontFile);
+	shared<grFont> loadFont(const string& fontFile);
 
 	/** Loading BMFont from file. */
-	void loadBMFont(const string& fontFile);
+	shared<grFont> loadBMFont(const string& fontFile);
 
 	/** Unloading all fonts. */
 	void unloadFonts();

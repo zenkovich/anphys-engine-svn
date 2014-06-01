@@ -42,7 +42,7 @@ void uiStdSkinInitializer::initButton()
 	const float hoverDelayOff = 0.3f;
 	const float pressingDelayOn = 0.01f;
 	const float pressingDelayOff= 0.1f;
-	const float focusingDelayOn = 0.6f;
+	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
 
 	shared<uiButton> button = mnew uiButton(uiStaightPixelLayout(vec2f(), vec2f(50, 50)));

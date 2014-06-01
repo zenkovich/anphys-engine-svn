@@ -120,13 +120,13 @@ vec2f IRectDrawable::getRelativePivot() const
 
 void IRectDrawable::initializeProperties()
 {
-	position.init(this, &IRectDrawable::setPosition, &IRectDrawable::getPosition);
-	size.init(this, &IRectDrawable::setSize, &IRectDrawable::getSize);
-	pivot.init(this, &IRectDrawable::setPivot, &IRectDrawable::getPivot);
-	relPivot.init(this, &IRectDrawable::setRelativePivot, &IRectDrawable::getRelativePivot);
-	rect.init(this, &IRectDrawable::setRect, &IRectDrawable::getRect);
-	transparency.initNonConstSetter(this, &IRectDrawable::setTransparency, &IRectDrawable::getTransparency);
-	color.init(this, &IRectDrawable::setColor, &IRectDrawable::getColor);
+	REG_PROPERTY(IRectDrawable, position, setPosition, getPosition);
+	REG_PROPERTY(IRectDrawable, size, setSize, getSize);
+	REG_PROPERTY(IRectDrawable, pivot, setPivot, getPivot);
+	REG_PROPERTY(IRectDrawable, relPivot, setRelativePivot, getRelativePivot);
+	REG_PROPERTY(IRectDrawable, rect, setRect, getRect);
+	REG_PROPERTY_SETTER_NONCONST(IRectDrawable, transparency, setTransparency, getTransparency);
+	REG_PROPERTY(IRectDrawable, color, setColor, getColor);
 }
 
 CLOSE_O2_NAMESPACE

@@ -53,21 +53,21 @@ void cTextTest::update( float dt )
 		if (mTouchCorner == 0) 
 		{
 			mText->position += appInput()->getCursorDelta();
-			mText->areaSize -= appInput()->getCursorDelta();
+			mText->size -= appInput()->getCursorDelta();
 		}
 		else if (mTouchCorner == 1) 
 		{
-			mText->areaSize += vec2f(appInput()->getCursorDelta().x, -appInput()->getCursorDelta().y);
+			mText->size += vec2f(appInput()->getCursorDelta().x, -appInput()->getCursorDelta().y);
 			mText->position += vec2f(0, appInput()->getCursorDelta().y);
 		}		
 		else if (mTouchCorner == 2) 
 		{
-			mText->areaSize += appInput()->getCursorDelta();
+			mText->size += appInput()->getCursorDelta();
 		}
 		else if (mTouchCorner == 3)
 		{
 			mText->position += vec2f(appInput()->getCursorDelta().x, 0);
-			mText->areaSize += vec2f(-appInput()->getCursorDelta().x, appInput()->getCursorDelta().y);
+			mText->size += vec2f(-appInput()->getCursorDelta().x, appInput()->getCursorDelta().y);
 		}
 		else if (mTouchCorner == 4) 
 		{

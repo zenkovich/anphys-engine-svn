@@ -73,7 +73,7 @@ public:
 	template<typename T>
 	class ValueProperty: public uiTransitionState::IProperty
 	{
-		typedef cObjectWithPropertyList::DataProperty<T> Prop;
+		typedef cPropertyList::DataProperty<T> Prop;
 
 		shared<Prop>              mProperty;
 		cAnimFrame<T>             mStateOff;         /** Off state animation frame. */
