@@ -188,6 +188,7 @@ struct color4
 	static color4 red() { return color4(255, 0, 0, 255); }
 	static color4 blue() { return color4(0, 0, 255, 255); }
 	static color4 green() { return color4(0, 255, 0, 255); }
+	static color4 gray() { return color4(150, 150, 150, 255); }
 	static color4 someColor(int idx) { return color4((idx*33)%255, (idx*58)%255, (idx*77)%255, 255); }
 };
 

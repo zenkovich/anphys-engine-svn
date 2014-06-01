@@ -3,12 +3,13 @@
 
 #include "public.h"
 
-#include "util/string.h"
+#include "util/graphics/rect_drawable.h"
+#include "util/math/basis.h"
+#include "util/math/color.h"
+#include "util/math/rect.h"
 #include "util/objects.h"
 #include "util/property.h"
-#include "util/math/basis.h"
-#include "util/math/rect.h"
-#include "util/math/color.h"
+#include "util/string.h"
 #include "font.h"
 
 OPEN_O2_NAMESPACE
@@ -16,8 +17,8 @@ OPEN_O2_NAMESPACE
 class grMesh;
 class grRenderSystem;
 
-/** Text renderer class. Using font, basis and many style parametres. Caching text into meshes. */
-class grText: public IDrawable
+/** Text renderer class. Using font, basis and many style parameters. Caching text into meshes. */
+class grText: public IRectDrawable
 {
 public: 
 	enum TextStyle { TS_NORMAL   = 1 << 0,
@@ -39,14 +40,12 @@ protected:
 	shared<grFont>  mFont;                /** Using font. */
 	basis           mTransform;           /** Transformation. */
 	basisDef        mTransformDef;        /** Transform definition. */
-	vec2f           mAreaSize;            /** Size of text area. */
 	float           mCharactersDistCoef;  /** Characters distance coef, 1 is standard. */
 	float           mLinesDistCoef;       /** Lines distance coef, 1 is standard. */
 	TextStyle       mStyle;               /** Style bit mask. */
 	VerAlign        mVerAlign;            /** Vertical align. */
 	HorAlign        mHorAlign;            /** Horizontal align. */
 	bool            mWordWrap;            /** True, when words wrapping. */
-	color4          mColor;               /** Color of the text. */
 	color4          mGradientTopColor;    /** Gradient effect top color. */
 	color4          mGradientBottomColor; /** Gradient effect bottom color. */
 	color4          mBorderColor;         /** Border effect color. */
@@ -73,24 +72,20 @@ public:
 	PROPERTY(grText, bool)           border;              /** Border flag property. Uses setBorder/isWithBorder. */
 	PROPERTY(grText, bool)           gradient;            /** Gradient flag property. Uses setGradient/isWithGradient. */
 	PROPERTY(grText, vec2f)          effectOffset;        /** Effects offset property. Uses set/getEffectsOffset. */
-	PROPERTY(grText, color4)         color;               /** Text color property. Uses set/getColor. */
 	PROPERTY(grText, color4)         borderColor;         /** Border color property. Uses set/getBorderColor. */
 	PROPERTY(grText, color4)         shadowColor;         /** Shadow color property. Uses set/getShadowColor. */
 	PROPERTY(grText, color4)         gradientColorTop;    /** Gradient top color property. Uses set/getGradientBottomColor. */
 	PROPERTY(grText, color4)         gradientColorBottom; /** Gradient bottom color property. Uses set/getGradientBottomColor. */
-	PROPERTY(grText, vec2f)          position;            /** Position property. Uses set/getPosition. */
 	PROPERTY(grText, float)          angle;               /** Angle of rotation property. Uses set/getAngle. */
 	PROPERTY(grText, vec2f)          scale;               /** Scale property. Uses set/getScale. */
 	PROPERTY(grText, float)          charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
 	PROPERTY(grText, basis)          transform;           /** Transformation property. Uses set/getTransform. */
 	PROPERTY(grText, basisDef)       transformDef;        /** Transform definition property. Uses set/getTransformDef. */
-	PROPERTY(grText, vec2f)          areaSize;            /** Area size property. Uses set/getAreaSize. */
-	PROPERTY(grText, fRect)          rect;                /** Text rectangle area. Uses set/getRect. */
-	PROPERTY(grText, float)          charactersDistCoef;  /** Characters distance coef, 1 is standart. Uses set/getCharactersDistCoef. */
-	PROPERTY(grText, float)          linesDistCoef;       /** Lines distance coef, 1 is standart. Uses set/getLinesDistCoef. */
+	PROPERTY(grText, float)          charactersDistCoef;  /** Characters distance coef, 1 is standard. Uses set/getCharactersDistCoef. */
+	PROPERTY(grText, float)          linesDistCoef;       /** Lines distance coef, 1 is standard. Uses set/getLinesDistCoef. */
 
 	/** ctor. */
-	grText(grFont* font);
+	grText(shared<grFont> font);
 
 	/** dtor. */
 	~grText();
@@ -158,12 +153,6 @@ public:
 	/** Returns effects offset. */
 	vec2f getEffectOffset() const;
 
-	/** Sets text color. */
-	void setColor(const color4& color);
-
-	/** Returns text color. */
-	color4 getColor() const;
-
 	/** Sets gradient colors. */
 	void setGradientColors(const color4& topColor, const color4& bottomColor);
 
@@ -191,10 +180,7 @@ public:
 	/** Returns border color. */
 	color4 getBorderColor() const;
 
-	/** Sets position of text. */
-	void setPosition(const vec2f& position);
-
-	/** Returns position of text. */
+	/** Returns position. */
 	vec2f getPosition() const;
 
 	/** Sets rotation angle. */
@@ -227,18 +213,6 @@ public:
 	/** Returns text transformation definition. */
 	basisDef getTransformDef() const;
 
-	/** Sets text area size/ */
-	void setAreaSize(const vec2f& size);
-
-	/** Returns area size. */
-	vec2f getAreaSize() const;
-
-	/** Sets text rectangle (position and area size). */
-	void setRect(const fRect& rect);
-
-	/** Returns text rectangle. */
-	fRect getRect() const;
-
 	/** Sets horizontal align. */
 	void setHorAlign(const HorAlign& align);
 
@@ -269,7 +243,19 @@ public:
 	/** Returns lines distance coefficient. */
 	float getLinesDistCoef() const;
 
-protected:
+protected:	
+	/** Calls when position was changed. */
+	void positionChanged();
+
+	/** Calls when size was changed. */
+	void sizeChanged();
+
+	/** Calls when pivot was changed. */
+	void pivotChanged();
+
+	/** Calls when color was changed. */
+	void colorChanged();
+
 	/** Initializing properties. */
 	void initializeProperties();
 

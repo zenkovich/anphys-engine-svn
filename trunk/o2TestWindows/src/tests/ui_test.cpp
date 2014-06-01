@@ -1,13 +1,14 @@
 #include "ui_test.h"
 
-#include "ui/ui_skin.h"
-#include "render_system/render_system.h"
-#include "ui/ui_controller.h"
-#include "ui/ui_sprite.h"
-#include "util/graphics/stretch_rect.h"
-#include "ui/ui_std_skin_initializer.h"
-#include "util/input/input_message.h"
 #include "app/application.h"
+#include "render_system/render_system.h"
+#include "render_system/text.h"
+#include "ui/ui_controller.h"
+#include "ui/ui_skin.h"
+#include "ui/ui_sprite.h"
+#include "ui/ui_std_skin_initializer.h"
+#include "util/graphics/stretch_rect.h"
+#include "util/input/input_message.h"
 
 OPEN_O2_NAMESPACE
 
@@ -23,7 +24,11 @@ cUITest::cUITest()
 	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 420)) );
 
 	//sprite = mnew grSprite(grTexture::createFromFile("test"));
-	sprite = mnew cStretchRect( grTexture::createFromFile("ui_skin/btn_regular"), 10, 10, 14, 14 );
+	//sprite = mnew cStretchRect( grTexture::createFromFile("ui_skin/btn_regular"), 10, 10, 14, 14 );
+	
+	shared<grText> txt = mnew grText(renderSystem()->getFontManager()->loadBMFont("o2_font/myriad"));
+	txt->ctext = "Prived, i'm a text";
+	sprite = txt;
 }
 
 void cUITest::update(float dt)

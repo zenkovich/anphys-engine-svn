@@ -6,9 +6,10 @@
 
 OPEN_O2_NAMESPACE
 
-grText::grText( grFont* font ):
+grText::grText( shared<grFont> font ):
 	mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
-	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false), mColor(255, 255, 255, 255)
+	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false),
+	IRectDrawable()
 {
 	initializeProperties();
 }
@@ -195,20 +196,6 @@ vec2f grText::getEffectOffset() const
 	return mEffectOffset;
 }
 
-void grText::setColor( const color4& color )
-{
-	if (mColor == color)
-		return;
-
-	mColor = color;
-	mNeedUpdateMesh = true;
-}
-
-color4 grText::getColor() const
-{
-	return mColor;
-}
-
 void grText::setGradientColors( const color4& topColor, const color4& bottomColor )
 {
 	if (mGradientTopColor == topColor && mGradientBottomColor == bottomColor)
@@ -275,18 +262,9 @@ color4 grText::getBorderColor() const
 	return mBorderColor;
 }
 
-void grText::setPosition( const vec2f& position )
-{
-	if (mTransformDef.mPosition == position)
-		return;
-
-	mTransformDef.mPosition = position;
-	mNeedTransformMesh = true;
-}
-
 vec2f grText::getPosition() const
 {
-	return mTransformDef.mPosition;
+	return mTransformDef.mPosition + mPivot;
 }
 
 void grText::setAngle( const float& angle )
@@ -348,31 +326,6 @@ void grText::setTransformDef( const basisDef& def )
 basisDef grText::getTransformDef() const
 {
 	return mTransformDef;
-}
-
-void grText::setAreaSize( const vec2f& size )
-{
-	if (equals(size, mAreaSize))
-		return;
-
-	mAreaSize = size;
-	mNeedUpdateMesh = true;
-}
-
-vec2f grText::getAreaSize() const
-{
-	return mAreaSize;
-}
-
-void grText::setRect( const fRect& rect )
-{
-	setPosition(rect.getltCorner());
-	setAreaSize(rect.getSize());
-}
-
-fRect grText::getRect() const
-{
-	return fRect(mTransformDef.mPosition, mTransformDef.mPosition + mAreaSize);
 }
 
 void grText::setHorAlign( const HorAlign& align )
@@ -460,19 +413,15 @@ void grText::initializeProperties()
 	border.init(this, &grText::setBorder, &grText::isWithBorder);
 	gradient.init(this, &grText::setGradient, &grText::isWithGradient);
 	effectOffset.init(this, &grText::setEffectOffset, &grText::getEffectOffset);
-	color.init(this, &grText::setColor, &grText::getColor);
 	borderColor.init(this, &grText::setBorderColor, &grText::getBorderColor);
 	shadowColor.init(this, &grText::setShadowColor, &grText::getShadowColor);
 	gradientColorTop.init(this, &grText::setGradientTopColor, &grText::getGradientTopColor);
 	gradientColorBottom.init(this, &grText::setGradientBottomColor, &grText::getGradientBottomColor);
-	position.init(this, &grText::setPosition, &grText::getPosition);
 	angle.init(this, &grText::setAngle, &grText::getAngle);
 	scale.init(this, &grText::setScale, &grText::getScale);
 	charactersHeight.init(this, &grText::setCharactersHeight, &grText::getCharactersHeight);
 	transform.init(this, &grText::setTransform, &grText::getTransform);
 	transformDef.init(this, &grText::setTransformDef, &grText::getTransformDef);
-	areaSize.init(this, &grText::setAreaSize, &grText::getAreaSize);
-	rect.init(this, &grText::setRect, &grText::getRect);
 	charactersDistCoef.init(this, &grText::setCharactersDistCoef, &grText::getCharactersDistCoef);
 	linesDistCoef.init(this, &grText::setLinesDistCoef, &grText::getLinesDistCoef);
 }
@@ -494,7 +443,7 @@ void grText::updateMesh()
 	prepareMesh(textLen);
 
 	vec2f fullSize;
-	bool checkAreaBounds = mWordWrap && mAreaSize.x > FLT_EPSILON;
+	bool checkAreaBounds = mWordWrap && mSize.x > FLT_EPSILON;
 	int wrapCharIdx = -1;
 	for (int i = 0; i < textLen; i++)
 	{
@@ -506,7 +455,7 @@ void grText::updateMesh()
 		curLine->mSize += ch->mAdvance*mCharactersDistCoef;
 		curLine->mString += mText[i];
 		
-		bool outOfBounds = checkAreaBounds ? curLine->mSize > mAreaSize.x:false;
+		bool outOfBounds = checkAreaBounds ? curLine->mSize > mSize.x:false;
 
 		if (mText[i] == '\n' || outOfBounds)
 		{
@@ -559,11 +508,11 @@ void grText::updateMesh()
 	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
 
 	if (mVerAlign == VA_CENTER)
-		yOffset = mAreaSize.y*0.5f - (float)mLineDefs.size()*lineHeight*0.5f;
+		yOffset = mSize.y*0.5f - (float)mLineDefs.size()*lineHeight*0.5f;
 	else if (mVerAlign == VA_BOTH)
-		lineHeight = (mAreaSize.y - lineHeight)/(float)(mLineDefs.size() - 1);
+		lineHeight = (mSize.y - lineHeight)/(float)(mLineDefs.size() - 1);
 	else if (mVerAlign == VA_BOTTOM)
-		yOffset = mAreaSize.y - (float)mLineDefs.size()*lineHeight;
+		yOffset = mSize.y - (float)mLineDefs.size()*lineHeight;
 
 	for (LineDefVec::iterator it = mLineDefs.begin(); it != mLineDefs.end(); ++it)
 	{
@@ -572,11 +521,11 @@ void grText::updateMesh()
 		float additiveSpaceOffs = 0;
 
 		if (mHorAlign == HA_CENTER)
-			xOffset = (mAreaSize.x - line->mSize)*0.5f;
+			xOffset = (mSize.x - line->mSize)*0.5f;
 		else if (mHorAlign == HA_RIGHT)
-			xOffset = mAreaSize.x - line->mSize;
+			xOffset = mSize.x - line->mSize;
 		else if (mHorAlign == HA_BOTH)
-			additiveSpaceOffs = (mAreaSize.x - line->mSize)/(float)line->mSpacesCount;
+			additiveSpaceOffs = (mSize.x - line->mSize)/(float)line->mSpacesCount;
 			
 		vec2f locOrigin( xOffset, yOffset ); 
 		yOffset += lineHeight;
@@ -744,6 +693,28 @@ void grText::transformMesh( const basis& bas )
 			bas.transform(vx->x, vx->y);
 		}
 	}
+}
+
+void grText::positionChanged()
+{
+	mTransformDef.mPosition = mPosition - mPivot;
+	mNeedTransformMesh = true;
+}
+
+void grText::sizeChanged()
+{
+	mNeedUpdateMesh = true;
+}
+
+void grText::pivotChanged()
+{
+	mTransformDef.mPosition = mPosition - mPivot;
+	mNeedTransformMesh = true;
+}
+
+void grText::colorChanged()
+{
+	mNeedUpdateMesh = true;
 }
 
 CLOSE_O2_NAMESPACE
