@@ -145,7 +145,7 @@ int uiButton::addDrawable(const shared<cStretchRect>& drawable)
 {
 	mDrawables.push_back(drawable);
 	int idx = mDrawables.size() - 1;
-	registProperty(drawable->transparency, format("drawable_%i_transparency", idx));
+	//registProperty(drawable->transparency, format("drawable_%i_transparency", idx));
 	return idx;
 }
 

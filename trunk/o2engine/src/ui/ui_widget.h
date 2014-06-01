@@ -227,9 +227,6 @@ protected:
 	/** Initialize all properties. */
 	void initializeProperties();
 
-	/** Initializing property list. */
-	void initializePropertiesList();
-
 	/** Setting mVisible value. */
 	void setVisibleParam(bool param);
 };

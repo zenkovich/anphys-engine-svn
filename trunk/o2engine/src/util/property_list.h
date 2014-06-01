@@ -4,8 +4,6 @@
 #include "public.h"
 
 #include "util/callback.h"
-#include "type_indexation.h"
-#include "property.h"
 
 OPEN_O2_NAMESPACE
 	
@@ -13,6 +11,8 @@ OPEN_O2_NAMESPACE
 /** Object property list class. Contains properties array, processing properties. */
 class cPropertyList
 {
+	friend class IProperty;
+
 public:
 	class IProperty
 	{
@@ -23,35 +23,37 @@ public:
 
 		IProperty(const string& name):
 			mName(name) {} 
+
+	protected:
+		template<typename _class>
+		void checkPropertyList(_class* tclass)
+		{
+			cPropertyList* propList = dynamic_cast<cPropertyList*>(tclass);
+			if (propList)
+			{
+				propList->mPropertiesList.push_back(tempShared(this));
+				mPropertyList = tempShared(propList);
+			}
+		}
 	};
 
 	template<typename _type>
-	class Property
+	class Property: public IProperty
 	{
 	public:
+		Property():IProperty("") {}
+
 		/** Returns value. */
-		virtual _type get() const
-		{
-			return mGetter != NULL ? (mClass->*mGetter)():(mClass->*mGetterNonConst)();
-		}
-
-		virtual void set(const _type& value)
-		{
-			if (mSetter != NULL)
-				(mClass->*mSetter)(value);
-			else
-				(mClass->*mSetterNonConst)(value);
-
-			onChangeEvent.call();
-		}
+		virtual _type get() const = 0;
+		virtual void set(const _type& value) = 0;
 	
-		cProperty& operator=(const _type& value)
+		Property& operator=(const _type& value)
 		{
 			set(value);
 			return *this;
 		}
 	
-		cProperty& operator+=(const _type& value)
+		Property& operator+=(const _type& value)
 		{
 			*this = *this + value;
 			return *this;
@@ -62,7 +64,7 @@ public:
 			return get() + value;
 		}
 	
-		cProperty& operator-=(const _type& value)
+		Property& operator-=(const _type& value)
 		{
 			*this = *this - value;
 			return *this;
@@ -73,7 +75,7 @@ public:
 			return get() - value;
 		}
 	
-		cProperty& operator*=(const _type& value)
+		Property& operator*=(const _type& value)
 		{
 			*this = *this * value;
 			return *this;
@@ -84,7 +86,7 @@ public:
 			return get() * value;
 		}
 	
-		cProperty& operator/=(const _type& value)
+		Property& operator/=(const _type& value)
 		{
 			*this = *this / value;
 			return *this;
@@ -100,12 +102,17 @@ public:
 	typedef vector< shared<cPropertyList> > PropertiesListsVec;
 
 protected:
+	string              mName;               /** Property list name. */
 	shared< IProperty > mParentPropertyList; /** Parent property list. */
 	PropertiesListsVec  mChildPropertyLists; /** Child properties list array. */
 	PropertiesVec       mPropertiesList;     /** Properties array .*/
 
 public:
+	cPropertyList(const string& name = "");
+	virtual ~cPropertyList();
+
 	void addChildPropertyList(const shared<cPropertyList>& propList);
+	string getPropertyPath(const shared<IProperty>& prop);
 
 	template<typename T>
 	shared< Property<T> > getProperty(const string& pathName)

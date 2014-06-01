@@ -19,7 +19,7 @@ uiState::~uiState()
 
 void uiState::initializeProperties()
 {
-	state.initNonConstSetter(this, &uiState::setStateNonForcible, &uiState::getState);
+	REG_PROPERTY_SETTER_NONCONST(uiState, state, setStateNonForcible, getState);
 }
 
 void uiState::setOwnerWidget( const shared<uiWidget>& ownerWidget )

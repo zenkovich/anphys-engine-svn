@@ -13,7 +13,6 @@ uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, sha
 {
 	mLayout = layout;
 	initializeProperties();
-	initializePropertiesList();
 	updateLayout();
 }
 
@@ -21,7 +20,6 @@ uiWidget::uiWidget( const uiWidget& widget ):
 	mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
 	initializeProperties();
-	initializePropertiesList();
 
 	mId = widget.mId;
 	mLayout = widget.mLayout;
@@ -388,23 +386,16 @@ void uiWidget::onFocusLost()
 	mFocused = false;
 }
 
-void uiWidget::initializePropertiesList()
-{
-	registProperty(&mId, "id");
-	registProperty(&mLayout.mPxPosition, "px position");
-	registProperty(&mLayout.mPxSize, "px size");
-	registProperty(&mTransparency, "transparency");
-}
 
 void uiWidget::initializeProperties()
 {
-	position.init(this, &uiWidget::setPosition, &uiWidget::getPosition);
-	parent.init(this, &uiWidget::setParent, &uiWidget::getParent);
-	id.init(this, &uiWidget::setId, &uiWidget::getId);
-	globalPosition.init(this, &uiWidget::setGlobalPosition, &uiWidget::getGlobalPosition);
-	size.init(this, &uiWidget::setSize, &uiWidget::getSize);
-	visible.initNonConstSetter(this, &uiWidget::setVisible, &uiWidget::isVisible);
-	layout.init(this, &uiWidget::setlayout, &uiWidget::getlayout);
+	REG_PROPERTY(uiWidget, position, setPosition, getPosition);
+	REG_PROPERTY(uiWidget, parent, setParent, getParent);
+	REG_PROPERTY(uiWidget, id, setId, getId);
+	REG_PROPERTY(uiWidget, globalPosition, setGlobalPosition, getGlobalPosition);
+	REG_PROPERTY(uiWidget, size, setSize, getSize);
+	REG_PROPERTY_SETTER_NONCONST(uiWidget, visible, setVisible, isVisible);
+	REG_PROPERTY(uiWidget, layout, setlayout, getlayout);
 }
 
 void uiWidget::setVisibleParam(bool param)

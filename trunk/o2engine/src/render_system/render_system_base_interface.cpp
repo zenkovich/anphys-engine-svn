@@ -159,7 +159,7 @@ void grRenderSystemBaseInterface::removeAllTextures()
 
 void grRenderSystemBaseInterface::initializeProperties()
 {
-	camera.init(this, &grRenderSystemBaseInterface::bindCamera, &grRenderSystemBaseInterface::currentCamera);
+	REG_PROPERTY(grRenderSystemBaseInterface, camera, bindCamera, currentCamera);
 }
 
 CLOSE_O2_NAMESPACE

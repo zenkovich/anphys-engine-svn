@@ -389,10 +389,10 @@ SERIALIZE_METHOD_IMPL(grSprite)
 
 void grSprite::initializeProperties()
 {          
-	scale.init(this, &grSprite::setScale, &grSprite::getScale);          
-	angle.init(this, &grSprite::setAngle, &grSprite::getAngle);          
-	textureSrcRect.init(this, &grSprite::setTextureSrcRect, &grSprite::getTextureSrcRect);          
-	texture.init(this, &grSprite::setTexture, &grSprite::getTexture);          
+	REG_PROPERTY(grSprite, scale, setScale, getScale);
+	REG_PROPERTY(grSprite, angle, setAngle, getAngle);
+	REG_PROPERTY(grSprite, textureSrcRect, setTextureSrcRect, getTextureSrcRect);
+	REG_PROPERTY(grSprite, texture, setTexture, getTexture);        
 }
 
 CLOSE_O2_NAMESPACE

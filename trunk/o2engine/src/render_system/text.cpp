@@ -400,30 +400,30 @@ float grText::getLinesDistCoef() const
 
 void grText::initializeProperties()
 {
-	font.init(this, &grText::setFont, &grText::getFont);
-	text.init(this, &grText::setText, &grText::getText);
-	ctext.init(this, &grText::setCText, &grText::getCText);
-	style.init(this, &grText::setTextStyle, &grText::getTextStyle);
-	verAlign.init(this, &grText::setVerAlign, &grText::getVerAlign);
-	horAlign.init(this, &grText::setHorAlign, &grText::getHorAlign);
-	wordWrap.init(this, &grText::setWordWrap, &grText::getWordWrap);
-	cursive.init(this, &grText::setCursive, &grText::isCursive);
-	bold.init(this, &grText::setBold, &grText::isBold);
-	shadow.init(this, &grText::setShadow, &grText::isWithShadow);
-	border.init(this, &grText::setBorder, &grText::isWithBorder);
-	gradient.init(this, &grText::setGradient, &grText::isWithGradient);
-	effectOffset.init(this, &grText::setEffectOffset, &grText::getEffectOffset);
-	borderColor.init(this, &grText::setBorderColor, &grText::getBorderColor);
-	shadowColor.init(this, &grText::setShadowColor, &grText::getShadowColor);
-	gradientColorTop.init(this, &grText::setGradientTopColor, &grText::getGradientTopColor);
-	gradientColorBottom.init(this, &grText::setGradientBottomColor, &grText::getGradientBottomColor);
-	angle.init(this, &grText::setAngle, &grText::getAngle);
-	scale.init(this, &grText::setScale, &grText::getScale);
-	charactersHeight.init(this, &grText::setCharactersHeight, &grText::getCharactersHeight);
-	transform.init(this, &grText::setTransform, &grText::getTransform);
-	transformDef.init(this, &grText::setTransformDef, &grText::getTransformDef);
-	charactersDistCoef.init(this, &grText::setCharactersDistCoef, &grText::getCharactersDistCoef);
-	linesDistCoef.init(this, &grText::setLinesDistCoef, &grText::getLinesDistCoef);
+	REG_PROPERTY(grText, font, setFont, getFont);
+	REG_PROPERTY(grText, text, setText, getText);
+	REG_PROPERTY(grText, ctext, setCText, getCText);
+	REG_PROPERTY(grText, style, setTextStyle, getTextStyle);
+	REG_PROPERTY(grText, verAlign, setVerAlign, getVerAlign);
+	REG_PROPERTY(grText, horAlign, setHorAlign, getHorAlign);
+	REG_PROPERTY(grText, wordWrap, setWordWrap, getWordWrap);
+	REG_PROPERTY(grText, cursive, setCursive, isCursive);
+	REG_PROPERTY(grText, bold, setBold, isBold);
+	REG_PROPERTY(grText, shadow, setShadow, isWithShadow);
+	REG_PROPERTY(grText, border, setBorder, isWithBorder);
+	REG_PROPERTY(grText, gradient, setGradient, isWithGradient);
+	REG_PROPERTY(grText, effectOffset, setEffectOffset, getEffectOffset);
+	REG_PROPERTY(grText, borderColor, setBorderColor, getBorderColor);
+	REG_PROPERTY(grText, shadowColor, setShadowColor, getShadowColor);
+	REG_PROPERTY(grText, gradientColorTop, setGradientTopColor, getGradientTopColor);
+	REG_PROPERTY(grText, gradientColorBottom, setGradientBottomColor, getGradientBottomColor);
+	REG_PROPERTY(grText, angle, setAngle, getAngle);
+	REG_PROPERTY(grText, scale, setScale, getScale);
+	REG_PROPERTY(grText, charactersHeight, setCharactersHeight, getCharactersHeight);
+	REG_PROPERTY(grText, transform, setTransform, getTransform);
+	REG_PROPERTY(grText, transformDef, setTransformDef, getTransformDef);
+	REG_PROPERTY(grText, charactersDistCoef, setCharactersDistCoef, getCharactersDistCoef);
+	REG_PROPERTY(grText, linesDistCoef, setLinesDistCoef, getLinesDistCoef);
 }
 
 void grText::updateMesh()
