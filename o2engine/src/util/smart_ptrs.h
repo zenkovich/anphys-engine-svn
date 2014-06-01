@@ -208,6 +208,30 @@ public:
 	bool operator!=(const shared<T>& ref) const
 	{
 		return ref.mObject != mObject;
+	}	
+	
+	template<typename P>
+	bool operator==(const P* ptr)
+	{
+		return ptr == mObject;
+	}
+	
+	template<typename P>
+	bool operator==(const P* ptr) const
+	{
+		return ptr == mObject;
+	}
+	
+	template<typename P>
+	bool operator!=(P* const ptr)
+	{
+		return ptr != mObject;
+	}
+	
+	template<typename P>
+	bool operator!=(P* const ptr) const
+	{
+		return ptr != mObject;
 	}
 
 	shared<T>& operator=(const shared<T>& ref) 

@@ -4,12 +4,13 @@
 #include "public.h"
 #include "util/objects.h"
 #include "util/property.h"
+#include "util/property_list.h"
 
 OPEN_O2_NAMESPACE
 
 /** Basic rect drawable interface. It could be drawed, determinates by position, size, pivot and color. 
  ** pivot is in local space, in pixels. */
-class IRectDrawable: public virtual IDrawable
+class IRectDrawable: public virtual IDrawable, public cPropertyList
 {
 protected:
 	vec2f  mPosition; /** Position. */

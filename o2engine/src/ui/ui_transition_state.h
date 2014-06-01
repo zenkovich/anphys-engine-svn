@@ -73,7 +73,7 @@ public:
 	template<typename T>
 	class ValueProperty: public uiTransitionState::IProperty
 	{
-		typedef cPropertyList::DataProperty<T> Prop;
+		typedef cPropertyList::Property<T> Prop;
 
 		shared<Prop>              mProperty;
 		cAnimFrame<T>             mStateOff;         /** Off state animation frame. */
@@ -221,7 +221,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const std::string& propertyId, const T& stateOff, const T& stateOn, float duration, 
+	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>, const T& stateOff, const T& stateOn, float duration, 
 					                       const shared<ICallback>& onChanged = NULL)
 	{
 		return addProperty(mnew ValueProperty<T>(propertyId, stateOff, stateOn, duration, onChanged));

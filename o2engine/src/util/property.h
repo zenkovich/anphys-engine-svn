@@ -4,15 +4,14 @@
 #include <cstdarg>
 
 #include "public.h"
-#include "util/callback.h"
+#include "util/property_list.h"
 
 OPEN_O2_NAMESPACE
 
-class cPropertyList;
 
 /** Super-duper-mega cpp property! Hello from C#. I think not bad feature :). */
 template<typename _class, typename _type>
-class cProperty: public cPropertyList::Property
+class cProperty: public cPropertyList::Property<_type>
 {
 	_class* mClass;                         /** Basic class. */
 	
@@ -24,7 +23,7 @@ class cProperty: public cPropertyList::Property
 
 public:
 	/** ctor. */
-	cProperty():mSetter(NULL), mGetter(NULL), mClass(NULL) {}
+	cProperty(): mSetter(NULL), mGetter(NULL), mClass(NULL) {}
 
 	cProperty(const string& name, _class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
 	{
@@ -34,6 +33,7 @@ public:
 		mSetterNonConst = setterConst ? setterFunc:NULL;
 		mGetter = getterConst ? NULL:getterFunc;
 		mGetterNonConst = getterConst ? getterFunc:NULL;
+		checkPropertyList(tclass);
 	}
 
 	/** Initialization of property. */
@@ -45,6 +45,7 @@ public:
 		mSetterNonConst = NULL;
 		mGetter = getter;
 		mGetterNonConst = NULL;
+		checkPropertyList(tclass);
 	}
 
 	/** Initialization of property. */
@@ -56,6 +57,7 @@ public:
 		mSetterNonConst = NULL;
 		mGetter = NULL;
 		mGetterNonConst = getter;
+		checkPropertyList(tclass);
 	}
 
 	/** Initialization of property. */
@@ -67,6 +69,7 @@ public:
 		mSetterNonConst = setter;
 		mGetter = getter;
 		mGetterNonConst = NULL;
+		checkPropertyList(tclass);
 	}
 
 	/** Initialization of property. */
@@ -78,6 +81,7 @@ public:
 		mSetterNonConst = setter;
 		mGetter = NULL;
 		mGetterNonConst = getter;
+		checkPropertyList(tclass);
 	}
 
 	/** Type conversion operator. */
@@ -109,6 +113,56 @@ public:
 		prop.mSetter = mSetter;
 		prop.mGetter = mGetter;
 		prop.mGetterNonConst = mGetterNonConst;
+	}
+
+	cProperty& operator=(const _type& value)
+	{
+		set(value);
+		return *this;
+	}
+	
+	cProperty& operator+=(const _type& value)
+	{
+		*this = *this + value;
+		return *this;
+	}
+
+	_type operator+(const _type& value)
+	{
+		return get() + value;
+	}
+	
+	cProperty& operator-=(const _type& value)
+	{
+		*this = *this - value;
+		return *this;
+	}
+
+	_type operator-(const _type& value)
+	{
+		return get() - value;
+	}
+	
+	cProperty& operator*=(const _type& value)
+	{
+		*this = *this * value;
+		return *this;
+	}
+
+	_type operator*(const _type& value)
+	{
+		return get() * value;
+	}
+	
+	cProperty& operator/=(const _type& value)
+	{
+		*this = *this / value;
+		return *this;
+	}
+
+	_type operator/(const _type& value)
+	{
+		return get() / value;
 	}
 
 protected:

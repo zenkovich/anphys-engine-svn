@@ -21,15 +21,9 @@ void scComponent::setEnable(const bool& enable)
 	mEnable = enable;
 
 	if (mEnable) 
-	{
-		if (mOnEnabled) 
-			mOnEnabled->call();
-	}
+		onEnalbedEvent.call();
 	else
-	{
-		if (mOnDisabled)
-			mOnDisabled->call();
-	}
+		onDisabledEvent.call();
 }
 
 bool scComponent::isEnable() const
@@ -42,31 +36,9 @@ shared<scNode> scComponent::node() const
 	return mOwnerNode;
 }
 
-void scComponent::setOnEnabled(const shared<ICallback>& callback)
-{
-	mOnEnabled = callback;
-}
-
-shared<ICallback> scComponent::getOnEnabled() const
-{
-	return mOnEnabled;
-}
-
-void scComponent::setOnDisabled(const shared<ICallback>& callback)
-{
-	mOnDisabled = callback;
-}
-
-shared<ICallback> scComponent::getOnDisabled() const
-{
-	return mOnDisabled;
-}
-
 void scComponent::initializeProperties()
 {
-	enable.init(this, &scComponent::setEnable, &scComponent::isEnable);
-	onEnabled.init(this, &scComponent::setOnEnabled, &scComponent::getOnEnabled);
-	onEnabled.init(this, &scComponent::setOnDisabled, &scComponent::getOnDisabled);
+	REG_PROPERTY(scComponent, enable, setEnable, isEnable);
 }
 
 CLOSE_O2_NAMESPACE

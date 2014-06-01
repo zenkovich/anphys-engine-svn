@@ -93,9 +93,9 @@ void grMesh::setMaxPolyCount( const uint32& count )
 
 void grMesh::initializeProperties()
 {
-	texture.init(this, &grMesh::setTexture, &grMesh::getTexture);
-	maxVertexCount.init(this, &grMesh::setMaxVertexCount, &grMesh::getMaxVertexCount);
-	maxPolyCount.init(this, &grMesh::setMaxPolyCount, &grMesh::getMaxPolyCount);
+	REG_PROPERTY(grMesh, texture, setTexture, getTexture);
+	REG_PROPERTY(grMesh, maxVertexCount, setMaxVertexCount, getMaxVertexCount);
+	REG_PROPERTY(grMesh, maxPolyCount, setMaxPolyCount, getMaxPolyCount);
 }
 
 CLOSE_O2_NAMESPACE

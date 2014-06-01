@@ -414,26 +414,25 @@ color4 scNode::getColor() const
 
 void scNode::initializeProperties()
 {
-	id.init(this, &scNode::setId, &scNode::getId);
-	parent.init(this, &scNode::setParent, &scNode::getParent);
-	enabled.initNonConstSetter(this, &scNode::setEnable, &scNode::isEnable);
-	visible.initNonConstSetter(this, &scNode::setVisible, &scNode::isVisible);
-	basis_.init(this, &scNode::setBasis, &scNode::getBasis);
-	localBasis.init(this, &scNode::setLocalBasis, &scNode::getLocalBasis);
-	transform.initNonConstGetter(this, &scNode::setTransform, &scNode::getTransform);
-	localTransform.init(this, &scNode::setLocalTransform, &scNode::getLocalTransform);
-	position.initNonConstGetter(this, &scNode::setPosition, &scNode::getPosition);
-	localPosition.init(this, &scNode::setLocalPosition, &scNode::getLocalPosition);
-	scale.init(this, &scNode::setScale, &scNode::getScale);
-	localScale.init(this, &scNode::setLocalScale, &scNode::getLocalScale);
-	size.init(this, &scNode::setSize, &scNode::getSize);
-	localSize.init(this, &scNode::setLocalSize, &scNode::getLocalSize);
-	rotation.initNonConst(this, &scNode::setRotation, &scNode::getRotation);
-	localRotation.initNonConst(this, &scNode::setLocalRotation, &scNode::getLocalRotation);
-	shift.initNonConstSetter(this, &scNode::setShift, &scNode::getShift);
-	localShift.initNonConstSetter(this, &scNode::setLocalShift, &scNode::getLocalShift);
-	depth.initNonConstSetter(this, &scNode::setDepth, &scNode::getDepth);
-	color.init(this, &scNode::setColor, &scNode::getColor);
+	REG_PROPERTY(scNode, id, setId, getId);
+	REG_PROPERTY(scNode, parent, setParent, getParent);
+	REG_PROPERTY_SETTER_NONCONST(scNode, enabled, setEnable, isEnable);
+	REG_PROPERTY_SETTER_NONCONST(scNode, visible, setVisible, isVisible);
+	REG_PROPERTY(scNode, basis_, setBasis, getBasis);
+	REG_PROPERTY(scNode, localBasis, setLocalBasis, getLocalBasis);
+	REG_PROPERTY_GETTER_NONCONST(scNode, transform, setTransform, getTransform);
+	REG_PROPERTY(scNode, localTransform, setLocalTransform, getLocalTransform);
+	REG_PROPERTY_GETTER_NONCONST(scNode, position, setPosition, getPosition);
+	REG_PROPERTY(scNode, localPosition, setLocalPosition, getLocalPosition);
+	REG_PROPERTY(scNode, scale, setScale, getScale);
+	REG_PROPERTY(scNode, localScale, setLocalScale, getLocalScale);
+	REG_PROPERTY(scNode, size, setSize, getSize);
+	REG_PROPERTY(scNode, localSize, setLocalSize, getLocalSize);
+	REG_PROPERTY_NONCONST(scNode, rotation, setRotation, getRotation);
+	REG_PROPERTY_NONCONST(scNode, localRotation, setLocalRotation, getLocalRotation);
+	REG_PROPERTY_SETTER_NONCONST(scNode, shift, setShift, getShift);
+	REG_PROPERTY_SETTER_NONCONST(scNode, depth, setDepth, getDepth);
+	REG_PROPERTY(scNode, color, setColor, getColor);
 }
 
 void scNode::update(float dt)
