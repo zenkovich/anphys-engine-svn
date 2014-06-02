@@ -3,7 +3,7 @@
 OPEN_O2_NAMESPACE
 	
 cPropertyList::cPropertyList(const string& name /*= ""*/):
-	mName(name)
+	mPropertyListName(name)
 {
 }
 
@@ -19,17 +19,18 @@ void cPropertyList::addChildPropertyList( const shared<cPropertyList>& propList 
 	propList->mParentPropertyList = tempShared(this);
 }
 
-string cPropertyList::getPropertyPath( const shared<IProperty>& prop )
+void cPropertyList::removeChildPropertyList( const shared<cPropertyList>& propList )
 {
-	string res = prop->mName;
-	shared<cPropertyList> propList = prop->mPropertyList;
-	while(propList != this)
-	{
-		res = prop->mPropertyList->mName + "/" + res;
-		propList = prop->mPropertyList->mParentPropertyList;
-	}
+	PropertiesListsVec::iterator fnd = FIND(mChildPropertyLists, propList);
+	if (fnd == mChildPropertyLists.end())
+		return;
 
-	return res;
+	mChildPropertyLists.erase(fnd);
+}
+
+void cPropertyList::removeAllChildPropertyLists()
+{
+	mChildPropertyLists.clear();
 }
 
 shared<cPropertyList::IProperty> cPropertyList::getPropertyBase( const string& pathName )
@@ -46,13 +47,32 @@ shared<cPropertyList::IProperty> cPropertyList::getPropertyBase( const string& p
 
 	FOREACH(PropertiesListsVec, mChildPropertyLists, child)
 	{
-		if ((*child)->mName == pathPart)
+		if ((*child)->mPropertyListName == pathPart)
 		{
 			return (*child)->getPropertyBase(pathName.substr(delPos + 1));
 		}
 	}
 
 	return NULL;
+}
+
+void cPropertyList::setPropertyListName( const string& name )
+{
+	mPropertyListName = name;
+}
+
+
+string cPropertyList::IProperty::getPath() const
+{
+	string res = mName;
+	shared<cPropertyList> propList = mPropertyList;
+	while(propList->mParentPropertyList)
+	{
+		res = propList->mPropertyListName + "/" + res;
+		propList = propList->mParentPropertyList;
+	}
+
+	return res;
 }
 
 CLOSE_O2_NAMESPACE

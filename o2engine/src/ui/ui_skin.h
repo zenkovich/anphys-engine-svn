@@ -27,23 +27,21 @@ public:
 	/** Creates background rectangle widget. */
 	shared<uiRect> createBackground(const uiWidgetLayout& layout = uiBothLayout(), const string& id = "");
 
-	/** Creates sprite widget. */
-	shared<uiSprite> createSprite(const grTexture& texture, const vec2f& size = vec2f(), 
-		                                 const vec2f& position = vec2f(), const string& id = "");
+	/** Creates button. */
+	shared<uiButton> createButton(const string& caption, const uiWidgetLayout& layout, const string& id = "");
 
-	shared<uiRect> createRectangle(const grTexture& texture, const fRect& texRect, 
-		                                  int left, int top, int right, int bottom, 
-							  			  const vec2f& size = vec2f(), const vec2f& position = vec2f(), const string& id = "");
+	/** Creates sprite widget from texture. */
+	shared<uiSprite> createSprite(const grTexture& texture, const uiWidgetLayout& layout = uiBothLayout(), 
+		                          const string& id = "");
 
-	shared<uiButton> createButton(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
-
+	/** Sets button sample. */
 	void setButtonSample(const shared<uiButton>& buttonSample);
+
+	/** Sets background sample. */
 	void setBackgroundSamble(const shared<uiRect>& backgroundSample);
 
 protected:
-
-	/** Adding a simple visible state to widget. */
-	static void addVisibleState(const shared<uiWidget>& widget);
+	void addVisibleState(const shared<uiWidget>& widget);
 };
 
 #define uiSkin() uiSkinManager::instancePtr()

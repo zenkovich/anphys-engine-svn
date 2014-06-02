@@ -110,7 +110,7 @@ grSprite::~grSprite()
 	safe_release(mMesh);
 }
 
-shared<grSprite> grSprite::clone() const
+shared<IRectDrawable> grSprite::clone() const
 {
 	return mnew grSprite(*this);
 }

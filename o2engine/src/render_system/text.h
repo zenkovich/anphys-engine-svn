@@ -83,12 +83,18 @@ public:
 	PROPERTY(grText, basisDef)       transformDef;        /** Transform definition property. Uses set/getTransformDef. */
 	PROPERTY(grText, float)          charactersDistCoef;  /** Characters distance coef, 1 is standard. Uses set/getCharactersDistCoef. */
 	PROPERTY(grText, float)          linesDistCoef;       /** Lines distance coef, 1 is standard. Uses set/getLinesDistCoef. */
-
+	
 	/** ctor. */
 	grText(shared<grFont> font);
 
+	/** ctor. */
+	grText(const grText& text);
+
 	/** dtor. */
 	~grText();
+
+	/** Returns copy of drawable. */
+	shared<IRectDrawable> clone() const;
 
 	/** Draw text. */
 	void draw();	

@@ -3,23 +3,33 @@
 
 #include "ui_widget.h"
 #include "util/graphics/rect_drawable.h"
-#include <map>
 
 OPEN_O2_NAMESPACE
 
 class uiDrawablesListWidget: public uiWidget
 {
 public: 
-	typedef std::map< string, shared<IRectDrawable> > DrawablesMap;
+	struct DrawableContainer
+	{
+		string                mName;
+		uiWidgetLayout        mLayout;
+		shared<IRectDrawable> mDrawable;
+
+		DrawableContainer() {}
+		DrawableContainer(const string& name, const shared<IRectDrawable>& drawable, 
+			              const uiWidgetLayout& layout = uiBothLayout()):
+			mName(name), mDrawable(drawable), mLayout(layout) {}
+	};
+	typedef vector<DrawableContainer> DrawablesVec;
 
 protected:
-	DrawablesMap mDrawables;
+	DrawablesVec mDrawables;
 
 public:
 	uiDrawablesListWidget(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
-	uiDrawablesListWidget(const uiWidget& widget);
+	uiDrawablesListWidget(const uiDrawablesListWidget& widget);
 
 	/** dtor. */
 	~uiDrawablesListWidget();
@@ -27,14 +37,28 @@ public:
 	/** Returns clone of widget. */
 	virtual shared<uiWidget> clone() const;
 
-	shared<IRectDrawable> addDrawable(const shared<IRectDrawable>& drawable, const string& id);
+	/** Adding drawable with specified id. */
+	shared<IRectDrawable> addDrawable(const shared<IRectDrawable>& drawable, const string& id, 
+		                              const uiWidgetLayout& layout = uiBothLayout());
+
+	/** Returns drawable by id. */
 	shared<IRectDrawable> getDrawable(const string& id);
+
+	/** Removes drawable. */
 	void removeDrawable(const string& id);
+
+	/** Removes all drawables. */
 	void removeAllDrawables();
 
 protected:
 	/** Drawing current widget. */
 	virtual void localDraw();
+
+	/** Calls when widget's layout updated. */
+	virtual void layoutUpdated();
+
+	/** Calls when added drawable. */
+	virtual void addedDrawable(const shared<IRectDrawable>& drawable, const string& id) {}
 };
 
 CLOSE_O2_NAMESPACE

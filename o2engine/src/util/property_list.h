@@ -24,6 +24,8 @@ public:
 		IProperty(const string& name):
 			mName(name) {} 
 
+		string getPath() const;
+
 	protected:
 		template<typename _class>
 		void checkPropertyList(_class* tclass)
@@ -102,7 +104,7 @@ public:
 	typedef vector< shared<cPropertyList> > PropertiesListsVec;
 
 protected:
-	string              mName;               /** Property list name. */
+	string              mPropertyListName;   /** Property list name. */
 	shared< IProperty > mParentPropertyList; /** Parent property list. */
 	PropertiesListsVec  mChildPropertyLists; /** Child properties list array. */
 	PropertiesVec       mPropertiesList;     /** Properties array .*/
@@ -111,8 +113,10 @@ public:
 	cPropertyList(const string& name = "");
 	virtual ~cPropertyList();
 
+	void setPropertyListName(const string& name);
 	void addChildPropertyList(const shared<cPropertyList>& propList);
-	string getPropertyPath(const shared<IProperty>& prop);
+	void removeChildPropertyList(const shared<cPropertyList>& propList);
+	void removeAllChildPropertyLists();
 
 	template<typename T>
 	shared< Property<T> > getProperty(const string& pathName)

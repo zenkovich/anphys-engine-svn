@@ -23,14 +23,25 @@ uiWidgetLayout::uiWidgetLayout( const uiWidgetLayout& layout )
 	mPxSize = layout.mPxSize;
 }
 
-uiWidgetLayout uiStaightPixelLayout( const vec2f& position, const vec2f& size )
+void uiWidgetLayout::calculate( const vec2f& iniPosition, const vec2f& iniSize, vec2f& position, vec2f& size )
+{
+	size.x = clamp(iniSize.x*mRelSize.x + mPxSize.x, mMinSize.x, mMaxSize.x);
+	size.y = clamp(iniSize.y*mRelSize.y + mPxSize.y, mMinSize.y, mMaxSize.y);
+
+	vec2f pivot = size.scale(mRelPivot) + mPxPivot;
+
+	position = iniPosition + iniSize.scale(mRelPosition) - pivot + mPxPosition;
+}
+
+uiWidgetLayout uiStraightPixelLayout( const vec2f& position, const vec2f& size )
 {
 	return uiWidgetLayout(vec2f(), position, size);
 }
 
-uiWidgetLayout uiBothLayout( const vec2f& border )
+uiWidgetLayout uiBothLayout( const fRect& border /*= fRect()*/ )
 {
-	return uiWidgetLayout(vec2f(), vec2f(), vec2f(), vec2f(FLT_MAX, FLT_MAX), vec2f(1, 1));
+	return uiWidgetLayout(vec2f(), vec2f(border.left, border.right), vec2f(), vec2f(FLT_MAX, FLT_MAX), vec2f(1, 1),
+		                  vec2f(-border.left - border.right, -border.top - border.down));
 }
 
 CLOSE_O2_NAMESPACE

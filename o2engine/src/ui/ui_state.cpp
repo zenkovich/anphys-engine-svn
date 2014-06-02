@@ -5,12 +5,14 @@ OPEN_O2_NAMESPACE
 uiState::uiState( const string& name):
 	mName(name)
 {
+	initializeProperties();
 }
 
 uiState::uiState( const uiState& state )
 {
 	mName = state.mName;
 	mOwnerWidget = NULL;
+	initializeProperties();
 }
 
 uiState::~uiState()

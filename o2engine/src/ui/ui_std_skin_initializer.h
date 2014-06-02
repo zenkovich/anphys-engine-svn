@@ -7,9 +7,13 @@
 
 OPEN_O2_NAMESPACE
 
+class grFont;
+
 class uiStdSkinInitializer
 {
 	static shared<uiSkinManager> mSkinManager;
+
+	static shared<grFont> mStdFont;
 
 public:
 	static void initialize();

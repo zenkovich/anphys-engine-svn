@@ -17,11 +17,20 @@ cUITest::cUITest()
 	uiStdSkinInitializer::initialize();
 
 	uiHost()->addWidget( uiSkin()->createBackground() );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 300)) );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 330)) );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 360)) );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 390)) );
-	uiHost()->addWidget( uiSkin()->createButton(vec2f(100, 30), vec2f(300, 420)) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 1", uiStraightPixelLayout(vec2f(300, 300), vec2f(100, 20))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 2", uiStraightPixelLayout(vec2f(300, 330), vec2f(100, 20))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 3", uiStraightPixelLayout(vec2f(300, 360), vec2f(100, 20))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 4", uiStraightPixelLayout(vec2f(300, 390), vec2f(100, 20))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 5", uiStraightPixelLayout(vec2f(300, 420), vec2f(100, 20))) );
+
+	spr = uiSkin()->createSprite(grTexture::createFromFile("ui_test"), 
+		                         uiStraightPixelLayout(vec2f(100, 100), vec2f(100, 100)));
+
+	wdg = spr->clone();
+	wdg->position = vec2f(200, 200);
+	
+	uiHost()->addWidget( spr );
+	uiHost()->addWidget( wdg );
 
 	//sprite = mnew grSprite(grTexture::createFromFile("test"));
 	//sprite = mnew cStretchRect( grTexture::createFromFile("ui_skin/btn_regular"), 10, 10, 14, 14 );
@@ -42,6 +51,12 @@ void cUITest::update(float dt)
 		else
 			sprite->position += appInput()->getCursorDelta();
 	}
+	
+	if (appInput()->isKeyPressed('X'))
+		spr->visible = !spr->visible;
+
+	if (appInput()->isKeyPressed('Z'))
+		wdg->visible = !wdg->visible;
 }
 
 void cUITest::draw()
