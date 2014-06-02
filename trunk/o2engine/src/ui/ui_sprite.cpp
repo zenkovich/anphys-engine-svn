@@ -7,8 +7,7 @@ uiSprite::uiSprite(const uiWidgetLayout& layout, const string& id /*= ""*/, shar
 {
 	layoutUpdated();
 
-	getProperty<float>("transparency")->onChangeEvent.add(
-		callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
+	transparency.onChangeEvent.add(callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
 }
 
 uiSprite::uiSprite(const uiSprite& spriteWidget):
@@ -16,9 +15,8 @@ uiSprite::uiSprite(const uiSprite& spriteWidget):
 {
 	mSprite = spriteWidget.mSprite;
 	layoutUpdated();
-
-	getProperty<float>("transparency")->onChangeEvent.add(
-		callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
+	
+	transparency.onChangeEvent.add(callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
 }
 
 uiSprite::~uiSprite()
@@ -44,9 +42,7 @@ void uiSprite::layoutUpdated()
 
 void uiSprite::transparencyChanged()
 {
-	color4 spriteColor = mSprite.getColor();
-	spriteColor.a = (int)(mTransparency*255.0f);
-	mSprite.setColor(spriteColor);
+	mSprite.setTransparency(mTransparency);
 }
 
 CLOSE_O2_NAMESPACE

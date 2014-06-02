@@ -58,6 +58,9 @@ public:
 	/** copy operator. */
 	cStretchRect& operator=(const cStretchRect& stretchRect);
 
+	/** Returns a copy of drawable. */
+	shared<IRectDrawable> clone() const;
+
 	/** Adding a part. Automatically resizing mesh. */
 	int addPart(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
 		        const fRect& texRect, bool wrapTexture = false,

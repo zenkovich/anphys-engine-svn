@@ -63,7 +63,7 @@ public:
 	~grSprite();
 
 	/** Returns cloned sprite. */
-	shared<grSprite> clone() const;
+	shared<IRectDrawable> clone() const;
 
 	grSprite& operator=(const grSprite& sprite);
 

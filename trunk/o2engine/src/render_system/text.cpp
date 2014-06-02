@@ -14,10 +14,38 @@ grText::grText( shared<grFont> font ):
 	initializeProperties();
 }
 
+grText::grText( const grText& text ):
+	IRectDrawable(text)
+{
+	mText = text.mText;               
+	mFont = text.mFont;               
+	mTransform = text.mTransform;          
+	mTransformDef = text.mTransformDef;       
+	mCharactersDistCoef = text.mCharactersDistCoef; 
+	mLinesDistCoef = text.mLinesDistCoef;      
+	mStyle = text.mStyle;              
+	mVerAlign = text.mVerAlign;           
+	mHorAlign = text.mHorAlign;           
+	mWordWrap = text.mWordWrap;           
+	mGradientTopColor = text.mGradientTopColor;   
+	mGradientBottomColor = text.mGradientBottomColor;
+	mBorderColor = text.mBorderColor;        
+	mShadowColor = text.mShadowColor;        
+	mEffectOffset = text.mEffectOffset;       
+	
+	mNeedUpdateMesh = true;     
+	mNeedTransformMesh = false;  
+}
+
 grText::~grText()
 {
 	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
 		safe_release(*it);
+}
+
+shared<IRectDrawable> grText::clone() const
+{
+	return mnew grText(*this);
 }
 
 void grText::draw()
@@ -440,6 +468,11 @@ void grText::updateMesh()
 
 	int textLen = mText.length();
 
+	if (mMeshes.size() == 0 && textLen == 0)
+	{
+		return;
+	}
+
 	prepareMesh(textLen);
 
 	vec2f fullSize;
@@ -527,7 +560,7 @@ void grText::updateMesh()
 		else if (mHorAlign == HA_BOTH)
 			additiveSpaceOffs = (mSize.x - line->mSize)/(float)line->mSpacesCount;
 			
-		vec2f locOrigin( xOffset, yOffset ); 
+		vec2f locOrigin( (float)(int)xOffset, (float)(int)yOffset ); 
 		yOffset += lineHeight;
 		for (SymbolDefVec::iterator jt = line->mSymbols.begin(); jt != line->mSymbols.end(); ++jt)
 		{

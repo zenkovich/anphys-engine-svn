@@ -89,10 +89,10 @@ public:
 
 	public:
 		/** ctor. */
-		ValueProperty(const std::string& propertyId, const T& stateOff, const T& stateOn, float duration, 
+		ValueProperty(const Prop& prop, const T& stateOff, const T& stateOn, float duration, 
 					  const shared<ICallback>& onChanged = NULL)
 		{
-			mProperty = NULL;
+			mProperty = tempShared(&prop);
 			mStateOff = cAnimFrame<T>(stateOff, duration);
 			mStateOn = cAnimFrame<T>(stateOn, duration);
 			mInterpolator.initialize(&mStateOff, &mStateOn);
@@ -101,15 +101,15 @@ public:
 			mTargetState = false;
 			mComplete = true;
 			mOnChanged = onChanged;
-			mWidgetPropertyId = propertyId;
+			mWidgetPropertyId = prop.getPath();
 			mStateOwner = NULL;
 		}
 
 		/** ctor. */
-		ValueProperty(const std::string& propertyId, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+		ValueProperty(const Prop& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
 					  const shared<ICallback>& onChanged = NULL)	
 		{
-			mProperty = NULL;
+			mProperty = tempShared(&prop);
 			mStateOff = stateOff;
 			mStateOn = stateOn;
 			mInterpolator.initialize(&mStateOff, &mStateOn);
@@ -118,15 +118,30 @@ public:
 			mTargetState = false;
 			mComplete = true;
 			mOnChanged = onChanged;
-			mWidgetPropertyId = propertyId;
+			mWidgetPropertyId = prop.getPath();
+			mStateOwner = NULL;
+		}
+
+		/** ctor. */
+		ValueProperty(const ValueProperty& prop)	
+		{
+			mProperty = prop.mProperty;
+			mStateOff = prop.mStateOff;
+			mStateOn = prop.mStateOn;
+			mInterpolator.initialize(&mStateOff, &mStateOn);
+			mCoef = prop.mCoef;
+			mCoefTime = prop.mCoefTime;
+			mTargetState = prop.mTargetState;
+			mComplete = prop.mComplete;
+			mOnChanged = prop.mOnChanged;
+			mWidgetPropertyId = prop.mWidgetPropertyId;
 			mStateOwner = NULL;
 		}
 
 		/** Return a copy. */
 		shared<uiTransitionState::IProperty> clone() const
 		{
-			shared<ValueProperty> res = mnew ValueProperty(mWidgetPropertyId, mStateOff, mStateOn, mOnChanged);
-			return res;
+			return mnew ValueProperty(*this);
 		}
 
 		/** Updates animation. */
@@ -221,18 +236,18 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>, const T& stateOff, const T& stateOn, float duration, 
+	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>& prop, const T& stateOff, const T& stateOn, float duration, 
 					                       const shared<ICallback>& onChanged = NULL)
 	{
-		return addProperty(mnew ValueProperty<T>(propertyId, stateOff, stateOn, duration, onChanged));
+		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, duration, onChanged));
 	}
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const std::string& propertyId, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
 					                       const shared<ICallback>& onChanged = NULL)
 	{
-		return addProperty(mnew ValueProperty<T>(propertyId, stateOff, stateOn, onChanged));
+		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, onChanged));
 	}
 };
 

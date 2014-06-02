@@ -71,6 +71,7 @@ public:
 	PROPERTY(uiWidget, vec2f)            size;           /**< Size property. Using setSize/getSize. */
 	PROPERTY(uiWidget, bool)             visible;        /**< Visibility property. Using set/isVisible. */
 	PROPERTY(uiWidget, uiWidgetLayout)   layout;         /**< Widget layout. Using set/getLayout. */
+	PROPERTY(uiWidget, float)            transparency;   /**< Widget dtransparency. Using set/getTransparency. */
 
 
 	/** ctor. */
@@ -179,7 +180,7 @@ public:
 	vec2f getSize() const;
 
 	/** Sets widget layout. */
-	void setlayout(const uiWidgetLayout& layout);
+	void setLayout(const uiWidgetLayout& layout);
 
 	/** Returns widget layout. */
 	uiWidgetLayout getlayout() const;
@@ -189,6 +190,12 @@ public:
 
 	/** Returns colliding geometry ptr. */
 	shared<cGeometry> getGeometry() const;
+
+	/** Sets transparency of widget. */
+	void setTransparency(float transparency);
+
+	/** Returns widget transparency. */
+	float getTransparency() const;
 
 protected:
 	/** Updating current and child layouts: global positions and bounds. */

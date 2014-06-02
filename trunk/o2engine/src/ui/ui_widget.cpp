@@ -97,14 +97,8 @@ void uiWidget::localUpdateLayout()
 		parentPos = mParent->mGlobalPosition;
 		parentSize = mParent->mSize;
 	}
-	
-	mSize.x = clamp(parentSize.x*mLayout.mRelSize.x + mLayout.mPxSize.x, mLayout.mMinSize.x, mLayout.mMaxSize.x);
-	mSize.y = clamp(parentSize.y*mLayout.mRelSize.y + mLayout.mPxSize.y, mLayout.mMinSize.y, mLayout.mMaxSize.y);
 
-	vec2f pivot = mSize.scale(mLayout.mRelPivot) + mLayout.mPxPivot;
-
-	mGlobalPosition = parentPos + parentSize.scale(mLayout.mRelPosition) - pivot + mLayout.mPxPosition;
-
+	mLayout.calculate(parentPos, parentSize, mGlobalPosition, mSize);
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
 
 	layoutUpdated();
@@ -333,6 +327,8 @@ shared<uiState> uiWidget::addState(const shared<uiState>& state)
 		state->setState(mVisible, true);
 	}
 
+	addedState(state);
+
 	return state;
 }
 
@@ -368,6 +364,32 @@ void uiWidget::setVisible(bool visible)
 	}
 }
 
+void uiWidget::setVisibleParam(bool param)
+{
+	mVisible = param;
+}
+
+void uiWidget::setLayout(const uiWidgetLayout& layout)
+{
+	mLayout = layout;
+	updateLayout();
+}
+
+uiWidgetLayout uiWidget::getlayout() const
+{
+	return mLayout;
+}
+
+void uiWidget::setTransparency( float transparency )
+{
+	mTransparency = transparency;
+}
+
+float uiWidget::getTransparency() const
+{
+	return mTransparency;
+}
+
 bool uiWidget::isVisible() const
 {
 	if (mVisibleState)
@@ -386,7 +408,6 @@ void uiWidget::onFocusLost()
 	mFocused = false;
 }
 
-
 void uiWidget::initializeProperties()
 {
 	REG_PROPERTY(uiWidget, position, setPosition, getPosition);
@@ -395,23 +416,8 @@ void uiWidget::initializeProperties()
 	REG_PROPERTY(uiWidget, globalPosition, setGlobalPosition, getGlobalPosition);
 	REG_PROPERTY(uiWidget, size, setSize, getSize);
 	REG_PROPERTY_SETTER_NONCONST(uiWidget, visible, setVisible, isVisible);
-	REG_PROPERTY(uiWidget, layout, setlayout, getlayout);
-}
-
-void uiWidget::setVisibleParam(bool param)
-{
-	mVisible = param;
-}
-
-void uiWidget::setlayout(const uiWidgetLayout& layout)
-{
-	mLayout = layout;
-	updateLayout();
-}
-
-uiWidgetLayout uiWidget::getlayout() const
-{
-	return mLayout;
+	REG_PROPERTY(uiWidget, layout, setLayout, getlayout);
+	REG_PROPERTY_SETTER_NONCONST(uiWidget, transparency, setTransparency, getTransparency);
 }
 
 CLOSE_O2_NAMESPACE

@@ -25,11 +25,13 @@ struct uiWidgetLayout
 			       const vec2f& relPivot = vec2f(), const vec2f& pxPivot = vec2f());
 
 	uiWidgetLayout(const uiWidgetLayout& layout);
+
+	void calculate(const vec2f& iniPosition, const vec2f& iniSize, vec2f& position, vec2f& size);
 };
 
-uiWidgetLayout uiStaightPixelLayout(const vec2f& position, const vec2f& size);
+uiWidgetLayout uiStraightPixelLayout(const vec2f& position, const vec2f& size);
 
-uiWidgetLayout uiBothLayout(const vec2f& border = vec2f());
+uiWidgetLayout uiBothLayout(const fRect& border = fRect());
 
 CLOSE_O2_NAMESPACE
 

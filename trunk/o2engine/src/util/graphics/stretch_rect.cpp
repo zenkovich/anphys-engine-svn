@@ -29,7 +29,6 @@ cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTe
 	mMesh(NULL), mNeedUpdateMesh(true), IRectDrawable(), mNeedUpdateColors(false)
 {
 	createMesh(max(parts, 1), texture);
-	initializeProperties();
 }
 
 cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
@@ -41,8 +40,6 @@ cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
 
 	mNeedUpdateMesh = true;
 	mNeedUpdateColors = false;
-
-	initializeProperties();
 }
 
 cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, 
@@ -104,7 +101,6 @@ cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int righ
 		   fRect(rt.right - _right, rt.down - _bottom, rt.right, rt.down));
 
 	updateMesh();
-	initializeProperties();
 }
 
 cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
@@ -122,6 +118,11 @@ cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
 	mNeedUpdateColors = false;
 
 	return *this;
+}
+
+shared<IRectDrawable> cStretchRect::clone() const
+{
+	return mnew cStretchRect(*this);
 }
 
 void cStretchRect::createMesh(int partsCount, const grTexture& texture)

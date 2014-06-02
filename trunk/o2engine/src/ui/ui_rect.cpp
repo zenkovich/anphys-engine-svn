@@ -5,17 +5,14 @@ OPEN_O2_NAMESPACE
 uiRect::uiRect(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
 	uiWidget(layout, id, parent)
 {
-	getProperty<float>("transparency")->onChangeEvent.add(
-		callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
+	transparency.onChangeEvent.add(callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
 }
 
 uiRect::uiRect(const uiRect& rectWidget):
 	uiWidget(rectWidget)
 {
-	mStretchRect = rectWidget.mStretchRect;
-
-	getProperty<float>("transparency")->onChangeEvent.add(
-		callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
+	mStretchRect = rectWidget.mStretchRect;	
+	transparency.onChangeEvent.add(callback<uiRect>( tempShared<uiRect>(this), &uiRect::transparencyChanged));
 }
 
 uiRect::~uiRect()

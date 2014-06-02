@@ -15,49 +15,16 @@ DECLARE_SINGLETON(uiSkinManager);
 
 shared<uiWidget> uiSkinManager::createWidget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
 {
-	shared<uiWidget> widget = mnew uiWidget(uiStaightPixelLayout(position, size), id);
+	shared<uiWidget> widget = mnew uiWidget(uiStraightPixelLayout(position, size), id);
 	return widget;
 }
 
-shared<uiSprite> uiSkinManager::createSprite(const grTexture& texture, const vec2f& size /*= vec2f()*/, 
-	                                  const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
-{
-	shared<uiSprite> sprite = mnew uiSprite(uiStaightPixelLayout(position, size), id);
-	sprite->mSprite.setTexture(texture);
-	sprite->mSprite.setTextureSrcRect(fRect(vec2f(), texture.getSize()));
-	addVisibleState(sprite);
-	return sprite;
-}
-
-void uiSkinManager::addVisibleState(const shared<uiWidget>& widget)
-{
-	shared<uiTransitionState> visibleState = mnew uiTransitionState("visible");
-	visibleState->onBeginActiveStateEvent.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, true ) );
-	visibleState->onDeactiveStateEvent.add( callback<bool, uiWidget>( widget, &uiWidget::setVisibleParam, false ) );
-	visibleState->addProperty<float>("transparency", 0.0f, 1.0f);
-
-	widget->addState(visibleState);
-}
-
-shared<uiRect> uiSkinManager::createRectangle(const grTexture& texture, const fRect& texRect, 
-	                                   int left, int top, int right, int bottom, 
-									   const vec2f& size /*= vec2f()*/, const vec2f& position /*= vec2f()*/, 
-									   const string& id /*= ""*/)
-{
-	shared<uiRect> rect = mnew uiRect(uiStaightPixelLayout(position, size), id);
-	rect->mStretchRect = cStretchRect(texture, left, top, right, bottom, texRect);
-	rect->position = position;
-	rect->size = size;
-	addVisibleState(rect);
-	return rect;
-}
-
-shared<uiButton> uiSkinManager::createButton(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
+shared<uiButton> uiSkinManager::createButton(const string& caption, const uiWidgetLayout& layout, const string& id /*= ""*/)
 {
 	shared<uiButton> button = mButtonSample->clone();
-	button->setSize(size);
-	button->setPosition(position);
+	button->setLayout(layout);
 	button->setId(id);
+	button->setCCaption(caption);
 
 	return button;
 }
@@ -70,7 +37,7 @@ void uiSkinManager::setButtonSample(const shared<uiButton>& buttonSample)
 shared<uiRect> uiSkinManager::createBackground(const uiWidgetLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
 {
 	shared<uiRect> background = mBackgroundSamble->clone();
-	background->setlayout(layout);
+	background->setLayout(layout);
 	background->setId(id);
 
 	return background;
@@ -79,6 +46,24 @@ shared<uiRect> uiSkinManager::createBackground(const uiWidgetLayout& layout /*= 
 void uiSkinManager::setBackgroundSamble(const shared<uiRect>& backgroundSample)
 {
 	mBackgroundSamble = backgroundSample;
+}
+
+shared<uiSprite> uiSkinManager::createSprite( const grTexture& texture, const uiWidgetLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/ )
+{
+	shared<uiSprite> spriteWidget = mnew uiSprite(layout, id);
+	spriteWidget->mSprite.setTexture(texture);
+	spriteWidget->mSprite.setTextureSrcRect(fRect(vec2f(), texture.getSize()));
+
+	addVisibleState(spriteWidget);
+
+	return spriteWidget;
+}
+
+void uiSkinManager::addVisibleState( const shared<uiWidget>& widget )
+{
+	shared<uiTransitionState> state = mnew uiTransitionState("visible");
+	state->addProperty(widget->transparency, 0.0f, 1.0f, 0.5f);
+	widget->addState(state);
 }
 
 CLOSE_O2_NAMESPACE
