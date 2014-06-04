@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\dependencies\pthreads;..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\pthreads;..\dependencies\;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>..\src;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
+    <OutDir>$(ProjectDir)\..\lib</OutDir>
     <TargetExt>.lib</TargetExt>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
