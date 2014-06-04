@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\main_win.cpp" />
-    <ClCompile Include="..\..\src\tests\animation_test.cpp" />
-    <ClCompile Include="..\..\src\tests\input_msg_test.cpp" />
-    <ClCompile Include="..\..\src\tests\text_test.cpp" />
-    <ClCompile Include="..\..\src\tests\ui_test.cpp" />
-    <ClCompile Include="..\..\src\test_app.cpp" />
+    <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp" />
+    <ClCompile Include="..\..\..\..\src\tests\input_msg_test.cpp" />
+    <ClCompile Include="..\..\..\..\src\tests\text_test.cpp" />
+    <ClCompile Include="..\..\..\..\src\tests\ui_test.cpp" />
+    <ClCompile Include="..\..\..\..\src\test_app.cpp" />
+    <ClCompile Include="main_win.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\tests\animation_test.h" />
-    <ClInclude Include="..\..\src\tests\input_msg_test.h" />
-    <ClInclude Include="..\..\src\tests\test_interface.h" />
-    <ClInclude Include="..\..\src\tests\text_test.h" />
-    <ClInclude Include="..\..\src\tests\ui_test.h" />
-    <ClInclude Include="..\..\src\test_app.h" />
+    <ClInclude Include="..\..\..\..\src\tests\animation_test.h" />
+    <ClInclude Include="..\..\..\..\src\tests\input_msg_test.h" />
+    <ClInclude Include="..\..\..\..\src\tests\test_interface.h" />
+    <ClInclude Include="..\..\..\..\src\tests\text_test.h" />
+    <ClInclude Include="..\..\..\..\src\tests\ui_test.h" />
+    <ClInclude Include="..\..\..\..\src\test_app.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4685FB3E-1C7E-49AE-A2B3-5CDBFF269F04}</ProjectGuid>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)../../bin/</OutDir>
     <LibraryPath>D:\work\home\o2engine\lib;D:\work\home\o2engine\dependencies\pthreads;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\work\home\o2engine\dependencies\pthreads;D:\work\home\o2engine\dependencies;D:\work\home\o2engine\src;$(IncludePath)</IncludePath>
+    <IncludePath>../../../../src;D:\work\home\o2engine\dependencies\pthreads;D:\work\home\o2engine\dependencies;D:\work\home\o2engine\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\o2engine\dependencies;..\o2engine\src;$(IncludePath)</IncludePath>

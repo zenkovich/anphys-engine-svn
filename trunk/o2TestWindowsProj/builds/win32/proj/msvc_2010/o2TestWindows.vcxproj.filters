@@ -10,42 +10,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\tests\animation_test.cpp">
+    <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\tests\input_msg_test.cpp">
+    <ClCompile Include="..\..\..\..\src\tests\input_msg_test.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\tests\text_test.cpp">
+    <ClCompile Include="..\..\..\..\src\tests\text_test.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\tests\ui_test.cpp">
+    <ClCompile Include="..\..\..\..\src\tests\ui_test.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\main_win.cpp">
+    <ClCompile Include="..\..\..\..\src\test_app.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\test_app.cpp">
+    <ClCompile Include="main_win.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\tests\animation_test.h">
+    <ClInclude Include="..\..\..\..\src\tests\animation_test.h">
       <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\tests\input_msg_test.h">
+    <ClInclude Include="..\..\..\..\src\tests\input_msg_test.h">
       <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\tests\test_interface.h">
+    <ClInclude Include="..\..\..\..\src\tests\test_interface.h">
       <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\tests\text_test.h">
+    <ClInclude Include="..\..\..\..\src\tests\text_test.h">
       <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\tests\ui_test.h">
+    <ClInclude Include="..\..\..\..\src\tests\ui_test.h">
       <Filter>src\tests</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\test_app.h">
+    <ClInclude Include="..\..\..\..\src\test_app.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
