@@ -22,8 +22,11 @@ string toString(int value);
 /** Converting float value to string. */
 string toString(float value);
 
-/** Converting float value to string. */
+/** Converting color value to string. */
 string toString(const color4& value);
+
+/** Converting vector value to string. */
+string toString(const vec2f& value);
 
 /** Converting string to integer. */
 int toInt(const string& str);

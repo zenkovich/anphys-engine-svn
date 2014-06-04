@@ -12,6 +12,9 @@
 
 OPEN_O2_NAMESPACE
 
+
+cStretchRect* testRT;
+
 cUITest::cUITest()
 {
 	uiStdSkinInitializer::initialize();
@@ -25,6 +28,9 @@ cUITest::cUITest()
 
 	spr = uiSkin()->createSprite(grTexture::createFromFile("ui_test"), 
 		                         uiStraightPixelLayout(vec2f(100, 100), vec2f(100, 100)));
+
+	testRT = mnew cStretchRect(grTexture::createFromFile("ui_test"), 30, 30, 30, 30);
+	testRT->rect = fRect(50, 50, 0, 0);
 
 	wdg = spr->clone();
 	wdg->position = vec2f(200, 200);
@@ -50,6 +56,9 @@ void cUITest::update(float dt)
 			sprite->size += appInput()->getCursorDelta();
 		else
 			sprite->position += appInput()->getCursorDelta();
+
+		if (appInput()->isKeyDown('V'))
+			testRT->size += appInput()->getCursorDelta();
 	}
 	
 	if (appInput()->isKeyPressed('X'))
@@ -57,12 +66,16 @@ void cUITest::update(float dt)
 
 	if (appInput()->isKeyPressed('Z'))
 		wdg->visible = !wdg->visible;
+
+
 }
 
 void cUITest::draw()
 {
 	sprite->draw();
 	renderSystem()->drawCross(sprite->position, 5.0f, color4::green());
+	testRT->draw();
+	testRT->drawDebug();
 }
 
 CLOSE_O2_NAMESPACE

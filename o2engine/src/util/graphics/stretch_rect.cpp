@@ -22,6 +22,14 @@ cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const ve
 {
 	mVertexColors[0] = vertex0Color; mVertexColors[1] = vertex1Color; 
 	mVertexColors[2] = vertex2Color; mVertexColors[3] = vertex3Color;
+
+	const vec2f idSize(100, 100);
+	
+	vec2f lt = mLTPosPercent.scale(idSize) + mLTPosPixel;
+	vec2f rb = mRBPosPercent.scale(idSize) + mRBPosPixel;
+	
+	mClampLeft = lt.x > 0; mClampRight = rb.x < idSize.x;
+	mClampTop = lt.y > 0;  mClampBottom = rb.y < idSize.y;
 }
 
 
@@ -29,6 +37,7 @@ cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTe
 	mMesh(NULL), mNeedUpdateMesh(true), IRectDrawable(), mNeedUpdateColors(false)
 {
 	createMesh(max(parts, 1), texture);
+	mMinSize = vec2f(FLT_MAX, FLT_MAX);
 }
 
 cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
@@ -37,6 +46,7 @@ cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
 	mMesh = mnew grMesh(*stretchRect.mMesh);
 
 	mParts = stretchRect.mParts;
+	mMinSize = stretchRect.mMinSize;
 
 	mNeedUpdateMesh = true;
 	mNeedUpdateColors = false;
@@ -59,6 +69,7 @@ cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int righ
 
 	mSize = rt.getSize();
 	mColor = color;
+	mMinSize = vec2f((float)(left + right), (float)(top + bottom));
 
 	color4 wc = color4::white();
 
@@ -178,6 +189,17 @@ void cStretchRect::removePart( int idx )
 	mNeedUpdateMesh = true;
 }
 
+void cStretchRect::setMinSize( const vec2f& minSize )
+{
+	mMinSize = minSize;
+	mNeedUpdateMesh = true;
+}
+
+vec2f cStretchRect::getMinSize() const
+{
+	return mMinSize;
+}
+
 void cStretchRect::positionChanged()
 {
 	mNeedUpdateMesh = true;
@@ -198,6 +220,26 @@ void cStretchRect::colorChanged()
 	mNeedUpdateColors = true;
 }
 
+inline void cStretchRectClamp(float& minSide, float& maxSide, bool clampMin, bool clampMax, float clampCoef, float& minTex, float& maxTex)
+{
+	float size = maxSide - minSide;
+	if (size < 0)
+	{
+		maxSide = minSide = 0;
+		return;
+	}
+	
+	float leftCoef = (float)clampMin;
+	float rightCoef = (float)clampMax;
+	float diff = size - size*clampCoef;
+	float coefSumm = leftCoef + rightCoef;
+	float invCoefSumm = 1.0f/coefSumm;
+	float minDiff = leftCoef*invCoefSumm*diff;
+	float maxDiff = rightCoef*invCoefSumm*diff;
+	minSide += minDiff; minTex += minDiff;
+	maxSide -= maxDiff; maxTex -= maxDiff;
+}
+
 void cStretchRect::updateMesh()
 {
 	if (!mMesh)
@@ -207,13 +249,27 @@ void cStretchRect::updateMesh()
 	vec2f invTexSize(1.0f/texSize.x, 1.0f/texSize.y);
 
 	vec2f pos = mPosition - mPivot;
+	bool clampX = mSize.x < mMinSize.x;
+	bool clampY = mSize.y < mMinSize.y;
+	vec2f clampCoef = mSize.invScale(mMinSize);
 	int i = 0;
 	for (PartsVec::iterator it = mParts.begin(); it != mParts.end(); ++it, i++)
 	{
-		vec2f ltPoint = pos + mSize.scale(it->mLTPosPercent) + it->mLTPosPixel;
-		vec2f rbPoint = pos + mSize.scale(it->mRBPosPercent) + it->mRBPosPixel;
+		vec2f loc_ltPoint = mSize.scale(it->mLTPosPercent) + it->mLTPosPixel;
+		vec2f loc_rbPoint = mSize.scale(it->mRBPosPercent) + it->mRBPosPixel;
+		fRect texRect = it->mTextureSrcRect;
+		
+		if (clampX)
+			cStretchRectClamp(loc_ltPoint.x, loc_rbPoint.x, it->mClampLeft, it->mClampRight, clampCoef.x, 
+				              texRect.left, texRect.right);
+		
+		if (clampY)
+			cStretchRectClamp(loc_ltPoint.y, loc_rbPoint.y, it->mClampTop, it->mClampBottom, clampCoef.y, 
+				              texRect.top, texRect.down);
 
-		fRect tex = it->mTextureSrcRect*invTexSize;
+		vec2f ltPoint = pos + loc_ltPoint;
+		vec2f rbPoint = pos + loc_rbPoint;
+		fRect tex = texRect*invTexSize;
 
 		if (it->mWrapTexture)
 		{
@@ -221,10 +277,10 @@ void cStretchRect::updateMesh()
 			tex.down *= (rbPoint.y - ltPoint.y)/it->mTextureSrcRect.getSizeY();
 		}
 		
-		mMesh->mVerticies[i*4    ].set(ltPoint,                     1.0f, (it->mVertexColors[0]*mColor).dword(), tex.left, tex.top);
+		mMesh->mVerticies[i*4    ].set(ltPoint,                     1.0f, (it->mVertexColors[0]*mColor).dword(), tex.left,  tex.top);
 		mMesh->mVerticies[i*4 + 1].set(vec2f(rbPoint.x, ltPoint.y), 1.0f, (it->mVertexColors[1]*mColor).dword(), tex.right, tex.top);
 		mMesh->mVerticies[i*4 + 2].set(rbPoint,                     1.0f, (it->mVertexColors[2]*mColor).dword(), tex.right, tex.down);
-		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), 1.0f, (it->mVertexColors[3]*mColor).dword(), tex.left, tex.down);
+		mMesh->mVerticies[i*4 + 3].set(vec2f(ltPoint.x, rbPoint.y), 1.0f, (it->mVertexColors[3]*mColor).dword(), tex.left,  tex.down);
 	}
 
 	mMesh->mVertexCount = mParts.size()*4;
@@ -250,10 +306,26 @@ void cStretchRect::drawDebug()
 {
 	vec2f pos = mPosition - mPivot;
 	int clr = 1;
-	FOREACH(PartsVec, mParts, prt) 
+	bool clampX = mSize.x < mMinSize.x;
+	bool clampY = mSize.y < mMinSize.y;
+	vec2f clampCoef = mSize.invScale(mMinSize);
+	int i = 0;
+	for (PartsVec::iterator it = mParts.begin(); it != mParts.end(); ++it, i++)
 	{
-		vec2f ltPoint = pos + mSize.scale(prt->mLTPosPercent) + prt->mLTPosPixel;
-		vec2f rbPoint = pos + mSize.scale(prt->mRBPosPercent) + prt->mRBPosPixel;
+		vec2f loc_ltPoint = mSize.scale(it->mLTPosPercent) + it->mLTPosPixel;
+		vec2f loc_rbPoint = mSize.scale(it->mRBPosPercent) + it->mRBPosPixel;
+		fRect texRect = it->mTextureSrcRect;
+		
+		if (clampX)
+			cStretchRectClamp(loc_ltPoint.x, loc_rbPoint.x, it->mClampLeft, it->mClampRight, clampCoef.x, 
+				              texRect.left, texRect.right);
+		
+		if (clampY)
+			cStretchRectClamp(loc_ltPoint.y, loc_rbPoint.y, it->mClampTop, it->mClampBottom, clampCoef.y, 
+				              texRect.top, texRect.down);
+
+		vec2f ltPoint = pos + loc_ltPoint + vec2f(1, 1);
+		vec2f rbPoint = pos + loc_rbPoint - vec2f(1, 1);
 
 		renderSystem()->drawRectFrame(ltPoint, rbPoint, color4::someColor(clr++));
 	}
