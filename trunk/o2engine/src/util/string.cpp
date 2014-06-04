@@ -63,6 +63,11 @@ string toString(const color4& value)
 	return format("(%i %i %i %i)", value.r, value.g, value.b, value.a);
 }
 
+string toString( const vec2f& value )
+{
+	return format("(%.3f %.3f)", value.x, value.y);
+}
+
 int toInt( const string& str )
 {
 	return atoi(str.c_str());

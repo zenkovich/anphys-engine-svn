@@ -435,6 +435,9 @@
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_progressbar.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -747,6 +750,9 @@
       <Filter>src\util\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_progressbar.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>

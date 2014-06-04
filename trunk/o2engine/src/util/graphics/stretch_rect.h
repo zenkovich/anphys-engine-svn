@@ -26,6 +26,10 @@ class cStretchRect:public IRectDrawable
 		fRect  mTextureSrcRect;  /** Texture source rect. */
 		bool   mWrapTexture;     /** True, if texture will be repeat and keep source rect size. */
 		color4 mVertexColors[4]; /** Corners colors. */
+		bool   mClampLeft;       /** True, if need clamp left side by rect. */
+		bool   mClampRight;      /** True, if need clamp right side by rect. */
+		bool   mClampTop;        /** True, if need clamp top side by rect. */
+		bool   mClampBottom;     /** True, if need clamp bottom side by rect. */
 
 		/** def ctor. */
 		Part();
@@ -40,6 +44,7 @@ class cStretchRect:public IRectDrawable
 
 	shared<grMesh> mMesh;             /** Mesh. */
 	PartsVec       mParts;            /** Parts array. */
+	vec2f          mMinSize;          /** Minimal size, when part will bot be clamped. */
 	bool           mNeedUpdateMesh;   /** True, if need to update mesh verticies. */
 	bool           mNeedUpdateColors; /** True, if need update just verticies colors. */
 
@@ -75,6 +80,12 @@ public:
 
 	/** Drawing debug frames for each parts. */
 	void drawDebug();
+
+	/** Sets the kinimal size. */
+	void setMinSize(const vec2f& minSize);
+
+	/** Returns minimal size. */
+	vec2f getMinSize() const;
 
 	SERIALIZE_METHOD_DECL();
 

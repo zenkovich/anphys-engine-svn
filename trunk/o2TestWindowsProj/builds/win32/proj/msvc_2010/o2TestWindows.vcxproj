@@ -56,8 +56,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)../../bin/</OutDir>
-    <LibraryPath>D:\work\home\o2engine\lib;D:\work\home\o2engine\dependencies\pthreads;$(LibraryPath)</LibraryPath>
-    <IncludePath>../../../../src;D:\work\home\o2engine\dependencies\pthreads;D:\work\home\o2engine\dependencies;D:\work\home\o2engine\src;$(IncludePath)</IncludePath>
+    <LibraryPath>../../../../../o2engine\lib;../../../../../o2engine\dependencies\pthreads;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../../../src;../../../../../o2engine\dependencies\pthreads;../../../../../o2engine\dependencies;../../../../../o2engine\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\o2engine\dependencies;..\o2engine\src;$(IncludePath)</IncludePath>
