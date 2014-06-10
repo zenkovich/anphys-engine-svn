@@ -43,8 +43,10 @@ public:
 
 struct IShared
 {
-	bool mValid;
-	IShared():mValid(true) {}
+	bool         mValid;
+	cSharedBase* mShareBase;
+
+	IShared():mValid(true), mShareBase(NULL) {}
 };
 
 template<typename _type>
@@ -56,6 +58,7 @@ public:
 	shared()
 	{
 		mObject = NULL;
+		mShareBase = NULL;
 	}
 
 	shared(_type* object) 
@@ -199,29 +202,24 @@ public:
 		return mObject != NULL;
 	}
 
-	void* force_release()
+	_type* force_release()
 	{
-		void* res = NULL;
+		_type* res = NULL;
 		if (mObject)
 		{
 			if (!mValid)
 				SharedsErrorOut("Trying to release not valid object reference");
 			
-			cShareObject* shareObj = (cShareObject*)mObject;
-			shareObj->mSharedBase.eraseRef(this);
+			mObject->mSharedBase.eraseRef(this);
 
-			for(vector<IShared*>::iterator ref = shareObj->mSharedBase.mReferences.begin(); ref != shareObj->mSharedBase.mReferences.end(); ++ref)
+			for(vector<IShared*>::iterator ref = mObject->mSharedBase.mReferences.begin(); ref != mObject->mSharedBase.mReferences.end(); ++ref)
 				(*ref)->mValid = false;
 
-			if (shareObj->mSharedBase.isHereAnybody())
+			if (mObject->mSharedBase.isHereAnybody())
 				SharedsErrorOut("Hey, you forgot something! There some nonvalid objects", false);
 
-			res = (void*)mObject;
+			res = mObject;
 			mObject = NULL;
-		}
-		else
-		{
-			SharedsErrorOut("Failed to delete object - object is NULL");
 		}
 
 		return res;
@@ -236,8 +234,7 @@ public:
 		if (!mObject)
 			return;
 
-		cShareObject* shareObj = (cShareObject*)mObject;
-		shareObj->mSharedBase.pushRef(this);
+		mObject->mSharedBase.pushRef(this);
 	}
 
 	template<typename P>
@@ -249,21 +246,19 @@ public:
 		mObject = static_cast<_type*>(ref.mObject);
 
 		if (!mObject)
-			return;
+			return;		
 		
-		cShareObject* shareObj = (cShareObject*)mObject;
-		shareObj->mSharedBase.pushRef(this);
+		mObject->mSharedBase.pushRef(this);
 	}
 
 	void release()
 	{
 		if (!mObject)
-			return;		
+			return;			
 		
-		cShareObject* shareObj = (cShareObject*)mObject;
-		shareObj->mSharedBase.eraseRef(this);
+		mObject->mSharedBase.pushRef(this);
 
-		if (!shareObj->mSharedBase.isHereAnybody())
+		if (!mObject->mSharedBase.isHereAnybody())
 			SharedsRelease((void*)mObject);
 	}
 
@@ -275,7 +270,7 @@ public:
 };
 
 template<typename T>
-void* _safe_release(shared<T>& ptr)
+T* _safe_release(shared<T>& ptr)
 {
 	return ptr.force_release();
 }

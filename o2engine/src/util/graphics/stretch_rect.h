@@ -7,10 +7,10 @@
 #include "util/serialization/serialization.h"
 #include "util/property.h"
 #include "util/graphics/rect_drawable.h"
+#include "render_system/mesh.h"
 
 OPEN_O2_NAMESPACE
 
-class grMesh;
 class grRenderSystem;
 
 /** Stretching rect drawable. Contains some parts, what building using position and size of drawable. */
