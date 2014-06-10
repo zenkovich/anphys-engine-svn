@@ -13,7 +13,7 @@ class uiTransitionState: public uiState
 {
 public:
 	/**Property interface. */
-	class IProperty
+	class IProperty: public cShareObject
 	{
 	public:
 		/** Returns clone of property. */
@@ -89,10 +89,10 @@ public:
 
 	public:
 		/** ctor. */
-		ValueProperty(const Prop& prop, const T& stateOff, const T& stateOn, float duration, 
+		ValueProperty(Prop& prop, const T& stateOff, const T& stateOn, float duration, 
 					  const shared<ICallback>& onChanged = NULL)
 		{
-			mProperty = tempShared(&prop);
+			mProperty = (&prop);
 			mStateOff = cAnimFrame<T>(stateOff, duration);
 			mStateOn = cAnimFrame<T>(stateOn, duration);
 			mInterpolator.initialize(&mStateOff, &mStateOn);
@@ -106,10 +106,10 @@ public:
 		}
 
 		/** ctor. */
-		ValueProperty(const Prop& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+		ValueProperty(Prop& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
 					  const shared<ICallback>& onChanged = NULL)	
 		{
-			mProperty = tempShared(&prop);
+			mProperty = (&prop);
 			mStateOff = stateOff;
 			mStateOn = stateOn;
 			mInterpolator.initialize(&mStateOff, &mStateOn);
@@ -236,7 +236,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>& prop, const T& stateOff, const T& stateOn, float duration, 
+	shared< ValueProperty<T> > addProperty(cPropertyList::Property<T>& prop, const T& stateOff, const T& stateOn, float duration, 
 					                       const shared<ICallback>& onChanged = NULL)
 	{
 		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, duration, onChanged));
@@ -244,7 +244,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const cPropertyList::Property<T>& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+	shared< ValueProperty<T> > addProperty(cPropertyList::Property<T>& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
 					                       const shared<ICallback>& onChanged = NULL)
 	{
 		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, onChanged));

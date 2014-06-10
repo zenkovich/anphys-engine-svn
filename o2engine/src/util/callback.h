@@ -4,12 +4,12 @@
 #include <cstdarg>
 
 #include "public.h"
-#include "smart_ptrs.h"
+#include "shared.h"
 
 OPEN_O2_NAMESPACE
 	
 /** Stupid simple class. */
-struct Dummy
+struct Dummy: public cShareObject
 {
 	Dummy() {}
 	~Dummy() {}
@@ -17,7 +17,7 @@ struct Dummy
 
 
 /** Callback interface. */
-class ICallback
+class ICallback: public cShareObject
 {
 public:
 	virtual ~ICallback() {}

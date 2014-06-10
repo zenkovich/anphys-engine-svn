@@ -7,7 +7,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const uiWidgetLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
+uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
 	mId(id), mParent(parent), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
@@ -91,14 +91,16 @@ void uiWidget::updateLayout()
 
 void uiWidget::localUpdateLayout()
 {
-	vec2f parentPos, parentSize;
+	vec2f parPos, parSize;
 	if (mParent)
 	{
-		parentPos = mParent->mGlobalPosition;
-		parentSize = mParent->mSize;
+		parPos = mParent->mGlobalPosition;
+		parSize = mParent->mSize;
 	}
 
-	mLayout.calculate(parentPos, parentSize, mGlobalPosition, mSize);
+	mLayout.update(parPos, parSize);
+	mGlobalPosition = mLayout.mPosition;
+	mSize = mLayout.mSize;
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
 
 	layoutUpdated();
@@ -143,7 +145,7 @@ shared<uiWidget> uiWidget::clone() const
 
 shared<uiWidget> uiWidget::addChild( shared<uiWidget> widget )
 {
-	widget->setParent( tempShared<uiWidget>(this) );
+	widget->setParent(this);
 	return widget;
 }
 
@@ -172,7 +174,7 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 {
 	if (mParent)
 	{
-		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, tempShared<uiWidget>(this) );
+		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, this );
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
 	}
@@ -226,13 +228,13 @@ shared<uiWidget> uiWidget::getWidget( const string& id )
 
 void uiWidget::setPosition( const vec2f& position )
 {
-	mLayout.mPxPosition = position;
+	mLayout.mLTAbsolute = position;
 	updateLayout();
 }
 
 vec2f uiWidget::getPosition() const
 {
-	return mLayout.mPxPosition;
+	return mLayout.mLTAbsolute;
 }
 
 void uiWidget::setId( const string& id )
@@ -247,10 +249,10 @@ string uiWidget::getId() const
 
 void uiWidget::setGlobalPosition( const vec2f& position )
 {
-	mLayout.mPxPosition = position;
+	mLayout.mLTAbsolute = position;
 
 	if (mParent)
-		mLayout.mPxPosition -= mParent->mGlobalPosition;
+		mLayout.mLTAbsolute -= mParent->mGlobalPosition;
 
 	updateLayout();
 }
@@ -262,7 +264,10 @@ vec2f uiWidget::getGlobalPosition() const
 
 void uiWidget::setSize( const vec2f& size )
 {
-	mLayout.mPxSize = size;
+	if (equals(size, mLayout.mRBAbsolute))
+		return;
+
+	mLayout.mRBAbsolute = size;
 	mLayout.mMinSize = size;
 	updateLayout();
 }
@@ -294,7 +299,7 @@ void uiWidget::setFocused(bool focused)
 		return;
 
 	if (focused)
-		uiHost()->focusOnWidget( tempShared<uiWidget>(this) );
+		uiHost()->focusOnWidget( this );
 	else
 		uiHost()->focusOnWidget(NULL);
 }
@@ -317,13 +322,13 @@ void uiWidget::releaseFocus()
 shared<uiState> uiWidget::addState(const shared<uiState>& state)
 {
 	mStates[state->mName] = state;
-	state->setOwnerWidget( tempShared<uiWidget>(this) );
+	state->setOwnerWidget( this );
 
 	if (state->mName == "visible")
 	{
 		mVisibleState = state;
-		state->onActiveStateEvent.add( tempShared<cCallbackChain>(&onVisibleOn) );
-		state->onDeactiveStateEvent.add( tempShared<cCallbackChain>(&onVisibleOff) );
+		state->onActiveStateEvent.add( &onVisibleOn );
+		state->onDeactiveStateEvent.add( &onVisibleOff );
 		state->setState(mVisible, true);
 	}
 
@@ -369,13 +374,13 @@ void uiWidget::setVisibleParam(bool param)
 	mVisible = param;
 }
 
-void uiWidget::setLayout(const uiWidgetLayout& layout)
+void uiWidget::setLayout(const cLayout& layout)
 {
 	mLayout = layout;
 	updateLayout();
 }
 
-uiWidgetLayout uiWidget::getlayout() const
+cLayout uiWidget::getlayout() const
 {
 	return mLayout;
 }

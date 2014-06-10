@@ -354,9 +354,6 @@
     <ClInclude Include="..\src\ui\ui_button.h">
       <Filter>src\ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ui\ui_widget_layout.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\render_system\font.h">
       <Filter>src\render_system</Filter>
     </ClInclude>
@@ -437,6 +434,12 @@
     </ClInclude>
     <ClInclude Include="..\src\ui\ui_progressbar.h">
       <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\math\layout.h">
+      <Filter>src\util\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\shared.h">
+      <Filter>src\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -683,9 +686,6 @@
     <ClCompile Include="..\src\util\geometry\geometry.cpp">
       <Filter>src\util\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ui\ui_widget_layout.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\render_system\font.cpp">
       <Filter>src\render_system</Filter>
     </ClCompile>
@@ -706,9 +706,6 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_state.cpp">
       <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\smart_ptrs.cpp">
-      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_widget.cpp">
       <Filter>src\ui</Filter>
@@ -754,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_progressbar.cpp">
       <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\shared.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

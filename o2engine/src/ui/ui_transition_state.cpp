@@ -90,7 +90,7 @@ shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared
 	mProperties.push_back(property);
 
 	if (mOwnerWidget)
-		property->setOwner( tempShared<uiTransitionState>(this) );
+		property->setOwner( this );
 
 	return property;
 }
@@ -98,7 +98,7 @@ shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared
 void uiTransitionState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
 {
 	uiState::setOwnerWidget(ownerWidget);
-	shared<uiTransitionState> thisShared = tempShared<uiTransitionState>(this);
+	shared<uiTransitionState> thisShared = this;
 	FOREACH(PropertiesVec, mProperties, prop)
 		(*prop)->setOwner(thisShared);
 	setState(getState(), true);

@@ -2,12 +2,12 @@
 
 OPEN_O2_NAMESPACE
 
-uiSprite::uiSprite(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
+uiSprite::uiSprite(const cLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
 	uiWidget(layout, id, parent)
 {
 	layoutUpdated();
 
-	transparency.onChangeEvent.add(callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
+	transparency.onChangeEvent.add(callback<uiSprite>( this, &uiSprite::transparencyChanged));
 }
 
 uiSprite::uiSprite(const uiSprite& spriteWidget):
@@ -16,7 +16,7 @@ uiSprite::uiSprite(const uiSprite& spriteWidget):
 	mSprite = spriteWidget.mSprite;
 	layoutUpdated();
 	
-	transparency.onChangeEvent.add(callback<uiSprite>( tempShared<uiSprite>(this), &uiSprite::transparencyChanged));
+	transparency.onChangeEvent.add(callback<uiSprite>( this, &uiSprite::transparencyChanged));
 }
 
 uiSprite::~uiSprite()

@@ -37,7 +37,7 @@ cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTe
 	mMesh(NULL), mNeedUpdateMesh(true), IRectDrawable(), mNeedUpdateColors(false)
 {
 	createMesh(max(parts, 1), texture);
-	mMinSize = vec2f(FLT_MAX, FLT_MAX);
+	mMinSize = vec2f(0, 0);
 }
 
 cStretchRect::cStretchRect( const cStretchRect& stretchRect ):

@@ -8,10 +8,20 @@ OPEN_O2_NAMESPACE
 class uiProgressBar: public uiDrawablesListWidget
 {	
 protected:
+	float            mMinValue;   /** Min value. */
+	float            mMaxValue;   /** Max value. */
+	float            mValue;      /** Current value. */
+
+	shared<Drawable> mBackground; /** Background drawable. */
+	shared<Drawable> mBar;        /** Bar drawable. */
 
 public:
+	PROPERTY(uiProgressBar, float) minValue; /** Min value property. Uses set/getMinValue. */
+	PROPERTY(uiProgressBar, float) maxValue; /** Max value property. Uses set/getMaxValue. */
+	PROPERTY(uiProgressBar, float) value;    /** Current value. Uses set/getValue. */
+
 	/** ctor. */
-	uiProgressBar(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiProgressBar(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiProgressBar(const uiProgressBar& widget);
@@ -22,32 +32,42 @@ public:
 	/** Returns clone of widget. */
 	virtual shared<uiWidget> clone() const;
 
-	//setters and getters
-	/** Returns true, if widget can take focus. */
-	virtual bool isFocusable() const;
+	/** Returns background drawable. */
+	shared<Drawable> getBackgroundDrawable();
+
+	/** Returns bar drawable. */
+	shared<Drawable> getBarDrawable();
+
+	/** Sets value range. */
+	void setValueRange(float minValue, float maxValue);
+
+	/** Sets min value. */
+	void setMinValue(float value);
+
+	/** Sets max value. */
+	void setMaxValue(float value);
+
+	/** Returns min value. */
+	float getMinValue() const;
+
+	/** Returns max value. */
+	float getMaxValue() const;
+
+	/** Sets current value. */
+	void setValue(float value);
+
+	/** Returns current value. */
+	float getValue() const;
 
 protected:
-
-	/** Calls when added some state. */
-	virtual void addedState(const shared<uiState>& state) {}
-
-	/** Drawing current widget. */
-	virtual void localDraw() {}
-
 	/** Updating current widget. */
-	virtual void localUpdate(float dt) {}
+	virtual void localUpdate(float dt);
 
-	/** Calls when widget's layout updated. */
-	virtual void layoutUpdated() {}
+	/** Updates bar drawable layout. */
+	void updateBarLayout();
 
-	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg) { return false; }
-
-	/** Calls when widget focused. */
-	virtual void onFocused();
-
-	/** Calls when widget lost focus. */
-	virtual void onFocusLost();
+	/** Initialize properties. */
+	void initializeProperties();
 };
 
 CLOSE_O2_NAMESPACE

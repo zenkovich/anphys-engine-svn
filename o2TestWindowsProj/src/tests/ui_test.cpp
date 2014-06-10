@@ -4,6 +4,7 @@
 #include "render_system/render_system.h"
 #include "render_system/text.h"
 #include "ui/ui_controller.h"
+#include "ui/ui_progressbar.h"
 #include "ui/ui_skin.h"
 #include "ui/ui_sprite.h"
 #include "ui/ui_std_skin_initializer.h"
@@ -20,14 +21,17 @@ cUITest::cUITest()
 	uiStdSkinInitializer::initialize();
 
 	uiHost()->addWidget( uiSkin()->createBackground() );
-	uiHost()->addWidget( uiSkin()->createButton("Button 1", uiStraightPixelLayout(vec2f(300, 300), vec2f(100, 20))) );
-	uiHost()->addWidget( uiSkin()->createButton("Button 2", uiStraightPixelLayout(vec2f(300, 330), vec2f(100, 20))) );
-	uiHost()->addWidget( uiSkin()->createButton("Button 3", uiStraightPixelLayout(vec2f(300, 360), vec2f(100, 20))) );
-	uiHost()->addWidget( uiSkin()->createButton("Button 4", uiStraightPixelLayout(vec2f(300, 390), vec2f(100, 20))) );
-	uiHost()->addWidget( uiSkin()->createButton("Button 5", uiStraightPixelLayout(vec2f(300, 420), vec2f(100, 20))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 330))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 360))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 4", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 390))) );
+	uiHost()->addWidget( uiSkin()->createButton("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 420))) );
+
+	mTestBar = uiSkin()->createProgressBar(cLayout::fixedSize(vec2f(400, 140), vec2f(100, 300)));
+	uiHost()->addWidget(mTestBar);
 
 	spr = uiSkin()->createSprite(grTexture::createFromFile("ui_test"), 
-		                         uiStraightPixelLayout(vec2f(100, 100), vec2f(100, 100)));
+		                         cLayout::fixedSize(vec2f(100, 100), vec2f(100, 100)));
 
 	testRT = mnew cStretchRect(grTexture::createFromFile("ui_test"), 30, 30, 30, 30);
 	testRT->rect = fRect(50, 50, 0, 0);
@@ -67,7 +71,8 @@ void cUITest::update(float dt)
 	if (appInput()->isKeyPressed('Z'))
 		wdg->visible = !wdg->visible;
 
-
+	if (appInput()->isKeyDown('Y'))
+		mTestBar->value += appInput()->getCursorDelta().x*0.0005f;
 }
 
 void cUITest::draw()

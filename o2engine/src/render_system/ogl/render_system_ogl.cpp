@@ -194,7 +194,7 @@ bool grRenderSystem::drawMesh( shared<grMesh> mesh )
 		return false;
 	
 //check difference
-	if (mLastDrawTexture != mesh->mTexture || 
+	if (mLastDrawTexture.mObject != mesh->mTexture.mObject || 
 		mLastDrawVertex + mesh->mVertexCount >= mVertexBufferSize ||
 		mLastDrawIdx + mesh->mPolyCount*3 >= mIndexBufferSize ||
 		mCurrentPrimitiveType == GL_LINES)

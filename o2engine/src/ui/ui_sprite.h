@@ -15,7 +15,7 @@ public:
 
 
 	/** ctor. */
-	uiSprite(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiSprite(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiSprite(const uiSprite& spriteWidget);

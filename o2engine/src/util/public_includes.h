@@ -7,6 +7,7 @@
 #include "util/mem_utils/alloc_operators.h"
 #include "util/data_utils.h"
 #include "util/smart_ptrs.h"
+#include "util/shared.h"
 #include "util/math/math.h"
 #include "util/math/vector2.h"
 #include "util/math/basis.h"

@@ -151,7 +151,6 @@
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\ui_std_skin_initializer.h" />
     <ClInclude Include="..\src\ui\ui_transition_state.h" />
-    <ClInclude Include="..\src\ui\ui_widget_layout.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
     <ClInclude Include="..\src\util\animation\animation.h" />
     <ClInclude Include="..\src\util\animation\animation_group.h" />
@@ -173,6 +172,7 @@
     <ClInclude Include="..\src\util\log\console_log_stream.h" />
     <ClInclude Include="..\src\util\log\log_stream.h" />
     <ClInclude Include="..\src\util\math\color.h" />
+    <ClInclude Include="..\src\util\math\layout.h" />
     <ClInclude Include="..\src\util\math\math.h" />
     <ClInclude Include="..\src\util\math\basis.h" />
     <ClInclude Include="..\src\util\math\rect.h" />
@@ -198,6 +198,7 @@
     <ClInclude Include="..\src\util\ref_counter.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
+    <ClInclude Include="..\src\util\shared.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\smart_ptrs.h" />
     <ClInclude Include="..\src\util\string.h" />
@@ -276,7 +277,6 @@
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_std_skin_initializer.cpp" />
     <ClCompile Include="..\src\ui\ui_transition_state.cpp" />
-    <ClCompile Include="..\src\ui\ui_widget_layout.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />
@@ -304,7 +304,7 @@
     <ClCompile Include="..\src\util\scheduler.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
-    <ClCompile Include="..\src\util\smart_ptrs.cpp" />
+    <ClCompile Include="..\src\util\shared.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />

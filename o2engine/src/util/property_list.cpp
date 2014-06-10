@@ -9,6 +9,9 @@ cPropertyList::cPropertyList(const string& name /*= ""*/):
 
 cPropertyList::~cPropertyList()
 {
+	if (mParentPropertyList)
+		mParentPropertyList->removeChildPropertyList(this, false);
+
 	FOREACH(PropertiesListsVec, mChildPropertyLists, child)
 		safe_release(*child);
 }
@@ -16,14 +19,17 @@ cPropertyList::~cPropertyList()
 void cPropertyList::addChildPropertyList( const shared<cPropertyList>& propList )
 {
 	mChildPropertyLists.push_back(propList);
-	propList->mParentPropertyList = tempShared(this);
+	propList->mParentPropertyList = this;
 }
 
-void cPropertyList::removeChildPropertyList( const shared<cPropertyList>& propList )
+void cPropertyList::removeChildPropertyList( const shared<cPropertyList>& propList, bool release /*= true*/ )
 {
 	PropertiesListsVec::iterator fnd = FIND(mChildPropertyLists, propList);
 	if (fnd == mChildPropertyLists.end())
 		return;
+
+	if (release)
+		safe_release(*fnd);
 
 	mChildPropertyLists.erase(fnd);
 }

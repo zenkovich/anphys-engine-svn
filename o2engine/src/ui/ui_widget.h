@@ -6,14 +6,14 @@
 
 #include "public.h"
 
-#include "util/type_indexation.h"
+#include "ui_state.h"
+#include "util/geometry/geometry.h"
 #include "util/input/input_message.h"
+#include "util/math/layout.h"
 #include "util/math/vector2.h"
 #include "util/property.h"
-#include "util/geometry/geometry.h"
 #include "util/property_list.h"
-#include "ui_widget_layout.h"
-#include "ui_state.h"
+#include "util/type_indexation.h"
 
 OPEN_O2_NAMESPACE
 
@@ -34,7 +34,7 @@ public:
 protected:
 	string            mId;                    /**< Identificator or name. */
 	shared<uiWidget>  mParent;                /**< Parent widget. NULL if no parent. */
-	uiWidgetLayout    mLayout;                /**< Widget layout. */
+	cLayout           mLayout;                /**< Widget layout. */
 	WidgetsVec        mChildWidgets;          /**< Chiles widgets. */
 	vec2f             mGlobalPosition;        /**< Position in screen space. */
 	vec2f             mSize;                  /**< Size of widget. Not including childes. */
@@ -70,12 +70,12 @@ public:
 	PROPERTY(uiWidget, vec2f)            globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)            size;           /**< Size property. Using setSize/getSize. */
 	PROPERTY(uiWidget, bool)             visible;        /**< Visibility property. Using set/isVisible. */
-	PROPERTY(uiWidget, uiWidgetLayout)   layout;         /**< Widget layout. Using set/getLayout. */
+	PROPERTY(uiWidget, cLayout)          layout;         /**< Widget layout. Using set/getLayout. */
 	PROPERTY(uiWidget, float)            transparency;   /**< Widget dtransparency. Using set/getTransparency. */
 
 
 	/** ctor. */
-	uiWidget(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiWidget(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiWidget(const uiWidget& widget);
@@ -180,10 +180,10 @@ public:
 	vec2f getSize() const;
 
 	/** Sets widget layout. */
-	void setLayout(const uiWidgetLayout& layout);
+	void setLayout(const cLayout& layout);
 
 	/** Returns widget layout. */
-	uiWidgetLayout getlayout() const;
+	cLayout getlayout() const;
 
 	/** Sets the colliding geometry. */
 	void setGeometry(const shared<cGeometry>& geometry);
