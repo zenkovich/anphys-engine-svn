@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiButton);
 
-uiButton::uiButton(const uiWidgetLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
+uiButton::uiButton(const cLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
 	uiDrawablesListWidget(layout, id, parent), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
 	mPressedByButton(false), mHover(false)
 {
@@ -26,14 +26,11 @@ uiButton::uiButton(const uiButton& button):
 	onFocusedEvent = button.onFocusedEvent;
 	onFocusLostEvent = button.onFocusLostEvent;
 
-	FOREACH(StatesMap, mStates, state)
-	{
-		addedState((*state).second);
-		(*state).second->setOwnerWidget( tempShared<uiButton>(this) );
-	}
+	mHoverState = getState("hover");
+	mPressedState = getState("pressed");
+	mFocusedState = getState("focus");
 
-	FOREACH(DrawablesVec, mDrawables, drw)
-		addedDrawable(drw->mDrawable, drw->mName);
+	mCaption = getDrawable("caption")->getDrawable();
 
 	initializeProperties();
 }
@@ -135,10 +132,10 @@ void uiButton::onFocusLost()
 	onFocusLostEvent.call();
 }
 
-void uiButton::addedDrawable( const shared<IRectDrawable>& drawable, const string& id )
+void uiButton::addedDrawable( const shared<Drawable>& drawable)
 {
-	if (id == "caption")
-		mCaption = drawable;
+	if (drawable->getName() == "caption")
+		mCaption = drawable->getDrawable();
 }
 
 void uiButton::setCCaption( const string& caption )

@@ -38,7 +38,7 @@ public:
 
 
 	/** ctor. */
-	uiButton(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiButton(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiButton(const uiButton& button);
@@ -81,7 +81,7 @@ protected:
 	virtual void onFocusLost();
 
 	/** Calls when added drawable. */
-	virtual void addedDrawable(const shared<IRectDrawable>& drawable, const string& id);
+	virtual void addedDrawable(const shared<Drawable>& drawable);
 
 	/** Initializing properties. */
 	void initializeProperties();

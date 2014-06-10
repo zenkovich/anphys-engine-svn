@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 
 class scNode;
 
-class scComponent
+class scComponent: public cShareObject
 {
 	friend class scNode;
 

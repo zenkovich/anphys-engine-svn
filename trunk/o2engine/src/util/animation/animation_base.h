@@ -11,7 +11,7 @@
 OPEN_O2_NAMESPACE
 
 /** Basic animation structure. Controlling time with looping and intervals. */
-class IAnimation:public virtual IDynamic
+class IAnimation: public cShareObject, public virtual IDynamic
 {
 public:
 	enum LoopType { LT_NONE = 0, LT_REPEAT, LT_TOGGLE };

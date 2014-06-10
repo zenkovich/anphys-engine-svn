@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 
 class grFont;
 
-class uiStdSkinInitializer
+class uiStdSkinInitializer: public cShareObject
 {
 	static shared<uiSkinManager> mSkinManager;
 
@@ -22,6 +22,7 @@ public:
 protected:
 	static void initButton();
 	static void initBackground();
+	static void initProgressBar();
 };
 
 CLOSE_O2_NAMESPACE

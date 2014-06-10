@@ -3,11 +3,11 @@
 
 #include "util/public_namespace.h"
 #include "util/public_types.h"
-#include "util/smart_ptrs.h"
+#include "util/shared.h"
 OPEN_O2_NAMESPACE
 
 /** Basic log stream. Contains interfaces of outing data, binding values, parent and child streams. */
-class cLogStream
+class cLogStream: public cShareObject
 {
 protected:
 	/** Type of bind value. */

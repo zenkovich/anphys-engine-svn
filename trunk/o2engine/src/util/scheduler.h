@@ -21,7 +21,7 @@ public:
 
 protected:
 	/** Task container struct. */
-	struct Task
+	struct Task: public cShareObject
 	{
 		float                mDelay;               /** Delay to next execution. */
 		float                mRepeatDelay;         /** Repeat delay. If no repeat == -1. */

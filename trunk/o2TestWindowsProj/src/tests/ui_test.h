@@ -8,6 +8,7 @@ OPEN_O2_NAMESPACE
 class uiSprite;
 class uiWidget;
 class grSprite;
+class uiProgressBar;
 class IRectDrawable;
 
 class cUITest: public ITest
@@ -16,6 +17,7 @@ class cUITest: public ITest
 	shared<uiWidget> wdg;
 	shared<uiWidget> rect;
 	shared<IRectDrawable> sprite;
+	shared<uiProgressBar> mTestBar;
 
 public:
 	cUITest();

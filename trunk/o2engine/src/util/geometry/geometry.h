@@ -9,7 +9,7 @@
 OPEN_O2_NAMESPACE
 	
 /** Geometry interface. Processing point colliding, AABB, positioning. */
-class cGeometry
+class cGeometry: public cShareObject
 {
 public: 
 	/** Returns true, if point inside. */

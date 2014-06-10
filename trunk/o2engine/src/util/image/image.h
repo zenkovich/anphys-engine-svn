@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 class cLogStream;
 
 /** Image. Containing formatted pixel data, size, filename. */
-class cImage
+class cImage: public cShareObject
 {
 public:
 	enum Format { FMT_NONE = 0, FMT_R8G8B8A8 };

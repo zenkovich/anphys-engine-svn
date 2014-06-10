@@ -12,10 +12,11 @@
 OPEN_O2_NAMESPACE
 	
 /** Widget state interface. Widget can get bool parameter and change some parameters from widget. */
-class uiState
+class uiState: public cShareObject
 {
 	friend class uiWidget;
 	friend class uiButton;
+	friend class uiDrawablesListWidget;
 
 protected:
 	string           mName;        /** Name of state. */

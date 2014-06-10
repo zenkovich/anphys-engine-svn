@@ -71,7 +71,7 @@ public:
 
 
 /** Texture definition base interface, derives from texture interface and reference counter. */
-class grTextureDefBaseInterface: public grTextureInterface, public IRefCounter 
+class grTextureDefBaseInterface: public cShareObject, public grTextureInterface, public IRefCounter 
 {
 protected:
 	/** ctor. */

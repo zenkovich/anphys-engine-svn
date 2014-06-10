@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 DECLARE_SINGLETON(uiController);
 
 uiController::uiController():
-	mFocusWidget(NULL), mBasicWidget(uiWidgetLayout(), "UIController"), mChangedFocusWidget(false)
+	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false)
 {
 }
 

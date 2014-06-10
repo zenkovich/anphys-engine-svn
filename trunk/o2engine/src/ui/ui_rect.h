@@ -15,7 +15,7 @@ public:
 
 
 	/** ctor. */
-	uiRect(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiRect(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiRect(const uiRect& rectWidget);

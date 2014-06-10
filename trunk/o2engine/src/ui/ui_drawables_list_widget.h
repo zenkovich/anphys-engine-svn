@@ -9,24 +9,63 @@ OPEN_O2_NAMESPACE
 class uiDrawablesListWidget: public uiWidget
 {
 public: 
-	struct DrawableContainer
+	class Drawable: public cPropertyList
 	{
-		string                mName;
-		uiWidgetLayout        mLayout;
-		shared<IRectDrawable> mDrawable;
+		friend class uiDrawablesListWidget;
+	public:
+		typedef vector< shared<Drawable> > DrawablesVec;
 
-		DrawableContainer() {}
-		DrawableContainer(const string& name, const shared<IRectDrawable>& drawable, 
-			              const uiWidgetLayout& layout = uiBothLayout()):
-			mName(name), mDrawable(drawable), mLayout(layout) {}
+	protected:
+		string                mName;
+		shared<IRectDrawable> mDrawable;
+		cLayout               mLayout;
+		shared<Drawable>      mParentDrawable;
+		DrawablesVec          mChildDrawables;
+
+	public:
+		PROPERTY(Drawable, cLayout) layout;
+
+		Drawable() {}
+		Drawable(const string& name, const shared<IRectDrawable>& drawable, const cLayout& layout = cLayout::both(),
+			     const shared<Drawable>& parentDrawable = NULL);
+		Drawable(const Drawable& drawable);
+		~Drawable();
+
+		string getName() const;
+
+		shared<IRectDrawable> getDrawable();
+
+		void setDrawable(const shared<IRectDrawable>& drawable);
+
+		shared<Drawable> addChildDrawable(const shared<Drawable>& drawable);
+
+		shared<Drawable> addChildDrawable(const string& name, const shared<IRectDrawable>& drawable, 
+			                              const cLayout& layout = cLayout::both());
+
+		shared<Drawable> getChildDrawable(const string& path);
+
+		void removeChildDrawable(shared<Drawable>& drawable, bool release = true);
+
+		void removeAllChildDrawables();
+
+		void setLayout(const cLayout& layout);
+
+		cLayout getLayout() const;
+
+		void updateLayout(const vec2f& parPos, const vec2f& parSize);
+
+		void draw();
+
+	protected:
+		void initializeProperties();
 	};
-	typedef vector<DrawableContainer> DrawablesVec;
+	typedef vector< shared<Drawable> > DrawablesVec;
 
 protected:
 	DrawablesVec mDrawables;
 
 public:
-	uiDrawablesListWidget(const uiWidgetLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiDrawablesListWidget(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
 
 	/** copy-ctor. */
 	uiDrawablesListWidget(const uiDrawablesListWidget& widget);
@@ -37,12 +76,15 @@ public:
 	/** Returns clone of widget. */
 	virtual shared<uiWidget> clone() const;
 
+	/** Adding drawable. */
+	shared<Drawable> addDrawable(const shared<Drawable>& drawable);
+
 	/** Adding drawable with specified id. */
-	shared<IRectDrawable> addDrawable(const shared<IRectDrawable>& drawable, const string& id, 
-		                              const uiWidgetLayout& layout = uiBothLayout());
+	shared<Drawable> addDrawable(const shared<IRectDrawable>& drawable, const string& id, 
+		                         const cLayout& layout = cLayout::both(), const shared<Drawable>& parentDrawable = NULL);
 
 	/** Returns drawable by id. */
-	shared<IRectDrawable> getDrawable(const string& id);
+	shared<Drawable> getDrawable(const string& path);
 
 	/** Removes drawable. */
 	void removeDrawable(const string& id);
@@ -58,7 +100,7 @@ protected:
 	virtual void layoutUpdated();
 
 	/** Calls when added drawable. */
-	virtual void addedDrawable(const shared<IRectDrawable>& drawable, const string& id) {}
+	virtual void addedDrawable(const shared<Drawable>& drawable) {}
 };
 
 CLOSE_O2_NAMESPACE

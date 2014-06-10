@@ -5,7 +5,7 @@
 #include "smart_ptrs.h"
 OPEN_O2_NAMESPACE
 
-template <typename CLASS> class cSingleton
+template <typename CLASS> class cSingleton: public cShareObject
 {
 public:
 	cSingleton()                        { mInstance = static_cast<CLASS*>(this); }
@@ -13,7 +13,7 @@ public:
 
 	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
-	static shared<CLASS> instancePtr()  { return tempShared<CLASS>(mInstance); }
+	static shared<CLASS> instancePtr()  { return mInstance; }
 
 	static void initializeSingleton()   { if (!mInstance) mnew CLASS; }
 	static void deinitializeSingleton() { safe_release(mInstance); }
@@ -21,11 +21,11 @@ public:
 	static bool isSingletonInitialzed() { return (mInstance != NULL); }
 
 protected:
-	static CLASS* mInstance;
+	static shared<CLASS> mInstance;
 };
 
-#define DECLARE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = NULL
-#define CREATE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = mnew T
+#define DECLARE_SINGLETON(CLASS) template<> shared<CLASS> cSingleton<CLASS>::mInstance = NULL
+#define CREATE_SINGLETON(CLASS) template<> shared<CLASS> cSingleton<CLASS>::mInstance = mnew T
 
 CLOSE_O2_NAMESPACE
 

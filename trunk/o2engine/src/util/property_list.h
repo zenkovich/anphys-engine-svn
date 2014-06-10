@@ -9,12 +9,12 @@ OPEN_O2_NAMESPACE
 	
 
 /** Object property list class. Contains properties array, processing properties. */
-class cPropertyList
+class cPropertyList: public cShareObject
 {
 	friend class IProperty;
 
 public:
-	class IProperty
+	class IProperty: public cShareObject
 	{
 	public:	
 		string                mName;         /** Name of property. */
@@ -33,8 +33,8 @@ public:
 			cPropertyList* propList = dynamic_cast<cPropertyList*>(tclass);
 			if (propList)
 			{
-				propList->mPropertiesList.push_back(tempShared(this));
-				mPropertyList = tempShared(propList);
+				propList->mPropertiesList.push_back((this));
+				mPropertyList = (propList);
 			}
 		}
 	};
@@ -104,10 +104,10 @@ public:
 	typedef vector< shared<cPropertyList> > PropertiesListsVec;
 
 protected:
-	string              mPropertyListName;   /** Property list name. */
-	shared< IProperty > mParentPropertyList; /** Parent property list. */
-	PropertiesListsVec  mChildPropertyLists; /** Child properties list array. */
-	PropertiesVec       mPropertiesList;     /** Properties array .*/
+	string                  mPropertyListName;   /** Property list name. */
+	shared< cPropertyList > mParentPropertyList; /** Parent property list. */
+	PropertiesListsVec      mChildPropertyLists; /** Child properties list array. */
+	PropertiesVec           mPropertiesList;     /** Properties array .*/
 
 public:
 	cPropertyList(const string& name = "");
@@ -115,7 +115,7 @@ public:
 
 	void setPropertyListName(const string& name);
 	void addChildPropertyList(const shared<cPropertyList>& propList);
-	void removeChildPropertyList(const shared<cPropertyList>& propList);
+	void removeChildPropertyList(const shared<cPropertyList>& propList, bool release = true);
 	void removeAllChildPropertyLists();
 
 	template<typename T>
