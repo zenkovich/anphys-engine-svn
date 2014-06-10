@@ -5,13 +5,13 @@
 #include "render_system/texture.h"
 #include "util/math/layout.h"
 #include "util/singleton.h"
+#include "ui_button.h"
+#include "ui_rect.h"
 
 OPEN_O2_NAMESPACE
 
 class uiWidget;
 class uiSprite;
-class uiRect;
-class uiButton;
 class uiProgressBar;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */

@@ -51,32 +51,24 @@
 
 #endif //MEMORY_TRACE
 
-OPEN_O2_NAMESPACE
+OPEN_O2_NAMESPACE	
 
-#define safe_release(obj) \
-{ \
-	void* obj_ptr = _safe_release(obj); \
-	if(obj_ptr != 0)                    \
-		delete obj_ptr;                 \
-	obj = NULL;                         \
+#define safe_release(obj)          \
+{                                  \
+	if (obj)                       \
+		delete _safe_release(obj); \
+	obj = NULL;                    \
 }
 
 #define safe_release_arr(obj) \
-{ \
-	void* obj_ptr = _safe_release_arr(obj); \
-	if(obj_ptr != 0)                        \
-		delete[] obj_ptr;                   \
-	obj = NULL;                             \
+{                             \
+	if(obj != 0)              \
+		delete[] obj;         \
+	obj = NULL;               \
 }
 	
 template<typename T>
-void* _safe_release(T* object)
-{
-	return object;
-}
-
-template<typename T>
-void* _safe_release_arr(T* object)
+T* _safe_release(T* object)
 {
 	return object;
 }
