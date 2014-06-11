@@ -44,9 +44,8 @@ public:
 struct IShared
 {
 	bool         mValid;
-	cSharedBase* mShareBase;
 
-	IShared():mValid(true), mShareBase(NULL) {}
+	IShared():mValid(true) {}
 };
 
 template<typename _type>
@@ -58,7 +57,6 @@ public:
 	shared()
 	{
 		mObject = NULL;
-		mShareBase = NULL;
 	}
 
 	shared(_type* object) 
@@ -256,10 +254,14 @@ public:
 		if (!mObject)
 			return;			
 		
-		mObject->mSharedBase.pushRef(this);
+		mObject->mSharedBase.eraseRef(this);
 
 		if (!mObject->mSharedBase.isHereAnybody())
-			SharedsRelease((void*)mObject);
+		{
+			//SharedsRelease((void*)mObject);
+			delete mObject;
+			mValid = false;
+		}
 	}
 
 	void checkValid() const

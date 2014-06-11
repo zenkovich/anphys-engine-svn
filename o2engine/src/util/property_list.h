@@ -24,6 +24,8 @@ public:
 		IProperty(const string& name):
 			mName(name) {} 
 
+		virtual ~IProperty() {}
+
 		string getPath() const;
 
 	protected:
