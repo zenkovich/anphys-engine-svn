@@ -129,38 +129,6 @@ public:
 		return *this;
 	}
 
-/*	bool operator==(const shared<_type>& ref)
-	{
-		return ref.mObject == mObject;
-	}
-
-	bool operator==(const shared<_type>& ref) const
-	{
-		return ref.mObject == mObject;
-	}
-
-	bool operator!=(const shared<_type>& ref)
-	{
-		return ref.mObject != mObject;
-	}
-
-	bool operator!=(const shared<_type>& ref) const
-	{
-		return ref.mObject != mObject;
-	}	
-	
-	template<typename P>
-	bool operator==(const P* ptr)
-	{
-		return ptr == mObject;
-	}
-	
-	template<typename P>
-	bool operator==(const P* ptr) const
-	{
-		return ptr == mObject;
-	}
-	*/
 	template<typename P>
 	bool operator!=(P* const ptr)
 	{
@@ -271,8 +239,198 @@ public:
 	}
 };
 
+template<typename _type>
+class weak: public IShared
+{
+public:
+	_type* mObject;
+
+	weak()
+	{
+		mObject = NULL;
+	}
+
+	weak(_type* object) 
+	{
+		initializeWeak(object);
+	}
+
+	weak(const weak<_type>& ref) 
+	{
+		initializeWeak(ref);
+	}
+
+	weak(const shared<_type>& ref) 
+	{
+		initializeWeak(ref);
+	}
+
+	~weak() 
+	{
+		release();
+	}
+
+	template<typename _conv_type>
+	operator weak<_conv_type>()
+	{
+		checkValid();
+
+		weak<_conv_type> res;
+		res.initializeWeak((_conv_type*)(mObject));
+
+		return res;
+	}
+
+	template<typename _conv_type>
+	operator shared<_conv_type>()
+	{
+		checkValid();
+
+		shared<_conv_type> res;
+		res.initialize((_conv_type*)(mObject));
+
+		return res;
+	}
+
+	template<typename _conv_type>
+	operator _conv_type*()
+	{
+		checkValid();
+		return static_cast<_conv_type*>(mObject);
+	}
+
+	operator _type*() 
+	{
+		checkValid();
+		return mObject;
+	}
+
+	_type* operator->() 
+	{
+		checkValid();
+		return mObject;
+	}
+
+	_type* const operator->() const
+	{
+		checkValid();
+		return mObject;
+	}
+
+	_type& operator*() 
+	{ 
+		checkValid();
+		return *mObject;
+	}
+
+	_type& operator*() const
+	{ 
+		checkValid();
+		return *mObject;
+	}
+
+	weak& operator=(_type* object) 
+	{
+		release();
+		initializeWeak(object);
+		return *this;
+	}
+
+	template<typename P>
+	bool operator!=(P* const ptr)
+	{
+		return ptr != mObject;
+	}
+	
+	template<typename P>
+	bool operator!=(P* const ptr) const
+	{
+		return ptr != mObject;
+	}
+
+	weak<_type>& operator=(const weak<_type>& ref) 
+	{
+		release();
+		initializeWeak(ref);
+		return *this;
+	}
+
+	template<typename P>
+	weak<_type>& operator=(const weak<P>& ref) 
+	{
+		release();
+		initializeWeak(ref);
+		return *this;
+	}
+
+	operator bool()
+	{
+		checkValid();
+		return mObject != NULL;
+	}
+
+	operator bool() const
+	{
+		checkValid();
+		return mObject != NULL;
+	}
+
+	_type* force_release()
+	{
+		_type* res = NULL;
+		if (mObject)
+		{
+			if (!mValid)
+				SharedsErrorOut("Trying to release not valid object reference");
+
+			for(vector<IShared*>::iterator ref = mObject->mSharedBase.mReferences.begin(); ref != mObject->mSharedBase.mReferences.end(); ++ref)
+				(*ref)->mValid = false;
+
+			if (mObject->mSharedBase.isHereAnybody())
+				SharedsErrorOut("Hey, you forgot something! There some nonvalid objects", false);
+
+			res = mObject;
+			mObject = NULL;
+		}
+
+		return res;
+	}
+
+public:
+	void initializeWeak(_type* object) 
+	{
+		object->yesIAmSharedObject();
+		mObject = object;
+	}
+
+	template<typename P>
+	void initializeWeak(const weak<P>& ref) 
+	{
+		if (ref.mObject && !ref.mValid)
+			SharedsErrorOut("Failed to initialize weak: not valid object");
+
+		mObject = static_cast<_type*>(ref.mObject);
+	}
+
+	void release()
+	{
+	}
+
+	void checkValid() const
+	{
+		if (mObject && !mValid)
+			SharedsErrorOut("Wow, maan, you are using dead pointer..");
+	}
+};
+
 template<typename T>
 T* _safe_release(shared<T>& ptr)
+{
+	return ptr.force_release();
+}
+
+template<typename T>
+T* _safe_release(weak<T>& ptr)
 {
 	return ptr.force_release();
 }
