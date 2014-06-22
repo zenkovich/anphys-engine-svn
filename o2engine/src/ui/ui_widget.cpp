@@ -189,7 +189,7 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 	updateLayout();
 }
 
-shared<uiWidget> uiWidget::getParent() const
+shared<uiWidget> uiWidget::getParent()
 {
 	return mParent;
 }
@@ -416,7 +416,7 @@ void uiWidget::onFocusLost()
 void uiWidget::initializeProperties()
 {
 	REG_PROPERTY(uiWidget, position, setPosition, getPosition);
-	REG_PROPERTY(uiWidget, parent, setParent, getParent);
+	REG_PROPERTY_GETTER_NONCONST(uiWidget, parent, setParent, getParent);
 	REG_PROPERTY(uiWidget, id, setId, getId);
 	REG_PROPERTY(uiWidget, globalPosition, setGlobalPosition, getGlobalPosition);
 	REG_PROPERTY(uiWidget, size, setSize, getSize);

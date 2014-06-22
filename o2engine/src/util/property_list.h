@@ -18,7 +18,7 @@ public:
 	{
 	public:	
 		string                mName;         /** Name of property. */
-		shared<cPropertyList> mPropertyList; /** Owner property list. NULL, if no owner. */
+		shared<cPropertyList> mOwnerPropList; /** Owner property list. NULL, if no owner. */
 		cCallbackChain        onChangeEvent; /** Calls when calling setter. */
 
 		IProperty(const string& name):
@@ -26,7 +26,7 @@ public:
 
 		virtual ~IProperty() {}
 
-		string getPath() const;
+		string getPath();
 
 	protected:
 		template<typename _class>
@@ -35,8 +35,8 @@ public:
 			cPropertyList* propList = dynamic_cast<cPropertyList*>(tclass);
 			if (propList)
 			{
-				propList->mPropertiesList.push_back((this));
-				mPropertyList = (propList);
+				propList->mPropertiesList.push_back(this);
+				mOwnerPropList = (propList);
 			}
 		}
 	};

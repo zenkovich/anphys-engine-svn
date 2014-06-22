@@ -28,6 +28,9 @@
     <ClCompile Include="main_win.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\shared_test.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\tests\animation_test.h">
@@ -46,6 +49,9 @@
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\test_app.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\shared_test.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

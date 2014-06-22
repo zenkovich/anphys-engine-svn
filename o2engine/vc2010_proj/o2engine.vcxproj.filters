@@ -79,6 +79,9 @@
     <Filter Include="src\scene">
       <UniqueIdentifier>{c05d0d7d-f25c-4ada-881c-1d9eebbf13da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dependencies\stack_walker">
+      <UniqueIdentifier>{1a5f7661-556e-48ed-a700-caec9d668901}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -441,6 +444,12 @@
     <ClInclude Include="..\src\util\shared.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\dependencies\stack_walker\StackWalker.h">
+      <Filter>dependencies\stack_walker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\stack_trace.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -753,6 +762,12 @@
       <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\shared.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\stack_walker\StackWalker.cpp">
+      <Filter>dependencies\stack_walker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\stack_trace.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
