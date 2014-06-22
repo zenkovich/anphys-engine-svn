@@ -95,6 +95,7 @@
     <ClInclude Include="..\dependencies\libpng\pngconf.h" />
     <ClInclude Include="..\dependencies\pugixml\pugiconfig.hpp" />
     <ClInclude Include="..\dependencies\pugixml\pugixml.hpp" />
+    <ClInclude Include="..\dependencies\stack_walker\StackWalker.h" />
     <ClInclude Include="..\dependencies\zlib\crc32.h" />
     <ClInclude Include="..\dependencies\zlib\crypt.h" />
     <ClInclude Include="..\dependencies\zlib\deflate.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\src\util\shared.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\smart_ptrs.h" />
+    <ClInclude Include="..\src\util\stack_trace.h" />
     <ClInclude Include="..\src\util\string.h" />
     <ClInclude Include="..\src\util\threads\mutex.h" />
     <ClInclude Include="..\src\util\threads\thread.h" />
@@ -229,6 +231,7 @@
     <ClCompile Include="..\dependencies\libpng\pngwtran.c" />
     <ClCompile Include="..\dependencies\libpng\pngwutil.c" />
     <ClCompile Include="..\dependencies\pugixml\pugixml.cpp" />
+    <ClCompile Include="..\dependencies\stack_walker\StackWalker.cpp" />
     <ClCompile Include="..\dependencies\zlib\adler32.c" />
     <ClCompile Include="..\dependencies\zlib\compress.c" />
     <ClCompile Include="..\dependencies\zlib\crc32.c" />
@@ -305,6 +308,7 @@
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
     <ClCompile Include="..\src\util\shared.cpp" />
+    <ClCompile Include="..\src\util\stack_trace.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />
     <ClCompile Include="..\src\util\threads\thread.cpp" />

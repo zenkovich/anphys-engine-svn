@@ -3,6 +3,7 @@
 
 #include "public_namespace.h"
 #include "public_types.h"
+#include "stack_trace.h"
 #include <vector>
 #include <algorithm>
 
@@ -35,17 +36,66 @@ struct cSharedBase
 
 class cShareObject
 {
+	enum { nCheckSectionSize = 8, checkMagicNumber = 88 };
+
 public:
+	char        mCheckSection[nCheckSectionSize];
+	bool        mAutoRelease;
 	cSharedBase mSharedBase;
 
+	void* operator new(uint32 size) 
+	{
+		void* res = malloc(size);
+		memset(res, checkMagicNumber, nCheckSectionSize);
+		return res;
+	}
+
+	void* operator new(uint32 size, const char* location, int line) 
+	{
+		void* res = malloc(size);
+		memset(res, checkMagicNumber, nCheckSectionSize);
+		return res;
+	}
+
+	void operator delete(void* ptr)
+	{
+		free(ptr);
+	}
+
+	void operator delete(void* ptr, const char* location, int line)
+	{
+		free(ptr);
+	}
+
 	void yesIAmSharedObject() {}
+
+	cShareObject()
+	{
+		bool isAutoRelease = true;
+		char* checkSection = (char*)this;
+		for (int i = 0; i < nCheckSectionSize; i++)
+		{
+			if (checkSection[i] != checkMagicNumber)
+			{
+				isAutoRelease = false;
+				break;
+			}
+		}
+
+		mAutoRelease = isAutoRelease;
+	}
 };
 
 struct IShared
 {
 	bool         mValid;
+	std::string  mStackTrace;
+	cSharedBase* mBase;
+	IShared*     mParent;
 
-	IShared():mValid(true) {}
+	IShared():mValid(true), mBase(NULL), mParent(NULL) {}
+
+	void checkTraceStack() { mStackTrace = getStackTraceAsStr(); }
 };
 
 template<typename _type>
@@ -72,6 +122,17 @@ public:
 	~shared() 
 	{
 		release();
+	}
+
+	shared<_type> setParent(void* parent) 
+	{
+		mParent = dynamic_cast<IShared>(parent);
+		/*IShared* par = parent;
+		while(par)
+		{
+			if (par == )
+		}*/
+		return *this;
 	}
 
 	template<typename _conv_type>
@@ -201,6 +262,8 @@ public:
 			return;
 
 		mObject->mSharedBase.pushRef(this);
+		checkTraceStack();
+		mBase = &mObject->mSharedBase;
 	}
 
 	template<typename P>
@@ -215,6 +278,8 @@ public:
 			return;		
 		
 		mObject->mSharedBase.pushRef(this);
+		checkTraceStack();
+		mBase = &mObject->mSharedBase;
 	}
 
 	void release()
@@ -227,7 +292,8 @@ public:
 		if (!mObject->mSharedBase.isHereAnybody())
 		{
 			//SharedsRelease((void*)mObject);
-			delete mObject;
+			if (mObject->mAutoRelease)
+				delete mObject;
 			mValid = false;
 		}
 	}
@@ -239,198 +305,11 @@ public:
 	}
 };
 
-template<typename _type>
-class weak: public IShared
-{
-public:
-	_type* mObject;
-
-	weak()
-	{
-		mObject = NULL;
-	}
-
-	weak(_type* object) 
-	{
-		initializeWeak(object);
-	}
-
-	weak(const weak<_type>& ref) 
-	{
-		initializeWeak(ref);
-	}
-
-	weak(const shared<_type>& ref) 
-	{
-		initializeWeak(ref);
-	}
-
-	~weak() 
-	{
-		release();
-	}
-
-	template<typename _conv_type>
-	operator weak<_conv_type>()
-	{
-		checkValid();
-
-		weak<_conv_type> res;
-		res.initializeWeak((_conv_type*)(mObject));
-
-		return res;
-	}
-
-	template<typename _conv_type>
-	operator shared<_conv_type>()
-	{
-		checkValid();
-
-		shared<_conv_type> res;
-		res.initialize((_conv_type*)(mObject));
-
-		return res;
-	}
-
-	template<typename _conv_type>
-	operator _conv_type*()
-	{
-		checkValid();
-		return static_cast<_conv_type*>(mObject);
-	}
-
-	operator _type*() 
-	{
-		checkValid();
-		return mObject;
-	}
-
-	_type* operator->() 
-	{
-		checkValid();
-		return mObject;
-	}
-
-	_type* const operator->() const
-	{
-		checkValid();
-		return mObject;
-	}
-
-	_type& operator*() 
-	{ 
-		checkValid();
-		return *mObject;
-	}
-
-	_type& operator*() const
-	{ 
-		checkValid();
-		return *mObject;
-	}
-
-	weak& operator=(_type* object) 
-	{
-		release();
-		initializeWeak(object);
-		return *this;
-	}
-
-	template<typename P>
-	bool operator!=(P* const ptr)
-	{
-		return ptr != mObject;
-	}
-	
-	template<typename P>
-	bool operator!=(P* const ptr) const
-	{
-		return ptr != mObject;
-	}
-
-	weak<_type>& operator=(const weak<_type>& ref) 
-	{
-		release();
-		initializeWeak(ref);
-		return *this;
-	}
-
-	template<typename P>
-	weak<_type>& operator=(const weak<P>& ref) 
-	{
-		release();
-		initializeWeak(ref);
-		return *this;
-	}
-
-	operator bool()
-	{
-		checkValid();
-		return mObject != NULL;
-	}
-
-	operator bool() const
-	{
-		checkValid();
-		return mObject != NULL;
-	}
-
-	_type* force_release()
-	{
-		_type* res = NULL;
-		if (mObject)
-		{
-			if (!mValid)
-				SharedsErrorOut("Trying to release not valid object reference");
-
-			for(vector<IShared*>::iterator ref = mObject->mSharedBase.mReferences.begin(); ref != mObject->mSharedBase.mReferences.end(); ++ref)
-				(*ref)->mValid = false;
-
-			if (mObject->mSharedBase.isHereAnybody())
-				SharedsErrorOut("Hey, you forgot something! There some nonvalid objects", false);
-
-			res = mObject;
-			mObject = NULL;
-		}
-
-		return res;
-	}
-
-public:
-	void initializeWeak(_type* object) 
-	{
-		object->yesIAmSharedObject();
-		mObject = object;
-	}
-
-	template<typename P>
-	void initializeWeak(const weak<P>& ref) 
-	{
-		if (ref.mObject && !ref.mValid)
-			SharedsErrorOut("Failed to initialize weak: not valid object");
-
-		mObject = static_cast<_type*>(ref.mObject);
-	}
-
-	void release()
-	{
-	}
-
-	void checkValid() const
-	{
-		if (mObject && !mValid)
-			SharedsErrorOut("Wow, maan, you are using dead pointer..");
-	}
-};
+#define sharex(object) (shared(mnew object)).setParent(this)
+#define share(object, parent) (object).setParent(parent)
 
 template<typename T>
 T* _safe_release(shared<T>& ptr)
-{
-	return ptr.force_release();
-}
-
-template<typename T>
-T* _safe_release(weak<T>& ptr)
 {
 	return ptr.force_release();
 }

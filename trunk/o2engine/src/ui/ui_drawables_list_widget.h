@@ -16,11 +16,11 @@ public:
 		typedef vector< shared<Drawable> > DrawablesVec;
 
 	protected:
-		string                mName;
-		shared<IRectDrawable> mDrawable;
-		cLayout               mLayout;
-		shared<Drawable>      mParentDrawable;
-		DrawablesVec          mChildDrawables;
+		string                  mName;
+		shared<IRectDrawable>   mDrawable;
+		cLayout                 mLayout;
+		shared<Drawable>        mParentDrawable;
+		DrawablesVec            mChildDrawables;
 
 	public:
 		PROPERTY(Drawable, cLayout) layout;

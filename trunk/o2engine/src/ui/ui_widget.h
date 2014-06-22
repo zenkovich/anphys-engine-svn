@@ -153,7 +153,7 @@ public:
 	void setParent(const shared<uiWidget>& parent);
 
 	/** Returns parent ptr. */
-	shared<uiWidget> getParent() const;
+	shared<uiWidget> getParent();
 
 	/** Sets the local position. */
 	void setPosition(const vec2f& position);
