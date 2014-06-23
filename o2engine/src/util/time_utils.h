@@ -10,7 +10,6 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
-	friend class shared<cTimeUtil>;
 
 	float   mApplicationTime;     /** Application working time, seconds. */
 	float   mLocalTime;           /** Local timer working, seconds. Controlling by user. */
@@ -28,7 +27,7 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 	/** dtor. */
 	~cTimeUtil();
 
-	/** Update parametres. */
+	/** Update parameters. */
 	void update(float dt);
 
 public:
@@ -41,7 +40,7 @@ public:
 	/** Resetting local time to zero. */
 	void resetLocalTime();
 
-	/** Resetting local time to calue. */
+	/** Resetting local time to value. */
 	void setLocalTime(float time);
 
 	/** Returns current frame index. */

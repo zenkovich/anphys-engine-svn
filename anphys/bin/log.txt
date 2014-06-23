@@ -1,35 +1,1786 @@
-d3dRenderLog: Initializing Direct3d8 render...
-d3dRenderLog: Direct3d8 render initialized.
-d3dRenderLog: added light a4c6c8
-d3dRenderLog: can't find material redMaterial
-d3dRenderLog: add material a4c770 redMaterial
-d3dRenderLog: can't find material blueMaterial
-d3dRenderLog: add material a4c840 blueMaterial
-d3dRenderLog: can't find material greenMaterial
-d3dRenderLog: add material a4c910 greenMaterial
-d3dRenderLog: added texture a4c9e0
-d3dRenderLog: can't find texture: ../data/textures/white.jpg
-d3dRenderLog: loaded texture: ../data/textures/white.jpg
-d3dRenderLog: can't find Surface material redMaterial
-d3dRenderLog: add Surface material a4da50 redMaterial
-d3dRenderLog: can't find Surface material blueMaterial
-d3dRenderLog: add Surface material a4dac8 blueMaterial
-d3dRenderLog: can't find Surface material greenMaterial
-d3dRenderLog: add Surface material a4db40 greenMaterial
-d3dRenderLog: can't find material whiteMaterial
-d3dRenderLog: add material a4e3f0 whiteMaterial
-d3dRenderLog: added texture a4e4c0
-d3dRenderLog: can't find texture: ../data/textures/wood.jpg
-d3dRenderLog: loaded texture: ../data/textures/wood.jpg
-d3dRenderLog: can't find Surface material 
-d3dRenderLog: add Surface material a4e568 
-windows_manager_log: added window[0] 'anPhys test'
-key = 83
-key = 68
-key = 32
-key = 65
-key = 65
-key = 83
-key = 68
-key = 83
-key = 68
+--------------Engine: Initializing engine...
+--------------Engine: initialization complete!
+-----------RenderLog: Initializing Direct3d8 render...
+-----------RenderLog: Direct3d8 render initialized
+--------MaterialsLog: Add material 29fc40 redMaterial
+--------MaterialsLog: Add material 29fca0 blueMaterial
+--------MaterialsLog: Add material 29e868 greenMaterial
+--------MaterialsLog: Add material 29e8c8 whiteMaterial
+------------Textures: Add texture 29fd00 ()
+ERROR: Can't load PNG file '../data/textures/white.jpg': not PNG
+------------Textures: Loaded texture: ../data/textures/white.jpg
+------------Surfaces: Add material 29fd80 redMaterial
+------------Surfaces: Add material 29fdf8 blueMaterial
+------------Surfaces: Add material 29fe70 greenMaterial
+-------ScenesManager: Added scene 29a488
+-----ScenedefaultLog: initializing scene: ready = false
+-----ScenedefaultLog: Creating physics scene...
+-----ScenedefaultLog: Good. 29e988
+-----ScenedefaultLog: Creating render scene...
+-------ScenesManager: Added scene 2849348
+-----ScenedefaultLog: Good. 2849348
+-----ScenedefaultLog: Creating SceneStuff...
+-----ScenedefaultLog: Good. 2849428
+--------LightManager: Added light 9fe6b0
+------------Textures: Add texture a85310 ()
+------------Textures: Loaded texture: fonts/rfont
+------------Textures: Texture a85310 fonts/rfont +ref = 3
+------------Textures: Texture a85310 fonts/rfont +ref = 5
+------------Textures: Texture a85310 fonts/rfont +ref = 7
+------------Textures: Texture a85310 fonts/rfont +ref = 9
+------------Textures: Texture a85310 fonts/rfont +ref = 11
+------------Textures: Texture a85310 fonts/rfont +ref = 13
+------------Textures: Texture a85310 fonts/rfont +ref = 15
+------------Textures: Texture a85310 fonts/rfont +ref = 17
+------------Textures: Texture a85310 fonts/rfont +ref = 19
+------------Textures: Texture a85310 fonts/rfont +ref = 21
+------------Textures: Texture a85310 fonts/rfont +ref = 23
+------------Textures: Texture a85310 fonts/rfont +ref = 25
+------------Textures: Texture a85310 fonts/rfont +ref = 27
+------------Textures: Texture a85310 fonts/rfont +ref = 29
+------------Textures: Texture a85310 fonts/rfont +ref = 31
+------------Textures: Texture a85310 fonts/rfont +ref = 33
+------------Textures: Texture a85310 fonts/rfont +ref = 35
+------------Textures: Texture a85310 fonts/rfont +ref = 37
+------------Textures: Texture a85310 fonts/rfont +ref = 39
+------------Textures: Texture a85310 fonts/rfont +ref = 41
+------------Textures: Texture a85310 fonts/rfont +ref = 43
+------------Textures: Texture a85310 fonts/rfont +ref = 45
+------------Textures: Texture a85310 fonts/rfont +ref = 47
+------------Textures: Texture a85310 fonts/rfont +ref = 49
+------------Textures: Texture a85310 fonts/rfont +ref = 51
+------------Textures: Texture a85310 fonts/rfont +ref = 53
+------------Textures: Texture a85310 fonts/rfont +ref = 55
+------------Textures: Texture a85310 fonts/rfont +ref = 57
+------------Textures: Texture a85310 fonts/rfont +ref = 59
+------------Textures: Texture a85310 fonts/rfont +ref = 61
+------------Textures: Texture a85310 fonts/rfont +ref = 63
+------------Textures: Texture a85310 fonts/rfont +ref = 65
+------------Textures: Texture a85310 fonts/rfont +ref = 67
+------------Textures: Texture a85310 fonts/rfont +ref = 69
+------------Textures: Texture a85310 fonts/rfont +ref = 71
+------------Surfaces: Add material 68c27f0 grass
+------------Textures: Add texture 28fef50 ()
+ERROR: Can't load PNG file '../data/textures/wood.jpg': not PNG
+------------Textures: Loaded texture: ../data/textures/wood.jpg
+-----ScenedefaultLog: Add object: 286b2c8
+------------Textures: Texture 28fef50 ../data/textures/wood.jpg +ref = 2
+------------Surfaces: Add material 932a630 
+-----ScenedefaultLog: Add object: 286b310
+------------Textures: Texture a85310 fonts/rfont +ref = 73
+------------Textures: Texture a85310 fonts/rfont +ref = 75
+------------Textures: Texture a85310 fonts/rfont +ref = 77
+------------Textures: Texture a85310 fonts/rfont +ref = 79
+------------Textures: Texture a85310 fonts/rfont +ref = 81
+------------Textures: Texture a85310 fonts/rfont +ref = 83
+------------Textures: Texture a85310 fonts/rfont +ref = 85
+------------Textures: Texture a85310 fonts/rfont +ref = 87
+------------Textures: Texture a85310 fonts/rfont +ref = 89
+------------Textures: Texture a85310 fonts/rfont +ref = 91
+------------Textures: Texture a85310 fonts/rfont +ref = 93
+------------Textures: Texture a85310 fonts/rfont +ref = 95
+------------Textures: Texture a85310 fonts/rfont +ref = 97
+------------Textures: Texture a85310 fonts/rfont +ref = 99
+------------Textures: Texture a85310 fonts/rfont +ref = 101
+------------Textures: Texture a85310 fonts/rfont +ref = 103
+------------Textures: Texture a85310 fonts/rfont +ref = 105
+------------Textures: Texture a85310 fonts/rfont +ref = 107
+------------Textures: Texture a85310 fonts/rfont +ref = 109
+------------Textures: Texture a85310 fonts/rfont +ref = 111
+------------Textures: Texture a85310 fonts/rfont +ref = 113
+------------Textures: Texture a85310 fonts/rfont +ref = 115
+------------Textures: Texture a85310 fonts/rfont +ref = 117
+------------Textures: Texture a85310 fonts/rfont +ref = 119
+------------Textures: Texture a85310 fonts/rfont +ref = 121
+------------Textures: Texture a85310 fonts/rfont +ref = 123
+------------Textures: Texture a85310 fonts/rfont +ref = 125
+------------Textures: Texture a85310 fonts/rfont +ref = 127
+------------Textures: Texture a85310 fonts/rfont +ref = 129
+------------Textures: Texture a85310 fonts/rfont +ref = 131
+------------Textures: Texture a85310 fonts/rfont +ref = 133
+------------Textures: Texture a85310 fonts/rfont +ref = 135
+------------Textures: Texture a85310 fonts/rfont +ref = 137
+------------Textures: Texture a85310 fonts/rfont +ref = 139
+------------Textures: Texture a85310 fonts/rfont +ref = 141
+------------Textures: Texture a85310 fonts/rfont +ref = 143
+------------Textures: Texture a85310 fonts/rfont +ref = 145
+------------Textures: Texture a85310 fonts/rfont +ref = 147
+------------Textures: Texture a85310 fonts/rfont +ref = 149
+------------Textures: Texture a85310 fonts/rfont +ref = 151
+------------Textures: Texture a85310 fonts/rfont +ref = 153
+------------Textures: Texture a85310 fonts/rfont +ref = 155
+------------Textures: Texture a85310 fonts/rfont +ref = 157
+------------Textures: Texture a85310 fonts/rfont +ref = 159
+------------Textures: Texture a85310 fonts/rfont +ref = 161
+------------Textures: Texture a85310 fonts/rfont +ref = 163
+------------Textures: Texture a85310 fonts/rfont +ref = 165
+------------Textures: Texture a85310 fonts/rfont +ref = 167
+------------Textures: Texture a85310 fonts/rfont +ref = 169
+------------Textures: Texture a85310 fonts/rfont +ref = 171
+------------Textures: Texture a85310 fonts/rfont +ref = 173
+------------Textures: Texture a85310 fonts/rfont +ref = 175
+------------Textures: Texture a85310 fonts/rfont +ref = 177
+------------Textures: Texture a85310 fonts/rfont +ref = 179
+------------Textures: Texture a85310 fonts/rfont +ref = 181
+------------Textures: Texture a85310 fonts/rfont +ref = 183
+------------Textures: Texture a85310 fonts/rfont +ref = 185
+------------Textures: Texture a85310 fonts/rfont +ref = 187
+------------Textures: Texture a85310 fonts/rfont +ref = 189
+------------Textures: Texture a85310 fonts/rfont +ref = 191
+------------Textures: Texture a85310 fonts/rfont +ref = 193
+------------Textures: Texture a85310 fonts/rfont +ref = 195
+------------Textures: Texture a85310 fonts/rfont +ref = 197
+------------Textures: Texture a85310 fonts/rfont +ref = 199
+------------Textures: Texture a85310 fonts/rfont +ref = 201
+------------Textures: Texture a85310 fonts/rfont +ref = 203
+------------Textures: Texture a85310 fonts/rfont +ref = 205
+------------Textures: Texture a85310 fonts/rfont +ref = 207
+------------Textures: Texture a85310 fonts/rfont +ref = 209
+------------Textures: Texture a85310 fonts/rfont +ref = 211
+------------Textures: Texture a85310 fonts/rfont +ref = 213
+------------Textures: Texture a85310 fonts/rfont +ref = 215
+------------Textures: Texture a85310 fonts/rfont +ref = 217
+------------Textures: Texture a85310 fonts/rfont +ref = 219
+------------Textures: Texture a85310 fonts/rfont +ref = 221
+------------Textures: Texture a85310 fonts/rfont +ref = 223
+------------Textures: Texture a85310 fonts/rfont +ref = 225
+------------Textures: Texture a85310 fonts/rfont +ref = 227
+------------Textures: Texture a85310 fonts/rfont +ref = 229
+------------Textures: Texture a85310 fonts/rfont +ref = 231
+------------Textures: Texture a85310 fonts/rfont +ref = 233
+------------Textures: Texture a85310 fonts/rfont +ref = 235
+------------Textures: Texture a85310 fonts/rfont +ref = 237
+------------Textures: Texture a85310 fonts/rfont +ref = 239
+------------Textures: Texture a85310 fonts/rfont +ref = 241
+------------Textures: Texture a85310 fonts/rfont +ref = 243
+------------Textures: Texture a85310 fonts/rfont +ref = 245
+------------Textures: Texture a85310 fonts/rfont +ref = 247
+------------Textures: Texture a85310 fonts/rfont +ref = 249
+------------Textures: Texture a85310 fonts/rfont +ref = 251
+------------Textures: Texture a85310 fonts/rfont +ref = 253
+------------Textures: Texture a85310 fonts/rfont +ref = 255
+------------Textures: Texture a85310 fonts/rfont +ref = 257
+------------Textures: Texture a85310 fonts/rfont +ref = 259
+------------Textures: Texture a85310 fonts/rfont +ref = 261
+------------Textures: Texture a85310 fonts/rfont +ref = 263
+------------Textures: Texture a85310 fonts/rfont +ref = 265
+--------------Engine: Add window frame 299c20: wnd name 'anPhys physics test'
+------windowsManager: added window[0] 'anPhys physics test'
+--------------Engine: RUN
+
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+changed CH_LEFT_REAR PID_ANGLEX
+changed CH_RIGHT_REAR PID_ANGLEX
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 2
+fisrt 1 second 2
+fisrt 1 second 2
+fisrt 1 second 2
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 3
+fisrt 1 second 3
+fisrt 1 second 2
+fisrt 1 second 2
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 4 second 4
+fisrt 5 second 5
+fisrt 5 second 5
+fisrt 5 second 4
+fisrt 5 second 4
+fisrt 5 second 4
+fisrt 5 second 3
+fisrt 5 second 3
+fisrt 5 second 3
+fisrt 5 second 2
+fisrt 5 second 2
+fisrt 5 second 2
+fisrt 5 second 1
+fisrt 5 second 1
+fisrt 5 second 1
+fisrt 5 second 1
+fisrt 5 second 0
+fisrt 5 second 0
+fisrt 5 second 0
+fisrt 5 second 0
+fisrt 3 second 3
+fisrt 0 second 0
+fisrt 0 second 0
+fisrt 0 second 0
+fisrt 0 second 1
+fisrt 0 second 1
+fisrt 0 second 1
+fisrt 0 second 2
+fisrt 0 second 3
+fisrt 0 second 3
+fisrt 0 second 4
+fisrt 0 second 4
+fisrt 0 second 4
+fisrt 0 second 4
+fisrt 0 second 4
+fisrt 0 second 4
+fisrt 0 second 5
+fisrt 0 second 5
+fisrt 0 second 5
+fisrt 0 second 6
+fisrt 0 second 6
+fisrt 0 second 8
+fisrt 0 second 8
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 2
+fisrt 1 second 3
+fisrt 1 second 4
+fisrt 1 second 4
+fisrt 1 second 6
+fisrt 1 second 6
+fisrt 1 second 9
+fisrt 1 second 9
+fisrt 1 second 9
+fisrt 1 second 9
+fisrt 1 second 9
+changed CH_RIGHT_REAR PID_POSY
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 3 second 2
+fisrt 3 second 1
+fisrt 3 second 1
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+changed CH_RIGHT_REAR PID_POSY
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 3 second 3
+fisrt 3 second 2
+fisrt 3 second 2
+fisrt 3 second 1
+fisrt 3 second 1
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+fisrt 3 second 0
+changed CH_RIGHT_REAR PID_POSX
+fisrt 2 second 2
+fisrt 2 second 2
+fisrt 2 second 1
+fisrt 2 second 1
+fisrt 2 second 1
+fisrt 2 second 1
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+changed CH_RIGHT_REAR PID_POSZ
+fisrt 4 second 4
+fisrt 4 second 3
+fisrt 4 second 3
+fisrt 4 second 2
+fisrt 4 second 2
+fisrt 4 second 1
+fisrt 4 second 1
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 2 second 2
+fisrt 2 second 2
+fisrt 2 second 1
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 2 second 0
+fisrt 5 second 5
+fisrt 5 second 5
+fisrt 5 second 5
+fisrt 5 second 4
+fisrt 5 second 4
+fisrt 5 second 3
+fisrt 5 second 1
+fisrt 5 second 0
+fisrt 5 second 0
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 3
+fisrt 4 second 3
+fisrt 4 second 2
+fisrt 4 second 1
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 3
+fisrt 4 second 2
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 3
+fisrt 4 second 3
+fisrt 4 second 2
+fisrt 4 second 1
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 4
+fisrt 4 second 4
+fisrt 4 second 3
+fisrt 4 second 2
+fisrt 4 second 1
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+fisrt 4 second 0
+key = 84
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 71
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 71
+key = 71
+key = 71
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 40
+key = 66
+key = 66
+key = 66
+key = 71
+key = 66
+key = 71
+key = 71
+key = 71
+key = 71
+key = 71
+key = 66
+key = 66
+key = 66
+key = 66
+key = 66
+key = 66
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 71
+key = 71
+key = 37
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 37
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 1
+fisrt 1 second 0
+fisrt 1 second 0
+fisrt 1 second 0
+key = 189
+char 45 -
+fisrt 1 second 1
+key = 49
+char 49 1
+fisrt 2 second 2
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 37
+key = 37
+key = 71
+key = 39
+key = 37
+key = 37
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 37
+fisrt 1 second 1
+fisrt 2 second 2
+key = 48
+char 48 0
+fisrt 3 second 3
+key = 66
+key = 38
+key = 39
+key = 37
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 39
+key = 38
+key = 71
+key = 71
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 66
+key = 66
+key = 39
+key = 39
+key = 39
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+key = 38
+--------------Engine: Exit

@@ -441,7 +441,10 @@
     <ClInclude Include="..\src\util\math\layout.h">
       <Filter>src\util\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\shared.h">
+    <ClInclude Include="..\src\util\enumerable.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\array.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="..\dependencies\stack_walker\StackWalker.h">
@@ -760,9 +763,6 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_progressbar.cpp">
       <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\shared.cpp">
-      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="..\dependencies\stack_walker\StackWalker.cpp">
       <Filter>dependencies\stack_walker</Filter>

@@ -3,6 +3,7 @@
 
 #include "public.h"
 
+#include <vector>
 #include "singleton.h"
 #include "callback.h"
 #include "smart_ptrs.h"
