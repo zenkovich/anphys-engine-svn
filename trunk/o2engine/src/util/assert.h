@@ -1,7 +1,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
-#include "public.h"
+#include "public_namespace.h"
 OPEN_O2_NAMESPACE
 
 /** Outing assert with description, if x is false. */
