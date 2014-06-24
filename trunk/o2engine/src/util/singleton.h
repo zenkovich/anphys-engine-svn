@@ -13,7 +13,7 @@ public:
 
 	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
-	static shared<CLASS> instancePtr()  { return mInstance; }
+	static CLASS* instancePtr()         { return mInstance; }
 
 	static void initializeSingleton()   { if (!mInstance) mnew CLASS; }
 	static void deinitializeSingleton() { safe_release(mInstance); }

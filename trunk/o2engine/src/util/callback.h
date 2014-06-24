@@ -4,12 +4,11 @@
 #include <cstdarg>
 
 #include "public.h"
-#include "shared.h"
 
 OPEN_O2_NAMESPACE
 	
 /** Stupid simple class. */
-struct Dummy: public cShareObject
+struct Dummy
 {
 	Dummy() {}
 	~Dummy() {}
@@ -17,7 +16,7 @@ struct Dummy: public cShareObject
 
 
 /** Callback interface. */
-class ICallback: public cShareObject
+class ICallback
 {
 public:
 	virtual ~ICallback() {}
@@ -44,12 +43,12 @@ public:
 template<typename RetType, typename ClassType = Dummy>
 class cRetCallback:public IRetCallback<RetType>
 {
-	shared<ClassType> mObject;
+	ClassType* mObject;
 	RetType (ClassType::*mObjectFunction)();
 	RetType (*mFunction)();
 
 public:
-	cRetCallback(shared<ClassType> object, RetType (ClassType::*function)()):
+	cRetCallback(ClassType* object, RetType (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cRetCallback(RetType (*function)()):
@@ -79,7 +78,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename RetType, typename ClassType>
-IRetCallback<RetType>* callback(shared<ClassType> object, RetType (ClassType::*function)()) 
+IRetCallback<RetType>* callback(ClassType* object, RetType (ClassType::*function)()) 
 {
 	return mnew cRetCallback<RetType, ClassType>(object, function);
 }
@@ -98,7 +97,7 @@ inline IRetCallback<RetType>* callback(RetType (*function)())
 class cCallbackChain:public ICallback
 {
 public:
-	typedef vector<shared<ICallback>> CallbacksVec;
+	typedef vector<ICallback*> CallbacksVec;
 
 protected:
 	CallbacksVec mCallbacks;
@@ -130,12 +129,12 @@ public:
 		removeAll();
 	}
 
-	void add(shared<ICallback> callback)
+	void add(ICallback* callback)
 	{
 		mCallbacks.push_back(callback);
 	}
 
-	void remove(shared<ICallback> callback) 
+	void remove(ICallback* callback) 
 	{
 		CallbacksVec::iterator fnd = std::find(mCallbacks.begin(), mCallbacks.end(), callback);
 		if (fnd != mCallbacks.end())
@@ -187,12 +186,12 @@ inline ICallback* callbackChain(int count, ...)
 template<typename ClassType = Dummy>
 class cCallback:public ICallback
 {
-	shared<ClassType> mObject;
+	ClassType* mObject;
 	void (ClassType::*mObjectFunction)();
 	void (*mFunction)();
 
 public:
-	cCallback(shared<ClassType> object, void (ClassType::*function)()):
+	cCallback(ClassType* object, void (ClassType::*function)()):
 	  mObject(object), mObjectFunction(function) {}
 
 	cCallback(void (*function)()):
@@ -219,7 +218,7 @@ public:
 
 /** Fast callback creation function. */
 template<typename ClassType>
-ICallback* callback(shared<ClassType> object, void (ClassType::*function)()) { return mnew cCallback<ClassType>(object, function); }
+ICallback* callback(ClassType* object, void (ClassType::*function)()) { return mnew cCallback<ClassType>(object, function); }
 
 /** Fast callback creation function. */
 inline ICallback* callback(void (*function)()) { return mnew cCallback<Dummy>(function); }
@@ -232,12 +231,12 @@ template<typename ArgT, typename ClassType = Dummy>
 class cCallback1Param:public ICallback
 {
 	ArgT       mArg;
-	shared<ClassType> mObject;
+	ClassType* mObject;
 	void (ClassType::*mObjectFunction)(ArgT);
 	void (*mFunction)(ArgT);
 
 public:
-	cCallback1Param(shared<ClassType> object, void (ClassType::*function)(ArgT), const ArgT& arg):
+	cCallback1Param(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg):
 	  mObject(object), mObjectFunction(function) { mArg = arg; }
 
 	cCallback1Param(void (*function)(ArgT), const ArgT& arg):
@@ -271,7 +270,7 @@ public:
 
 /** Fast callback1 creation function. */
 template<typename ArgT, typename ClassType>
-ICallback* callback(shared<ClassType> object, void (ClassType::*function)(ArgT), const ArgT& arg)
+ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT), const ArgT& arg)
 { 
 	return mnew cCallback1Param<ArgT, ClassType>(object, function, arg);
 }
@@ -292,7 +291,7 @@ class cCallback2Param:public ICallback
 {
 	ArgT       mArg;
 	ArgT2      mArg2;
-	shared<ClassType> mObject;
+	ClassType* mObject;
 	void (ClassType::*mObjectFunction)(ArgT, ArgT2);
 	void (*mFunction)(ArgT, ArgT2);
 
