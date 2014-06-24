@@ -2,7 +2,7 @@
 
 OPEN_O2_NAMESPACE
 
-uiSprite::uiSprite(const cLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
+uiSprite::uiSprite(const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/):
 	uiWidget(layout, id, parent)
 {
 	layoutUpdated();
@@ -23,7 +23,7 @@ uiSprite::~uiSprite()
 {
 }
 
-shared<uiWidget> uiSprite::clone() const
+uiWidget* uiSprite::clone() const
 {
 	return mnew uiSprite(*this);
 }

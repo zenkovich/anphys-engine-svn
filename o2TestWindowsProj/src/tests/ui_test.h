@@ -13,11 +13,11 @@ class IRectDrawable;
 
 class cUITest: public ITest
 {
-	shared<uiSprite> spr;
-	shared<uiWidget> wdg;
-	shared<uiWidget> rect;
-	shared<IRectDrawable> sprite;
-	shared<uiProgressBar> mTestBar;
+	uiSprite* spr;
+	uiWidget* wdg;
+	uiWidget* rect;
+	IRectDrawable* sprite;
+	uiProgressBar* mTestBar;
 
 public:
 	cUITest();

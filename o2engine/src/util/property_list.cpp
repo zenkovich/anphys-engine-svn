@@ -71,11 +71,11 @@ void cPropertyList::setPropertyListName( const string& name )
 string cPropertyList::IProperty::getPath()
 {
 	string res = mName;
-	shared<cPropertyList> propList = mOwnerPropList;
+	cPropertyList* propList = mOwnerPropList;
 	while(propList->mParentPropertyList)
 	{
 		res = propList->mPropertyListName + "/" + res;
-		propList = (shared<cPropertyList>)(propList->mParentPropertyList);
+		propList = propList->mParentPropertyList;
 	}
 
 	return res;

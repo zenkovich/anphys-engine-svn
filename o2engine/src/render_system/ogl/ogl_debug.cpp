@@ -21,7 +21,7 @@ const char* getGLErrorDesc( GLenum errorId )
 	return "UNKNOWN";
 }
 
-void glCheckError( shared<cLogStream> log, const char* filename /*= NULL*/, unsigned int line /*= 0*/ )
+void glCheckError( cLogStream* log, const char* filename /*= NULL*/, unsigned int line /*= 0*/ )
 {
 	GLenum errId = glGetError();
 	if (errId != GL_NO_ERROR)

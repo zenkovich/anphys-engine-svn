@@ -122,7 +122,7 @@ public:
 	template<typename T>
 	Property<T>* getProperty(const string& pathName)
 	{
-		return getPropertyBase(pathName);
+		return static_cast< Property<T>* >(getPropertyBase(pathName));
 	}
 
 protected:

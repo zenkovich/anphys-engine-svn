@@ -41,13 +41,13 @@ void uiController::draw()
 	mBasicWidget.draw();
 }
 
-shared<uiWidget> uiController::addWidget(const shared<uiWidget>& widget)
+uiWidget* uiController::addWidget(uiWidget* widget)
 {
 	mBasicWidget.addChild(widget);
 	return widget;
 }
 
-bool uiController::removeWidget(const shared<uiWidget>& widget)
+bool uiController::removeWidget(uiWidget* widget)
 {
 	mBasicWidget.removeChild(widget);
 	return true;
@@ -59,12 +59,12 @@ bool uiController::removeAllWidgets()
 	return true;
 }
 
-shared<uiWidget> uiController::getWidget(const string& idPath)
+uiWidget* uiController::getWidget(const string& idPath)
 {
 	return mBasicWidget.getWidget(idPath);
 }
 
-void uiController::focusOnWidget(const shared<uiWidget>& widget)
+void uiController::focusOnWidget(uiWidget* widget)
 {
 	if (mFocusWidget)
 		mFocusWidget->onFocusLost();

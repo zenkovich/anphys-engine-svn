@@ -34,9 +34,9 @@ void cImage::create( Format format, const vec2i& size )
 	mData = mnew unsigned char[ size.x*size.y*bpp[format] ];
 }
 
-bool cImage::load( const string& fileName, ImageType type, shared<cLogStream> clog /*= NULL*/ )
+bool cImage::load( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ )
 {
-	shared<cLogStream> log = clog ? clog:gLog;
+	cLogStream* log = clog ? clog:gLog;
 
 	mFilename = fileName;
 
@@ -55,9 +55,9 @@ bool cImage::load( const string& fileName, ImageType type, shared<cLogStream> cl
 	return false;
 }
 
-bool cImage::save( const string& fileName, ImageType type, shared<cLogStream> clog /*= NULL*/ ) const
+bool cImage::save( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ ) const
 {
-	shared<cLogStream> log = clog ? clog:gLog;
+	cLogStream* log = clog ? clog:gLog;
 
 	if (type == IT_PNG || type == IT_AUTO)
 	{

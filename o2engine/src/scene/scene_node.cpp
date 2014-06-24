@@ -72,21 +72,21 @@ scNode& scNode::operator=(const scNode& node)
 	return *this;
 }
 
-shared<scNode> scNode::addNode(const shared<scNode>& node)
+scNode* scNode::addNode(scNode* node)
 {
 	mChilds.push_back(node);
 	node->mParent = this;
 	return node;
 }
 
-bool scNode::removeNode(const shared<scNode>& node)
+bool scNode::removeNode(scNode* node)
 {
 	NodesVec::iterator fnd = FIND(mChilds, node);
 	if (fnd == mChilds.end())
 		return false;
 
 	mChilds.erase(fnd);
-	safe_release(shared<scNode>(node));
+	safe_release(node);
 	return true;
 }
 
@@ -103,7 +103,7 @@ bool scNode::removeAllNodes()
 	return true;
 }
 
-shared<scNode> scNode::getNode(const string& id) const
+scNode* scNode::getNode(const string& id) const
 {
 	int delPos = id.find("/");
 	string pathPart = id.substr(0, delPos);
@@ -135,21 +135,21 @@ shared<scNode> scNode::getNode(const string& id) const
 	return NULL;
 }
 
-shared<scComponent> scNode::addComponent(const shared<scComponent>& component)
+scComponent* scNode::addComponent(scComponent* component)
 {
 	mComponents.push_back(component);
 	component->mOwnerNode = this;
 	return component;
 }
 
-bool scNode::removeComponent(const shared<scComponent>& component)
+bool scNode::removeComponent(scComponent* component)
 {
 	ComponentsVec::iterator fnd = FIND(mComponents, component);
 	
 	if (fnd == mComponents.end())
 		return false;
 	
-	safe_release(shared<scComponent>(component));
+	safe_release(component);
 	mComponents.erase(fnd);
 	return true;
 }
@@ -177,7 +177,7 @@ string scNode::getId() const
 	return mId;
 }
 
-void scNode::setParent(const shared<scNode>& parent)
+void scNode::setParent(scNode* parent)
 {	
 	if (mParent)
 	{
@@ -194,7 +194,7 @@ void scNode::setParent(const shared<scNode>& parent)
 	updateTransform();
 }
 
-shared<scNode> scNode::getParent() const
+scNode* scNode::getParent() const
 {
 	return mParent;
 }
@@ -415,7 +415,7 @@ color4 scNode::getColor() const
 void scNode::initializeProperties()
 {
 	REG_PROPERTY(scNode, id, setId, getId);
-	REG_PROPERTY(scNode, parent, setParent, getParent);
+	REG_PROPERTY_SETTER_NONCONST(scNode, parent, setParent, getParent);
 	REG_PROPERTY_SETTER_NONCONST(scNode, enabled, setEnable, isEnable);
 	REG_PROPERTY_SETTER_NONCONST(scNode, visible, setVisible, isVisible);
 	REG_PROPERTY(scNode, basis_, setBasis, getBasis);
@@ -445,7 +445,7 @@ void scNode::draw()
 
 }
 
-shared<scNode> scNode::loadFromFile(const string& fileName)
+scNode* scNode::loadFromFile(const string& fileName)
 {
 	return mnew scNode();
 }

@@ -42,11 +42,11 @@ class cStretchRect:public IRectDrawable
 	};
 	typedef vector<Part> PartsVec;
 
-	shared<grMesh> mMesh;             /** Mesh. */
-	PartsVec       mParts;            /** Parts array. */
-	vec2f          mMinSize;          /** Minimal size, when part will bot be clamped. */
-	bool           mNeedUpdateMesh;   /** True, if need to update mesh verticies. */
-	bool           mNeedUpdateColors; /** True, if need update just verticies colors. */
+	grMesh*  mMesh;             /** Mesh. */
+	PartsVec mParts;            /** Parts array. */
+	vec2f    mMinSize;          /** Minimal size, when part will bot be clamped. */
+	bool     mNeedUpdateMesh;   /** True, if need to update mesh verticies. */
+	bool     mNeedUpdateColors; /** True, if need update just verticies colors. */
 
 public:
 
@@ -64,7 +64,7 @@ public:
 	cStretchRect& operator=(const cStretchRect& stretchRect);
 
 	/** Returns a copy of drawable. */
-	shared<IRectDrawable> clone() const;
+	IRectDrawable* clone() const;
 
 	/** Adding a part. Automatically resizing mesh. */
 	int addPart(const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 

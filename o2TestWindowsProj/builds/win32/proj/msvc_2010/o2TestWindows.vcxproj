@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\shared_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\input_msg_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\text_test.cpp" />
@@ -20,7 +19,6 @@
     <ClCompile Include="main_win.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\shared_test.h" />
     <ClInclude Include="..\..\..\..\src\tests\animation_test.h" />
     <ClInclude Include="..\..\..\..\src\tests\input_msg_test.h" />
     <ClInclude Include="..\..\..\..\src\tests\test_interface.h" />

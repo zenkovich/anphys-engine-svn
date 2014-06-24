@@ -2,7 +2,7 @@
 
 OPEN_O2_NAMESPACE
 
-uiRect::uiRect(const cLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/):
+uiRect::uiRect(const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/):
 	uiWidget(layout, id, parent)
 {
 	transparency.onChangeEvent.add(callback<uiRect>( this, &uiRect::transparencyChanged));
@@ -19,7 +19,7 @@ uiRect::~uiRect()
 {
 }
 
-shared<uiWidget> uiRect::clone() const
+uiWidget* uiRect::clone() const
 {
 	return mnew uiRect(*this);
 }

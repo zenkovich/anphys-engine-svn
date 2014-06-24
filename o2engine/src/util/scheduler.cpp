@@ -88,7 +88,7 @@ void cScheduler::processCurrentTasks(float dt, ExecStage stage)
 int cScheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	shared<Task> newTask = getTask(callback, execDelay, -1, stage, false);
+	Task* newTask = getTask(callback, execDelay, -1, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -97,7 +97,7 @@ int cScheduler::addRepeatTask( ICallback* callback, float repeatDelay, float exe
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	shared<Task> newTask = getTask(callback, execDelay, repeatDelay, stage, false);
+	Task* newTask = getTask(callback, execDelay, repeatDelay, stage, false);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }
@@ -106,7 +106,7 @@ int cScheduler::addRepeatTask( IRetCallback<float>* callback, float execDelay /*
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
-	shared<Task> newTask = getTask(callback, execDelay, -1, stage, true);
+	Task* newTask = getTask(callback, execDelay, -1, stage, true);
 	tasks->push_back(newTask);
 	return newTask->mId;
 }

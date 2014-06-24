@@ -6,8 +6,6 @@
 #include "texture.h"
 #include "util/objects.h"
 #include "util/property.h"
-#include "util/math/vertex.h"
-#include "util/math/vector2.h"
 
 
 OPEN_O2_NAMESPACE
@@ -15,7 +13,7 @@ OPEN_O2_NAMESPACE
 class grRenderSystem;
 
 /** Triangles mesh. Containing verticies, indeces of polygons, texture. */
-class grMesh: public cShareObject, public virtual IDrawable
+class grMesh: public virtual IDrawable
 {
 	friend class grRenderSystem;
 	friend class grSprite;

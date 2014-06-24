@@ -12,7 +12,7 @@ struct cFileType
 };
 
 /** Input file. */
-class cInFile: public cShareObject
+class cInFile
 {
 	std::ifstream mIfstream; /**< Input stream. */
 	string        mFilename; /**< File name. */
@@ -53,7 +53,7 @@ public:
 };
 
 /** Output file. */
-class cOutFile: public cShareObject
+class cOutFile
 {
 	std::ofstream mOfstream; /**< Output stream. */
 	string        mFilename; /**< File name. */

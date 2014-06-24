@@ -18,39 +18,39 @@ class uiProgressBar;
 class uiSkinManager: public cSingleton<uiSkinManager>
 {
 protected:
-	shared<uiButton>      mButtonSample;
-	shared<uiRect>        mBackgroundSample;
-	shared<uiProgressBar> mProgressBarSample;
+	uiButton*      mButtonSample;
+	uiRect*        mBackgroundSample;
+	uiProgressBar* mProgressBarSample;
 
 public:
 	/** Creates widget. */
-	shared<uiWidget> createWidget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
+	uiWidget* createWidget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
 
 	/** Creates background rectangle widget. */
-	shared<uiRect> createBackground(const cLayout& layout = cLayout::both(), const string& id = "");
+	uiRect* createBackground(const cLayout& layout = cLayout::both(), const string& id = "");
 
 	/** Creates button. */
-	shared<uiButton> createButton(const string& caption, const cLayout& layout, const string& id = "");
+	uiButton* createButton(const string& caption, const cLayout& layout, const string& id = "");
 
 	/** Creates sprite widget from texture. */
-	shared<uiSprite> createSprite(const grTexture& texture, const cLayout& layout = cLayout::both(), 
+	uiSprite* createSprite(const grTexture& texture, const cLayout& layout = cLayout::both(), 
 		                          const string& id = "");
 
 	/** Creates progress bar. */
-	shared<uiProgressBar> createProgressBar(const cLayout& layout = cLayout::both(), const string& id = "",
+	uiProgressBar* createProgressBar(const cLayout& layout = cLayout::both(), const string& id = "",
 		                                    float value = 0, float minValue = 0, float maxValue = 1);
 
 	/** Sets button sample. */
-	void setButtonSample(const shared<uiButton>& buttonSample);
+	void setButtonSample(uiButton* buttonSample);
 
 	/** Sets background sample. */
-	void setBackgroundSample(const shared<uiRect>& backgroundSample);
+	void setBackgroundSample(uiRect* backgroundSample);
 
 	/** Sets progressbar sample. */
-	void setProgressbarSample(const shared<uiProgressBar>& progressbarSample);
+	void setProgressbarSample(uiProgressBar* progressbarSample);
 
 protected:
-	void addVisibleState(const shared<uiWidget>& widget);
+	void addVisibleState(uiWidget* widget);
 };
 
 #define uiSkin() uiSkinManager::instancePtr()

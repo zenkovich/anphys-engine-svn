@@ -32,17 +32,17 @@ void grFontManager::loadFontsSet( const string& fontsSetFile )
 	}
 }
 
-shared<grFont> grFontManager::loadFont( const string& fontFile )
+grFont* grFontManager::loadFont( const string& fontFile )
 {
-	shared<grFont> newFont = mnew grFont;
+	grFont* newFont = mnew grFont;
 	newFont->create(fontFile);
 	mFonts[fontFile] = newFont;
 	return newFont;
 }
 
-shared<grFont> grFontManager::loadBMFont( const string& fontFile )
+grFont* grFontManager::loadBMFont( const string& fontFile )
 {
-	shared<grFont> newFont = mnew grFont;
+	grFont* newFont = mnew grFont;
 	newFont->createFromBMFont(fontFile);
 	mFonts[fontFile] = newFont;
 	return newFont;
@@ -56,7 +56,7 @@ void grFontManager::unloadFonts()
 	mFonts.clear();
 }
 
-shared<grFont> grFontManager::getFont( const string& name )
+grFont* grFontManager::getFont( const string& name )
 {
 	return mFonts.at(name);
 }

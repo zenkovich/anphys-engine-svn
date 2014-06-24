@@ -42,7 +42,7 @@ void grTextureDef::create( const vec2f& size, grTexFormat::type format /*= grTex
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
-void grTextureDef::createFromImage( shared<cImage> image )
+void grTextureDef::createFromImage( cImage* image )
 {
 	cImage::Format imageFormat = image->getFormat();
 	if (imageFormat == cImage::FMT_NONE)
@@ -74,9 +74,10 @@ void grTextureDef::createFromImage( shared<cImage> image )
 
 void grTextureDef::createFromFile( const string& fileName )
 {
-	shared<cImage> image = mnew cImage;
+	cImage* image = mnew cImage;
 	if (image->load(fileName, cImage::IT_AUTO, renderSystem()->mLog))
 		createFromImage(image);
+	safe_release(image);
 }
 
 void grTextureDef::createAsRenderTarget( const vec2f& size, grTexFormat::type format /*= grTexFormat::DEFAULT*/ )

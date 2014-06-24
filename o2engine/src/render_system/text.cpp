@@ -6,7 +6,7 @@
 
 OPEN_O2_NAMESPACE
 
-grText::grText( shared<grFont> font ):
+grText::grText( grFont* font ):
 	mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
 	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false),
 	IRectDrawable()
@@ -43,7 +43,7 @@ grText::~grText()
 		safe_release(*it);
 }
 
-shared<IRectDrawable> grText::clone() const
+IRectDrawable* grText::clone() const
 {
 	return mnew grText(*this);
 }
@@ -64,7 +64,7 @@ void grText::draw()
 		(*it)->draw();
 }
 
-void grText::setFont( const shared<grFont>& font )
+void grText::setFont( grFont* font )
 {
 	if (font == mFont)
 		return;
@@ -73,7 +73,7 @@ void grText::setFont( const shared<grFont>& font )
 	mNeedUpdateMesh = true;
 }
 
-shared<grFont> grText::getFont() const
+grFont* grText::getFont() const
 {
 	return mFont;
 }
@@ -428,7 +428,7 @@ float grText::getLinesDistCoef() const
 
 void grText::initializeProperties()
 {
-	REG_PROPERTY(grText, font, setFont, getFont);
+	REG_PROPERTY_SETTER_NONCONST(grText, font, setFont, getFont);
 	REG_PROPERTY(grText, text, setText, getText);
 	REG_PROPERTY(grText, ctext, setCText, getCText);
 	REG_PROPERTY(grText, style, setTextStyle, getTextStyle);

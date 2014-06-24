@@ -7,7 +7,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(scComponent);
 
 
-scComponent::scComponent(const shared<scNode>& ownerNode):
+scComponent::scComponent(scNode* ownerNode):
 	mOwnerNode(ownerNode)
 {
 }
@@ -31,7 +31,7 @@ bool scComponent::isEnable() const
 	return mEnable;
 }
 
-shared<scNode> scComponent::node() const
+scNode* scComponent::node() const
 {
 	return mOwnerNode;
 }

@@ -7,7 +7,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/, shared<uiWidget> parent/* = NULL*/ ):
+uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/, uiWidget* parent/* = NULL*/ ):
 	mId(id), mParent(parent), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
@@ -42,8 +42,8 @@ uiWidget::~uiWidget()
 {
 	removeAllChilds();
 
-	/*FOREACH_CONST(StatesMap, mStates, state)
-		safe_release(state->second);*/
+	FOREACH(StatesMap, mStates, state)
+		safe_release(state->second);
 }
 
 void uiWidget::draw()
@@ -138,18 +138,18 @@ bool uiWidget::processInputMessage( const cInputMessage& msg )
 	return false;
 }
 
-shared<uiWidget> uiWidget::clone() const
+uiWidget* uiWidget::clone() const
 {
 	return mnew uiWidget(*this);
 }
 
-shared<uiWidget> uiWidget::addChild( shared<uiWidget> widget )
+uiWidget* uiWidget::addChild( uiWidget* widget )
 {
 	widget->setParent(this);
 	return widget;
 }
 
-void uiWidget::removeChild( shared<uiWidget> widget )
+void uiWidget::removeChild( uiWidget* widget )
 {
 	WidgetsVec::iterator fnd = FIND(mChildWidgets, widget);
 	if (fnd != mChildWidgets.end())
@@ -170,7 +170,7 @@ void uiWidget::removeAllChilds()
 	mChildWidgets.clear();
 }
 
-void uiWidget::setParent(const shared<uiWidget>& parent)
+void uiWidget::setParent(uiWidget* parent)
 {
 	if (mParent)
 	{
@@ -189,12 +189,12 @@ void uiWidget::setParent(const shared<uiWidget>& parent)
 	updateLayout();
 }
 
-shared<uiWidget> uiWidget::getParent()
+uiWidget* uiWidget::getParent()
 {
 	return mParent;
 }
 
-shared<uiWidget> uiWidget::getWidget( const string& id )
+uiWidget* uiWidget::getWidget( const string& id )
 {
 	int delPos = id.find("/");
 	string pathPart = id.substr(0, delPos);
@@ -277,13 +277,13 @@ vec2f uiWidget::getSize() const
 	return mSize;
 }
 
-void uiWidget::setGeometry(const shared<cGeometry>& geometry)
+void uiWidget::setGeometry(cGeometry* geometry)
 {
 	safe_release(mGeometry);
 	mGeometry = geometry;
 }
 
-shared<cGeometry> uiWidget::getGeometry() const
+cGeometry* uiWidget::getGeometry() const
 {
 	return mGeometry;
 }
@@ -319,7 +319,7 @@ void uiWidget::releaseFocus()
 	setFocused(false);
 }
 
-shared<uiState> uiWidget::addState(const shared<uiState>& state)
+uiState* uiWidget::addState(uiState* state)
 {
 	mStates[state->mName] = state;
 	state->setOwnerWidget( this );
@@ -339,12 +339,12 @@ shared<uiState> uiWidget::addState(const shared<uiState>& state)
 
 void uiWidget::setState(const string& stateId, bool value)
 {
-	shared<uiState> state = getState(stateId);
+	uiState* state = getState(stateId);
 	if (state)
 		state->setState(value);
 }
 
-shared<uiState> uiWidget::getState(const string& stateId)
+uiState* uiWidget::getState(const string& stateId)
 {
 	StatesMap::iterator fnd = mStates.find(stateId);
 	if (fnd == mStates.end())
@@ -416,7 +416,7 @@ void uiWidget::onFocusLost()
 void uiWidget::initializeProperties()
 {
 	REG_PROPERTY(uiWidget, position, setPosition, getPosition);
-	REG_PROPERTY_GETTER_NONCONST(uiWidget, parent, setParent, getParent);
+	REG_PROPERTY_NONCONST(uiWidget, parent, setParent, getParent);
 	REG_PROPERTY(uiWidget, id, setId, getId);
 	REG_PROPERTY(uiWidget, globalPosition, setGlobalPosition, getGlobalPosition);
 	REG_PROPERTY(uiWidget, size, setSize, getSize);

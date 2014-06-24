@@ -11,13 +11,13 @@ OPEN_O2_NAMESPACE
 
 class scNode;
 
-class scComponent: public cShareObject
+class scComponent
 {
 	friend class scNode;
 
 protected:
-	shared<scNode>    mOwnerNode;
-	bool              mEnable;
+	scNode* mOwnerNode;
+	bool    mEnable;
 
 	DEFINE_TYPE(scComponent);
 
@@ -27,15 +27,15 @@ public:
 	cCallbackChain onEnalbedEvent;
 	cCallbackChain onDisabledEvent;
 
-	scComponent(const shared<scNode>& ownerNode);
+	scComponent(scNode* ownerNode);
 	virtual ~scComponent();
 
-	virtual shared<scComponent> clone() const = 0;
+	virtual scComponent* clone() const = 0;
 
 	virtual void update(float dt) {}
 	virtual void draw() {}
 
-	shared<scNode> node() const;
+	scNode* node() const;
 
 	void setEnable(const bool& enable);
 	bool isEnable() const;

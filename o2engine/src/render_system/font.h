@@ -13,11 +13,10 @@ class grMesh;
 class grRenderSystem;
 
 /** Font. Containing array of symbol glyphs, symbol index table. */
-class grFont: public cShareObject, public cSerializableObj
+class grFont: public cSerializableObj
 {
 	friend class grFontManager;
 	friend class grText;
-	friend class shared<grFont>;
 	
 public:
 	/** Characret definition structure. Conatining texture source rect, size, offset, advance and characted id. */

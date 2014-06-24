@@ -13,7 +13,8 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(uiStdSkinInitializer);
 
-shared<uiSkinManager> uiStdSkinInitializer::mSkinManager = NULL;
+uiSkinManager* uiStdSkinInitializer::mSkinManager = NULL;
+grFont*        uiStdSkinInitializer::mStdFont = NULL;
 
 
 void uiStdSkinInitializer::initialize()
@@ -51,25 +52,25 @@ void uiStdSkinInitializer::initButton()
 	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
 
-	shared<uiButton> button = mnew uiButton(cLayout::fixedSize(vec2f(50, 50), vec2f()));
+	uiButton* button = mnew uiButton(cLayout::fixedSize(vec2f(50, 50), vec2f()));
 
 	//drawables
-	shared<cStretchRect> regDrawable = mnew cStretchRect(
+	cStretchRect* regDrawable = mnew cStretchRect(
 		grTexture::createFromFile(regDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 	
-	shared<cStretchRect> shadowDrawable = mnew cStretchRect(
+	cStretchRect* shadowDrawable = mnew cStretchRect(
 		grTexture::createFromFile(shadowDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 	
-	shared<cStretchRect> hoverDrawable = mnew cStretchRect(
+	cStretchRect* hoverDrawable = mnew cStretchRect(
 		grTexture::createFromFile(hoverDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 	
-	shared<cStretchRect> focusDrawable = mnew cStretchRect(
+	cStretchRect* focusDrawable = mnew cStretchRect(
 		grTexture::createFromFile(focusDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 	
-	shared<cStretchRect> pressedDrawable = mnew cStretchRect(
+	cStretchRect* pressedDrawable = mnew cStretchRect(
 		grTexture::createFromFile(pressedDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 
-	shared<grText> captionDrawable = mnew grText(mStdFont);
+	grText* captionDrawable = mnew grText(mStdFont);
 	captionDrawable->horAlign = grText::HA_CENTER;
 	captionDrawable->verAlign = grText::VA_CENTER;
 
@@ -83,27 +84,24 @@ void uiStdSkinInitializer::initButton()
 	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -5, -12)));
 
 	//hover state
-	shared<uiTransitionState> hoverState = mnew uiTransitionState("hover");
-	hoverState->addProperty(hoverDrawable->transparency,
+	uiTransitionState* hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(static_cast< cPropertyList::Property<float>* >(&hoverDrawable->transparency),
 		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
 		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
 
 	//pressed state
-	shared<uiTransitionState> pressedState = mnew uiTransitionState("pressed");
-	pressedState->addProperty(
-		pressedDrawable->transparency, 
+	uiTransitionState* pressedState = mnew uiTransitionState("pressed");
+	pressedState->addProperty(&pressedDrawable->transparency, 
 		cAnimFrame<float>(0.0f, pressingDelayOff, false, IT_LINEAR),
 		cAnimFrame<float>(1.0f, pressingDelayOn, false, IT_LINEAR));
 
-	pressedState->addProperty(
-		shadowDrawable->transparency, 
+	pressedState->addProperty(&shadowDrawable->transparency, 
 		cAnimFrame<float>(1.0f, pressingDelayOff, false, IT_LINEAR),
 		cAnimFrame<float>(0.0f, pressingDelayOn, false, IT_LINEAR));
 
 	//focus state
-	shared<uiTransitionState> focusState = mnew uiTransitionState("focus");
-	focusState->addProperty(
-		focusDrawable->transparency, 
+	uiTransitionState* focusState = mnew uiTransitionState("focus");
+	focusState->addProperty(&focusDrawable->transparency, 
 		cAnimFrame<float>(0.0f, focusingDelayOff, false, IT_LINEAR),
 		cAnimFrame<float>(1.0f, focusingDelayOn, false, IT_LINEAR));
 	
@@ -121,8 +119,8 @@ void uiStdSkinInitializer::initBackground()
 	const string basicBackgroundTexName = "ui_skin/background";
 	const string shadowTexName = "ui_skin/background_shadow";
 
-	shared<uiRect> background = mnew uiRect(cLayout::fixedSize(vec2f(50, 50), vec2f()), "bgSample");
-	shared<uiRect> shadow = mnew uiRect(cLayout::both(), "shadow"); 
+	uiRect* background = mnew uiRect(cLayout::fixedSize(vec2f(50, 50), vec2f()), "bgSample");
+	uiRect* shadow = mnew uiRect(cLayout::both(), "shadow"); 
 
 
 	grTexture basicBackgroundTex = grTexture::createFromFile(basicBackgroundTexName);
@@ -152,16 +150,16 @@ void uiStdSkinInitializer::initProgressBar()
 	//drawables
 	const float backgroundLeftBorder = 11;
 	const float backgroundRightBorder = 12;
-	shared<cStretchRect> backgroundDrawable = mnew cStretchRect(backgroundTex, (int)backgroundLeftBorder, 0, (int)backgroundRightBorder, 0);
+	cStretchRect* backgroundDrawable = mnew cStretchRect(backgroundTex, (int)backgroundLeftBorder, 0, (int)backgroundRightBorder, 0);
 
 	const float barLeftOffset = 6, barRightOffset = 8;
 	const float barLeftBorder = 11, barRightBorder = 12;
-	shared<cStretchRect> barDrawable = 
+	cStretchRect* barDrawable = 
 		mnew cStretchRect(barTex, (int)(barLeftBorder - barLeftOffset), 0, (int)(barRightBorder - barRightOffset), 0,  
 		                  fRect(barLeftOffset, 0.0f, barTex.getSize().x - barRightOffset, barTex.getSize().y));
 
 	//progerssbar
-	shared<uiProgressBar> progressbar = mnew uiProgressBar(cLayout::both());
+	uiProgressBar* progressbar = mnew uiProgressBar(cLayout::both());
 	cLayout backgroundLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -backgroundTex.getSize().y*0.5f), 
 		                     vec2f(1.0f, 0.5f), vec2f(0.0f, backgroundTex.getSize().y*0.5f));
 	progressbar->getBackgroundDrawable()->addChildDrawable("bg", backgroundDrawable, backgroundLayout);
@@ -169,7 +167,7 @@ void uiStdSkinInitializer::initProgressBar()
 	// adding drawables
 	cLayout insideBarLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barTex.getSize().y*0.5f), 
 		                    vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barTex.getSize().y*0.5f));
-	shared<uiProgressBar::Drawable> barInsideDrawable = 
+	uiProgressBar::Drawable* barInsideDrawable = 
 		progressbar->getBarDrawable()->addChildDrawable("barInside",NULL, insideBarLayout);
 
 	barInsideDrawable->addChildDrawable("barrr", barDrawable, cLayout::both());
@@ -177,6 +175,5 @@ void uiStdSkinInitializer::initProgressBar()
 	mSkinManager->setProgressbarSample(progressbar);
 }
 
-shared<grFont> uiStdSkinInitializer::mStdFont = NULL;
 
 CLOSE_O2_NAMESPACE

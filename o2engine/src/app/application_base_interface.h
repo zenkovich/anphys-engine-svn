@@ -28,14 +28,14 @@ class uiController;
 class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
 {
 protected:
-	shared<cInputMessage>  mInputMessage; /**< While application user input message. */
-	shared<cLogStream>     mLog;          /**< Log stream with id "app", using only for application messages. */
-	shared<grRenderSystem> mRenderSystem; /**< Render system. */
-	shared<cFileSystem>    mFileSystem;   /**< File system. */
-	shared<cScheduler>     mScheduler;    /**< Scheduler. */
-	shared<cTimeUtil>      mTimeUtils;    /**< Time utilities. */
-	shared<uiController>   mUIController; /**< User interface controller host. */									   
-	shared<cTimer>         mTimer;        /**< Timer for detecting delta time for update. */
+	cInputMessage*  mInputMessage; /**< While application user input message. */
+	cLogStream*     mLog;          /**< Log stream with id "app", using only for application messages. */
+	grRenderSystem* mRenderSystem; /**< Render system. */
+	cFileSystem*    mFileSystem;   /**< File system. */
+	cScheduler*     mScheduler;    /**< Scheduler. */
+	cTimeUtil*      mTimeUtils;    /**< Time utilities. */
+	uiController*   mUIController; /**< User interface controller host. */									   
+	cTimer*         mTimer;        /**< Timer for detecting delta time for update. */
 
 public:
 	cCallbackChain onActivatedEvent;      /**< On Activated event callbacks. */
@@ -52,10 +52,10 @@ public:
 	virtual ~cApplicationBaseInterface();
 
 	/** Returns pointer to input message object. */
-	shared<cInputMessage> getInputMessage();
+	cInputMessage* getInputMessage();
 
 	/** Returns pointer to input message object. */
-	shared<grRenderSystem> getRenderSystem() const;
+	grRenderSystem* getRenderSystem() const;
 
 	/** Launching application cycle. */
 	virtual void launch() {}

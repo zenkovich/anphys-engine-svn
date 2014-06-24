@@ -30,12 +30,12 @@ void customPngWriteFn(png_structp png_ptr, png_bytep bytes, png_size_t byteCount
 
 void customPngFlushFn(png_structp png_ptr) {}
 
-bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, shared<cLogStream> plog /*= NULL*/ )
+bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, cLogStream* plog /*= NULL*/ )
 {	
-	shared<cLogStream> log = plog ? plog:gLog;
+	cLogStream* log = plog ? plog:gLog;
 
-	shared<cInFile> pngImageFile = mnew cInFile(fileName, cFileType::FT_IMAGE);
-	if (!pngImageFile->isOpened())
+	cInFile pngImageFile(fileName, cFileType::FT_IMAGE);
+	if (!pngImageFile.isOpened())
 	{
 		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());
 		return false;
@@ -45,7 +45,7 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	png_byte header[8];
 
 	//read the header
-	pngImageFile->readData(header, 8);
+	pngImageFile.readData(header, 8);
 
 	//test if png
 	int is_png = !png_sig_cmp(header, 0, 8);
@@ -93,7 +93,7 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	}
 
 	//init png reading
-	png_set_read_fn(png_ptr, pngImageFile, customPngReadFn);
+	png_set_read_fn(png_ptr, &pngImageFile, customPngReadFn);
 
 	//png_init_io(png_ptr, fp);
 
@@ -154,12 +154,12 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	return true;
 }
 
-bool savePngImage( const string& fileName, const cImage* image, shared<cLogStream> plog /*= NULL*/ )
+bool savePngImage( const string& fileName, const cImage* image, cLogStream* plog /*= NULL*/ )
 {
-	shared<cLogStream> log = plog ? plog:gLog;
+	cLogStream* log = plog ? plog:gLog;
 
-	shared<cOutFile> pngImageFile = mnew cOutFile(fileName);
-	if (!pngImageFile)
+	cOutFile pngImageFile(fileName);
+	if (!pngImageFile.isOpened())
 	{
 		log->error("Can't save PNG file '%s'\n", fileName.c_str());
 		return false;
@@ -192,7 +192,7 @@ bool savePngImage( const string& fileName, const cImage* image, shared<cLogStrea
 
 	//png_init_io(png_ptr, fp);
 
-	png_set_write_fn(png_ptr, pngImageFile, customPngWriteFn, customPngFlushFn);
+	png_set_write_fn(png_ptr, &pngImageFile, customPngWriteFn, customPngFlushFn);
 
 	/* write header */
 	if (setjmp(png_jmpbuf(png_ptr)))

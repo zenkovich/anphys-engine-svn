@@ -5,57 +5,56 @@
 
 #include "node_component.h"
 #include "util/property.h"
-#include "util/math/basis.h"
 #include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 
-class scNode: public cShareObject
+class scNode
 {
-	typedef vector< shared<scComponent> > ComponentsVec;
-	typedef vector< shared<scNode> > NodesVec;
+	typedef vector<scComponent*> ComponentsVec;
+	typedef vector<scNode*> NodesVec;
 
 protected:
-	string            mId;
-	bool              mEnabled;
-	bool              mVisible;
-	basis             mTransform;
-	basis             mWorldTransform;
-	basisDef          mTransformDef;
-	basisDef          mWorldTransformDef;
-	float             mDepth;
-	color4            mColor;
-	shared<scNode>    mParent;
-	ComponentsVec     mComponents;
-	NodesVec          mChilds;
+	string        mId;
+	bool          mEnabled;
+	bool          mVisible;
+	basis         mTransform;
+	basis         mWorldTransform;
+	basisDef      mTransformDef;
+	basisDef      mWorldTransformDef;
+	float         mDepth;
+	color4        mColor;
+	scNode*       mParent;
+	ComponentsVec mComponents;
+	NodesVec      mChilds;
 
-	shared<ICallback> mOnEnabled;
-	shared<ICallback> mOnDisabled;
+	ICallback*    mOnEnabled;
+	ICallback*    mOnDisabled;
 
-	bool              mNeedUpdateTransform;
-	bool              mWorldTransfDefActual; //!!!!! CHECK ME!!!
+	bool          mNeedUpdateTransform;
+	bool          mWorldTransfDefActual; //!!!!! CHECK ME!!!
 
 public:
-	PROPERTY(scNode, string)         id;
-	PROPERTY(scNode, shared<scNode>) parent;
-	PROPERTY(scNode, bool)           enabled;
-	PROPERTY(scNode, bool)           visible;
-	PROPERTY(scNode, basis)          basis_;
-	PROPERTY(scNode, basis)          localBasis;
-	PROPERTY(scNode, basisDef)       transform;
-	PROPERTY(scNode, basisDef)       localTransform;
-	PROPERTY(scNode, vec2f)          position;
-	PROPERTY(scNode, vec2f)          localPosition;
-	PROPERTY(scNode, vec2f)          scale;
-	PROPERTY(scNode, vec2f)          localScale;
-	PROPERTY(scNode, vec2f)          size;
-	PROPERTY(scNode, vec2f)          localSize;
-	PROPERTY(scNode, float)          rotation;
-	PROPERTY(scNode, float)          localRotation;
-	PROPERTY(scNode, float)          shift;
-	PROPERTY(scNode, float)          localShift;
-	PROPERTY(scNode, float)          depth;
-	PROPERTY(scNode, color4)         color;
+	PROPERTY(scNode, string)   id;
+	PROPERTY(scNode, scNode*)  parent;
+	PROPERTY(scNode, bool)     enabled;
+	PROPERTY(scNode, bool)     visible;
+	PROPERTY(scNode, basis)    basis_;
+	PROPERTY(scNode, basis)    localBasis;
+	PROPERTY(scNode, basisDef) transform;
+	PROPERTY(scNode, basisDef) localTransform;
+	PROPERTY(scNode, vec2f)    position;
+	PROPERTY(scNode, vec2f)    localPosition;
+	PROPERTY(scNode, vec2f)    scale;
+	PROPERTY(scNode, vec2f)    localScale;
+	PROPERTY(scNode, vec2f)    size;
+	PROPERTY(scNode, vec2f)    localSize;
+	PROPERTY(scNode, float)    rotation;
+	PROPERTY(scNode, float)    localRotation;
+	PROPERTY(scNode, float)    shift;
+	PROPERTY(scNode, float)    localShift;
+	PROPERTY(scNode, float)    depth;
+	PROPERTY(scNode, color4)   color;
 
 	
 	scNode();
@@ -64,41 +63,41 @@ public:
 
 	scNode& operator=(const scNode& node);
 
-	static shared<scNode> loadFromFile(const string& fileName);
+	static scNode* loadFromFile(const string& fileName);
 
-	shared<scNode> addNode(const shared<scNode>& node);
-	bool removeNode(const shared<scNode>& node);
+	scNode* addNode(scNode* node);
+	bool removeNode(scNode* node);
 	bool removeAllNodes();
-	shared<scNode> getNode(const string& id) const;
+	scNode* getNode(const string& id) const;
 
-	shared<scComponent> getComponent(UniqueType componentType);
-	shared<scComponent> addComponent(const shared<scComponent>& compontent);
-	bool removeComponent(const shared<scComponent>& compontent);
+	scComponent* getComponent(UniqueType componentType);
+	scComponent* addComponent(scComponent* compontent);
+	bool removeComponent(scComponent* compontent);
 	bool removeAllComponents();
 
 	template<typename T>
-	shared<T> addNode(const shared<T>& node)
+	T* addNode(T* node)
 	{
-		return shared<T>(addNode( shared<scNode>(node) ));
+		return (T*)(addNode( scNode>(node) ));
 	}
 
 	template<typename T>
-	shared<T> addComponent(const shared<T>& compontent)
+	T* addComponent(T* compontent)
 	{
-		return shared<T>(addComponent( shared<scComponent>(compontent) ));
+		return T>(addComponent( scComponent>(compontent) ));
 	}
 	
 	template<typename T>
-	shared<T> getComponent(UniqueType componentType)
+	T* getComponent(UniqueType componentType)
 	{
-		return shared<T>(getComponent( componentType ));
+		return (T*)(getComponent( componentType ));
 	}
 
 	void setId(const string& id);
 	string getId() const;
 
-	void setParent(const shared<scNode>& parent);
-	shared<scNode> getParent() const;
+	void setParent(scNode* parent);
+	scNode* getParent() const;
 
 	void setTransform(const basisDef& def);
 	basisDef getTransform();
