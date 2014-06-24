@@ -2,24 +2,23 @@
 #define PROPERTY_LIST_H
 
 #include "public.h"
-
 #include "util/callback.h"
 
 OPEN_O2_NAMESPACE
 	
 
 /** Object property list class. Contains properties array, processing properties. */
-class cPropertyList: public cShareObject
+class cPropertyList
 {
 	friend class IProperty;
 
 public:
-	class IProperty: public cShareObject
+	class IProperty
 	{
 	public:	
-		string                mName;         /** Name of property. */
-		shared<cPropertyList> mOwnerPropList; /** Owner property list. NULL, if no owner. */
-		cCallbackChain        onChangeEvent; /** Calls when calling setter. */
+		string         mName;         /** Name of property. */
+		cPropertyList* mOwnerPropList; /** Owner property list. NULL, if no owner. */
+		cCallbackChain onChangeEvent; /** Calls when calling setter. */
 
 		IProperty(const string& name):
 			mName(name) {} 
@@ -102,32 +101,32 @@ public:
 		}
 	};
 
-	typedef vector< shared<IProperty> > PropertiesVec;
-	typedef vector< shared<cPropertyList> > PropertiesListsVec;
+	typedef vector<IProperty*> PropertiesVec;
+	typedef vector<cPropertyList*> PropertiesListsVec;
 
 protected:
-	string                  mPropertyListName;   /** Property list name. */
-	shared< cPropertyList > mParentPropertyList; /** Parent property list. */
-	PropertiesListsVec      mChildPropertyLists; /** Child properties list array. */
-	PropertiesVec           mPropertiesList;     /** Properties array .*/
+	string             mPropertyListName;   /** Property list name. */
+	cPropertyList*     mParentPropertyList; /** Parent property list. */
+	PropertiesListsVec mChildPropertyLists; /** Child properties list array. */
+	PropertiesVec      mPropertiesList;     /** Properties array .*/
 
 public:
 	cPropertyList(const string& name = "");
 	virtual ~cPropertyList();
 
 	void setPropertyListName(const string& name);
-	void addChildPropertyList(const shared<cPropertyList>& propList);
-	void removeChildPropertyList(const shared<cPropertyList>& propList, bool release = true);
+	void addChildPropertyList(cPropertyList* propList);
+	void removeChildPropertyList(cPropertyList* propList, bool release = true);
 	void removeAllChildPropertyLists();
 
 	template<typename T>
-	shared< Property<T> > getProperty(const string& pathName)
+	Property<T>* getProperty(const string& pathName)
 	{
 		return getPropertyBase(pathName);
 	}
 
 protected:
-	shared<IProperty> getPropertyBase(const string& pathName);
+	IProperty* getPropertyBase(const string& pathName);
 };
 
 CLOSE_O2_NAMESPACE

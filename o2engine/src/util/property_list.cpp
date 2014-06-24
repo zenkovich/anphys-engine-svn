@@ -16,13 +16,13 @@ cPropertyList::~cPropertyList()
 		safe_release(*child);
 }
 
-void cPropertyList::addChildPropertyList( const shared<cPropertyList>& propList )
+void cPropertyList::addChildPropertyList(cPropertyList* propList)
 {
 	mChildPropertyLists.push_back(propList);
 	propList->mParentPropertyList = this;
 }
 
-void cPropertyList::removeChildPropertyList( const shared<cPropertyList>& propList, bool release /*= true*/ )
+void cPropertyList::removeChildPropertyList(cPropertyList* propList, bool release /*= true*/)
 {
 	PropertiesListsVec::iterator fnd = FIND(mChildPropertyLists, propList);
 	if (fnd == mChildPropertyLists.end())
@@ -39,7 +39,7 @@ void cPropertyList::removeAllChildPropertyLists()
 	mChildPropertyLists.clear();
 }
 
-shared<cPropertyList::IProperty> cPropertyList::getPropertyBase( const string& pathName )
+cPropertyList::IProperty* cPropertyList::getPropertyBase( const string& pathName )
 {
 	int delPos = pathName.find("/");
 	string pathPart = pathName.substr(0, delPos);

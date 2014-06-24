@@ -17,7 +17,7 @@ OPEN_O2_NAMESPACE
 #define vector std::vector
 typedef std::string string;
 
-#define StringsVec vector<string>
+#define stringsVec vector<string>
 
 CLOSE_O2_NAMESPACE
 
