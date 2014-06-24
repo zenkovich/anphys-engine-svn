@@ -13,11 +13,11 @@ class uiTransitionState: public uiState
 {
 public:
 	/**Property interface. */
-	class IProperty: public cShareObject
+	class IProperty
 	{
 	public:
 		/** Returns clone of property. */
-		virtual shared<IProperty> clone() const = 0;
+		virtual IProperty*clone() const = 0;
 
 		/** Updates property changing. */
 		virtual void update(float dt) = 0;
@@ -29,10 +29,10 @@ public:
 		virtual bool isComplete() = 0;
 
 		/** Sets transition state owner. */
-		virtual void setOwner(const shared<uiTransitionState>& owner) = 0;
+		virtual void setOwner(uiTransitionState* owner) = 0;
 	};
 
-	typedef vector< shared<IProperty> > PropertiesVec;
+	typedef vector<IProperty*> PropertiesVec;
 
 protected:
 	PropertiesVec mProperties;    /** Properties array. */
@@ -50,7 +50,7 @@ public:
 	~uiTransitionState();
 
 	/** Returns a copy. */
-	shared<uiState> clone() const;
+	uiState*clone() const;
 
 	/** Sets current state. */
 	void setState(bool state, bool forcible = false);
@@ -59,67 +59,75 @@ public:
 	bool getState() const;
 
 	/** Adding property. */
-	shared<IProperty> addProperty(const shared<IProperty>& property);
+	IProperty* addProperty(IProperty* property);
 
 	/** Updating state. */
 	void update(float dt);
 
 protected:
 	/** Calls when setting owner widget. Here updating properties. */
-	void setOwnerWidget(const shared<uiWidget>& ownerWidget);
+	void setOwnerWidget(uiWidget* ownerWidget);
 
 public:
 	/** Template property value. Contains animation frames of On/OFF states. */
 	template<typename T>
 	class ValueProperty: public uiTransitionState::IProperty
 	{
-		typedef cPropertyList::Property<T> Prop;
-
-		shared<Prop>              mProperty;
-		cAnimFrame<T>             mStateOff;         /** Off state animation frame. */
-		cAnimFrame<T>             mStateOn;          /** On State animation frame. */
-		cFrameInterpolation<T>    mInterpolator;     /** Frame interpolator. */
-		float                     mCoef;             /** Interpolation coeficient. 0 - off state, 1 - on state. */
-		float                     mCoefTime;         /** Coef time multiplier. */
-		bool                      mTargetState;      /** Target state. */
-		bool                      mComplete;         /** True, if animation completed. */
-		shared<ICallback>         mOnChanged;        /** On change callback. */
-		string                    mWidgetPropertyId; /** Widget property id. */
-		shared<uiTransitionState> mStateOwner;       /** Transition owner state. */
+		cPropertyList::Property<T>* mProperty;
+		cAnimFrame<T>               mStateOff;         /** Off state animation frame. */
+		cAnimFrame<T>               mStateOn;          /** On State animation frame. */
+		cFrameInterpolation<T>      mInterpolator;     /** Frame interpolator. */
+		float                       mCoef;             /** Interpolation coeficient. 0 - off state, 1 - on state. */
+		float                       mCoefTime;         /** Coef time multiplier. */
+		bool                        mTargetState;      /** Target state. */
+		bool                        mComplete;         /** True, if animation completed. */
+		ICallback*                  mOnChanged;        /** On change callback. */
+		string                      mWidgetPropertyId; /** Widget property id. */
+		uiTransitionState*          mStateOwner;       /** Transition owner state. */
 
 	public:
 		/** ctor. */
-		ValueProperty(Prop& prop, const T& stateOff, const T& stateOn, float duration, 
-					  const shared<ICallback>& onChanged = NULL)
+		ValueProperty() {}
+
+		static ValueProperty<T>* create(cPropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, 
+			                            float duration, ICallback* onChanged = NULL)
 		{
-			mProperty = (&prop);
-			mStateOff = cAnimFrame<T>(stateOff, duration);
-			mStateOn = cAnimFrame<T>(stateOn, duration);
-			mInterpolator.initialize(&mStateOff, &mStateOn);
-			mCoef = 0;
-			mCoefTime = 1.0f;
-			mTargetState = false;
-			mComplete = true;
-			mOnChanged = onChanged;
-			mWidgetPropertyId = prop.getPath();
-			mStateOwner = NULL;
+			ValueProperty<T>* res = mnew ValueProperty<T>();
+
+			res->mProperty = prop;
+			res->mStateOff = cAnimFrame<T>(stateOff, duration);
+			res->mStateOn = cAnimFrame<T>(stateOn, duration);
+			res->mInterpolator.initialize(&res->mStateOff, &res->mStateOn);
+			res->mCoef = 0;
+			res->mCoefTime = 1.0f;
+			res->mTargetState = false;
+			res->mComplete = true;
+			res->mOnChanged = onChanged;
+			res->mWidgetPropertyId = prop->getPath();
+			res->mStateOwner = NULL;
+
+			return res;
 		}
 
-		/** ctor. */
-		ValueProperty(Prop& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
-					  const shared<ICallback>& onChanged = NULL)	
+		static ValueProperty<T>* create(cPropertyList::Property<T>* prop, 
+			                            const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+					                    ICallback* onChanged = NULL)	
 		{
-			mProperty = (&prop);
-			mStateOff = stateOff;
-			mStateOn = stateOn;
-			mInterpolator.initialize(&mStateOff, &mStateOn);
-			mCoef = 0;
-			mCoefTime = 1.0f;
-			mTargetState = false;
-			mComplete = true;
-			mOnChanged = onChanged;
-			mWidgetPropertyId = prop.getPath();
-			mStateOwner = NULL;
+			ValueProperty<T>* res = mnew ValueProperty<T>();
+
+			res->mProperty = prop;
+			res->mStateOff = stateOff;
+			res->mStateOn = stateOn;
+			res->mInterpolator.initialize(&res->mStateOff, &res->mStateOn);
+			res->mCoef = 0;
+			res->mCoefTime = 1.0f;
+			res->mTargetState = false;
+			res->mComplete = true;
+			res->mOnChanged = onChanged;
+			res->mWidgetPropertyId = prop->getPath();
+			res->mStateOwner = NULL;
+
+			return res;
 		}
 
 		/** ctor. */
@@ -139,7 +147,7 @@ public:
 		}
 
 		/** Return a copy. */
-		shared<uiTransitionState::IProperty> clone() const
+		uiTransitionState::IProperty* clone() const
 		{
 			return mnew ValueProperty(*this);
 		}
@@ -150,7 +158,7 @@ public:
 			if (mTargetState)
 			{
 				mCoef += dt*mCoefTime;
-				if (mCoef > 1.0f)
+				if (mCoef *1.0f)
 				{
 					mComplete = true;
 					mCoef = 1.0f;
@@ -218,7 +226,7 @@ public:
 		}
 
 		/** Sets state owner. */
-		void setOwner(const shared<uiTransitionState>& owner)
+		void setOwner(uiTransitionState* owner)
 		{
 			mStateOwner = owner;
 			mProperty = owner->mOwnerWidget->getProperty<T>(mWidgetPropertyId);
@@ -228,7 +236,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(const shared< ValueProperty<T> >& property)
+	ValueProperty<T>* addProperty_(ValueProperty<T>* property)
 	{
 		addProperty(property);
 		return property;
@@ -236,18 +244,18 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(cPropertyList::Property<T>& prop, const T& stateOff, const T& stateOn, float duration, 
-					                       const shared<ICallback>& onChanged = NULL)
+	ValueProperty<T>* addProperty(cPropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, float duration, 
+					               ICallback* onChanged = NULL)
 	{
-		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, duration, onChanged));
+		return addProperty_(ValueProperty<T>::create(prop, stateOff, stateOn, duration, onChanged));
 	}
 
 	/** Adding property. */
 	template<typename T>
-	shared< ValueProperty<T> > addProperty(cPropertyList::Property<T>& prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
-					                       const shared<ICallback>& onChanged = NULL)
+	ValueProperty<T>* addProperty(cPropertyList::Property<T>* prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+					              ICallback* onChanged = NULL)
 	{
-		return addProperty(mnew ValueProperty<T>(prop, stateOff, stateOn, onChanged));
+		return addProperty_(ValueProperty<T>::create(prop, stateOff, stateOn, onChanged));
 	}
 };
 

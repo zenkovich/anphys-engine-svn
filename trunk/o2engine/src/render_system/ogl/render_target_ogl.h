@@ -15,7 +15,7 @@ class grRenderTarget:public grRenderTargetBaseInterface
 	GLuint mFrameBuffer; /**< Opengl frame buffer handle. */
 
 	/** ctor. */
-	grRenderTarget(shared<grTextureDef> texture);
+	grRenderTarget(grTextureDef* texture);
 
 public:	
 	/** ctor. */

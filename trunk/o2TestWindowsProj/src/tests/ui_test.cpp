@@ -45,7 +45,7 @@ cUITest::cUITest()
 	//sprite = mnew grSprite(grTexture::createFromFile("test"));
 	//sprite = mnew cStretchRect( grTexture::createFromFile("ui_skin/btn_regular"), 10, 10, 14, 14 );
 	
-	shared<grText> txt = mnew grText(renderSystem()->getFontManager()->loadBMFont("o2_font/myriad"));
+	grText* txt = mnew grText(renderSystem()->getFontManager()->loadBMFont("o2_font/myriad"));
 	txt->ctext = "Prived, i'm a text";
 	sprite = txt;
 }

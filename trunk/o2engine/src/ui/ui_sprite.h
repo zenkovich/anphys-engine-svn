@@ -15,7 +15,7 @@ public:
 
 
 	/** ctor. */
-	uiSprite(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiSprite(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
 	uiSprite(const uiSprite& spriteWidget);
@@ -24,7 +24,7 @@ public:
 	~uiSprite();
 
 	/** Returns clone of widget. */
-	shared<uiWidget> clone() const;
+	uiWidget* clone() const;
 
 private:
 	/** Drawing current widget. */

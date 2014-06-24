@@ -14,11 +14,11 @@ class grText;
 class uiButton:public uiDrawablesListWidget
 {
 protected:
-	shared<uiState> mHoverState;    /** Hover state, must have name "hover". Activates when cursor hover widget. */
-	shared<uiState> mFocusedState;  /** Focused state, must have name "focus". Activates when widget is focused. */
-	shared<uiState> mPressedState;  /** Pressed state, must have name "pressed". Activates when button pressed. */
+	uiState* mHoverState;    /** Hover state, must have name "hover". Activates when cursor hover widget. */
+	uiState* mFocusedState;  /** Focused state, must have name "focus". Activates when widget is focused. */
+	uiState* mPressedState;  /** Pressed state, must have name "pressed". Activates when button pressed. */
 
-	shared<grText>  mCaption;
+	grText*  mCaption;
 
 	bool            mHover;
 	bool            mPressed;
@@ -38,7 +38,7 @@ public:
 
 
 	/** ctor. */
-	uiButton(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiButton(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
 	uiButton(const uiButton& button);
@@ -47,7 +47,7 @@ public:
 	~uiButton();
 
 	/** Returns copy of widget. */
-	shared<uiWidget> clone() const;
+	uiWidget* clone() const;
 
 	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
@@ -66,7 +66,7 @@ public:
 
 protected:
 	/** Calls when added some state. */
-	virtual void addedState(const shared<uiState>& state);
+	virtual void addedState(uiState* state);
 
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
@@ -81,7 +81,7 @@ protected:
 	virtual void onFocusLost();
 
 	/** Calls when added drawable. */
-	virtual void addedDrawable(const shared<Drawable>& drawable);
+	virtual void addedDrawable(Drawable* drawable);
 
 	/** Initializing properties. */
 	void initializeProperties();

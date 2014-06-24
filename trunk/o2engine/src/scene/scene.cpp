@@ -20,12 +20,12 @@ void scScene::draw()
 
 }
 
-shared<scNode> scScene::addNode(const shared<scNode>& node)
+scNode* scScene::addNode(scNode* node)
 {
 	return mRootNode.addNode(node);
 }
 
-bool scScene::removeNode(const shared<scNode>& node)
+bool scScene::removeNode(scNode* node)
 {
 	return mRootNode.removeNode(node);
 }

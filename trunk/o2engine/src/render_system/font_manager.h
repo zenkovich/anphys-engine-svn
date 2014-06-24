@@ -11,13 +11,12 @@ class grFont;
 class grRenderSystem;
 
 /** Font manager. Containing set of fonts, loading/unloading fonts. */
-class grFontManager: public cShareObject
+class grFontManager
 {
 	friend class grRenderSystemBaseInterface;
-	friend class shared<grFontManager>;
 
 public: 
-	typedef std::map< string, shared<grFont> > FontsMap; 
+	typedef std::map< string, grFont* > FontsMap; 
 
 protected:
 	FontsMap mFonts; /** Fonts map. */
@@ -33,16 +32,16 @@ public:
 	void loadFontsSet(const string& fontsSetFile);
 
 	/** Loading font from file. */
-	shared<grFont> loadFont(const string& fontFile);
+	grFont* loadFont(const string& fontFile);
 
 	/** Loading BMFont from file. */
-	shared<grFont> loadBMFont(const string& fontFile);
+	grFont* loadBMFont(const string& fontFile);
 
 	/** Unloading all fonts. */
 	void unloadFonts();
 
 	/** Returns font by name. */
-	shared<grFont> getFont(const string& name);
+	grFont* getFont(const string& name);
 };
 
 CLOSE_O2_NAMESPACE

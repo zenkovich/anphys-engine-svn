@@ -18,9 +18,9 @@ public:
 	enum ThreadPriority { TP_NORMAL = 0, TP_LOW, TP_HIGHT };
 
 protected:
-	pthread_t         mThreadId;   /** Thread id. */
-	shared<ICallback> mThreadFunc; /** Function starting in thread. */
-	bool              mStarted;    /** True, when started. */
+	pthread_t  mThreadId;   /** Thread id. */
+	ICallback* mThreadFunc; /** Function starting in thread. */
+	bool       mStarted;    /** True, when started. */
 
 	/** copy ctor. */
 	cThread(const cThread& thread) {}
@@ -39,7 +39,7 @@ public:
 	~cThread();
 
 	/** Starts function with priority. */
-	int start(shared<ICallback> threadCallback, ThreadPriority threadPriority = TP_NORMAL);
+	int start(ICallback* threadCallback, ThreadPriority threadPriority = TP_NORMAL);
 
 	/** Join. */
 	int join();

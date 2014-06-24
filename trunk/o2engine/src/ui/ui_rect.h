@@ -15,7 +15,7 @@ public:
 
 
 	/** ctor. */
-	uiRect(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiRect(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
 	uiRect(const uiRect& rectWidget);
@@ -24,7 +24,7 @@ public:
 	~uiRect();
 
 	/** Returns clone of widget. */
-	shared<uiWidget> clone() const;
+	uiWidget* clone() const;
 
 private:
 	/** Drawing current widget. */

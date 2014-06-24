@@ -5,13 +5,12 @@
 
 #include "util/objects.h"
 #include "util/callback.h"
-#include "util/smart_ptrs.h"
 
 
 OPEN_O2_NAMESPACE
 
 /** Basic animation structure. Controlling time with looping and intervals. */
-class IAnimation: public cShareObject, public virtual IDynamic
+class IAnimation: public virtual IDynamic
 {
 public:
 	enum LoopType { LT_NONE = 0, LT_REPEAT, LT_TOGGLE };
@@ -21,16 +20,16 @@ protected:
 	/** Callback by time. */
 	struct TimeCallback
 	{
-		float             mTime;     /**< Time, when callback will be invoke. */
-		shared<ICallback> mCallback; /**< Callback. */
+		float      mTime;     /**< Time, when callback will be invoke. */
+		ICallback* mCallback; /**< Callback. */
 
 		/** ctor. */
-		TimeCallback(shared<ICallback> cb, float time):mTime(time), mCallback(cb) {}
+		TimeCallback(ICallback* cb, float time):mTime(time), mCallback(cb) {}
 	};
 	typedef vector<TimeCallback> TimeCallbacksVec;
 
-	shared<ICallback> mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
-	shared<ICallback> mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
+	ICallback*        mBeginPlayingCallback; /**< Callback, what calls when animation starting, independ of time. */
+	ICallback*        mEndPlayingCallback;   /**< Callback, what calls when animation finished, independ of time. */
 	TimeCallbacksVec  mTimedCallbacks;       /**< Callback, what calls by time. */
 	
 	float     mTime;           /**< Local time, in [0...mDuration].*/
@@ -103,13 +102,13 @@ public:
 	virtual void setPlaying(bool playing);
 
 	/** Setting begin callback. */
-	virtual void setBeginPlayingCallback(shared<ICallback> cb);
+	virtual void setBeginPlayingCallback(ICallback* cb);
 
 	/** Setting end playing callback. */
-	virtual void setEndPlayingCallback(shared<ICallback> cb);
+	virtual void setEndPlayingCallback(ICallback* cb);
 
 	/** Adding time callback. */
-	virtual void setTimeCallback(float time, shared<ICallback> cb);
+	virtual void setTimeCallback(float time, ICallback* cb);
 
 protected:
 	/** Invoke begin callback, if exist. */

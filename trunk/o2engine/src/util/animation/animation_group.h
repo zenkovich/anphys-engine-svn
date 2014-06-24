@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 class cAnimationGroup: virtual public IAnimation
 {
 public:
-	typedef vector< shared<IAnimation> > AnimationsVec;
+	typedef vector< IAnimation* > AnimationsVec;
 
 protected:
 	AnimationsVec mAnimations; /**< Animations. */
@@ -24,10 +24,10 @@ public:
 	~cAnimationGroup();
 
 	/** Adding animation in group. */
-	void addAnimation(shared<IAnimation> animation);
+	void addAnimation(IAnimation* animation);
 
 	/** Removing animation. */
-	void removeAnimation(shared<IAnimation> animation);
+	void removeAnimation(IAnimation* animation);
 
 	/** Removing all animations. */
 	void removeAllAnimations();

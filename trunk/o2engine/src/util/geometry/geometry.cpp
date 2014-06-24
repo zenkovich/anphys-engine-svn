@@ -15,7 +15,7 @@ int cGroupGeometry::getPartsCount() const
 	return mParts.size();
 }
 
-int cGroupGeometry::addPart( shared<cGeometry> geom )
+int cGroupGeometry::addPart( cGeometry* geom )
 {
 	mParts.push_back(geom);
 	updateAABB();

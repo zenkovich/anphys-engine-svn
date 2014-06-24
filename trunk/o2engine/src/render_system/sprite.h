@@ -19,16 +19,16 @@ class grRenderSystem;
 /** Sprite, just a quad with texture. */
 class grSprite: public IRectDrawable
 {
-	vec2f          mScale;           /** Scale of sprite. Real sprite size is mSize*mScale. */
-	float          mAngle;           /** Rotation angle. */
-	fRect          mTextureSrcRect;  /** texture src rect. */
-	color4         mVertexColors[4]; /** Vertex colors. */
+	vec2f   mScale;           /** Scale of sprite. Real sprite size is mSize*mScale. */
+	float   mAngle;           /** Rotation angle. */
+	fRect   mTextureSrcRect;  /** texture src rect. */
+	color4  mVertexColors[4]; /** Vertex colors. */
 
-	shared<grMesh> mMesh;                    /** Mesh. */
+	grMesh* mMesh;                    /** Mesh. */
 
-	bool           mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
-	bool           mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
-	bool           mNeedUpdateMeshColors;    /** True, when mesh vertex colors needs to update. */
+	bool    mNeedUpdateMeshVerticies; /** True, when mesh vertex positions needs to update. */
+	bool    mNeedUpdateMeshTexCoords; /** True, when mesh vertex tex coords needs to update. */
+	bool    mNeedUpdateMeshColors;    /** True, when mesh vertex colors needs to update. */
 
 public:
 	//properties
@@ -63,7 +63,7 @@ public:
 	~grSprite();
 
 	/** Returns cloned sprite. */
-	shared<IRectDrawable> clone() const;
+	IRectDrawable* clone() const;
 
 	grSprite& operator=(const grSprite& sprite);
 

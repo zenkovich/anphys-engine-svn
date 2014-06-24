@@ -24,37 +24,37 @@ class grRenderSystem:public grRenderSystemBaseInterface
 	static const unsigned int mIndexBufferSize = 6000*3; /** Maximum size of index buffer. */
 
 //opengl context
-	HGLRC                  mGLContext;              /**< OpenGL context. */
-	HDC                    mHDC;                    /**< Win frame device context. */
-					       
-	bool                   mRenderTargetsAvailable; /**< True, if render targets is available. */
-	vec2i                  mMaxTextureSize;         /**< Max texture size. */
+	HGLRC           mGLContext;              /**< OpenGL context. */
+	HDC             mHDC;                    /**< Win frame device context. */
+					
+	bool            mRenderTargetsAvailable; /**< True, if render targets is available. */
+	vec2i           mMaxTextureSize;         /**< Max texture size. */
 										   
 //vertex & index buffers				   
-	unsigned char*         mVertexData;             /**< Vertex data buffer. */
-	unsigned short*        mVertexIndexData;        /**< Index data buffer. */
-	GLenum                 mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
+	unsigned char*  mVertexData;             /**< Vertex data buffer. */
+	unsigned short* mVertexIndexData;        /**< Index data buffer. */
+	GLenum          mCurrentPrimitiveType;   /**< TYpe of drawing primitives for next DIP. */
 										     
 //batching parameters					     
-	shared<grTextureDef>   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
-	unsigned int           mLastDrawVertex;         /**< Last vertex idx for next DIP. */
-	unsigned int           mLastDrawIdx;            /**< Last vertex index for next DIP. */
-	unsigned int           mTrianglesCount;         /**< Triangles count for next DIP. */
-	unsigned int           mFrameTrianglesCount;    /**< Total triangles at current frame. */
-	unsigned int           mDIPCount;               /**< DrawIndexedPrimitives calls count. */
-					       					     
-//stencil			       
-	bool                   mStencilDrawing;         /**< True, if drawing in stencil buffer. */
-	bool                   mStencilTest;            /**< True, if drawing with stencil test. */
-					       
-//scissor test		       
-	fRect                  mScissorRect;            /**< Scissor rect, in screen space. */
-	bool                   mScissorTest;            /**< True, if scissor test enabled. */
+	grTextureDef*   mLastDrawTexture;        /**< Stored texture ptr from last DIP. */
+	unsigned int    mLastDrawVertex;         /**< Last vertex idx for next DIP. */
+	unsigned int    mLastDrawIdx;            /**< Last vertex index for next DIP. */
+	unsigned int    mTrianglesCount;         /**< Triangles count for next DIP. */
+	unsigned int    mFrameTrianglesCount;    /**< Total triangles at current frame. */
+	unsigned int    mDIPCount;               /**< DrawIndexedPrimitives calls count. */
+					 					     
+//stencil			 
+	bool            mStencilDrawing;         /**< True, if drawing in stencil buffer. */
+	bool            mStencilTest;            /**< True, if drawing with stencil test. */
+					 
+//scissor test		 
+	fRect           mScissorRect;            /**< Scissor rect, in screen space. */
+	bool            mScissorTest;            /**< True, if scissor test enabled. */
 										
 //other
-	shared<grRenderTarget> mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
+	grRenderTarget* mCurrentRenderTarget;    /**< Current render target. NULL if rendering in back buffer. */
 
-	bool                   mReady;                  /**< True, if render system initialized. */
+	bool            mReady;                  /**< True, if render system initialized. */
 
 public:
 	/* ctor. */
@@ -106,7 +106,7 @@ public:
 	bool isScissorTestEnabled() const;
 	
 	/** Drawing mesh. */
-	bool drawMesh(shared<grMesh> mesh);
+	bool drawMesh(grMesh* mesh);
 	
 	/** Drawing lines. */
 	bool drawLines(vertex2* verticies, int count);
@@ -115,13 +115,13 @@ public:
 	void setLinesWidth(float width);
 	
 	/** Binding render target. */
-	bool bindRenderTarget(shared<grRenderTarget> renderTarget);
+	bool bindRenderTarget(grRenderTarget* renderTarget);
 	
 	/** Unbinding render target. */
 	bool unbindRenderTarget();
 	
 	/** Returns current render target. Returns NULL if no render target. */
-	shared<grRenderTarget> getCurrentRenderTarget() const;	
+	grRenderTarget* getCurrentRenderTarget() const;	
 
 	/** Returns true, if render target is can be used with current device. */
 	bool isRenderTargetAvailable() const;

@@ -188,13 +188,13 @@ bool grRenderSystem::endRender()
 	return true;
 }
 
-bool grRenderSystem::drawMesh( shared<grMesh> mesh )
+bool grRenderSystem::drawMesh( grMesh* mesh )
 {
 	if (!mReady)
 		return false;
 	
 //check difference
-	if (mLastDrawTexture.mObject != mesh->mTexture.mObject || 
+	if (mLastDrawTexture != mesh->mTexture || 
 		mLastDrawVertex + mesh->mVertexCount >= mVertexBufferSize ||
 		mLastDrawIdx + mesh->mPolyCount*3 >= mIndexBufferSize ||
 		mCurrentPrimitiveType == GL_LINES)
@@ -328,7 +328,7 @@ void grRenderSystem::frameResized()
 	mResolution = application()->getContentSize();
 }
 
-bool grRenderSystem::bindRenderTarget( shared<grRenderTarget> renderTarget )
+bool grRenderSystem::bindRenderTarget( grRenderTarget* renderTarget )
 {
 	if (!renderTarget)
 		return false;
@@ -367,7 +367,7 @@ bool grRenderSystem::unbindRenderTarget()
 	return true;
 }
 
-shared<grRenderTarget> grRenderSystem::getCurrentRenderTarget() const
+grRenderTarget* grRenderSystem::getCurrentRenderTarget() const
 {
 	return mCurrentRenderTarget;
 }

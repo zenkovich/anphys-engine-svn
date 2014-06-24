@@ -12,7 +12,7 @@
 
 OPEN_O2_NAMESPACE
 
-grRenderTarget::grRenderTarget( shared<grTextureDef> texture ):
+grRenderTarget::grRenderTarget( grTextureDef* texture ):
 	grRenderTargetBaseInterface(texture), mFrameBuffer(0)
 {
 	if (mRenderTexture)

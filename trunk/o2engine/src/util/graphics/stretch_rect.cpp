@@ -131,7 +131,7 @@ cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
 	return *this;
 }
 
-shared<IRectDrawable> cStretchRect::clone() const
+IRectDrawable* cStretchRect::clone() const
 {
 	return mnew cStretchRect(*this);
 }

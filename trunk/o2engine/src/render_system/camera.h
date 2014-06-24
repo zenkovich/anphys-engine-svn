@@ -2,13 +2,11 @@
 #define CAMERA_H
 
 #include "public.h"
-#include "util/math/vector2.h"
-#include "util/math/basis.h"
 
 OPEN_O2_NAMESPACE
 
 /** Camera. Contains position, scale and rotations. Works as sprite. */
-class grCamera: public cShareObject
+class grCamera
 {
 public:
 	vec2f mPosition; /**< Position of left top corner camera. */

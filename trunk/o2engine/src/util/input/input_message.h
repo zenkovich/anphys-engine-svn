@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 typedef int VKey;
 
 /** Input message. Containing pressed, down, released keys, cursors positions. */
-class cInputMessage: public cShareObject
+class cInputMessage
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;

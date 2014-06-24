@@ -11,11 +11,11 @@ OPEN_O2_NAMESPACE
 /** User interface controller. Processing and drawing widgets. */
 class uiController: public cSingleton<uiController>
 {
-	typedef vector< shared<uiWidget> > WidgetsVec;
+	typedef vector<uiWidget*> WidgetsVec;
 
-	uiWidget         mBasicWidget;
-	shared<uiWidget> mFocusWidget; /** Focused widget. */
-	bool             mChangedFocusWidget;
+	uiWidget  mBasicWidget;
+	uiWidget* mFocusWidget; /** Focused widget. */
+	bool      mChangedFocusWidget;
 
 public:
 	/** ctor. */
@@ -31,23 +31,23 @@ public:
 	void draw();
 
 	/** Adding widget. */
-	shared<uiWidget> addWidget(const shared<uiWidget>& widget);
+	uiWidget* addWidget(uiWidget* widget);
 
 	/** Removing widget. */
-	bool removeWidget(const shared<uiWidget>& widget);
+	bool removeWidget(uiWidget* widget);
 
 	/** Removing all widgets. */
 	bool removeAllWidgets();
 
 	/** Returns widget with id path. */
-	shared<uiWidget> getWidget(const string& idPath);
+	uiWidget* getWidget(const string& idPath);
 
 	/** Sets focus on specified widget. */
-	void focusOnWidget(const shared<uiWidget>& widget);
+	void focusOnWidget(uiWidget* widget);
 
 	/** Returns widget with id path, casting to reque type. */
 	template<typename T>
-	shared<T> getWidgetByType(const string& idPath)
+	T* getWidgetByType(const string& idPath)
 	{
 		return getWidget(idPath);
 	}

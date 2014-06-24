@@ -40,7 +40,7 @@ public:
 	virtual ~IRectDrawable() {}
 
 	/** Returns a copy of drawable. */
-	virtual shared<IRectDrawable> clone() const = 0;
+	virtual IRectDrawable* clone() const = 0;
 
 	/** Drawing. */
 	virtual void draw() {}

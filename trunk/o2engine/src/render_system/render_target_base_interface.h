@@ -11,14 +11,14 @@ class grRenderSystem;
 class grTextureDef;
 
 /** Render target base interface. */
-class grRenderTargetBaseInterface: public cShareObject
+class grRenderTargetBaseInterface
 {
 protected:
-	shared<grTextureDef> mRenderTexture; /**< Render texture ptr, usage must be RENDER_TARGET. */
-	bool                 mReady;         /**< True, if we can use that rander target. */
+	grTextureDef* mRenderTexture; /**< Render texture ptr, usage must be RENDER_TARGET. */
+	bool          mReady;         /**< True, if we can use that rander target. */
 	
 	/** ctor. */
-	grRenderTargetBaseInterface(shared<grTextureDef> texture);
+	grRenderTargetBaseInterface(grTextureDef* texture);
 
 public:
 	/** ctor. */

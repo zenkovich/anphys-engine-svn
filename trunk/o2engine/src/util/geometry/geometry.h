@@ -2,14 +2,11 @@
 #define GEOMETRY_H
 
 #include "public.h"
-#include "util/math/rect.h"
-#include "util/math/vector2.h"
-#include "util/smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 	
 /** Geometry interface. Processing point colliding, AABB, positioning. */
-class cGeometry: public cShareObject
+class cGeometry
 {
 public: 
 	/** Returns true, if point inside. */
@@ -100,7 +97,7 @@ class cGroupGeometry:public cGeometry
 	friend class cGeometry;
 
 public:
-	typedef vector< shared<cGeometry> > PartsVec;
+	typedef vector< cGeometry* > PartsVec;
 
 protected:
 	PartsVec mParts;
@@ -116,7 +113,7 @@ public:
 
 	int getPartsCount() const;
 	
-	int addPart(shared<cGeometry> geom);
+	int addPart(cGeometry* geom);
 	void removePart(int idx);
 	void removeAllParts();
 

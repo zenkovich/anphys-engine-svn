@@ -2,7 +2,7 @@
 
 OPEN_O2_NAMESPACE
 
-uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/, shared<uiWidget> parent /*= NULL*/ ):
+uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/ ):
 	uiDrawablesListWidget(layout, id, parent)
 {
 	mBackground = addDrawable(NULL, "background", cLayout::both());
@@ -31,17 +31,17 @@ uiProgressBar::~uiProgressBar()
 {
 }
 
-shared<uiWidget> uiProgressBar::clone() const
+uiWidget* uiProgressBar::clone() const
 {
 	return mnew uiProgressBar(*this);
 }
 
-shared<uiDrawablesListWidget::Drawable> uiProgressBar::getBackgroundDrawable()
+uiDrawablesListWidget::Drawable* uiProgressBar::getBackgroundDrawable()
 {
 	return mBackground;
 }
 
-shared<uiDrawablesListWidget::Drawable> uiProgressBar::getBarDrawable()
+uiDrawablesListWidget::Drawable* uiProgressBar::getBarDrawable()
 {
 	return mBar;
 }

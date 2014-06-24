@@ -24,9 +24,9 @@ uiTransitionState::~uiTransitionState()
 		safe_release(*prop);
 }
 
-shared<uiState> uiTransitionState::clone() const
+uiState* uiTransitionState::clone() const
 {
-	shared<uiTransitionState> res = mnew uiTransitionState(*this);
+	uiTransitionState* res = mnew uiTransitionState(*this);
 	return res;
 }
 
@@ -85,7 +85,7 @@ void uiTransitionState::update(float dt)
 	}
 }
 
-shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared<IProperty>& property)
+uiTransitionState::IProperty* uiTransitionState::addProperty(IProperty* property)
 {
 	mProperties.push_back(property);
 
@@ -95,12 +95,11 @@ shared<uiTransitionState::IProperty> uiTransitionState::addProperty(const shared
 	return property;
 }
 
-void uiTransitionState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
+void uiTransitionState::setOwnerWidget( uiWidget* ownerWidget )
 {
 	uiState::setOwnerWidget(ownerWidget);
-	shared<uiTransitionState> thisShared = this;
 	FOREACH(PropertiesVec, mProperties, prop)
-		(*prop)->setOwner(thisShared);
+		(*prop)->setOwner(this);
 	setState(getState(), true);
 }
 

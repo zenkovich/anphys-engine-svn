@@ -24,7 +24,7 @@ void uiState::initializeProperties()
 	REG_PROPERTY_SETTER_NONCONST(uiState, state, setStateNonForcible, getState);
 }
 
-void uiState::setOwnerWidget( const shared<uiWidget>& ownerWidget )
+void uiState::setOwnerWidget( uiWidget* ownerWidget )
 {
 	mOwnerWidget = ownerWidget;
 }

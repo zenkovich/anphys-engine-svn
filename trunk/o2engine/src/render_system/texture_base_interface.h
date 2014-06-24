@@ -71,7 +71,7 @@ public:
 
 
 /** Texture definition base interface, derives from texture interface and reference counter. */
-class grTextureDefBaseInterface: public cShareObject, public grTextureInterface, public IRefCounter 
+class grTextureDefBaseInterface: public grTextureInterface, public IRefCounter 
 {
 protected:
 	/** ctor. */
@@ -88,7 +88,7 @@ protected:
 				  	    grTexUsage::type usage = grTexUsage::DEFAULT) = 0;
 
 	/** Creates texture from image. */
-	virtual void createFromImage(shared<cImage> image) = 0;
+	virtual void createFromImage(cImage* image) = 0;
 				       
 	/** Creates texture from file. */
 	virtual void createFromFile(const string& fileName) = 0;

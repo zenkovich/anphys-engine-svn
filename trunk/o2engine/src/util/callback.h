@@ -296,7 +296,7 @@ class cCallback2Param:public ICallback
 	void (*mFunction)(ArgT, ArgT2);
 
 public:
-	cCallback2Param(shared<ClassType> object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
+	cCallback2Param(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2 ):
 		mObject(object), mObjectFunction(function), mArg(arg1), mArg2(arg2) {}
 
 	cCallback2Param(void (*function)(ArgT, ArgT2), const ArgT& arg1, const ArgT2& arg2):
@@ -338,7 +338,7 @@ public:
 
 /** Fast callback2 creation function. */
 template<typename ArgT, typename ArgT2, typename ClassType>
-ICallback* callback(shared<ClassType> object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
+ICallback* callback(ClassType* object, void (ClassType::*function)(ArgT, ArgT2), const ArgT& arg, const ArgT2& arg2)
 { 
 	return mnew cCallback2Param<ClassType>(object, function, arg, arg2);
 }

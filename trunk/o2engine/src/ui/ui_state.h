@@ -6,21 +6,20 @@
 #include "public.h"
 #include "util/property.h"
 #include "util/callback.h"
-#include "util/smart_ptrs.h"
 #include "ui_widget.h"
 
 OPEN_O2_NAMESPACE
 	
 /** Widget state interface. Widget can get bool parameter and change some parameters from widget. */
-class uiState: public cShareObject
+class uiState
 {
 	friend class uiWidget;
 	friend class uiButton;
 	friend class uiDrawablesListWidget;
 
 protected:
-	string           mName;        /** Name of state. */
-	shared<uiWidget> mOwnerWidget; /** Owner widget. */
+	string    mName;        /** Name of state. */
+	uiWidget* mOwnerWidget; /** Owner widget. */
 
 public: 
 	PROPERTY(uiState, bool) state; /** State property. Using set/getState. */
@@ -41,7 +40,7 @@ public:
 	virtual ~uiState();
 
 	/** Returns clone of state. */
-	virtual shared<uiState> clone() const = 0;
+	virtual uiState* clone() const = 0;
 
 	/** Setting state. */
 	virtual void setState(bool state, bool forcible = false) {}
@@ -57,7 +56,7 @@ public:
 
 protected:
 	/** Calls when setting owner widget. */
-	virtual void setOwnerWidget(const shared<uiWidget>& ownerWidget);
+	virtual void setOwnerWidget(uiWidget* ownerWidget);
 
 	/** Sets state. */
 	void setStateNonForcible(bool state);

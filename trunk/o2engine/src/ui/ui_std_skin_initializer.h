@@ -9,11 +9,10 @@ OPEN_O2_NAMESPACE
 
 class grFont;
 
-class uiStdSkinInitializer: public cShareObject
+class uiStdSkinInitializer
 {
-	static shared<uiSkinManager> mSkinManager;
-
-	static shared<grFont> mStdFont;
+	static uiSkinManager* mSkinManager;
+	static grFont*        mStdFont;
 
 public:
 	static void initialize();

@@ -8,12 +8,12 @@ OPEN_O2_NAMESPACE
 class uiProgressBar: public uiDrawablesListWidget
 {	
 protected:
-	float            mMinValue;   /** Min value. */
-	float            mMaxValue;   /** Max value. */
-	float            mValue;      /** Current value. */
+	float     mMinValue;   /** Min value. */
+	float     mMaxValue;   /** Max value. */
+	float     mValue;      /** Current value. */
 
-	shared<Drawable> mBackground; /** Background drawable. */
-	shared<Drawable> mBar;        /** Bar drawable. */
+	Drawable* mBackground; /** Background drawable. */
+	Drawable* mBar;        /** Bar drawable. */
 
 public:
 	PROPERTY(uiProgressBar, float) minValue; /** Min value property. Uses set/getMinValue. */
@@ -21,7 +21,7 @@ public:
 	PROPERTY(uiProgressBar, float) value;    /** Current value. Uses set/getValue. */
 
 	/** ctor. */
-	uiProgressBar(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiProgressBar(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
 	uiProgressBar(const uiProgressBar& widget);
@@ -30,13 +30,13 @@ public:
 	virtual ~uiProgressBar();
 
 	/** Returns clone of widget. */
-	virtual shared<uiWidget> clone() const;
+	virtual uiWidget* clone() const;
 
 	/** Returns background drawable. */
-	shared<Drawable> getBackgroundDrawable();
+	Drawable* getBackgroundDrawable();
 
 	/** Returns bar drawable. */
-	shared<Drawable> getBarDrawable();
+	Drawable* getBarDrawable();
 
 	/** Sets value range. */
 	void setValueRange(float minValue, float maxValue);

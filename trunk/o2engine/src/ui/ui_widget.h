@@ -28,30 +28,30 @@ class uiWidget: public cPropertyList
 	friend class uiSkinManager;
 
 public:
-	typedef vector< shared<uiWidget> > WidgetsVec;
-	typedef std::map< string, shared<uiState> > StatesMap;
+	typedef vector< uiWidget* > WidgetsVec;
+	typedef std::map< string, uiState* > StatesMap;
 	
 protected:
-	string            mId;                    /**< Identificator or name. */
-	shared<uiWidget>  mParent;                /**< Parent widget. NULL if no parent. */
-	cLayout           mLayout;                /**< Widget layout. */
-	WidgetsVec        mChildWidgets;          /**< Chiles widgets. */
-	vec2f             mGlobalPosition;        /**< Position in screen space. */
-	vec2f             mSize;                  /**< Size of widget. Not including childes. */
-	vec2f             mChildsOffset;          /**< Offset for childrens. */
-	shared<cGeometry> mGeometry;              /**< Colliding geometry. May be NULL. */
-	fRect             mBounds;                /**< Widget with childes bounds. */
-	bool              mVisible;               /**< True, if widget is visible. */
-	bool              mFocused;               /**< True, if widget on focus. */
-	bool              mCursorInside;          /**< True, when cursor is inside widget. */
-	float             mTransparency;          /**< Transparency of widget. */
-				      				          
-	StatesMap         mStates;                /**< States map. */
-	shared<uiState>   mVisibleState;          /**< Shared to visible state. */
+	string      mId;                    /**< Identificator or name. */
+	uiWidget*  mParent;                /**< Parent widget. NULL if no parent. */
+	cLayout    mLayout;                /**< Widget layout. */
+	WidgetsVec mChildWidgets;          /**< Chiles widgets. */
+	vec2f      mGlobalPosition;        /**< Position in screen space. */
+	vec2f      mSize;                  /**< Size of widget. Not including childes. */
+	vec2f      mChildsOffset;          /**< Offset for childrens. */
+	cGeometry* mGeometry;              /**< Colliding geometry. May be NULL. */
+	fRect      mBounds;                /**< Widget with childes bounds. */
+	bool       mVisible;               /**< True, if widget is visible. */
+	bool       mFocused;               /**< True, if widget on focus. */
+	bool       mCursorInside;          /**< True, when cursor is inside widget. */
+	float      mTransparency;          /**< Transparency of widget. */
+								          
+	StatesMap  mStates;                /**< States map. */
+	uiState*   mVisibleState;          /**< Shared to visible state. */
 
-	unsigned int      mUpdatedAtFrame;        /** Last update frame index. */
-	unsigned int      mDrawedAtFrame;         /** Last drawing frame index. */
-	unsigned int      mProcessedInputAtFrame; /** Last input processing frame index. */
+	uint32     mUpdatedAtFrame;        /** Last update frame index. */
+	uint32     mDrawedAtFrame;         /** Last drawing frame index. */
+	uint32     mProcessedInputAtFrame; /** Last input processing frame index. */
 
 
 public:
@@ -64,18 +64,18 @@ public:
 	cCallbackChain onVisibleOff;
 
 	//properties
-	PROPERTY(uiWidget, shared<uiWidget>) parent;         /**< Parent property. Using setParent/getParent. */
-	PROPERTY(uiWidget, string)           id;             /**< Identificator property. Using setId/getId. */
-	PROPERTY(uiWidget, vec2f)            position;       /**< Local position property. Using setPosition/getPosition. */
-	PROPERTY(uiWidget, vec2f)            globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
-	PROPERTY(uiWidget, vec2f)            size;           /**< Size property. Using setSize/getSize. */
-	PROPERTY(uiWidget, bool)             visible;        /**< Visibility property. Using set/isVisible. */
-	PROPERTY(uiWidget, cLayout)          layout;         /**< Widget layout. Using set/getLayout. */
-	PROPERTY(uiWidget, float)            transparency;   /**< Widget dtransparency. Using set/getTransparency. */
+	PROPERTY(uiWidget, uiWidget*) parent;         /**< Parent property. Using setParent/getParent. */
+	PROPERTY(uiWidget, string)    id;             /**< Identificator property. Using setId/getId. */
+	PROPERTY(uiWidget, vec2f)     position;       /**< Local position property. Using setPosition/getPosition. */
+	PROPERTY(uiWidget, vec2f)     globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
+	PROPERTY(uiWidget, vec2f)     size;           /**< Size property. Using setSize/getSize. */
+	PROPERTY(uiWidget, bool)      visible;        /**< Visibility property. Using set/isVisible. */
+	PROPERTY(uiWidget, cLayout)   layout;         /**< Widget layout. Using set/getLayout. */
+	PROPERTY(uiWidget, float)     transparency;   /**< Widget dtransparency. Using set/getTransparency. */
 
 
 	/** ctor. */
-	uiWidget(const cLayout& layout, const string& id = "", shared<uiWidget> parent = NULL);
+	uiWidget(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
 	uiWidget(const uiWidget& widget);
@@ -84,7 +84,7 @@ public:
 	virtual ~uiWidget();
 
 	/** Returns clone of widget. */
-	virtual shared<uiWidget> clone() const;
+	virtual uiWidget* clone() const;
 
 	/** Draw widget and childes. */
 	virtual void draw();
@@ -99,23 +99,23 @@ public:
 	virtual bool isInside(const vec2f& point) const;
 
 	/** Adding child widget. */
-	virtual shared<uiWidget> addChild(shared<uiWidget> widget);
+	virtual uiWidget* addChild(uiWidget* widget);
 
 	/** Removing child widget. */
-	virtual void removeChild(shared<uiWidget> widget);
+	virtual void removeChild(uiWidget* widget);
 
 	/** Remove all child widgets. */
 	virtual void removeAllChilds();
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
 	template<typename T>
-	shared<T> getWidgetByType(const string& id)
+	T* getWidgetByType(const string& id)
 	{
-		return shared<T>(getWidget(id));
+		return T*(getWidget(id));
 	}
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
-	shared<uiWidget> getWidget(const string& id);
+	uiWidget* getWidget(const string& id);
 
 
 	//setters and getters
@@ -135,13 +135,13 @@ public:
 	void releaseFocus();
 
 	/** Adding new state to widget. */
-	shared<uiState> addState(const shared<uiState>& state);
+	uiState* addState(uiState* state);
 
 	/** Setting state parameter. */
 	void setState(const string& stateId, bool value);
 
 	/** Returns shared state by id. */
-	shared<uiState> getState(const string& stateId);
+	uiState* getState(const string& stateId);
 
 	/** Sets widget visible. */
 	void setVisible(bool visible);
@@ -150,10 +150,10 @@ public:
 	bool isVisible() const;
 	
 	/** Sets widget's parent. */
-	void setParent(const shared<uiWidget>& parent);
+	void setParent(uiWidget* parent);
 
 	/** Returns parent ptr. */
-	shared<uiWidget> getParent();
+	uiWidget* getParent();
 
 	/** Sets the local position. */
 	void setPosition(const vec2f& position);
@@ -186,10 +186,10 @@ public:
 	cLayout getlayout() const;
 
 	/** Sets the colliding geometry. */
-	void setGeometry(const shared<cGeometry>& geometry);
+	void setGeometry(cGeometry* geometry);
 
 	/** Returns colliding geometry ptr. */
-	shared<cGeometry> getGeometry() const;
+	cGeometry* getGeometry() const;
 
 	/** Sets transparency of widget. */
 	void setTransparency(float transparency);
@@ -202,7 +202,7 @@ protected:
 	virtual void updateLayout();
 
 	/** Calls when added some state. */
-	virtual void addedState(const shared<uiState>& state) {}
+	virtual void addedState(uiState* state) {}
 
 	/** Updating states. */
 	virtual void updateStates(float dt);

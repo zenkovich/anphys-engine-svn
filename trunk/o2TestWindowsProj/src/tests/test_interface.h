@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-class ITest: public cShareObject
+class ITest
 {
 public:
 	virtual void draw() {}

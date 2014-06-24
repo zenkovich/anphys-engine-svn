@@ -14,15 +14,15 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(uiSkinManager);
 
-shared<uiWidget> uiSkinManager::createWidget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
+uiWidget* uiSkinManager::createWidget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
 {
-	shared<uiWidget> widget = mnew uiWidget(cLayout::fixedSize(position, size), id);
+	uiWidget* widget = mnew uiWidget(cLayout::fixedSize(position, size), id);
 	return widget;
 }
 
-shared<uiButton> uiSkinManager::createButton(const string& caption, const cLayout& layout, const string& id /*= ""*/)
+uiButton* uiSkinManager::createButton(const string& caption, const cLayout& layout, const string& id /*= ""*/)
 {
-	shared<uiButton> button = mButtonSample->clone();
+	uiButton* button = static_cast<uiButton*>(mButtonSample->clone());
 	button->setLayout(layout);
 	button->setId(id);
 	button->setCCaption(caption);
@@ -30,28 +30,29 @@ shared<uiButton> uiSkinManager::createButton(const string& caption, const cLayou
 	return button;
 }
 
-void uiSkinManager::setButtonSample(const shared<uiButton>& buttonSample)
+void uiSkinManager::setButtonSample(uiButton* buttonSample)
 {
 	mButtonSample = buttonSample;
 }
 
-shared<uiRect> uiSkinManager::createBackground(const cLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
+uiRect* uiSkinManager::createBackground(const cLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
 {
-	shared<uiRect> background = mBackgroundSample->clone();
+	uiRect* background = static_cast<uiRect*>(mBackgroundSample->clone());
 	background->setLayout(layout);
 	background->setId(id);
 
 	return background;
 }
 
-void uiSkinManager::setBackgroundSample(const shared<uiRect>& backgroundSample)
+void uiSkinManager::setBackgroundSample(uiRect* backgroundSample)
 {
 	mBackgroundSample = backgroundSample;
 }
 
-shared<uiSprite> uiSkinManager::createSprite( const grTexture& texture, const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/ )
+uiSprite* uiSkinManager::createSprite( const grTexture& texture, const cLayout& layout /*= cLayout::both()*/, 
+	                                   const string& id /*= ""*/ )
 {
-	shared<uiSprite> spriteWidget = mnew uiSprite(layout, id);
+	uiSprite* spriteWidget = mnew uiSprite(layout, id);
 	spriteWidget->mSprite.setTexture(texture);
 	spriteWidget->mSprite.setTextureSrcRect(fRect(vec2f(), texture.getSize()));
 
@@ -60,23 +61,23 @@ shared<uiSprite> uiSkinManager::createSprite( const grTexture& texture, const cL
 	return spriteWidget;
 }
 
-void uiSkinManager::addVisibleState( const shared<uiWidget>& widget )
+void uiSkinManager::addVisibleState( uiWidget* widget )
 {
-	shared<uiTransitionState> state = mnew uiTransitionState("visible");
-	state->addProperty(widget->transparency, 0.0f, 1.0f, 0.5f);
+	uiTransitionState* state = mnew uiTransitionState("visible");
+	state->addProperty(&widget->transparency, 0.0f, 1.0f, 0.5f);
 	widget->addState(state);
 }
 
-void uiSkinManager::setProgressbarSample( const shared<uiProgressBar>& progressbarSample )
+void uiSkinManager::setProgressbarSample( uiProgressBar* progressbarSample )
 {
 	mProgressBarSample = progressbarSample;
 }
 
-shared<uiProgressBar> uiSkinManager::createProgressBar( const cLayout& layout /*= cLayout::both()*/, 
+uiProgressBar* uiSkinManager::createProgressBar( const cLayout& layout /*= cLayout::both()*/, 
 	                                                    const string& id /*= ""*/, float value /*= 0*/, 
 														float minValue /*= 0*/, float maxValue /*= 1*/ )
 {
-	shared<uiProgressBar> progressbar = mProgressBarSample->clone();
+	uiProgressBar* progressbar = static_cast<uiProgressBar*>(mProgressBarSample->clone());
 	progressbar->setLayout(layout);
 	progressbar->setId(id);
 	progressbar->setValueRange(minValue, maxValue);
