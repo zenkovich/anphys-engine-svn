@@ -21,7 +21,7 @@ public:
 		cCallbackChain onChangeEvent; /** Calls when calling setter. */
 
 		IProperty(const string& name):
-			mName(name) {} 
+			mName(name), mOwnerPropList(NULL) {} 
 
 		virtual ~IProperty() {}
 

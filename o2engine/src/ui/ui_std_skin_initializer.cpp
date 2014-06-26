@@ -85,7 +85,7 @@ void uiStdSkinInitializer::initButton()
 
 	//hover state
 	uiTransitionState* hoverState = mnew uiTransitionState("hover");
-	hoverState->addProperty(static_cast< cPropertyList::Property<float>* >(&hoverDrawable->transparency),
+	hoverState->addProperty(&hoverDrawable->transparency,
 		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
 		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
 

@@ -29,6 +29,7 @@ cApplication::cApplication():
 
 cApplication::~cApplication()
 {	
+	safe_release(mUIController);
 	safe_release(mRenderSystem);
 	safe_release(mTimer);
 

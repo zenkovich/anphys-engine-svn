@@ -1,50 +1,53 @@
-#ifndef UI_BUTTON_H
-#define UI_BUTTON_H
+#ifndef UI_CHECKBOX_H
+#define UI_CHECKBOX_H
 
 #include "ui_drawables_list_widget.h"
 
 #include "util/callback.h"
-#include "util/graphics/stretch_rect.h"
 #include "util/string.h"
 
 OPEN_O2_NAMESPACE
 
 class grText;
 
-class uiButton:public uiDrawablesListWidget
+class uiCheckBox: public uiDrawablesListWidget
 {
-protected:
-	uiState* mHoverState;    /** Hover state, must have name "hover". Activates when cursor hover widget. */
-	uiState* mFocusedState;  /** Focused state, must have name "focus". Activates when widget is focused. */
-	uiState* mPressedState;  /** Pressed state, must have name "pressed". Activates when button pressed. */
+	uiState* mHoverState;    /** Hover state, must have name "hover". Activates when cursor hover checkbox. */
+	uiState* mFocusedState;  /** Focused state, must have name "focus". Activates when checkbox is focused. */
+	uiState* mPressedState;  /** Pressed state, must have name "pressed". Activates when checkbox pressed. */
+	uiState* mCheckedState;  /** Checked state, must have name "pressed". Activates when checkbox checked. */
 
-	grText*  mCaption;
+	grText*  mCaption;       
 
 	bool     mHover;
 	bool     mPressed;
 	bool     mPressedByButton;
+	bool     mChecked;
 
 public:
-	DEFINE_TYPE(uiButton);
+	DEFINE_TYPE(uiCheckBox);
 
-	PROPERTY(uiButton, string) ccaption; /** C Text caption property. Using set/getCCaption. */
-	PROPERTY(uiButton, wstring) caption; /** Caption property. Using set/getCaption. */
+	PROPERTY(uiCheckBox, string)  ccaption; /** C Text caption property. Using set/getCCaption. */
+	PROPERTY(uiCheckBox, wstring) caption;  /** Caption property. Using set/getCaption. */
+	PROPERTY(uiCheckBox, bool)    checked;  /** Check property. Using set/isChecked. */
 
 	cCallbackChain onClickEvent;     /** On click event. */
 	cCallbackChain onHoverEvent;     /** On hover event. */
 	cCallbackChain onHoverOffEvent;  /** On hover off event. */
 	cCallbackChain onFocusedEvent;   /** On focused event. */
 	cCallbackChain onFocusLostEvent; /** On focus lost event. */
+	cCallbackChain onCheckOn;        /** On check on event. */
+	cCallbackChain onCheckOff;       /** Oncheck off event. */
 
 
 	/** ctor. */
-	uiButton(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiCheckBox(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
 
 	/** copy-ctor. */
-	uiButton(const uiButton& button);
+	uiCheckBox(const uiCheckBox& button);
 
 	/** dtor. */
-	~uiButton();
+	~uiCheckBox();
 
 	/** Returns copy of widget. */
 	uiWidget* clone() const;
@@ -63,6 +66,12 @@ public:
 
 	/** Returns caption text. */
 	wstring getCaption() const;
+
+	/** Sets checkbox checking. */
+	void setChecked(bool checked);
+
+	/** Returns true, when checked. */
+	bool isChecked() const;
 
 protected:
 	/** Calls when added some state. */
@@ -89,4 +98,4 @@ protected:
 
 CLOSE_O2_NAMESPACE
 
-#endif // UI_BUTTON_H
+#endif // UI_CHECKBOX_H

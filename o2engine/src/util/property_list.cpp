@@ -3,7 +3,7 @@
 OPEN_O2_NAMESPACE
 	
 cPropertyList::cPropertyList(const string& name /*= ""*/):
-	mPropertyListName(name)
+	mPropertyListName(name), mParentPropertyList(NULL)
 {
 }
 
