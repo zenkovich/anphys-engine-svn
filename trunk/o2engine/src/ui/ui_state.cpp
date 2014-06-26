@@ -3,7 +3,7 @@
 OPEN_O2_NAMESPACE
 
 uiState::uiState( const string& name):
-	mName(name)
+	mName(name), mOwnerWidget(NULL)
 {
 	initializeProperties();
 }
