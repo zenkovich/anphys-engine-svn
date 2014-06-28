@@ -83,6 +83,9 @@ protected:
 	/** Calls when added drawable. */
 	virtual void addedDrawable(Drawable* drawable);
 
+	/** Calls when clicked. */
+	virtual void onClicked();
+
 	/** Initializing properties. */
 	void initializeProperties();
 };

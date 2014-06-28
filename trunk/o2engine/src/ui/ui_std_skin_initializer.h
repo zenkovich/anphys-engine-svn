@@ -22,6 +22,8 @@ protected:
 	static void initButton();
 	static void initBackground();
 	static void initProgressBar();
+	static void initCheckBox();
+	static void initHorScrollBar();
 };
 
 CLOSE_O2_NAMESPACE

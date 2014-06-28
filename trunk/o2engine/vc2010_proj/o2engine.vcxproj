@@ -148,6 +148,7 @@
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
     <ClInclude Include="..\src\ui\ui_progressbar.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
+    <ClInclude Include="..\src\ui\ui_scroll_bar.h" />
     <ClInclude Include="..\src\ui\ui_skin.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
     <ClInclude Include="..\src\ui\ui_state.h" />
@@ -273,10 +274,12 @@
     <ClCompile Include="..\src\scene\scene.cpp" />
     <ClCompile Include="..\src\scene\scene_node.cpp" />
     <ClCompile Include="..\src\ui\ui_button.cpp" />
+    <ClCompile Include="..\src\ui\ui_checkbox.cpp" />
     <ClCompile Include="..\src\ui\ui_controller.cpp" />
     <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp" />
     <ClCompile Include="..\src\ui\ui_progressbar.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
+    <ClCompile Include="..\src\ui\ui_scroll_bar.cpp" />
     <ClCompile Include="..\src\ui\ui_skin.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />
     <ClCompile Include="..\src\ui\ui_state.cpp" />

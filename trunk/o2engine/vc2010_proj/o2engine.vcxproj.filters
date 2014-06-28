@@ -456,6 +456,9 @@
     <ClInclude Include="..\src\ui\ui_checkbox.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_scroll_bar.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -772,6 +775,12 @@
     </ClCompile>
     <ClCompile Include="..\src\util\stack_trace.cpp">
       <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_checkbox.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_scroll_bar.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

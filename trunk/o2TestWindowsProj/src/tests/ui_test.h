@@ -10,6 +10,7 @@ class uiWidget;
 class grSprite;
 class uiProgressBar;
 class IRectDrawable;
+class uiScrollBar;
 
 class cUITest: public ITest
 {
@@ -18,6 +19,7 @@ class cUITest: public ITest
 	uiWidget* rect;
 	IRectDrawable* sprite;
 	uiProgressBar* mTestBar;
+	uiScrollBar*   mTestScrollBar;
 
 public:
 	cUITest();
