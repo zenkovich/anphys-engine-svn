@@ -158,8 +158,8 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 				                                      mBackground->getLayout().getRect().getSizeY();
 
 			float range = mMaxValue - mMinValue;
-			float locRange = max(range - mBarSize, 0.00001f);
-			setValue(clamp(mValue + (delta/length*range)/locRange, mMinValue, mMaxValue));
+			length = length - (mBarSize/range)*length;
+			setValue(clamp(mValue + delta/length*range, mMinValue, mMaxValue));
 		}
 		else if (msg.getCursorDelta().length() > 1.0f)
 		{
@@ -188,10 +188,13 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 
 void uiScrollBar::updateBarLayout()
 {
+	hlog("value = %.3f", mValue);
+
 	float range = mMaxValue - mMinValue;
 	float locRange = max(range - mBarSize, 0.00001f);
-	float topCoef = clamp(mValue/locRange, 0.0f, 1.0f);
-	float bottomCoef = clamp(topCoef + mBarSize/range, topCoef, 1.0f);
+	float relBarSize = mBarSize/range;
+	float topCoef = clamp((mValue - mMinValue)/range*(1.0f - relBarSize), 0.0f, 1.0f);
+	float bottomCoef = clamp(topCoef + relBarSize, topCoef, 1.0f);
 
 	if (mType == TP_HORISONTAL)
 		mBar->setLayout( cLayout(vec2f(topCoef, 0.0f), vec2f(), vec2f(bottomCoef, 1.0f)) );
