@@ -315,8 +315,9 @@ void uiStdSkinInitializer::initHorScrollBar()
 	barInsideDrawable->addChildDrawable("Pressed", barPresedDrawable, cLayout::both());
 
 	vec2f icnSize = barIconDrawable->getSize();
+	vec2f icnOffs(0, 1.0f);
 	barInsideDrawable->addChildDrawable("icon", barIconDrawable, 
-		cLayout(vec2f(0.5f, 0.5f), icnSize*(-0.5f), vec2f(0.5f, 0.5f), icnSize*0.5f));
+		cLayout(vec2f(0.5f, 0.5f), icnSize*(-0.5f) + icnOffs, vec2f(0.5f, 0.5f), icnSize*0.5f + icnOffs));
 
 	//states
 	uiTransitionState* hoverState = mnew uiTransitionState("hover");

@@ -28,12 +28,18 @@ struct cLayout
 		update(vec2f(), vec2f());
 	}
 
-	void update(const vec2f& relPos, const vec2f& relSize) 
+	void update(const vec2f& relPos, const vec2f& relSize, bool pixelPerfect = true) 
 	{
 		mPosition = relSize.scale(mLTRelative) + mLTAbsolute + relPos;
 		mSize = relSize.scale(mRBRelative) + mRBAbsolute + relPos - mPosition;		
 		mSize.x = clamp(mSize.x, mMinSize.x, mMaxSize.x);
 		mSize.y = clamp(mSize.y, mMinSize.y, mMaxSize.y);
+
+		if (pixelPerfect)
+		{
+			mPosition.x = floor(mPosition.x); mPosition.y = floor(mPosition.y);
+			mSize.x = floor(mSize.x); mSize.y = floor(mSize.y);
+		}
 	}
 
 	fRect getRect() const 
