@@ -106,6 +106,7 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 
 			if (mCursorInside || releasedKey)
 			{
+				onClicked();
 				onClickEvent.call();
 				if (!mPressedByButton)
 					releaseFocus();
@@ -114,6 +115,10 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 	}
 
 	return false;
+}
+
+void uiButton::onClicked()
+{
 }
 
 void uiButton::onFocused()
