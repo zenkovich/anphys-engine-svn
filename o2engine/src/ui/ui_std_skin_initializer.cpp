@@ -159,9 +159,7 @@ void uiStdSkinInitializer::initProgressBar()
 
 	const float barLeftOffset = 6, barRightOffset = 8;
 	const float barLeftBorder = 11, barRightBorder = 12;
-	cStretchRect* barDrawable = 
-		mnew cStretchRect(barTex, (int)(barLeftBorder - barLeftOffset), 0, (int)(barRightBorder - barRightOffset), 0,  
-		                  fRect(barLeftOffset, 0.0f, barTex.getSize().x - barRightOffset, barTex.getSize().y));
+	cStretchRect* barDrawable = mnew cStretchRect(barTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
 
 	//progerssbar
 	uiProgressBar* progressbar = mnew uiProgressBar(cLayout::both());
@@ -170,10 +168,10 @@ void uiStdSkinInitializer::initProgressBar()
 	progressbar->getBackgroundDrawable()->addChildDrawable("bg", backgroundDrawable, backgroundLayout);
 
 	// adding drawables
-	cLayout insideBarLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barTex.getSize().y*0.5f), 
-		                    vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barTex.getSize().y*0.5f));
+	cLayout insideBarLayout(vec2f(0.0f, 0.5f), vec2f(0, -barTex.getSize().y*0.5f), 
+		                    vec2f(1.0f, 0.5f), vec2f(barLeftOffset + barRightOffset, barTex.getSize().y*0.5f));
 	uiProgressBar::Drawable* barInsideDrawable = 
-		progressbar->getBarDrawable()->addChildDrawable("barInside",NULL, insideBarLayout);
+		progressbar->getBarDrawable()->addChildDrawable("barInside", NULL, insideBarLayout);
 
 	barInsideDrawable->addChildDrawable("barrr", barDrawable, cLayout::both());
 

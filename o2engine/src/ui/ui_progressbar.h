@@ -38,6 +38,9 @@ public:
 	/** Returns bar drawable. */
 	Drawable* getBarDrawable();
 
+	/** Sets bar drawable. */
+	void setBarDrawable(Drawable* barDrawable);
+
 	/** Sets value range. */
 	void setValueRange(float minValue, float maxValue);
 
