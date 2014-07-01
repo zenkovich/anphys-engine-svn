@@ -4,11 +4,8 @@ OPEN_O2_NAMESPACE
 
 uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/, 
                           uiWidget* parent /*= NULL*/ ):
-	uiDrawablesListWidget(layout, id, parent), mBarHoverState(NULL), mBarPressedState(NULL), mType(type)
+	uiDrawablesListWidget(layout, id, parent), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL)
 {
-	mBackground = addDrawable(NULL, "background", cLayout::both());
-	mBar = addDrawable(NULL, "bar", cLayout::both());
-
 	mMinValue = 0;
 	mMaxValue = 1;
 	setValue(mMinValue);
@@ -20,8 +17,11 @@ uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type
 uiScrollBar::uiScrollBar( const uiScrollBar& scrollbar ):
 	uiDrawablesListWidget(scrollbar)
 {
-	mBackground = getDrawable("background");
-	mBar = getDrawable("bar");
+	if (scrollbar.mBar)
+		mBar = getDrawable(scrollbar.mBar->getPathId());
+	else
+		mBar = NULL;
+
 	mBarHoverState = getState("hover");
 	mBarPressedState = getState("pressed");
 
@@ -43,9 +43,9 @@ uiWidget* uiScrollBar::clone() const
 	return mnew uiScrollBar(*this);
 }
 
-uiDrawablesListWidget::Drawable* uiScrollBar::getBackgroundDrawable()
+void uiScrollBar::setBarDrawable(Drawable* drawable)
 {
-	return mBackground;
+	mBar = drawable;
 }
 
 uiDrawablesListWidget::Drawable* uiScrollBar::getBarDrawable()
@@ -154,8 +154,8 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 		if (mPressed)
 		{
 			float delta = (mType == TP_HORISONTAL) ? msg.getCursorDelta().x:msg.getCursorDelta().y;
-			float length = (mType == TP_HORISONTAL) ? mBackground->getLayout().getRect().getSizeX():
-				                                      mBackground->getLayout().getRect().getSizeY();
+			float length = (mType == TP_HORISONTAL) ? mBasicDrawable.getLayout().getRect().getSizeX():
+				                                      mBasicDrawable.getLayout().getRect().getSizeY();
 
 			float range = mMaxValue - mMinValue;
 			length = length - (mBarSize/range)*length;
@@ -190,6 +190,9 @@ void uiScrollBar::updateBarLayout()
 {
 	hlog("value = %.3f", mValue);
 
+	if (!mBar)
+		return;
+
 	float range = mMaxValue - mMinValue;
 	float locRange = max(range - mBarSize, 0.00001f);
 	float relBarSize = mBarSize/range;
@@ -201,7 +204,7 @@ void uiScrollBar::updateBarLayout()
 	else
 		mBar->setLayout( cLayout(vec2f(0.0f, topCoef), vec2f(), vec2f(1.0f, bottomCoef)) );
 
-	mBar->updateLayout(mGlobalPosition, mSize);
+	mBar->updateLayoutManual(mGlobalPosition, mSize);
 }
 
 void uiScrollBar::initializeProperties()

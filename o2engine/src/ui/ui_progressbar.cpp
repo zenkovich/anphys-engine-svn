@@ -3,22 +3,21 @@
 OPEN_O2_NAMESPACE
 
 uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/ ):
-	uiDrawablesListWidget(layout, id, parent)
+	uiDrawablesListWidget(layout, id, parent), mBar(NULL)
 {
-	mBackground = addDrawable(NULL, "background", cLayout::both());
-	mBar = addDrawable(NULL, "bar", cLayout::both());
 	mMinValue = 0;
 	mMaxValue = 1;
 	setValue(mMinValue);
-
 	initializeProperties();
 }
 
 uiProgressBar::uiProgressBar( const uiProgressBar& widget ):
 	uiDrawablesListWidget(widget)
-{
-	mBackground = getDrawable("background");
-	mBar = getDrawable("bar");
+{	
+	if (widget.mBar)
+		mBar = getDrawable(widget.mBar->getPathId());
+	else
+		mBar = NULL;
 
 	mMinValue = widget.mMinValue;
 	mMaxValue = widget.mMaxValue;
@@ -36,14 +35,14 @@ uiWidget* uiProgressBar::clone() const
 	return mnew uiProgressBar(*this);
 }
 
-uiDrawablesListWidget::Drawable* uiProgressBar::getBackgroundDrawable()
-{
-	return mBackground;
-}
-
 uiDrawablesListWidget::Drawable* uiProgressBar::getBarDrawable()
 {
 	return mBar;
+}
+
+void uiProgressBar::setBarDrawable(Drawable* barDrawable)
+{
+	mBar = barDrawable;
 }
 
 void uiProgressBar::setValueRange( float minValue, float maxValue )
@@ -102,8 +101,12 @@ void uiProgressBar::initializeProperties()
 
 void uiProgressBar::updateBarLayout()
 {
+	if (!mBar)
+		return;
+
 	mBar->setLayout(cLayout(vec2f(), vec2f(), vec2f((mValue - mMinValue)/(mMaxValue - mMinValue), 1.0f)));
-	mBar->updateLayout(mGlobalPosition, mSize);
+	mBar->updateLayout();
 }
+
 
 CLOSE_O2_NAMESPACE

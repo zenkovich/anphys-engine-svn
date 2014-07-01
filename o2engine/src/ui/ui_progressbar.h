@@ -12,7 +12,6 @@ protected:
 	float     mMaxValue;   /** Max value. */
 	float     mValue;      /** Current value. */
 
-	Drawable* mBackground; /** Background drawable. */
 	Drawable* mBar;        /** Bar drawable. */
 
 public:
@@ -31,9 +30,6 @@ public:
 
 	/** Returns clone of widget. */
 	virtual uiWidget* clone() const;
-
-	/** Returns background drawable. */
-	Drawable* getBackgroundDrawable();
 
 	/** Returns bar drawable. */
 	Drawable* getBarDrawable();

@@ -37,8 +37,8 @@ struct cLayout
 
 		if (pixelPerfect)
 		{
-			mPosition.x = floor(mPosition.x); mPosition.y = floor(mPosition.y);
-			mSize.x = floor(mSize.x); mSize.y = floor(mSize.y);
+			mPosition.x = ceil(mPosition.x); mPosition.y = ceil(mPosition.y);
+			mSize.x = ceil(mSize.x); mSize.y = ceil(mSize.y);
 		}
 	}
 
