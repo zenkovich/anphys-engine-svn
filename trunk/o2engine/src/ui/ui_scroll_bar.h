@@ -20,7 +20,6 @@ protected:
 	uiState*  mBarHoverState;
 	uiState*  mBarPressedState;
 
-	Drawable* mBackground; /** Background drawable. */
 	Drawable* mBar;        /** Bar drawable. */
 
 	bool      mPressed;
@@ -43,11 +42,11 @@ public:
 	/** Returns clone of widget. */
 	virtual uiWidget* clone() const;
 
-	/** Returns background drawable. */
-	Drawable* getBackgroundDrawable();
-
 	/** Returns bar drawable. */
 	Drawable* getBarDrawable();
+
+	/** Sets bar drawable. */
+	void setBarDrawable(Drawable* drawable);
 
 	/** Sets value range. */
 	void setValueRange(float minValue, float maxValue);

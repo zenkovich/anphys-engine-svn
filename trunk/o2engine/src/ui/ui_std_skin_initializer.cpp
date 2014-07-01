@@ -161,19 +161,25 @@ void uiStdSkinInitializer::initProgressBar()
 	const float barLeftBorder = 11, barRightBorder = 12;
 	cStretchRect* barDrawable = mnew cStretchRect(barTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
 
-	//progerssbar
+	//progerss bar
 	uiProgressBar* progressbar = mnew uiProgressBar(cLayout::both());
+	
+	// adding drawables
 	cLayout backgroundLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -backgroundTex.getSize().y*0.5f), 
 		                     vec2f(1.0f, 0.5f), vec2f(0.0f, backgroundTex.getSize().y*0.5f));
-	progressbar->getBackgroundDrawable()->addChildDrawable("bg", backgroundDrawable, backgroundLayout);
+	progressbar->addDrawable(backgroundDrawable, "background", backgroundLayout);
 
-	// adding drawables
-	cLayout insideBarLayout(vec2f(0.0f, 0.5f), vec2f(0, -barTex.getSize().y*0.5f), 
-		                    vec2f(1.0f, 0.5f), vec2f(barLeftOffset + barRightOffset, barTex.getSize().y*0.5f));
-	uiProgressBar::Drawable* barInsideDrawable = 
-		progressbar->getBarDrawable()->addChildDrawable("barInside", NULL, insideBarLayout);
+	uiProgressBar::Drawable* barBasicDrw = progressbar->addDrawable(NULL, "barBasic", 
+		cLayout(vec2f(0.0f, 0.0f), vec2f(barLeftOffset, 0.0f), vec2f(1.0f, 1.0f), vec2f(-barRightOffset, 0.0)) );
 
-	barInsideDrawable->addChildDrawable("barrr", barDrawable, cLayout::both());
+	uiProgressBar::Drawable* barDrw = barBasicDrw->addChildDrawable("bar", NULL, cLayout::both() );
+
+	float hs = barTex.getSize().y*0.5f;
+	barDrw->addChildDrawable("bar", barDrawable, cLayout( vec2f(0.0f, 0.5f), vec2f(-barLeftOffset, -hs),
+		                                                  vec2f(1.0f, 0.5f), vec2f(barRightOffset, hs) ) );
+
+	progressbar->setBarDrawable(barDrw);
+
 
 	mSkinManager->setProgressbarSample(progressbar);
 }
@@ -282,16 +288,9 @@ void uiStdSkinInitializer::initHorScrollBar()
 
 	const float barLeftOffset = 6, barRightOffset = 8;
 	const float barLeftBorder = 11, barRightBorder = 12;
-	cStretchRect* barDrawable = 
-		mnew cStretchRect(barTex, (int)(barLeftBorder - barLeftOffset), 0, (int)(barRightBorder - barRightOffset), 0,  
-		                  fRect(barLeftOffset, 0.0f, barTex.getSize().x - barRightOffset, barTex.getSize().y));
-
-	cStretchRect* barHoverDrawable = 
-		mnew cStretchRect(barHoverTex, (int)(barLeftBorder - barLeftOffset), 0, (int)(barRightBorder - barRightOffset), 0,  
-		                  fRect(barLeftOffset, 0.0f, barTex.getSize().x - barRightOffset, barTex.getSize().y));
-	cStretchRect* barPresedDrawable = 
-		mnew cStretchRect(barPressedTex, (int)(barLeftBorder - barLeftOffset), 0, (int)(barRightBorder - barRightOffset), 0,  
-		                  fRect(barLeftOffset, 0.0f, barTex.getSize().x - barRightOffset, barTex.getSize().y));
+	cStretchRect* barDrawable = mnew cStretchRect(barTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
+	cStretchRect* barHoverDrawable = mnew cStretchRect(barHoverTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
+	cStretchRect* barPresedDrawable = mnew cStretchRect(barPressedTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
 
 	grSprite* barIconDrawable = new grSprite(grTexture::createFromFile(barIconTexName));
 
@@ -301,20 +300,20 @@ void uiStdSkinInitializer::initHorScrollBar()
 	// adding drawables
 	cLayout backgroundLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -backgroundTex.getSize().y*0.5f), 
 		                     vec2f(1.0f, 0.5f), vec2f(0.0f, backgroundTex.getSize().y*0.5f));
-	scrollbar->getBackgroundDrawable()->addChildDrawable("bg", backgroundDrawable, backgroundLayout);
+	scrollbar->addDrawable(backgroundDrawable, "background", backgroundLayout);
 
-	cLayout insideBarLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barTex.getSize().y*0.5f), 
-		                    vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barTex.getSize().y*0.5f));
-	uiScrollBar::Drawable* barInsideDrawable = 
-		scrollbar->getBarDrawable()->addChildDrawable("barInside",NULL, insideBarLayout);
-
-	barInsideDrawable->addChildDrawable("barrr", barDrawable, cLayout::both());
-	barInsideDrawable->addChildDrawable("hover", barHoverDrawable, cLayout::both());
-	barInsideDrawable->addChildDrawable("Pressed", barPresedDrawable, cLayout::both());
+	uiScrollBar::Drawable* barDrw = scrollbar->addDrawable(NULL, "bar");
+	scrollbar->setBarDrawable(barDrw);
+	
+	float hs = barTex.getSize().y*0.5f;
+	cLayout barLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -hs), vec2f(1.0f, 0.5f), vec2f(0.0f, hs));
+	barDrw->addChildDrawable("bar", barDrawable, barLayout);
+	barDrw->addChildDrawable("hover", barHoverDrawable, barLayout);
+	barDrw->addChildDrawable("Pressed", barPresedDrawable, barLayout);
 
 	vec2f icnSize = barIconDrawable->getSize();
-	vec2f icnOffs(0, 1.0f);
-	barInsideDrawable->addChildDrawable("icon", barIconDrawable, 
+	vec2f icnOffs(0, 0.0f);
+	barDrw->addChildDrawable("icon", barIconDrawable, 
 		cLayout(vec2f(0.5f, 0.5f), icnSize*(-0.5f) + icnOffs, vec2f(0.5f, 0.5f), icnSize*0.5f + icnOffs));
 
 	//states
