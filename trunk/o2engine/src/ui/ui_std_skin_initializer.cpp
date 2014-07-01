@@ -86,7 +86,7 @@ void uiStdSkinInitializer::initButton()
 	button->addDrawable(regDrawable, "regular", drawablesLayout);
 	button->addDrawable(hoverDrawable, "hover", drawablesLayout);
 	button->addDrawable(pressedDrawable, "presed", drawablesLayout);
-	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -5, -12)));
+	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -9, -14)));
 
 	//hover state
 	uiTransitionState* hoverState = mnew uiTransitionState("hover");
