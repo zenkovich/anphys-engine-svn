@@ -30,9 +30,9 @@ cUITest::cUITest()
 	uiHost()->addWidget( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 420))) );
 	
 	uiHost()->addWidget( uiSkin()->checkBox("Check test", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 200))) );
-	uiHost()->addWidget( uiSkin()->checkBox("Check test2", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 230))) );
-	uiHost()->addWidget( uiSkin()->checkBox("Check test3", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 260))) );
-	uiHost()->addWidget( uiSkin()->checkBox("Check test4", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 290))) );
+	uiHost()->addWidget( uiSkin()->checkBox("Check test2", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 220))) );
+	uiHost()->addWidget( uiSkin()->checkBox("Check test3", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 240))) );
+	uiHost()->addWidget( uiSkin()->checkBox("Check test4", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 260))) );
 
 	mTestBar = uiSkin()->progressBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 100)));
 	mTestScrollBar = uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 140)));
