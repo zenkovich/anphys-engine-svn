@@ -280,6 +280,7 @@ void uiStdSkinInitializer::initHorScrollBar()
 	const float hoverDelayOff = 0.3f;
 	const float pressingDelayOn = 0.01f;
 	const float pressingDelayOff= 0.1f;
+	const float barHeight = 13.0f;
 
 	//drawables
 	const float backgroundLeftBorder = 11;
@@ -330,6 +331,13 @@ void uiStdSkinInitializer::initHorScrollBar()
 
 	scrollbar->addState(hoverState);
 	scrollbar->addState(pressedState);
+
+	//geometry
+	scrollbar->setBackgroundGeometryLayout(
+		cLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barHeight*0.5f), vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barHeight*0.5f)));
+
+	scrollbar->setBarGeometryLayout(
+		cLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barHeight*0.5f), vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barHeight*0.5f)));
 
 	mSkinManager->setHorScrollbarSample(scrollbar);
 }

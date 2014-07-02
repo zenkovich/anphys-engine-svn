@@ -4,7 +4,8 @@ OPEN_O2_NAMESPACE
 
 uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/, 
                           uiWidget* parent /*= NULL*/ ):
-	uiDrawablesListWidget(layout, id, parent), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL)
+	uiDrawablesListWidget(layout, id, parent), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL),
+	mBarGeometry(cLayout::both()), mBackgrGeometry(cLayout::both())
 {
 	mMinValue = 0;
 	mMaxValue = 1;
@@ -29,6 +30,8 @@ uiScrollBar::uiScrollBar( const uiScrollBar& scrollbar ):
 	mMinValue = scrollbar.mMinValue;
 	mMaxValue = scrollbar.mMaxValue;
 	mBarSize = scrollbar.mBarSize;
+	mBarGeometry = scrollbar.mBarGeometry;
+	mBackgrGeometry = scrollbar.mBackgrGeometry;
 	setValue(scrollbar.mValue);
 
 	initializeProperties();
@@ -110,18 +113,28 @@ float uiScrollBar::getBarSize() const
 	return mBarSize;
 }
 
+void uiScrollBar::setBarGeometryLayout( const cLayout& layout )
+{
+	mBarGeometry = layout;
+}
+
+void uiScrollBar::setBackgroundGeometryLayout( const cLayout& layout )
+{
+	mBackgrGeometry = layout;
+}
+
 void uiScrollBar::localUpdate( float dt )
 {
 	if (mBarHoverState)
-		mBarHoverState->setState(mCursorInside);
-
+		mBarHoverState->setState(mHover && mCursorInside);
 }
 
 bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 {
 	bool res = false;
-	fRect barRect = mBar->getLayout().getRect();
+	fRect barRect = mBarGeometry.getRect();
 	vec2f cursorPos = msg.getCursorPos();
+	mHover = barRect.isInside(msg.getCursorPos());
 
 	if (msg.isCursorPressed())
 	{
@@ -145,9 +158,12 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 				setValue(clamp(mValue + mBarSize, mMinValue, mMaxValue));
 		}
 		
-		makeFocused();
+		if (mCursorInside)
+			makeFocused();
+		else
+			releaseFocus();
 
-		res = true;
+		res = mCursorInside;
 	}
 	else if (msg.isCursorDown()) 
 	{
@@ -186,9 +202,14 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 	return res;
 }
 
+bool uiScrollBar::isLocalInside( const vec2f& point ) const
+{
+	return mBackgrGeometry.getRect().isInside(point);
+}
+
 void uiScrollBar::updateBarLayout()
 {
-	hlog("value = %.3f", mValue);
+	onValueChangedEvent.call();
 
 	if (!mBar)
 		return;
@@ -205,6 +226,8 @@ void uiScrollBar::updateBarLayout()
 		mBar->setLayout( cLayout(vec2f(0.0f, topCoef), vec2f(), vec2f(1.0f, bottomCoef)) );
 
 	mBar->updateLayoutManual(mGlobalPosition, mSize);
+	mBarGeometry.update(mBar->getLayout().mPosition, mBar->getLayout().mSize);
+	mBackgrGeometry.update(mGlobalPosition, mSize);
 }
 
 void uiScrollBar::initializeProperties()

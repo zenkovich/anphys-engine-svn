@@ -11,24 +11,29 @@ public:
 	enum Type { TP_HORISONTAL = 0, TP_VERTICAL };
 
 protected:
-	float     mMinValue;   /** Min value. */
-	float     mMaxValue;   /** Max value. */
-	float     mValue;      /** Current value. */
-	float     mBarSize;    /** Current bar size. */
-	Type      mType;       /** Scrolling type. */
+	float     mMinValue;        /** Min value. */
+	float     mMaxValue;        /** Max value. */
+	float     mValue;           /** Current value. */
+	float     mBarSize;         /** Current bar size. */
+	Type      mType;            /** Scrolling type. */
 
-	uiState*  mBarHoverState;
-	uiState*  mBarPressedState;
+	uiState*  mBarHoverState;   /** Bar hover state. */
+	uiState*  mBarPressedState; /** Bar pressed state. */
 
-	Drawable* mBar;        /** Bar drawable. */
-
-	bool      mPressed;
+	Drawable* mBar;             /** Bar drawable. */
+	cLayout   mBarGeometry;     /** bar clicking geometry. */
+	cLayout   mBackgrGeometry;  /** Background geometry. */
+	 
+	bool      mPressed;         /** True, when bar pressed. */
+	bool      mHover;           /** True, when cursor hover bar. */
 
 public:
 	PROPERTY(uiScrollBar, float) minValue; /** Min value property. Uses set/getMinValue. */
 	PROPERTY(uiScrollBar, float) maxValue; /** Max value property. Uses set/getMaxValue. */
 	PROPERTY(uiScrollBar, float) value;    /** Current value. Uses set/getValue. */
 	PROPERTY(uiScrollBar, float) barSize;  /** Current bar size. */
+
+	cCallbackChain onValueChangedEvent; /** On changed value event. */
 
 	/** ctor. */
 	uiScrollBar(const cLayout& layout, const string& id = "", Type type = TP_HORISONTAL, uiWidget* parent = NULL);
@@ -75,12 +80,21 @@ public:
 	/** Returns bar size. */
 	float getBarSize() const;
 
+	/** Sets bar geomatry layout. */
+	void setBarGeometryLayout(const cLayout& layout);
+
+	/** Sets background geometry layout. */
+	void setBackgroundGeometryLayout(const cLayout& layout);
+
 protected:
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
 
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg);
+
+	/** Returns true, if point inside current widget. */
+	virtual bool isLocalInside(const vec2f& point) const;
 
 	/** Updates bar drawable layout. */
 	void updateBarLayout();
