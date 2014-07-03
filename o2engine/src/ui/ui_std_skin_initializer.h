@@ -24,6 +24,7 @@ protected:
 	static void initProgressBar();
 	static void initCheckBox();
 	static void initHorScrollBar();
+	static void initEditBox();
 };
 
 CLOSE_O2_NAMESPACE

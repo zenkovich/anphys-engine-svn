@@ -1,13 +1,14 @@
 #include "ui_std_skin_initializer.h"
 
 #include "render_system/render_system.h"
-#include "render_system/text.h"
 #include "render_system/sprite.h"
+#include "render_system/text.h"
 #include "ui_button.h"
 #include "ui_checkbox.h"
+#include "ui_editbox.h"
 #include "ui_progressbar.h"
-#include "ui_scroll_bar.h"
 #include "ui_rect.h"
+#include "ui_scroll_bar.h"
 #include "ui_transition_state.h"
 #include "util/geometry/geometry.h"
 #include "util/string.h"
@@ -31,6 +32,7 @@ void uiStdSkinInitializer::initialize()
 	initProgressBar();
 	initCheckBox();
 	initHorScrollBar();
+	initEditBox();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -340,6 +342,59 @@ void uiStdSkinInitializer::initHorScrollBar()
 		cLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barHeight*0.5f), vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barHeight*0.5f)));
 
 	mSkinManager->setHorScrollbarSample(scrollbar);
+}
+
+void uiStdSkinInitializer::initEditBox()
+{
+	const string bgTexName = "ui_skin/editbox_bk";
+	const string hoverTexName = "ui_skin/editbox_hover";
+	const string glowTexName = "ui_skin/editbox_glow";
+
+	const float hoverDelayOn = 0.1f;
+	const float hoverDelayOff = 0.3f;
+	const float focusingDelayOn = 0.1f;
+	const float focusingDelayOff= 0.6f;
+
+	grTexture bgTex = grTexture::createFromFile(bgTexName);
+	grTexture glowTex = grTexture::createFromFile(glowTexName);
+	grTexture hoverTex = grTexture::createFromFile(hoverTexName);
+
+	//drawables
+	fRect borders(6, 6, 8, 7);
+	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, borders.left, borders.top, borders.right, borders.down);
+	cStretchRect* hoverDrawable = mnew cStretchRect(hoverTex, borders.left, borders.top, borders.right, borders.down);
+	cStretchRect* glowDrawable = mnew cStretchRect(glowTex, borders.left, borders.top, borders.right, borders.down);
+
+	//editbox
+	uiEditBox* editbox = mnew uiEditBox(mStdFont, cLayout::both());
+
+	//adding drawables
+	cLayout drawablesLayout = cLayout::both(fRect(-5, -5, -5, -5));
+	editbox->addDrawable(glowDrawable, "glow", drawablesLayout);
+	editbox->addDrawable(bgDrawable, "background", drawablesLayout);
+	editbox->addDrawable(hoverDrawable, "hover", drawablesLayout);
+
+	editbox->mClippingLayout = cLayout::both(fRect(3, 3, 3, 3));
+	editbox->mTextLayout = cLayout::both(fRect(3, 3, 3, -3));
+
+	//states
+	// //hover state
+	uiTransitionState* hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(&hoverDrawable->transparency,
+		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
+
+	//focus state
+	uiTransitionState* focusState = mnew uiTransitionState("focus");
+	focusState->addProperty(&glowDrawable->transparency, 
+		cAnimFrame<float>(0.0f, focusingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, focusingDelayOn, false, IT_LINEAR));
+	
+	//adding states
+	editbox->addState(hoverState);
+	editbox->addState(focusState);
+
+	mSkinManager->setEditBoxSample(editbox);
 }
 
 

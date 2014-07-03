@@ -2,9 +2,8 @@
 
 OPEN_O2_NAMESPACE
 
-uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/, 
-                          uiWidget* parent /*= NULL*/ ):
-	uiDrawablesListWidget(layout, id, parent), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL),
+uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/ ):
+	uiDrawablesListWidget(layout, id), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL),
 	mBarGeometry(cLayout::both()), mBackgrGeometry(cLayout::both())
 {
 	mMinValue = 0;

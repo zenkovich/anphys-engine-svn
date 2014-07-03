@@ -2,8 +2,8 @@
 
 OPEN_O2_NAMESPACE
 
-uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/ ):
-	uiDrawablesListWidget(layout, id, parent), mBar(NULL)
+uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/ ):
+	uiDrawablesListWidget(layout, id), mBar(NULL)
 {
 	mMinValue = 0;
 	mMaxValue = 1;

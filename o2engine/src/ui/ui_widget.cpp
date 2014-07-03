@@ -7,8 +7,8 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/, uiWidget* parent/* = NULL*/ ):
-	mId(id), mParent(parent), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f),
+uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
+	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f), mParent(NULL),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
 	mLayout = layout;

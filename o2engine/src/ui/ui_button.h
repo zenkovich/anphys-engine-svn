@@ -38,7 +38,7 @@ public:
 
 
 	/** ctor. */
-	uiButton(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiButton(const cLayout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiButton(const uiButton& button);

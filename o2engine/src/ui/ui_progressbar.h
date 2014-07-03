@@ -20,7 +20,7 @@ public:
 	PROPERTY(uiProgressBar, float) value;    /** Current value. Uses set/getValue. */
 
 	/** ctor. */
-	uiProgressBar(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiProgressBar(const cLayout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiProgressBar(const uiProgressBar& widget);
