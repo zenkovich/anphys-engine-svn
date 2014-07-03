@@ -7,6 +7,8 @@ OPEN_O2_NAMESPACE
 
 class uiScrollBar: public uiDrawablesListWidget
 {	
+	friend class uiStdSkinInitializer;
+
 public:
 	enum Type { TP_HORISONTAL = 0, TP_VERTICAL };
 
@@ -36,7 +38,7 @@ public:
 	cCallbackChain onValueChangedEvent; /** On changed value event. */
 
 	/** ctor. */
-	uiScrollBar(const cLayout& layout, const string& id = "", Type type = TP_HORISONTAL, uiWidget* parent = NULL);
+	uiScrollBar(const cLayout& layout, const string& id = "", Type type = TP_HORISONTAL);
 
 	/** copy-ctor. */
 	uiScrollBar(const uiScrollBar& scrollbar);
@@ -46,12 +48,6 @@ public:
 
 	/** Returns clone of widget. */
 	virtual uiWidget* clone() const;
-
-	/** Returns bar drawable. */
-	Drawable* getBarDrawable();
-
-	/** Sets bar drawable. */
-	void setBarDrawable(Drawable* drawable);
 
 	/** Sets value range. */
 	void setValueRange(float minValue, float maxValue);
@@ -87,6 +83,12 @@ public:
 	void setBackgroundGeometryLayout(const cLayout& layout);
 
 protected:
+	/** Returns bar drawable. */
+	Drawable* getBarDrawable();
+
+	/** Sets bar drawable. */
+	void setBarDrawable(Drawable* drawable);
+
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
 

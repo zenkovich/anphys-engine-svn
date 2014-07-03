@@ -2,9 +2,8 @@
 
 OPEN_O2_NAMESPACE
 
-uiDrawablesListWidget::uiDrawablesListWidget(const cLayout& layout, const string& id /*= ""*/, 
-                                             uiWidget* parent /*= NULL*/):
-	uiWidget(layout, id, parent), mBasicDrawable("basic", NULL, cLayout::both())
+uiDrawablesListWidget::uiDrawablesListWidget(const cLayout& layout, const string& id /*= ""*/):
+	uiWidget(layout, id), mBasicDrawable("basic", NULL, cLayout::both())
 {
 	addChildPropertyList(dynamic_cast<cPropertyList*>(&mBasicDrawable));
 }

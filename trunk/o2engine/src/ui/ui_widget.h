@@ -75,7 +75,7 @@ public:
 
 
 	/** ctor. */
-	uiWidget(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiWidget(const cLayout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiWidget(const uiWidget& widget);

@@ -100,7 +100,7 @@ protected:
 
 public:
 	/** ctor. */
-	uiDrawablesListWidget(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiDrawablesListWidget(const cLayout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiDrawablesListWidget(const uiDrawablesListWidget& widget);

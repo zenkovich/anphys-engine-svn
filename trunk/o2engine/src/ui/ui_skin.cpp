@@ -11,6 +11,7 @@
 #include "ui_progressbar.h"
 #include "ui_checkbox.h"
 #include "ui_scroll_bar.h"
+#include "ui_editbox.h"
 
 OPEN_O2_NAMESPACE
 
@@ -119,6 +120,21 @@ uiScrollBar* uiSkinManager::horScrollBar( const cLayout& layout /*= cLayout::bot
 void uiSkinManager::setHorScrollbarSample( uiScrollBar* scrollbar )
 {
 	mHorScrollbarSample = scrollbar;
+}
+
+uiEditBox* uiSkinManager::editbox( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+	                               const string& text /*= ""*/ )
+{
+	uiEditBox* res = static_cast<uiEditBox*>(mEditBoxSample->clone());
+	res->setLayout(layout);
+	res->setId(id);
+	res->setCText(text);
+	return res;
+}
+
+void uiSkinManager::setEditBoxSample( uiEditBox* editboxSampl )
+{
+	mEditBoxSample = editboxSampl;
 }
 
 CLOSE_O2_NAMESPACE

@@ -146,6 +146,8 @@
     <ClInclude Include="..\src\ui\ui_checkbox.h" />
     <ClInclude Include="..\src\ui\ui_controller.h" />
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
+    <ClInclude Include="..\src\ui\ui_editbox.h" />
+    <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_progressbar.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
     <ClInclude Include="..\src\ui\ui_scroll_bar.h" />
@@ -277,6 +279,7 @@
     <ClCompile Include="..\src\ui\ui_checkbox.cpp" />
     <ClCompile Include="..\src\ui\ui_controller.cpp" />
     <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp" />
+    <ClCompile Include="..\src\ui\ui_editbox.cpp" />
     <ClCompile Include="..\src\ui\ui_progressbar.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
     <ClCompile Include="..\src\ui\ui_scroll_bar.cpp" />

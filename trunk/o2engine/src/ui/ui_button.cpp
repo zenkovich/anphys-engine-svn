@@ -10,8 +10,8 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiButton);
 
-uiButton::uiButton(const cLayout& layout, const string& id /*= ""*/, uiWidget* parent /*= NULL*/):
-	uiDrawablesListWidget(layout, id, parent), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
+uiButton::uiButton(const cLayout& layout, const string& id /*= ""*/):
+	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
 	mPressedByButton(false), mHover(false)
 {
 	initializeProperties();

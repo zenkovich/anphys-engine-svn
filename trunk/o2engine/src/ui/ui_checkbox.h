@@ -25,7 +25,7 @@ public:
 
 
 	/** ctor. */
-	uiCheckBox(const cLayout& layout, const string& id = "", uiWidget* parent = NULL);
+	uiCheckBox(const cLayout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiCheckBox(const uiCheckBox& checkbox);
