@@ -165,4 +165,9 @@ float grFont::getLineHeight() const
 	return mLineHeight;
 }
 
+float grFont::getBase() const
+{
+	return mBase;
+}
+
 CLOSE_O2_NAMESPACE

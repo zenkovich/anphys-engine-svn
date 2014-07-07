@@ -18,10 +18,6 @@ cTextTest::cTextTest():
 	mText->ctext = "Prived, i'm super\nmany strings\ntext!!\nWith digits 1234567890\nAnd Looooooooooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiineeeeeeeeeeeeeeeesssssssssssssss";
 	//mText->ctext = "qwertyuioplkjhgfdsazxcvbnm1234567890";
 	mText->rect = fRect(100, 100, 300, 300);
-	mText->gradientColorBottom = color4::red();
-	mText->gradientColorTop = color4::green();
-	mText->shadowColor = color4::black();
-	mText->borderColor = color4::black();
 }
 
 void cTextTest::update( float dt )
@@ -81,23 +77,7 @@ void cTextTest::update( float dt )
 		mTouchCorner = -1;
 
 	if (appInput()->isKeyPressed('Q'))
-		mText->wordWrap = !mText->wordWrap;
-
-	if (appInput()->isKeyPressed('W'))
-		mText->cursive = !mText->cursive;
-
-	if (appInput()->isKeyPressed('E'))
-		mText->bold = !mText->bold;
-
-	if (appInput()->isKeyPressed('R'))
-		mText->shadow = !mText->shadow;
-
-	if (appInput()->isKeyPressed('T'))
-		mText->border = !mText->border;
-
-	if (appInput()->isKeyPressed('Y'))
-		mText->gradient = !mText->gradient;
-	
+		mText->wordWrap = !mText->wordWrap;	
 
 	if (appInput()->isKeyPressed('O'))
 		mText->charactersDistCoef -= 0.1f;
@@ -125,20 +105,6 @@ void cTextTest::update( float dt )
 		mText->scale += vec2f(0, 0.1f);
 
 	
-	
-	if (appInput()->isKeyPressed(VK_LEFT))
-		mText->effectOffset += vec2f(-1, 0);
-	
-	if (appInput()->isKeyPressed(VK_RIGHT))
-		mText->effectOffset += vec2f(1, 0);
-	
-	if (appInput()->isKeyPressed(VK_UP))
-		mText->effectOffset += vec2f(0, -1);
-	
-	if (appInput()->isKeyPressed(VK_DOWN))
-		mText->effectOffset += vec2f(0, 1);
-
-
 	if (appInput()->isKeyPressed('A'))
 		mText->horAlign = grText::HA_LEFT;
 

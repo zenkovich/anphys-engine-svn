@@ -17,17 +17,10 @@ class grRenderSystem;
 class grText: public IRectDrawable
 {
 public: 
-	enum TextStyle { TS_NORMAL   = 1 << 0,
-	                 TS_BOLD     = 1 << 1,
-					 TS_CURSIVE  = 1 << 2,
-					 TS_BORDER   = 1 << 3,
-					 TS_SHADOW   = 1 << 4,
-					 TS_GRADIENT = 1 << 5  };
-
 	enum VerAlign { VA_TOP, VA_CENTER, VA_BOTTOM, VA_BOTH };
 	enum HorAlign { HA_LEFT, HA_CENTER, HA_RIGHT, HA_BOTH };
 
-	enum { nMeshMaxPolyCount = 2048 };
+	enum { nMeshMaxPolyCount = 4096 };
 
 protected:
 	typedef vector< grMesh* > MeshVec;
@@ -38,15 +31,9 @@ protected:
 	basisDef   mTransformDef;        /** Transform definition. */
 	float      mCharactersDistCoef;  /** Characters distance coef, 1 is standard. */
 	float      mLinesDistCoef;       /** Lines distance coef, 1 is standard. */
-	TextStyle  mStyle;               /** Style bit mask. */
 	VerAlign   mVerAlign;            /** Vertical align. */
 	HorAlign   mHorAlign;            /** Horizontal align. */
 	bool       mWordWrap;            /** True, when words wrapping. */
-	color4     mGradientTopColor;    /** Gradient effect top color. */
-	color4     mGradientBottomColor; /** Gradient effect bottom color. */
-	color4     mBorderColor;         /** Border effect color. */
-	color4     mShadowColor;         /** Shadow effect color. */
-	vec2f      mEffectOffset;        /** Effects offset. */
 			   
 	MeshVec    mMeshes;              /** Meshes vector. */
 	basis      mLastTransform;       /** Last mesh update transformation. */
@@ -58,20 +45,9 @@ public:
 	PROPERTY(grText, grFont*)   font;                /** Font pointer property. Uses set/getFont. */
 	PROPERTY(grText, wstring)   text;                /** Text property, wstring. Uses set/getText. */
 	PROPERTY(grText, string)    ctext;               /** Text property, string. Uses set/getCText. */
-	PROPERTY(grText, TextStyle) style;               /** Style bit mask property. Uses set/gettextStyle. */
 	PROPERTY(grText, VerAlign)  verAlign;            /** vertical align property. Uses set/getVerAlign. */
 	PROPERTY(grText, HorAlign)  horAlign;            /** Horizontal align property. Uses set/getHorAlign. */
 	PROPERTY(grText, bool)      wordWrap;            /** Words wrapping flag property. Uses set/getWordWrap. */
-	PROPERTY(grText, bool)      cursive;             /** Cursive flag property. Uses set/isCursive. */
-	PROPERTY(grText, bool)      bold;                /** Bold flag property. Uses set/isBold. */
-	PROPERTY(grText, bool)      shadow;              /** Shadow flag property. Uses setShadow/isWithShadow. */
-	PROPERTY(grText, bool)      border;              /** Border flag property. Uses setBorder/isWithBorder. */
-	PROPERTY(grText, bool)      gradient;            /** Gradient flag property. Uses setGradient/isWithGradient. */
-	PROPERTY(grText, vec2f)     effectOffset;        /** Effects offset property. Uses set/getEffectsOffset. */
-	PROPERTY(grText, color4)    borderColor;         /** Border color property. Uses set/getBorderColor. */
-	PROPERTY(grText, color4)    shadowColor;         /** Shadow color property. Uses set/getShadowColor. */
-	PROPERTY(grText, color4)    gradientColorTop;    /** Gradient top color property. Uses set/getGradientBottomColor. */
-	PROPERTY(grText, color4)    gradientColorBottom; /** Gradient bottom color property. Uses set/getGradientBottomColor. */
 	PROPERTY(grText, float)     angle;               /** Angle of rotation property. Uses set/getAngle. */
 	PROPERTY(grText, vec2f)     scale;               /** Scale property. Uses set/getScale. */
 	PROPERTY(grText, float)     charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
@@ -112,78 +88,6 @@ public:
 
 	/** Returns text as string. */
 	string getCText() const;
-
-	/** Sets text style bit mask. */
-	void setTextStyle(const TextStyle& style);
-
-	/** Returns text style bit mask. */
-	TextStyle getTextStyle() const;
-
-	/** Sets text cursive effect. */
-	void setCursive(const bool& flag);
-
-	/** Returns true when cursive enabled. */
-	bool isCursive() const;
-
-	/** Sets text bold effect. */
-	void setBold(const bool& flag);
-
-	/** Returns true when bold enabled. */
-	bool isBold() const;
-
-	/** Sets border. */
-	void setBorder(const bool& border);
-
-	/** Returns true when border enabled. */
-	bool isWithBorder() const;
-
-	/** Sets gradient. */
-	void setShadow(const bool& shadow);
-
-	/** Returns true when shadow enabled. */
-	bool isWithShadow() const;
-
-	/** Sets gradient effect. */
-	void setGradient(const bool& gradient);
-
-	/** Returns true when gradient enabled. */
-	bool isWithGradient() const;
-
-	/** Sets effects offset. */
-	void setEffectOffset(const vec2f& offset);
-
-	/** Returns effects offset. */
-	vec2f getEffectOffset() const;
-
-	/** Sets gradient colors. */
-	void setGradientColors(const color4& topColor, const color4& bottomColor);
-
-	/** Sets gradient top color. */
-	void setGradientTopColor(const color4& color);
-
-	/** Sets gradient bottom color. */
-	void setGradientBottomColor(const color4& color);
-
-	/** Returns gradient top color. */
-	color4 getGradientTopColor() const;
-
-	/** Returns gradient bottom color. */
-	color4 getGradientBottomColor() const;
-
-	/** Sets shadow color. */
-	void setShadowColor(const color4& color);
-
-	/** Returns shadow color. */
-	color4 getShadowColor() const;
-
-	/** Sets border color. */
-	void setBorderColor(const color4& color);
-
-	/** Returns border color. */
-	color4 getBorderColor() const;
-
-	/** Returns position. */
-	vec2f getPosition() const;
 
 	/** Sets rotation angle. */
 	void setAngle(const float& angle);
@@ -273,13 +177,13 @@ protected:
 	/** Simple symbol definition structure. */
 	struct symbolDef
 	{
-		fRect  mPosition; /** Rect positioning. */
-		fRect  mTexSrc;   /** Texture src rect. */
-		uint16 mCharId;   /** Character id. */
+		fRect  mFrame;  /** Frame of symbol layout. */
+		fRect  mTexSrc; /** Texture src rect. */
+		uint16 mCharId; /** Character id. */
 
 		symbolDef() {}
 		symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId):
-			mPosition(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
+			mFrame(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
 	};
 	typedef vector<symbolDef> SymbolDefVec;
 
@@ -295,14 +199,14 @@ protected:
 		lineDef():mSize(0), mLineBegSymbol(0), mSpacesCount(0) {}
 	};
 	typedef vector<lineDef> LineDefVec;
+
+	LineDefVec mLineDefs; /** Lines definitions. */
 	
 	/** Push symbol to meshes. */
 	void pushSymbol(grMesh*& mesh, int& meshIdx, const symbolDef& symb, const vec2f& locOrigin);
 
 	/** Check mesh endless. If at end, take new mesh. */
 	void checkMeshEndless(grMesh*& mesh, int& meshIdx, int size = 2);
-
-	LineDefVec mLineDefs; /** Lines definitions. */
 };
 
 CLOSE_O2_NAMESPACE
