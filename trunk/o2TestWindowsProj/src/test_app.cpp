@@ -28,8 +28,8 @@ TestApp::TestApp():
 	getFileSystem().setResourcePath("../data/");
 
 	//mTest = mnew InputMsgTest();
-	//mTest = mnew cTextTest();
-	mTest = mnew cUITest();
+	mTest = mnew cTextTest();
+	//mTest = mnew cUITest();
 }
 
 TestApp::~TestApp()

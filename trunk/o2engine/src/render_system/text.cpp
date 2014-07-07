@@ -7,9 +7,8 @@
 OPEN_O2_NAMESPACE
 
 grText::grText( grFont* font ):
-	mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mStyle(TS_NORMAL), 
-	mVerAlign(VA_TOP), mHorAlign(HA_LEFT), mNeedUpdateMesh(true), mWordWrap(false),
-	IRectDrawable()
+	mFont(font), mCharactersDistCoef(1), mLinesDistCoef(1.5f), mVerAlign(VA_TOP), mHorAlign(HA_LEFT), 
+	mNeedUpdateMesh(true), mWordWrap(false), IRectDrawable()
 {
 	initializeProperties();
 }
@@ -22,19 +21,15 @@ grText::grText( const grText& text ):
 	mTransform = text.mTransform;          
 	mTransformDef = text.mTransformDef;       
 	mCharactersDistCoef = text.mCharactersDistCoef; 
-	mLinesDistCoef = text.mLinesDistCoef;      
-	mStyle = text.mStyle;              
+	mLinesDistCoef = text.mLinesDistCoef;  
 	mVerAlign = text.mVerAlign;           
 	mHorAlign = text.mHorAlign;           
-	mWordWrap = text.mWordWrap;           
-	mGradientTopColor = text.mGradientTopColor;   
-	mGradientBottomColor = text.mGradientBottomColor;
-	mBorderColor = text.mBorderColor;        
-	mShadowColor = text.mShadowColor;        
-	mEffectOffset = text.mEffectOffset;       
+	mWordWrap = text.mWordWrap;        
 	
 	mNeedUpdateMesh = true;     
 	mNeedTransformMesh = false;  
+
+	initializeProperties();
 }
 
 grText::~grText()
@@ -100,201 +95,6 @@ string grText::getCText() const
 	return convWide2String(mText);
 }
 
-void grText::setTextStyle( const TextStyle& style )
-{
-	if (mStyle == style)
-		return;
-
-	mStyle = style;
-	mNeedUpdateMesh = true;
-}
-
-grText::TextStyle grText::getTextStyle() const
-{
-	return mStyle;
-}
-
-void grText::setCursive( const bool& flag )
-{
-	if (flag == isCursive())
-		return;
-
-	if (flag)
-		mStyle = (TextStyle)(mStyle | TS_CURSIVE);
-	else
-		mStyle = (TextStyle)(mStyle & ~TS_CURSIVE);
-
-	mNeedUpdateMesh = true;
-}
-
-bool grText::isCursive() const
-{
-	return (TextStyle)(mStyle & TS_CURSIVE) == TS_CURSIVE;
-}
-
-void grText::setBold( const bool& flag )
-{
-	if (flag == isBold())
-		return;
-
-	if (flag)
-		mStyle = (TextStyle)(mStyle | TS_BOLD);
-	else
-		mStyle = (TextStyle)(mStyle & ~TS_BOLD);
-
-	mNeedUpdateMesh = true;
-}
-
-bool grText::isBold() const
-{
-	return (TextStyle)(mStyle & TS_BOLD) == TS_BOLD;
-}
-
-void grText::setBorder( const bool& border )
-{
-	if (border == isWithBorder())
-		return;
-
-	if (border)
-	{
-		mStyle = (TextStyle)(mStyle | TS_BORDER);
-		mStyle = (TextStyle)(mStyle & ~TS_SHADOW);
-	}
-	else
-		mStyle = (TextStyle)(mStyle & ~TS_BORDER);	
-
-	mNeedUpdateMesh = true;
-}
-
-bool grText::isWithBorder() const
-{
-	return (TextStyle)(mStyle & TS_BORDER) == TS_BORDER;
-}
-
-void grText::setShadow( const bool& shadow )
-{
-	if (shadow == isWithShadow())
-		return;
-
-	if (shadow)
-	{
-		mStyle = (TextStyle)(mStyle | TS_SHADOW);
-		mStyle = (TextStyle)(mStyle & ~TS_BORDER);	
-	}
-	else
-		mStyle = (TextStyle)(mStyle & ~TS_SHADOW);
-
-	mNeedUpdateMesh = true;
-}
-
-bool grText::isWithShadow() const
-{
-	return (TextStyle)(mStyle & TS_SHADOW) == TS_SHADOW;
-}
-
-void grText::setGradient( const bool& gradient )
-{
-	if (gradient == isWithGradient())
-		return;
-
-	if (gradient)
-		mStyle = (TextStyle)(mStyle | TS_GRADIENT);
-	else
-		mStyle = (TextStyle)(mStyle & ~TS_GRADIENT);
-
-	mNeedUpdateMesh = true;
-}
-
-bool grText::isWithGradient() const
-{
-	return (TextStyle)(mStyle & TS_GRADIENT) == TS_GRADIENT;
-}
-
-void grText::setEffectOffset( const vec2f& offset )
-{
-	if (offset == mEffectOffset)
-		return;
-
-	mEffectOffset = offset;
-	mNeedUpdateMesh = true;
-}
-
-vec2f grText::getEffectOffset() const
-{
-	return mEffectOffset;
-}
-
-void grText::setGradientColors( const color4& topColor, const color4& bottomColor )
-{
-	if (mGradientTopColor == topColor && mGradientBottomColor == bottomColor)
-		return;
-
-	mGradientTopColor = topColor;
-	mGradientBottomColor = bottomColor;
-	mNeedUpdateMesh = true;
-}
-
-void grText::setGradientTopColor( const color4& color )
-{
-	if (mGradientTopColor == color)
-		return;
-
-	mGradientTopColor = color;
-	mNeedUpdateMesh = true;
-}
-
-void grText::setGradientBottomColor( const color4& color )
-{
-	if (mGradientBottomColor == color)
-		return;
-
-	mGradientBottomColor = color;
-	mNeedUpdateMesh = true;
-}
-
-color4 grText::getGradientTopColor() const
-{
-	return mGradientTopColor;
-}
-
-color4 grText::getGradientBottomColor() const
-{
-	return mGradientBottomColor;
-}
-
-void grText::setShadowColor( const color4& color )
-{
-	if (mShadowColor == color)
-		return;
-
-	mShadowColor = color;
-	mNeedUpdateMesh = true;
-}
-
-color4 grText::getShadowColor() const
-{
-	return mShadowColor;
-}
-
-void grText::setBorderColor( const color4& color )
-{
-	if (mBorderColor == color)
-		return;
-
-	mBorderColor = color;
-	mNeedUpdateMesh = true;
-}
-
-color4 grText::getBorderColor() const
-{
-	return mBorderColor;
-}
-
-vec2f grText::getPosition() const
-{
-	return mTransformDef.mPosition + mPivot;
-}
-
 void grText::setAngle( const float& angle )
 {
 	if (equals(angle, mTransformDef.mAngle))
@@ -325,12 +125,12 @@ vec2f grText::getScale() const
 
 void grText::setCharactersHeight( const float& height )
 {
-	setScale(vec2f(mTransformDef.mScale.x, height/mFont->getLineHeight()));
+	setScale(vec2f(mTransformDef.mScale.x, height/mFont->getBase()));
 }
 
 float grText::getCharactersHeight() const
 {
-	return mTransformDef.mScale.y*mFont->getLineHeight();
+	return mTransformDef.mScale.y*mFont->getBase();
 }
 
 void grText::setTransform( const basis& bas )
@@ -431,20 +231,9 @@ void grText::initializeProperties()
 	REG_PROPERTY_SETTER_NONCONST(grText, font, setFont, getFont);
 	REG_PROPERTY(grText, text, setText, getText);
 	REG_PROPERTY(grText, ctext, setCText, getCText);
-	REG_PROPERTY(grText, style, setTextStyle, getTextStyle);
 	REG_PROPERTY(grText, verAlign, setVerAlign, getVerAlign);
 	REG_PROPERTY(grText, horAlign, setHorAlign, getHorAlign);
 	REG_PROPERTY(grText, wordWrap, setWordWrap, getWordWrap);
-	REG_PROPERTY(grText, cursive, setCursive, isCursive);
-	REG_PROPERTY(grText, bold, setBold, isBold);
-	REG_PROPERTY(grText, shadow, setShadow, isWithShadow);
-	REG_PROPERTY(grText, border, setBorder, isWithBorder);
-	REG_PROPERTY(grText, gradient, setGradient, isWithGradient);
-	REG_PROPERTY(grText, effectOffset, setEffectOffset, getEffectOffset);
-	REG_PROPERTY(grText, borderColor, setBorderColor, getBorderColor);
-	REG_PROPERTY(grText, shadowColor, setShadowColor, getShadowColor);
-	REG_PROPERTY(grText, gradientColorTop, setGradientTopColor, getGradientTopColor);
-	REG_PROPERTY(grText, gradientColorBottom, setGradientBottomColor, getGradientBottomColor);
 	REG_PROPERTY(grText, angle, setAngle, getAngle);
 	REG_PROPERTY(grText, scale, setScale, getScale);
 	REG_PROPERTY(grText, charactersHeight, setCharactersHeight, getCharactersHeight);
@@ -461,21 +250,17 @@ void grText::updateMesh()
 	mTransform = mTransformDef.build();
 
 	mLineDefs.clear();
-
-	mLineDefs.push_back(lineDef());
-	lineDef* curLine = &mLineDefs.back();
-	curLine->mLineBegSymbol = 0;
-
 	int textLen = mText.length();
 
 	if (mMeshes.size() == 0 && textLen == 0)
-	{
 		return;
-	}
+
+	mLineDefs.push_back(lineDef());
+	lineDef* curLine = &mLineDefs.back();
 
 	prepareMesh(textLen);
 
-	vec2f fullSize;
+	vec2f fullSize(0, mFont->getBase());
 	bool checkAreaBounds = mWordWrap && mSize.x > FLT_EPSILON;
 	int wrapCharIdx = -1;
 	for (int i = 0; i < textLen; i++)
@@ -505,7 +290,7 @@ void grText::updateMesh()
 
 
 				if (curLine->mSymbols.size() > 0) 
-					curLine->mSize = curLine->mSymbols.back().mPosition.right;
+					curLine->mSize = curLine->mSymbols.back().mFrame.right;
 				else
 					curLine->mSize = 0;
 
@@ -541,11 +326,11 @@ void grText::updateMesh()
 	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
 
 	if (mVerAlign == VA_CENTER)
-		yOffset = mSize.y*0.5f - (float)mLineDefs.size()*lineHeight*0.5f;
+		yOffset = mSize.y*0.5f - fullSize.y*0.5f + mFont->getBase() - mFont->getLineHeight();
 	else if (mVerAlign == VA_BOTH)
 		lineHeight = (mSize.y - lineHeight)/(float)(mLineDefs.size() - 1);
 	else if (mVerAlign == VA_BOTTOM)
-		yOffset = mSize.y - (float)mLineDefs.size()*lineHeight;
+		yOffset = mSize.y - fullSize.y;
 
 	for (LineDefVec::iterator it = mLineDefs.begin(); it != mLineDefs.end(); ++it)
 	{
@@ -575,99 +360,19 @@ void grText::updateMesh()
 void grText::pushSymbol( grMesh*& mesh, int& meshIdx, const symbolDef& symb, 
 	                     const vec2f& locOrigin )
 {	
-	vec2f points[4] = { mTransform.transform(locOrigin + symb.mPosition.getltCorner()),
-	                    mTransform.transform(locOrigin + symb.mPosition.getrtCorner()),
-	                    mTransform.transform(locOrigin + symb.mPosition.getrdCorner()),
-	                    mTransform.transform(locOrigin + symb.mPosition.getldCorner()) };
-
-	if (isBold())
-	{
-		float offs = symb.mPosition.getSize().x*0.2f;
-		points[0].x -= offs; points[3].x -= offs;
-		points[1].x += offs; points[2].x += offs;
-	}
-
-	if (isCursive())
-	{
-		float offs = symb.mPosition.getSize().x*0.2f;
-		points[0].x += offs; points[1].x += offs;
-	}
-
-	if (isWithShadow())
-	{
-		checkMeshEndless(mesh, meshIdx);
-
-		vec2f transfOffs = mTransform.transform(mEffectOffset) - mTransform.offs;
-		vec2f cpoints[4];
-		for (int i = 0; i < 4; i++)
-			cpoints[i] = points[i] + transfOffs;
-
-		unsigned long shadowColor = mShadowColor.dword();
-	
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[0], shadowColor, symb.mTexSrc.left, symb.mTexSrc.top);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[1], shadowColor, symb.mTexSrc.right, symb.mTexSrc.top);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[2], shadowColor, symb.mTexSrc.right, symb.mTexSrc.down);
-		mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[3], shadowColor, symb.mTexSrc.left, symb.mTexSrc.down);
-	
-		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
-		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
-		mesh->mPolyCount++;
-	
-		mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-		mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
-		mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
-		mesh->mPolyCount++;
-	}
-	else if (isWithBorder())
-	{
-		checkMeshEndless(mesh, meshIdx, 8);
-
-		vec2f offsets[4] = { vec2f(-mEffectOffset.x, -mEffectOffset.y), vec2f(mEffectOffset.x, -mEffectOffset.y),
-		                     vec2f(mEffectOffset.x, mEffectOffset.y), vec2f(-mEffectOffset.x, mEffectOffset.y) };
-
-		vec2f cpoints[4];
-
-		for (int i = 0; i < 4; i++)
-		{
-			vec2f transfOffs = mTransform.transform(offsets[i]) - mTransform.offs;
-			for (int j = 0; j < 4; j++)
-				cpoints[j] = points[j] + transfOffs;
-
-			unsigned long borderColor = mBorderColor.dword();
-	
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[0], borderColor, symb.mTexSrc.left, symb.mTexSrc.top);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[1], borderColor, symb.mTexSrc.right, symb.mTexSrc.top);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[2], borderColor, symb.mTexSrc.right, symb.mTexSrc.down);
-			mesh->mVerticies[mesh->mVertexCount++] = vertex2(cpoints[3], borderColor, symb.mTexSrc.left, symb.mTexSrc.down);
-	
-			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
-			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 2;
-			mesh->mPolyCount++;
-	
-			mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
-			mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 2;
-			mesh->mIndexes[mesh->mPolyCount*3 + 2] = mesh->mVertexCount - 1;
-			mesh->mPolyCount++;
-		}
-	}
-
 	checkMeshEndless(mesh, meshIdx);
 
-	unsigned long upColor, bottomColor;
-	if (isWithGradient())
-	{
-		upColor = mGradientTopColor.dword();
-		bottomColor = mGradientBottomColor.dword();
-	}
-	else
-		upColor = bottomColor = mColor.dword();
+	vec2f points[4] = { mTransform.transform(locOrigin + symb.mFrame.getltCorner()),
+	                    mTransform.transform(locOrigin + symb.mFrame.getrtCorner()),
+	                    mTransform.transform(locOrigin + symb.mFrame.getrdCorner()),
+	                    mTransform.transform(locOrigin + symb.mFrame.getldCorner()) };	
+
+	unsigned long color = mColor.dword();
 	
-	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[0], upColor,     symb.mTexSrc.left, symb.mTexSrc.top);
-	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[1], upColor,     symb.mTexSrc.right, symb.mTexSrc.top);
-	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[2], bottomColor, symb.mTexSrc.right, symb.mTexSrc.down);
-	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[3], bottomColor, symb.mTexSrc.left, symb.mTexSrc.down);
+	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[0], color, symb.mTexSrc.left,  symb.mTexSrc.top);
+	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[1], color, symb.mTexSrc.right, symb.mTexSrc.top);
+	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[2], color, symb.mTexSrc.right, symb.mTexSrc.down);
+	mesh->mVerticies[mesh->mVertexCount++] = vertex2(points[3], color, symb.mTexSrc.left,  symb.mTexSrc.down);
 	
 	mesh->mIndexes[mesh->mPolyCount*3    ] = mesh->mVertexCount - 4;
 	mesh->mIndexes[mesh->mPolyCount*3 + 1] = mesh->mVertexCount - 3;
@@ -688,13 +393,7 @@ void grText::checkMeshEndless( grMesh*& mesh, int& meshIdx, int size )
 
 void grText::prepareMesh( int charactersCount )
 {
-	int effectsCoef = 1;
-	if (isWithShadow())
-		effectsCoef += 1;
-	if (isWithBorder())
-		effectsCoef += 4;
-
-	int needPolygons = charactersCount*2*effectsCoef;
+	int needPolygons = charactersCount*2;
 	for (MeshVec::iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
 		needPolygons -= (*it)->maxPolyCount;
 

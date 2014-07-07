@@ -63,6 +63,9 @@ public:
 	/** Returns line height. */
 	float getLineHeight() const;
 
+	/** Returns base height. */
+	float getBase() const;
+
 	/** Serialize method. */
 	SERIALIZE_METHOD_DECL();
 };
