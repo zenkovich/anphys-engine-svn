@@ -791,5 +791,8 @@
     <ClCompile Include="..\src\ui\ui_editbox.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ui\ui_label.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

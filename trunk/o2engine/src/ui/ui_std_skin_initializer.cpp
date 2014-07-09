@@ -78,8 +78,8 @@ void uiStdSkinInitializer::initButton()
 		grTexture::createFromFile(pressedDrawableTexture), rectBorderLeft, rectBorderTop, rectBorderRight, rectBorderBottom);
 
 	grText* captionDrawable = mnew grText(mStdFont);
-	captionDrawable->horAlign = grText::HA_CENTER;
-	captionDrawable->verAlign = grText::VA_CENTER;
+	captionDrawable->horAlign = grFont::HA_CENTER;
+	captionDrawable->verAlign = grFont::VA_CENTER;
 
 	//adding drawables
 	cLayout drawablesLayout = cLayout::both(fRect(-5, -5, -6, -7));
@@ -88,7 +88,7 @@ void uiStdSkinInitializer::initButton()
 	button->addDrawable(regDrawable, "regular", drawablesLayout);
 	button->addDrawable(hoverDrawable, "hover", drawablesLayout);
 	button->addDrawable(pressedDrawable, "presed", drawablesLayout);
-	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -9, -14)));
+	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -9, -7)));
 
 	//hover state
 	uiTransitionState* hoverState = mnew uiTransitionState("hover");
@@ -213,8 +213,8 @@ void uiStdSkinInitializer::initCheckBox()
 	grSprite* pressedDrawable = mnew grSprite(grTexture::createFromFile(pressedTexName));
 
 	grText* captionDrawable = mnew grText(mStdFont);
-	captionDrawable->horAlign = grText::HA_LEFT;
-	captionDrawable->verAlign = grText::VA_CENTER;
+	captionDrawable->horAlign = grFont::HA_LEFT;
+	captionDrawable->verAlign = grFont::VA_CENTER;
 
 	//adding drawables
 	vec2f bkSize = bkDrawable->getSize();
@@ -222,7 +222,7 @@ void uiStdSkinInitializer::initCheckBox()
 		                       vec2f(0.0f, 0.5f), vec2f(bkSize.x + boxBorder, bkSize.y*0.5f));
 
 	cLayout textLayout = cLayout(vec2f(0.0f, 0.0f), vec2f(bkSize.x + boxBorder*2.0f, 0.0f),
-		                         vec2f(1.0f, 1.0f), vec2f(0.0f, 8.0f));
+		                         vec2f(1.0f, 1.0f), vec2f(0.0f, 4.0f));
 	
 	checkBox->addDrawable(glowDrawable, "glow", bkLayout);
 	checkBox->addDrawable(bkDrawable, "back", bkLayout);
@@ -375,7 +375,7 @@ void uiStdSkinInitializer::initEditBox()
 	editbox->addDrawable(hoverDrawable, "hover", drawablesLayout);
 
 	editbox->mClippingLayout = cLayout::both(fRect(3, 3, 3, 3));
-	editbox->mTextLayout = cLayout::both(fRect(3, 3, 3, -3));
+	editbox->mTextLayout = cLayout::both(fRect(3, 3, 3, 3));
 
 	//states
 	// //hover state

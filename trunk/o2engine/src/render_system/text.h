@@ -17,44 +17,43 @@ class grRenderSystem;
 class grText: public IRectDrawable
 {
 public: 
-	enum VerAlign { VA_TOP, VA_CENTER, VA_BOTTOM, VA_BOTH };
-	enum HorAlign { HA_LEFT, HA_CENTER, HA_RIGHT, HA_BOTH };
-
 	enum { nMeshMaxPolyCount = 4096 };
 
 protected:
 	typedef vector< grMesh* > MeshVec;
 
-	wstring    mText;                /** Wide char string, containing rendering text. */
-	grFont*    mFont;                /** Using font. */
-	basis      mTransform;           /** Transformation. */
-	basisDef   mTransformDef;        /** Transform definition. */
-	float      mCharactersDistCoef;  /** Characters distance coef, 1 is standard. */
-	float      mLinesDistCoef;       /** Lines distance coef, 1 is standard. */
-	VerAlign   mVerAlign;            /** Vertical align. */
-	HorAlign   mHorAlign;            /** Horizontal align. */
-	bool       mWordWrap;            /** True, when words wrapping. */
-			   
-	MeshVec    mMeshes;              /** Meshes vector. */
-	basis      mLastTransform;       /** Last mesh update transformation. */
-	bool       mNeedUpdateMesh;      /** True, when need rebuild meshes. */
-	bool       mNeedTransformMesh;   /** True, when need transform meshes. */
+	wstring          mText;               /** Wide char string, containing rendering text. */
+	grFont*          mFont;               /** Using font. */
+	basis            mTransform;          /** Transformation. */
+	basisDef         mTransformDef;       /** Transform definition. */
+	float            mCharactersDistCoef; /** Characters distance coef, 1 is standard. */
+	float            mLinesDistCoef;      /** Lines distance coef, 1 is standard. */
+	grFont::VerAlign mVerAlign;           /** Vertical align. */
+	grFont::HorAlign mHorAlign;           /** Horizontal align. */
+	bool             mWordWrap;           /** True, when words wrapping. */
+			         
+	MeshVec          mMeshes;             /** Meshes vector. */
+	basis            mLastTransform;      /** Last mesh update transformation. */
+	bool             mNeedUpdateMesh;     /** True, when need rebuild meshes. */
+	bool             mNeedTransformMesh;  /** True, when need transform meshes. */
+	
+	grFont::TextSymbolsSet mSymbolsSet;   /** Symbols set definition. */
 
 public:
 	//properties
-	PROPERTY(grText, grFont*)   font;                /** Font pointer property. Uses set/getFont. */
-	PROPERTY(grText, wstring)   text;                /** Text property, wstring. Uses set/getText. */
-	PROPERTY(grText, string)    ctext;               /** Text property, string. Uses set/getCText. */
-	PROPERTY(grText, VerAlign)  verAlign;            /** vertical align property. Uses set/getVerAlign. */
-	PROPERTY(grText, HorAlign)  horAlign;            /** Horizontal align property. Uses set/getHorAlign. */
-	PROPERTY(grText, bool)      wordWrap;            /** Words wrapping flag property. Uses set/getWordWrap. */
-	PROPERTY(grText, float)     angle;               /** Angle of rotation property. Uses set/getAngle. */
-	PROPERTY(grText, vec2f)     scale;               /** Scale property. Uses set/getScale. */
-	PROPERTY(grText, float)     charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
-	PROPERTY(grText, basis)     transform;           /** Transformation property. Uses set/getTransform. */
-	PROPERTY(grText, basisDef)  transformDef;        /** Transform definition property. Uses set/getTransformDef. */
-	PROPERTY(grText, float)     charactersDistCoef;  /** Characters distance coef, 1 is standard. Uses set/getCharactersDistCoef. */
-	PROPERTY(grText, float)     linesDistCoef;       /** Lines distance coef, 1 is standard. Uses set/getLinesDistCoef. */
+	PROPERTY(grText, grFont*)          font;                /** Font pointer property. Uses set/getFont. */
+	PROPERTY(grText, wstring)          text;                /** Text property, wstring. Uses set/getText. */
+	PROPERTY(grText, string)           ctext;               /** Text property, string. Uses set/getCText. */
+	PROPERTY(grText, grFont::VerAlign) verAlign;            /** vertical align property. Uses set/getVerAlign. */
+	PROPERTY(grText, grFont::HorAlign) horAlign;            /** Horizontal align property. Uses set/getHorAlign. */
+	PROPERTY(grText, bool)             wordWrap;            /** Words wrapping flag property. Uses set/getWordWrap. */
+	PROPERTY(grText, float)            angle;               /** Angle of rotation property. Uses set/getAngle. */
+	PROPERTY(grText, vec2f)            scale;               /** Scale property. Uses set/getScale. */
+	PROPERTY(grText, float)            charactersHeight;    /** Characters height property, pixels. Uses set/getCharactersHeight. */
+	PROPERTY(grText, basis)            transform;           /** Transformation property. Uses set/getTransform. */
+	PROPERTY(grText, basisDef)         transformDef;        /** Transform definition property. Uses set/getTransformDef. */
+	PROPERTY(grText, float)            charactersDistCoef;  /** Characters distance coef, 1 is standard. Uses set/getCharactersDistCoef. */
+	PROPERTY(grText, float)            linesDistCoef;       /** Lines distance coef, 1 is standard. Uses set/getLinesDistCoef. */
 	
 	/** ctor. */
 	grText(grFont* font);
@@ -120,16 +119,16 @@ public:
 	basisDef getTransformDef() const;
 
 	/** Sets horizontal align. */
-	void setHorAlign(const HorAlign& align);
+	void setHorAlign(const grFont::HorAlign& align);
 
 	/** Returns horizontal align. */
-	HorAlign getHorAlign() const;
+	grFont::HorAlign getHorAlign() const;
 
 	/** Sets vertical align. */
-	void setVerAlign(const VerAlign& align);
+	void setVerAlign(const grFont::VerAlign& align);
 
 	/** returns vertical align. */
-	VerAlign getVerAlign() const;
+	grFont::VerAlign getVerAlign() const;
 
 	/** Sets word wrapping. */
 	void setWordWrap(const bool& flag);
@@ -173,40 +172,6 @@ protected:
 
 	/** Preparing meshes for characters count. */
 	void prepareMesh(int charactersCount);
-
-	/** Simple symbol definition structure. */
-	struct symbolDef
-	{
-		fRect  mFrame;  /** Frame of symbol layout. */
-		fRect  mTexSrc; /** Texture src rect. */
-		uint16 mCharId; /** Character id. */
-
-		symbolDef() {}
-		symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId):
-			mFrame(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
-	};
-	typedef vector<symbolDef> SymbolDefVec;
-
-	/** Line definition structure. */
-	struct lineDef
-	{
-		SymbolDefVec mSymbols;       /** Symbols in line. */
-		wstring      mString;        /** Line string. */
-		float        mSize;          /** Size of line in pixels. */
-		int          mLineBegSymbol; /** Index of line beginning symbol. */
-		int          mSpacesCount;   /** Spaces count at line. */
-
-		lineDef():mSize(0), mLineBegSymbol(0), mSpacesCount(0) {}
-	};
-	typedef vector<lineDef> LineDefVec;
-
-	LineDefVec mLineDefs; /** Lines definitions. */
-	
-	/** Push symbol to meshes. */
-	void pushSymbol(grMesh*& mesh, int& meshIdx, const symbolDef& symb, const vec2f& locOrigin);
-
-	/** Check mesh endless. If at end, take new mesh. */
-	void checkMeshEndless(grMesh*& mesh, int& meshIdx, int size = 2);
 };
 
 CLOSE_O2_NAMESPACE

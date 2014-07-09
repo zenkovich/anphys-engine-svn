@@ -170,4 +170,128 @@ float grFont::getBase() const
 	return mBase;
 }
 
+vec2f grFont::getTextSize(const wstring& text, const vec2f& areaSize /*= vec2f()*/, HorAlign horAlign /*= HA_LEFT*/,
+	                      VerAlign verAlign /*= VA_TOP*/, bool wordWrap /*= true*/, float charsDistCoef /*= 1.0f*/, 
+						  float linesDistCoef /*= 1.0f*/)
+{
+	TextSymbolsSet textSet;
+	textSet.initialize(this, text, vec2f(), areaSize, horAlign, verAlign, wordWrap, charsDistCoef, linesDistCoef);
+	return textSet.mRealSize;
+}
+
+
+void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const vec2f& position, const vec2f& areaSize,
+	                                    HorAlign horAlign, VerAlign verAlign, bool wordWrap, float charsDistCoef, 
+										float linesDistCoef)
+{
+	mFont = font;
+	mText = text;
+	mPosition = position;
+	mAreaSize = areaSize;
+	mRealSize = vec2f();
+	mHorAlign = horAlign;
+	mVerAlign = verAlign;
+	mWordWrap = wordWrap;
+	mCharactersDistCoef = charsDistCoef;
+	mLinesDistCoef = linesDistCoef;
+
+	mLineDefs.clear();
+	int textLen = mText.length();
+
+	if (textLen == 0)
+		return;
+
+	mLineDefs.push_back(lineDef());
+	lineDef* curLine = &mLineDefs.back();
+	
+	vec2f fullSize(0, mFont->getBase());
+	bool checkAreaBounds = mWordWrap && mAreaSize.x > FLT_EPSILON;
+	int wrapCharIdx = -1;
+	for (int i = 0; i < textLen; i++)
+	{
+		grFont::character* ch = &mFont->mCharacters[mFont->mCharacterIds[mText[i]]];
+		vec2f chSize = ch->mSize;
+		vec2f chPos = vec2f(curLine->mSize, 0) + ch->mOffset;
+
+		curLine->mSymbols.push_back(symbolDef(chPos, chSize, ch->mTexSrc, ch->mCharId));
+		curLine->mSize += ch->mAdvance*mCharactersDistCoef;
+		curLine->mString += mText[i];
+		
+		bool outOfBounds = checkAreaBounds ? curLine->mSize > mAreaSize.x:false;
+
+		if (mText[i] == '\n' || outOfBounds)
+		{
+			if (outOfBounds)
+			{
+				if (wrapCharIdx < 0)
+					wrapCharIdx = i;
+				else
+					curLine->mSpacesCount--;
+
+				int cutLen = wrapCharIdx - curLine->mLineBegSymbol;
+				curLine->mSymbols.erase(curLine->mSymbols.begin() + cutLen, curLine->mSymbols.end());
+				curLine->mString.erase(curLine->mString.begin() + cutLen, curLine->mString.end());
+
+
+				if (curLine->mSymbols.size() > 0) 
+					curLine->mSize = curLine->mSymbols.back().mFrame.right;
+				else
+					curLine->mSize = 0;
+
+				i = wrapCharIdx;
+				wrapCharIdx = -1;
+			}
+
+			mLineDefs.push_back(lineDef());
+			curLine = &mLineDefs.back();
+			curLine->mLineBegSymbol = i + 1;
+			fullSize.x = max(fullSize.x, curLine->mSize);
+			fullSize.y += mFont->mLineHeight*mLinesDistCoef;
+		}
+		else if (mText[i] == ' ' || mFont->mAllSymbolReturn)
+		{
+			curLine->mSpacesCount++;
+			wrapCharIdx = i;
+		}
+	}
+
+	fullSize.x = max(fullSize.x, curLine->mSize);
+
+	float yOffset = 0;
+	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
+
+	if (mVerAlign == VA_CENTER)
+		yOffset = mAreaSize.y*0.5f - fullSize.y*0.5f + mFont->getBase() - mFont->getLineHeight();
+	else if (mVerAlign == VA_BOTH)
+		lineHeight = (mAreaSize.y - lineHeight + mFont->getBase())/(float)(mLineDefs.size() - 1);
+	else if (mVerAlign == VA_BOTTOM)
+		yOffset = mAreaSize.y - fullSize.y;
+
+	for (LineDefVec::iterator it = mLineDefs.begin(); it != mLineDefs.end(); ++it)
+	{
+		lineDef* line = &(*it);
+		float xOffset = 0;
+		float additiveSpaceOffs = 0;
+
+		if (mHorAlign == HA_CENTER)
+			xOffset = (mAreaSize.x - line->mSize)*0.5f;
+		else if (mHorAlign == HA_RIGHT)
+			xOffset = mAreaSize.x - line->mSize;
+		else if (mHorAlign == HA_BOTH)
+			additiveSpaceOffs = (mAreaSize.x - line->mSize)/(float)line->mSpacesCount;
+			
+		vec2f locOrigin( (float)(int)xOffset, (float)(int)yOffset ); 
+		yOffset += lineHeight;
+		for (SymbolDefVec::iterator jt = line->mSymbols.begin(); jt != line->mSymbols.end(); ++jt)
+		{
+			if (jt->mCharId == ' ')
+				locOrigin.x += additiveSpaceOffs;
+
+			jt->mFrame = jt->mFrame + locOrigin;
+		}
+	}
+
+	mRealSize = fullSize;
+}
+
 CLOSE_O2_NAMESPACE

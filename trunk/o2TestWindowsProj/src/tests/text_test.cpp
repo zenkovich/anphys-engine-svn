@@ -106,29 +106,29 @@ void cTextTest::update( float dt )
 
 	
 	if (appInput()->isKeyPressed('A'))
-		mText->horAlign = grText::HA_LEFT;
+		mText->horAlign = grFont::HA_LEFT;
 
 	if (appInput()->isKeyPressed('S'))
-		mText->horAlign = grText::HA_CENTER;
+		mText->horAlign = grFont::HA_CENTER;
 
 	if (appInput()->isKeyPressed('D'))
-		mText->horAlign = grText::HA_RIGHT;
+		mText->horAlign = grFont::HA_RIGHT;
 
 	if (appInput()->isKeyPressed('F'))
-		mText->horAlign = grText::HA_BOTH;
+		mText->horAlign = grFont::HA_BOTH;
 
 
 	if (appInput()->isKeyPressed('Z'))
-		mText->verAlign = grText::VA_TOP;
+		mText->verAlign = grFont::VA_TOP;
 
 	if (appInput()->isKeyPressed('X'))
-		mText->verAlign = grText::VA_CENTER;
+		mText->verAlign = grFont::VA_CENTER;
 
 	if (appInput()->isKeyPressed('C'))
-		mText->verAlign = grText::VA_BOTTOM;
+		mText->verAlign = grFont::VA_BOTTOM;
 
 	if (appInput()->isKeyPressed('V'))
-		mText->verAlign = grText::VA_BOTH;
+		mText->verAlign = grFont::VA_BOTH;
 }
 
 void cTextTest::draw()

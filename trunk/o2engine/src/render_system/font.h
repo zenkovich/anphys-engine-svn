@@ -6,6 +6,7 @@
 #include "texture.h"
 #include "util/math/rect.h"
 #include "util/serialization/serialization.h"
+#include "util/string.h"
 
 OPEN_O2_NAMESPACE
 
@@ -19,6 +20,9 @@ class grFont: public cSerializableObj
 	friend class grText;
 	
 public:
+	enum VerAlign { VA_TOP, VA_CENTER, VA_BOTTOM, VA_BOTH };
+	enum HorAlign { HA_LEFT, HA_CENTER, HA_RIGHT, HA_BOTH };
+
 	/** Characret definition structure. Conatining texture source rect, size, offset, advance and characted id. */
 	struct character: public cSerializableObj
 	{
@@ -30,6 +34,52 @@ public:
 
 		/** Serialization method. */
 		SERIALIZE_METHOD_DECL();
+	};
+
+	/** text symbols layouts set. */
+	struct TextSymbolsSet
+	{
+		/** Simple symbol definition structure. */
+		struct symbolDef
+		{
+			fRect  mFrame;  /** Frame of symbol layout. */
+			fRect  mTexSrc; /** Texture src rect. */
+			uint16 mCharId; /** Character id. */
+
+			symbolDef() {}
+			symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId):
+				mFrame(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
+		};
+		typedef vector<symbolDef> SymbolDefVec;
+
+		/** Line definition structure. */
+		struct lineDef
+		{
+			SymbolDefVec mSymbols;       /** Symbols in line. */
+			wstring      mString;        /** Line string. */
+			float        mSize;          /** Size of line in pixels. */
+			int          mLineBegSymbol; /** Index of line beginning symbol. */
+			int          mSpacesCount;   /** Spaces count at line. */
+
+			lineDef():mSize(0), mLineBegSymbol(0), mSpacesCount(0) {}
+		};
+		typedef vector<lineDef> LineDefVec;
+
+		grFont*    mFont;
+		wstring    mText;               /** Text string. */
+		vec2f      mPosition;           /** Position, in pixels. */
+		vec2f      mAreaSize;           /** Area size, in pixels. */
+		vec2f      mRealSize;           /** Real text size. */
+		HorAlign   mHorAlign;           /** Horizontal align. */
+		VerAlign   mVerAlign;           /** Vertical align. */
+		bool       mWordWrap;           /** True, when words wrapping. */
+		float      mCharactersDistCoef; /** Characters distance coef, 1 is standard. */
+		float      mLinesDistCoef;      /** Lines distance coef, 1 is standard. */
+		LineDefVec mLineDefs;           /** Lines definitions. */
+
+		/** Calculating characters layout by parameters. */
+		void initialize(grFont* font, const wstring& text, const vec2f& position, const vec2f& areaSize, HorAlign horAlign,
+			            VerAlign verAlign, bool wordWrap, float charsDistCoef, float linesDistCoef);
 	};
 
 protected:
@@ -58,6 +108,10 @@ protected:
 
 	/** Create font from BMFont config file. */
 	void createFromBMFont(const string& fontFile);
+
+	vec2f getTextSize(const wstring& text, const vec2f& areaSize = vec2f(), HorAlign horAlign = HA_LEFT,
+			          VerAlign verAlign = VA_TOP, bool wordWrap = true, float charsDistCoef = 1.0f, 
+					  float linesDistCoef = 1.0f);
 
 public:
 	/** Returns line height. */
