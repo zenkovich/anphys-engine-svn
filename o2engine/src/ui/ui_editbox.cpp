@@ -11,8 +11,8 @@ uiEditBox::uiEditBox( grFont* font, const cLayout& layout, const string& id /*= 
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL)
 {
 	mText = mnew grText(font);
-	mText->setHorAlign(grText::HA_LEFT);
-	mText->setVerAlign(grText::VA_CENTER);
+	mText->setHorAlign(grFont::HA_LEFT);
+	mText->setVerAlign(grFont::VA_CENTER);
 	initializeProperties();
 }
 
