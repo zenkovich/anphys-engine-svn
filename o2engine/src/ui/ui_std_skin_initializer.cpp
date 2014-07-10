@@ -9,6 +9,7 @@
 #include "ui_progressbar.h"
 #include "ui_rect.h"
 #include "ui_scroll_bar.h"
+#include "ui_label.h"
 #include "ui_transition_state.h"
 #include "util/geometry/geometry.h"
 #include "util/string.h"
@@ -33,6 +34,7 @@ void uiStdSkinInitializer::initialize()
 	initCheckBox();
 	initHorScrollBar();
 	initEditBox();
+	initLabel();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -395,6 +397,14 @@ void uiStdSkinInitializer::initEditBox()
 	editbox->addState(focusState);
 
 	mSkinManager->setEditBoxSample(editbox);
+}
+
+void uiStdSkinInitializer::initLabel()
+{
+	uiLabel* label = mnew uiLabel(mStdFont, cLayout::both());
+	label->setHorAlign(grFont::HA_CENTER);
+	label->setVerAlign(grFont::VA_CENTER);
+	mSkinManager->setLabelSample(label);
 }
 
 

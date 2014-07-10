@@ -25,6 +25,7 @@ protected:
 	static void initCheckBox();
 	static void initHorScrollBar();
 	static void initEditBox();
+	static void initLabel();
 };
 
 CLOSE_O2_NAMESPACE

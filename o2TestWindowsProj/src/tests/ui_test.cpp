@@ -8,6 +8,7 @@
 #include "ui/ui_scroll_bar.h"
 #include "ui/ui_checkbox.h"
 #include "ui/ui_editbox.h"
+#include "ui/ui_label.h"
 #include "ui/ui_skin.h"
 #include "ui/ui_sprite.h"
 #include "ui/ui_std_skin_initializer.h"
@@ -36,6 +37,8 @@ cUITest::cUITest()
 	uiHost()->addWidget( uiSkin()->checkBox("Check test4", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 260))) );
 
 	uiHost()->addWidget( uiSkin()->editbox(cLayout::fixedSize(vec2f(80, 23), vec2f(440, 50)), "editbox", "Some textfasdfa") );
+
+	uiHost()->addWidget( uiSkin()->label("I'm label", cLayout::fixedSize(vec2f(100, 30), vec2f(130, 50)), "asdasd") );
 
 	mTestBar = uiSkin()->progressBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 100)));
 	mTestScrollBar = uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 140)));
