@@ -16,6 +16,7 @@ class uiProgressBar;
 class uiCheckBox;
 class uiScrollBar;
 class uiEditBox;
+class uiLabel;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
 class uiSkinManager: public cSingleton<uiSkinManager>
@@ -27,6 +28,7 @@ protected:
 	uiCheckBox*    mCheckBoxSample;
 	uiScrollBar*   mHorScrollbarSample;
 	uiEditBox*     mEditBoxSample;
+	uiLabel*       mLabelSample;
 
 public:
 	/** Creates widget. */
@@ -55,6 +57,9 @@ public:
 	/** Creates edit box. */
 	uiEditBox* editbox(const cLayout& layout = cLayout::both(), const string& id = "", const string& text = "");
 
+	/** Creates label. */
+	uiLabel* label(const string& text, const cLayout& layout = cLayout::both(), const string& id = "");
+
 	/** Sets button sample. */
 	void setButtonSample(uiButton* buttonSample);
 
@@ -72,6 +77,9 @@ public:
 
 	/** Sets edit box sample. */
 	void setEditBoxSample(uiEditBox* editboxSampl);
+
+	/** Sets label sample. */
+	void setLabelSample(uiLabel* labelSample);
 
 protected:
 	void addVisibleState(uiWidget* widget);

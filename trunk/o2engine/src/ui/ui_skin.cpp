@@ -12,6 +12,7 @@
 #include "ui_checkbox.h"
 #include "ui_scroll_bar.h"
 #include "ui_editbox.h"
+#include "ui_label.h"
 
 OPEN_O2_NAMESPACE
 
@@ -135,6 +136,20 @@ uiEditBox* uiSkinManager::editbox( const cLayout& layout /*= cLayout::both()*/, 
 void uiSkinManager::setEditBoxSample( uiEditBox* editboxSampl )
 {
 	mEditBoxSample = editboxSampl;
+}
+
+uiLabel* uiSkinManager::label(const string& text, const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
+{
+	uiLabel* res = static_cast<uiLabel*>(mLabelSample->clone());
+	res->setLayout(layout);
+	res->setId(id);
+	res->setCText(text);
+	return res;
+}
+
+void uiSkinManager::setLabelSample(uiLabel* labelSample)
+{
+	mLabelSample = labelSample;
 }
 
 CLOSE_O2_NAMESPACE
