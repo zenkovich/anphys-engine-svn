@@ -35,10 +35,13 @@ cUITest::cUITest()
 	uiHost()->addWidget( uiSkin()->checkBox("Check test2", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 220))) );
 	uiHost()->addWidget( uiSkin()->checkBox("Check test3", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 240))) );
 	uiHost()->addWidget( uiSkin()->checkBox("Check test4", cLayout::fixedSize(vec2f(150, 20), vec2f(20, 260))) );
+	
+	uiHost()->addWidget( uiSkin()->editbox(cLayout::fixedSize(vec2f(80, 23), vec2f(440, 50)), "editbox", "Some text") );
+	uiHost()->addWidget( uiSkin()->editbox(cLayout::fixedSize(vec2f(150, 150), vec2f(440, 240)), "editbox", "Some text", true) );
 
-	uiHost()->addWidget( uiSkin()->editbox(cLayout::fixedSize(vec2f(80, 23), vec2f(440, 50)), "editbox", "Some textfasdfa") );
-
-	uiHost()->addWidget( uiSkin()->label("I'm label", cLayout::fixedSize(vec2f(100, 30), vec2f(130, 50)), "asdasd") );
+	uiHost()->addWidget( uiSkin()->label("I'm label", cLayout::fixedSize(vec2f(100, 30), vec2f(130, 50)), "label") );
+	uiHost()->addWidget( uiSkin()->horThinScrollBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 120))) );
+	uiHost()->addWidget( uiSkin()->verThinScrollBar(cLayout::fixedSize(vec2f(40, 400), vec2f(600, 30))) );
 
 	mTestBar = uiSkin()->progressBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 100)));
 	mTestScrollBar = uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(400, 40), vec2f(100, 140)));

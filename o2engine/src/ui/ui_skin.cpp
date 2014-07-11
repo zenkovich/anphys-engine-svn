@@ -106,10 +106,36 @@ uiCheckBox* uiSkinManager::checkBox( const string& caption, const cLayout& layou
 }
 
 uiScrollBar* uiSkinManager::horScrollBar( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
-	                                            float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/,
-												float barSize /*= 0.1f*/ )
+	                                      float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/,
+										  float barSize /*= 0.1f*/ )
 {
 	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mHorScrollbarSample->clone());
+	scrollbar->setLayout(layout);
+	scrollbar->setId(id);
+	scrollbar->setValueRange(minValue, maxValue);
+	scrollbar->setValue(value);
+	scrollbar->setBarSize(barSize);
+	return scrollbar;
+}
+
+uiScrollBar* uiSkinManager::verThinScrollBar(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+                                             float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/, 
+										     float barSize /*= 0.1f*/)
+{
+	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mVerThinScrollbarSample->clone());
+	scrollbar->setLayout(layout);
+	scrollbar->setId(id);
+	scrollbar->setValueRange(minValue, maxValue);
+	scrollbar->setValue(value);
+	scrollbar->setBarSize(barSize);
+	return scrollbar;
+}
+
+uiScrollBar* uiSkinManager::horThinScrollBar(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+	                                         float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/, 
+											 float barSize /*= 0.1f*/)
+{
+	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mHorThinScrollbarSample->clone());
 	scrollbar->setLayout(layout);
 	scrollbar->setId(id);
 	scrollbar->setValueRange(minValue, maxValue);
@@ -124,18 +150,19 @@ void uiSkinManager::setHorScrollbarSample( uiScrollBar* scrollbar )
 }
 
 uiEditBox* uiSkinManager::editbox( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
-	                               const string& text /*= ""*/ )
+	                               const string& text /*= ""*/, bool multiLine /*= false*/ )
 {
-	uiEditBox* res = static_cast<uiEditBox*>(mEditBoxSample->clone());
+	uiEditBox* src = multiLine ? mMultilineEditBox:mSingleLineEditBoxSample;
+	uiEditBox* res = static_cast<uiEditBox*>(src->clone());
 	res->setLayout(layout);
 	res->setId(id);
 	res->setCText(text);
 	return res;
 }
 
-void uiSkinManager::setEditBoxSample( uiEditBox* editboxSampl )
+void uiSkinManager::setSingleLineEditBoxSample( uiEditBox* editboxSampl )
 {
-	mEditBoxSample = editboxSampl;
+	mSingleLineEditBoxSample = editboxSampl;
 }
 
 uiLabel* uiSkinManager::label(const string& text, const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
@@ -150,6 +177,21 @@ uiLabel* uiSkinManager::label(const string& text, const cLayout& layout /*= cLay
 void uiSkinManager::setLabelSample(uiLabel* labelSample)
 {
 	mLabelSample = labelSample;
+}
+
+void uiSkinManager::setMultilineEditBoxSample(uiEditBox* editboxSample)
+{
+	mMultilineEditBox = editboxSample;
+}
+
+void uiSkinManager::setHorThinScrollbarSample(uiScrollBar* scrollbar)
+{
+	mHorThinScrollbarSample = scrollbar;
+}
+
+void uiSkinManager::setVerThinScrollbarSample(uiScrollBar* scrollbar)
+{
+	mVerThinScrollbarSample = scrollbar;
 }
 
 CLOSE_O2_NAMESPACE

@@ -24,8 +24,11 @@ protected:
 	static void initProgressBar();
 	static void initCheckBox();
 	static void initHorScrollBar();
-	static void initEditBox();
+	static void initHorThinScrollBar();
+	static void initVerThinScrollBar();
+	static void initSingleLineEditBox();
 	static void initLabel();
+	static void initMultilineEditBox();
 };
 
 CLOSE_O2_NAMESPACE
