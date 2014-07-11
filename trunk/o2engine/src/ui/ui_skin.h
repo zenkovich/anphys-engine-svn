@@ -27,7 +27,10 @@ protected:
 	uiProgressBar* mProgressBarSample;
 	uiCheckBox*    mCheckBoxSample;
 	uiScrollBar*   mHorScrollbarSample;
-	uiEditBox*     mEditBoxSample;
+	uiScrollBar*   mHorThinScrollbarSample;
+	uiScrollBar*   mVerThinScrollbarSample;
+	uiEditBox*     mSingleLineEditBoxSample;
+	uiEditBox*     mMultilineEditBox;
 	uiLabel*       mLabelSample;
 
 public:
@@ -54,11 +57,21 @@ public:
 	uiScrollBar* horScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
 		                      float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
 
+	/** Creates thin horizontal scroll bar. */
+	uiScrollBar* horThinScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
+		                          float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
+
+	/** Creates thin horizontal scroll bar. */
+	uiScrollBar* verThinScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
+		                          float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
+
 	/** Creates edit box. */
-	uiEditBox* editbox(const cLayout& layout = cLayout::both(), const string& id = "", const string& text = "");
+	uiEditBox* editbox(const cLayout& layout = cLayout::both(), const string& id = "", const string& text = "", 
+		               bool multiLine = false);
 
 	/** Creates label. */
 	uiLabel* label(const string& text, const cLayout& layout = cLayout::both(), const string& id = "");
+
 
 	/** Sets button sample. */
 	void setButtonSample(uiButton* buttonSample);
@@ -66,7 +79,7 @@ public:
 	/** Sets background sample. */
 	void setBackgroundSample(uiRect* backgroundSample);
 
-	/** Sets progressbar sample. */
+	/** Sets progress bar sample. */
 	void setProgressbarSample(uiProgressBar* progressbarSample);
 
 	/** Sets checkbox sample. */
@@ -75,8 +88,17 @@ public:
 	/** Sets horizontal scroll bar sample. */
 	void setHorScrollbarSample(uiScrollBar* scrollbar);
 
-	/** Sets edit box sample. */
-	void setEditBoxSample(uiEditBox* editboxSampl);
+	/** Sets horizontal thin scroll bar sample. */
+	void setHorThinScrollbarSample(uiScrollBar* scrollbar);
+
+	/** Sets vertical thin scroll bar sample. */
+	void setVerThinScrollbarSample(uiScrollBar* scrollbar);
+
+	/** Sets single line edit box sample. */
+	void setSingleLineEditBoxSample(uiEditBox* editboxSampl);
+
+	/** Sets multi line edit box sample. */
+	void setMultilineEditBoxSample(uiEditBox* editboxSample);
 
 	/** Sets label sample. */
 	void setLabelSample(uiLabel* labelSample);

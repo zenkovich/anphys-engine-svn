@@ -33,7 +33,10 @@ void uiStdSkinInitializer::initialize()
 	initProgressBar();
 	initCheckBox();
 	initHorScrollBar();
-	initEditBox();
+	initHorThinScrollBar();
+	initVerThinScrollBar();
+	initSingleLineEditBox();
+	initMultilineEditBox();
 	initLabel();
 }
 
@@ -346,7 +349,152 @@ void uiStdSkinInitializer::initHorScrollBar()
 	mSkinManager->setHorScrollbarSample(scrollbar);
 }
 
-void uiStdSkinInitializer::initEditBox()
+void uiStdSkinInitializer::initHorThinScrollBar()
+{
+	const string backgroundTexName = "ui_skin/small_hor_bar_bk";
+	const string barTexName = "ui_skin/small_hor_bar_bar";
+	const string barHoverTexName = "ui_skin/small_hor_bar_bar_hover";
+	const string barPressedTexName = "ui_skin/small_hor_bar_bar_pressed";
+
+	grTexture backgroundTex = grTexture::createFromFile(backgroundTexName);
+	grTexture barTex = grTexture::createFromFile(barTexName);
+	grTexture barHoverTex = grTexture::createFromFile(barHoverTexName);
+	grTexture barPressedTex = grTexture::createFromFile(barPressedTexName);
+
+	const float hoverDelayOn = 0.1f;
+	const float hoverDelayOff = 0.3f;
+	const float pressingDelayOn = 0.01f;
+	const float pressingDelayOff= 0.1f;
+	const float barHeight = 5.0f;
+
+	//drawables
+	const float backgroundLeftBorder = 6;
+	const float backgroundRightBorder = 6;
+	cStretchRect* backgroundDrawable = mnew cStretchRect(backgroundTex, (int)backgroundLeftBorder, 0, (int)backgroundRightBorder, 0);
+
+	const float barLeftOffset = 3, barRightOffset = 3;
+	const float barLeftBorder = 6, barRightBorder = 6;
+	cStretchRect* barDrawable = mnew cStretchRect(barTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
+	cStretchRect* barHoverDrawable = mnew cStretchRect(barHoverTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
+	cStretchRect* barPresedDrawable = mnew cStretchRect(barPressedTex, (int)barLeftBorder, 0, (int)barRightBorder, 0);
+	
+	//scrollbar
+	uiScrollBar* scrollbar = mnew uiScrollBar(cLayout::both());
+
+	// adding drawables
+	cLayout backgroundLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -backgroundTex.getSize().y*0.5f), 
+		                     vec2f(1.0f, 0.5f), vec2f(0.0f, backgroundTex.getSize().y*0.5f));
+	scrollbar->addDrawable(backgroundDrawable, "background", backgroundLayout);
+
+	uiScrollBar::Drawable* barDrw = scrollbar->addDrawable(NULL, "bar");
+	scrollbar->setBarDrawable(barDrw);
+	
+	float hs = barTex.getSize().y*0.5f;
+	cLayout barLayout(vec2f(0.0f, 0.5f), vec2f(0.0f, -hs), vec2f(1.0f, 0.5f), vec2f(0.0f, hs));
+	barDrw->addChildDrawable("bar", barDrawable, barLayout);
+	barDrw->addChildDrawable("hover", barHoverDrawable, barLayout);
+	barDrw->addChildDrawable("Pressed", barPresedDrawable, barLayout);
+
+	//states
+	uiTransitionState* hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(&barHoverDrawable->transparency,
+		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
+
+	//pressed state
+	uiTransitionState* pressedState = mnew uiTransitionState("pressed");
+	pressedState->addProperty(&barPresedDrawable->transparency, 
+		cAnimFrame<float>(0.0f, pressingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, pressingDelayOn, false, IT_LINEAR));
+
+	scrollbar->addState(hoverState);
+	scrollbar->addState(pressedState);
+
+	//geometry
+	scrollbar->setBackgroundGeometryLayout(
+		cLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barHeight*0.5f), vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barHeight*0.5f)));
+
+	scrollbar->setBarGeometryLayout(
+		cLayout(vec2f(0.0f, 0.5f), vec2f(barLeftOffset, -barHeight*0.5f), vec2f(1.0f, 0.5f), vec2f(-barRightOffset, barHeight*0.5f)));
+
+	mSkinManager->setHorThinScrollbarSample(scrollbar);
+}
+
+void uiStdSkinInitializer::initVerThinScrollBar()
+{
+	const string backgroundTexName = "ui_skin/small_vert_bar_bk";
+	const string barTexName = "ui_skin/small_vert_bar_bar";
+	const string barHoverTexName = "ui_skin/small_vert_bar_bar_hover";
+	const string barPressedTexName = "ui_skin/small_vert_bar_bar_pressed";
+
+	grTexture backgroundTex = grTexture::createFromFile(backgroundTexName);
+	grTexture barTex = grTexture::createFromFile(barTexName);
+	grTexture barHoverTex = grTexture::createFromFile(barHoverTexName);
+	grTexture barPressedTex = grTexture::createFromFile(barPressedTexName);
+
+	const float hoverDelayOn = 0.1f;
+	const float hoverDelayOff = 0.3f;
+	const float pressingDelayOn = 0.01f;
+	const float pressingDelayOff= 0.1f;
+	const float barWidth = 5.0f;
+
+	//drawables
+	const float backgroundTopBorder = 6;
+	const float backgroundBottomBorder = 6;
+	cStretchRect* backgroundDrawable = mnew cStretchRect(backgroundTex, 0, (int)backgroundTopBorder, 0, (int)backgroundBottomBorder);
+
+	const float barTopOffset = 3, barBottomOffset = 3;
+	const float barTopBorder = 6, barBottomBorder = 6;
+	cStretchRect* barDrawable = mnew cStretchRect(barTex, 0, (int)barTopBorder, 0, (int)barBottomBorder);
+	cStretchRect* barHoverDrawable = mnew cStretchRect(barHoverTex, 0, (int)barTopBorder, 0, (int)barBottomBorder);
+	cStretchRect* barPresedDrawable = mnew cStretchRect(barPressedTex, 0, (int)barTopBorder, 0, (int)barBottomBorder);
+	
+	//scrollbar
+	uiScrollBar* scrollbar = mnew uiScrollBar(cLayout::both(), "", uiScrollBar::TP_VERTICAL);
+
+	// adding drawables
+	cLayout backgroundLayout(vec2f(0.5f, 0.0f), vec2f(-backgroundTex.getSize().x*0.5f, 0.0f), 
+		                     vec2f(0.5f, 1.0f), vec2f(backgroundTex.getSize().x*0.5f, 0.0f));
+	scrollbar->addDrawable(backgroundDrawable, "background", backgroundLayout);
+
+	uiScrollBar::Drawable* barDrw = scrollbar->addDrawable(NULL, "bar");
+	scrollbar->setBarDrawable(barDrw);
+	
+	float hs = barTex.getSize().x*0.5f;
+	cLayout barLayout(vec2f(0.5f, 0.0f), vec2f(-hs, 0.0f), 
+		              vec2f(0.5f, 1.0f), vec2f(hs, 0.0f));
+	barDrw->addChildDrawable("bar", barDrawable, barLayout);
+	barDrw->addChildDrawable("hover", barHoverDrawable, barLayout);
+	barDrw->addChildDrawable("Pressed", barPresedDrawable, barLayout);
+
+	//states
+	uiTransitionState* hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(&barHoverDrawable->transparency,
+		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
+
+	//pressed state
+	uiTransitionState* pressedState = mnew uiTransitionState("pressed");
+	pressedState->addProperty(&barPresedDrawable->transparency, 
+		cAnimFrame<float>(0.0f, pressingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, pressingDelayOn, false, IT_LINEAR));
+
+	scrollbar->addState(hoverState);
+	scrollbar->addState(pressedState);
+
+	//geometry
+	scrollbar->setBackgroundGeometryLayout(
+		cLayout(vec2f(0.5f, 0.0f), vec2f(-barWidth*0.5f, barTopOffset), 
+		        vec2f(0.5f, 1.0f), vec2f(barWidth*0.5f , -barBottomOffset)));
+
+	scrollbar->setBarGeometryLayout(
+		cLayout(vec2f(0.5f, 0.0f), vec2f(-barWidth*0.5f, barTopOffset), 
+		        vec2f(0.5f, 1.0f), vec2f(barWidth*0.5f , -barBottomOffset)));
+
+	mSkinManager->setVerThinScrollbarSample(scrollbar);
+}
+
+void uiStdSkinInitializer::initSingleLineEditBox()
 {
 	const string bgTexName = "ui_skin/editbox_bk";
 	const string hoverTexName = "ui_skin/editbox_hover";
@@ -362,22 +510,24 @@ void uiStdSkinInitializer::initEditBox()
 	grTexture hoverTex = grTexture::createFromFile(hoverTexName);
 
 	//drawables
-	fRect borders(6, 6, 8, 7);
-	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, borders.left, borders.top, borders.right, borders.down);
-	cStretchRect* hoverDrawable = mnew cStretchRect(hoverTex, borders.left, borders.top, borders.right, borders.down);
-	cStretchRect* glowDrawable = mnew cStretchRect(glowTex, borders.left, borders.top, borders.right, borders.down);
+	fRect borders(6.0f, 6.0f, 8.0f, 7.0f);
+	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	cStretchRect* hoverDrawable = mnew cStretchRect(hoverTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	cStretchRect* glowDrawable = mnew cStretchRect(glowTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
 
 	//editbox
 	uiEditBox* editbox = mnew uiEditBox(mStdFont, cLayout::both());
 
 	//adding drawables
-	cLayout drawablesLayout = cLayout::both(fRect(-5, -5, -5, -5));
+	float hs = bgTex.getSize().y*0.5f;
+	cLayout drawablesLayout(vec2f(0.0f, 0.5f), vec2f(-5.0f, -hs), vec2f(1.0f, 0.5f), vec2f(5.0f, hs));// = cLayout::both(fRect(-5, -5, -5, -5));
 	editbox->addDrawable(glowDrawable, "glow", drawablesLayout);
 	editbox->addDrawable(bgDrawable, "background", drawablesLayout);
 	editbox->addDrawable(hoverDrawable, "hover", drawablesLayout);
 
-	editbox->mClippingLayout = cLayout::both(fRect(3, 3, 3, 3));
-	editbox->mTextLayout = cLayout::both(fRect(3, 3, 3, 3));
+	hs -= 2.0f;
+	editbox->mClippingLayout = cLayout(vec2f(0.0f, 0.5f), vec2f(3.0f, -hs), vec2f(1.0f, 0.5f), vec2f(-3.0f, hs));
+	editbox->mTextLayout = editbox->mClippingLayout;
 
 	//states
 	// //hover state
@@ -396,7 +546,7 @@ void uiStdSkinInitializer::initEditBox()
 	editbox->addState(hoverState);
 	editbox->addState(focusState);
 
-	mSkinManager->setEditBoxSample(editbox);
+	mSkinManager->setSingleLineEditBoxSample(editbox);
 }
 
 void uiStdSkinInitializer::initLabel()
@@ -405,6 +555,60 @@ void uiStdSkinInitializer::initLabel()
 	label->setHorAlign(grFont::HA_CENTER);
 	label->setVerAlign(grFont::VA_CENTER);
 	mSkinManager->setLabelSample(label);
+}
+
+void uiStdSkinInitializer::initMultilineEditBox()
+{
+	const string bgTexName = "ui_skin/editbox_bk";
+	const string hoverTexName = "ui_skin/editbox_hover";
+	const string glowTexName = "ui_skin/editbox_glow";
+
+	const float hoverDelayOn = 0.1f;
+	const float hoverDelayOff = 0.3f;
+	const float focusingDelayOn = 0.1f;
+	const float focusingDelayOff= 0.6f;
+
+	grTexture bgTex = grTexture::createFromFile(bgTexName);
+	grTexture glowTex = grTexture::createFromFile(glowTexName);
+	grTexture hoverTex = grTexture::createFromFile(hoverTexName);
+
+	//drawables
+	fRect borders(6.0f, 6.0f, 8.0f, 7.0f);
+	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	cStretchRect* hoverDrawable = mnew cStretchRect(hoverTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	cStretchRect* glowDrawable = mnew cStretchRect(glowTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+
+	//editbox
+	uiEditBox* editbox = mnew uiEditBox(mStdFont, cLayout::both());
+
+	//adding drawables
+	cLayout drawablesLayout = cLayout::both(fRect(-5.0f, -5.0f, -5.0f, -5.0f));
+	editbox->addDrawable(glowDrawable, "glow", drawablesLayout);
+	editbox->addDrawable(bgDrawable, "background", drawablesLayout);
+	editbox->addDrawable(hoverDrawable, "hover", drawablesLayout);
+
+	editbox->mClippingLayout = cLayout::both(fRect(3.0f, 3.0f, 3.0f, 3.0f));
+	editbox->mTextLayout = editbox->mClippingLayout;
+	editbox->mText->setVerAlign(grFont::VA_TOP);
+
+	//states
+	// //hover state
+	uiTransitionState* hoverState = mnew uiTransitionState("hover");
+	hoverState->addProperty(&hoverDrawable->transparency,
+		cAnimFrame<float>(0.0f, hoverDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, hoverDelayOn, false, IT_LINEAR));
+
+	//focus state
+	uiTransitionState* focusState = mnew uiTransitionState("focus");
+	focusState->addProperty(&glowDrawable->transparency, 
+		cAnimFrame<float>(0.0f, focusingDelayOff, false, IT_LINEAR),
+		cAnimFrame<float>(1.0f, focusingDelayOn, false, IT_LINEAR));
+	
+	//adding states
+	editbox->addState(hoverState);
+	editbox->addState(focusState);
+
+	mSkinManager->setMultilineEditBoxSample(editbox);
 }
 
 
