@@ -43,12 +43,14 @@ public:
 		struct symbolDef
 		{
 			fRect  mFrame;  /** Frame of symbol layout. */
-			fRect  mTexSrc; /** Texture src rect. */
+			fRect  mTexSrc; /** Texture source rect. */
 			uint16 mCharId; /** Character id. */
+			vec2f  mOffset; /** Character offset. */
+			float  mAdvance;/** Character advance. */
 
 			symbolDef() {}
-			symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId):
-				mFrame(position, position + size), mTexSrc(texSrc), mCharId(charId) {}
+			symbolDef(const vec2f& position, const vec2f& size, const fRect& texSrc, uint16 charId, const vec2f& offs, float advance):
+				mFrame(position, position + size), mTexSrc(texSrc), mCharId(charId), mOffset(offs), mAdvance(advance) {}
 		};
 		typedef vector<symbolDef> SymbolDefVec;
 
@@ -57,11 +59,12 @@ public:
 		{
 			SymbolDefVec mSymbols;       /** Symbols in line. */
 			wstring      mString;        /** Line string. */
-			float        mSize;          /** Size of line in pixels. */
+			vec2f        mSize;          /** Size of line in pixels. */
+			vec2f        mPosition;      /** Position of line. */
 			int          mLineBegSymbol; /** Index of line beginning symbol. */
 			int          mSpacesCount;   /** Spaces count at line. */
 
-			lineDef():mSize(0), mLineBegSymbol(0), mSpacesCount(0) {}
+			lineDef():mLineBegSymbol(0), mSpacesCount(0) {}
 		};
 		typedef vector<lineDef> LineDefVec;
 

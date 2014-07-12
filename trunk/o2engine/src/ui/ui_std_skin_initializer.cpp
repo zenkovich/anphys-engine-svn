@@ -499,11 +499,15 @@ void uiStdSkinInitializer::initSingleLineEditBox()
 	const string bgTexName = "ui_skin/editbox_bk";
 	const string hoverTexName = "ui_skin/editbox_hover";
 	const string glowTexName = "ui_skin/editbox_glow";
+	
+	const color4 cursorColor(180, 180, 180, 255);
+	const color4 selectionColor(150, 150, 230, 130);
 
 	const float hoverDelayOn = 0.1f;
 	const float hoverDelayOff = 0.3f;
 	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
+	const float cursorBlinkDelay = 0.5f;
 
 	grTexture bgTex = grTexture::createFromFile(bgTexName);
 	grTexture glowTex = grTexture::createFromFile(glowTexName);
@@ -546,6 +550,12 @@ void uiStdSkinInitializer::initSingleLineEditBox()
 	editbox->addState(hoverState);
 	editbox->addState(focusState);
 
+	//colors
+	editbox->setCursorColor(cursorColor);
+	editbox->setSelectionColor(selectionColor);
+
+	editbox->setCursorVisibleDelay(cursorBlinkDelay);
+
 	mSkinManager->setSingleLineEditBoxSample(editbox);
 }
 
@@ -563,10 +573,14 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	const string hoverTexName = "ui_skin/editbox_hover";
 	const string glowTexName = "ui_skin/editbox_glow";
 
+	const color4 cursorColor(180, 180, 180, 255);
+	const color4 selectionColor(150, 150, 230, 130);
+
 	const float hoverDelayOn = 0.1f;
 	const float hoverDelayOff = 0.3f;
 	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
+	const float cursorBlinkDelay = 0.5f;
 
 	grTexture bgTex = grTexture::createFromFile(bgTexName);
 	grTexture glowTex = grTexture::createFromFile(glowTexName);
@@ -607,6 +621,25 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	//adding states
 	editbox->addState(hoverState);
 	editbox->addState(focusState);
+
+	//scrollbars
+	float scrollBarSize = 13.0f;
+	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
+		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
+		"horScrollbar");
+
+	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
+		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
+		"verScrollbar");
+	
+	editbox->addChild(horScrollbar);
+	editbox->addChild(verScrollbar);
+
+	//colors
+	editbox->setCursorColor(cursorColor);
+	editbox->setSelectionColor(selectionColor);
+
+	editbox->setCursorVisibleDelay(cursorBlinkDelay);
 
 	mSkinManager->setMultilineEditBoxSample(editbox);
 }

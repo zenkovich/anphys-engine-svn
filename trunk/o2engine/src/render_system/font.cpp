@@ -203,6 +203,7 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 
 	mLineDefs.push_back(lineDef());
 	lineDef* curLine = &mLineDefs.back();
+	curLine->mSize.y = mFont->getLineHeight();
 	
 	vec2f fullSize(0, mFont->getBase());
 	bool checkAreaBounds = mWordWrap && mAreaSize.x > FLT_EPSILON;
@@ -211,13 +212,13 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 	{
 		grFont::character* ch = &mFont->mCharacters[mFont->mCharacterIds[mText[i]]];
 		vec2f chSize = ch->mSize;
-		vec2f chPos = vec2f(curLine->mSize, 0) + ch->mOffset;
+		vec2f chPos = vec2f(curLine->mSize.x, 0) + ch->mOffset;
 
-		curLine->mSymbols.push_back(symbolDef(chPos, chSize, ch->mTexSrc, ch->mCharId));
-		curLine->mSize += ch->mAdvance*mCharactersDistCoef;
+		curLine->mSymbols.push_back(symbolDef(chPos, chSize, ch->mTexSrc, ch->mCharId, ch->mOffset, ch->mAdvance));
+		curLine->mSize.x += ch->mAdvance*mCharactersDistCoef;
 		curLine->mString += mText[i];
 		
-		bool outOfBounds = checkAreaBounds ? curLine->mSize > mAreaSize.x:false;
+		bool outOfBounds = checkAreaBounds ? curLine->mSize.x > mAreaSize.x:false;
 
 		if (mText[i] == '\n' || outOfBounds)
 		{
@@ -234,9 +235,9 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 
 
 				if (curLine->mSymbols.size() > 0) 
-					curLine->mSize = curLine->mSymbols.back().mFrame.right;
+					curLine->mSize.x = curLine->mSymbols.back().mFrame.right;
 				else
-					curLine->mSize = 0;
+					curLine->mSize.x = 0;
 
 				i = wrapCharIdx;
 				wrapCharIdx = -1;
@@ -244,8 +245,9 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 
 			mLineDefs.push_back(lineDef());
 			curLine = &mLineDefs.back();
+			curLine->mSize.y = mFont->getLineHeight();
 			curLine->mLineBegSymbol = i + 1;
-			fullSize.x = max(fullSize.x, curLine->mSize);
+			fullSize.x = max(fullSize.x, curLine->mSize.x);
 			fullSize.y += mFont->mLineHeight*mLinesDistCoef;
 		}
 		else if (mText[i] == ' ' || mFont->mAllSymbolReturn)
@@ -255,7 +257,7 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 		}
 	}
 
-	fullSize.x = max(fullSize.x, curLine->mSize);
+	fullSize.x = max(fullSize.x, curLine->mSize.x);
 
 	float yOffset = 0;
 	float lineHeight = mFont->mLineHeight*mLinesDistCoef;
@@ -267,6 +269,8 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 	else if (mVerAlign == VA_BOTTOM)
 		yOffset = mAreaSize.y - fullSize.y;
 
+	yOffset += mPosition.y;
+
 	for (LineDefVec::iterator it = mLineDefs.begin(); it != mLineDefs.end(); ++it)
 	{
 		lineDef* line = &(*it);
@@ -274,13 +278,16 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 		float additiveSpaceOffs = 0;
 
 		if (mHorAlign == HA_CENTER)
-			xOffset = (mAreaSize.x - line->mSize)*0.5f;
+			xOffset = (mAreaSize.x - line->mSize.x)*0.5f;
 		else if (mHorAlign == HA_RIGHT)
-			xOffset = mAreaSize.x - line->mSize;
+			xOffset = mAreaSize.x - line->mSize.x;
 		else if (mHorAlign == HA_BOTH)
-			additiveSpaceOffs = (mAreaSize.x - line->mSize)/(float)line->mSpacesCount;
+			additiveSpaceOffs = (mAreaSize.x - line->mSize.x)/(float)line->mSpacesCount;
+
+		xOffset += mPosition.x;
 			
 		vec2f locOrigin( (float)(int)xOffset, (float)(int)yOffset ); 
+		line->mPosition = locOrigin;
 		yOffset += lineHeight;
 		for (SymbolDefVec::iterator jt = line->mSymbols.begin(); jt != line->mSymbols.end(); ++jt)
 		{

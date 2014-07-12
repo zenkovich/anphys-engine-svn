@@ -145,7 +145,7 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 				mBarPressedState->setState(mPressed);
 
 		}
-		else
+		else if (mBackgrGeometry.getRect().isInside(cursorPos))
 		{
 			bool cursorUpper = (mType == TP_HORISONTAL) ? cursorPos.x < barRect.left:cursorPos.y < barRect.top;
 			bool cursorLower = (mType == TP_HORISONTAL) ? cursorPos.x > barRect.right:cursorPos.y > barRect.down;
@@ -227,6 +227,12 @@ void uiScrollBar::updateBarLayout()
 	mBar->updateLayoutManual(mGlobalPosition, mSize);
 	mBarGeometry.update(mBar->getLayout().mPosition, mBar->getLayout().mSize);
 	mBackgrGeometry.update(mGlobalPosition, mSize);
+}
+
+void uiScrollBar::layoutUpdated()
+{
+	updateBarLayout();
+	uiDrawablesListWidget::layoutUpdated();
 }
 
 void uiScrollBar::initializeProperties()

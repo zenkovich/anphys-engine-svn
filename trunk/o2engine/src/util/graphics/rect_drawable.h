@@ -17,6 +17,7 @@ protected:
 	vec2f  mSize;     /** Size. */
 	vec2f  mPivot;    /** Pivot, in local space, in pixels. */
 	color4 mColor;    /** Color. */
+	bool   mEnabled;  /** True, when darwable enabled and needs to draw. */
 
 public:
 	PROPERTY(IRectDrawable, vec2f)  position;     /** Position property. Using set/getPosition. */
@@ -28,6 +29,7 @@ public:
 	PROPERTY(IRectDrawable, fRect)  rect;         /** Rect property. Sets the position and size. Using set/getRect. */
 	PROPERTY(IRectDrawable, float)  transparency; /** Transparency property, changing alpha in color. Using set/getTransparency. */
 	PROPERTY(IRectDrawable, color4) color;        /** Color property. Using set/getProperty. */
+	PROPERTY(IRectDrawable, bool)   enabled;      /** Enable property. Using set/isEnabled. */
 
 	/** ctor. */
 	IRectDrawable(const vec2f& size = vec2f(), const vec2f& position = vec2f(), const color4& color = color4::white(), 
@@ -87,6 +89,12 @@ public:
 	/** Returns transparency(color alpha). */
 	virtual float getTransparency() const;
 
+	/** Sets enabled. */
+	virtual void setEnabled(bool enabled);
+
+	/** Returns enabled. */
+	virtual bool isEnabled() const;
+
 protected:
 	/** Calls when position was changed. */
 	virtual void positionChanged() {}
@@ -99,6 +107,9 @@ protected:
 
 	/** Calls when color was changed. */
 	virtual void colorChanged() {}
+
+	/** Calls when enabling changed. */
+	virtual void enableChanged() {}
 
 	/** Initializing properties. */
 	void initializeProperties();

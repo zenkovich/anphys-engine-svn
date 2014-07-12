@@ -118,6 +118,20 @@ vec2f IRectDrawable::getRelativePivot() const
 	return mPivot.invScale(mSize);
 }
 
+void IRectDrawable::setEnabled(bool enabled)
+{
+	if (mEnabled == enabled)
+		return;
+
+	mEnabled = enabled;
+	enableChanged();
+}
+
+bool IRectDrawable::isEnabled() const
+{
+	return mEnabled;
+}
+
 void IRectDrawable::initializeProperties()
 {
 	REG_PROPERTY(IRectDrawable, position, setPosition, getPosition);
@@ -126,6 +140,7 @@ void IRectDrawable::initializeProperties()
 	REG_PROPERTY(IRectDrawable, relPivot, setRelativePivot, getRelativePivot);
 	REG_PROPERTY(IRectDrawable, rect, setRect, getRect);
 	REG_PROPERTY_SETTER_NONCONST(IRectDrawable, transparency, setTransparency, getTransparency);
+	REG_PROPERTY_SETTER_NONCONST(IRectDrawable, enabled, setEnabled, isEnabled);
 	REG_PROPERTY(IRectDrawable, color, setColor, getColor);
 }
 

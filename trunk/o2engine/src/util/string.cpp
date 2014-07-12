@@ -17,6 +17,37 @@ string format( const char* str, ... )
 	return string(buf);
 }
 
+string toString( int value )
+{
+	return format("%i", value);
+}
+
+string toString( float value )
+{
+	return format("%f", value);
+}
+
+string toString(const color4& value)
+{
+	return format("(%i %i %i %i)", value.r, value.g, value.b, value.a);
+}
+
+string toString( const vec2f& value )
+{
+	return format("(%.3f %.3f)", value.x, value.y);
+}
+
+int toInt( const string& str )
+{
+	return atoi(str.c_str());
+}
+
+float toFloat( const string& str )
+{
+	return (float)atof(str.c_str());
+}
+
+
 #ifdef PLATFORM_WIN
 #include <Windows.h>
 
@@ -48,36 +79,19 @@ string convWide2String(const wstring& wide)
 	return retvalue;
 }
 
-string toString( int value )
+uint16 getUnicodeFromVirtualCode( uint8 code )
 {
-	return format("%i", value);
-}
+	HKL layout=GetKeyboardLayout(0); 
 
-string toString( float value )
-{
-	return format("%f", value);
-}
+	BYTE allKeys[256];
+	GetKeyboardState(allKeys);
 
-string toString(const color4& value)
-{
-	return format("(%i %i %i %i)", value.r, value.g, value.b, value.a);
-}
-
-string toString( const vec2f& value )
-{
-	return format("(%.3f %.3f)", value.x, value.y);
-}
-
-int toInt( const string& str )
-{
-	return atoi(str.c_str());
-}
-
-float toFloat( const string& str )
-{
-	return (float)atof(str.c_str());
+	uint16 unicode;
+	ToUnicodeEx(code, 0, allKeys, reinterpret_cast<wchar_t*>(&unicode), 1, 0, layout);
+	return unicode;
 }
 
 #endif //PLATFORM_WIN
+
 
 CLOSE_O2_NAMESPACE
