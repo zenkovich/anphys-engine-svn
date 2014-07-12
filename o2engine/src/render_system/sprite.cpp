@@ -217,6 +217,9 @@ void grSprite::colorChanged()
 
 void grSprite::draw()
 {
+	if (!mEnabled)
+		return;
+
 	if (mNeedUpdateMeshVerticies) 
 		updateMeshVerticies();
 	if (mNeedUpdateMeshTexCoords)

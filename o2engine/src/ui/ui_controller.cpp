@@ -21,8 +21,8 @@ void uiController::update(float dt)
 	if (mChangedFocusWidget)
 	{
 		mFocusWidget->onFocused();
-		mBasicWidget.mChildWidgets.erase( FIND(mBasicWidget.mChildWidgets, mFocusWidget) );
-		mBasicWidget.mChildWidgets.push_back(mFocusWidget);
+		/*mBasicWidget.mChildWidgets.erase( FIND(mBasicWidget.mChildWidgets, mFocusWidget) );
+		mBasicWidget.mChildWidgets.push_back(mFocusWidget);*/
 
 		mChangedFocusWidget = false;
 	}

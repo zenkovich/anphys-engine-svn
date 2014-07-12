@@ -333,6 +333,9 @@ void cStretchRect::drawDebug()
 
 void cStretchRect::draw()
 {
+	if (!mEnabled)
+		return;
+
 	if (mNeedUpdateMesh)
 		updateMesh();
 

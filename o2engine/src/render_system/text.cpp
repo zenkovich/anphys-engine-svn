@@ -45,6 +45,9 @@ IRectDrawable* grText::clone() const
 
 void grText::draw()
 {
+	if (!mEnabled)
+		return;
+
 	if (mNeedUpdateMesh)
 		updateMesh();
 
@@ -226,6 +229,11 @@ float grText::getLinesDistCoef() const
 	return mLinesDistCoef;
 }
 
+grFont::TextSymbolsSet* grText::getSymbolsSet()
+{
+	return &mSymbolsSet;
+}
+
 void grText::initializeProperties()
 {
 	REG_PROPERTY_SETTER_NONCONST(grText, font, setFont, getFont);
@@ -264,6 +272,8 @@ void grText::updateMesh()
 	grMesh* currentMesh = mMeshes[0];
 
 	mSymbolsSet.initialize(font, mText, mPosition, mSize, mHorAlign, mVerAlign, mWordWrap, mCharactersDistCoef, mLinesDistCoef);
+	basis zeroPositionTransform = mTransform;
+	zeroPositionTransform.offs = vec2f();
 
 	FOREACH(grFont::TextSymbolsSet::LineDefVec, mSymbolsSet.mLineDefs, it)
 	{
@@ -273,10 +283,10 @@ void grText::updateMesh()
 				currentMesh = mMeshes[currentMeshIdx++];
 
 			unsigned long color = mColor.dword();
-			vec2f points[4] = { mTransform.transform(jt->mFrame.getltCorner()),
-								mTransform.transform(jt->mFrame.getrtCorner()),
-								mTransform.transform(jt->mFrame.getrdCorner()),
-								mTransform.transform(jt->mFrame.getldCorner()) };	
+			vec2f points[4] = { zeroPositionTransform.transform(jt->mFrame.getltCorner()),
+								zeroPositionTransform.transform(jt->mFrame.getrtCorner()),
+								zeroPositionTransform.transform(jt->mFrame.getrdCorner()),
+								zeroPositionTransform.transform(jt->mFrame.getldCorner()) };	
 	
 			currentMesh->mVerticies[currentMesh->mVertexCount++] = vertex2(points[0], color, jt->mTexSrc.left,  jt->mTexSrc.top);
 			currentMesh->mVerticies[currentMesh->mVertexCount++] = vertex2(points[1], color, jt->mTexSrc.right, jt->mTexSrc.top);

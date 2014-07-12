@@ -8,18 +8,29 @@ OPEN_O2_NAMESPACE
 
 class grText;
 class grFont;
+class grSprite;
+class grMesh;
 
 class uiEditBox: public uiDrawablesListWidget
 {
 	friend class uiStdSkinInitializer;
 
-	uiState* mHoverState;     /** Hover state. */
-	uiState* mFocusedState;   /** Focused state. */
-							  
-	grText*  mText;           /** Text drawable. */
-	float    mScrolling;      /** Scrolling in pixels. */
-	cLayout  mClippingLayout; /** Clipping area layout. */
-	cLayout  mTextLayout;     /** Text layout. */
+	uiState*  mHoverState;         /** Hover state. */
+	uiState*  mFocusedState;       /** Focused state. */
+			 				       
+	grText*   mText;               /** Text drawable. */
+	float     mScrolling;          /** Scrolling in pixels. */
+	cLayout   mClippingLayout;     /** Clipping area layout. */
+	cLayout   mTextLayout;         /** Text layout. */
+							       
+	grSprite* mCursorSprite;       /** Cursor sprite drawable. */
+	grMesh*   mSelectionMesh;      /** Selection mesh drawable. */
+	color4    mSelectionColor;     
+	int       mSelectionStart;     /** Selection start character idx. */
+	int       mSelectionEnd;       /** Selection end character idx. */
+
+	float     mCursorVisibleTimer; /** Cursor visible timer. When in greater than mCursorVisibleDelay, it will hide. */
+	float     mCursorVisibleDelay; /** Cursor visible delay. */
 
 public:
 	DEFINE_TYPE(uiEditBox);
@@ -58,6 +69,15 @@ public:
 	wstring getText() const;
 
 protected:
+	/** Sets cursor color. */
+	void setCursorColor(const color4& color);
+
+	/** Sets selection color. */
+	void setSelectionColor(const color4& color);
+
+	/** Sets cursor visible state delay. */
+	void setCursorVisibleDelay(float delay);
+
 	/** Calls when added some state. */
 	virtual void addedState(uiState* state);
 
@@ -78,6 +98,21 @@ protected:
 
 	/** Calls when widget lost focus. */
 	virtual void onFocusLost();
+
+	/** Returns character index at point. */
+	int getCharacterIdxAtPoint(const vec2f& point);
+
+	/** Returns character position by index. */
+	vec2f getCharacterPosition(int idx);
+
+	/** Adding rect to selection mesh. */
+	void selectionAddRect(const fRect& rect);
+
+	/** Drawing symbols debug frames. */
+	void drawDebug();
+
+	/** Updates cursor visible state. */
+	void updateCursorVisible(float dt);
 
 	/** Initializing properties. */
 	void initializeProperties();

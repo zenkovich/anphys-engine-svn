@@ -92,6 +92,9 @@ protected:
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
 
+	/** Calls when widget's layout updated. */
+	virtual void layoutUpdated();
+
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg);
 

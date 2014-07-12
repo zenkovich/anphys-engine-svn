@@ -148,6 +148,9 @@ public:
 	/** Returns lines distance coefficient. */
 	float getLinesDistCoef() const;
 
+	/** Returns symbol set structure pointer. */
+	grFont::TextSymbolsSet* getSymbolsSet();
+
 protected:	
 	/** Calls when position was changed. */
 	void positionChanged();
