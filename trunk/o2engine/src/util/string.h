@@ -16,6 +16,9 @@ wstring convString2Wide(const string& str);
 /** Returns converted wide string to string. */
 string convWide2String(const wstring& wide);
 
+/** Returns character form virtual code. */
+uint16 getUnicodeFromVirtualCode( uint8 code );
+
 /** Converting int value to string. */
 string toString(int value);
 
