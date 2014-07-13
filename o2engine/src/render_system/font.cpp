@@ -179,6 +179,11 @@ vec2f grFont::getTextSize(const wstring& text, const vec2f& areaSize /*= vec2f()
 	return textSet.mRealSize;
 }
 
+float grFont::getSymbolAdvance( uint16 id )
+{
+	return mCharacters[ mCharacterIds[id] ].mAdvance;
+}
+
 
 void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const vec2f& position, const vec2f& areaSize,
 	                                    HorAlign horAlign, VerAlign verAlign, bool wordWrap, float charsDistCoef, 
@@ -230,6 +235,7 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 					curLine->mSpacesCount--;
 
 				int cutLen = wrapCharIdx - curLine->mLineBegSymbol;
+
 				curLine->mSymbols.erase(curLine->mSymbols.begin() + cutLen, curLine->mSymbols.end());
 				curLine->mString.erase(curLine->mString.begin() + cutLen, curLine->mString.end());
 
@@ -241,6 +247,11 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 
 				i = wrapCharIdx;
 				wrapCharIdx = -1;
+			}
+			else 
+			{
+				curLine->mSymbols.pop_back();
+				curLine->mString.pop_back();
 			}
 
 			mLineDefs.push_back(lineDef());

@@ -112,16 +112,20 @@ protected:
 	/** Create font from BMFont config file. */
 	void createFromBMFont(const string& fontFile);
 
-	vec2f getTextSize(const wstring& text, const vec2f& areaSize = vec2f(), HorAlign horAlign = HA_LEFT,
-			          VerAlign verAlign = VA_TOP, bool wordWrap = true, float charsDistCoef = 1.0f, 
-					  float linesDistCoef = 1.0f);
-
 public:
 	/** Returns line height. */
 	float getLineHeight() const;
 
 	/** Returns base height. */
 	float getBase() const;
+
+	/** Retuns text size. */
+	vec2f getTextSize(const wstring& text, const vec2f& areaSize = vec2f(), HorAlign horAlign = HA_LEFT,
+			          VerAlign verAlign = VA_TOP, bool wordWrap = true, float charsDistCoef = 1.0f, 
+					  float linesDistCoef = 1.0f);
+
+	/** Returns symbol advance. */
+	float getSymbolAdvance(uint16 id);
 
 	/** Serialize method. */
 	SERIALIZE_METHOD_DECL();

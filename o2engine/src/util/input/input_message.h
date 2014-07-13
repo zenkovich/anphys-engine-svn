@@ -29,7 +29,6 @@ public:
 	};
 	typedef vector<Cursor> CursorVec;
 
-protected:
 	/** Key with pressed time. */
 	struct Key
 	{
@@ -41,6 +40,7 @@ protected:
 
 	typedef vector<Key>    KeysVec;
 
+protected:
 	KeysVec   mPressedKeys; 
 	KeysVec   mDownKeys;
 	KeysVec   mReleasedKeys;     
@@ -59,6 +59,9 @@ public:
 
 	/** Returns true, if key was released at current frame. */
 	bool isKeyReleased(VKey key) const;
+
+	/** Returns true, if key was pressed and repeated after delay. */
+	bool isKeyRepeating(VKey key, float delay = 0.04f, float beginDelay = 0.5f) const;
 
 	/** Returns key pressing time.Returns  0, if key not pressed. */
 	float getKeyPressingTime(VKey key) const;
@@ -107,6 +110,15 @@ public:
 
 	/** Returns cursors vector. */
 	CursorVec const& getCursors() const;
+
+	/** Returns pressed keys. */
+	KeysVec const& getPressedKeys() const;
+
+	/** Returns pressed keys. */
+	KeysVec const& getDownKeys() const;
+
+	/** Returns pressed keys. */
+	KeysVec const& getReleasedKeys() const;
 
 protected:
 	/** Call it when key pressed. */

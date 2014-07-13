@@ -234,6 +234,11 @@ grFont::TextSymbolsSet* grText::getSymbolsSet()
 	return &mSymbolsSet;
 }
 
+void grText::forceUpdateMesh()
+{
+	updateMesh();
+}
+
 void grText::initializeProperties()
 {
 	REG_PROPERTY_SETTER_NONCONST(grText, font, setFont, getFont);

@@ -86,6 +86,9 @@ protected:
 
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	
+	/** rocessing navigation. */
+	void processNavigation( const cInputMessage &msg );
 
 	/** Drawing current widget. */
 	virtual void localDraw();
@@ -113,6 +116,12 @@ protected:
 
 	/** Updates cursor visible state. */
 	void updateCursorVisible(float dt);
+
+	/** Updates end selection position. */
+	void updateSelectionEndPosition(int position);
+
+	/** Updates selection mesh by selection start and end. */
+	void updateSelection();
 
 	/** Initializing properties. */
 	void initializeProperties();

@@ -2,6 +2,7 @@
 
 #include "util/math/math.h"
 #include "util/data_utils.h"
+#include "util/time_utils.h"
 #include "util/log.h"
 
 #ifdef PLATFORM_WIN
@@ -32,6 +33,14 @@ bool cInputMessage::isKeyReleased( VKey key ) const
 		if (it->mKey == key) return true;
 
 	return false;
+}
+
+bool cInputMessage::isKeyRepeating( VKey key, float delay /*= 0.1f*/, float beginDelay /*= 0.5f*/ ) const
+{
+	float time = getKeyPressingTime(key) - beginDelay;
+	float repeatTime = max(floor(time/delay)*delay, 0.0f);
+
+	return time - timeUtils()->getDeltaTime() < repeatTime && time > repeatTime;
 }
 
 float cInputMessage::getKeyPressingTime( VKey key ) const
@@ -146,6 +155,21 @@ float cInputMessage::getAlt2CursorPressedTime() const
 cInputMessage::CursorVec const& cInputMessage::getCursors() const
 {
 	return mCursors;
+}
+
+cInputMessage::KeysVec const& cInputMessage::getPressedKeys() const
+{
+	return mPressedKeys;
+}
+
+cInputMessage::KeysVec const& cInputMessage::getDownKeys() const
+{
+	return mDownKeys;
+}
+
+cInputMessage::KeysVec const& cInputMessage::getReleasedKeys() const
+{
+	return mReleasedKeys;
 }
 
 
