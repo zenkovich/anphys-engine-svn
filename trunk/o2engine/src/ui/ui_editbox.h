@@ -86,8 +86,14 @@ protected:
 
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg);
-	
-	/** rocessing navigation. */
+
+	/** Processing characters input. */
+	void processInputCharacters(const cInputMessage &msg);
+
+	/** Processing erasing. */
+	void processErasing(const cInputMessage &msg);
+
+	/** Processing navigation. */
 	void processNavigation( const cInputMessage &msg );
 
 	/** Drawing current widget. */
@@ -108,6 +114,9 @@ protected:
 	/** Returns character position by index. */
 	vec2f getCharacterPosition(int idx);
 
+	/** Jumping at direction to next jump symbol. */
+	void jumpSelection(bool forward, bool selecting);
+
 	/** Adding rect to selection mesh. */
 	void selectionAddRect(const fRect& rect);
 
@@ -118,7 +127,7 @@ protected:
 	void updateCursorVisible(float dt);
 
 	/** Updates end selection position. */
-	void updateSelectionEndPosition(int position);
+	void updateSelectionEndPosition(int position, bool selecting);
 
 	/** Updates selection mesh by selection start and end. */
 	void updateSelection();

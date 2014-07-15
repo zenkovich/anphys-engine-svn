@@ -252,6 +252,7 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 			{
 				curLine->mSymbols.pop_back();
 				curLine->mString.pop_back();
+				curLine->mEndedNewLine = true;
 			}
 
 			mLineDefs.push_back(lineDef());

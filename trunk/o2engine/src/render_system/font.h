@@ -63,8 +63,9 @@ public:
 			vec2f        mPosition;      /** Position of line. */
 			int          mLineBegSymbol; /** Index of line beginning symbol. */
 			int          mSpacesCount;   /** Spaces count at line. */
+			bool         mEndedNewLine;  /** True, if line ended by new line character. */
 
-			lineDef():mLineBegSymbol(0), mSpacesCount(0) {}
+			lineDef():mLineBegSymbol(0), mSpacesCount(0), mEndedNewLine(false) {}
 		};
 		typedef vector<lineDef> LineDefVec;
 
