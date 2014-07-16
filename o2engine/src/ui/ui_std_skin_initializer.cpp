@@ -531,7 +531,8 @@ void uiStdSkinInitializer::initSingleLineEditBox()
 
 	hs -= 2.0f;
 	editbox->mClippingLayout = cLayout(vec2f(0.0f, 0.5f), vec2f(3.0f, -hs), vec2f(1.0f, 0.5f), vec2f(-3.0f, hs));
-	editbox->mTextLayout = editbox->mClippingLayout;
+	editbox->mTextLayout = cLayout(vec2f(0.0f, 0.5f), vec2f(3.0f, -hs), vec2f(1.0f, 0.5f), vec2f(-3.0f, hs + 2.0f));
+	editbox->mText->setLinesDistCoef(0.9f);
 
 	//states
 	// //hover state
