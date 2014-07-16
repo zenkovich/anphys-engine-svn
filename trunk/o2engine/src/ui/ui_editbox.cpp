@@ -121,11 +121,16 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 {
 	if (msg.isCursorPressed())
 	{
-		int charIdx = getCharacterIdxAtPoint(msg.getCursorPos());
-		updateSelectionEndPosition(charIdx, false);
-		mSelectionStart = mSelectionEnd;
-		updateSelection();
-		makeFocused();
+		if (mCursorInside)
+		{
+			int charIdx = getCharacterIdxAtPoint(msg.getCursorPos());
+			updateSelectionEndPosition(charIdx, false);
+			mSelectionStart = mSelectionEnd;
+			updateSelection();
+			makeFocused();
+		}
+		else
+			releaseFocus();
 	}
 
 	if (msg.isCursorDown()) 
@@ -163,7 +168,7 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 	{
 		wstring text = mText->getText();
 		int endLineSymbol = mSelectionEnd;
-		for (int i = mSelectionEnd; i < text.length(); i++)
+		for (int i = mSelectionEnd; i < (int)text.length(); i++)
 		{
 			endLineSymbol = i + 1;
 			if (text[i] == '\n') 
@@ -197,7 +202,7 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 
 void uiEditBox::jumpSelection(bool forward, bool selecting)
 {
-	static char jumpSymbols[] = " \n()-=_+|\|/**&^%$#@!~,.?";
+	static char jumpSymbols[] = " \n()-=_+\\|/**&^%$#@!~,.?";
 	int jumpSymbolsCount = strlen(jumpSymbols);
 
 	wstring text = mText->getText();
@@ -206,7 +211,7 @@ void uiEditBox::jumpSelection(bool forward, bool selecting)
 	if (forward) 
 	{
 		bool stop = false;
-		for (int i = mSelectionEnd; i < text.length() && !stop; i++)
+		for (int i = mSelectionEnd; i < (int)text.length() && !stop; i++)
 		{
 			jumpIdx = i;
 			for (int j = 0; j < jumpSymbolsCount; j++)
@@ -231,6 +236,7 @@ void uiEditBox::jumpSelection(bool forward, bool selecting)
 			{
 				if (text[i] == jumpSymbols[j])
 				{
+					jumpIdx++;
 					stop = true;
 					break;
 				}
@@ -276,7 +282,7 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 
 	if (msg.isKeyPressed(VK_DELETE) || msg.isKeyRepeating(VK_DELETE))
 	{
-		if (mSelectionEnd < mText->getText().length() + 1) 
+		if (mSelectionEnd < (int)mText->getText().length() + 1) 
 		{
 			wstring text = mText->getText();
 			
@@ -393,7 +399,7 @@ int uiEditBox::getCharacterIdxAtPoint(const vec2f& point)
 	FOREACH(grFont::TextSymbolsSet::LineDefVec, symbSet->mLineDefs, line) 
 	{
 		checkUp = lineIdx > 0;
-		checkDown = lineIdx < symbSet->mLineDefs.size() - 1;
+		checkDown = lineIdx < (int)symbSet->mLineDefs.size() - 1;
 
 		if (line->mSymbols.size() == 0 && point.y > line->mPosition.y && point.y < line->mPosition.y + line->mSize.y)
 			return line->mLineBegSymbol;
@@ -402,7 +408,7 @@ int uiEditBox::getCharacterIdxAtPoint(const vec2f& point)
 		FOREACH(grFont::TextSymbolsSet::SymbolDefVec, line->mSymbols, symb) 
 		{
 			checkLeft = idx > 0;
-			checkRight = idx < line->mSymbols.size() - 1;
+			checkRight = idx < (int)line->mSymbols.size() - 1;
 
 			fRect sr = symb->mFrame;
 
@@ -437,7 +443,7 @@ vec2f uiEditBox::getCharacterPosition(int idx)
 
 	FOREACH(grFont::TextSymbolsSet::LineDefVec, symbSet->mLineDefs, line) 
 	{
-		if (line->mLineBegSymbol + line->mSymbols.size() < idx)
+		if (line->mLineBegSymbol + (int)line->mSymbols.size() < idx)
 			continue;
 
 		if (line->mSymbols.size() == 0)
@@ -539,7 +545,7 @@ void uiEditBox::updateSelection()
 
 	FOREACH(grFont::TextSymbolsSet::LineDefVec, symbSet->mLineDefs, line) 
 	{
-		if (start > line->mLineBegSymbol + line->mSymbols.size() || end < line->mLineBegSymbol)
+		if (start > line->mLineBegSymbol + (int)line->mSymbols.size() || end < line->mLineBegSymbol)
 			continue;
 
 		if (line->mSymbols.size() == 0)
@@ -556,16 +562,16 @@ void uiEditBox::updateSelection()
 		int endSymbol = end - line->mLineBegSymbol;
 		float endOffs = 0, begOffs = 0;
 
-		if (begSymbol >= line->mSymbols.size())
+		if (begSymbol >= (int)line->mSymbols.size())
 		{
 			begOffs = line->mSymbols.back().mAdvance;
 			begSymbol = line->mSymbols.size() - 1;
 		}
 
-		if (endSymbol >= line->mSymbols.size()) 
+		if (endSymbol >= (int)line->mSymbols.size()) 
 		{
 			endOffs = line->mSymbols.back().mAdvance;
-			if (line->mEndedNewLine && endSymbol > line->mSymbols.size())
+			if (line->mEndedNewLine && endSymbol > (int)line->mSymbols.size())
 				endOffs += mText->getFont()->getSymbolAdvance(' ');
 
 			endSymbol = line->mSymbols.size() - 1;
