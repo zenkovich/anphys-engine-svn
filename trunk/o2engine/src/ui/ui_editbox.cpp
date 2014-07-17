@@ -10,7 +10,8 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiEditBox);
 
 uiEditBox::uiEditBox( grFont* font, const cLayout& layout, const string& id /*= ""*/ ):
-	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL), mCursorVisibleTimer(0.0f)
+	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL), mCursorVisibleTimer(0.0f),
+	mMultiLine(false)
 {
 	mText = mnew grText(font);
 	mText->setHorAlign(grFont::HA_LEFT);
@@ -31,13 +32,14 @@ uiEditBox::uiEditBox( grFont* font, const cLayout& layout, const string& id /*= 
 }
 
 uiEditBox::uiEditBox( const uiEditBox& editbox ):
-	uiDrawablesListWidget(editbox)
+	uiDrawablesListWidget(editbox), mMultiLine(false)
 {
 	mHoverState = getState("hover");
 	mFocusedState = getState("focus");
 	mText = mnew grText(*editbox.mText);
 	mClippingLayout = editbox.mClippingLayout;
 	mTextLayout = editbox.mTextLayout;	
+	mMultiLine = editbox.mMultiLine;
 
 	mCursorSprite = mnew grSprite();
 	mCursorSprite->setSize(vec2f(1.0f, mText->getFont()->getLineHeight()*mText->getLinesDistCoef()));
@@ -92,6 +94,18 @@ wstring uiEditBox::getText() const
 	return mText->getText();
 }
 
+void uiEditBox::setWordWrap( bool wordWrap )
+{
+	mText->setWordWrap(wordWrap);
+	mText->forceUpdateMesh();
+	updateSelectionEndPosition(mSelectionEnd, true);
+}
+
+bool uiEditBox::isWordWrap() const
+{
+	return mText->getWordWrap();
+}
+
 void uiEditBox::addedState( uiState* state )
 {
 	if (state->getName() == "hover")
@@ -130,7 +144,10 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 			makeFocused();
 		}
 		else
+		{
 			releaseFocus();
+			return;
+		}
 	}
 
 	if (msg.isCursorDown()) 
@@ -310,6 +327,9 @@ void uiEditBox::processInputCharacters(const cInputMessage &msg)
 			if (ch == 13)
 				ch = 10;
 
+			if (ch == 10 && !mMultiLine)
+				continue;
+
 			wstring text = mText->getText();
 
 			if (mSelectionStart != mSelectionEnd)
@@ -466,7 +486,7 @@ vec2f uiEditBox::getCharacterPosition(int idx)
 		return res;
 	}
 
-	return vec2f();
+	return mTextLayout.mPosition + vec2f(0.0f, mText->getFont()->getLineHeight());
 }
 
 void uiEditBox::setCursorColor(const color4& color)

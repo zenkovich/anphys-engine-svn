@@ -31,6 +31,7 @@ class uiEditBox: public uiDrawablesListWidget
 
 	float     mCursorVisibleTimer; /** Cursor visible timer. When in greater than mCursorVisibleDelay, it will hide. */
 	float     mCursorVisibleDelay; /** Cursor visible delay. */
+	bool      mMultiLine;          /** True, if multiline. */
 
 public:
 	DEFINE_TYPE(uiEditBox);
@@ -67,6 +68,12 @@ public:
 
 	/** Returns caption text. */
 	wstring getText() const;
+
+	/** Sets word wrapping. */
+	void setWordWrap(bool wordWrap);
+
+	/** returns word wrapping flag. */
+	bool isWordWrap() const;
 
 protected:
 	/** Sets cursor color. */

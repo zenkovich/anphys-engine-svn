@@ -226,6 +226,19 @@ uiWidget* uiWidget::getWidget( const string& id )
 	return NULL;
 }
 
+string uiWidget::getWidgetPath( uiWidget* widget ) const
+{
+	string path = widget->mId;
+	uiWidget* parent = widget->mParent;
+	while(parent)
+	{
+		path = parent->mId + "/" + path;
+		parent = parent->mParent;
+	}
+
+	return path;
+}
+
 void uiWidget::setPosition( const vec2f& position )
 {
 	mLayout.mLTAbsolute = position;

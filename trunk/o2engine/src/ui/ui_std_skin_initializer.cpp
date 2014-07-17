@@ -606,6 +606,7 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	editbox->mTextLayout = editbox->mClippingLayout;
 	editbox->mText->setVerAlign(grFont::VA_TOP);
 	editbox->mText->setLinesDistCoef(0.9f);
+	editbox->mMultiLine = true;
 
 	//states
 	// //hover state
