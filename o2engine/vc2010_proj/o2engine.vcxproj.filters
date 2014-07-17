@@ -465,6 +465,9 @@
     <ClInclude Include="..\src\ui\ui_label.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_scrollarea.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -792,6 +795,9 @@
       <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_label.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_scrollarea.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>

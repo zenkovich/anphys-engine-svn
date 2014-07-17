@@ -117,6 +117,9 @@ public:
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */
 	uiWidget* getWidget(const string& id);
 
+	/** Returns widget's path from this widget. */
+	string getWidgetPath(uiWidget* widget) const;
+
 
 	//setters and getters
 	/** Returns true, if widget can take focus. */

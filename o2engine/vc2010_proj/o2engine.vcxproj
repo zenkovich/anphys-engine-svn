@@ -150,6 +150,7 @@
     <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_progressbar.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
+    <ClInclude Include="..\src\ui\ui_scrollarea.h" />
     <ClInclude Include="..\src\ui\ui_scroll_bar.h" />
     <ClInclude Include="..\src\ui\ui_skin.h" />
     <ClInclude Include="..\src\ui\ui_sprite.h" />
@@ -283,6 +284,7 @@
     <ClCompile Include="..\src\ui\ui_label.cpp" />
     <ClCompile Include="..\src\ui\ui_progressbar.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
+    <ClCompile Include="..\src\ui\ui_scrollarea.cpp" />
     <ClCompile Include="..\src\ui\ui_scroll_bar.cpp" />
     <ClCompile Include="..\src\ui\ui_skin.cpp" />
     <ClCompile Include="..\src\ui\ui_sprite.cpp" />
