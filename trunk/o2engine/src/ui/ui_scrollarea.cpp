@@ -8,34 +8,48 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiScrollArea);
 
-uiScrollArea::uiScrollArea( const cLayout& layout, const string& id /*= ""*/ ):
+uiScrollArea::uiScrollArea( const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
+	                        const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
+	setHorScrollbarSample(horBarSample);
+	setVerScrollbarSample(verBarSample);
 }
 
 uiScrollArea::uiScrollArea( const uiScrollArea& scrollarea ):
 	uiDrawablesListWidget(scrollarea)
 {
-	if (scrollarea.mHorScrollbar)
-		mHorScrollbar = getWidgetByType<uiScrollBar>(scrollarea.getWidgetPath(scrollarea.mHorScrollbar));
-	else
-		mHorScrollbar = NULL;
-	
-	if (scrollarea.mVerScrollbar)
-		mVerScrollbar = getWidgetByType<uiScrollBar>(scrollarea.getWidgetPath(scrollarea.mVerScrollbar));
-	else
-		mVerScrollbar = NULL;
+	setHorScrollbarSample(scrollarea.mHorScrollbar);
+	setVerScrollbarSample(scrollarea.mVerScrollbar);
 
 	mClippingLayout = scrollarea.mClippingLayout;
 }
 
 uiScrollArea::~uiScrollArea()
 {
+	safe_release(mHorScrollbar);
+	safe_release(mVerScrollbar);
 }
 
 uiWidget* uiScrollArea::clone() const
 {
 	return mnew uiScrollArea(*this);
+}
+
+void uiScrollArea::setHorScrollbarSample( uiScrollBar* scrollbarSample )
+{
+	safe_release(mHorScrollbar);
+
+	if (scrollbarSample)
+		mHorScrollbar = mnew uiScrollBar(*scrollbarSample);
+}
+
+void uiScrollArea::setVerScrollbarSample( uiScrollBar* scrollbarSample )
+{
+	safe_release(mVerScrollbar);
+
+	if (scrollbarSample)
+		mVerScrollbar = mnew uiScrollBar(*scrollbarSample);
 }
 
 void uiScrollArea::draw()
@@ -54,36 +68,31 @@ void uiScrollArea::draw()
 		(*it)->draw();
 
 	renderSystem()->disableScissorTest();
+
+	if (mHorScrollbar)
+		mHorScrollbar->draw();
+
+	if (mVerScrollbar)
+		mVerScrollbar->draw();
 }
 
 bool uiScrollArea::isFocusable() const
 {
-
-}
-
-void uiScrollArea::updateLayout()
-{
-
-}
-
-void uiScrollArea::localDraw()
-{
-
+	return true;
 }
 
 void uiScrollArea::localUpdate( float dt )
 {
-
-}
-
-void uiScrollArea::localUpdateLayout()
-{
-
+	if (mHorScrollbar)
+		mHorScrollbar->update(dt);
+	
+	if (mVerScrollbar)
+		mVerScrollbar->update(dt);
 }
 
 void uiScrollArea::layoutUpdated()
 {
-
+	mClippingLayout.update(mGlobalPosition, mSize);
 }
 
 bool uiScrollArea::localProcessInputMessage( const cInputMessage& msg )

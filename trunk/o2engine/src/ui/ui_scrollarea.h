@@ -26,7 +26,8 @@ public:
 
 
 	/** ctor. */
-	uiScrollArea(const cLayout& layout, const string& id = "");
+	uiScrollArea(const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
+		         const string& id = "");
 
 	/** copy-ctor. */
 	uiScrollArea(const uiScrollArea& scrollarea);
@@ -43,18 +44,15 @@ public:
 	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
 
+	/** Sets horizontal scroll bar sample. */
+	void setHorScrollbarSample(uiScrollBar* scrollbarSample);
+
+	/** Sets vertical scroll bar sample. */
+	void setVerScrollbarSample(uiScrollBar* scrollbarSample);
+
 protected:
-	/** Updating current and child layouts: global positions and bounds. */
-	virtual void updateLayout();
-
-	/** Drawing current widget. */
-	virtual void localDraw();
-
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
-
-	/** Updating current widget layout: global position and bounds. */
-	virtual void localUpdateLayout();
 
 	/** Calls when widget's layout updated. */
 	virtual void layoutUpdated();
