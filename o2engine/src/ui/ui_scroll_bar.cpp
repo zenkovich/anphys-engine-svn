@@ -57,24 +57,36 @@ uiDrawablesListWidget::Drawable* uiScrollBar::getBarDrawable()
 
 void uiScrollBar::setValueRange( float minValue, float maxValue )
 {
+	if (equals(minValue, mMinValue) && equals(maxValue, mMaxValue))
+		return;
+
 	mMinValue = minValue;
 	mMaxValue = maxValue;
 	this->minValue.onChangeEvent.call();
 	this->maxValue.onChangeEvent.call();
+	onValueChangedEvent.call();
 	updateBarLayout();
 }
 
 void uiScrollBar::setMinValue( float value )
 {
+	if (equals(minValue, mMinValue))
+		return;
+
 	mMinValue = value;
 	updateBarLayout();
+	onValueChangedEvent.call();
 	this->minValue.onChangeEvent.call();
 }
 
 void uiScrollBar::setMaxValue( float value )
 {
+	if (equals(maxValue, mMaxValue))
+		return;
+
 	mMaxValue = value;
 	updateBarLayout();
+	onValueChangedEvent.call();
 	this->maxValue.onChangeEvent.call();
 }
 
@@ -90,9 +102,18 @@ float uiScrollBar::getMaxValue() const
 
 void uiScrollBar::setValue( float value )
 {
+	if (equals(value, mValue))
+		return;
+
 	mValue = value;
+	onValueChangedEvent.call();
 	updateBarLayout();
 	this->value.onChangeEvent.call();
+}
+
+void uiScrollBar::setValueClamped( float value )
+{
+	setValue(clamp(value, mMinValue, mMaxValue));
 }
 
 float uiScrollBar::getValue() const
@@ -145,7 +166,7 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 				mBarPressedState->setState(mPressed);
 
 		}
-		else if (mBackgrGeometry.getRect().isInside(cursorPos))
+		else if (mBackgrGeometry.getRect().isInside(cursorPos) && mFocused)
 		{
 			bool cursorUpper = (mType == TP_HORISONTAL) ? cursorPos.x < barRect.left:cursorPos.y < barRect.top;
 			bool cursorLower = (mType == TP_HORISONTAL) ? cursorPos.x > barRect.right:cursorPos.y > barRect.down;
@@ -164,7 +185,7 @@ bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
 
 		res = mCursorInside;
 	}
-	else if (msg.isCursorDown()) 
+	else if (msg.isCursorDown() && mFocused) 
 	{
 		if (mPressed)
 		{
@@ -208,8 +229,6 @@ bool uiScrollBar::isLocalInside( const vec2f& point ) const
 
 void uiScrollBar::updateBarLayout()
 {
-	onValueChangedEvent.call();
-
 	if (!mBar)
 		return;
 

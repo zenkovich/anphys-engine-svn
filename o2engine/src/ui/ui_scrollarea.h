@@ -9,8 +9,11 @@ class uiScrollBar;
 
 class uiScrollArea: public uiDrawablesListWidget
 {
+	friend class uiStdSkinInitializer;
+
 	uiScrollBar* mHorScrollbar;   /** Horisontal scroll bar child widget. */
 	uiScrollBar* mVerScrollbar;   /** Vertical scroll bar child widget. */
+	vec2f        mSmoothScroll;   /** Smooth scroll. */
 	vec2f        mScroll;         /** Current scrolling. */
 	vec2f        mScrollSpeed;    /** Current scrolling speed. */
 	cLayout      mClippingLayout; /** Crrent clipping layout. */
@@ -22,7 +25,7 @@ public:
 	cCallbackChain onScrolled;
 
 	//properties
-	PROPERTY(uiWidget, vec2f) scroll; /**< Scrolleed offset property. Using setScroll/getScroll. */
+	PROPERTY(uiScrollArea, vec2f) scroll; /**< Scrolleed offset property. Using setScroll/getScroll. */
 
 
 	/** ctor. */
@@ -45,17 +48,23 @@ public:
 	virtual bool isFocusable() const;
 
 	/** Sets horizontal scroll bar sample. */
-	void setHorScrollbarSample(uiScrollBar* scrollbarSample);
+	void setHorScrollbar(uiScrollBar* scrollbar);
 
 	/** Sets vertical scroll bar sample. */
-	void setVerScrollbarSample(uiScrollBar* scrollbarSample);
+	void setVerScrollbar(uiScrollBar* scrollbar);
+
+	/** Sets current scroll. */
+	void setScroll(const vec2f& scroll);
+
+	/** Returns current scroll. */
+	vec2f getScroll() const;
 
 protected:
+	/** Updating current and child layouts: global positions and bounds. */
+	virtual void updateLayout();
+
 	/** Updating current widget. */
 	virtual void localUpdate(float dt);
-
-	/** Calls when widget's layout updated. */
-	virtual void layoutUpdated();
 
 	/** Processing input message in current widget. */
 	virtual bool localProcessInputMessage(const cInputMessage& msg);
@@ -65,6 +74,9 @@ protected:
 
 	/** Calls when widget lost focus. */
 	virtual void onFocusLost();
+
+	/** Cals when hor or vertical bar moved. */
+	void scrollChanged();
 
 	/** Initializing properties. */
 	void initializeProperties();

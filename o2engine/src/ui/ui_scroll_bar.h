@@ -67,6 +67,9 @@ public:
 	/** Sets current value. */
 	void setValue(float value);
 
+	/** Sets current value with clamping by min and max. */
+	void setValueClamped(float value);
+
 	/** Returns current value. */
 	float getValue() const;
 

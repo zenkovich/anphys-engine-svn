@@ -115,6 +115,7 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	GetCursorPos(&pt);
 	ScreenToClient(wnd, &pt);
 	vec2f cursorPos = vec2f((float)pt.x, (float)pt.y);
+	float wheelDelta;
 
 	switch(uMsg)
 	{	
@@ -153,6 +154,11 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEMOVE:
 		mApplication->mInputMessage->setCursorPos(cursorPos);
+		break;
+
+	case WM_MOUSEWHEEL:
+		wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+		mApplication->mInputMessage->setMouseWheelDelta(wheelDelta);
 		break;
 
 	case WM_ACTIVATE:
