@@ -45,12 +45,16 @@ protected:
 	KeysVec   mDownKeys;
 	KeysVec   mReleasedKeys;     
 	
-	CursorVec mCursors; /**< Cursors positions. First - main cursor. */
-	CursorVec mReleasedCursors; /**< Cursors positions. First - main cursor. */
-	vec2f     mMainCursorPos;
-	vec2f     mMainCursorDelta;
+	CursorVec mCursors;         /**< Cursors. First - main cursor. */
+	CursorVec mReleasedCursors; /**< Released cursors. First - main cursor. */
+	vec2f     mMainCursorPos;   /**< Main cursor position. */
+	vec2f     mMainCursorDelta; /**< Main cursor delta. */
+	float     mMouseWheelDelta; /** Mouse wheel delta at current frame. */
 
 public:
+	/** ctor. */
+	cInputMessage();
+
 	/** Returns true if key was pressed at current frame. */
 	bool isKeyPressed(VKey key) const;
 
@@ -108,6 +112,9 @@ public:
 	/** Returns alt 2 cursor pressed time (medium mouse button). 0 if cursor not pressed. */
 	float getAlt2CursorPressedTime() const;
 
+	/** Returns mouse wheel delta at frame. */
+	float getMouseWheelDelta() const;
+
 	/** Returns cursors vector. */
 	CursorVec const& getCursors() const;
 
@@ -147,6 +154,9 @@ protected:
 
 	/** Call it when alt 2cursor released (medium mouse button). */
 	void alt2CursorReleased();
+
+	/** Call when changed mouse wheel delta. */
+	void setMouseWheelDelta(float delta);
 
 	/** Call it after frame update. */
 	void update(float dt);

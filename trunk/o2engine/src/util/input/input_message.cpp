@@ -10,6 +10,11 @@
 #endif //PLATFORM_WIN
 
 OPEN_O2_NAMESPACE
+	
+cInputMessage::cInputMessage():
+	mMouseWheelDelta(0.0f)
+{
+}
 
 bool cInputMessage::isKeyPressed( VKey key ) const
 {
@@ -152,6 +157,11 @@ float cInputMessage::getAlt2CursorPressedTime() const
 	return getKeyPressingTime((VKey)-2);
 }
 
+float cInputMessage::getMouseWheelDelta() const
+{
+	return mMouseWheelDelta;
+}
+
 cInputMessage::CursorVec const& cInputMessage::getCursors() const
 {
 	return mCursors;
@@ -272,6 +282,8 @@ void cInputMessage::update(float dt)
 	mMainCursorDelta = vec2f();
 
 	mReleasedCursors.clear();
+
+	mMouseWheelDelta = 0;
 }
 
 void cInputMessage::altCursorPressed( const vec2f& pos )
@@ -294,6 +306,11 @@ void cInputMessage::alt2CursorPressed( const vec2f& pos )
 void cInputMessage::alt2CursorReleased()
 {
 	keyReleased(-2);
+}
+
+void cInputMessage::setMouseWheelDelta( float delta )
+{
+	mMouseWheelDelta = delta;
 }
 
 CLOSE_O2_NAMESPACE

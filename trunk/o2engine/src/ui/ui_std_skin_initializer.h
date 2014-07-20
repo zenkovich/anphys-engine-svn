@@ -29,6 +29,7 @@ protected:
 	static void initSingleLineEditBox();
 	static void initLabel();
 	static void initMultilineEditBox();
+	static void initScrollArea();
 };
 
 CLOSE_O2_NAMESPACE

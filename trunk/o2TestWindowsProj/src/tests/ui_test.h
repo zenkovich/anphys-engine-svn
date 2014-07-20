@@ -11,6 +11,7 @@ class grSprite;
 class uiProgressBar;
 class IRectDrawable;
 class uiScrollBar;
+class uiScrollArea;
 
 class cUITest: public ITest
 {
@@ -20,6 +21,7 @@ class cUITest: public ITest
 	IRectDrawable* sprite;
 	uiProgressBar* mTestBar;
 	uiScrollBar*   mTestScrollBar;
+	uiScrollArea*  mTestScrollArea;
 
 public:
 	cUITest();

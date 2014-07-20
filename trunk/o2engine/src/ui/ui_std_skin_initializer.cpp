@@ -9,6 +9,7 @@
 #include "ui_progressbar.h"
 #include "ui_rect.h"
 #include "ui_scroll_bar.h"
+#include "ui_scrollarea.h"
 #include "ui_label.h"
 #include "ui_transition_state.h"
 #include "util/geometry/geometry.h"
@@ -38,6 +39,7 @@ void uiStdSkinInitializer::initialize()
 	initSingleLineEditBox();
 	initMultilineEditBox();
 	initLabel();
+	initScrollArea();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -645,6 +647,38 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	editbox->setCursorVisibleDelay(cursorBlinkDelay);
 
 	mSkinManager->setMultilineEditBoxSample(editbox);
+}
+
+void uiStdSkinInitializer::initScrollArea()
+{
+	const string bgTexName = "ui_skin/pad_bk";
+
+	grTexture bgTex = grTexture::createFromFile(bgTexName);
+
+	//drawables
+	fRect borders(8.0f, 8.0f, 8.0f, 8.0f);
+	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	
+	//scrollbars
+	float scrollBarSize = 13.0f;
+	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
+		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
+		"horScrollbar");
+
+	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
+		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
+		"verScrollbar");
+
+	//scrollarea
+	uiScrollArea* scrollArea = mnew uiScrollArea(cLayout::both(), horScrollbar, verScrollbar);
+
+	//adding drawables
+	scrollArea->addDrawable(bgDrawable, "background");
+	
+	//clipping area
+	scrollArea->mClippingLayout = cLayout::both(fRect(borders.left, borders.top, scrollBarSize, scrollBarSize));
+
+	mSkinManager->setScrollAreaSample(scrollArea);
 }
 
 

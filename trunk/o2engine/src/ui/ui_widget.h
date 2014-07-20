@@ -26,13 +26,14 @@ class uiWidget: public cPropertyList
 	friend class uiController;
 	friend class uiState;
 	friend class uiSkinManager;
+	friend class uiScrollArea;
 
 public:
 	typedef vector< uiWidget* > WidgetsVec;
 	typedef std::map< string, uiState* > StatesMap;
 	
 protected:
-	string      mId;                    /**< Identificator or name. */
+	string     mId;                    /**< Identificator or name. */
 	uiWidget*  mParent;                /**< Parent widget. NULL if no parent. */
 	cLayout    mLayout;                /**< Widget layout. */
 	WidgetsVec mChildWidgets;          /**< Chiles widgets. */
@@ -111,7 +112,7 @@ public:
 	template<typename T>
 	T* getWidgetByType(const string& id)
 	{
-		return T*(getWidget(id));
+		return (T*)(getWidget(id));
 	}
 
 	/** Get widget by id. Id format "some_child/child/", ".." - directs to parent. */

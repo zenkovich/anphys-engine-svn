@@ -8,27 +8,25 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiScrollArea);
 
-uiScrollArea::uiScrollArea( const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
-	                        const string& id /*= ""*/ ):
+uiScrollArea::uiScrollArea( const cLayout& layout, uiScrollBar* horBarSample /*= NULL*/, 
+	                        uiScrollBar* verBarSample /*= NULL*/, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
-	setHorScrollbarSample(horBarSample);
-	setVerScrollbarSample(verBarSample);
+	setHorScrollbar(horBarSample);
+	setVerScrollbar(verBarSample);
 }
 
 uiScrollArea::uiScrollArea( const uiScrollArea& scrollarea ):
-	uiDrawablesListWidget(scrollarea)
+	uiDrawablesListWidget(scrollarea), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
-	setHorScrollbarSample(scrollarea.mHorScrollbar);
-	setVerScrollbarSample(scrollarea.mVerScrollbar);
+	setHorScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mHorScrollbar->getId()));
+	setVerScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mVerScrollbar->getId()));
 
 	mClippingLayout = scrollarea.mClippingLayout;
 }
 
 uiScrollArea::~uiScrollArea()
 {
-	safe_release(mHorScrollbar);
-	safe_release(mVerScrollbar);
 }
 
 uiWidget* uiScrollArea::clone() const
@@ -36,20 +34,30 @@ uiWidget* uiScrollArea::clone() const
 	return mnew uiScrollArea(*this);
 }
 
-void uiScrollArea::setHorScrollbarSample( uiScrollBar* scrollbarSample )
+void uiScrollArea::setHorScrollbar( uiScrollBar* scrollbar )
 {
-	safe_release(mHorScrollbar);
+	if (mHorScrollbar)
+		removeChild(mHorScrollbar);
 
-	if (scrollbarSample)
-		mHorScrollbar = mnew uiScrollBar(*scrollbarSample);
+	if (!scrollbar)
+		return;
+
+	addChild(scrollbar);
+	mHorScrollbar = scrollbar;
+	mHorScrollbar->onValueChangedEvent.add(callback<uiScrollArea>(this, &uiScrollArea::scrollChanged));
 }
 
-void uiScrollArea::setVerScrollbarSample( uiScrollBar* scrollbarSample )
+void uiScrollArea::setVerScrollbar( uiScrollBar* scrollbar )
 {
-	safe_release(mVerScrollbar);
+	if (mVerScrollbar)
+		removeChild(mVerScrollbar);
 
-	if (scrollbarSample)
-		mVerScrollbar = mnew uiScrollBar(*scrollbarSample);
+	if (!scrollbar)
+		return;
+	
+	addChild(scrollbar);
+	mVerScrollbar = scrollbar;
+	mVerScrollbar->onValueChangedEvent.add(callback<uiScrollArea>(this, &uiScrollArea::scrollChanged));
 }
 
 void uiScrollArea::draw()
@@ -61,6 +69,12 @@ void uiScrollArea::draw()
 
 	localDraw();
 
+	if (mHorScrollbar)
+		mHorScrollbar->mDrawedAtFrame = mDrawedAtFrame;
+
+	if (mVerScrollbar)
+		mVerScrollbar->mDrawedAtFrame = mDrawedAtFrame;
+
 	renderSystem()->setupScissorRect(mClippingLayout.getRect());
 	renderSystem()->enableScissorTest();
 
@@ -70,10 +84,16 @@ void uiScrollArea::draw()
 	renderSystem()->disableScissorTest();
 
 	if (mHorScrollbar)
+	{
+		mHorScrollbar->mDrawedAtFrame = mDrawedAtFrame - 1;
 		mHorScrollbar->draw();
+	}
 
 	if (mVerScrollbar)
+	{
+		mVerScrollbar->mDrawedAtFrame = mDrawedAtFrame - 1;
 		mVerScrollbar->draw();
+	}
 }
 
 bool uiScrollArea::isFocusable() const
@@ -81,38 +101,116 @@ bool uiScrollArea::isFocusable() const
 	return true;
 }
 
-void uiScrollArea::localUpdate( float dt )
+void uiScrollArea::updateLayout()
 {
-	if (mHorScrollbar)
-		mHorScrollbar->update(dt);
+	localUpdateLayout();
+	mClippingLayout.update(mGlobalPosition, mSize);
+
+	vec2f tempGlobPos = mGlobalPosition;
+	mGlobalPosition = mClippingLayout.mPosition - mSmoothScroll;
 	
+	fRect contentSize = mClippingLayout.getRect() - mSmoothScroll;
+	FOREACH(WidgetsVec, mChildWidgets, it)
+	{
+		(*it)->updateLayout();
+
+		if (*it == mHorScrollbar || *it == mVerScrollbar)
+			continue;
+
+		contentSize = contentSize + (*it)->mBounds;
+	}
+
+	mGlobalPosition = tempGlobPos;
+
+	contentSize.right += 5.0f;
+	contentSize.down += 5.0f;
+
+	if (mHorScrollbar)
+	{
+		mHorScrollbar->setValueRange(0.0f, max(contentSize.getSizeX() - mClippingLayout.mSize.x, 0.1f));
+		mHorScrollbar->setBarSize(mClippingLayout.mSize.x/contentSize.getSizeX()*mHorScrollbar->getMaxValue());
+		mHorScrollbar->updateLayout();
+	}
+
 	if (mVerScrollbar)
-		mVerScrollbar->update(dt);
+	{
+		mVerScrollbar->setValueRange(0.0f, max(contentSize.getSizeY() - mClippingLayout.mSize.y, 0.1f));
+		mVerScrollbar->setBarSize(mClippingLayout.mSize.y/contentSize.getSizeY()*mVerScrollbar->getMaxValue());
+		mVerScrollbar->updateLayout();
+	}
+	
 }
 
-void uiScrollArea::layoutUpdated()
+void uiScrollArea::localUpdate( float dt )
 {
-	mClippingLayout.update(mGlobalPosition, mSize);
+	float scrollingCoef = 20.0f;
+	vec2f lastSmoothScroll = mSmoothScroll;
+	mSmoothScroll = interpolate(mSmoothScroll, mScroll, clamp(dt*scrollingCoef, 0.0f, 1.0f));
+
+	if (!equals(lastSmoothScroll, mSmoothScroll))
+		updateLayout();
 }
 
 bool uiScrollArea::localProcessInputMessage( const cInputMessage& msg )
 {
+	bool insideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
 
+	float scrollCoef = 0.1f;
+	float mouseWheelDelta = msg.getMouseWheelDelta()*scrollCoef;
+	if (!equals(mouseWheelDelta, 0.0f))
+	{
+		if (mVerScrollbar)
+			mVerScrollbar->setValueClamped(mVerScrollbar->getValue() - mouseWheelDelta);
+		else if (mHorScrollbar)
+			mHorScrollbar->setValueClamped(mHorScrollbar->getValue() - mouseWheelDelta);
+	}
+
+	if (insideClipping)
+		return false;
+
+	if (mHorScrollbar)
+		mHorScrollbar->processInputMessage(msg);	
+
+	if (mVerScrollbar)
+		mVerScrollbar->processInputMessage(msg);
+
+	return true;
 }
 
 void uiScrollArea::onFocused()
 {
-
+	uiDrawablesListWidget::onFocused();
 }
 
 void uiScrollArea::onFocusLost()
 {
+	uiDrawablesListWidget::onFocusLost();
+}
 
+void uiScrollArea::setScroll( const vec2f& scroll )
+{
+	mScroll = scroll;
+}
+
+vec2f uiScrollArea::getScroll() const
+{
+	return mScroll;
+}
+
+void uiScrollArea::scrollChanged()
+{
+	if (mHorScrollbar)
+		mScroll.x = mHorScrollbar->getValue();
+
+	if (mVerScrollbar)
+		mScroll.y = mVerScrollbar->getValue();
+
+	updateLayout();
 }
 
 void uiScrollArea::initializeProperties()
 {
-
+	REG_PROPERTY(uiScrollArea, scroll, setScroll, getScroll);
 }
 
 

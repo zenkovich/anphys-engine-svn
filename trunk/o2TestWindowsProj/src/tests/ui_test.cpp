@@ -10,6 +10,7 @@
 #include "ui/ui_editbox.h"
 #include "ui/ui_label.h"
 #include "ui/ui_skin.h"
+#include "ui/ui_scrollarea.h"
 #include "ui/ui_sprite.h"
 #include "ui/ui_std_skin_initializer.h"
 #include "util/graphics/stretch_rect.h"
@@ -50,6 +51,22 @@ cUITest::cUITest()
 
 	uiHost()->addWidget(mTestBar);
 	uiHost()->addWidget(mTestScrollBar);
+
+	mTestScrollArea = uiSkin()->scrollArea(cLayout::fixedSize(vec2f(200, 200), vec2f(30, 300)), "scrollArea");
+	uiHost()->addWidget(mTestScrollArea);
+	
+	mTestScrollArea->addChild( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 20))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 50))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 80))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 4", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 110))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 140))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 170))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 200))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 230))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 260))) );
+	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 290))) );
+
+	mTestScrollArea->addChild( uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(300, 20), vec2f(130, 20)), "scrollBar" ) );
 }
 
 void cUITest::update(float dt)

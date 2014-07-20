@@ -13,6 +13,7 @@
 #include "ui_scroll_bar.h"
 #include "ui_editbox.h"
 #include "ui_label.h"
+#include "ui_scrollarea.h"
 
 OPEN_O2_NAMESPACE
 
@@ -192,6 +193,19 @@ void uiSkinManager::setHorThinScrollbarSample(uiScrollBar* scrollbar)
 void uiSkinManager::setVerThinScrollbarSample(uiScrollBar* scrollbar)
 {
 	mVerThinScrollbarSample = scrollbar;
+}
+
+void uiSkinManager::setScrollAreaSample( uiScrollArea* scrollAreaSample )
+{
+	mScrollAreaSample = scrollAreaSample;
+}
+
+uiScrollArea* uiSkinManager::scrollArea( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/ )
+{
+	uiScrollArea* res = static_cast<uiScrollArea*>(mScrollAreaSample->clone());
+	res->setLayout(layout);
+	res->setId(id);
+	return res;
 }
 
 CLOSE_O2_NAMESPACE
