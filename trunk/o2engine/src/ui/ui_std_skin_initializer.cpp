@@ -594,9 +594,20 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
 	cStretchRect* hoverDrawable = mnew cStretchRect(hoverTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
 	cStretchRect* glowDrawable = mnew cStretchRect(glowTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
+	
+
+	//scrollbars
+	float scrollBarSize = 13.0f;
+	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
+		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
+		"horScrollbar");
+
+	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
+		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
+		"verScrollbar");
 
 	//editbox
-	uiEditBox* editbox = mnew uiEditBox(mStdFont, cLayout::both());
+	uiEditBox* editbox = mnew uiEditBox(mStdFont, cLayout::both(), horScrollbar, verScrollbar);
 
 	//adding drawables
 	cLayout drawablesLayout = cLayout::both(fRect(-5.0f, -5.0f, -5.0f, -5.0f));
@@ -604,7 +615,7 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	editbox->addDrawable(bgDrawable, "background", drawablesLayout);
 	editbox->addDrawable(hoverDrawable, "hover", drawablesLayout);
 
-	editbox->mClippingLayout = cLayout::both(fRect(3.0f, 3.0f, 3.0f, 3.0f));
+	editbox->mClippingLayout = cLayout::both(fRect(3.0f, 3.0f, scrollBarSize + 3.0f, scrollBarSize + 3.0f));
 	editbox->mTextLayout = editbox->mClippingLayout;
 	editbox->mText->setVerAlign(grFont::VA_TOP);
 	editbox->mText->setLinesDistCoef(0.9f);
@@ -626,19 +637,6 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	//adding states
 	editbox->addState(hoverState);
 	editbox->addState(focusState);
-
-	//scrollbars
-	float scrollBarSize = 13.0f;
-	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
-		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
-		"horScrollbar");
-
-	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
-		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
-		"verScrollbar");
-	
-	editbox->addChild(horScrollbar);
-	editbox->addChild(verScrollbar);
 
 	//colors
 	editbox->setCursorColor(cursorColor);

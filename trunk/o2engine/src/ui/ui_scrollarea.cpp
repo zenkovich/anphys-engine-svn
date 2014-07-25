@@ -14,15 +14,26 @@ uiScrollArea::uiScrollArea( const cLayout& layout, uiScrollBar* horBarSample /*=
 {
 	setHorScrollbar(horBarSample);
 	setVerScrollbar(verBarSample);
+
+	initializeProperties();
 }
 
 uiScrollArea::uiScrollArea( const uiScrollArea& scrollarea ):
 	uiDrawablesListWidget(scrollarea), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
-	setHorScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mHorScrollbar->getId()));
-	setVerScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mVerScrollbar->getId()));
+	if (scrollarea.mHorScrollbar)
+		setHorScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mHorScrollbar->getId()));
+	else 
+		setHorScrollbar(NULL);
+
+	if (scrollarea.mVerScrollbar)
+		setVerScrollbar(getWidgetByType<uiScrollBar>(scrollarea.mVerScrollbar->getId()));
+	else
+		setVerScrollbar(NULL);
 
 	mClippingLayout = scrollarea.mClippingLayout;
+
+	initializeProperties();
 }
 
 uiScrollArea::~uiScrollArea()
@@ -130,6 +141,7 @@ void uiScrollArea::updateLayout()
 		mHorScrollbar->setValueRange(0.0f, max(contentSize.getSizeX() - mClippingLayout.mSize.x, 0.1f));
 		mHorScrollbar->setBarSize(mClippingLayout.mSize.x/contentSize.getSizeX()*mHorScrollbar->getMaxValue());
 		mHorScrollbar->updateLayout();
+		mHorScrollbar->setVisible(mHorScrollbar->getBarSize() < mHorScrollbar->getMaxValue() - mHorScrollbar->getMinValue());
 	}
 
 	if (mVerScrollbar)
@@ -137,6 +149,7 @@ void uiScrollArea::updateLayout()
 		mVerScrollbar->setValueRange(0.0f, max(contentSize.getSizeY() - mClippingLayout.mSize.y, 0.1f));
 		mVerScrollbar->setBarSize(mClippingLayout.mSize.y/contentSize.getSizeY()*mVerScrollbar->getMaxValue());
 		mVerScrollbar->updateLayout();
+		mVerScrollbar->setVisible(mVerScrollbar->getBarSize() < mVerScrollbar->getMaxValue() - mVerScrollbar->getMinValue());
 	}
 	
 }
@@ -147,8 +160,10 @@ void uiScrollArea::localUpdate( float dt )
 	vec2f lastSmoothScroll = mSmoothScroll;
 	mSmoothScroll = interpolate(mSmoothScroll, mScroll, clamp(dt*scrollingCoef, 0.0f, 1.0f));
 
-	if (!equals(lastSmoothScroll, mSmoothScroll))
+	if (!equals(lastSmoothScroll, mSmoothScroll)) {
 		updateLayout();
+		onScrolled.call();
+	}
 }
 
 bool uiScrollArea::localProcessInputMessage( const cInputMessage& msg )

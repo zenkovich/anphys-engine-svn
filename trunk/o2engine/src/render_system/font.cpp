@@ -308,9 +308,10 @@ void grFont::TextSymbolsSet::initialize(grFont* font, const wstring& text, const
 
 			jt->mFrame = jt->mFrame + locOrigin;
 		}
+		
+		mRealSize.x = max(mRealSize.x, line->mSize.x);
+		mRealSize.y = max(mRealSize.y, line->mSize.y + line->mPosition.y - mPosition.y);
 	}
-
-	mRealSize = fullSize;
 }
 
 CLOSE_O2_NAMESPACE
