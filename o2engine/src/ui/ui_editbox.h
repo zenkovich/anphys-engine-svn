@@ -10,6 +10,7 @@ class grText;
 class grFont;
 class grSprite;
 class grMesh;
+class uiScrollBar;
 
 class uiEditBox: public uiDrawablesListWidget
 {
@@ -19,7 +20,8 @@ class uiEditBox: public uiDrawablesListWidget
 	uiState*  mFocusedState;       /** Focused state. */
 			 				       
 	grText*   mText;               /** Text drawable. */
-	float     mScrolling;          /** Scrolling in pixels. */
+	vec2f     mScroll;             /** Scrolling in pixels. */
+	vec2f     mSmoothScroll;       /** Smoothed scrolling. */
 	cLayout   mClippingLayout;     /** Clipping area layout. */
 	cLayout   mTextLayout;         /** Text layout. */
 							       
@@ -31,7 +33,10 @@ class uiEditBox: public uiDrawablesListWidget
 
 	float     mCursorVisibleTimer; /** Cursor visible timer. When in greater than mCursorVisibleDelay, it will hide. */
 	float     mCursorVisibleDelay; /** Cursor visible delay. */
-	bool      mMultiLine;          /** True, if multiline. */
+	bool      mMultiLine;          /** True, if multi line. */
+	
+	uiScrollBar* mHorScrollbar;    /** Horizontal scroll bar child widget. */
+	uiScrollBar* mVerScrollbar;    /** Vertical scroll bar child widget. */
 
 public:
 	DEFINE_TYPE(uiEditBox);
@@ -43,7 +48,8 @@ public:
 
 
 	/** ctor. */
-	uiEditBox(grFont* font, const cLayout& layout, const string& id = "");
+	uiEditBox(grFont* font, const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
+		      const string& id = "");
 
 	/** copy-ctor. */
 	uiEditBox(const uiEditBox& editbox);
@@ -74,6 +80,18 @@ public:
 
 	/** returns word wrapping flag. */
 	bool isWordWrap() const;
+
+	/** Sets horizontal scroll bar sample. */
+	void setHorScrollbar(uiScrollBar* scrollbar);
+
+	/** Sets vertical scroll bar sample. */
+	void setVerScrollbar(uiScrollBar* scrollbar);
+
+	/** Sets current scroll. */
+	void setScroll(const vec2f& scroll);
+
+	/** Returns current scroll. */
+	vec2f getScroll() const;
 
 protected:
 	/** Sets cursor color. */
@@ -136,8 +154,17 @@ protected:
 	/** Updates end selection position. */
 	void updateSelectionEndPosition(int position, bool selecting);
 
+	/** Updates cursor sprite position by end selection index. */
+	void updateCursorSpritePos();
+
 	/** Updates selection mesh by selection start and end. */
 	void updateSelection();
+
+	/** Updates scrolling for visible cursor. */
+	void checkScrollingToCursor();
+
+	/** Calls when hor or vertical bar moved. */
+	void scrollChanged();
 
 	/** Initializing properties. */
 	void initializeProperties();

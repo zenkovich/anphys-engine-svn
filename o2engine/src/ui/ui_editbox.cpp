@@ -4,14 +4,16 @@
 #include "render_system/render_system.h"
 #include "render_system/sprite.h"
 #include "render_system/mesh.h"
+#include "ui_scroll_bar.h"
 
 OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiEditBox);
 
-uiEditBox::uiEditBox( grFont* font, const cLayout& layout, const string& id /*= ""*/ ):
+uiEditBox::uiEditBox( grFont* font, const cLayout& layout, uiScrollBar* horBarSample /*= NULL*/, 
+	                  uiScrollBar* verBarSample /*= NULL*/, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL), mCursorVisibleTimer(0.0f),
-	mMultiLine(false)
+	mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
 	mText = mnew grText(font);
 	mText->setHorAlign(grFont::HA_LEFT);
@@ -27,12 +29,14 @@ uiEditBox::uiEditBox( grFont* font, const cLayout& layout, const string& id /*= 
 	mCursorVisibleDelay = 0.7f;
 
 	mSelectionStart = mSelectionEnd = 0;
+	setHorScrollbar(horBarSample);
+	setVerScrollbar(verBarSample);
 
 	initializeProperties();
 }
 
 uiEditBox::uiEditBox( const uiEditBox& editbox ):
-	uiDrawablesListWidget(editbox), mMultiLine(false)
+	uiDrawablesListWidget(editbox), mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
 	mHoverState = getState("hover");
 	mFocusedState = getState("focus");
@@ -53,6 +57,16 @@ uiEditBox::uiEditBox( const uiEditBox& editbox ):
 	mCursorVisibleTimer = 0.0f;
 	
 	mSelectionStart = mSelectionEnd = 0;
+
+	if (editbox.mHorScrollbar)
+		setHorScrollbar(getWidgetByType<uiScrollBar>(editbox.mHorScrollbar->getId()));
+	else 
+		setHorScrollbar(NULL);
+
+	if (editbox.mVerScrollbar)
+		setVerScrollbar(getWidgetByType<uiScrollBar>(editbox.mVerScrollbar->getId()));
+	else
+		setVerScrollbar(NULL);
 
 	initializeProperties();
 }
@@ -106,6 +120,32 @@ bool uiEditBox::isWordWrap() const
 	return mText->getWordWrap();
 }
 
+void uiEditBox::setHorScrollbar( uiScrollBar* scrollbar )
+{
+	if (mHorScrollbar)
+		removeChild(mHorScrollbar);
+
+	if (!scrollbar)
+		return;
+
+	addChild(scrollbar);
+	mHorScrollbar = scrollbar;
+	mHorScrollbar->onValueChangedEvent.add(callback<uiEditBox>(this, &uiEditBox::scrollChanged));
+}
+
+void uiEditBox::setVerScrollbar( uiScrollBar* scrollbar )
+{
+	if (mVerScrollbar)
+		removeChild(mVerScrollbar);
+
+	if (!scrollbar)
+		return;
+	
+	addChild(scrollbar);
+	mVerScrollbar = scrollbar;
+	mVerScrollbar->onValueChangedEvent.add(callback<uiEditBox>(this, &uiEditBox::scrollChanged));
+}
+
 void uiEditBox::addedState( uiState* state )
 {
 	if (state->getName() == "hover")
@@ -120,13 +160,45 @@ void uiEditBox::localUpdate( float dt )
 		mHoverState->setState(mCursorInside);
 
 	updateCursorVisible(dt);
+
+	//update scrolling
+	float scrollingCoef = 20.0f;
+	vec2f lastSmoothScroll = mSmoothScroll;
+	mSmoothScroll = interpolate(mSmoothScroll, mScroll, clamp(dt*scrollingCoef, 0.0f, 1.0f));
+
+	if (!equals(lastSmoothScroll, mSmoothScroll)) {
+		updateLayout();
+	}
 }
 
 bool uiEditBox::localProcessInputMessage( const cInputMessage& msg )
 {
-	processNavigation(msg);
-	processErasing(msg);
-	processInputCharacters(msg);
+	bool insideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
+
+	float scrollCoef = 0.1f;
+	float mouseWheelDelta = msg.getMouseWheelDelta()*scrollCoef;
+	if (!equals(mouseWheelDelta, 0.0f))
+	{
+		if (mVerScrollbar && mVerScrollbar->isVisible())
+			mVerScrollbar->setValueClamped(mVerScrollbar->getValue() - mouseWheelDelta);
+		else if (mHorScrollbar)
+			mHorScrollbar->setValueClamped(mHorScrollbar->getValue() - mouseWheelDelta);
+	}
+
+	if (msg.isCursorPressed())
+	{
+		if (mCursorInside)			
+			makeFocused();
+		else
+			releaseFocus();
+	}
+
+	if (insideClipping)
+	{
+		processNavigation(msg);
+		processErasing(msg);
+		processInputCharacters(msg);
+	}
 
 	return false;
 }
@@ -141,12 +213,6 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 			updateSelectionEndPosition(charIdx, false);
 			mSelectionStart = mSelectionEnd;
 			updateSelection();
-			makeFocused();
-		}
-		else
-		{
-			releaseFocus();
-			return;
 		}
 	}
 
@@ -294,6 +360,8 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 				updateSelectionEndPosition(mSelectionEnd -1, false);
 			else
 				updateSelectionEndPosition(min(mSelectionEnd, mSelectionStart), false);
+
+			layoutUpdated();
 		}
 	}
 
@@ -311,6 +379,8 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 			mText->setText(text);
 			mText->forceUpdateMesh();		
 			updateSelectionEndPosition(min(mSelectionEnd, mSelectionStart), false);
+
+			layoutUpdated();
 		}
 	}
 }
@@ -321,7 +391,7 @@ void uiEditBox::processInputCharacters(const cInputMessage &msg)
 	FOREACH(cInputMessage::KeysVec, pressedKeys, key) 
 	{
 		char16_t ch = (char16_t)getUnicodeFromVirtualCode(key->mKey);
-		hlog("char %i", (int)ch);
+		//hlog("char %i", (int)ch);
 		if (ch != 0 && ch != 8)
 		{
 			if (ch == 13)
@@ -344,7 +414,9 @@ void uiEditBox::processInputCharacters(const cInputMessage &msg)
 			mText->forceUpdateMesh();
 			updateSelectionEndPosition(mSelectionEnd + 1, false);
 			mSelectionStart = mSelectionEnd;
-			hlog("char %i", (int)ch);
+			//hlog("char %i", (int)ch);
+
+			layoutUpdated();
 		}
 	}
 }
@@ -367,9 +439,36 @@ void uiEditBox::localDraw()
 void uiEditBox::layoutUpdated()
 {
 	uiDrawablesListWidget::layoutUpdated();
+
 	mClippingLayout.update(mGlobalPosition, mSize);
-	mTextLayout.update(mGlobalPosition, mSize);
+	mTextLayout.update(mGlobalPosition - mSmoothScroll, mSize);
 	mText->setRect(mTextLayout.getRect());
+	mText->forceUpdateMesh();
+
+	grFont::TextSymbolsSet* symbSet = mText->getSymbolsSet();
+	fRect contentSize(mTextLayout.mPosition, symbSet->mPosition + symbSet->mRealSize + vec2f(5.0f, 5.0f));
+
+	if (mHorScrollbar)
+	{
+		mHorScrollbar->setValueRange(0.0f, max(contentSize.getSizeX() - mClippingLayout.mSize.x, 0.1f));
+		mHorScrollbar->setBarSize(mClippingLayout.mSize.x/contentSize.getSizeX()*mHorScrollbar->getMaxValue());
+		mHorScrollbar->setVisible(mHorScrollbar->getBarSize() < mHorScrollbar->getMaxValue() - mHorScrollbar->getMinValue());
+		if (!mHorScrollbar->isVisible()) 
+			mScroll.x = 0;
+	}
+
+	if (mVerScrollbar)
+	{
+		mVerScrollbar->setValueRange(0.0f, max(contentSize.getSizeY() - mClippingLayout.mSize.y, 0.1f));
+		mVerScrollbar->setBarSize(mClippingLayout.mSize.y/contentSize.getSizeY()*mVerScrollbar->getMaxValue());
+		mVerScrollbar->setVisible(mVerScrollbar->getBarSize() < mVerScrollbar->getMaxValue() - mVerScrollbar->getMinValue());
+		if (!mVerScrollbar->isVisible()) 
+			mScroll.y = 0;
+	}
+	
+	updateCursorSpritePos();
+	updateSelection();
+	checkScrollingToCursor();
 }
 
 void uiEditBox::onFocused()
@@ -539,15 +638,22 @@ void uiEditBox::updateCursorVisible(float dt)
 void uiEditBox::updateSelectionEndPosition( int position, bool selecting )
 {
 	mSelectionEnd = clamp(position, 0, (int)mText->getText().length());
-	mCursorSprite->setPosition(getCharacterPosition(mSelectionEnd));
-	mCursorSprite->setEnabled(true);
-	mCursorVisibleTimer = 0;
+
+	updateCursorSpritePos();
+
 	if (!selecting) 
 	{
 		mSelectionStart = mSelectionEnd;
 	}
 
 	updateSelection();
+}
+
+void uiEditBox::updateCursorSpritePos()
+{
+	mCursorSprite->setPosition(getCharacterPosition(mSelectionEnd));
+	mCursorSprite->setEnabled(true);
+	mCursorVisibleTimer = 0;
 }
 
 void uiEditBox::updateSelection()
@@ -604,6 +710,24 @@ void uiEditBox::updateSelection()
 
 		selectionAddRect(fRect(lt, rd));
 	}
+}
+
+void uiEditBox::scrollChanged()
+{
+	if (mHorScrollbar)
+		mScroll.x = mHorScrollbar->getValue();
+
+	if (mVerScrollbar)
+		mScroll.y = mVerScrollbar->getValue();
+
+	updateLayout();
+}
+
+void uiEditBox::checkScrollingToCursor()
+{
+	vec2f cursorPos = mCursorSprite->getPosition();
+	fRect clipRect = mClippingLayout.getRect();
+	mScroll.x += max(cursorPos.x - clipRect.right, 0.0f);
 }
 
 void uiEditBox::initializeProperties()

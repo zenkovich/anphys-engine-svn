@@ -17,7 +17,7 @@ uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
 }
 
 uiWidget::uiWidget( const uiWidget& widget ):
-	mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
+	mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false), mVisibleState(NULL)
 {
 	initializeProperties();
 
