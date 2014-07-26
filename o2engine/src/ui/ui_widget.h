@@ -34,6 +34,7 @@ public:
 	
 protected:
 	string     mId;                    /**< Identificator or name. */
+	string     mHint;                  /**< Hint text. */
 	uiWidget*  mParent;                /**< Parent widget. NULL if no parent. */
 	cLayout    mLayout;                /**< Widget layout. */
 	WidgetsVec mChildWidgets;          /**< Chiles widgets. */
@@ -123,6 +124,9 @@ public:
 
 
 	//setters and getters
+	/** Returns hint string. */
+	virtual string getHint() const;
+
 	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
 

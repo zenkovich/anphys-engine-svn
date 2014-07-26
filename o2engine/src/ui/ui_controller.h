@@ -5,6 +5,7 @@
 
 #include "util/singleton.h"
 #include "ui_widget.h"
+#include "ui_label.h"
 
 OPEN_O2_NAMESPACE
 
@@ -13,9 +14,13 @@ class uiController: public cSingleton<uiController>
 {
 	typedef vector<uiWidget*> WidgetsVec;
 
-	uiWidget  mBasicWidget;
-	uiWidget* mFocusWidget; /** Focused widget. */
-	bool      mChangedFocusWidget;
+	uiWidget  mBasicWidget;        /** Basic widget. */
+
+	uiWidget* mHintWidget;         /** Hint widget. */
+	uiLabel*  mHintWidgetLabel;    /** Hint label inside hint widget. */
+
+	uiWidget* mFocusWidget;        /** Focused widget. */
+	bool      mChangedFocusWidget; /** True, if focus widget need to change. */
 
 public:
 	/** ctor. */
@@ -51,6 +56,16 @@ public:
 	{
 		return getWidget(idPath);
 	}
+
+private:
+	/** Sets widget hint. */
+	void setHintWidget(uiWidget* hintWidget, const string& labelWidgetPath = "");
+
+	/** Label recursive search function. */
+	uiLabel* FindLabel(uiWidget* widget);
+
+	/** Shows hint at widget. */
+	void showHint(uiWidget* hintingWidget);
 };
 
 /** Basic application ui controller host. */

@@ -13,7 +13,7 @@ REGIST_TYPE(uiEditBox);
 uiEditBox::uiEditBox( grFont* font, const cLayout& layout, uiScrollBar* horBarSample /*= NULL*/, 
 	                  uiScrollBar* verBarSample /*= NULL*/, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL), mCursorVisibleTimer(0.0f),
-	mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL)
+	mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL), mCursorInsideClipping(false)
 {
 	mText = mnew grText(font);
 	mText->setHorAlign(grFont::HA_LEFT);
@@ -36,7 +36,7 @@ uiEditBox::uiEditBox( grFont* font, const cLayout& layout, uiScrollBar* horBarSa
 }
 
 uiEditBox::uiEditBox( const uiEditBox& editbox ):
-	uiDrawablesListWidget(editbox), mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL)
+	uiDrawablesListWidget(editbox), mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL), mCursorInsideClipping(false)
 {
 	mHoverState = getState("hover");
 	mFocusedState = getState("focus");
@@ -173,11 +173,11 @@ void uiEditBox::localUpdate( float dt )
 
 bool uiEditBox::localProcessInputMessage( const cInputMessage& msg )
 {
-	bool insideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
+	mCursorInsideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
 
 	float scrollCoef = 0.1f;
 	float mouseWheelDelta = msg.getMouseWheelDelta()*scrollCoef;
-	if (!equals(mouseWheelDelta, 0.0f))
+	if (!equals(mouseWheelDelta, 0.0f) && mCursorInside)
 	{
 		if (mVerScrollbar && mVerScrollbar->isVisible())
 			mVerScrollbar->setValueClamped(mVerScrollbar->getValue() - mouseWheelDelta);
@@ -193,19 +193,16 @@ bool uiEditBox::localProcessInputMessage( const cInputMessage& msg )
 			releaseFocus();
 	}
 
-	if (insideClipping)
-	{
-		processNavigation(msg);
-		processErasing(msg);
-		processInputCharacters(msg);
-	}
+	processNavigation(msg);
+	processErasing(msg);
+	processInputCharacters(msg);	
 
 	return false;
 }
 
 void uiEditBox::processNavigation( const cInputMessage &msg )
 {
-	if (msg.isCursorPressed())
+	if (msg.isCursorPressed() && mCursorInsideClipping)
 	{
 		if (mCursorInside)
 		{
@@ -280,7 +277,6 @@ void uiEditBox::processNavigation( const cInputMessage &msg )
 
 		updateSelectionEndPosition(endLineSymbol, selecting);
 	}
-
 }
 
 void uiEditBox::jumpSelection(bool forward, bool selecting)
@@ -344,7 +340,7 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 {
 	if (msg.isKeyPressed(VK_BACK) || msg.isKeyRepeating(VK_BACK))
 	{
-		if (mSelectionEnd >= 0) 
+		if (mSelectionEnd > 0) 
 		{
 			wstring text = mText->getText();
 
@@ -362,6 +358,7 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 				updateSelectionEndPosition(min(mSelectionEnd, mSelectionStart), false);
 
 			layoutUpdated();
+			checkScrollingToCursor();
 		}
 	}
 
@@ -381,6 +378,7 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 			updateSelectionEndPosition(min(mSelectionEnd, mSelectionStart), false);
 
 			layoutUpdated();
+			checkScrollingToCursor();
 		}
 	}
 }
@@ -388,10 +386,18 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 void uiEditBox::processInputCharacters(const cInputMessage &msg)
 {
 	cInputMessage::KeysVec pressedKeys = msg.getPressedKeys();
+	cInputMessage::KeysVec downKeys = msg.getDownKeys();
+
+	FOREACH(cInputMessage::KeysVec, downKeys, key) 
+	{
+		if (msg.isKeyRepeating(key->mKey))
+			pressedKeys.push_back(*key);
+	}
+
 	FOREACH(cInputMessage::KeysVec, pressedKeys, key) 
 	{
 		char16_t ch = (char16_t)getUnicodeFromVirtualCode(key->mKey);
-		//hlog("char %i", (int)ch);
+		hlog("char %i", (int)ch);
 		if (ch != 0 && ch != 8)
 		{
 			if (ch == 13)
@@ -414,9 +420,10 @@ void uiEditBox::processInputCharacters(const cInputMessage &msg)
 			mText->forceUpdateMesh();
 			updateSelectionEndPosition(mSelectionEnd + 1, false);
 			mSelectionStart = mSelectionEnd;
-			//hlog("char %i", (int)ch);
+			hlog("char %i", (int)ch);
 
-			layoutUpdated();
+			layoutUpdated();		
+			checkScrollingToCursor();
 		}
 	}
 }
@@ -454,7 +461,9 @@ void uiEditBox::layoutUpdated()
 		mHorScrollbar->setBarSize(mClippingLayout.mSize.x/contentSize.getSizeX()*mHorScrollbar->getMaxValue());
 		mHorScrollbar->setVisible(mHorScrollbar->getBarSize() < mHorScrollbar->getMaxValue() - mHorScrollbar->getMinValue());
 		if (!mHorScrollbar->isVisible()) 
+		{
 			mScroll.x = 0;
+		}
 	}
 
 	if (mVerScrollbar)
@@ -468,7 +477,6 @@ void uiEditBox::layoutUpdated()
 	
 	updateCursorSpritePos();
 	updateSelection();
-	checkScrollingToCursor();
 }
 
 void uiEditBox::onFocused()
@@ -585,7 +593,7 @@ vec2f uiEditBox::getCharacterPosition(int idx)
 		return res;
 	}
 
-	return mTextLayout.mPosition + vec2f(0.0f, mText->getFont()->getLineHeight());
+	return mTextLayout.mPosition + vec2f(0.0f, mText->getFont()->getLineHeight()*(1.0f + 1.0f - mText->getLinesDistCoef()));
 }
 
 void uiEditBox::setCursorColor(const color4& color)
@@ -642,11 +650,10 @@ void uiEditBox::updateSelectionEndPosition( int position, bool selecting )
 	updateCursorSpritePos();
 
 	if (!selecting) 
-	{
 		mSelectionStart = mSelectionEnd;
-	}
 
 	updateSelection();
+	checkScrollingToCursor();
 }
 
 void uiEditBox::updateCursorSpritePos()
@@ -727,7 +734,29 @@ void uiEditBox::checkScrollingToCursor()
 {
 	vec2f cursorPos = mCursorSprite->getPosition();
 	fRect clipRect = mClippingLayout.getRect();
-	mScroll.x += max(cursorPos.x - clipRect.right, 0.0f);
+	
+	float rightOffs = max(cursorPos.x - clipRect.right + 5.0f, 0.0f);
+	float leftOffs = max(clipRect.left - cursorPos.x + 5.0f, 0.0f);
+
+
+	float downOffs = max(cursorPos.y - clipRect.down + 5.0f, 0.0f);
+	float topOffs = max(clipRect.top - cursorPos.y + 5.0f + mText->getFont()->getLineHeight(), 0.0f);
+	
+	if (mHorScrollbar)
+		mHorScrollbar->setValueClamped(mScroll.x + rightOffs - leftOffs);
+	else
+	{
+		mScroll.x = clamp(mScroll.x + rightOffs - leftOffs, 
+			              0.0f, max(mText->getSymbolsSet()->mRealSize.x - clipRect.getSizeX(), 0.0f) + 5.0f);
+	}
+
+	if (mMultiLine)
+	{
+		if (mVerScrollbar)
+			mVerScrollbar->setValueClamped(mScroll.y + downOffs - topOffs);
+		else
+			mScroll.y = mScroll.y + downOffs - topOffs;
+	}
 }
 
 void uiEditBox::initializeProperties()
