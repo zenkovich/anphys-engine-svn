@@ -16,27 +16,30 @@ class uiEditBox: public uiDrawablesListWidget
 {
 	friend class uiStdSkinInitializer;
 
-	uiState*  mHoverState;         /** Hover state. */
-	uiState*  mFocusedState;       /** Focused state. */
-			 				       
-	grText*   mText;               /** Text drawable. */
-	vec2f     mScroll;             /** Scrolling in pixels. */
-	vec2f     mSmoothScroll;       /** Smoothed scrolling. */
-	cLayout   mClippingLayout;     /** Clipping area layout. */
-	cLayout   mTextLayout;         /** Text layout. */
-							       
-	grSprite* mCursorSprite;       /** Cursor sprite drawable. */
-	grMesh*   mSelectionMesh;      /** Selection mesh drawable. */
-	color4    mSelectionColor;     
-	int       mSelectionStart;     /** Selection start character idx. */
-	int       mSelectionEnd;       /** Selection end character idx. */
-
-	float     mCursorVisibleTimer; /** Cursor visible timer. When in greater than mCursorVisibleDelay, it will hide. */
-	float     mCursorVisibleDelay; /** Cursor visible delay. */
-	bool      mMultiLine;          /** True, if multi line. */
+	uiState*     mHoverState;           /** Hover state. */
+	uiState*     mFocusedState;         /** Focused state. */
+			  	  			       	    
+	grText*      mText;                 /** Text drawable. */
+	vec2f        mScroll;               /** Scrolling in pixels. */
+	vec2f        mSmoothScroll;         /** Smoothed scrolling. */
+	cLayout      mClippingLayout;       /** Clipping area layout. */
+	cLayout      mTextLayout;           /** Text layout. */
+				   			       	    
+	grSprite*    mCursorSprite;         /** Cursor sprite drawable. */
+	grMesh*      mSelectionMesh;        /** Selection mesh drawable. */
+	color4       mSelectionColor;       
+	int          mSelectionStart;       /** Selection start character idx. */
+	int          mSelectionEnd;         /** Selection end character idx. */
+			     					    
+	float        mCursorVisibleTimer;   /** Cursor visible timer. When in greater than mCursorVisibleDelay, it will hide. */
+	float        mCursorVisibleDelay;   /** Cursor visible delay. */
+	bool         mMultiLine;            /** True, if multi line. */
+			     
+	bool         mCursorInsideClipping; /** True, if cursor inside clipping rect. */
 	
-	uiScrollBar* mHorScrollbar;    /** Horizontal scroll bar child widget. */
-	uiScrollBar* mVerScrollbar;    /** Vertical scroll bar child widget. */
+	uiScrollBar* mHorScrollbar;         /** Horizontal scroll bar child widget. */
+	uiScrollBar* mVerScrollbar;         /** Vertical scroll bar child widget. */
+
 
 public:
 	DEFINE_TYPE(uiEditBox);

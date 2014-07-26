@@ -166,6 +166,7 @@
     <ClInclude Include="..\src\util\array.h" />
     <ClInclude Include="..\src\util\assert.h" />
     <ClInclude Include="..\src\util\callback.h" />
+    <ClInclude Include="..\src\util\clipboard.h" />
     <ClInclude Include="..\src\util\data_utils.h" />
     <ClInclude Include="..\src\util\enumerable.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
@@ -295,6 +296,7 @@
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
+    <ClCompile Include="..\src\util\clipboard.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />
     <ClCompile Include="..\src\util\geometry\geometry.cpp" />

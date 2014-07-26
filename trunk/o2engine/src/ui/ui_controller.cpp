@@ -8,12 +8,14 @@ OPEN_O2_NAMESPACE
 DECLARE_SINGLETON(uiController);
 
 uiController::uiController():
-	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false)
+	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false), mHintWidget(NULL),
+	mHintWidgetLabel(NULL)
 {
 }
 
 uiController::~uiController()
 {
+	safe_release(mHintWidget);
 }
 
 void uiController::update(float dt)
@@ -73,6 +75,31 @@ void uiController::focusOnWidget(uiWidget* widget)
 
 	if (mFocusWidget)
 		mChangedFocusWidget = true;
+}
+
+uiLabel* uiController::FindLabel(uiWidget* widget) 
+{
+	if (widget->getType() == uiLabel::getStaticType())
+		return static_cast<uiLabel*>(widget);
+
+	FOREACH(uiWidget::WidgetsVec, widget->mChildWidgets, child)
+	{
+		uiLabel* res = FindLabel(*child);
+		if (res)
+			return res;
+	}
+
+	return NULL;
+}
+
+void uiController::setHintWidget(uiWidget* hintWidget, const string& labelWidgetPath /*= ""*/)
+{
+	mHintWidget = hintWidget;
+
+	if (labelWidgetPath != "")
+		mHintWidgetLabel = mHintWidget->getWidgetByType<uiLabel>(labelWidgetPath);
+	else
+		mHintWidgetLabel = FindLabel(hintWidget);
 }
 
 CLOSE_O2_NAMESPACE

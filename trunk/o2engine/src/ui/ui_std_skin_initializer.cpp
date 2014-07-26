@@ -572,9 +572,9 @@ void uiStdSkinInitializer::initLabel()
 
 void uiStdSkinInitializer::initMultilineEditBox()
 {
-	const string bgTexName = "ui_skin/editbox_bk";
-	const string hoverTexName = "ui_skin/editbox_hover";
-	const string glowTexName = "ui_skin/editbox_glow";
+	const string bgTexName = "ui_skin/pad_bk";
+	const string hoverTexName = "ui_skin/pad_hover";
+	const string glowTexName = "ui_skin/pad_glow";
 
 	const color4 cursorColor(180, 180, 180, 255);
 	const color4 selectionColor(150, 150, 230, 130);
@@ -597,13 +597,13 @@ void uiStdSkinInitializer::initMultilineEditBox()
 	
 
 	//scrollbars
-	float scrollBarSize = 13.0f;
+	float scrollBarSize = 11.0f;
 	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
 		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
 		"horScrollbar");
 
 	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
-		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
+		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, 0.0f)),
 		"verScrollbar");
 
 	//editbox
