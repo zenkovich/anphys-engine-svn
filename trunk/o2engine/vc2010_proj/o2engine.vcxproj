@@ -147,6 +147,7 @@
     <ClInclude Include="..\src\ui\ui_controller.h" />
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
     <ClInclude Include="..\src\ui\ui_editbox.h" />
+    <ClInclude Include="..\src\ui\ui_hint_controller.h" />
     <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_progressbar.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
