@@ -23,6 +23,8 @@ protected:
 	bool     mHover;
 	bool     mPressed;
 	bool     mPressedByButton;
+	bool     mHinting;
+	float    mUnderCursorTime;
 
 public:
 	DEFINE_TYPE(uiButton);

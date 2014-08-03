@@ -66,10 +66,10 @@ uiSprite* uiSkinManager::sprite( const grTexture& texture, const cLayout& layout
 	return spriteWidget;
 }
 
-void uiSkinManager::addVisibleState( uiWidget* widget )
+void uiSkinManager::addVisibleState( uiWidget* widget, float duration /*= 0.5f*/ )
 {
 	uiTransitionState* state = mnew uiTransitionState("visible");
-	state->addProperty(&widget->transparency, 0.0f, 1.0f, 0.5f);
+	state->addProperty(&widget->transparency, 0.0f, 1.0f, duration);
 	widget->addState(state);
 }
 

@@ -8,14 +8,12 @@ OPEN_O2_NAMESPACE
 DECLARE_SINGLETON(uiController);
 
 uiController::uiController():
-	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false), mHintWidget(NULL),
-	mHintWidgetLabel(NULL)
+	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false)
 {
 }
 
 uiController::~uiController()
 {
-	safe_release(mHintWidget);
 }
 
 void uiController::update(float dt)
@@ -31,6 +29,7 @@ void uiController::update(float dt)
 
 	mBasicWidget.size = renderSystem()->getResolution();
 	mBasicWidget.update(dt);
+	mHintController.update(dt);
 
 	if (mFocusWidget)
 		mFocusWidget->processInputMessage(*appInput());
@@ -41,6 +40,7 @@ void uiController::update(float dt)
 void uiController::draw()
 {
 	mBasicWidget.draw();
+	mHintController.draw();
 }
 
 uiWidget* uiController::addWidget(uiWidget* widget)
@@ -77,29 +77,19 @@ void uiController::focusOnWidget(uiWidget* widget)
 		mChangedFocusWidget = true;
 }
 
-uiLabel* uiController::FindLabel(uiWidget* widget) 
+void uiController::showHint( const string& hintText, const vec2f& position )
 {
-	if (widget->getType() == uiLabel::getStaticType())
-		return static_cast<uiLabel*>(widget);
-
-	FOREACH(uiWidget::WidgetsVec, widget->mChildWidgets, child)
-	{
-		uiLabel* res = FindLabel(*child);
-		if (res)
-			return res;
-	}
-
-	return NULL;
+	mHintController.showAt(position, hintText);
 }
 
-void uiController::setHintWidget(uiWidget* hintWidget, const string& labelWidgetPath /*= ""*/)
+void uiController::hideHint()
 {
-	mHintWidget = hintWidget;
+	mHintController.hide();
+}
 
-	if (labelWidgetPath != "")
-		mHintWidgetLabel = mHintWidget->getWidgetByType<uiLabel>(labelWidgetPath);
-	else
-		mHintWidgetLabel = FindLabel(hintWidget);
+vec2f uiController::getClientRectSize() const
+{
+	return mBasicWidget.getSize();
 }
 
 CLOSE_O2_NAMESPACE

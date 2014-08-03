@@ -12,7 +12,7 @@ uiRect::uiRect(const uiRect& rectWidget):
 	uiWidget(rectWidget)
 {
 	mStretchRect = rectWidget.mStretchRect;	
-	transparency.onChangeEvent.add(callback<uiRect>( this, &uiRect::transparencyChanged));
+	mResTransparencyChanged.add(callback<uiRect>( this, &uiRect::transparencyChanged));
 }
 
 uiRect::~uiRect()
@@ -36,7 +36,7 @@ void uiRect::layoutUpdated()
 
 void uiRect::transparencyChanged()
 {
-	mStretchRect.setTransparency(mTransparency);
+	mStretchRect.setTransparency(mResTransparency);
 }
 
 CLOSE_O2_NAMESPACE

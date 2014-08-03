@@ -134,13 +134,14 @@ public:
 		mCallbacks.push_back(callback);
 	}
 
-	void remove(ICallback* callback) 
+	void remove(ICallback* callback, bool release = true) 
 	{
 		CallbacksVec::iterator fnd = std::find(mCallbacks.begin(), mCallbacks.end(), callback);
 		if (fnd != mCallbacks.end())
 			mCallbacks.erase(fnd);
 
-		safe_release(callback);
+		if (release)
+			safe_release(callback);
 	}
 
 	void removeAll()

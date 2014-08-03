@@ -5,22 +5,22 @@
 
 #include "util/singleton.h"
 #include "ui_widget.h"
-#include "ui_label.h"
+#include "ui_hint_controller.h"
 
 OPEN_O2_NAMESPACE
 
 /** User interface controller. Processing and drawing widgets. */
 class uiController: public cSingleton<uiController>
 {
+	friend class uiStdSkinInitializer;
+
 	typedef vector<uiWidget*> WidgetsVec;
 
-	uiWidget  mBasicWidget;        /** Basic widget. */
+	uiWidget         mBasicWidget;        /** Basic widget. */
+	uiHintController mHintController;     /** Hint controller. */
 
-	uiWidget* mHintWidget;         /** Hint widget. */
-	uiLabel*  mHintWidgetLabel;    /** Hint label inside hint widget. */
-
-	uiWidget* mFocusWidget;        /** Focused widget. */
-	bool      mChangedFocusWidget; /** True, if focus widget need to change. */
+	uiWidget*        mFocusWidget;        /** Focused widget. */
+	bool             mChangedFocusWidget; /** True, if focus widget need to change. */
 
 public:
 	/** ctor. */
@@ -56,16 +56,17 @@ public:
 	{
 		return getWidget(idPath);
 	}
+	
+	/** Shows hint. */
+	void showHint(const string& hintText, const vec2f& position);
+
+	/** Hides hint. */
+	void hideHint();
+
+	/** Returns client screen rect size. */
+	vec2f getClientRectSize() const;
 
 private:
-	/** Sets widget hint. */
-	void setHintWidget(uiWidget* hintWidget, const string& labelWidgetPath = "");
-
-	/** Label recursive search function. */
-	uiLabel* FindLabel(uiWidget* widget);
-
-	/** Shows hint at widget. */
-	void showHint(uiWidget* hintingWidget);
 };
 
 /** Basic application ui controller host. */

@@ -22,6 +22,8 @@ class uiScrollArea;
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
 class uiSkinManager: public cSingleton<uiSkinManager>
 {
+	friend class uiStdSkinInitializer;
+
 protected:
 	uiButton*      mButtonSample;
 	uiRect*        mBackgroundSample;
@@ -112,7 +114,7 @@ public:
 	void setScrollAreaSample(uiScrollArea* scrollAreaSample);
 
 protected:
-	void addVisibleState(uiWidget* widget);
+	void addVisibleState(uiWidget* widget, float duration = 0.5f);
 };
 
 #define uiSkin() uiSkinManager::instancePtr()

@@ -234,9 +234,16 @@ grFont::TextSymbolsSet* grText::getSymbolsSet()
 	return &mSymbolsSet;
 }
 
+vec2f grText::getRealSize()
+{
+	forceUpdateMesh();
+	return mSymbolsSet.mRealSize;
+}
+
 void grText::forceUpdateMesh()
 {
-	updateMesh();
+	if (mNeedUpdateMesh || mNeedTransformMesh)
+		updateMesh();
 }
 
 void grText::initializeProperties()

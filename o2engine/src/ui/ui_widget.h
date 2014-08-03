@@ -7,6 +7,7 @@
 #include "public.h"
 
 #include "ui_state.h"
+#include "util/callback.h"
 #include "util/geometry/geometry.h"
 #include "util/input/input_message.h"
 #include "util/math/layout.h"
@@ -33,28 +34,31 @@ public:
 	typedef std::map< string, uiState* > StatesMap;
 	
 protected:
-	string     mId;                    /**< Identificator or name. */
-	string     mHint;                  /**< Hint text. */
-	uiWidget*  mParent;                /**< Parent widget. NULL if no parent. */
-	cLayout    mLayout;                /**< Widget layout. */
-	WidgetsVec mChildWidgets;          /**< Chiles widgets. */
-	vec2f      mGlobalPosition;        /**< Position in screen space. */
-	vec2f      mSize;                  /**< Size of widget. Not including childes. */
-	vec2f      mChildsOffset;          /**< Offset for childrens. */
-	cGeometry* mGeometry;              /**< Colliding geometry. May be NULL. */
-	fRect      mBounds;                /**< Widget with childes bounds. */
-	bool       mVisible;               /**< True, if widget is visible. */
-	bool       mFocused;               /**< True, if widget on focus. */
-	bool       mCursorInside;          /**< True, when cursor is inside widget. */
-	float      mTransparency;          /**< Transparency of widget. */
-								          
-	StatesMap  mStates;                /**< States map. */
-	uiState*   mVisibleState;          /**< Shared to visible state. */
+	string         mId;                      /**< Identificator or name. */
+	string         mHint;                    /**< Hint text. */
+	uiWidget*      mParent;                  /**< Parent widget. NULL if no parent. */
+	cLayout        mLayout;                  /**< Widget layout. */
+	WidgetsVec     mChildWidgets;            /**< Chiles widgets. */
+	vec2f          mGlobalPosition;          /**< Position in screen space. */
+	vec2f          mSize;                    /**< Size of widget. Not including childes. */
+	vec2f          mChildsOffset;            /**< Offset for childrens. */
+	cGeometry*     mGeometry;                /**< Colliding geometry. May be NULL. */
+	fRect          mBounds;                  /**< Widget with childes bounds. */
+	bool           mVisible;                 /**< True, if widget is visible. */
+	bool           mFocused;                 /**< True, if widget on focus. */
+	bool           mCursorInside;            /**< True, when cursor is inside widget. */
+	float          mBasicTransparency;       /**< Basic transparency of widget. */
+	float          mResTransparency;         /**< Result transparency of widget. */
+				    				            
+	StatesMap      mStates;                  /**< States map. */
+	uiState*       mVisibleState;            /**< Shared to visible state. */
+				    					     
+	uint32         mUpdatedAtFrame;          /** Last update frame index. */
+	uint32         mDrawedAtFrame;           /** Last drawing frame index. */
+	uint32         mProcessedInputAtFrame;   /** Last input processing frame index. */
 
-	uint32     mUpdatedAtFrame;        /** Last update frame index. */
-	uint32     mDrawedAtFrame;         /** Last drawing frame index. */
-	uint32     mProcessedInputAtFrame; /** Last input processing frame index. */
-
+	cCallbackChain mResTransparencyChanged;  /** Calls when result transparency changed. */
+	ICallback*     mCheckParentTransparency; /** Calls when parent transparency changing. */
 
 public:
 	typedef uiWidget* uiWidgetPtr;
@@ -104,7 +108,7 @@ public:
 	virtual uiWidget* addChild(uiWidget* widget);
 
 	/** Removing child widget. */
-	virtual void removeChild(uiWidget* widget);
+	virtual void removeChild(uiWidget* widget, bool release = true);
 
 	/** Remove all child widgets. */
 	virtual void removeAllChilds();
@@ -125,7 +129,7 @@ public:
 
 	//setters and getters
 	/** Returns hint string. */
-	virtual string getHint() const;
+	virtual string getHint() const { return ""; }
 
 	/** Returns true, if widget can take focus. */
 	virtual bool isFocusable() const;
@@ -238,6 +242,9 @@ protected:
 
 	/** Calls when widget lost focus. */
 	virtual void onFocusLost();
+
+	/** Calls when parent transparency changed. */
+	virtual void updateResTransparency();
 
 	/** Initialize all properties. */
 	void initializeProperties();

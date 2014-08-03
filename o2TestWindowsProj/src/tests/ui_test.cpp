@@ -75,6 +75,9 @@ void cUITest::update(float dt)
 		mTestBar->value += appInput()->getCursorDelta().x*0.0005f;
 
 	mTestBar->value = (mTestScrollBar->value - mTestScrollBar->minValue)/(mTestScrollBar->maxValue - mTestScrollBar->minValue);
+
+	/*if (appInput()->isCursorPressed())
+		uiHost()->showHint("Hint some text\nWith two lines (Ctrl + H)", appInput()->getCursorPos());*/
 }
 
 void cUITest::draw()

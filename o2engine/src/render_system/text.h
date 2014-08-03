@@ -151,6 +151,9 @@ public:
 	/** Returns symbol set structure pointer. */
 	grFont::TextSymbolsSet* getSymbolsSet();
 
+	/** Returns real text size. */
+	vec2f getRealSize();
+
 	/** Updates mesh immediately, don't wait drawing. */
 	void forceUpdateMesh();
 

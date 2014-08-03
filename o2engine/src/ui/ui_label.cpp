@@ -10,12 +10,16 @@ uiLabel::uiLabel(grFont* font, const cLayout& layout, const string& id /*= ""*/)
 	uiWidget(layout, id), mText(NULL)
 {
 	mText = mnew grText(font);
+
+	mResTransparencyChanged.add(callback<uiLabel>( this, &uiLabel::transparencyChanged));
 }
 
 uiLabel::uiLabel(const uiLabel& label):
 	uiWidget(label)
 {
 	mText = mnew grText(*label.mText);
+
+	mResTransparencyChanged.add(callback<uiLabel>( this, &uiLabel::transparencyChanged));
 }
 
 uiLabel::~uiLabel()
@@ -56,6 +60,11 @@ void uiLabel::setCText(const string& text)
 string uiLabel::getCText() const
 {
 	return mText->getCText();
+}
+
+vec2f uiLabel::getTextRealSize()
+{
+	return mText->getRealSize();
 }
 
 void uiLabel::setCharactersHeight(const float& height)
@@ -126,6 +135,11 @@ void uiLabel::localDraw()
 void uiLabel::layoutUpdated()
 {
 	mText->setRect(mLayout.getRect());
+}
+
+void uiLabel::transparencyChanged()
+{
+	mText->setTransparency(mResTransparency);
 }
 
 CLOSE_O2_NAMESPACE
