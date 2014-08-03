@@ -8,10 +8,11 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiWidget);
 
 uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
-	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mTransparency(1.0f), mParent(NULL),
+	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mBasicTransparency(1.0f), mParent(NULL),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
 {
 	mLayout = layout;
+	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
 	initializeProperties();
 	updateLayout();
 }
@@ -20,6 +21,8 @@ uiWidget::uiWidget( const uiWidget& widget ):
 	mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false), mVisibleState(NULL)
 {
 	initializeProperties();
+	
+	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
 
 	mId = widget.mId;
 	mLayout = widget.mLayout;
@@ -27,7 +30,7 @@ uiWidget::uiWidget( const uiWidget& widget ):
 	mChildsOffset = widget.mChildsOffset;
 	mVisible = widget.mVisible;
 	mFocused = false;
-	mTransparency = widget.mTransparency;
+	mBasicTransparency = widget.mBasicTransparency;
 
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
 		addChild((*it)->clone());
@@ -44,6 +47,8 @@ uiWidget::~uiWidget()
 
 	FOREACH(StatesMap, mStates, state)
 		safe_release(state->second);
+
+	safe_release(mCheckParentTransparency);
 }
 
 void uiWidget::draw()
@@ -149,14 +154,18 @@ uiWidget* uiWidget::addChild( uiWidget* widget )
 	return widget;
 }
 
-void uiWidget::removeChild( uiWidget* widget )
+void uiWidget::removeChild( uiWidget* widget, bool release /*= true*/ )
 {
 	WidgetsVec::iterator fnd = FIND(mChildWidgets, widget);
 	if (fnd != mChildWidgets.end())
 		mChildWidgets.erase(fnd);
 
+	transparency.onChangeEvent.remove(widget->mCheckParentTransparency, false);
+
 	widget->mParent = NULL;
-	safe_release(widget);
+
+	if (release)
+		safe_release(widget);
 }
 
 void uiWidget::removeAllChilds()
@@ -164,6 +173,7 @@ void uiWidget::removeAllChilds()
 	FOREACH(WidgetsVec, mChildWidgets, it)
 	{
 		(*it)->mParent = NULL;
+		transparency.onChangeEvent.remove((*it)->mCheckParentTransparency, false);
 		safe_release(*it);
 	}
 
@@ -177,6 +187,7 @@ void uiWidget::setParent(uiWidget* parent)
 		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, this );
 		if (fnd != mParent->mChildWidgets.end())
 			mParent->mChildWidgets.erase(fnd);
+		mParent->transparency.onChangeEvent.remove(mCheckParentTransparency, false);
 	}
 
 	mParent = parent;
@@ -184,6 +195,7 @@ void uiWidget::setParent(uiWidget* parent)
 	if (mParent)
 	{
 		mParent->mChildWidgets.push_back(this);
+		mParent->transparency.onChangeEvent.add(mCheckParentTransparency);
 	}
 
 	updateLayout();
@@ -400,12 +412,13 @@ cLayout uiWidget::getlayout() const
 
 void uiWidget::setTransparency( float transparency )
 {
-	mTransparency = transparency;
+	mBasicTransparency = transparency;
+	updateResTransparency();
 }
 
 float uiWidget::getTransparency() const
 {
-	return mTransparency;
+	return mBasicTransparency;
 }
 
 bool uiWidget::isVisible() const
@@ -424,6 +437,16 @@ void uiWidget::onFocused()
 void uiWidget::onFocusLost()
 {
 	mFocused = false;
+}
+
+void uiWidget::updateResTransparency()
+{
+	if (mParent)
+		mResTransparency = mParent->mResTransparency*mBasicTransparency;
+	else
+		mResTransparency = mBasicTransparency;
+
+	mResTransparencyChanged.call();
 }
 
 void uiWidget::initializeProperties()

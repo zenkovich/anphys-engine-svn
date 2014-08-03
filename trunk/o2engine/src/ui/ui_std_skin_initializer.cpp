@@ -12,6 +12,7 @@
 #include "ui_scrollarea.h"
 #include "ui_label.h"
 #include "ui_transition_state.h"
+#include "ui_controller.h"
 #include "util/geometry/geometry.h"
 #include "util/string.h"
 
@@ -40,6 +41,7 @@ void uiStdSkinInitializer::initialize()
 	initMultilineEditBox();
 	initLabel();
 	initScrollArea();
+	initHint();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -677,6 +679,23 @@ void uiStdSkinInitializer::initScrollArea()
 	scrollArea->mClippingLayout = cLayout::both(fRect(borders.left, borders.top, scrollBarSize, scrollBarSize));
 
 	mSkinManager->setScrollAreaSample(scrollArea);
+}
+
+void uiStdSkinInitializer::initHint()
+{
+	const string bgTexName = "ui_skin/hint_bk";
+	grTexture bgTex = grTexture::createFromFile(bgTexName);
+	
+	uiRect* hintWidget = mnew uiRect(cLayout::fixedSize(vec2f(100.0f, 100.0f), vec2f()), "hint");
+	hintWidget->mStretchRect = cStretchRect(bgTex, 9, 9, 10, 10);
+
+	uiLabel* label = mnew uiLabel(mStdFont, cLayout::both(fRect(6.0f, 5.0f, 6.0f, 6.0f)), "label");
+	label->setLinesDistCoef(0.8f);
+
+	hintWidget->addChild(label);
+	mSkinManager->addVisibleState(hintWidget, 0.3f);
+
+	uiHost()->mHintController.setupWidget(hintWidget, label);
 }
 
 

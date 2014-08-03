@@ -809,5 +809,8 @@
     <ClCompile Include="..\src\util\clipboard.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ui\ui_hint_controller.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -56,6 +56,9 @@ public:
 	/** Returns text as string. */
 	string getCText() const;
 
+	/** Return real text size. */
+	vec2f getTextRealSize();
+
 	/** Sets characters height in pixels. */
 	void setCharactersHeight(const float& height);
 
@@ -98,6 +101,9 @@ protected:
 
 	/** Calls when widget's layout updated. */
 	virtual void layoutUpdated();
+
+	/** Calls when result transparency changed. */
+	void transparencyChanged();
 };
 
 CLOSE_O2_NAMESPACE

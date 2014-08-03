@@ -158,7 +158,7 @@ public:
 			if (mTargetState)
 			{
 				mCoef += dt*mCoefTime;
-				if (mCoef *1.0f)
+				if (mCoef > 1.0f)
 				{
 					mComplete = true;
 					mCoef = 1.0f;

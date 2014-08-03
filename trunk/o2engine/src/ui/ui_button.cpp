@@ -5,6 +5,7 @@
 #include "util/graphics/stretch_rect.h"
 #include "util/string.h"
 #include "util/time_utils.h"
+#include "ui_controller.h"
 
 OPEN_O2_NAMESPACE
 
@@ -12,13 +13,14 @@ REGIST_TYPE(uiButton);
 
 uiButton::uiButton(const cLayout& layout, const string& id /*= ""*/):
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
-	mPressedByButton(false), mHover(false)
+	mPressedByButton(false), mHover(false), mUnderCursorTime(0), mHinting(false)
 {
 	initializeProperties();
 }
 
 uiButton::uiButton(const uiButton& button):
-	uiDrawablesListWidget(button), mPressed(false), mPressedByButton(false), mHover(false)
+	uiDrawablesListWidget(button), mPressed(false), mPressedByButton(false), mHover(false), mUnderCursorTime(0), 
+	mHinting(false)
 {	
 	onClickEvent = button.onClickEvent;
 	onHoverEvent = button.onHoverEvent;
@@ -31,6 +33,7 @@ uiButton::uiButton(const uiButton& button):
 	mFocusedState = getState("focus");
 
 	mCaption = static_cast<grText*>(getDrawable("caption")->getDrawable());
+	mHint = "Button copy hint";
 
 	initializeProperties();
 }
@@ -77,6 +80,22 @@ void uiButton::localUpdate(float dt)
 
 	if (mFocusedState)
 		mFocusedState->setState(mFocused && !mPressed);
+
+	if (!mCursorInside) 
+	{
+		mUnderCursorTime = 0.0f;
+		if (mHinting)
+			uiHost()->hideHint();
+		mHinting = false;
+	}
+	else
+		mUnderCursorTime += dt;
+
+	if (mUnderCursorTime > 1.0f && !mHint.empty() && !mHinting)
+	{
+		uiHost()->showHint(mHint, appInput()->getCursorPos());
+		mHinting = true;
+	}
 }
 
 bool uiButton::localProcessInputMessage(const cInputMessage& msg)

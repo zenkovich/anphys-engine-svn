@@ -283,6 +283,7 @@
     <ClCompile Include="..\src\ui\ui_controller.cpp" />
     <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp" />
     <ClCompile Include="..\src\ui\ui_editbox.cpp" />
+    <ClCompile Include="..\src\ui\ui_hint_controller.cpp" />
     <ClCompile Include="..\src\ui\ui_label.cpp" />
     <ClCompile Include="..\src\ui\ui_progressbar.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />

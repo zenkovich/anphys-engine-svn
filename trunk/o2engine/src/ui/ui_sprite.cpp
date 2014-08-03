@@ -7,7 +7,7 @@ uiSprite::uiSprite(const cLayout& layout, const string& id /*= ""*/):
 {
 	layoutUpdated();
 
-	transparency.onChangeEvent.add(callback<uiSprite>( this, &uiSprite::transparencyChanged));
+	mResTransparencyChanged.add(callback<uiSprite>( this, &uiSprite::transparencyChanged));
 }
 
 uiSprite::uiSprite(const uiSprite& spriteWidget):
@@ -42,7 +42,7 @@ void uiSprite::layoutUpdated()
 
 void uiSprite::transparencyChanged()
 {
-	mSprite.setTransparency(mTransparency);
+	mSprite.setTransparency(mResTransparency);
 }
 
 CLOSE_O2_NAMESPACE
