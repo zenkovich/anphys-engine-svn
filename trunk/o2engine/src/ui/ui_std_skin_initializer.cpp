@@ -660,23 +660,23 @@ void uiStdSkinInitializer::initScrollArea()
 	cStretchRect* bgDrawable = mnew cStretchRect(bgTex, (int)borders.left, (int)borders.top, (int)borders.right, (int)borders.down);
 	
 	//scrollbars
-	float scrollBarSize = 13.0f;
+	float scrollBarSize = 11.0f;
 	uiScrollBar* horScrollbar = mSkinManager->horThinScrollBar(
 		cLayout(vec2f(0.0f, 1.0f), vec2f(0.0f, -scrollBarSize), vec2f(1.0f, 1.0f), vec2f(-scrollBarSize, 0.0f)), 
 		"horScrollbar");
 
 	uiScrollBar* verScrollbar = mSkinManager->verThinScrollBar(
-		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, -scrollBarSize)),
+		cLayout(vec2f(1.0f, 0.0f), vec2f(-scrollBarSize, 0.0f), vec2f(1.0f, 1.0f), vec2f(0.0f, 0.0f)),
 		"verScrollbar");
 
 	//scrollarea
 	uiScrollArea* scrollArea = mnew uiScrollArea(cLayout::both(), horScrollbar, verScrollbar);
 
 	//adding drawables
-	scrollArea->addDrawable(bgDrawable, "background");
+	scrollArea->addDrawable(bgDrawable, "background", cLayout::both(fRect(-5.0f, -5.0f, -5.0f, -5.0f)));
 	
 	//clipping area
-	scrollArea->mClippingLayout = cLayout::both(fRect(borders.left, borders.top, scrollBarSize, scrollBarSize));
+	scrollArea->mClippingLayout = cLayout::both(fRect(0.0f, 0.0f, scrollBarSize, scrollBarSize));
 
 	mSkinManager->setScrollAreaSample(scrollArea);
 }
