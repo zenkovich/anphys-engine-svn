@@ -8,17 +8,21 @@ OPEN_O2_NAMESPACE
 class uiWidget;
 class uiLabel;
 
+/** Hint controller. Processing hint widget. */
 class uiHintController
 {
-	uiWidget* mWidget;
-	uiLabel*  mLabel;
+	uiWidget* mWidget;            /** Main hint widget. */
+	uiLabel*  mLabel;             /** Label in hint widget. */
 
-	string    mNextPlaceHintText;
-	vec2f     mNextPlacePosition;
+	string    mNextPlaceHintText; /** Text for next showing hint. */
+	vec2f     mNextPlacePosition; /** Position for placing hint. */
 	bool      mNeedShow;
 
 public:
+	/** ctor. */
 	uiHintController();
+
+	/** dtor. */
 	~uiHintController();
 
 	void setupWidget(uiWidget* widget, uiLabel* label);

@@ -144,6 +144,7 @@
     <ClInclude Include="..\src\scene\scene_node.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_checkbox.h" />
+    <ClInclude Include="..\src\ui\ui_context_menu.h" />
     <ClInclude Include="..\src\ui\ui_controller.h" />
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
     <ClInclude Include="..\src\ui\ui_editbox.h" />
