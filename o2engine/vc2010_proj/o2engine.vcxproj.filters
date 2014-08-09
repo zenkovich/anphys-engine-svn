@@ -82,6 +82,9 @@
     <Filter Include="dependencies\stack_walker">
       <UniqueIdentifier>{1a5f7661-556e-48ed-a700-caec9d668901}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\build_system">
+      <UniqueIdentifier>{41a1b556-00f5-442b-aa6e-fa0ab86bc799}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -477,6 +480,12 @@
     <ClInclude Include="..\src\ui\ui_context_menu.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\file_system\file_info.h">
+      <Filter>src\util\file_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\build_system\build_system.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -813,6 +822,9 @@
       <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_hint_controller.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_context_menu.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>

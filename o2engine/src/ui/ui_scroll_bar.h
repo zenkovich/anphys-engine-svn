@@ -30,6 +30,8 @@ protected:
 	bool      mHover;           /** True, when cursor hover bar. */
 
 public:
+	DEFINE_TYPE(uiScrollBar);
+
 	PROPERTY(uiScrollBar, float) minValue; /** Min value property. Uses set/getMinValue. */
 	PROPERTY(uiScrollBar, float) maxValue; /** Max value property. Uses set/getMaxValue. */
 	PROPERTY(uiScrollBar, float) value;    /** Current value. Uses set/getValue. */

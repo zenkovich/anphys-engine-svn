@@ -11,6 +11,9 @@ OPEN_O2_NAMESPACE
 class uiRect:public uiWidget
 {
 public:
+	DEFINE_TYPE(uiRect);
+
+
 	cStretchRect mStretchRect; /** Stretching rect drawable. */
 
 

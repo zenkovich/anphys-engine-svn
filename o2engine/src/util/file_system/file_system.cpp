@@ -30,4 +30,27 @@ const string& cFileSystem::getResourcePath() const
 	return mResourcePath;
 }
 
+cPathInfo cFileSystem::getPathInfo(const string& path) const
+{
+	return cPathInfo();
+}
+
+bool cFileSystem::copyFile(const string& source, const string& dest) const
+{
+	return false;
+}
+
+bool cFileSystem::deleteFile(const string& file) const
+{
+	return false;
+}
+
+bool cFileSystem::moveFile(const string& source, const string& dest) const
+{
+	if (!copyFile(source, dest))
+		return false;
+
+	return deleteFile(source);
+}
+
 CLOSE_O2_NAMESPACE
