@@ -104,8 +104,8 @@ public:
 	/** Returns true, if point inside widget or inside childes. */
 	virtual bool isInside(const vec2f& point) const;
 
-	/** Adding child widget. */
-	virtual uiWidget* addChild(uiWidget* widget);
+	/** Adding child widget. If position negative, adding at end. */
+	virtual uiWidget* addChild(uiWidget* widget, int position = -1);
 
 	/** Removing child widget. */
 	virtual void removeChild(uiWidget* widget, bool release = true);

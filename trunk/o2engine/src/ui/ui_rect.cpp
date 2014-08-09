@@ -2,6 +2,8 @@
 
 OPEN_O2_NAMESPACE
 
+REGIST_TYPE(uiRect);
+
 uiRect::uiRect(const cLayout& layout, const string& id /*= ""*/):
 	uiWidget(layout, id)
 {

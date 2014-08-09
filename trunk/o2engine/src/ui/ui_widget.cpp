@@ -148,9 +148,22 @@ uiWidget* uiWidget::clone() const
 	return mnew uiWidget(*this);
 }
 
-uiWidget* uiWidget::addChild( uiWidget* widget )
-{
-	widget->setParent(this);
+uiWidget* uiWidget::addChild( uiWidget* widget, int position /*= -1*/ )
+{	
+	if (widget->mParent)
+		widget->mParent->removeChild(widget, false);
+
+	widget->mParent = this;
+
+	if (position < 0)
+		mChildWidgets.push_back(this);
+	else
+		mChildWidgets.insert(mChildWidgets.begin() + position, this);
+
+	transparency.onChangeEvent.add(widget->mCheckParentTransparency);
+
+	updateLayout();
+
 	return widget;
 }
 
@@ -183,20 +196,12 @@ void uiWidget::removeAllChilds()
 void uiWidget::setParent(uiWidget* parent)
 {
 	if (mParent)
-	{
-		WidgetsVec::iterator fnd = FIND(mParent->mChildWidgets, this );
-		if (fnd != mParent->mChildWidgets.end())
-			mParent->mChildWidgets.erase(fnd);
-		mParent->transparency.onChangeEvent.remove(mCheckParentTransparency, false);
-	}
-
-	mParent = parent;
-
-	if (mParent)
-	{
-		mParent->mChildWidgets.push_back(this);
-		mParent->transparency.onChangeEvent.add(mCheckParentTransparency);
-	}
+		mParent->removeChild(this, false);
+	
+	if (parent)
+		parent->addChild(this);
+	else 
+		mParent = NULL;
 
 	updateLayout();
 }
