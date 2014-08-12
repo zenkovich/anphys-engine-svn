@@ -55,7 +55,7 @@ void uiHintController::beginAppearing()
 
 	mLabel->setCText(mNextPlaceHintText);
 	vec2f textRealSize = mLabel->getTextRealSize();
-	mWidget->setSize(textRealSize + mLabel->getlayout().mLTAbsolute -  mLabel->getlayout().mRBAbsolute);
+	mWidget->setSize(textRealSize + mLabel->getLayout().mLTAbsolute -  mLabel->getLayout().mRBAbsolute);
 	
 	mNextPlacePosition.x = clamp(mNextPlacePosition.x, 0.0f, uiHost()->getClientRectSize().x - mWidget->getSize().x);
 	mNextPlacePosition.y = clamp(mNextPlacePosition.y, 0.0f, uiHost()->getClientRectSize().y - mWidget->getSize().y);

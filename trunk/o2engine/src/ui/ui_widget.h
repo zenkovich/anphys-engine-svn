@@ -195,7 +195,7 @@ public:
 	void setLayout(const cLayout& layout);
 
 	/** Returns widget layout. */
-	cLayout getlayout() const;
+	cLayout getLayout() const;
 
 	/** Sets the colliding geometry. */
 	void setGeometry(cGeometry* geometry);

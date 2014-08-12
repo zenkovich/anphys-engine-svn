@@ -486,6 +486,9 @@
     <ClInclude Include="..\src\util\build_system\build_system.h">
       <Filter>src\util\build_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ui\ui_hor_layout.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -825,6 +828,9 @@
       <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_context_menu.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ui\ui_hor_layout.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
