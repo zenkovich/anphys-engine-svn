@@ -410,7 +410,7 @@ void uiWidget::setLayout(const cLayout& layout)
 	updateLayout();
 }
 
-cLayout uiWidget::getlayout() const
+cLayout uiWidget::getLayout() const
 {
 	return mLayout;
 }
@@ -462,7 +462,7 @@ void uiWidget::initializeProperties()
 	REG_PROPERTY(uiWidget, globalPosition, setGlobalPosition, getGlobalPosition);
 	REG_PROPERTY(uiWidget, size, setSize, getSize);
 	REG_PROPERTY_SETTER_NONCONST(uiWidget, visible, setVisible, isVisible);
-	REG_PROPERTY(uiWidget, layout, setLayout, getlayout);
+	REG_PROPERTY(uiWidget, layout, setLayout, getLayout);
 	REG_PROPERTY_SETTER_NONCONST(uiWidget, transparency, setTransparency, getTransparency);
 }
 

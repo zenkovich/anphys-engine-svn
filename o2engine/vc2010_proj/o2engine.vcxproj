@@ -149,6 +149,7 @@
     <ClInclude Include="..\src\ui\ui_drawables_list_widget.h" />
     <ClInclude Include="..\src\ui\ui_editbox.h" />
     <ClInclude Include="..\src\ui\ui_hint_controller.h" />
+    <ClInclude Include="..\src\ui\ui_hor_layout.h" />
     <ClInclude Include="..\src\ui\ui_label.h" />
     <ClInclude Include="..\src\ui\ui_progressbar.h" />
     <ClInclude Include="..\src\ui\ui_rect.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="..\src\ui\ui_drawables_list_widget.cpp" />
     <ClCompile Include="..\src\ui\ui_editbox.cpp" />
     <ClCompile Include="..\src\ui\ui_hint_controller.cpp" />
+    <ClCompile Include="..\src\ui\ui_hor_layout.cpp" />
     <ClCompile Include="..\src\ui\ui_label.cpp" />
     <ClCompile Include="..\src\ui\ui_progressbar.cpp" />
     <ClCompile Include="..\src\ui\ui_rect.cpp" />
