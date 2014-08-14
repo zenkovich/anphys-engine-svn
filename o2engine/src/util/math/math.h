@@ -99,10 +99,10 @@ T interpolateBezier(const T& a, const T& b, const T& c, const T&d, float coef)
 	return a*o + b*3.0f*coef*n + c*3.0f*p*m + d*r;
 }
 
-inline bool equals(float a, float b)
+inline bool equals(float a, float b, float range = FLT_EPSILON)
 {
 	float x = a - b;
-	return x*x < FLT_EPSILON*FLT_EPSILON;
+	return x*x < range*range;
 }
 
 template<typename T>

@@ -1,27 +1,27 @@
-#ifndef UI_HOR_LAYOUT_H
-#define UI_HOR_LAYOUT_H
+#ifndef UI_VER_LAYOUT_H
+#define UI_VER_LAYOUT_H
 
 #include "ui_widget.h"
 
 OPEN_O2_NAMESPACE
 
-class uiHorLayout: public uiWidget 
+class uiVerLayout: public uiWidget 
 {
 	float      mWidgetsDistance;
 	WidgetsVec mFlexibleWidgets;
 
 public:
 	//Type definition
-	DEFINE_TYPE(uiHorLayout);
+	DEFINE_TYPE(uiVerLayout);
 
 	/** ctor. */
-	uiHorLayout(const cLayout& layout, float widgetsDistance = 10.0f, const string& id = "");
+	uiVerLayout(const cLayout& layout, float widgetsDistance = 10.0f, const string& id = "");
 
 	/** copy-ctor. */
-	uiHorLayout(const uiHorLayout& widget);
+	uiVerLayout(const uiVerLayout& widget);
 
 	/** dtor. */
-	virtual ~uiHorLayout();
+	virtual ~uiVerLayout();
 
 	/** Returns clone of widget. */
 	virtual uiWidget* clone() const;
@@ -39,4 +39,4 @@ protected:
 
 CLOSE_O2_NAMESPACE
 
-#endif // UI_HOR_LAYOUT_H
+#endif // UI_VER_LAYOUT_H

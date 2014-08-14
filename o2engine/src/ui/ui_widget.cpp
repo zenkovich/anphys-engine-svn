@@ -2,6 +2,7 @@
 
 #include "ui_controller.h"
 #include "util\time_utils.h"
+#include "render_system\render_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -9,7 +10,8 @@ REGIST_TYPE(uiWidget);
 
 uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
 	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mBasicTransparency(1.0f), mParent(NULL),
-	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false)
+	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false),
+	mChildsLayout(cLayout::both())
 {
 	mLayout = layout;
 	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
@@ -26,6 +28,7 @@ uiWidget::uiWidget( const uiWidget& widget ):
 
 	mId = widget.mId;
 	mLayout = widget.mLayout;
+	mChildsLayout = widget.mChildsLayout;
 	mParent = NULL;
 	mChildsOffset = widget.mChildsOffset;
 	mVisible = widget.mVisible;
@@ -59,6 +62,8 @@ void uiWidget::draw()
 	mDrawedAtFrame = timeUtils()->getCurrentFrame();
 
 	localDraw();
+	if (UI_DEBUG_FRAMES)
+		drawDebugFrame();
 
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		(*it)->draw();
@@ -99,14 +104,16 @@ void uiWidget::localUpdateLayout()
 	vec2f parPos, parSize;
 	if (mParent)
 	{
-		parPos = mParent->mGlobalPosition;
-		parSize = mParent->mSize;
+		parPos = mParent->mChildsLayout.mPosition;
+		parSize = mParent->mChildsLayout.mSize;
 	}
 
 	mLayout.update(parPos, parSize);
 	mGlobalPosition = mLayout.mPosition;
 	mSize = mLayout.mSize;
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
+
+	mChildsLayout.update(mLayout.mPosition, mLayout.mSize);
 
 	layoutUpdated();
 }
@@ -156,9 +163,9 @@ uiWidget* uiWidget::addChild( uiWidget* widget, int position /*= -1*/ )
 	widget->mParent = this;
 
 	if (position < 0)
-		mChildWidgets.push_back(this);
+		mChildWidgets.push_back(widget);
 	else
-		mChildWidgets.insert(mChildWidgets.begin() + position, this);
+		mChildWidgets.insert(mChildWidgets.begin() + position, widget);
 
 	transparency.onChangeEvent.add(widget->mCheckParentTransparency);
 
@@ -415,6 +422,17 @@ cLayout uiWidget::getLayout() const
 	return mLayout;
 }
 
+void uiWidget::setChildsLayout(const cLayout& layout)
+{
+	mChildsLayout = layout;
+	updateLayout();
+}
+
+cLayout uiWidget::getChildsLayout() const
+{
+	return mChildsLayout;
+}
+
 void uiWidget::setTransparency( float transparency )
 {
 	mBasicTransparency = transparency;
@@ -464,6 +482,14 @@ void uiWidget::initializeProperties()
 	REG_PROPERTY_SETTER_NONCONST(uiWidget, visible, setVisible, isVisible);
 	REG_PROPERTY(uiWidget, layout, setLayout, getLayout);
 	REG_PROPERTY_SETTER_NONCONST(uiWidget, transparency, setTransparency, getTransparency);
+}
+
+int widgetDbgFrameIdx = 0;
+void uiWidget::drawDebugFrame()
+{
+	if (mParent == NULL)
+		widgetDbgFrameIdx = 0;
+	renderSystem()->drawRectFrame(mGlobalPosition, mGlobalPosition + mSize, color4::someColor(widgetDbgFrameIdx++));
 }
 
 CLOSE_O2_NAMESPACE

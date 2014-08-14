@@ -38,7 +38,8 @@ protected:
 	string         mHint;                    /**< Hint text. */
 	uiWidget*      mParent;                  /**< Parent widget. NULL if no parent. */
 	cLayout        mLayout;                  /**< Widget layout. */
-	WidgetsVec     mChildWidgets;            /**< Chiles widgets. */
+	cLayout        mChildsLayout;            /**< Childes layout. */
+	WidgetsVec     mChildWidgets;            /**< Childes widgets. */
 	vec2f          mGlobalPosition;          /**< Position in screen space. */
 	vec2f          mSize;                    /**< Size of widget. Not including childes. */
 	vec2f          mChildsOffset;            /**< Offset for childrens. */
@@ -197,6 +198,12 @@ public:
 	/** Returns widget layout. */
 	cLayout getLayout() const;
 
+	/** Sets childes layout. */
+	void setChildsLayout(const cLayout& layout);
+
+	/** Returns childes layout. */
+	cLayout getChildsLayout() const;
+
 	/** Sets the colliding geometry. */
 	void setGeometry(cGeometry* geometry);
 
@@ -251,6 +258,9 @@ protected:
 
 	/** Setting mVisible value. */
 	void setVisibleParam(bool param);
+
+	/** Drawing debug frame. */
+	void drawDebugFrame();
 };
 
 CLOSE_O2_NAMESPACE

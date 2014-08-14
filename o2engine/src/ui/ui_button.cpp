@@ -109,6 +109,9 @@ bool uiButton::localProcessInputMessage(const cInputMessage& msg)
 
 	if (pressedCursor || pressedKey)
 	{
+		if (mHinting)
+			uiHost()->hideHint();
+
 		mPressed = true;
 		mPressedByButton = pressedKey;
 

@@ -3,16 +3,7 @@
 #include "app/application.h"
 #include "render_system/render_system.h"
 #include "render_system/text.h"
-#include "ui/ui_controller.h"
-#include "ui/ui_progressbar.h"
-#include "ui/ui_scroll_bar.h"
-#include "ui/ui_checkbox.h"
-#include "ui/ui_editbox.h"
-#include "ui/ui_label.h"
-#include "ui/ui_skin.h"
-#include "ui/ui_scrollarea.h"
-#include "ui/ui_sprite.h"
-#include "ui/ui_std_skin_initializer.h"
+#include "ui/ui.h"
 #include "util/graphics/stretch_rect.h"
 #include "util/input/input_message.h"
 
@@ -26,7 +17,14 @@ cUITest::cUITest()
 	uiStdSkinInitializer::initialize();
 
 	uiHost()->addWidget( uiSkin()->background() );
-	uiHost()->addWidget( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
+
+	uiVerLayout* verLayout = uiHost()->addTWidget( uiSkin()->verLayout(cLayout::both().fixWidth(100.0f), "hor") );
+	verLayout->setChildsLayout(cLayout::both(fRect(10.0f, 10.0f, 10.0f, 10.0f)));
+	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both().maxWidth(100.0f).minWidth(100.0f)) );
+	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	/*uiHost()->addWidget( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
 	uiHost()->addWidget( uiSkin()->button("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 330))) );
 	uiHost()->addWidget( uiSkin()->button("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 360))) );
 	uiHost()->addWidget( uiSkin()->button("Button 4", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 390))) );
@@ -66,16 +64,16 @@ cUITest::cUITest()
 	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 260))) );
 	mTestScrollArea->addChild( uiSkin()->button("Button 5", cLayout::fixedSize(vec2f(100, 20), vec2f(20, 290))) );
 
-	mTestScrollArea->addChild( uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(300, 20), vec2f(130, 20)), "scrollBar" ) );
+	mTestScrollArea->addChild( uiSkin()->horScrollBar(cLayout::fixedSize(vec2f(300, 20), vec2f(130, 20)), "scrollBar" ) );*/
 }
 
 void cUITest::update(float dt)
 {
-	if (appInput()->isKeyDown('Y'))
+	/*if (appInput()->isKeyDown('Y'))
 		mTestBar->value += appInput()->getCursorDelta().x*0.0005f;
 
 	mTestBar->value = (mTestScrollBar->value - mTestScrollBar->minValue)/(mTestScrollBar->maxValue - mTestScrollBar->minValue);
-
+	*/
 	/*if (appInput()->isCursorPressed())
 		uiHost()->showHint("Hint some text\nWith two lines (Ctrl + H)", appInput()->getCursorPos());*/
 }

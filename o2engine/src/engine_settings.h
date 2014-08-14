@@ -35,14 +35,17 @@
 #define MEMORY_TRACE
 
 /* Basic memory allocator. Variations: 
- * -cStdAllocator: standart system allocator, see /util/mem_utils/std_allocator.h
+ * -cStdAllocator: standard system allocator, see /util/mem_utils/std_allocator.h
  * 
- * BASIC_MEMORY_ALLOCATOR not defined - using standart system allocator */
+ * BASIC_MEMORY_ALLOCATOR not defined - using standard system allocator */
 //#define BASIC_MEMORY_ALLOCATOR cStdAllocator
 //#define BASIC_MEMORY_ALLOCATOR_PARAMS 
 
 /* Turns on debugging objects as ptr(type). */
 #define DEBUG_POINTERS
+
+/* UI debug frames drawing. */
+#define UI_DEBUG_FRAMES false
 
 
 #endif //ENGINE_SETTINGS_H
