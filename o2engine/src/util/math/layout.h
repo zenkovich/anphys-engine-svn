@@ -102,6 +102,62 @@ struct cLayout
 		return *this;
 	}
 
+	cLayout& absPosition(const vec2f& position)
+	{
+		vec2f dd = position - mLTAbsolute;
+		mLTAbsolute += dd;
+		mRBAbsolute += dd;
+		return *this;
+	}
+
+	cLayout& leftTopAbs(const vec2f& position)
+	{
+		mLTAbsolute = position;
+		return *this;
+	}
+
+	cLayout& rightDownAbs(const vec2f& position)
+	{
+		mRBAbsolute = position;
+		return *this;
+	}
+
+	cLayout& leftTopRel(const vec2f& relPosition)
+	{
+		mLTRelative = relPosition;
+		return *this;
+	}
+
+	cLayout& rightDownRel(const vec2f& relPosition)
+	{
+		mRBRelative = relPosition;
+		return *this;
+	}
+
+	cLayout& leftAbs(float value) 
+	{
+		mLTAbsolute.x = value;
+		return *this;
+	}
+
+	cLayout& rightAbs(float value) 
+	{
+		mRBAbsolute.x = value;
+		return *this;
+	}
+
+	cLayout& topAbs(float value) 
+	{
+		mLTAbsolute.y = value;
+		return *this;
+	}
+
+	cLayout& downAbs(float value) 
+	{
+		mRBAbsolute.y = value;
+		return *this;
+	}
+
 	float left() const 
 	{
 		return mPosition.x;

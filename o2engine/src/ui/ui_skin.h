@@ -20,6 +20,7 @@ class uiLabel;
 class uiScrollArea;
 class uiHorLayout;
 class uiVerLayout;
+class uiRect;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
 class uiSkinManager: public cSingleton<uiSkinManager>
@@ -38,8 +39,13 @@ protected:
 	uiEditBox*     mMultilineEditBox;
 	uiLabel*       mLabelSample;
 	uiScrollArea*  mScrollAreaSample;
+	uiRect*        mRectPadSample;
+	int            mWidgetIdx;
 
 public:
+	/** ctor. */
+	uiSkinManager();
+
 	/** Creates widget. */
 	uiWidget* widget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
 
@@ -87,6 +93,9 @@ public:
 	/** Creates vertical layout widget. */
 	uiVerLayout* verLayout(const cLayout& layout = cLayout::both(), const string& id= "", float widgetsDistance = 10.0f);
 
+	/** Creates rectangle pad widget. */
+	uiRect* rectPad(const cLayout& layout = cLayout::both(), const string& id = "");
+
 
 	/** Sets button sample. */
 	void setButtonSample(uiButton* buttonSample);
@@ -121,8 +130,13 @@ public:
 	/** Sets scrollarea sample. */
 	void setScrollAreaSample(uiScrollArea* scrollAreaSample);
 
+	/** Sets rectangle pad sample. */
+	void setRectPadSample(uiRect* padSample);
+
 protected:
 	void addVisibleState(uiWidget* widget, float duration = 0.5f);
+
+	string checkEmptyId(const string& id, const string& prefix);
 };
 
 #define uiSkin() uiSkinManager::instancePtr()

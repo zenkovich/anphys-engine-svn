@@ -42,6 +42,7 @@ void uiStdSkinInitializer::initialize()
 	initLabel();
 	initScrollArea();
 	initHint();
+	initRectPad();
 }
 
 void uiStdSkinInitializer::deinitialize()
@@ -68,7 +69,10 @@ void uiStdSkinInitializer::initButton()
 	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
 
+	const vec2f fixedMinSize(10.0f, 10.0f);
+
 	uiButton* button = mnew uiButton(cLayout::fixed(vec2f(50, 50), vec2f()));
+	button->mFixedMinSize = fixedMinSize;
 
 	//drawables
 	cStretchRect* regDrawable = mnew cStretchRect(
@@ -90,6 +94,7 @@ void uiStdSkinInitializer::initButton()
 	captionDrawable->horAlign = grFont::HA_CENTER;
 	captionDrawable->verAlign = grFont::VA_CENTER;
 	captionDrawable->wordWrap = true;
+	captionDrawable->linesDistCoef = 0.8f;
 
 	//adding drawables
 	cLayout drawablesLayout = cLayout::both(fRect(-5, -5, -6, -7));
@@ -97,7 +102,7 @@ void uiStdSkinInitializer::initButton()
 	button->addDrawable(focusDrawable, "focus", drawablesLayout);
 	button->addDrawable(regDrawable, "regular", drawablesLayout);
 	button->addDrawable(hoverDrawable, "hover", drawablesLayout);
-	button->addDrawable(pressedDrawable, "presed", drawablesLayout);
+	button->addDrawable(pressedDrawable, "pressed", drawablesLayout);
 	button->addDrawable(captionDrawable, "caption", cLayout::both(fRect(-5, -5, -9, -7)));
 
 	//hover state
@@ -697,6 +702,18 @@ void uiStdSkinInitializer::initHint()
 	mSkinManager->addVisibleState(hintWidget, 0.3f);
 
 	uiHost()->mHintController.setupWidget(hintWidget, label);
+}
+
+void uiStdSkinInitializer::initRectPad()
+{
+	const string texName = "ui_skin/pad_bk";
+
+	grTexture tex = grTexture::createFromFile(texName);
+	uiRect* pad = mnew uiRect(cLayout::both(), "pad");
+	pad->mStretchRect = cStretchRect(tex, 9, 9, 10, 10);
+	pad->setChildsLayout(cLayout::both(fRect(10.0f, 10.0f, 11.0f, 11.0f)));
+
+	mSkinManager->setRectPadSample(pad);
 }
 
 
