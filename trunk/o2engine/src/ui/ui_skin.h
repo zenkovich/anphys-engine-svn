@@ -18,6 +18,8 @@ class uiScrollBar;
 class uiEditBox;
 class uiLabel;
 class uiScrollArea;
+class uiHorLayout;
+class uiVerLayout;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
 class uiSkinManager: public cSingleton<uiSkinManager>
@@ -78,6 +80,12 @@ public:
 
 	/** Creates scroll area. */
 	uiScrollArea* scrollArea(const cLayout& layout = cLayout::both(), const string& id = "");
+
+	/** Creates horizontal layout widget. */
+	uiHorLayout* horLayout(const cLayout& layout = cLayout::both(), const string& id= "", float widgetsDistance = 10.0f);
+
+	/** Creates vertical layout widget. */
+	uiVerLayout* verLayout(const cLayout& layout = cLayout::both(), const string& id= "", float widgetsDistance = 10.0f);
 
 
 	/** Sets button sample. */

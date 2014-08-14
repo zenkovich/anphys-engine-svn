@@ -142,6 +142,7 @@
     <ClInclude Include="..\src\scene\node_component.h" />
     <ClInclude Include="..\src\scene\scene.h" />
     <ClInclude Include="..\src\scene\scene_node.h" />
+    <ClInclude Include="..\src\ui\ui.h" />
     <ClInclude Include="..\src\ui\ui_button.h" />
     <ClInclude Include="..\src\ui\ui_checkbox.h" />
     <ClInclude Include="..\src\ui\ui_context_menu.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\src\ui\ui_state.h" />
     <ClInclude Include="..\src\ui\ui_std_skin_initializer.h" />
     <ClInclude Include="..\src\ui\ui_transition_state.h" />
+    <ClInclude Include="..\src\ui\ui_ver_layout.h" />
     <ClInclude Include="..\src\ui\ui_widget.h" />
     <ClInclude Include="..\src\util\animation\animation.h" />
     <ClInclude Include="..\src\util\animation\animation_group.h" />
@@ -300,6 +302,7 @@
     <ClCompile Include="..\src\ui\ui_state.cpp" />
     <ClCompile Include="..\src\ui\ui_std_skin_initializer.cpp" />
     <ClCompile Include="..\src\ui\ui_transition_state.cpp" />
+    <ClCompile Include="..\src\ui\ui_ver_layout.cpp" />
     <ClCompile Include="..\src\ui\ui_widget.cpp" />
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />

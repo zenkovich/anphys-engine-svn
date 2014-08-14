@@ -35,6 +35,9 @@ OPEN_O2_NAMESPACE
 #define FOREACH_BACK_CONST(_vector_type, _vector, _iterator) \
 	for (_vector_type::const_reverse_iterator _iterator = (_vector).crbegin(); _iterator != (_vector).crend(); ++_iterator)
 
+#define REPEAT(_count) \
+	for (int i = 0; i < _count; i++)
+
 
 CLOSE_O2_NAMESPACE
 

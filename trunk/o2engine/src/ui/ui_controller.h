@@ -38,6 +38,13 @@ public:
 	/** Adding widget. */
 	uiWidget* addWidget(uiWidget* widget);
 
+	/** Adding widget and returning type. */
+	template<typename T>
+	T* addTWidget(T* widget) 
+	{
+		return static_cast<T*>(addWidget(widget));
+	}
+
 	/** Removing widget. */
 	bool removeWidget(uiWidget* widget);
 

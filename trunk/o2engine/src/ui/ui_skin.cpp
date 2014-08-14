@@ -14,6 +14,8 @@
 #include "ui_editbox.h"
 #include "ui_label.h"
 #include "ui_scrollarea.h"
+#include "ui_hor_layout.h"
+#include "ui_ver_layout.h"
 
 OPEN_O2_NAMESPACE
 
@@ -21,7 +23,7 @@ DECLARE_SINGLETON(uiSkinManager);
 
 uiWidget* uiSkinManager::widget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
 {
-	uiWidget* widget = mnew uiWidget(cLayout::fixedSize(position, size), id);
+	uiWidget* widget = mnew uiWidget(cLayout::fixed(position, size), id);
 	return widget;
 }
 
@@ -206,6 +208,17 @@ uiScrollArea* uiSkinManager::scrollArea( const cLayout& layout /*= cLayout::both
 	res->setLayout(layout);
 	res->setId(id);
 	return res;
+}
+
+uiHorLayout* uiSkinManager::horLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, 
+	                                  float widgetsDistance /*= 10.0f*/)
+{
+	return mnew uiHorLayout(layout, widgetsDistance, id);
+}
+
+uiVerLayout* uiSkinManager::verLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, float widgetsDistance /*= 10.0f*/)
+{
+	return mnew uiVerLayout(layout, widgetsDistance, id);
 }
 
 CLOSE_O2_NAMESPACE

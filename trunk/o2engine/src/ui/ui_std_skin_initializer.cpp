@@ -68,7 +68,7 @@ void uiStdSkinInitializer::initButton()
 	const float focusingDelayOn = 0.1f;
 	const float focusingDelayOff= 0.6f;
 
-	uiButton* button = mnew uiButton(cLayout::fixedSize(vec2f(50, 50), vec2f()));
+	uiButton* button = mnew uiButton(cLayout::fixed(vec2f(50, 50), vec2f()));
 
 	//drawables
 	cStretchRect* regDrawable = mnew cStretchRect(
@@ -89,6 +89,7 @@ void uiStdSkinInitializer::initButton()
 	grText* captionDrawable = mnew grText(mStdFont);
 	captionDrawable->horAlign = grFont::HA_CENTER;
 	captionDrawable->verAlign = grFont::VA_CENTER;
+	captionDrawable->wordWrap = true;
 
 	//adding drawables
 	cLayout drawablesLayout = cLayout::both(fRect(-5, -5, -6, -7));
@@ -135,7 +136,7 @@ void uiStdSkinInitializer::initBackground()
 	const string basicBackgroundTexName = "ui_skin/background";
 	const string shadowTexName = "ui_skin/background_shadow";
 
-	uiRect* background = mnew uiRect(cLayout::fixedSize(vec2f(50, 50), vec2f()), "bgSample");
+	uiRect* background = mnew uiRect(cLayout::fixed(vec2f(50, 50), vec2f()), "bgSample");
 	uiRect* shadow = mnew uiRect(cLayout::both(), "shadow"); 
 
 
@@ -686,7 +687,7 @@ void uiStdSkinInitializer::initHint()
 	const string bgTexName = "ui_skin/hint_bk";
 	grTexture bgTex = grTexture::createFromFile(bgTexName);
 	
-	uiRect* hintWidget = mnew uiRect(cLayout::fixedSize(vec2f(100.0f, 100.0f), vec2f()), "hint");
+	uiRect* hintWidget = mnew uiRect(cLayout::fixed(vec2f(100.0f, 100.0f), vec2f()), "hint");
 	hintWidget->mStretchRect = cStretchRect(bgTex, 9, 9, 10, 10);
 
 	uiLabel* label = mnew uiLabel(mStdFont, cLayout::both(fRect(6.0f, 5.0f, 6.0f, 6.0f)), "label");

@@ -47,12 +47,112 @@ struct cLayout
 		return fRect(mPosition, mPosition + mSize);
 	}
 
+	cLayout& fixWidth(float width) 
+	{
+		mRBRelative.x = mLTRelative.x;
+		mRBAbsolute.x = mRBAbsolute.x + width;
+		return *this;
+	}
+
+	cLayout& fixHeight(float height) 
+	{
+		mRBRelative.y = mLTRelative.y;
+		mRBAbsolute.y = mRBAbsolute.y + height;
+		return *this;
+	}
+
+	cLayout& fixSize(const vec2f& size) 
+	{
+		return fixHeight(size.y).fixWidth(size.x);
+	}
+
+	cLayout& minWidth(float width) 
+	{
+		mMinSize.x = width;
+		return *this;
+	}
+
+	cLayout& minHeight(float height) 
+	{
+		mMinSize.y = height;
+		return *this;
+	}
+
+	cLayout& minSize(const vec2f& size) 
+	{
+		mMinSize = size;
+		return *this;
+	}
+
+	cLayout& maxWidth(float width) 
+	{
+		mMaxSize.x = width;
+		return *this;
+	}
+
+	cLayout& maxHeight(float height) 
+	{
+		mMaxSize.y = height;
+		return *this;
+	}
+
+	cLayout& maxSize(const vec2f& size) 
+	{
+		mMaxSize = size;
+		return *this;
+	}
+
+	float left() const 
+	{
+		return mPosition.x;
+	}
+
+	float right() const 
+	{
+		return mPosition.x + mSize.x;
+	}
+
+	float top() const 
+	{
+		return mPosition.y;
+	}
+
+	float down() const 
+	{
+		return mPosition.y + mSize.y;
+	}
+
+	vec2f getltCorner() const
+	{
+		return mPosition; 
+	}
+
+	vec2f getrtCorner() const
+	{ 
+		return vec2f(mPosition.x + mSize.x, mPosition.y); 
+	}
+
+	vec2f getldCorner() const
+	{ 
+		return vec2f(mPosition.x, mPosition.y + mSize.y);
+	}
+
+	vec2f getrdCorner() const
+	{ 
+		return mPosition + mSize; 
+	}
+
 	static cLayout both(const fRect& border = fRect())
 	{
 		return cLayout(vec2f(), vec2f(border.left, border.top), vec2f(1, 1), vec2f(-border.right, -border.down));
 	}
 
-	static cLayout fixedSize(const vec2f& size, const vec2f& position)
+	static cLayout relative(const vec2f& relSize, const vec2f& relPos = vec2f()) 
+	{
+		return cLayout(relPos, vec2f(), relPos + relSize, vec2f());
+	}
+
+	static cLayout fixed(const vec2f& size, const vec2f& position = vec2f())
 	{
 		return cLayout(vec2f(), position, vec2f(0, 0), size + position, size, size);
 	}

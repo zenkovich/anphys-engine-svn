@@ -83,7 +83,7 @@ void uiContextMenu::layoutUpdated()
 
 bool uiContextMenu::localProcessInputMessage(const cInputMessage& msg)
 {
-
+	return false;
 }
 
 CLOSE_O2_NAMESPACE
