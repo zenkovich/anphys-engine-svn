@@ -192,6 +192,8 @@ LRESULT cApplication::wndProc( HWND wnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			mApplication->mRenderSystem->frameResized();
 			mApplication->onResizingEvent.call();
 		}
+		mApplication->processFrame();
+
 		break;
 
 	case WM_MOVE:

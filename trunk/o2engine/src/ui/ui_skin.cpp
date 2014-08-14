@@ -21,9 +21,14 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(uiSkinManager);
 
+uiSkinManager::uiSkinManager()
+{
+	mWidgetIdx = 0;
+}
+
 uiWidget* uiSkinManager::widget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
 {
-	uiWidget* widget = mnew uiWidget(cLayout::fixed(position, size), id);
+	uiWidget* widget = mnew uiWidget(cLayout::fixed(position, size), checkEmptyId(id, "widget"));
 	return widget;
 }
 
@@ -31,7 +36,7 @@ uiButton* uiSkinManager::button(const string& caption, const cLayout& layout, co
 {
 	uiButton* button = static_cast<uiButton*>(mButtonSample->clone());
 	button->setLayout(layout);
-	button->setId(id);
+	button->setId(checkEmptyId(id, "button"));
 	button->setCCaption(caption);
 
 	return button;
@@ -46,7 +51,7 @@ uiRect* uiSkinManager::background(const cLayout& layout /*= uiBothLayout()*/, co
 {
 	uiRect* background = static_cast<uiRect*>(mBackgroundSample->clone());
 	background->setLayout(layout);
-	background->setId(id);
+	background->setId(checkEmptyId(id, "background"));
 
 	return background;
 }
@@ -59,7 +64,7 @@ void uiSkinManager::setBackgroundSample(uiRect* backgroundSample)
 uiSprite* uiSkinManager::sprite( const grTexture& texture, const cLayout& layout /*= cLayout::both()*/, 
 	                                   const string& id /*= ""*/ )
 {
-	uiSprite* spriteWidget = mnew uiSprite(layout, id);
+	uiSprite* spriteWidget = mnew uiSprite(layout, checkEmptyId(id, "sprite"));
 	spriteWidget->mSprite.setTexture(texture);
 	spriteWidget->mSprite.setTextureSrcRect(fRect(vec2f(), texture.getSize()));
 
@@ -81,12 +86,12 @@ void uiSkinManager::setProgressbarSample( uiProgressBar* progressbarSample )
 }
 
 uiProgressBar* uiSkinManager::progressBar( const cLayout& layout /*= cLayout::both()*/, 
-	                                                    const string& id /*= ""*/, float value /*= 0*/, 
-														float minValue /*= 0*/, float maxValue /*= 1*/ )
+	                                       const string& id /*= ""*/, float value /*= 0*/, 
+										   float minValue /*= 0*/, float maxValue /*= 1*/ )
 {
 	uiProgressBar* progressbar = static_cast<uiProgressBar*>(mProgressBarSample->clone());
 	progressbar->setLayout(layout);
-	progressbar->setId(id);
+	progressbar->setId(checkEmptyId(id, "progressBar"));
 	progressbar->setValueRange(minValue, maxValue);
 	progressbar->setValue(value);
 	return progressbar;
@@ -103,7 +108,7 @@ uiCheckBox* uiSkinManager::checkBox( const string& caption, const cLayout& layou
 	uiCheckBox* checkbox = static_cast<uiCheckBox*>(mCheckBoxSample->clone());
 	checkbox->setLayout(layout);
 	checkbox->setCCaption(caption);
-	checkbox->setId(id);
+	checkbox->setId(checkEmptyId(id, "checkbox"));
 	checkbox->setChecked(checked);
 	return checkbox;
 }
@@ -114,7 +119,7 @@ uiScrollBar* uiSkinManager::horScrollBar( const cLayout& layout /*= cLayout::bot
 {
 	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mHorScrollbarSample->clone());
 	scrollbar->setLayout(layout);
-	scrollbar->setId(id);
+	scrollbar->setId(checkEmptyId(id, "horScrollbar"));
 	scrollbar->setValueRange(minValue, maxValue);
 	scrollbar->setValue(value);
 	scrollbar->setBarSize(barSize);
@@ -127,7 +132,7 @@ uiScrollBar* uiSkinManager::verThinScrollBar(const cLayout& layout /*= cLayout::
 {
 	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mVerThinScrollbarSample->clone());
 	scrollbar->setLayout(layout);
-	scrollbar->setId(id);
+	scrollbar->setId(checkEmptyId(id, "verThisScrollBar"));
 	scrollbar->setValueRange(minValue, maxValue);
 	scrollbar->setValue(value);
 	scrollbar->setBarSize(barSize);
@@ -140,7 +145,7 @@ uiScrollBar* uiSkinManager::horThinScrollBar(const cLayout& layout /*= cLayout::
 {
 	uiScrollBar* scrollbar = static_cast<uiScrollBar*>(mHorThinScrollbarSample->clone());
 	scrollbar->setLayout(layout);
-	scrollbar->setId(id);
+	scrollbar->setId(checkEmptyId(id, "horThisScrollBar"));
 	scrollbar->setValueRange(minValue, maxValue);
 	scrollbar->setValue(value);
 	scrollbar->setBarSize(barSize);
@@ -158,7 +163,7 @@ uiEditBox* uiSkinManager::editbox( const cLayout& layout /*= cLayout::both()*/, 
 	uiEditBox* src = multiLine ? mMultilineEditBox:mSingleLineEditBoxSample;
 	uiEditBox* res = static_cast<uiEditBox*>(src->clone());
 	res->setLayout(layout);
-	res->setId(id);
+	res->setId(checkEmptyId(id, "editbox"));
 	res->setCText(text);
 	return res;
 }
@@ -172,7 +177,7 @@ uiLabel* uiSkinManager::label(const string& text, const cLayout& layout /*= cLay
 {
 	uiLabel* res = static_cast<uiLabel*>(mLabelSample->clone());
 	res->setLayout(layout);
-	res->setId(id);
+	res->setId(checkEmptyId(id, "label"));
 	res->setCText(text);
 	return res;
 }
@@ -206,19 +211,40 @@ uiScrollArea* uiSkinManager::scrollArea( const cLayout& layout /*= cLayout::both
 {
 	uiScrollArea* res = static_cast<uiScrollArea*>(mScrollAreaSample->clone());
 	res->setLayout(layout);
-	res->setId(id);
+	res->setId(checkEmptyId(id, "scrollArea"));
 	return res;
 }
 
 uiHorLayout* uiSkinManager::horLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, 
 	                                  float widgetsDistance /*= 10.0f*/)
 {
-	return mnew uiHorLayout(layout, widgetsDistance, id);
+	return mnew uiHorLayout(layout, widgetsDistance, checkEmptyId(id, "horlayout"));
 }
 
 uiVerLayout* uiSkinManager::verLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, float widgetsDistance /*= 10.0f*/)
 {
-	return mnew uiVerLayout(layout, widgetsDistance, id);
+	return mnew uiVerLayout(layout, widgetsDistance, checkEmptyId(id, "verlayout"));
+}
+
+string uiSkinManager::checkEmptyId(const string& id, const string& prefix)
+{
+	if (id.empty()) 
+		return prefix + toString(mWidgetIdx++);
+
+	return id;
+}
+
+void uiSkinManager::setRectPadSample(uiRect* padSample)
+{
+	mRectPadSample = padSample;
+}
+
+uiRect* uiSkinManager::rectPad(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
+{
+	uiRect* res = mnew uiRect(*mRectPadSample);
+	res->setLayout(layout);
+	res->setId(checkEmptyId(id, "pad"));
+	return res;
 }
 
 CLOSE_O2_NAMESPACE

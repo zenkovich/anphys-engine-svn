@@ -31,6 +31,7 @@ protected:
 	static void initMultilineEditBox();
 	static void initScrollArea();
 	static void initHint();
+	static void initRectPad();
 };
 
 CLOSE_O2_NAMESPACE

@@ -28,6 +28,7 @@ class uiWidget: public cPropertyList
 	friend class uiState;
 	friend class uiSkinManager;
 	friend class uiScrollArea;
+	friend class uiStdSkinInitializer;
 
 public:
 	typedef vector< uiWidget* > WidgetsVec;
@@ -42,9 +43,12 @@ protected:
 	WidgetsVec     mChildWidgets;            /**< Childes widgets. */
 	vec2f          mGlobalPosition;          /**< Position in screen space. */
 	vec2f          mSize;                    /**< Size of widget. Not including childes. */
+	vec2f          mResMinSize;              /**< Absolute widget minimal size, depends on mLayout and child mResMinSize. */
+	vec2f          mFixedMinSize;            /**< Widgets fixed min size. */
 	vec2f          mChildsOffset;            /**< Offset for childrens. */
 	cGeometry*     mGeometry;                /**< Colliding geometry. May be NULL. */
 	fRect          mBounds;                  /**< Widget with childes bounds. */
+	bool           mResizeByChilds;          /**< Resize by childes, if true, widget will be resized so that all fit. */
 	bool           mVisible;                 /**< True, if widget is visible. */
 	bool           mFocused;                 /**< True, if widget on focus. */
 	bool           mCursorInside;            /**< True, when cursor is inside widget. */
@@ -78,7 +82,7 @@ public:
 	PROPERTY(uiWidget, vec2f)     size;           /**< Size property. Using setSize/getSize. */
 	PROPERTY(uiWidget, bool)      visible;        /**< Visibility property. Using set/isVisible. */
 	PROPERTY(uiWidget, cLayout)   layout;         /**< Widget layout. Using set/getLayout. */
-	PROPERTY(uiWidget, float)     transparency;   /**< Widget dtransparency. Using set/getTransparency. */
+	PROPERTY(uiWidget, float)     transparency;   /**< Widget transparency. Using set/getTransparency. */
 
 
 	/** ctor. */
@@ -107,6 +111,13 @@ public:
 
 	/** Adding child widget. If position negative, adding at end. */
 	virtual uiWidget* addChild(uiWidget* widget, int position = -1);
+
+	/** Adding child widget and returns correct type. If position negative, adding at end. */
+	template<typename T>
+	T* addTChild(T* widget, int position = -1)
+	{
+		return static_cast<T*>(addChild(widget, position));
+	}
 
 	/** Removing child widget. */
 	virtual void removeChild(uiWidget* widget, bool release = true);
@@ -216,6 +227,12 @@ public:
 	/** Returns widget transparency. */
 	float getTransparency() const;
 
+	/** Sets resizing by childs. */
+	void setRisizeByChilds(bool flag);
+
+	/** Returns true, if resizing by childs. */
+	bool isResizingByChilds() const;
+
 protected:
 	/** Updating current and child layouts: global positions and bounds. */
 	virtual void updateLayout();
@@ -252,6 +269,9 @@ protected:
 
 	/** Calls when parent transparency changed. */
 	virtual void updateResTransparency();
+
+	/** Calls when need to update result min size. */
+	void updateResMinSize();
 
 	/** Initialize all properties. */
 	void initializeProperties();

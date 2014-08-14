@@ -9,8 +9,12 @@
 
 OPEN_O2_NAMESPACE
 
+uiWidget* testStretchingWdg;
 
-cStretchRect* testRT;
+void AddTestStretchButton() 
+{
+	testStretchingWdg->addChild( uiSkin()->button("Some button", cLayout::both().fixHeight(25.0f).minHeight(25.0f)) );
+}
 
 cUITest::cUITest()
 {
@@ -18,12 +22,26 @@ cUITest::cUITest()
 
 	uiHost()->addWidget( uiSkin()->background() );
 
-	uiVerLayout* verLayout = uiHost()->addTWidget( uiSkin()->verLayout(cLayout::both().fixWidth(100.0f), "hor") );
-	verLayout->setChildsLayout(cLayout::both(fRect(10.0f, 10.0f, 10.0f, 10.0f)));
-	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both().maxWidth(100.0f).minWidth(100.0f)) );
-	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
-	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
-	verLayout->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	uiHorLayout* horLayout = uiHost()->addTWidget( uiSkin()->horLayout(cLayout::both().maxHeight(200.0f), "hor", 10.0f) );
+	horLayout->setChildsLayout(cLayout::both( fRect(10.0f, 10.0f, 10.0f, 10.0f) ));
+
+	uiVerLayout* verLayout1 = horLayout->addTChild( uiSkin()->verLayout(cLayout::both(), "ver1") );
+	verLayout1->addChild( uiSkin()->button("Button 1", cLayout::both().maxWidth(100.0f).minWidth(100.0f)) );
+	verLayout1->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout1->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout1->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+
+	uiVerLayout* verLayout2 = horLayout->addTChild( uiSkin()->verLayout(cLayout::both(), "ver2") );
+	verLayout2->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout2->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout2->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+	verLayout2->addChild( uiSkin()->button("Button 1", cLayout::both()) );
+
+	uiWidget* pad = uiHost()->addWidget( uiSkin()->rectPad( cLayout::fixed(vec2f(200.0f, 200.0f), vec2f(100.0f, 210.0f)) ) );
+	pad->setRisizeByChilds(true);
+	testStretchingWdg = pad->addChild( uiSkin()->verLayout() );
+	uiButton* btn = testStretchingWdg->addTChild( uiSkin()->button("Add button", cLayout::both().fixHeight(25.0f)) );
+	btn->onClickEvent.add( callback(&AddTestStretchButton) );
 	/*uiHost()->addWidget( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
 	uiHost()->addWidget( uiSkin()->button("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 330))) );
 	uiHost()->addWidget( uiSkin()->button("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 360))) );

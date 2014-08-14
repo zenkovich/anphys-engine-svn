@@ -11,7 +11,7 @@ REGIST_TYPE(uiWidget);
 uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
 	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mBasicTransparency(1.0f), mParent(NULL),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false),
-	mChildsLayout(cLayout::both())
+	mChildsLayout(cLayout::both()), mResMinSize(0, 0), mResizeByChilds(false)
 {
 	mLayout = layout;
 	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
@@ -34,6 +34,9 @@ uiWidget::uiWidget( const uiWidget& widget ):
 	mVisible = widget.mVisible;
 	mFocused = false;
 	mBasicTransparency = widget.mBasicTransparency;
+	mFixedMinSize = widget.mFixedMinSize;
+	mResMinSize = widget.mResMinSize;
+	mResizeByChilds = widget.mResizeByChilds;
 
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
 		addChild((*it)->clone());
@@ -108,7 +111,12 @@ void uiWidget::localUpdateLayout()
 		parSize = mParent->mChildsLayout.mSize;
 	}
 
+	updateResMinSize();
+
 	mLayout.update(parPos, parSize);
+	mLayout.mSize.x = max(mLayout.mSize.x, mResMinSize.x);
+	mLayout.mSize.y = max(mLayout.mSize.y, mResMinSize.y);
+
 	mGlobalPosition = mLayout.mPosition;
 	mSize = mLayout.mSize;
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
@@ -414,6 +422,9 @@ void uiWidget::setVisibleParam(bool param)
 void uiWidget::setLayout(const cLayout& layout)
 {
 	mLayout = layout;
+	mLayout.mMinSize.x = max(mLayout.mMinSize.x, mFixedMinSize.x);
+	mLayout.mMinSize.y = max(mLayout.mMinSize.y, mFixedMinSize.y);
+	updateResMinSize();
 	updateLayout();
 }
 
@@ -444,6 +455,17 @@ float uiWidget::getTransparency() const
 	return mBasicTransparency;
 }
 
+void uiWidget::setRisizeByChilds(bool flag)
+{
+	mResizeByChilds = flag;
+	updateLayout();
+}
+
+bool uiWidget::isResizingByChilds() const
+{
+	return mResizeByChilds;
+}
+
 bool uiWidget::isVisible() const
 {
 	if (mVisibleState)
@@ -470,6 +492,32 @@ void uiWidget::updateResTransparency()
 		mResTransparency = mBasicTransparency;
 
 	mResTransparencyChanged.call();
+}
+
+void uiWidget::updateResMinSize()
+{
+	mResMinSize = mLayout.mMinSize;
+
+	FOREACH(WidgetsVec, mChildWidgets, child) 
+	{
+		mResMinSize.x = max((*child)->mResMinSize.x, mResMinSize.x);
+		mResMinSize.y = max((*child)->mResMinSize.y, mResMinSize.y);
+	}
+
+	if (mResizeByChilds) 
+	{
+		vec2f childSize = vec2f();
+		FOREACH(WidgetsVec, mChildWidgets, child)
+		{
+			childSize.x = max(childSize.x, (*child)->mSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x);
+			childSize.y = max(childSize.y, (*child)->mSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y);
+		}
+
+		mLayout.mRBAbsolute += childSize - mLayout.mSize;
+	}
+
+	if (mParent)
+		mParent->updateResMinSize();
 }
 
 void uiWidget::initializeProperties()
