@@ -6,6 +6,7 @@
 #include "ui/ui.h"
 #include "util/graphics/stretch_rect.h"
 #include "util/input/input_message.h"
+#include "../../../o2engine/src/util/file_system/file_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -42,6 +43,8 @@ cUITest::cUITest()
 	testStretchingWdg = pad->addChild( uiSkin()->verLayout() );
 	uiButton* btn = testStretchingWdg->addTChild( uiSkin()->button("Add button", cLayout::both().fixHeight(25.0f)) );
 	btn->onClickEvent.add( callback(&AddTestStretchButton) );
+
+	getFileSystem().getPathInfo("C:\\");
 	/*uiHost()->addWidget( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
 	uiHost()->addWidget( uiSkin()->button("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 330))) );
 	uiHost()->addWidget( uiSkin()->button("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 360))) );

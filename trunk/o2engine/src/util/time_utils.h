@@ -6,6 +6,21 @@
 
 OPEN_O2_NAMESPACE
 
+struct WideTime 
+{
+	int mYear;
+	int mMonth;
+	int mDay;
+	int mHour;
+	int mMinute;
+	int mSecond;
+
+	WideTime(int seconds = 0, int minutes = 0, int hours = 0, int days = 0, int months = 0, int years = 0)
+		:mYear(years), mMonth(months), mDay(days), mHour(hours), mMinute(minutes), mSecond(seconds)
+	{
+	}
+};
+
 class cTimeUtil: public cSingleton<cTimeUtil>
 {
 	friend class cApplicationBaseInterface;
