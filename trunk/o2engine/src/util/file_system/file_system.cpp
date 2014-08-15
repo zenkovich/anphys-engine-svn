@@ -39,22 +39,29 @@ const string& cFileSystem::getResourcePath() const
 
 cPathInfo cFileSystem::getPathInfo(const string& path) const
 {
+	cPathInfo res;
+	res.mPath = path;
+
 	WIN32_FIND_DATA f;
-	HANDLE h = FindFirstFile("./*", &f);
+	HANDLE h = FindFirstFile((path + "/*").c_str(), &f);
 	if(h != INVALID_HANDLE_VALUE)
 	{
 		do
 		{
-			hlog(f.cFileName);
+			if (strcmp(f.cFileName, ".") == 0 || strcmp(f.cFileName, "..") == 0)
+				continue;
+
+			if (f.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+				res.mPaths.push_back(getPathInfo(path + "/" + f.cFileName));
+			else
+				res.mFiles.push_back(getFileInfo(path + "/" + f.cFileName));
 		} 
 		while(FindNextFile(h, &f));
 	}
 	else
-	{
-		hlog("Error opening directory");
-	}
+		gLog->error("failed getpathIfno: Error opening directory %s", path.c_str());
 
-	return cPathInfo();
+	return res;
 }
 
 bool cFileSystem::copyFile(const string& source, const string& dest) const

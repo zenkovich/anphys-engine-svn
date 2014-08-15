@@ -9,6 +9,10 @@ OPEN_O2_NAMESPACE
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
+	string mBuildName;
+	string mProjectName;
+	string mProjectPath;
+
 public:
 	void rebuildAssets();
 };
