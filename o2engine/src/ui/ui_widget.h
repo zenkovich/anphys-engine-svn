@@ -43,7 +43,7 @@ protected:
 	WidgetsVec     mChildWidgets;            /**< Childes widgets. */
 	vec2f          mGlobalPosition;          /**< Position in screen space. */
 	vec2f          mSize;                    /**< Size of widget. Not including childes. */
-	vec2f          mResMinSize;              /**< Absolute widget minimal size, depends on mLayout and child mResMinSize. */
+	vec2f          mAbsMinSize;              /**< Absolute widget minimal size, depends on mLayout and child mResMinSize. */
 	vec2f          mFixedMinSize;            /**< Widgets fixed min size. */
 	vec2f          mChildsOffset;            /**< Offset for childrens. */
 	cGeometry*     mGeometry;                /**< Colliding geometry. May be NULL. */
@@ -250,7 +250,7 @@ protected:
 	virtual void localUpdate(float dt) {}
 
 	/** Updating current widget layout: global position and bounds. */
-	virtual void localUpdateLayout();
+	virtual bool localUpdateLayout();
 
 	/** Calls when widget's layout updated. */
 	virtual void layoutUpdated() {}

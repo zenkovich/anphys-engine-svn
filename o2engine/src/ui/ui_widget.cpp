@@ -11,7 +11,7 @@ REGIST_TYPE(uiWidget);
 uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
 	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mBasicTransparency(1.0f), mParent(NULL),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false),
-	mChildsLayout(cLayout::both()), mResMinSize(0, 0), mResizeByChilds(false)
+	mChildsLayout(cLayout::both()), mAbsMinSize(0, 0), mResizeByChilds(false)
 {
 	mLayout = layout;
 	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
@@ -35,7 +35,7 @@ uiWidget::uiWidget( const uiWidget& widget ):
 	mFocused = false;
 	mBasicTransparency = widget.mBasicTransparency;
 	mFixedMinSize = widget.mFixedMinSize;
-	mResMinSize = widget.mResMinSize;
+	mAbsMinSize = widget.mAbsMinSize;
 	mResizeByChilds = widget.mResizeByChilds;
 
 	FOREACH_CONST(WidgetsVec, widget.mChildWidgets, it)
@@ -96,13 +96,14 @@ void uiWidget::updateStates(float dt)
 
 void uiWidget::updateLayout()
 {
-	localUpdateLayout();
+	if (!localUpdateLayout())
+		return;
 	
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		(*it)->updateLayout();
 }
 
-void uiWidget::localUpdateLayout()
+bool uiWidget::localUpdateLayout()
 {
 	vec2f parPos, parSize;
 	if (mParent)
@@ -111,11 +112,12 @@ void uiWidget::localUpdateLayout()
 		parSize = mParent->mChildsLayout.mSize;
 	}
 
-	updateResMinSize();
-
 	mLayout.update(parPos, parSize);
-	mLayout.mSize.x = max(mLayout.mSize.x, mResMinSize.x);
-	mLayout.mSize.y = max(mLayout.mSize.y, mResMinSize.y);
+	mLayout.mSize.x = max(mLayout.mSize.x, mAbsMinSize.x);
+	mLayout.mSize.y = max(mLayout.mSize.y, mAbsMinSize.y);
+
+	if (equals(mGlobalPosition, mLayout.mPosition) && equals(mSize, mLayout.mSize))
+		return false;
 
 	mGlobalPosition = mLayout.mPosition;
 	mSize = mLayout.mSize;
@@ -123,7 +125,10 @@ void uiWidget::localUpdateLayout()
 
 	mChildsLayout.update(mLayout.mPosition, mLayout.mSize);
 
+	updateResMinSize();
 	layoutUpdated();
+
+	return true;
 }
 
 bool uiWidget::isInside( const vec2f& point ) const
@@ -496,13 +501,15 @@ void uiWidget::updateResTransparency()
 
 void uiWidget::updateResMinSize()
 {
-	mResMinSize = mLayout.mMinSize;
+	mAbsMinSize = mLayout.mMinSize;
 
 	FOREACH(WidgetsVec, mChildWidgets, child) 
 	{
-		mResMinSize.x = max((*child)->mResMinSize.x, mResMinSize.x);
-		mResMinSize.y = max((*child)->mResMinSize.y, mResMinSize.y);
+		mAbsMinSize.x = max((*child)->mAbsMinSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x, mAbsMinSize.x);
+		mAbsMinSize.y = max((*child)->mAbsMinSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y, mAbsMinSize.y);
 	}
+
+	updateLayout();
 
 	if (mResizeByChilds) 
 	{

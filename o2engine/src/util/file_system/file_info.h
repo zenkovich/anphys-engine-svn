@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include "file.h"
+#include "util/time_utils.h"
 
 OPEN_O2_NAMESPACE
 
@@ -11,7 +12,9 @@ class cFileInfo
 public:
 	string           mPath;
 	cFileType::value mFileType;
-	int              mCreatedDate;
+	WideTime         mCreatedDate;
+	WideTime         mAccessDate;
+	WideTime         mEditDate;
 	uint32           mSize;
 	uint64           mCheckSumm;
 };
