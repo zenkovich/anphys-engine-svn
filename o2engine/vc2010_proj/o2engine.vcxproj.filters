@@ -495,6 +495,9 @@
     <ClInclude Include="..\src\ui\ui_ver_layout.h">
       <Filter>src\ui</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\build_system\build_config.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
