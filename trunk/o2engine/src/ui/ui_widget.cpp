@@ -94,25 +94,32 @@ void uiWidget::updateStates(float dt)
 		(*state).second->update(dt);
 }
 
-void uiWidget::updateLayout()
-{
-	if (!localUpdateLayout())
+void uiWidget::updateLayout(bool force /*= false*/)
+{	
+	updateAbsMinSize();
+
+	if (!localUpdateLayout() && !force)
 		return;
+
+	//hlog("Update layout on: %s on frame %i", mId.c_str(), mUpdatedAtFrame);
 	
 	FOREACH(WidgetsVec, mChildWidgets, it)
 		(*it)->updateLayout();
+
+	checkResizingByChilds();
+	layoutUpdated();
+
+	if (mParent)
+		mParent->updateLayout();
 }
 
 bool uiWidget::localUpdateLayout()
 {
-	vec2f parPos, parSize;
-	if (mParent)
-	{
-		parPos = mParent->mChildsLayout.mPosition;
-		parSize = mParent->mChildsLayout.mSize;
-	}
+	if (mParent)		
+		mLayout.update(mParent->mChildsLayout.mPosition, mParent->mChildsLayout.mSize);
+	else
+		mLayout.update(vec2f(), vec2f());
 
-	mLayout.update(parPos, parSize);
 	mLayout.mSize.x = max(mLayout.mSize.x, mAbsMinSize.x);
 	mLayout.mSize.y = max(mLayout.mSize.y, mAbsMinSize.y);
 
@@ -124,9 +131,6 @@ bool uiWidget::localUpdateLayout()
 	mBounds.set(mGlobalPosition, mGlobalPosition + mSize);
 
 	mChildsLayout.update(mLayout.mPosition, mLayout.mSize);
-
-	updateResMinSize();
-	layoutUpdated();
 
 	return true;
 }
@@ -181,8 +185,8 @@ uiWidget* uiWidget::addChild( uiWidget* widget, int position /*= -1*/ )
 		mChildWidgets.insert(mChildWidgets.begin() + position, widget);
 
 	transparency.onChangeEvent.add(widget->mCheckParentTransparency);
-
-	updateLayout();
+	
+	updateLayout(true);
 
 	return widget;
 }
@@ -429,7 +433,7 @@ void uiWidget::setLayout(const cLayout& layout)
 	mLayout = layout;
 	mLayout.mMinSize.x = max(mLayout.mMinSize.x, mFixedMinSize.x);
 	mLayout.mMinSize.y = max(mLayout.mMinSize.y, mFixedMinSize.y);
-	updateResMinSize();
+	updateAbsMinSize();
 	updateLayout();
 }
 
@@ -499,32 +503,36 @@ void uiWidget::updateResTransparency()
 	mResTransparencyChanged.call();
 }
 
-void uiWidget::updateResMinSize()
+void uiWidget::updateAbsMinSize()
 {
-	mAbsMinSize = mLayout.mMinSize;
+	vec2f newAbsMinSize = mLayout.mMinSize;
 
 	FOREACH(WidgetsVec, mChildWidgets, child) 
 	{
-		mAbsMinSize.x = max((*child)->mAbsMinSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x, mAbsMinSize.x);
-		mAbsMinSize.y = max((*child)->mAbsMinSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y, mAbsMinSize.y);
+		newAbsMinSize.x = max((*child)->mAbsMinSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x, newAbsMinSize.x);
+		newAbsMinSize.y = max((*child)->mAbsMinSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y, newAbsMinSize.y);
 	}
 
-	updateLayout();
-
-	if (mResizeByChilds) 
+	if (!equals(newAbsMinSize, mAbsMinSize)) 
 	{
-		vec2f childSize = vec2f();
-		FOREACH(WidgetsVec, mChildWidgets, child)
-		{
-			childSize.x = max(childSize.x, (*child)->mSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x);
-			childSize.y = max(childSize.y, (*child)->mSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y);
-		}
+		mAbsMinSize = newAbsMinSize;
+		updateLayout();
+	}
+}
 
-		mLayout.mRBAbsolute += childSize - mLayout.mSize;
+void uiWidget::checkResizingByChilds()
+{	
+	if (!mResizeByChilds)
+		return;
+
+	vec2f childSize = vec2f();
+	FOREACH(WidgetsVec, mChildWidgets, child)
+	{
+		childSize.x = max(childSize.x, (*child)->mSize.x + (*child)->mGlobalPosition.x - mGlobalPosition.x);
+		childSize.y = max(childSize.y, (*child)->mSize.y + (*child)->mGlobalPosition.y - mGlobalPosition.y);
 	}
 
-	if (mParent)
-		mParent->updateResMinSize();
+	mLayout.mRBAbsolute += childSize - mChildsLayout.mSize;
 }
 
 void uiWidget::initializeProperties()
@@ -544,7 +552,12 @@ void uiWidget::drawDebugFrame()
 {
 	if (mParent == NULL)
 		widgetDbgFrameIdx = 0;
-	renderSystem()->drawRectFrame(mGlobalPosition, mGlobalPosition + mSize, color4::someColor(widgetDbgFrameIdx++));
+	
+	renderSystem()->drawRectFrame(mGlobalPosition, mGlobalPosition + mSize, color4::someColor(widgetDbgFrameIdx));
+	renderSystem()->drawRectFrame(mGlobalPosition, mGlobalPosition + mAbsMinSize, color4::someColor(widgetDbgFrameIdx));
+	renderSystem()->drawLine(mGlobalPosition, mGlobalPosition + mAbsMinSize, color4::someColor(widgetDbgFrameIdx));
+
+	widgetDbgFrameIdx++;
 }
 
 CLOSE_O2_NAMESPACE
