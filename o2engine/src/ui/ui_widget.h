@@ -235,7 +235,7 @@ public:
 
 protected:
 	/** Updating current and child layouts: global positions and bounds. */
-	virtual void updateLayout();
+	virtual void updateLayout(bool force = false);
 
 	/** Calls when added some state. */
 	virtual void addedState(uiState* state) {}
@@ -271,7 +271,10 @@ protected:
 	virtual void updateResTransparency();
 
 	/** Calls when need to update result min size. */
-	void updateResMinSize();
+	void updateAbsMinSize();
+
+	/** Checking size by childs. */
+	void checkResizingByChilds();
 
 	/** Initialize all properties. */
 	void initializeProperties();

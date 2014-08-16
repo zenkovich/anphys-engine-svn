@@ -45,7 +45,7 @@
 #define DEBUG_POINTERS
 
 /* UI debug frames drawing. */
-#define UI_DEBUG_FRAMES false
+#define UI_DEBUG_FRAMES true
 
 
 #endif //ENGINE_SETTINGS_H

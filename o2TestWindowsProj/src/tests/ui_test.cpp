@@ -14,7 +14,8 @@ uiWidget* testStretchingWdg;
 
 void AddTestStretchButton() 
 {
-	testStretchingWdg->addChild( uiSkin()->button("Some button", cLayout::both().fixHeight(25.0f).minHeight(25.0f)) );
+	float height = random(25.0f, 35.0f);
+	testStretchingWdg->addChild( uiSkin()->button("Some button", cLayout::both().fixHeight(height).minHeight(height)) );
 }
 
 cUITest::cUITest()
@@ -97,6 +98,8 @@ void cUITest::update(float dt)
 	*/
 	/*if (appInput()->isCursorPressed())
 		uiHost()->showHint("Hint some text\nWith two lines (Ctrl + H)", appInput()->getCursorPos());*/
+
+	hlog("Cursor %.1f %.1f", appInput()->getCursorPos().x, appInput()->getCursorPos().y);
 }
 
 void cUITest::draw()
