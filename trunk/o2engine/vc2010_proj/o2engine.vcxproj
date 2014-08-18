@@ -217,6 +217,7 @@
     <ClInclude Include="..\src\util\ref_counter.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialization\serialization.h" />
+    <ClInclude Include="..\src\util\serialize_util.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\smart_ptrs.h" />
     <ClInclude Include="..\src\util\stack_trace.h" />
@@ -310,6 +311,8 @@
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
+    <ClCompile Include="..\src\util\build_system\atlas_info.cpp" />
+    <ClCompile Include="..\src\util\build_system\build_info.cpp" />
     <ClCompile Include="..\src\util\build_system\build_system.cpp" />
     <ClCompile Include="..\src\util\clipboard.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
@@ -335,6 +338,7 @@
     <ClCompile Include="..\src\util\scheduler.cpp" />
     <ClCompile Include="..\src\util\serialization\serialization.cpp" />
     <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
+    <ClCompile Include="..\src\util\serialize_util.cpp" />
     <ClCompile Include="..\src\util\stack_trace.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
     <ClCompile Include="..\src\util\threads\mutex.cpp" />

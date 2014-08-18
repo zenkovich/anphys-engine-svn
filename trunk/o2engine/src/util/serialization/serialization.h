@@ -4,10 +4,7 @@
 #include "public.h"
 #include "pugixml/pugixml.hpp"
 #include "util/file_system/file.h"
-#include "util/math/color.h"
-#include "util/math/rect.h"
-#include "util/math/vector2.h"
-#include "util/smart_ptrs.h"
+#include "util/time_utils.h"
 
 OPEN_O2_NAMESPACE
 
@@ -44,6 +41,7 @@ struct cSerialization
 //NOTE: Do not use that functions !
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, int& obj,              cLogStream* log = NULL);	
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, uint32& obj,           cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, uint16& obj,           cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, float& obj,            cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, bool& obj,             cLogStream* log = NULL);	
@@ -53,9 +51,11 @@ struct cSerialization
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, fRect& obj,            cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, iRect& obj,            cLogStream* log = NULL);	
 	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, color4& obj,           cLogStream* log = NULL);
+	static bool serializeIn(pugi::xml_node& xmlNode, const string& id, WideTime& obj,         cLogStream* log = NULL);
 	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, int obj,               cLogStream* log = NULL);	
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, uint32 obj,            cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, uint16 obj,            cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, float obj,             cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, bool obj,              cLogStream* log = NULL);	
@@ -65,6 +65,7 @@ struct cSerialization
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, fRect& obj,            cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, iRect& obj,            cLogStream* log = NULL);	
 	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, color4& obj,           cLogStream* log = NULL);
+	static bool serializeOut(pugi::xml_node& xmlNode, const string& id, WideTime& obj,         cLogStream* log = NULL);
 
 	template<typename T> 
 	static bool serialize(pugi::xml_node& xmlNode, const string& id, T& obj, cSerializeType::v type, 

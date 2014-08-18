@@ -2,7 +2,6 @@
 #define BUILD_CONFIG_H
 
 #include "public.h"
-#include "build_system.h"
 #include "atlas_info.h"
 #include "build_info.h"
 
