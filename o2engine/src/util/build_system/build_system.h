@@ -6,6 +6,7 @@
 #include "util/singleton.h"
 #include "util/file_system/file.h"
 #include "util/time_utils.h"
+#include "util/serialization/serialization.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,7 +15,7 @@ class cBuildConfig;
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
 public:
-	struct FileMeta
+	struct FileMeta: public cSerializableObj
 	{
 		string   mPath;
 		bool     mBuildIncluded;
@@ -22,12 +23,16 @@ public:
 		WideTime mWritedTime;
 
 		virtual cFileType::value getType() const { return cFileType::FT_FILE; }
+
+		SERIALIZE_METHOD_DECL();
 	};
 
 	struct ImageFileMeta: public FileMeta
 	{
 		string mAtlasName;
 		virtual cFileType::value getType() const { return cFileType::FT_IMAGE; }
+
+		SERIALIZE_INHERITED_METHOD_DECL(FileMeta, ImageFileMeta);
 	};
 
 	typedef vector<cBuildConfig*> BuildConfigsVec;

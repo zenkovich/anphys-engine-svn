@@ -92,6 +92,19 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, int
 	return false;
 }
 
+bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, uint32& obj, cLogStream* log /*= NULL*/ )
+{
+	pugi::xml_node chNode;
+	if (getNode(chNode, xmlNode, id))
+	{
+		obj = chNode.attribute("v").as_uint();
+
+		return true;
+	}
+
+	return false;
+}
+
 bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, uint16& obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode;
@@ -223,6 +236,23 @@ bool cSerialization::serializeIn( pugi::xml_node& xmlNode, const string& id, boo
 	return false;
 }
 
+bool cSerialization::serializeIn(pugi::xml_node& xmlNode, const string& id, WideTime& obj, cLogStream* log /*= NULL*/)
+{
+	pugi::xml_node chNode;
+	if (getNode(chNode, xmlNode, id))
+	{
+		obj.mSecond = chNode.attribute("sec").as_int();
+		obj.mMinute = chNode.attribute("min").as_int();
+		obj.mHour   = chNode.attribute("hour").as_int();
+		obj.mDay    = chNode.attribute("day").as_int();
+		obj.mMonth  = chNode.attribute("month").as_int();
+		obj.mYear   = chNode.attribute("year").as_int();
+		return true;
+	}
+
+	return false;
+}
+
 bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, cSerializableObj* obj, cLogStream* log /*= NULL*/ )
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
@@ -230,6 +260,14 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, cS
 }
 
 bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, int obj, cLogStream* log /*= NULL*/ )
+{	
+	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
+	chNode.append_attribute("v") = obj;
+
+	return true;
+}
+
+bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, uint32 obj, cLogStream* log /*= NULL*/ )
 {	
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj;
@@ -316,6 +354,19 @@ bool cSerialization::serializeOut( pugi::xml_node& xmlNode, const string& id, bo
 {
 	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
 	chNode.append_attribute("v") = obj ? "true":"false";
+
+	return true;
+}
+
+bool cSerialization::serializeOut(pugi::xml_node& xmlNode, const string& id, WideTime& obj, cLogStream* log /*= NULL*/)
+{
+	pugi::xml_node chNode = xmlNode.append_child(id.c_str());
+	chNode.append_attribute("sec") = obj.mSecond;
+	chNode.append_attribute("min") = obj.mMinute;
+	chNode.append_attribute("hout") = obj.mHour;
+	chNode.append_attribute("day") = obj.mDay;
+	chNode.append_attribute("month") = obj.mMonth;
+	chNode.append_attribute("year") = obj.mYear;
 
 	return true;
 }
