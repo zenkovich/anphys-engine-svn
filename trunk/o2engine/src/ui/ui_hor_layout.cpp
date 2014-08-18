@@ -50,7 +50,7 @@ void uiHorLayout::layoutUpdated()
 		lt.mLTAbsolute.x = offset;             lt.mLTRelative.x = 0.0f;
 		lt.mRBAbsolute.x = offset + childSize; lt.mRBRelative.x = 0.0f;
 
-		(*child)->setLayout(lt);
+		(*child)->setLayoutParams(lt, true);
 		lt = (*child)->getLayout();
 
 		offset = lt.right() - mChildsLayout.left() + mWidgetsDistance;
@@ -74,11 +74,18 @@ void uiHorLayout::layoutUpdated()
 		if (FIND(mFlexibleWidgets, *child) != mFlexibleWidgets.end())
 			lt.mRBAbsolute.x += addOffset;
 
-		(*child)->setLayout(lt);
+		(*child)->setLayoutParams(lt, true);
 		lt = (*child)->getLayout();
 
 		offset = lt.right() - mChildsLayout.left() + mWidgetsDistance;
 	}
+}
+
+uiWidget* uiHorLayout::addChild( uiWidget* widget, int position /*= -1*/ )
+{
+	uiWidget* res = uiWidget::addChild(widget, position);
+	updateLayout(true);
+	return res;
 }
 
 CLOSE_O2_NAMESPACE

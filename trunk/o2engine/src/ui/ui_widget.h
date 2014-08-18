@@ -29,6 +29,8 @@ class uiWidget: public cPropertyList
 	friend class uiSkinManager;
 	friend class uiScrollArea;
 	friend class uiStdSkinInitializer;
+	friend class uiHorLayout;
+	friend class uiVerLayout;
 
 public:
 	typedef vector< uiWidget* > WidgetsVec;
@@ -235,7 +237,7 @@ public:
 
 protected:
 	/** Updating current and child layouts: global positions and bounds. */
-	virtual void updateLayout(bool force = false);
+	virtual void updateLayout(bool force = false, bool onlyDownUpdates = false);
 
 	/** Calls when added some state. */
 	virtual void addedState(uiState* state) {}
@@ -269,6 +271,9 @@ protected:
 
 	/** Calls when parent transparency changed. */
 	virtual void updateResTransparency();
+
+	/** Sets widget layout with parametres. */
+	void setLayoutParams(const cLayout& layout, bool onlyDownUpdate);
 
 	/** Calls when need to update result min size. */
 	void updateAbsMinSize();

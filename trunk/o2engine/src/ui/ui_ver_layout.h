@@ -26,6 +26,9 @@ public:
 	/** Returns clone of widget. */
 	virtual uiWidget* clone() const;
 
+	/** Adding child widget. If position negative, adding at end. */
+	virtual uiWidget* addChild(uiWidget* widget, int position = -1);
+
 	/** Sets widgets distance. */
 	void setWidgetsDistance(float distance);
 
