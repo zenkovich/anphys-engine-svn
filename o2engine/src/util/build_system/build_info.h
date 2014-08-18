@@ -1,23 +1,21 @@
-#ifndef BUILD_CONFIG_H
-#define BUILD_CONFIG_H
+#ifndef BUILD_INFO_H
+#define BUILD_INFO_H
 
 #include "public.h"
 #include "build_system.h"
-#include "atlas_info.h"
-#include "build_info.h"
 
 OPEN_O2_NAMESPACE
 
-class cBuildConfig: public cBuildInfo
+class cBuildInfo 
 {
 public:
 	typedef vector<cImageAtlasInfo> AtlasesVec;
 	typedef cBuildSystem::FilesMetaVec FilesMetaVec;
 
-	string mName;
-	string mTargetPlatform;
+	FilesMetaVec mFilesMeta;
+	AtlasesVec   mAtlases;
 };
 
 CLOSE_O2_NAMESPACE
 
-#endif // BUILD_CONFIG_H
+#endif // BUILD_INFO_H

@@ -498,6 +498,12 @@
     <ClInclude Include="..\src\util\build_system\build_config.h">
       <Filter>src\util\build_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\build_system\atlas_info.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\build_system\build_info.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -844,6 +850,9 @@
     </ClCompile>
     <ClCompile Include="..\src\ui\ui_ver_layout.cpp">
       <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\build_system\build_system.cpp">
+      <Filter>src\util\build_system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

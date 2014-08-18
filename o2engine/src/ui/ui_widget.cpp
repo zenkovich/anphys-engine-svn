@@ -94,7 +94,7 @@ void uiWidget::updateStates(float dt)
 		(*state).second->update(dt);
 }
 
-void uiWidget::updateLayout(bool force /*= false*/)
+void uiWidget::updateLayout(bool force /*= false*/, bool onlyDownUpdates /*= false*/)
 {	
 	updateAbsMinSize();
 
@@ -104,13 +104,14 @@ void uiWidget::updateLayout(bool force /*= false*/)
 	//hlog("Update layout on: %s on frame %i", mId.c_str(), mUpdatedAtFrame);
 	
 	FOREACH(WidgetsVec, mChildWidgets, it)
-		(*it)->updateLayout();
+		(*it)->updateLayout(force, onlyDownUpdates);
 
 	checkResizingByChilds();
-	layoutUpdated();
 
-	if (mParent)
+	if (mParent && !onlyDownUpdates)
 		mParent->updateLayout();
+	
+	layoutUpdated();
 }
 
 bool uiWidget::localUpdateLayout()
@@ -186,6 +187,7 @@ uiWidget* uiWidget::addChild( uiWidget* widget, int position /*= -1*/ )
 
 	transparency.onChangeEvent.add(widget->mCheckParentTransparency);
 	
+	updateLayout(true);
 	updateLayout(true);
 
 	return widget;
@@ -430,11 +432,7 @@ void uiWidget::setVisibleParam(bool param)
 
 void uiWidget::setLayout(const cLayout& layout)
 {
-	mLayout = layout;
-	mLayout.mMinSize.x = max(mLayout.mMinSize.x, mFixedMinSize.x);
-	mLayout.mMinSize.y = max(mLayout.mMinSize.y, mFixedMinSize.y);
-	updateAbsMinSize();
-	updateLayout();
+	setLayoutParams(layout, false);
 }
 
 cLayout uiWidget::getLayout() const
@@ -493,6 +491,15 @@ void uiWidget::onFocusLost()
 	mFocused = false;
 }
 
+void uiWidget::setLayoutParams( const cLayout& layout, bool onlyDownUpdate )
+{
+	mLayout = layout;
+	mLayout.mMinSize.x = max(mLayout.mMinSize.x, mFixedMinSize.x);
+	mLayout.mMinSize.y = max(mLayout.mMinSize.y, mFixedMinSize.y);
+	updateAbsMinSize();
+	updateLayout(false, onlyDownUpdate);
+}
+
 void uiWidget::updateResTransparency()
 {
 	if (mParent)
@@ -533,6 +540,8 @@ void uiWidget::checkResizingByChilds()
 	}
 
 	mLayout.mRBAbsolute += childSize - mChildsLayout.mSize;
+
+	updateLayout(false, true);
 }
 
 void uiWidget::initializeProperties()

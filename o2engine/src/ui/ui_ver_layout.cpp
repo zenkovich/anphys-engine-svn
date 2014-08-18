@@ -50,7 +50,7 @@ void uiVerLayout::layoutUpdated()
 		lt.mLTAbsolute.y = offset;             lt.mLTRelative.y = 0.0f;
 		lt.mRBAbsolute.y = offset + childSize; lt.mRBRelative.y = 0.0f;
 
-		(*child)->setLayout(lt);
+		(*child)->setLayoutParams(lt, true);
 		lt = (*child)->getLayout();
 
 		offset = lt.down() - mChildsLayout.top() + mWidgetsDistance;
@@ -74,11 +74,18 @@ void uiVerLayout::layoutUpdated()
 		if (FIND(mFlexibleWidgets, *child) != mFlexibleWidgets.end())
 			lt.mRBAbsolute.y += addOffset;
 
-		(*child)->setLayout(lt);
+		(*child)->setLayoutParams(lt, true);
 		lt = (*child)->getLayout();
 
 		offset = lt.down() - mChildsLayout.top() + mWidgetsDistance;
 	}
+}
+
+uiWidget* uiVerLayout::addChild( uiWidget* widget, int position /*= -1*/ )
+{
+	uiWidget* res = uiWidget::addChild(widget, position);
+	updateLayout(true);
+	return res;
 }
 
 CLOSE_O2_NAMESPACE

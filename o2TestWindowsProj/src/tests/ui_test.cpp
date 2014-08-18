@@ -14,7 +14,7 @@ uiWidget* testStretchingWdg;
 
 void AddTestStretchButton() 
 {
-	float height = random(25.0f, 35.0f);
+	float height = random(5.0f, 25.0f);
 	testStretchingWdg->addChild( uiSkin()->button("Some button", cLayout::both().fixHeight(height).minHeight(height)) );
 }
 
@@ -42,6 +42,7 @@ cUITest::cUITest()
 	uiWidget* pad = uiHost()->addWidget( uiSkin()->rectPad( cLayout::fixed(vec2f(200.0f, 200.0f), vec2f(100.0f, 210.0f)) ) );
 	pad->setRisizeByChilds(true);
 	testStretchingWdg = pad->addChild( uiSkin()->verLayout() );
+	testStretchingWdg->setRisizeByChilds(true);
 	uiButton* btn = testStretchingWdg->addTChild( uiSkin()->button("Add button", cLayout::both().fixHeight(25.0f)) );
 	btn->onClickEvent.add( callback(&AddTestStretchButton) );
 
