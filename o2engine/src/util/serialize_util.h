@@ -1,6 +1,8 @@
 #ifndef SERIALIZE_UTIL_H
 #define SERIALIZE_UTIL_H
 
+#include <map>
+
 #include "public.h"
 #include "xml_tools.h"
 #include "callback.h"
@@ -20,6 +22,15 @@ public:
 
 	/** Serialization function. */
 	virtual bool serialize(cSerializer* serializer) = 0; 
+	virtual cSerializable* createSample() const = 0;
+	virtual string getTypeName() const = 0;
+};
+
+
+struct gSerializeTypesContainer
+{
+public:
+	static int xx;
 };
 
 /** Basic serialize object, need to serialize data structures. */
@@ -30,7 +41,7 @@ public:
 
 private:
 	cLogStream*        mLog;         /** Serialization log, where puts errors. */
-	pugi::xml_document mRootNode;    /** Root srializtion xml document. */
+	pugi::xml_document mRootNode;    /** Root serialization xml document. */
 	pugi::xml_node     mCurrentNode; /** Current xml node. */
 	SerializeType      mType;        /** Serialization type. */
 
@@ -73,10 +84,46 @@ public:
 
 	/** Returns to parent node. */
 	void popNode();
+
+	/** Serialize object. */
+	bool serialize(cSerializable* object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(int object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(unsigned int object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(float object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(bool object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(string& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(vec2f& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(fRect& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(vec2i& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(iRect& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(color4& object, const string& id, bool errors = true);
+
+	/** Serialize object. */
+	bool serialize(WideTime& object, const string& id, bool errors = true);
 	
 	/** Serialize object. */
 	template<typename T>
-	bool serialize(T& object, const string& id, bool errors = true)
+	bool serializeTemp(T& object, const string& id, bool errors = true)
 	{
 		if (mType == ST_SERIALIZE)
 		{
@@ -96,15 +143,23 @@ public:
 			
 		return true;
 	}
-
-	/** Serialize object. */
-	bool serialize(cSerializable& object, const string& id, bool errors = true)
+	
+	/** Saving data from object to xml node. */
+	template<typename T>
+	bool serialize(vector<T>& array, const string& id, bool errors = true)
 	{
 		if (mType == ST_SERIALIZE)
 		{
 			createNode(id);
-			object.onBeginSerialize.call();
-			object.serialize(this);
+
+			mCurrentNode.append_attribute("count") = array.size();
+			for (int i = 0; i < (int)array.size(); i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				T* arrElem = &(array[i]);
+				serialize(arrElem, elemNodeName, errors);
+			}
+
 			popNode();
 			return true;
 		}
@@ -113,47 +168,103 @@ public:
 			if (!getNode(id, errors))
 				return false;
 			
-			object.serialize(this);
-			object.onDeserialized.call();
+			array.clear();
+			int srCount = mCurrentNode.attribute("count").as_int();
+			for (int i = 0; i < srCount; i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				array.push_back(T());
+				T* elemPtr = &array.back();
+				serialize(elemPtr, elemNodeName, errors);
+			}
+
 			popNode();
 		}
 			
 		return true;
 	}
+	
+	/** Saving data from object to xml node. */
+	template<typename T>
+	bool serialize(vector<T*>& array, const string& id, bool errors = true)
+	{
+		if (mType == ST_SERIALIZE)
+		{
+			createNode(id);
+
+			mCurrentNode.append_attribute("count") = array.size();
+			for (int i = 0; i < (int)array.size(); i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				T* elem = array[i];
+				serialize(elem, elemNodeName, errors);
+			}
+
+			popNode();
+			return true;
+		}
+		else
+		{
+			if (!getNode(id, errors))
+				return false;
+			
+			array.clear();
+			int srCount = mCurrentNode.attribute("count").as_int();
+			for (int i = 0; i < srCount; i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				string type = mCurrentNode.child(elemNodeName).attribute("type").value();
+				T* elem = static_cast<T*>(createSerializableSample(type));
+				serialize(elem, elemNodeName, errors);
+				array.push_back(elem);
+			}
+
+			popNode();
+		}
+			
+		return true;
+	}
+
+private:
+	static cSerializable* createSerializableSample(const string& type);
 };
 
-/** Declare serialization method. */
-#define SERIALIZE_METHOD_DECL() \
-	virtual bool serialize(cSerializer* serializer)
-
 /** Implementation of serialize method. You must define class. */
-#define SERIALIZE_METHOD_IMPL(CLASS) \
+#define SERIALIZE_METHOD_IMPL(CLASS)                   \
 	bool CLASS::serialize(cSerializer* serializer)
 
-/** Declare serialize method for inherited class. You must define parent and target class. */
-#define SERIALIZE_INHERITED_METHOD_DECL(BASIC_CLASS)            \
-	virtual bool serializeInh(cSerializer* serializer);          \
-	virtual bool serialize(cSerializer* serializer)              \
-	{                               							 \
-		if (serializer->getType() == cSerializer::ST_SERIALIZE)	 \
-			serializer->createNode(#BASIC_CLASS);				 \
-		else													 \
-			serializer->getNode(#BASIC_CLASS, true);			 \
-																 \
-		if (!BASIC_CLASS::serialize(serializer)) 				 \
-		{														 \
-			serializer->popNode();								 \
-			return false;										 \
-		}														 \
-																 \
-		serializer->popNode();									 \
-																 \
-		return serializeInh(serializer);						 \
-	}															 \
-
 /** Implementation of serialize method for inherited class. */
-#define SERIALIZE_INHERITED_METHOD_IMPL(CLASS) \
-	bool CLASS::serializeInh(cSerializer* serializer)       
+#define SERIALIZE_INHERITED_METHOD_IMPL(CLASS)         \
+	bool CLASS::serializeInh(cSerializer* serializer)  
+
+/** Declaration of serialize methods. */
+#define SERIALIZBLE_METHODS(CLASS)                                       \
+	virtual cSerializable* createSample() const { return mnew CLASS(); } \
+	virtual string getTypeName() const { return #CLASS; }                    \
+	bool CLASS::serialize(cSerializer* serializer)
+
+/** Declaration of inherited serialize methods. */
+#define SERIALIZBLE_INHERITED_METHODS(CLASS, BASIC_CLASS)                \
+	virtual cSerializable* createSample() const { return mnew CLASS(); } \
+	virtual string getTypeName() const { return #CLASS; }                    \
+	virtual bool serializeInh(cSerializer* serializer);                  \
+	virtual bool serialize(cSerializer* serializer)                      \
+	{                               							         \
+		if (serializer->getType() == cSerializer::ST_SERIALIZE)	         \
+			serializer->createNode(#BASIC_CLASS);				         \
+		else													         \
+			serializer->getNode(#BASIC_CLASS, true);			         \
+																         \
+		if (!BASIC_CLASS::serialize(serializer)) 				         \
+		{														         \
+			serializer->popNode();								         \
+			return false;										         \
+		}														         \
+																         \
+		serializer->popNode();									         \
+																         \
+		return serializeInh(serializer);						         \
+	}															         
 
 /** Serialize object with ID. */
 #define SERIALIZE_ID(obj, id) \

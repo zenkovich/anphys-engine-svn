@@ -25,7 +25,7 @@ protected:
 };
 
 #define DECLARE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = NULL
-#define CREATE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = mnew T
+#define CREATE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = mnew CLASS()
 
 CLOSE_O2_NAMESPACE
 

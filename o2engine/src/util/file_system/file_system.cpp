@@ -1,6 +1,7 @@
 #include "file_system.h"
 #include <Windows.h>
-#include "util\time_utils.h"
+#include "util/time_utils.h"
+#include "util/build_system/build_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -20,6 +21,7 @@ cFileSystem::cFileSystem()
 
 cFileSystem::~cFileSystem()
 {
+	cBuildSystem::deinitializeSingleton();
 }
 
 void cFileSystem::setResourcePath( const string& path )
@@ -137,9 +139,37 @@ bool cFileSystem::createDirectory(const string& path) const
 	return CreateDirectory(path.c_str(), NULL);
 }
 
-bool cFileSystem::removeDirectory(const string& path) const
+bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/) const
 {
+	if (!recursive)
+		RemoveDirectory(path.c_str());
+
+	WIN32_FIND_DATA f;
+	HANDLE h = FindFirstFile((path + "/*").c_str(), &f);
+	if(h != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if (strcmp(f.cFileName, ".") == 0 || strcmp(f.cFileName, "..") == 0)
+				continue;
+
+			if (f.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+				removeDirectory(path + "/" + f.cFileName, true);
+			else
+				deleteFile(path + "/" + f.cFileName);
+		} 
+		while(FindNextFile(h, &f));
+	}
+
 	return RemoveDirectory(path.c_str());
+}
+
+void cFileSystem::checkAssetsBuilding() const
+{
+	if (!cBuildSystem::isSingletonInitialzed())	
+		mnew cBuildSystem("../../..");
+
+	cBuildSystem::instance().rebuildAssets(true);
 }
 
 CLOSE_O2_NAMESPACE

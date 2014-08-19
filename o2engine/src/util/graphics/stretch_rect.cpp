@@ -346,9 +346,4 @@ void cStretchRect::draw()
 		mMesh->draw();
 }
 
-SERIALIZE_METHOD_IMPL(cStretchRect)
-{
-	return true;
-}
-
 CLOSE_O2_NAMESPACE

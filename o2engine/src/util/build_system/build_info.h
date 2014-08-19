@@ -20,7 +20,7 @@ public:
 
 	void addFile(const cFileInfo& fileInfo);
 
-	SERIALIZE_METHOD_DECL();
+	SERIALIZBLE_METHODS(cBuildInfo);
 };
 
 CLOSE_O2_NAMESPACE

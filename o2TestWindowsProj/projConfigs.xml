@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<projectName v="template" />
+<buildConfigs count="1">
+	<elem0>
+		<cBuildInfo>
+			<filesMeta count="0" />
+			<atlases count="0" />
+		</cBuildInfo>
+		<name v="win32" />
+		<platform v="" />
+	</elem0>
+</buildConfigs>
+<activeBuildConfig v="win32" />

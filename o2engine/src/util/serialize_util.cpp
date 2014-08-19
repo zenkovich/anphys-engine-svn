@@ -1,4 +1,5 @@
 #include "serialize_util.h"
+#include <map>
 
 OPEN_O2_NAMESPACE
 
@@ -88,5 +89,92 @@ cSerializer::SerializeType cSerializer::getType() const
 {
 	return mType;
 }
+
+bool cSerializer::serialize(cSerializable* object, const string& id, bool errors /*= true*/)
+{
+	if (mType == ST_SERIALIZE)
+	{
+		createNode(id);
+		object->onBeginSerialize.call();
+		mCurrentNode.append_attribute("type") = object->getTypeName().c_str();
+		object->serialize(this);
+		popNode();
+		return true;
+	}
+	else
+	{
+		if (!getNode(id, errors))
+			return false;
+
+		object->serialize(this);
+		object->onDeserialized.call();
+		popNode();
+	}
+
+	return true;
+}
+
+bool cSerializer::serialize(int object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(unsigned int object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(float object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(bool object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(string& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(vec2f& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(fRect& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(vec2i& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(iRect& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(color4& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+bool cSerializer::serialize(WideTime& object, const string& id, bool errors /*= true*/)
+{
+	return serializeTemp(object, id, errors);
+}
+
+cSerializable* cSerializer::createSerializableSample(const string& type)
+{
+	//return gSerializeTypesContainer::mSamples[type]->createSample();
+	return NULL;
+}
+
+int gSerializeTypesContainer::xx;
 
 CLOSE_O2_NAMESPACE

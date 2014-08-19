@@ -4,6 +4,7 @@
 #include "build_config.h"
 #include "build_info.h"
 #include "util/file_system/file_system.h"
+#include "util/serialize_util.h"
 
 OPEN_O2_NAMESPACE
 
@@ -54,6 +55,7 @@ cBuildSystem::cBuildSystem(const string& projectPath)
 			mActiveBuildConfig = *conf;
 }
 
+
 cBuildSystem::~cBuildSystem()
 {
 	saveConfig();
@@ -102,19 +104,23 @@ void cBuildSystem::rebuildAssets( bool forcible /*= false*/ )
 
 	updateBuildConfig();
 	copyNonBuildingFiles();
+
+	saveConfig();
 }
 
 void cBuildSystem::cleanUpBuildedAssest()
 {
 	hlog("Cleanup assets");
 
-	getFileSystem().removeDirectory(getBuildAssetsPath());
+	if (!getFileSystem().removeDirectory(getBuildAssetsPath()))
+		hlog("failed to remove dir");
+
 	getFileSystem().createDirectory(getBuildAssetsPath());
 }
 
 void cBuildSystem::updateBuildConfig()
 {
-	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets/");
+	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets");
 	updateBuildConfigPath(assetsPathInfo);
 }
 
@@ -132,6 +138,8 @@ void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
 			}
 		}
 
+		fileInfo->mPath = fileInfo->mPath.substr((mProjectPath + "/Assets/").length());
+
 		if (!exist)
 			mActiveBuildConfig->addFile(*fileInfo);
 	}
@@ -142,7 +150,7 @@ void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
 
 void cBuildSystem::copyNonBuildingFiles()
 {
-
+	
 }
 
 CLOSE_O2_NAMESPACE

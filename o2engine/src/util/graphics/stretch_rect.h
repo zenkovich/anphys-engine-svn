@@ -87,8 +87,6 @@ public:
 	/** Returns minimal size. */
 	vec2f getMinSize() const;
 
-	SERIALIZE_METHOD_DECL();
-
 protected:	
 	/** Calls when position changed. */
 	void positionChanged();
