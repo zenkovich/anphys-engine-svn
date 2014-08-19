@@ -27,8 +27,6 @@ void grFont::create( const string& fontFile )
 {
 	pugi::xml_document doc;
 	cXmlTools::loadFromFile(fontFile, doc);
-	
-	serialize(doc, cSerializeType::INPUT, renderSystem()->mLog);
 }
 
 void grFont::createFromBMFont( const string& fontFile )
@@ -104,60 +102,6 @@ void grFont::createFromBMFont( const string& fontFile )
 		mCharacters[i].mTexSrc.top *= invTexSize.y;
 		mCharacters[i].mTexSrc.down *= invTexSize.y;
 	}
-}
-
-SERIALIZE_METHOD_IMPL(grFont::character) 
-{
-	SERIALIZE_ID(mTexSrc, "texSrc");	
-	SERIALIZE_ID(mOffset.x, "xoffset");
-	SERIALIZE_ID(mOffset.y, "yoffset");
-	SERIALIZE_ID(mAdvance, "xadvance");
-	SERIALIZE_ID(mCharId, "id");
-
-	return true;
-}
-
-SERIALIZE_METHOD_IMPL(grFont)
-{
-	SERIALIZE_ID(mName, "name");
-
-	string textureName;
-	if (type == cSerializeType::OUTPUT)
-		textureName = mTexture.getFileName();
-	
-	SERIALIZE_ID(textureName, "texture");
-	SERIALIZE_ID(mLineHeight, "lineHeight");
-	SERIALIZE_ID(mBase, "base");
-	SERIALIZE_ID(mAllSymbolReturn, "allSymbolsReturn");
-
-	if (type == cSerializeType::INPUT)
-		mTexture = renderSystem()->getTextureFromFile(textureName);
-
-	SERIALIZE_ID(mCharactersCount, "charactersCount");
-
-	if (type == cSerializeType::INPUT) 
-	{
-		safe_release_arr(mCharacters);
-		safe_release_arr(mCharacterIds);
-		mCharacters = mnew character[mCharactersCount];
-		mCharacterIds = mnew uint16[nMaxSymbolId];
-		memset(mCharacterIds, 0, sizeof(uint16)*nMaxSymbolId);
-	}
-
-	for (int i = 0; i < mCharactersCount; i++)
-	{
-		char id[24]; sprintf(id, "char%", i);
-		character* x = &(mCharacters[i]);
-		SERIALIZE_ID(x, id);
-	}
-
-	if (type == cSerializeType::INPUT) 
-	{
-		for (int i = 0; i < mCharactersCount; i++)
-			mCharacterIds[mCharacters[i].mCharId] = i;
-	}
-
-	return true;
 }
 
 float grFont::getLineHeight() const

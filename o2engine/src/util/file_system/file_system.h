@@ -49,6 +49,12 @@ public:
 
 	/** Moving file. */
 	bool moveFile(const string& source, const string& dest) const;
+
+	/** Creates folder. */
+	bool createDirectory(const string& path) const;
+
+	/** Removes directory. */
+	bool removeDirectory(const string& path) const;
 };
 
 #define getFileSystem() cFileSystem::instance()

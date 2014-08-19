@@ -4,7 +4,7 @@
 #include "public.h"
 
 #include "render_system/texture.h"
-#include "util/serialization/serialization.h"
+#include "util/serialize_util.h"
 #include "util/property.h"
 #include "util/graphics/rect_drawable.h"
 #include "render_system/mesh.h"
@@ -53,7 +53,7 @@ public:
 	/** ctor. */
 	cStretchRect(int parts = 0, const grTexture& texture = grTexture());
 
-	/** ctor, creating standart 9-slice stretching rect. */
+	/** ctor, creating standard 9-slice stretching rect. */
 	cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, const fRect& texRect = fRect(), 
 		         const color4& color = color4::white());
 
@@ -81,7 +81,7 @@ public:
 	/** Drawing debug frames for each parts. */
 	void drawDebug();
 
-	/** Sets the kinimal size. */
+	/** Sets the minimal size. */
 	void setMinSize(const vec2f& minSize);
 
 	/** Returns minimal size. */
@@ -90,7 +90,7 @@ public:
 	SERIALIZE_METHOD_DECL();
 
 protected:	
-	/** Calls when positon changed. */
+	/** Calls when position changed. */
 	void positionChanged();
 
 	/** Calls when size changed. */

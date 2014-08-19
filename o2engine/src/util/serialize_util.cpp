@@ -16,6 +16,12 @@ cSerializer::cSerializer(const string& fileName, SerializeType type /*= ST_SERIA
 	load(fileName);
 }
 
+cSerializer::cSerializer(pugi::xml_node& xmlNode, SerializeType type /*= cSerializer::ST_SERIALIZE*/)
+{
+	mCurrentNode = mRootNode.append_copy(xmlNode);
+	mType = type;
+}
+
 cSerializer::~cSerializer()
 {
 }
@@ -76,6 +82,11 @@ bool cSerializer::getNode(const string& id, bool errors /*= false*/)
 void cSerializer::popNode()
 {
 	mCurrentNode = mCurrentNode.parent();
+}
+
+cSerializer::SerializeType cSerializer::getType() const
+{
+	return mType;
 }
 
 CLOSE_O2_NAMESPACE

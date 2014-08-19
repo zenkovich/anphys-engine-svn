@@ -2,6 +2,7 @@
 
 #include "util/file_system/file.h"
 #include "util/smart_ptrs.h"
+#include "serialize_util.h"
 
 OPEN_O2_NAMESPACE
 
@@ -84,12 +85,6 @@ pugi::xml_node cXmlTools::getNode( const pugi::xml_node& node, const string& pat
 		return getNode(node.child(currNode.c_str()), path.substr(slashPos + 1));
 }
 
-void cXmlTools::toXmlNode(cSerializable& object, pugi::xml_node& node)
-{
-	cSerializer serialzier(node, cSerializer::ST_SERIALIZE);
-	object.serialize(&serialzier);
-}
-
 void cXmlTools::toXmlNode(cSerializable* object, pugi::xml_node& node)
 {
 	cSerializer serialzier(node, cSerializer::ST_SERIALIZE);
@@ -165,12 +160,6 @@ void cXmlTools::toXmlNode(WideTime& object, pugi::xml_node& node)
 	node.append_attribute("day")    = object.mDay;
 	node.append_attribute("month")  = object.mMonth;
 	node.append_attribute("year")   = object.mYear;
-}
-
-void cXmlTools::fromXmlNode(cSerializable& object, pugi::xml_node& node)
-{
-	cSerializer serializer(node, cSerializer::ST_DESERIALIZE);
-	object.serialize(&serializer);
 }
 
 void cXmlTools::fromXmlNode(cSerializable* object, pugi::xml_node& node)

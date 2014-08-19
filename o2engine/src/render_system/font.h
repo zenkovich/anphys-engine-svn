@@ -5,7 +5,6 @@
 
 #include "texture.h"
 #include "util/math/rect.h"
-#include "util/serialization/serialization.h"
 #include "util/string.h"
 
 OPEN_O2_NAMESPACE
@@ -14,7 +13,7 @@ class grMesh;
 class grRenderSystem;
 
 /** Font. Containing array of symbol glyphs, symbol index table. */
-class grFont: public cSerializableObj
+class grFont
 {
 	friend class grFontManager;
 	friend class grText;
@@ -23,17 +22,14 @@ public:
 	enum VerAlign { VA_TOP, VA_CENTER, VA_BOTTOM, VA_BOTH };
 	enum HorAlign { HA_LEFT, HA_CENTER, HA_RIGHT, HA_BOTH };
 
-	/** Characret definition structure. Conatining texture source rect, size, offset, advance and characted id. */
-	struct character: public cSerializableObj
+	/** Character definition structure. Containing texture source rect, size, offset, advance and characted id. */
+	struct character
 	{
 		fRect  mTexSrc;  /** texture source rect. */
 		vec2f  mSize;    /** Size of source rect. */
 		vec2f  mOffset;  /** Symbol offset. */
 		float  mAdvance; /** Symbol advance. */
 		uint16 mCharId;  /** Character id. */
-
-		/** Serialization method. */
-		SERIALIZE_METHOD_DECL();
 	};
 
 	/** text symbols layouts set. */
@@ -120,16 +116,13 @@ public:
 	/** Returns base height. */
 	float getBase() const;
 
-	/** Retuns text size. */
+	/** Returns text size. */
 	vec2f getTextSize(const wstring& text, const vec2f& areaSize = vec2f(), HorAlign horAlign = HA_LEFT,
 			          VerAlign verAlign = VA_TOP, bool wordWrap = true, float charsDistCoef = 1.0f, 
 					  float linesDistCoef = 1.0f);
 
 	/** Returns symbol advance. */
 	float getSymbolAdvance(uint16 id);
-
-	/** Serialize method. */
-	SERIALIZE_METHOD_DECL();
 };
 
 CLOSE_O2_NAMESPACE

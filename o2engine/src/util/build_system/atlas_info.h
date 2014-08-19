@@ -2,12 +2,12 @@
 #define ATLAS_INFO_H
 
 #include "public.h"
-#include "util/serialization/serialization.h"
+#include "util/serialize_util.h"
 #include "build_system.h"
 
 OPEN_O2_NAMESPACE
 
-class cImageAtlasInfo: public cSerializableObj
+class cImageAtlasInfo: public cSerializable
 {
 public: 
 	typedef vector<cBuildSystem::ImageFileMeta> ImagesMetaVec;

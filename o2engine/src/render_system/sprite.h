@@ -9,7 +9,6 @@
 #include "util/math/vector2.h"
 #include "util/math/rect.h"
 #include "util/math/color.h"
-#include "util/serialization/serialization.h"
 
 OPEN_O2_NAMESPACE
 
@@ -54,7 +53,7 @@ public:
 	//grSprite(grRenderSystem* render, cDataObject& dataObject);
 	
 	/** ctor. Loads sprite from config file. */
-	grSprite(pugi::xml_node& xmlNode);
+	//grSprite(pugi::xml_node& xmlNode);
 
 	/** copy ctor. */
 	grSprite(const grSprite& sprite);
@@ -100,8 +99,6 @@ public:
 	/** Returns color of the sprite vertex. */
 	color4 getVertexColor(int vertexId) const;
 
-	SERIALIZE_METHOD_DECL();
-
 protected:	
 	void positionChanged();
 	void sizeChanged();
@@ -111,10 +108,10 @@ protected:
 	/** Initializing properties. */
 	void initializeProperties();
 
-	/** Updating mesh vertices positions. */
+	/** Updating mesh verticies positions. */
 	void updateMeshVerticies();
 
-	/** Updating mesh vertices texture coords. */
+	/** Updating mesh verticies texture coords. */
 	void updateMeshTexCoords();
 
 	/** Updating mesh verticies colors. */

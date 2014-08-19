@@ -6,16 +6,18 @@
 #include "util/singleton.h"
 #include "util/file_system/file.h"
 #include "util/time_utils.h"
-#include "util/serialization/serialization.h"
+#include "util/serialize_util.h"
+#include "util/file_system/file_system.h"
 
 OPEN_O2_NAMESPACE
-
+	
 class cBuildConfig;
+class cBuildInfo;
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
 public:
-	struct FileMeta: public cSerializableObj
+	struct FileMeta: public cSerializable
 	{
 		string   mPath;
 		bool     mBuildIncluded;
@@ -32,7 +34,7 @@ public:
 		string mAtlasName;
 		virtual cFileType::value getType() const { return cFileType::FT_IMAGE; }
 
-		SERIALIZE_INHERITED_METHOD_DECL(FileMeta, ImageFileMeta);
+		SERIALIZE_INHERITED_METHOD_DECL(FileMeta);
 	};
 
 	typedef vector<cBuildConfig*> BuildConfigsVec;
@@ -43,12 +45,22 @@ protected:
 	string          mProjectPath;
 	BuildConfigsVec mBuildConfigs;
 	cBuildConfig*   mActiveBuildConfig;
+	cBuildInfo*     mBuildInfo;
 
 public:
-	cBuildSystem(const string& configFile);
+	cBuildSystem(const string& projectPath);
 	~cBuildSystem();
 
+	void cleanUpBuildedAssest();
+	void saveConfig();
 	void rebuildAssets(bool forcible = false);
+
+	string getBuildAssetsPath() const;
+
+private:
+	void updateBuildConfig();
+	void updateBuildConfigPath(cPathInfo pathInfo);
+	void copyNonBuildingFiles();
 };
 
 CLOSE_O2_NAMESPACE

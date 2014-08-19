@@ -216,7 +216,6 @@
     <ClInclude Include="..\src\util\public_utils.h" />
     <ClInclude Include="..\src\util\ref_counter.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
-    <ClInclude Include="..\src\util\serialization\serialization.h" />
     <ClInclude Include="..\src\util\serialize_util.h" />
     <ClInclude Include="..\src\util\singleton.h" />
     <ClInclude Include="..\src\util\smart_ptrs.h" />
@@ -336,8 +335,6 @@
     <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp" />
     <ClCompile Include="..\src\util\property_list.cpp" />
     <ClCompile Include="..\src\util\scheduler.cpp" />
-    <ClCompile Include="..\src\util\serialization\serialization.cpp" />
-    <ClCompile Include="..\src\util\serialization\serialize_test.cpp" />
     <ClCompile Include="..\src\util\serialize_util.cpp" />
     <ClCompile Include="..\src\util\stack_trace.cpp" />
     <ClCompile Include="..\src\util\string.cpp" />
