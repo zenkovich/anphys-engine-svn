@@ -18,6 +18,7 @@ cApplicationBaseInterface::cApplicationBaseInterface():
 	mLog(NULL), mRenderSystem(NULL), mFileSystem(NULL)
 {
 	initalizeSystems();
+	mFileSystem->checkAssetsBuilding();
 }
 
 cApplicationBaseInterface::~cApplicationBaseInterface()

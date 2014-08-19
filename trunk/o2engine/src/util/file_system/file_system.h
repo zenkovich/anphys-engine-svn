@@ -35,6 +35,9 @@ public:
 	/** Returns vector of extension strings for extension type. */
 	const ExtensionsVec& getExtensions(cFileType::value fileType) const;
 
+	/** Checking assets building. */
+	void checkAssetsBuilding() const;
+
 	/** Returns info of paths and files of specified path. */
 	cPathInfo getPathInfo(const string& path) const;
 
@@ -54,7 +57,7 @@ public:
 	bool createDirectory(const string& path) const;
 
 	/** Removes directory. */
-	bool removeDirectory(const string& path) const;
+	bool removeDirectory(const string& path, bool recursive = true) const;
 };
 
 #define getFileSystem() cFileSystem::instance()

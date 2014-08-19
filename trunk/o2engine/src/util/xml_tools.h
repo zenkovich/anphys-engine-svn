@@ -28,9 +28,7 @@ struct cXmlTools
 	/** Returns node by path, Path format "node/node/node". */
 	static pugi::xml_node getNode(const pugi::xml_node& node, const string& path);
 	
-	/** Saving data from object to xml node. */
-	static void toXmlNode(cSerializable* object, pugi::xml_node& node);
-	
+
 	/** Saving data from object to xml node. */
 	static void toXmlNode(int            object, pugi::xml_node& node);
 	
@@ -41,7 +39,7 @@ struct cXmlTools
 	static void toXmlNode(float          object, pugi::xml_node& node);
 	
 	/** Saving data from object to xml node. */
-	static void toXmlNode(string         object, pugi::xml_node& node);
+	static void toXmlNode(string&        object, pugi::xml_node& node);
 	
 	/** Saving data from object to xml node. */
 	static void toXmlNode(bool           object, pugi::xml_node& node);
@@ -64,9 +62,6 @@ struct cXmlTools
 	/** Saving data from object to xml node. */
 	static void toXmlNode(WideTime&      object, pugi::xml_node& node);
 	
-		
-	/** Getting data to object from xml node. */
-	static void fromXmlNode(cSerializable* object, pugi::xml_node& node);
 	
 	/** Getting data to object from xml node. */
 	static void fromXmlNode(int&           object, pugi::xml_node& node);
@@ -113,6 +108,7 @@ struct cXmlTools
 	template<typename T>
 	static void toXmlNode(T* array, int count, pugi::xml_node& node)
 	{
+		node.append_attribute("count") = count;
 		for (int i = 0; i < count; i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
@@ -126,6 +122,7 @@ struct cXmlTools
 	template<typename T>
 	static void toXmlNode(vector<T>& array, pugi::xml_node& node)
 	{
+		node.append_attribute("count") = count;
 		for (int i = 0; i < (int)array.size(); i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
@@ -139,6 +136,7 @@ struct cXmlTools
 	template<typename T>
 	static void toXmlNode(vector<T*>& array, pugi::xml_node& node)
 	{
+		node.append_attribute("count") = array.size();
 		for (int i = 0; i < (int)array.size(); i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
@@ -153,7 +151,8 @@ struct cXmlTools
 	template<typename T>
 	static void fromXmlNode(T* array, int count, pugi::xml_node& node)
 	{		
-		for (int i = 0; i < count; i++)
+		int srCount = node.attribute("count").as_int();
+		for (int i = 0; i < count && i < srCount; i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
 			pugi::xml_node elemNode = node.child(elemNodeName);
@@ -168,7 +167,8 @@ struct cXmlTools
 	template<typename T>
 	static void fromXmlNode(vector<T>& array, pugi::xml_node& node)
 	{
-		for (int i = 0; i < (int)array.size(); i++)
+		int srCount = node.attribute("count").as_int();
+		for (int i = 0; i < srCount; i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
 			pugi::xml_node elemNode = node.child(elemNodeName);
@@ -188,7 +188,8 @@ struct cXmlTools
 	template<typename T>
 	static void fromXmlNode(vector<T*>& array, pugi::xml_node& node)
 	{
-		for (int i = 0; i < (int)array.size(); i++)
+		int srCount = node.attribute("count").as_int();
+		for (int i = 0; i < srCount; i++)
 		{
 			char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
 			pugi::xml_node elemNode = node.child(elemNodeName);

@@ -15,6 +15,8 @@ public:
 
 	string mName;
 	string mTargetPlatform;
+
+	SERIALIZBLE_INHERITED_METHODS(cBuildConfig, cBuildInfo);
 };
 
 CLOSE_O2_NAMESPACE

@@ -18,9 +18,6 @@ cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
 	mWindowResizible(true), mActive(false)
 {
-	mnew cBuildSystem("../../../");
-	cBuildSystem::instance().rebuildAssets(true);
-
 	initializeWindow();
 
 	mApplication = this;

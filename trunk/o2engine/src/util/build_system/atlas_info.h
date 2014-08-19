@@ -16,7 +16,7 @@ public:
 	vec2f         mMaxSize;
 	ImagesMetaVec mImages;
 
-	SERIALIZE_METHOD_DECL();
+	SERIALIZBLE_METHODS(cImageAtlasInfo);
 };
 
 CLOSE_O2_NAMESPACE

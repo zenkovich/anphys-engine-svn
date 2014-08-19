@@ -26,7 +26,7 @@ public:
 
 		virtual cFileType::value getType() const { return cFileType::FT_FILE; }
 
-		SERIALIZE_METHOD_DECL();
+		SERIALIZBLE_METHODS(FileMeta);
 	};
 
 	struct ImageFileMeta: public FileMeta
@@ -34,7 +34,7 @@ public:
 		string mAtlasName;
 		virtual cFileType::value getType() const { return cFileType::FT_IMAGE; }
 
-		SERIALIZE_INHERITED_METHOD_DECL(FileMeta);
+		SERIALIZBLE_INHERITED_METHODS(ImageFileMeta, FileMeta);
 	};
 
 	typedef vector<cBuildConfig*> BuildConfigsVec;
@@ -48,6 +48,7 @@ protected:
 	cBuildInfo*     mBuildInfo;
 
 public:
+
 	cBuildSystem(const string& projectPath);
 	~cBuildSystem();
 
