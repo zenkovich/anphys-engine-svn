@@ -81,29 +81,29 @@ grSprite::grSprite( const grSprite& sprite ):
 	serialize_(dataObject, AT_INPUT);
 }*/
 
-grSprite::grSprite(pugi::xml_node& xmlNode)
-{
-	//create mesh
-	mMesh = mnew grMesh(grTexture(), 4, 2);
-
-	mMesh->mIndexes[0] = 0; mMesh->mIndexes[1] = 1; mMesh->mIndexes[2] = 2;
-	mMesh->mIndexes[3] = 0; mMesh->mIndexes[4] = 2; mMesh->mIndexes[5] = 3;
-
-	mMesh->mVerticies[0].z = 1.0f; mMesh->mVerticies[1].z = 1.0f; 
-	mMesh->mVerticies[2].z = 1.0f; mMesh->mVerticies[3].z = 1.0f;
-
-	mMesh->mVertexCount = 4;
-	mMesh->mPolyCount = 2;
-
-	serialize(xmlNode, cSerializeType::INPUT);
-
-	initializeProperties();
-
-	/*cDataObject* spriteDataObject = 
-		getDataObjectsManager().loadDataObject(file, cDataObjectsManager::DOT_XML)->getChild(path);
-
-	serialize_(*spriteDataObject, AT_INPUT);*/
-}
+// grSprite::grSprite(pugi::xml_node& xmlNode)
+// {
+// 	//create mesh
+// 	mMesh = mnew grMesh(grTexture(), 4, 2);
+// 
+// 	mMesh->mIndexes[0] = 0; mMesh->mIndexes[1] = 1; mMesh->mIndexes[2] = 2;
+// 	mMesh->mIndexes[3] = 0; mMesh->mIndexes[4] = 2; mMesh->mIndexes[5] = 3;
+// 
+// 	mMesh->mVerticies[0].z = 1.0f; mMesh->mVerticies[1].z = 1.0f; 
+// 	mMesh->mVerticies[2].z = 1.0f; mMesh->mVerticies[3].z = 1.0f;
+// 
+// 	mMesh->mVertexCount = 4;
+// 	mMesh->mPolyCount = 2;
+// 
+// 	//serialize(xmlNode, cSerializeType::INPUT);
+// 
+// 	initializeProperties();
+// 
+// 	/*cDataObject* spriteDataObject = 
+// 		getDataObjectsManager().loadDataObject(file, cDataObjectsManager::DOT_XML)->getChild(path);
+// 
+// 	serialize_(*spriteDataObject, AT_INPUT);*/
+// }
 
 grSprite::~grSprite()
 {
@@ -296,98 +296,6 @@ void grSprite::updateMeshColors()
 		mMesh->mVerticies[i].color = (mVertexColors[i]*mColor).dword();
 
 	mNeedUpdateMeshColors = false;
-}
-
-
-SERIALIZE_METHOD_IMPL(grSprite)
-{
-	if (!SERIALIZE_ID(mPosition, "position"))
-		mPosition = vec2f(0, 0);
-
-	if (!SERIALIZE_ID(mScale, "scale"))
-		mScale = vec2f(1, 1);
-
-	if (!SERIALIZE_ID(mAngle, "angle"))
-		mAngle = 0;
-
-	if (!SERIALIZE_ID(mPivot, "rotationCenter"))
-		mPivot = vec2f(0, 0);
-
-	if (type == cSerializeType::OUTPUT) 
-	{
-		if (mMesh->mTexture.getFileName() != "")
-		{
-			string texFilename = mMesh->mTexture.getFileName();
-			SERIALIZE_ID(texFilename, "texture");
-			SERIALIZE_ID(mTextureSrcRect, "textureSrcRect");
-		}
-	}
-	else
-	{
-		mMesh->setTexture(grTexture());
-
-		string textureName;
-		if (SERIALIZE_ID(textureName, "texture"))
-		{
-			grTexture texture = renderSystem()->getTextureFromFile(textureName);
-			mMesh->setTexture(texture);
-
-			if (!SERIALIZE_ID(mTextureSrcRect, "textureSrcRect"))
-				mTextureSrcRect = fRect(vec2f(0, 0), texture.getSize());
-		}
-	}
-
-	if (!SERIALIZE_ID(mSize, "size"))
-		mSize = mTextureSrcRect.getSize();
-
-	if (type == cSerializeType::INPUT)
-	{
-		color4 vertColors[4];
-
-		if (!SERIALIZE_ARR_ID(vertColors, 4, "vertColors"))
-		{
-			color4 spriteColor;
-			if (SERIALIZE_ID(spriteColor, "color"))
-			{
-				setColor(spriteColor);
-			}
-			else 
-				setColor(color4::white());
-		}
-		else
-		{
-			for (unsigned int i = 0; i < 4; i++)
-				mMesh->mVerticies[i].color = vertColors->dword();
-		}
-	}
-	else
-	{
-		color4 vertColors[4];
-
-		bool different = false;
-		for (unsigned int i = 0; i < 4; i++)
-		{
-			vertColors[i].setDword( mMesh->mVerticies[i].color );
-
-			if (i > 0)
-			{
-				if (abs(vertColors[i].r - vertColors[i - 1].r) > 1 ||
-					abs(vertColors[i].g - vertColors[i - 1].g) > 1 ||
-					abs(vertColors[i].b - vertColors[i - 1].b) > 1 ||
-					abs(vertColors[i].a - vertColors[i - 1].a) > 1)
-				{
-					different = true;
-				}
-			}
-		}
-
-		if (different)
-			SERIALIZE_ARR_ID(vertColors, 4, "vertColors");
-		else
-			SERIALIZE_ID(vertColors[0], "color");
-	}
-	
-	return true;
 }
 
 void grSprite::initializeProperties()

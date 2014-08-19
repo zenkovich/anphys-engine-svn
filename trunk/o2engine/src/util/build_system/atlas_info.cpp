@@ -6,8 +6,9 @@ SERIALIZE_METHOD_IMPL(cImageAtlasInfo)
 {
 	SERIALIZE_ID(mName, "name");
 	SERIALIZE_ID(mMaxSize, "maxSize");
+	SERIALIZE_ID(mImages, "images");
 
-	SERIALIZE_ARR_ID(mImages, mImages.size(), "images");
+	return true;
 }
 
 CLOSE_O2_NAMESPACE

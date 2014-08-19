@@ -16,6 +16,12 @@ OPEN_O2_NAMESPACE
 			if (pred) return true; \
 		return false; \
 	}
+
+#define FIND_PRED(vectype, vec, pred) { \
+		for (vectype::iterator it = vec.begin(); it != vec.end(); ++it) \
+			if (pred) return it; \
+		return vec[0]; \
+	}
 	
 #define FIND(_vector, _search_object) \
 	std::find((_vector).begin(), (_vector).end(), (_search_object))

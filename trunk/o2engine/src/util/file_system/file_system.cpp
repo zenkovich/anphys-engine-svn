@@ -132,4 +132,14 @@ cFileInfo cFileSystem::getFileInfo(const string& path) const
 	return res;
 }
 
+bool cFileSystem::createDirectory(const string& path) const
+{
+	return CreateDirectory(path.c_str(), NULL);
+}
+
+bool cFileSystem::removeDirectory(const string& path) const
+{
+	return RemoveDirectory(path.c_str());
+}
+
 CLOSE_O2_NAMESPACE

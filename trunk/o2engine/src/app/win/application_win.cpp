@@ -9,6 +9,7 @@
 #include "util/scheduler.h"
 #include "util/time_utils.h"
 #include "util/timer.h"
+#include "util/build_system/build_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -17,6 +18,9 @@ cApplication::cApplication():
 	cApplicationBaseInterface(), mHWnd(0), mWndStyle(0), mWindowed(true), mWindowedSize(800, 600), mWindowedPos(0, 0),
 	mWindowResizible(true), mActive(false)
 {
+	mnew cBuildSystem("../../../");
+	cBuildSystem::instance().rebuildAssets(true);
+
 	initializeWindow();
 
 	mApplication = this;
