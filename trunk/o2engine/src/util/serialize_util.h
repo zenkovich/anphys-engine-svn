@@ -26,11 +26,24 @@ public:
 	virtual string getTypeName() const = 0;
 };
 
-
 struct gSerializeTypesContainer
 {
-public:
-	static int xx;
+	typedef std::map<string, cSerializable*> SamplesMap;
+
+	static SamplesMap mSamples;
+	static void regType(cSerializable* type);
+	static cSerializable* getSample(const string& typeName);
+	static void outputRegisteredSamples();
+};
+
+template<typename T>
+struct gSerializeTypesInitializer
+{
+	gSerializeTypesInitializer()
+	{
+		T* sample = new T();
+		gSerializeTypesContainer::regType(sample);
+	}
 };
 
 /** Basic serialize object, need to serialize data structures. */
@@ -89,16 +102,16 @@ public:
 	bool serialize(cSerializable* object, const string& id, bool errors = true);
 
 	/** Serialize object. */
-	bool serialize(int object, const string& id, bool errors = true);
+	bool serialize(int& object, const string& id, bool errors = true);
 
 	/** Serialize object. */
-	bool serialize(unsigned int object, const string& id, bool errors = true);
+	bool serialize(unsigned int& object, const string& id, bool errors = true);
 
 	/** Serialize object. */
-	bool serialize(float object, const string& id, bool errors = true);
+	bool serialize(float& object, const string& id, bool errors = true);
 
 	/** Serialize object. */
-	bool serialize(bool object, const string& id, bool errors = true);
+	bool serialize(bool& object, const string& id, bool errors = true);
 
 	/** Serialize object. */
 	bool serialize(string& object, const string& id, bool errors = true);
@@ -230,23 +243,27 @@ private:
 };
 
 /** Implementation of serialize method. You must define class. */
-#define SERIALIZE_METHOD_IMPL(CLASS)                   \
+#define SERIALIZE_METHOD_IMPL(CLASS)                  \
+	gSerializeTypesInitializer<CLASS> CLASS::RegType; \
 	bool CLASS::serialize(cSerializer* serializer)
 
 /** Implementation of serialize method for inherited class. */
-#define SERIALIZE_INHERITED_METHOD_IMPL(CLASS)         \
+#define SERIALIZE_INHERITED_METHOD_IMPL(CLASS)        \
+	gSerializeTypesInitializer<CLASS> CLASS::RegType; \
 	bool CLASS::serializeInh(cSerializer* serializer)  
 
 /** Declaration of serialize methods. */
 #define SERIALIZBLE_METHODS(CLASS)                                       \
+	static gSerializeTypesInitializer<CLASS> RegType;                    \
 	virtual cSerializable* createSample() const { return mnew CLASS(); } \
-	virtual string getTypeName() const { return #CLASS; }                    \
+	virtual string getTypeName() const { return #CLASS; }                \
 	bool CLASS::serialize(cSerializer* serializer)
 
 /** Declaration of inherited serialize methods. */
 #define SERIALIZBLE_INHERITED_METHODS(CLASS, BASIC_CLASS)                \
+	static gSerializeTypesInitializer<CLASS> RegType;           \
 	virtual cSerializable* createSample() const { return mnew CLASS(); } \
-	virtual string getTypeName() const { return #CLASS; }                    \
+	virtual string getTypeName() const { return #CLASS; }                \
 	virtual bool serializeInh(cSerializer* serializer);                  \
 	virtual bool serialize(cSerializer* serializer)                      \
 	{                               							         \

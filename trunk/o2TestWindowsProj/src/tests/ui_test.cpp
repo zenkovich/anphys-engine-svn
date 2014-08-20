@@ -100,7 +100,7 @@ void cUITest::update(float dt)
 	/*if (appInput()->isCursorPressed())
 		uiHost()->showHint("Hint some text\nWith two lines (Ctrl + H)", appInput()->getCursorPos());*/
 
-	hlog("Cursor %.1f %.1f", appInput()->getCursorPos().x, appInput()->getCursorPos().y);
+	//hlog("Cursor %.1f %.1f", appInput()->getCursorPos().x, appInput()->getCursorPos().y);
 }
 
 void cUITest::draw()

@@ -62,6 +62,7 @@ private:
 	void updateBuildConfig();
 	void updateBuildConfigPath(cPathInfo pathInfo);
 	void copyNonBuildingFiles();
+	void saveBuildInfo();
 };
 
 CLOSE_O2_NAMESPACE

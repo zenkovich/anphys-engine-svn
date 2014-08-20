@@ -91,6 +91,12 @@ uint16 getUnicodeFromVirtualCode( uint8 code )
 	return unicode;
 }
 
+string extractPath(const string& filePath)
+{
+	int fnd = filePath.rfind("/");
+	return filePath.substr(0, fnd);
+}
+
 #endif //PLATFORM_WIN
 
 
