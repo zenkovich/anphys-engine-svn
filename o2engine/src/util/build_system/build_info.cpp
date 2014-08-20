@@ -26,4 +26,6 @@ void cBuildInfo::addFile(const cFileInfo& fileInfo)
 	mFilesMeta.push_back(newMeta);
 }
 
+
+
 CLOSE_O2_NAMESPACE

@@ -54,10 +54,13 @@ public:
 	bool moveFile(const string& source, const string& dest) const;
 
 	/** Creates folder. */
-	bool createDirectory(const string& path) const;
+	bool createDirectory(const string& path, bool recursive = true) const;
 
 	/** Removes directory. */
 	bool removeDirectory(const string& path, bool recursive = true) const;
+
+	/** Returns true if specified directory exist. */
+	bool isDirectoryExist(const string& path) const;
 };
 
 #define getFileSystem() cFileSystem::instance()

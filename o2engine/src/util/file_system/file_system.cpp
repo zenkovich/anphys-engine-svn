@@ -63,22 +63,24 @@ cPathInfo cFileSystem::getPathInfo(const string& path) const
 	else
 		gLog->error("failed getpathIfno: Error opening directory %s", path.c_str());
 
+	FindClose(h);
+	
 	return res;
 }
 
 bool cFileSystem::copyFile(const string& source, const string& dest) const
 {
-	return CopyFile(source.c_str(), dest.c_str(), true);
+	return CopyFile(source.c_str(), dest.c_str(), TRUE) == TRUE;
 }
 
 bool cFileSystem::deleteFile(const string& file) const
 {
-	return DeleteFile(file.c_str());
+	return DeleteFile(file.c_str()) == TRUE;
 }
 
 bool cFileSystem::moveFile(const string& source, const string& dest) const
 {
-	return MoveFile(source.c_str(), dest.c_str());
+	return MoveFile(source.c_str(), dest.c_str()) == TRUE;
 }
 
 cFileInfo cFileSystem::getFileInfo(const string& path) const
@@ -134,15 +136,31 @@ cFileInfo cFileSystem::getFileInfo(const string& path) const
 	return res;
 }
 
-bool cFileSystem::createDirectory(const string& path) const
+bool cFileSystem::createDirectory(const string& path, bool recursive /*= true*/) const
 {
-	return CreateDirectory(path.c_str(), NULL);
+	if (isDirectoryExist(path))
+		return true;
+
+	if (!recursive)
+		return CreateDirectory(path.c_str(), NULL) == TRUE;
+
+	if (CreateDirectory(path.c_str(), NULL) == TRUE)
+		return true;
+
+	string extrPath = extractPath(path);
+	if (extrPath == path)
+		return false;
+
+	return createDirectory(extrPath, true);
 }
 
 bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/) const
 {
+	if (!isDirectoryExist(path))
+		return false;
+
 	if (!recursive)
-		RemoveDirectory(path.c_str());
+		return RemoveDirectory(path.c_str()) == TRUE;
 
 	WIN32_FIND_DATA f;
 	HANDLE h = FindFirstFile((path + "/*").c_str(), &f);
@@ -161,7 +179,9 @@ bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/)
 		while(FindNextFile(h, &f));
 	}
 
-	return RemoveDirectory(path.c_str());
+	FindClose(h);
+
+	return RemoveDirectory(path.c_str()) == TRUE;
 }
 
 void cFileSystem::checkAssetsBuilding() const
@@ -169,7 +189,20 @@ void cFileSystem::checkAssetsBuilding() const
 	if (!cBuildSystem::isSingletonInitialzed())	
 		mnew cBuildSystem("../../..");
 
-	cBuildSystem::instance().rebuildAssets(true);
+	cBuildSystem::instance().rebuildAssets(false);
+}
+
+bool cFileSystem::isDirectoryExist(const string& path) const
+{
+	DWORD tp = GetFileAttributes(path.c_str());
+	
+	if (tp == INVALID_FILE_ATTRIBUTES)
+		return false;
+
+	if (tp & FILE_ATTRIBUTE_DIRECTORY)
+		return true;
+
+	return false;
 }
 
 CLOSE_O2_NAMESPACE

@@ -10,6 +10,8 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(cBuildSystem);
 
+std::map<string, cSerializable*> gSerializeTypesContainer::mSamples;
+
 SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
 {
 	SERIALIZE_ID(mPath, "path");
@@ -27,8 +29,11 @@ SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::ImageFileMeta)
 	return true;
 }
 
-cBuildSystem::cBuildSystem(const string& projectPath)
+cBuildSystem::cBuildSystem(const string& projectPath):
+	mActiveBuildConfig(NULL)
 {
+	gSerializeTypesContainer::outputRegisteredSamples();
+
 	mProjectPath = projectPath;
 
 	string configFile = mProjectPath + "/projConfigs";
@@ -53,6 +58,9 @@ cBuildSystem::cBuildSystem(const string& projectPath)
 	FOREACH(BuildConfigsVec, mBuildConfigs, conf)
 		if ((*conf)->mName == activeBuildConfig)
 			mActiveBuildConfig = *conf;
+
+	if (!mActiveBuildConfig)
+		mActiveBuildConfig = mBuildConfigs[0];
 }
 
 
@@ -91,7 +99,7 @@ void cBuildSystem::rebuildAssets( bool forcible /*= false*/ )
 	mBuildInfo = mnew cBuildInfo();
 
 	cSerializer buildInfoSerialz;
-	string buildInfoFile = buildAssetsPath + "buildInfo.xml";
+	string buildInfoFile = buildAssetsPath + "/buildInfo";
 	if (!buildInfoSerialz.load(buildInfoFile))
 	{
 		if (!forcible)
@@ -104,6 +112,7 @@ void cBuildSystem::rebuildAssets( bool forcible /*= false*/ )
 
 	updateBuildConfig();
 	copyNonBuildingFiles();
+	saveBuildInfo();
 
 	saveConfig();
 }
@@ -128,8 +137,10 @@ void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
 {
 	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo)
 	{
+		fileInfo->mPath = fileInfo->mPath.substr((mProjectPath + "/Assets/").length());
+
 		bool exist = false;
-		FOREACH(cBuildInfo::FilesMetaVec, mBuildInfo->mFilesMeta, fileMeta)
+		FOREACH(cBuildInfo::FilesMetaVec, mActiveBuildConfig->mFilesMeta, fileMeta)
 		{
 			if ((*fileMeta)->mPath == fileInfo->mPath)
 			{
@@ -137,8 +148,6 @@ void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
 				break;
 			}
 		}
-
-		fileInfo->mPath = fileInfo->mPath.substr((mProjectPath + "/Assets/").length());
 
 		if (!exist)
 			mActiveBuildConfig->addFile(*fileInfo);
@@ -150,7 +159,62 @@ void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
 
 void cBuildSystem::copyNonBuildingFiles()
 {
-	
+	string assetsPath = mProjectPath + "/Assets/";
+	string dataPath = getBuildAssetsPath();
+	FOREACH(cBuildInfo::FilesMetaVec, mActiveBuildConfig->mFilesMeta, fileMetaIt)
+	{
+		FileMeta* fileMeta = *fileMetaIt;
+
+		bool needCopy = true;
+		FileMeta* copyDestFileMeta = NULL;
+		FOREACH(cBuildInfo::FilesMetaVec, mBuildInfo->mFilesMeta, infFileMetaIt)
+		{
+			FileMeta* infFileMeta = *infFileMetaIt;
+
+			if (fileMeta->mPath != infFileMeta->mPath)
+				continue;
+
+			if (fileMeta->mSize != infFileMeta->mSize || fileMeta->mWritedTime != infFileMeta->mWritedTime)
+				copyDestFileMeta = infFileMeta;
+			else
+				needCopy = false;
+
+			break;
+		}
+
+		if (!needCopy)
+			continue;
+
+		string src = assetsPath + (*fileMetaIt)->mPath;
+		string dst = dataPath + (*fileMetaIt)->mPath;
+
+		if (copyDestFileMeta)
+			getFileSystem().deleteFile(dst);
+
+		getFileSystem().createDirectory(extractPath(dst));
+		if (getFileSystem().copyFile(src, dst))
+		{
+			hlog("Copied asset %s to %s", src.c_str(), dst.c_str());
+		}
+		else
+		{
+			hlog("Failed to copy asset %s to %s", src.c_str(), dst.c_str());
+		}
+
+		if (copyDestFileMeta)
+		{
+			copyDestFileMeta->mSize = fileMeta->mSize;
+			copyDestFileMeta->mWritedTime = fileMeta->mWritedTime;
+		}
+		else mBuildInfo->mFilesMeta.push_back(fileMeta);
+	}
+}
+
+void cBuildSystem::saveBuildInfo()
+{
+	cSerializer outSer(cSerializer::ST_SERIALIZE);
+	mBuildInfo->serialize(&outSer);
+	outSer.save(getBuildAssetsPath() + "/buildInfo");
 }
 
 CLOSE_O2_NAMESPACE

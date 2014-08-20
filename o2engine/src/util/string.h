@@ -16,6 +16,9 @@ wstring convString2Wide(const string& str);
 /** Returns converted wide string to string. */
 string convWide2String(const wstring& wide);
 
+/** Extracting path string from file path. Ex "folder/xx/yy.png" returns "folder/xx/". */
+string extractPath(const string& filePath);
+
 /** Returns character form virtual code. */
 uint16 getUnicodeFromVirtualCode( uint8 code );
 

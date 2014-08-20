@@ -19,6 +19,17 @@ struct WideTime
 		:mYear(years), mMonth(months), mDay(days), mHour(hours), mMinute(minutes), mSecond(seconds)
 	{
 	}
+
+	bool operator==(WideTime& wt)
+	{
+		return mSecond == wt.mSecond && mMinute == wt.mMinute && mHour == wt.mHour && mDay == wt.mDay && mMonth == wt.mMonth &&
+			   mYear == wt.mYear;
+	}
+
+	bool operator!=(WideTime& wt)
+	{
+		return !(*this == wt);
+	}
 };
 
 class cTimeUtil: public cSingleton<cTimeUtil>

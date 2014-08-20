@@ -114,22 +114,22 @@ bool cSerializer::serialize(cSerializable* object, const string& id, bool errors
 	return true;
 }
 
-bool cSerializer::serialize(int object, const string& id, bool errors /*= true*/)
+bool cSerializer::serialize(int& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(unsigned int object, const string& id, bool errors /*= true*/)
+bool cSerializer::serialize(unsigned int& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(float object, const string& id, bool errors /*= true*/)
+bool cSerializer::serialize(float& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(bool object, const string& id, bool errors /*= true*/)
+bool cSerializer::serialize(bool& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
@@ -171,10 +171,23 @@ bool cSerializer::serialize(WideTime& object, const string& id, bool errors /*= 
 
 cSerializable* cSerializer::createSerializableSample(const string& type)
 {
-	//return gSerializeTypesContainer::mSamples[type]->createSample();
-	return NULL;
+	return gSerializeTypesContainer::getSample(type);
 }
 
-int gSerializeTypesContainer::xx;
+void gSerializeTypesContainer::regType(cSerializable* type)
+{
+	mSamples[type->getTypeName()] = type;
+}
+
+cSerializable* gSerializeTypesContainer::getSample(const string& typeName)
+{
+	return mSamples[typeName]->createSample();
+}
+
+void gSerializeTypesContainer::outputRegisteredSamples()
+{
+	FOREACH(SamplesMap, mSamples, sam)
+		hlog("Sample: %s", sam->second->getTypeName().c_str());
+}
 
 CLOSE_O2_NAMESPACE
