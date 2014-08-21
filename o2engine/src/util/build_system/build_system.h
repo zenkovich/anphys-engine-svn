@@ -19,26 +19,28 @@ class cBuildSystem: public cSingleton<cBuildSystem>
 public:
 	struct FileMeta: public cSerializable
 	{
+		enum Type { MT_FOLDER = 0, MT_FILE, MT_IMAGE };
+
 		string   mPath;
+		Type     mType;
+		int      mMetaId;
 		bool     mBuildIncluded;
 		uint32   mSize;
 		WideTime mWritedTime;
 
-		virtual cFileType::value getType() const { return cFileType::FT_FILE; }
-
 		SERIALIZBLE_METHODS(FileMeta);
 	};
+	typedef vector<FileMeta*> FilesMetaVec;
 
-	struct ImageFileMeta: public FileMeta
+	struct AssetChangesInfo
 	{
-		string mAtlasName;
-		virtual cFileType::value getType() const { return cFileType::FT_IMAGE; }
-
-		SERIALIZBLE_INHERITED_METHODS(ImageFileMeta, FileMeta);
+		FilesMetaVec mNewFiles;
+		FilesMetaVec mRemovedFiles;
+		FilesMetaVec mMovedFiles;
+		FilesMetaVec mChangedFiles;
 	};
 
 	typedef vector<cBuildConfig*> BuildConfigsVec;
-	typedef vector<FileMeta*> FilesMetaVec;
 
 protected:
 	string          mProjectName;
@@ -46,22 +48,42 @@ protected:
 	BuildConfigsVec mBuildConfigs;
 	cBuildConfig*   mActiveBuildConfig;
 	cBuildInfo*     mBuildInfo;
+	uint32          mLastMetaId;
+	bool            mReady;
 
 public:
-
 	cBuildSystem(const string& projectPath);
 	~cBuildSystem();
 
+	bool loadProject(const string& projectPath);
+	void createEmptyProject(const string& projName, const string& projPath);
+	void createEmptyBuildConfig(const string& buildName);
+	void setActiveBuildConfig(const string& name);
 	void cleanUpBuildedAssest();
-	void saveConfig();
 	void rebuildAssets(bool forcible = false);
+	void saveConfig();
 
 	string getBuildAssetsPath() const;
+	string getAssetsPath() const;
 
 private:
+	void loadBuildInfo(bool errors = false);
+
+	void gatherAssetsChanges(AssetChangesInfo& assetChangesInfo);
+	void gatherAssetsFilesMeta(FilesMetaVec& filesMeta);
+	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta);
+	FileMeta* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
+
+	void loadFileMeta(FileMeta* meta);
+	void createFileMeta(FileMeta* meta);
+
+	FileMeta* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
+
 	void updateBuildConfig();
 	void updateBuildConfigPath(cPathInfo pathInfo);
 	void copyNonBuildingFiles();
+	void processAssetCopying(FileMeta* fileMeta, const string& assetsPath, const string& dataPath);
+
 	void saveBuildInfo();
 };
 
