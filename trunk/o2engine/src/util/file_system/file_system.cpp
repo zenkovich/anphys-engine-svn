@@ -189,7 +189,7 @@ void cFileSystem::checkAssetsBuilding() const
 	if (!cBuildSystem::isSingletonInitialzed())	
 		mnew cBuildSystem("../../..");
 
-	cBuildSystem::instance().rebuildAssets(false);
+	cBuildSystem::instance().rebuildAssets(true);
 }
 
 bool cFileSystem::isDirectoryExist(const string& path) const

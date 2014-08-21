@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 class cImageAtlasInfo: public cSerializable
 {
 public: 
-	typedef vector<cBuildSystem::ImageFileMeta> ImagesMetaVec;
+	typedef vector<cBuildSystem::FileMeta> ImagesMetaVec;
 
 	string        mName;
 	vec2f         mMaxSize;

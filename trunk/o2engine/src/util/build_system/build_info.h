@@ -18,8 +18,6 @@ public:
 	FilesMetaVec mFilesMeta;
 	AtlasesVec   mAtlases;
 
-	void addFile(const cFileInfo& fileInfo);
-
 	SERIALIZBLE_METHODS(cBuildInfo);
 };
 
