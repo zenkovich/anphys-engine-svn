@@ -160,8 +160,6 @@ void cBuildSystem::rebuildAssets( bool forcible /*= false*/ )
 	loadBuildInfo(!forcible);
 	gatherAssetsChanges(assetChanges);
 
-	updateBuildConfig();
-	copyNonBuildingFiles();
 	saveBuildInfo();
 	saveConfig();
 }
@@ -196,27 +194,85 @@ void cBuildSystem::gatherAssetsChanges(AssetChangesInfo& assetChangesInfo)
 	FilesMetaVec assetsFiles;
 	gatherAssetsFilesMeta(assetsFiles);
 
+	//filter assets metas
+	int cutMetaPathIdx = (mProjectPath + "/assets/").length();
+	FOREACH(FilesMetaVec, assetsFiles, meta)
+		(*meta)->mPath = (*meta)->mPath.substr(cutMetaPathIdx);
+
 	//search removed files
 	string assetsPath = getAssetsPath();
 	FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
 	{
 		FileMeta* meta = *metaIt;
-		string fileRelAssets = assetsPath + meta->mPath;
 
 		bool exist = false;
+		bool changed = false;
 		FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
 		{
-			if (fileRelAssets == (*asMetaIt)->mPath && (*asMetaIt)->mMetaId >= 0)
+			if (meta->mPath == (*asMetaIt)->mPath && (*asMetaIt)->mMetaId >= 0)
 			{
 				exist = true;
+				if ((*metaIt)->mSize != (*asMetaIt)->mSize || (*metaIt)->mWritedTime != (*asMetaIt)->mWritedTime)
+					changed = true;
 				break;
 			}
 		}
 
 		if (exist)
+		{
+			if (changed)
+				assetChangesInfo.mChangedFiles.push_back(meta);
+
 			continue;
+		}
 
 		assetChangesInfo.mRemovedFiles.push_back(*metaIt);
+	}
+
+	//search new files
+	FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
+	{
+		bool isNew = true;
+
+		FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
+		{
+			string fileRelAssets = assetsPath + (*metaIt)->mPath;
+			if (fileRelAssets == (*asMetaIt)->mPath)
+			{
+				isNew = false;
+				break;
+			}
+		}
+
+		if (!isNew)
+			continue;
+
+		if ((*asMetaIt)->mMetaId < 0)
+			createFileMeta(*asMetaIt, mProjectPath + "/assets/");
+
+		assetChangesInfo.mNewFiles.push_back(*asMetaIt);
+	}
+
+	//check moved files
+	for(FilesMetaVec::iterator newMetaIt = assetChangesInfo.mNewFiles.begin(); newMetaIt != assetChangesInfo.mNewFiles.end(); )
+	{
+		bool moved = false;
+		FOREACH(FilesMetaVec, assetChangesInfo.mRemovedFiles, remMetaIt)
+		{
+			if ((*newMetaIt)->mMetaId == (*remMetaIt)->mMetaId)
+			{
+				moved = true;
+				assetChangesInfo.mRemovedFiles.erase(remMetaIt);
+				break;
+			}
+		}
+
+		if (moved)
+		{
+			assetChangesInfo.mMovedFiles.push_back(*newMetaIt);
+			newMetaIt = assetChangesInfo.mNewFiles.erase(newMetaIt);
+		}
+		else ++newMetaIt;
 	}
 }
 
@@ -364,10 +420,10 @@ void cBuildSystem::saveBuildInfo()
 	outSer.save(getBuildAssetsPath() + "/buildInfo");
 }
 
-void cBuildSystem::loadFileMeta(FileMeta* meta)
+void cBuildSystem::loadFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
 {
 	cSerializer metaSerz;
-	if (metaSerz.load(meta->mPath + ".meta"))
+	if (metaSerz.load(pathPrefix + meta->mPath + ".meta"))
 	{
 		int metaId;
 		metaSerz.serialize(metaId, "id");
@@ -376,13 +432,13 @@ void cBuildSystem::loadFileMeta(FileMeta* meta)
 	else meta->mMetaId = -1;
 }
 
-void cBuildSystem::createFileMeta(FileMeta* meta)
+void cBuildSystem::createFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
 {
 	meta->mMetaId = mLastMetaId++;
 
-	cSerializer metaSerz(cSerializer::ST_DESERIALIZE);
+	cSerializer metaSerz(cSerializer::ST_SERIALIZE);
 	metaSerz.serialize(meta->mMetaId, "id");
-	metaSerz.save(meta->mPath + ".meta");
+	metaSerz.save(pathPrefix + meta->mPath + ".meta");
 }
 
 CLOSE_O2_NAMESPACE
