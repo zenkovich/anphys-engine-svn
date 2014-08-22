@@ -16,6 +16,8 @@ class cBuildInfo;
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
+	friend struct cNonBuildFilesBuildStage;
+
 public:
 	struct FileMeta: public cSerializable
 	{
@@ -38,18 +40,35 @@ public:
 		FilesMetaVec mRemovedFiles;
 		FilesMetaVec mMovedFiles;
 		FilesMetaVec mChangedFiles;
+
+		AssetChangesInfo();
+		~AssetChangesInfo();
+
+		void clear();
+	};
+
+	struct IBuildStage
+	{
+		cBuildSystem* mBuildSystem;
+
+		IBuildStage(cBuildSystem* buildSystem):mBuildSystem(buildSystem) {}
+		virtual void process() = 0;
 	};
 
 	typedef vector<cBuildConfig*> BuildConfigsVec;
+	typedef vector<IBuildStage*> BuildStagesVec;
 
 protected:
-	string          mProjectName;
-	string          mProjectPath;
-	BuildConfigsVec mBuildConfigs;
-	cBuildConfig*   mActiveBuildConfig;
-	cBuildInfo*     mBuildInfo;
-	uint32          mLastMetaId;
-	bool            mReady;
+	string           mProjectName;
+	string           mProjectPath;
+	BuildConfigsVec  mBuildConfigs;
+	cBuildConfig*    mActiveBuildConfig;
+	cBuildInfo*      mBuildInfo;
+	AssetChangesInfo mAssetsChangesInfo;
+	uint32           mLastMetaId;
+	bool             mReady;
+
+	BuildStagesVec   mBuildStages;
 
 public:
 	cBuildSystem(const string& projectPath);
@@ -69,20 +88,15 @@ public:
 private:
 	void loadBuildInfo(bool errors = false);
 
-	void gatherAssetsChanges(AssetChangesInfo& assetChangesInfo);
+	void gatherAssetsChanges();
 	void gatherAssetsFilesMeta(FilesMetaVec& filesMeta);
 	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta);
 	FileMeta* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
-
+	FileMeta* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
 	void loadFileMeta(FileMeta* meta, const string& pathPrefix = "");
 	void createFileMeta(FileMeta* meta, const string& pathPrefix = "");
+	void processBuildStages();
 
-	FileMeta* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
-
-	void updateBuildConfig();
-	void updateBuildConfigPath(cPathInfo pathInfo);
-	void copyNonBuildingFiles();
-	void processAssetCopying(FileMeta* fileMeta, const string& assetsPath, const string& dataPath);
 
 	void saveBuildInfo();
 };
