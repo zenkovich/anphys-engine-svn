@@ -74,8 +74,8 @@ private:
 	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta);
 	FileMeta* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
 
-	void loadFileMeta(FileMeta* meta);
-	void createFileMeta(FileMeta* meta);
+	void loadFileMeta(FileMeta* meta, const string& pathPrefix = "");
+	void createFileMeta(FileMeta* meta, const string& pathPrefix = "");
 
 	FileMeta* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
 
