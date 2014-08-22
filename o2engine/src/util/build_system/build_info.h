@@ -18,6 +18,13 @@ public:
 	FilesMetaVec mFilesMeta;
 	AtlasesVec   mAtlases;
 
+	cBuildInfo();
+	~cBuildInfo();
+
+	void addFile(cBuildSystem::FileMeta* meta);
+	void removeFile(cBuildSystem::FileMeta* meta);
+	cBuildSystem::FileMeta* findFile(int id);
+
 	SERIALIZBLE_METHODS(cBuildInfo);
 };
 

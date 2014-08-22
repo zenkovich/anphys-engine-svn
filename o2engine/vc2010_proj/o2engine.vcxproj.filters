@@ -501,6 +501,9 @@
     <ClInclude Include="..\src\util\serialize_util.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\build_system\nonbuild_files_builder.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -855,6 +858,9 @@
       <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\build_system\build_config.cpp">
+      <Filter>src\util\build_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\build_system\nonbuild_files_builder.cpp">
       <Filter>src\util\build_system</Filter>
     </ClCompile>
   </ItemGroup>

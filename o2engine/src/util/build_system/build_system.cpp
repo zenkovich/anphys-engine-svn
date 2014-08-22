@@ -5,6 +5,7 @@
 #include "build_info.h"
 #include "util/file_system/file_system.h"
 #include "util/serialize_util.h"
+#include "nonbuild_files_builder.h"
 
 OPEN_O2_NAMESPACE
 
@@ -27,6 +28,34 @@ SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
 	return true;
 }
 
+cBuildSystem::AssetChangesInfo::AssetChangesInfo()
+{
+}
+
+cBuildSystem::AssetChangesInfo::~AssetChangesInfo()
+{
+	clear();
+}
+
+void cBuildSystem::AssetChangesInfo::clear()
+{
+	FOREACH(FilesMetaVec, mNewFiles, fl)
+		safe_release(*fl);
+	mNewFiles.clear();
+	
+	FOREACH(FilesMetaVec, mRemovedFiles, fl)
+		safe_release(*fl);
+	mRemovedFiles.clear();
+	
+	FOREACH(FilesMetaVec, mMovedFiles, fl)
+		safe_release(*fl);
+	mMovedFiles.clear();
+	
+	FOREACH(FilesMetaVec, mChangedFiles, fl)
+		safe_release(*fl);
+	mChangedFiles.clear();
+}
+
 cBuildSystem::cBuildSystem(const string& projectPath):
 	mActiveBuildConfig(NULL), mReady(false), mLastMetaId(0)
 {
@@ -35,6 +64,8 @@ cBuildSystem::cBuildSystem(const string& projectPath):
 		createEmptyProject("o2proj", projectPath);
 		createEmptyBuildConfig("win32");
 	}
+
+	mBuildStages.push_back(mnew cNonBuildFilesBuildStage(this));
 }
 
 
@@ -154,12 +185,10 @@ void cBuildSystem::rebuildAssets( bool forcible /*= false*/ )
 
 	if (forcible)
 		cleanUpBuildedAssest();
-
-	AssetChangesInfo assetChanges;
 	
 	loadBuildInfo(!forcible);
-	gatherAssetsChanges(assetChanges);
-
+	gatherAssetsChanges();
+	processBuildStages();
 	saveBuildInfo();
 	saveConfig();
 }
@@ -189,7 +218,7 @@ void cBuildSystem::loadBuildInfo(bool errors /*= false*/)
 		mBuildInfo->serialize(&buildInfoSerialz);
 }
 
-void cBuildSystem::gatherAssetsChanges(AssetChangesInfo& assetChangesInfo)
+void cBuildSystem::gatherAssetsChanges()
 {	
 	FilesMetaVec assetsFiles;
 	gatherAssetsFilesMeta(assetsFiles);
@@ -221,12 +250,12 @@ void cBuildSystem::gatherAssetsChanges(AssetChangesInfo& assetChangesInfo)
 		if (exist)
 		{
 			if (changed)
-				assetChangesInfo.mChangedFiles.push_back(meta);
+				mAssetsChangesInfo.mChangedFiles.push_back(meta);
 
 			continue;
 		}
 
-		assetChangesInfo.mRemovedFiles.push_back(*metaIt);
+		mAssetsChangesInfo.mRemovedFiles.push_back(*metaIt);
 	}
 
 	//search new files
@@ -236,8 +265,7 @@ void cBuildSystem::gatherAssetsChanges(AssetChangesInfo& assetChangesInfo)
 
 		FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
 		{
-			string fileRelAssets = assetsPath + (*metaIt)->mPath;
-			if (fileRelAssets == (*asMetaIt)->mPath)
+			if ((*metaIt)->mPath == (*asMetaIt)->mPath)
 			{
 				isNew = false;
 				break;
@@ -250,27 +278,27 @@ void cBuildSystem::gatherAssetsChanges(AssetChangesInfo& assetChangesInfo)
 		if ((*asMetaIt)->mMetaId < 0)
 			createFileMeta(*asMetaIt, mProjectPath + "/assets/");
 
-		assetChangesInfo.mNewFiles.push_back(*asMetaIt);
+		mAssetsChangesInfo.mNewFiles.push_back(*asMetaIt);
 	}
 
 	//check moved files
-	for(FilesMetaVec::iterator newMetaIt = assetChangesInfo.mNewFiles.begin(); newMetaIt != assetChangesInfo.mNewFiles.end(); )
+	for(FilesMetaVec::iterator newMetaIt = mAssetsChangesInfo.mNewFiles.begin(); newMetaIt != mAssetsChangesInfo.mNewFiles.end(); )
 	{
 		bool moved = false;
-		FOREACH(FilesMetaVec, assetChangesInfo.mRemovedFiles, remMetaIt)
+		FOREACH(FilesMetaVec, mAssetsChangesInfo.mRemovedFiles, remMetaIt)
 		{
 			if ((*newMetaIt)->mMetaId == (*remMetaIt)->mMetaId)
 			{
 				moved = true;
-				assetChangesInfo.mRemovedFiles.erase(remMetaIt);
+				mAssetsChangesInfo.mRemovedFiles.erase(remMetaIt);
 				break;
 			}
 		}
 
 		if (moved)
 		{
-			assetChangesInfo.mMovedFiles.push_back(*newMetaIt);
-			newMetaIt = assetChangesInfo.mNewFiles.erase(newMetaIt);
+			mAssetsChangesInfo.mMovedFiles.push_back(*newMetaIt);
+			newMetaIt = mAssetsChangesInfo.mNewFiles.erase(newMetaIt);
 		}
 		else ++newMetaIt;
 	}
@@ -284,8 +312,12 @@ void cBuildSystem::gatherAssetsFilesMeta(FilesMetaVec& filesMeta)
 
 void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta)
 {
-	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo)
+	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
+		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
+			continue;
+
 		filesMeta.push_back(createFileMetaFromFileInfo(*fileInfo));
+	}
 
 	FOREACH(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
 	{
@@ -326,93 +358,6 @@ cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo
 	return res;
 }
 
-void cBuildSystem::updateBuildConfig()
-{
-	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets");
-	updateBuildConfigPath(assetsPathInfo);
-}
-
-void cBuildSystem::updateBuildConfigPath(cPathInfo pathInfo)
-{
-	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo)
-	{
-		fileInfo->mPath = fileInfo->mPath.substr((mProjectPath + "/Assets/").length());
-
-		bool exist = false;
-		FOREACH(cBuildInfo::FilesMetaVec, mActiveBuildConfig->mFilesMeta, fileMeta)
-		{
-			if ((*fileMeta)->mPath == fileInfo->mPath)
-			{
-				(*fileMeta)->mSize = fileInfo->mSize;
-				(*fileMeta)->mWritedTime = fileInfo->mEditDate;
-				exist = true;
-				break;
-			}
-		}
-// 
-// 		if (!exist)
-// 			mActiveBuildConfig->addFile(*fileInfo, mLastMetaId++);
-	}
-
-	FOREACH(cPathInfo::PathsVec, pathInfo.mPaths, pathInf)
-		updateBuildConfigPath(*pathInf);
-}
-
-void cBuildSystem::copyNonBuildingFiles()
-{
-	string assetsPath = mProjectPath + "/Assets/";
-	string dataPath = getBuildAssetsPath();
-	FOREACH(cBuildInfo::FilesMetaVec, mActiveBuildConfig->mFilesMeta, fileMetaIt)
-		processAssetCopying(*fileMetaIt, assetsPath, dataPath);
-}
-
-void cBuildSystem::processAssetCopying(FileMeta* fileMeta, const string& assetsPath, const string& dataPath)
-{
-	bool needCopy = true;
-	FileMeta* copyDestFileMeta = NULL;
-	FOREACH(cBuildInfo::FilesMetaVec, mBuildInfo->mFilesMeta, infFileMetaIt)
-	{
-		FileMeta* infFileMeta = *infFileMetaIt;
-
-		if (fileMeta->mPath != infFileMeta->mPath)
-			continue;
-
-		if (fileMeta->mSize != infFileMeta->mSize || fileMeta->mWritedTime != infFileMeta->mWritedTime)
-			copyDestFileMeta = infFileMeta;
-		else
-			needCopy = false;
-
-		break;
-	}
-
-	if (!needCopy)
-		return;
-
-	string src = assetsPath + fileMeta->mPath;
-	string dst = dataPath + fileMeta->mPath;
-
-	if (copyDestFileMeta)
-		getFileSystem().deleteFile(dst);
-
-	getFileSystem().createDirectory(extractPath(dst));
-
-	if (getFileSystem().copyFile(src, dst))
-	{
-		hlog("Copied asset %s to %s", src.c_str(), dst.c_str());
-	}
-	else
-	{
-		hlog("Failed to copy asset %s to %s", src.c_str(), dst.c_str());
-	}
-
-	if (copyDestFileMeta)
-	{
-		copyDestFileMeta->mSize = fileMeta->mSize;
-		copyDestFileMeta->mWritedTime = fileMeta->mWritedTime;
-	}
-	else mBuildInfo->mFilesMeta.push_back(fileMeta);
-}
-
 void cBuildSystem::saveBuildInfo()
 {
 	cSerializer outSer(cSerializer::ST_SERIALIZE);
@@ -439,6 +384,12 @@ void cBuildSystem::createFileMeta(FileMeta* meta, const string& pathPrefix /*= "
 	cSerializer metaSerz(cSerializer::ST_SERIALIZE);
 	metaSerz.serialize(meta->mMetaId, "id");
 	metaSerz.save(pathPrefix + meta->mPath + ".meta");
+}
+
+void cBuildSystem::processBuildStages()
+{
+	FOREACH(BuildStagesVec, mBuildStages, stage)
+		(*stage)->process();
 }
 
 CLOSE_O2_NAMESPACE

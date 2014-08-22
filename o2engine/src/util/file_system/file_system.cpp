@@ -70,6 +70,8 @@ cPathInfo cFileSystem::getPathInfo(const string& path) const
 
 bool cFileSystem::copyFile(const string& source, const string& dest) const
 {
+	deleteFile(dest);
+	createDirectory(extractPath(dest));
 	return CopyFile(source.c_str(), dest.c_str(), TRUE) == TRUE;
 }
 
@@ -189,7 +191,7 @@ void cFileSystem::checkAssetsBuilding() const
 	if (!cBuildSystem::isSingletonInitialzed())	
 		mnew cBuildSystem("../../..");
 
-	cBuildSystem::instance().rebuildAssets(true);
+	cBuildSystem::instance().rebuildAssets(false);
 }
 
 bool cFileSystem::isDirectoryExist(const string& path) const
