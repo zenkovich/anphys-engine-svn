@@ -19,11 +19,11 @@ public:
 	AtlasesVec   mAtlases;
 
 	cBuildInfo();
-	~cBuildInfo();
+	virtual ~cBuildInfo();
 
 	void addFile(cBuildSystem::FileMeta* meta);
 	void removeFile(cBuildSystem::FileMeta* meta);
-	cBuildSystem::FileMeta* findFile(int id);
+	cBuildSystem::FileMeta* findFile(uint32 id);
 
 	SERIALIZBLE_METHODS(cBuildInfo);
 };

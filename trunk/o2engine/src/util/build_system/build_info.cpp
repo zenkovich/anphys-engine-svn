@@ -26,12 +26,13 @@ void cBuildInfo::removeFile(cBuildSystem::FileMeta* meta)
 		if (meta->mMetaId == (*metaIt)->mMetaId)
 		{
 			mFilesMeta.erase(metaIt);
+			safe_release(meta);
 			return;
 		}
 	}
 }
 
-cBuildSystem::FileMeta* cBuildInfo::findFile(int id)
+cBuildSystem::FileMeta* cBuildInfo::findFile(uint32 id)
 {
 	FOREACH(FilesMetaVec, mFilesMeta, metaIt)
 	{
