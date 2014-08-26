@@ -25,14 +25,29 @@ public:
 
 		string   mPath;
 		Type     mType;
-		int      mMetaId;
+		uint32   mMetaId;
 		bool     mBuildIncluded;
 		uint32   mSize;
 		WideTime mWritedTime;
 
 		SERIALIZBLE_METHODS(FileMeta);
+		virtual FileMeta* clone() const;
 	};
 	typedef vector<FileMeta*> FilesMetaVec;
+
+	struct ImageFileMeta: public FileMeta
+	{
+		string mAtlas;
+		SERIALIZBLE_INHERITED_METHODS(ImageFileMeta, FileMeta);
+		virtual FileMeta* clone() const;
+	};
+
+	struct PathMeta: public FileMeta
+	{
+		string mAttachedAtlas;
+		SERIALIZBLE_INHERITED_METHODS(PathMeta, FileMeta);
+		virtual FileMeta* clone() const;
+	};
 
 	struct AssetChangesInfo
 	{
@@ -65,7 +80,6 @@ protected:
 	cBuildConfig*    mActiveBuildConfig;
 	cBuildInfo*      mBuildInfo;
 	AssetChangesInfo mAssetsChangesInfo;
-	uint32           mLastMetaId;
 	bool             mReady;
 
 	BuildStagesVec   mBuildStages;
@@ -97,6 +111,7 @@ private:
 	void createFileMeta(FileMeta* meta, const string& pathPrefix = "");
 	void processBuildStages();
 
+	uint32 genNewMetaId() const;
 
 	void saveBuildInfo();
 };

@@ -19,6 +19,7 @@ void cNonBuildFilesBuildStage::removeFiles()
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mRemovedFiles, metaIt)
 	{
+		hlog("Delete file: %s", (*metaIt)->mPath.c_str());
 		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mPath);
 		mBuildSystem->mActiveBuildConfig->removeFile(*metaIt);
 		mBuildSystem->mBuildInfo->removeFile(*metaIt);
@@ -33,9 +34,10 @@ void cNonBuildFilesBuildStage::copyNewFiles()
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mNewFiles, metaIt)
 	{
+		hlog("New file: %s", (*metaIt)->mPath.c_str());
 		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
-		mBuildSystem->mActiveBuildConfig->addFile(*metaIt);
-		mBuildSystem->mBuildInfo->addFile(*metaIt);
+		mBuildSystem->mActiveBuildConfig->addFile((*metaIt)->clone());
+		mBuildSystem->mBuildInfo->addFile((*metaIt)->clone());
 	}
 }
 
@@ -48,13 +50,16 @@ void cNonBuildFilesBuildStage::moveFiles()
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mMovedFiles, metaIt)
 	{
 		cBuildSystem::FileMeta* oldFile = mBuildSystem->mBuildInfo->findFile((*metaIt)->mMetaId);
+		
+		hlog("Move file: %s -> %s", oldFile->mPath.c_str(), (*metaIt)->mPath.c_str());
+
 		getFileSystem().deleteFile(buildDataPath + oldFile->mPath);
 		mBuildSystem->mBuildInfo->removeFile(oldFile);
 		mBuildSystem->mActiveBuildConfig->removeFile(mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mMetaId));
 
 		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
-		mBuildSystem->mActiveBuildConfig->addFile(*metaIt);
-		mBuildSystem->mBuildInfo->addFile(*metaIt);
+		mBuildSystem->mActiveBuildConfig->addFile((*metaIt)->clone());
+		mBuildSystem->mBuildInfo->addFile((*metaIt)->clone());
 	}
 }
 
@@ -65,7 +70,9 @@ void cNonBuildFilesBuildStage::copyChangedFiles()
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mChangedFiles, metaIt)
-	{
+	{		
+		hlog("Changed file: %s", (*metaIt)->mPath.c_str());
+
 		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mPath);
 		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
 		

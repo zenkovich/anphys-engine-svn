@@ -6,6 +6,7 @@
 #include "util/file_system/file_system.h"
 #include "util/serialize_util.h"
 #include "nonbuild_files_builder.h"
+#include "atlases_builder.h"
 
 OPEN_O2_NAMESPACE
 
@@ -26,6 +27,33 @@ SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
 	mType = (Type)itype;
 
 	return true;
+}
+
+cBuildSystem::FileMeta* cBuildSystem::FileMeta::clone() const
+{
+	return mnew FileMeta(*this);
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::ImageFileMeta)
+{
+	SERIALIZE_ID(mAtlas, "atlas");
+	return true;
+}
+
+cBuildSystem::FileMeta* cBuildSystem::ImageFileMeta::clone() const
+{
+	return mnew ImageFileMeta(*this);
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::PathMeta)
+{
+	SERIALIZE_ID(mAttachedAtlas, "attachedAtlas");
+	return true;
+}
+
+cBuildSystem::FileMeta* cBuildSystem::PathMeta::clone() const
+{
+	return mnew PathMeta(*this);
 }
 
 cBuildSystem::AssetChangesInfo::AssetChangesInfo()
@@ -57,15 +85,16 @@ void cBuildSystem::AssetChangesInfo::clear()
 }
 
 cBuildSystem::cBuildSystem(const string& projectPath):
-	mActiveBuildConfig(NULL), mReady(false), mLastMetaId(0)
+	mActiveBuildConfig(NULL), mReady(false)
 {
 	if (!loadProject(projectPath))
 	{
 		createEmptyProject("o2proj", projectPath);
 		createEmptyBuildConfig("win32");
 	}
-
+	
 	mBuildStages.push_back(mnew cNonBuildFilesBuildStage(this));
+	mBuildStages.push_back(mnew cAtlasesBuildingStage(this));
 }
 
 
@@ -99,7 +128,6 @@ bool cBuildSystem::loadProject(const string& projectPath)
 
 	serializer.serialize(mProjectName, "projectName");
 	serializer.serialize(mBuildConfigs, "buildConfigs");
-	serializer.serialize(mLastMetaId, "lastMetaId");
 	serializer.serialize(activeBuildConfig, "activeBuildConfig");
 
 	setActiveBuildConfig(activeBuildConfig);
@@ -164,7 +192,6 @@ void cBuildSystem::saveConfig()
 	serializer.serialize(mProjectName, "projectName");
 	serializer.serialize(mBuildConfigs, "buildConfigs");
 	serializer.serialize(mActiveBuildConfig->mName, "activeBuildConfig");
-	serializer.serialize(mLastMetaId, "lastMetaId");
 
 	serializer.save(configFile);
 }
@@ -238,7 +265,7 @@ void cBuildSystem::gatherAssetsChanges()
 		bool changed = false;
 		FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
 		{
-			if (meta->mPath == (*asMetaIt)->mPath && (*asMetaIt)->mMetaId >= 0)
+			if (meta->mPath == (*asMetaIt)->mPath && (*asMetaIt)->mMetaId > 0)
 			{
 				exist = true;
 				if ((*metaIt)->mSize != (*asMetaIt)->mSize || (*metaIt)->mWritedTime != (*asMetaIt)->mWritedTime)
@@ -250,12 +277,12 @@ void cBuildSystem::gatherAssetsChanges()
 		if (exist)
 		{
 			if (changed)
-				mAssetsChangesInfo.mChangedFiles.push_back(meta);
+				mAssetsChangesInfo.mChangedFiles.push_back(meta->clone());
 
 			continue;
 		}
 
-		mAssetsChangesInfo.mRemovedFiles.push_back(*metaIt);
+		mAssetsChangesInfo.mRemovedFiles.push_back((*metaIt)->clone());
 	}
 
 	//search new files
@@ -275,10 +302,10 @@ void cBuildSystem::gatherAssetsChanges()
 		if (!isNew)
 			continue;
 
-		if ((*asMetaIt)->mMetaId < 0)
+		if ((*asMetaIt)->mMetaId == 0)
 			createFileMeta(*asMetaIt, mProjectPath + "/assets/");
 
-		mAssetsChangesInfo.mNewFiles.push_back(*asMetaIt);
+		mAssetsChangesInfo.mNewFiles.push_back((*asMetaIt)->clone());
 	}
 
 	//check moved files
@@ -290,6 +317,7 @@ void cBuildSystem::gatherAssetsChanges()
 			if ((*newMetaIt)->mMetaId == (*remMetaIt)->mMetaId)
 			{
 				moved = true;
+				safe_release(*remMetaIt);
 				mAssetsChangesInfo.mRemovedFiles.erase(remMetaIt);
 				break;
 			}
@@ -328,7 +356,7 @@ void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMet
 
 cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo& pathinfo)
 {
-	FileMeta* res = mnew FileMeta();
+	FileMeta* res = mnew PathMeta();
 	res->mType = FileMeta::MT_FOLDER;
 	
 	res->mPath = pathinfo.mPath;
@@ -342,11 +370,17 @@ cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo
 
 cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo& fileInfo)
 {
-	FileMeta* res = mnew FileMeta();
-	if (fileInfo.mFileType == cFileType::FT_IMAGE)
+	FileMeta* res;
+	if (fileInfo.mFileType == cFileType::FT_IMAGE) 
+	{
+		res = mnew ImageFileMeta();
 		res->mType = FileMeta::MT_IMAGE;
+	}
 	else
+	{
+		res = mnew FileMeta();
 		res->mType = FileMeta::MT_FILE;
+	}
 	
 	res->mPath = fileInfo.mPath;
 	res->mBuildIncluded = true;
@@ -374,12 +408,12 @@ void cBuildSystem::loadFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*
 		metaSerz.serialize(metaId, "id");
 		meta->mMetaId = metaId;
 	}
-	else meta->mMetaId = -1;
+	else meta->mMetaId = 0;
 }
 
 void cBuildSystem::createFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
 {
-	meta->mMetaId = mLastMetaId++;
+	meta->mMetaId = genNewMetaId();
 
 	cSerializer metaSerz(cSerializer::ST_SERIALIZE);
 	metaSerz.serialize(meta->mMetaId, "id");
@@ -390,6 +424,11 @@ void cBuildSystem::processBuildStages()
 {
 	FOREACH(BuildStagesVec, mBuildStages, stage)
 		(*stage)->process();
+}
+
+uint32 cBuildSystem::genNewMetaId() const
+{
+	return rand()%(UINT_MAX - 1) + 1;
 }
 
 CLOSE_O2_NAMESPACE
