@@ -44,6 +44,10 @@ OPEN_O2_NAMESPACE
 #define REPEAT(_count) \
 	for (int i = 0; i < _count; i++)
 
+#define RELEASE_VECTOR(_vector_type, _vector) \
+	for (_vector_type::iterator _iterator = (_vector).begin(); _iterator != (_vector).end(); ++_iterator) \
+		safe_release(*_iterator); \
+	(_vector).clear()
 
 CLOSE_O2_NAMESPACE
 

@@ -3,6 +3,7 @@
 #include "util/xml_tools.h"
 #include "build_config.h"
 #include "build_info.h"
+#include "atlas_info.h"
 #include "util/file_system/file_system.h"
 #include "util/serialize_util.h"
 #include "nonbuild_files_builder.h"
@@ -429,6 +430,21 @@ void cBuildSystem::processBuildStages()
 uint32 cBuildSystem::genNewMetaId() const
 {
 	return rand()%(UINT_MAX - 1) + 1;
+}
+
+cImageAtlasInfo* cBuildSystem::createImageAtlas( const string& name, const vec2f& maxSize, const string& attachingPath /*= ""*/ )
+{
+	return mActiveBuildConfig->addAtlas(name, maxSize, attachingPath);
+}
+
+void cBuildSystem::removeAtlas( const string& name )
+{
+	mActiveBuildConfig->removeAtlas(name);
+}
+
+cImageAtlasInfo* cBuildSystem::getAtlas( const string& name )
+{
+	return mActiveBuildConfig->getAtlas(name);
 }
 
 CLOSE_O2_NAMESPACE

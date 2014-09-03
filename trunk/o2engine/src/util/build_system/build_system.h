@@ -13,10 +13,12 @@ OPEN_O2_NAMESPACE
 	
 class cBuildConfig;
 class cBuildInfo;
+class cImageAtlasInfo;
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
 	friend struct cNonBuildFilesBuildStage;
+	friend struct cAtlasesBuildingStage;
 
 public:
 	struct FileMeta: public cSerializable
@@ -98,6 +100,10 @@ public:
 
 	string getBuildAssetsPath() const;
 	string getAssetsPath() const;
+
+	cImageAtlasInfo* createImageAtlas(const string& name, const vec2f& maxSize, const string& attachingPath = "");
+	void removeAtlas(const string& name);
+	cImageAtlasInfo* getAtlas(const string& name);
 
 private:
 	void loadBuildInfo(bool errors = false);
