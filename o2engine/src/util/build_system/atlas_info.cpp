@@ -11,4 +11,31 @@ SERIALIZE_METHOD_IMPL(cImageAtlasInfo)
 	return true;
 }
 
+cImageAtlasInfo::cImageAtlasInfo()
+{
+}
+
+cImageAtlasInfo::~cImageAtlasInfo()
+{
+	RELEASE_VECTOR(ImagesMetaVec, mImages);
+}
+
+void cImageAtlasInfo::addImage( cBuildSystem::ImageFileMeta* meta )
+{
+	mImages.push_back(meta);
+}
+
+void cImageAtlasInfo::removeImage( cBuildSystem::ImageFileMeta* meta )
+{
+	FOREACH(ImagesMetaVec, mImages, img) 
+	{
+		if ((*img)->mPath == meta->mPath)
+		{
+			safe_release(*img);
+			mImages.erase(img);
+			return;
+		}
+	}
+}
+
 CLOSE_O2_NAMESPACE

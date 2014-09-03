@@ -10,8 +10,8 @@ void cAtlasesBuildingStage::process()
 }
 
 void cAtlasesBuildingStage::updateAtlases()
-{
-
+{	
+	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 }
 
 void cAtlasesBuildingStage::getChangedAtlases()

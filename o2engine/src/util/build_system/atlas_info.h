@@ -10,11 +10,19 @@ OPEN_O2_NAMESPACE
 class cImageAtlasInfo: public cSerializable
 {
 public: 
-	typedef vector<cBuildSystem::FileMeta> ImagesMetaVec;
+	typedef vector<cBuildSystem::ImageFileMeta*> ImagesMetaVec;
 
 	string        mName;
+	string        mAttachedPath;
 	vec2f         mMaxSize;
 	ImagesMetaVec mImages;
+
+public:
+	cImageAtlasInfo();
+	~cImageAtlasInfo();
+
+	void addImage(cBuildSystem::ImageFileMeta* meta);
+	void removeImage(cBuildSystem::ImageFileMeta* meta);
 
 	SERIALIZBLE_METHODS(cImageAtlasInfo);
 };
