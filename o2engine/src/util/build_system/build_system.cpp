@@ -17,11 +17,10 @@ std::map<string, cSerializable*> gSerializeTypesContainer::mSamples;
 
 SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
 {
-	SERIALIZE_ID(mPath, "path");
+	SERIALIZE_ID(&mLocation, "location");
 	SERIALIZE_ID(mBuildIncluded, "buildIncluded");
 	SERIALIZE_ID(mSize, "size");
 	SERIALIZE_ID(mWritedTime, "writedTime");
-	SERIALIZE_ID(mMetaId, "metaId");
 
 	int itype = (int)mType;
 	SERIALIZE_ID(itype, "type");
@@ -33,6 +32,16 @@ SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
 cBuildSystem::FileMeta* cBuildSystem::FileMeta::clone() const
 {
 	return mnew FileMeta(*this);
+}
+
+bool cBuildSystem::FileMeta::operator==(const FileMeta& v) const
+{
+	return mLocation == v.mLocation && mSize == v.mSize && mWritedTime == v.mWritedTime;
+}
+
+bool cBuildSystem::FileMeta::operator!=(const FileMeta& v) const
+{
+	return !(*this == v);
 }
 
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::ImageFileMeta)
@@ -57,6 +66,7 @@ cBuildSystem::FileMeta* cBuildSystem::PathMeta::clone() const
 	return mnew PathMeta(*this);
 }
 
+
 cBuildSystem::AssetChangesInfo::AssetChangesInfo()
 {
 }
@@ -68,22 +78,13 @@ cBuildSystem::AssetChangesInfo::~AssetChangesInfo()
 
 void cBuildSystem::AssetChangesInfo::clear()
 {
-	FOREACH(FilesMetaVec, mNewFiles, fl)
-		safe_release(*fl);
-	mNewFiles.clear();
-	
-	FOREACH(FilesMetaVec, mRemovedFiles, fl)
-		safe_release(*fl);
-	mRemovedFiles.clear();
-	
-	FOREACH(FilesMetaVec, mMovedFiles, fl)
-		safe_release(*fl);
-	mMovedFiles.clear();
-	
-	FOREACH(FilesMetaVec, mChangedFiles, fl)
-		safe_release(*fl);
-	mChangedFiles.clear();
+	RELEASE_VECTOR(FilesMetaVec, mNewFiles);
+	RELEASE_VECTOR(FilesMetaVec, mRemovedFiles);
+	RELEASE_VECTOR(FilesMetaVec, mMovedFiles);
+	RELEASE_VECTOR(FilesMetaVec, mChangedFiles);
+	RELEASE_VECTOR(FilesMetaVec, mProcessedFiles);
 }
+
 
 cBuildSystem::cBuildSystem(const string& projectPath):
 	mActiveBuildConfig(NULL), mReady(false)
@@ -94,8 +95,8 @@ cBuildSystem::cBuildSystem(const string& projectPath):
 		createEmptyBuildConfig("win32");
 	}
 	
-	mBuildStages.push_back(mnew cNonBuildFilesBuildStage(this));
 	mBuildStages.push_back(mnew cAtlasesBuildingStage(this));
+	mBuildStages.push_back(mnew cNonBuildFilesBuildStage(this));
 }
 
 
@@ -254,7 +255,7 @@ void cBuildSystem::gatherAssetsChanges()
 	//filter assets metas
 	int cutMetaPathIdx = (mProjectPath + "/assets/").length();
 	FOREACH(FilesMetaVec, assetsFiles, meta)
-		(*meta)->mPath = (*meta)->mPath.substr(cutMetaPathIdx);
+		(*meta)->mLocation.mPath = (*meta)->mLocation.mPath.substr(cutMetaPathIdx);
 
 	//search removed files
 	string assetsPath = getAssetsPath();
@@ -266,10 +267,10 @@ void cBuildSystem::gatherAssetsChanges()
 		bool changed = false;
 		FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
 		{
-			if (meta->mPath == (*asMetaIt)->mPath && (*asMetaIt)->mMetaId > 0)
+			if (meta->mLocation == (*asMetaIt)->mLocation)
 			{
 				exist = true;
-				if ((*metaIt)->mSize != (*asMetaIt)->mSize || (*metaIt)->mWritedTime != (*asMetaIt)->mWritedTime)
+				if (*meta != **asMetaIt)
 					changed = true;
 				break;
 			}
@@ -293,7 +294,7 @@ void cBuildSystem::gatherAssetsChanges()
 
 		FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
 		{
-			if ((*metaIt)->mPath == (*asMetaIt)->mPath)
+			if ((*metaIt)->mLocation == (*asMetaIt)->mLocation)
 			{
 				isNew = false;
 				break;
@@ -303,7 +304,7 @@ void cBuildSystem::gatherAssetsChanges()
 		if (!isNew)
 			continue;
 
-		if ((*asMetaIt)->mMetaId == 0)
+		if ((*asMetaIt)->mLocation.mId == 0)
 			createFileMeta(*asMetaIt, mProjectPath + "/assets/");
 
 		mAssetsChangesInfo.mNewFiles.push_back((*asMetaIt)->clone());
@@ -315,7 +316,7 @@ void cBuildSystem::gatherAssetsChanges()
 		bool moved = false;
 		FOREACH(FilesMetaVec, mAssetsChangesInfo.mRemovedFiles, remMetaIt)
 		{
-			if ((*newMetaIt)->mMetaId == (*remMetaIt)->mMetaId)
+			if ((*newMetaIt)->mLocation.mId == (*remMetaIt)->mLocation.mId)
 			{
 				moved = true;
 				safe_release(*remMetaIt);
@@ -360,7 +361,7 @@ cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo
 	FileMeta* res = mnew PathMeta();
 	res->mType = FileMeta::MT_FOLDER;
 	
-	res->mPath = pathinfo.mPath;
+	res->mLocation.mPath = pathinfo.mPath;
 	res->mBuildIncluded = true;
 	res->mSize = 0;
 
@@ -383,7 +384,7 @@ cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo
 		res->mType = FileMeta::MT_FILE;
 	}
 	
-	res->mPath = fileInfo.mPath;
+	res->mLocation.mPath = fileInfo.mPath;
 	res->mBuildIncluded = true;
 	res->mSize = fileInfo.mSize;
 	res->mWritedTime = fileInfo.mEditDate;
@@ -403,22 +404,22 @@ void cBuildSystem::saveBuildInfo()
 void cBuildSystem::loadFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
 {
 	cSerializer metaSerz;
-	if (metaSerz.load(pathPrefix + meta->mPath + ".meta"))
+	if (metaSerz.load(pathPrefix + meta->mLocation.mPath + ".meta"))
 	{
 		int metaId;
 		metaSerz.serialize(metaId, "id");
-		meta->mMetaId = metaId;
+		meta->mLocation.mId = metaId;
 	}
-	else meta->mMetaId = 0;
+	else meta->mLocation.mId = 0;
 }
 
 void cBuildSystem::createFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
 {
-	meta->mMetaId = genNewMetaId();
+	meta->mLocation.mId = genNewMetaId();
 
 	cSerializer metaSerz(cSerializer::ST_SERIALIZE);
-	metaSerz.serialize(meta->mMetaId, "id");
-	metaSerz.save(pathPrefix + meta->mPath + ".meta");
+	metaSerz.serialize(meta->mLocation.mId, "id");
+	metaSerz.save(pathPrefix + meta->mLocation.mPath + ".meta");
 }
 
 void cBuildSystem::processBuildStages()

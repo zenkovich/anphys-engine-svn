@@ -20,13 +20,13 @@ struct WideTime
 	{
 	}
 
-	bool operator==(WideTime& wt)
+	bool operator==(const WideTime& wt) const
 	{
 		return mSecond == wt.mSecond && mMinute == wt.mMinute && mHour == wt.mHour && mDay == wt.mDay && mMonth == wt.mMonth &&
 			   mYear == wt.mYear;
 	}
 
-	bool operator!=(WideTime& wt)
+	bool operator!=(const WideTime& wt) const
 	{
 		return !(*this == wt);
 	}

@@ -3,11 +3,11 @@
 <buildConfigs count="1">
 	<elem0 type="cBuildConfig">
 		<cBuildInfo>
-			<filesMeta count="72">
+			<filesMeta count="73">
 				<elem0 type="FileMeta">
-					<path v="arial.xml" />
+					<path v="o2_font/test_serialization.xml" />
 					<buildIncluded v="true" />
-					<size v="53430" />
+					<size v="440" />
 					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
 					<metaId v="42" />
 					<type v="1" />
@@ -745,6 +745,14 @@
 					<metaId v="42" />
 					<type v="1" />
 				</elem71>
+				<elem72 type="FileMeta">
+					<path v="test_serialization.xml" />
+					<buildIncluded v="true" />
+					<size v="442" />
+					<writedTime second="23" minute="5" hour="20" day="22" month="8" year="2014" />
+					<metaId v="7" />
+					<type v="1" />
+				</elem72>
 			</filesMeta>
 			<atlases count="0" />
 		</cBuildInfo>

@@ -19,11 +19,16 @@ void cNonBuildFilesBuildStage::removeFiles()
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mRemovedFiles, metaIt)
 	{
-		hlog("Delete file: %s", (*metaIt)->mPath.c_str());
-		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mPath);
+		hlog("Delete file: %s", (*metaIt)->mLocation.mPath.c_str());
+
+		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mLocation.mPath);
 		mBuildSystem->mActiveBuildConfig->removeFile(*metaIt);
 		mBuildSystem->mBuildInfo->removeFile(*metaIt);
+
+		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
+
+	changesInf->mRemovedFiles.clear();
 }
 
 void cNonBuildFilesBuildStage::copyNewFiles()
@@ -34,11 +39,15 @@ void cNonBuildFilesBuildStage::copyNewFiles()
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mNewFiles, metaIt)
 	{
-		hlog("New file: %s", (*metaIt)->mPath.c_str());
-		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
+		hlog("New file: %s", (*metaIt)->mLocation.mPath.c_str());
+		getFileSystem().copyFile(assetsPath + (*metaIt)->mLocation.mPath, buildDataPath + (*metaIt)->mLocation.mPath);
 		mBuildSystem->mActiveBuildConfig->addFile((*metaIt)->clone());
 		mBuildSystem->mBuildInfo->addFile((*metaIt)->clone());
+
+		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
+
+	changesInf->mNewFiles.clear();
 }
 
 void cNonBuildFilesBuildStage::moveFiles()
@@ -49,18 +58,22 @@ void cNonBuildFilesBuildStage::moveFiles()
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mMovedFiles, metaIt)
 	{
-		cBuildSystem::FileMeta* oldFile = mBuildSystem->mBuildInfo->findFile((*metaIt)->mMetaId);
+		cBuildSystem::FileMeta* oldFile = mBuildSystem->mBuildInfo->findFile((*metaIt)->mLocation.mId);
 		
-		hlog("Move file: %s -> %s", oldFile->mPath.c_str(), (*metaIt)->mPath.c_str());
+		hlog("Move file: %s -> %s", oldFile->mPath.c_str(), (*metaIt)->mLocation.mPath.c_str());
 
-		getFileSystem().deleteFile(buildDataPath + oldFile->mPath);
+		getFileSystem().deleteFile(buildDataPath + oldFile->mLocation.mPath);
 		mBuildSystem->mBuildInfo->removeFile(oldFile);
-		mBuildSystem->mActiveBuildConfig->removeFile(mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mMetaId));
+		mBuildSystem->mActiveBuildConfig->removeFile(mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mLocation.mId));
 
-		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
+		getFileSystem().copyFile(assetsPath + (*metaIt)->mLocation.mPath, buildDataPath + (*metaIt)->mLocation.mPath);
 		mBuildSystem->mActiveBuildConfig->addFile((*metaIt)->clone());
 		mBuildSystem->mBuildInfo->addFile((*metaIt)->clone());
+
+		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
+
+	changesInf->mMovedFiles.clear();
 }
 
 void cNonBuildFilesBuildStage::copyChangedFiles()
@@ -71,17 +84,21 @@ void cNonBuildFilesBuildStage::copyChangedFiles()
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mChangedFiles, metaIt)
 	{		
-		hlog("Changed file: %s", (*metaIt)->mPath.c_str());
+		hlog("Changed file: %s", (*metaIt)->mLocation.mPath.c_str());
 
-		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mPath);
-		getFileSystem().copyFile(assetsPath + (*metaIt)->mPath, buildDataPath + (*metaIt)->mPath);
+		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mLocation.mPath);
+		getFileSystem().copyFile(assetsPath + (*metaIt)->mLocation.mPath, buildDataPath + (*metaIt)->mLocation.mPath);
 		
-		cBuildSystem::FileMeta* confMeta = mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mMetaId);
-		cBuildSystem::FileMeta* infoMeta = mBuildSystem->mBuildInfo->findFile((*metaIt)->mMetaId);
+		cBuildSystem::FileMeta* confMeta = mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mLocation.mId);
+		cBuildSystem::FileMeta* infoMeta = mBuildSystem->mBuildInfo->findFile((*metaIt)->mLocation.mId);
 		
 		*confMeta = **metaIt;
 		*infoMeta = **metaIt;
+
+		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
+
+	changesInf->mChangedFiles.clear();
 }
 
 CLOSE_O2_NAMESPACE

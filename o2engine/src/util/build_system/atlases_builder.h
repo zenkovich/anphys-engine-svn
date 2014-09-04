@@ -5,6 +5,8 @@
 
 OPEN_O2_NAMESPACE
 
+class cImageAtlasInfo;
+
 struct cAtlasesBuildingStage: cBuildSystem::IBuildStage
 {
 	cAtlasesBuildingStage(cBuildSystem* buildSystem):cBuildSystem::IBuildStage(buildSystem) {}
@@ -14,6 +16,8 @@ struct cAtlasesBuildingStage: cBuildSystem::IBuildStage
 	void updateAtlases();
 	void getChangedAtlases();
 	void rebuildChangedAtlases();
+
+	void updateAtlas(cImageAtlasInfo* atlas);
 };
 
 CLOSE_O2_NAMESPACE

@@ -869,5 +869,8 @@
     <ClCompile Include="..\src\util\build_system\atlases_builder.cpp">
       <Filter>src\util\build_system</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\util\file_system\file_info.cpp">
+      <Filter>src\util\file_system</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

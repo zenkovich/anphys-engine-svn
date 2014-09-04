@@ -25,7 +25,7 @@ void cBuildInfo::removeFile(cBuildSystem::FileMeta* meta)
 {
 	FOREACH(FilesMetaVec, mFilesMeta, metaIt)
 	{
-		if (meta->mMetaId == (*metaIt)->mMetaId)
+		if (meta->mLocation == (*metaIt)->mLocation)
 		{
 			mFilesMeta.erase(metaIt);
 			safe_release(meta);
@@ -38,7 +38,18 @@ cBuildSystem::FileMeta* cBuildInfo::findFile(uint32 id)
 {
 	FOREACH(FilesMetaVec, mFilesMeta, metaIt)
 	{
-		if (id == (*metaIt)->mMetaId)
+		if (id == (*metaIt)->mLocation.mId)
+			return *metaIt;
+	}
+
+	return NULL;
+}
+
+cBuildSystem::FileMeta* cBuildInfo::findFile(const cFileLocation& location)
+{
+	FOREACH(FilesMetaVec, mFilesMeta, metaIt)
+	{
+		if (location == (*metaIt)->mLocation)
 			return *metaIt;
 	}
 

@@ -25,12 +25,15 @@ public:
 	{
 		enum Type { MT_FOLDER = 0, MT_FILE, MT_IMAGE };
 
-		string   mPath;
-		Type     mType;
-		uint32   mMetaId;
-		bool     mBuildIncluded;
-		uint32   mSize;
-		WideTime mWritedTime;
+		cFileLocation mLocation;
+		Type          mType;
+		bool          mBuildIncluded;
+		uint32        mSize;
+		WideTime      mWritedTime;
+
+
+		bool operator==(const FileMeta& v) const;
+		bool operator!=(const FileMeta& v) const;
 
 		SERIALIZBLE_METHODS(FileMeta);
 		virtual FileMeta* clone() const;
@@ -57,6 +60,7 @@ public:
 		FilesMetaVec mRemovedFiles;
 		FilesMetaVec mMovedFiles;
 		FilesMetaVec mChangedFiles;
+		FilesMetaVec mProcessedFiles;
 
 		AssetChangesInfo();
 		~AssetChangesInfo();
