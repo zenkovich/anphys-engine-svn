@@ -26,6 +26,7 @@ public:
 	void addFile(cBuildSystem::FileMeta* meta);
 	void removeFile(cBuildSystem::FileMeta* meta);
 	cBuildSystem::FileMeta* findFile(uint32 id);
+	cBuildSystem::FileMeta* findFile(const cFileLocation& location);
 
 	cImageAtlasInfo* addAtlas(const string& name, const vec2f& maxSize, const string& attachingPath = "");
 	cImageAtlasInfo* getAtlas(const string& name) const;

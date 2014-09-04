@@ -12,8 +12,11 @@ class cImageAtlasInfo: public cSerializable
 public: 
 	typedef vector<cBuildSystem::ImageFileMeta*> ImagesMetaVec;
 
+protected:
 	string        mName;
-	string        mAttachedPath;
+	cFileLocation mAttachedPath;
+
+public:
 	vec2f         mMaxSize;
 	ImagesMetaVec mImages;
 
@@ -23,6 +26,13 @@ public:
 
 	void addImage(cBuildSystem::ImageFileMeta* meta);
 	void removeImage(cBuildSystem::ImageFileMeta* meta);
+	cBuildSystem::ImageFileMeta* getImage(const cFileLocation& location);
+
+	void setName(const string& name);
+	string getName() const;
+
+	void attachPath(const cFileLocation& pathLocation);
+	void unattachPath();
 
 	SERIALIZBLE_METHODS(cImageAtlasInfo);
 };

@@ -19,6 +19,9 @@ string convWide2String(const wstring& wide);
 /** Extracting path string from file path. Ex "folder/xx/yy.png" returns "folder/xx/". */
 string extractPath(const string& filePath);
 
+/** Returns true, if insideChecking path is inside path. */
+bool isPathInsideOtherPath(const string& path, const string& insideChecking);
+
 /** Returns character form virtual code. */
 uint16 getUnicodeFromVirtualCode( uint8 code );
 

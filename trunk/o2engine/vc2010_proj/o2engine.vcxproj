@@ -320,6 +320,7 @@
     <ClCompile Include="..\src\util\build_system\nonbuild_files_builder.cpp" />
     <ClCompile Include="..\src\util\clipboard.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
+    <ClCompile Include="..\src\util\file_system\file_info.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />
     <ClCompile Include="..\src\util\geometry\geometry.cpp" />
     <ClCompile Include="..\src\util\graphics\rect_drawable.cpp" />

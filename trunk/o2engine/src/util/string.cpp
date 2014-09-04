@@ -97,6 +97,12 @@ string extractPath(const string& filePath)
 	return filePath.substr(0, fnd);
 }
 
+bool isPathInsideOtherPath(const string& path, const string& insideChecking)
+{
+	int fnd = insideChecking.find(path);
+	return fnd == 0;
+}
+
 #endif //PLATFORM_WIN
 
 
