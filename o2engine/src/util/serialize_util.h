@@ -16,14 +16,20 @@ class cSerializer;
 /** Serializable object interface. */
 class cSerializable 
 {
+	friend class cSerializer;
+
 public:
-	cCallbackChain onBeginSerialize; /** Calls when serialization begins. */
-	cCallbackChain onDeserialized;   /** Calls when serialization complete. */
+	cCallbackChain onBeginSerializeEvent; /** Calls when serialization begins. */
+	cCallbackChain onDeserializedEvent;   /** Calls when serialization complete. */
 
 	/** Serialization function. */
 	virtual bool serialize(cSerializer* serializer) = 0; 
 	virtual cSerializable* createSample() const = 0;
 	virtual string getTypeName() const = 0;
+
+protected:
+	virtual void onBeginSerialize() {}
+	virtual void onDeserialized() {}
 };
 
 struct gSerializeTypesContainer

@@ -21,53 +21,6 @@ class cBuildSystem: public cSingleton<cBuildSystem>
 	friend struct cAtlasesBuildingStage;
 
 public:
-	struct FileMeta: public cSerializable
-	{
-		enum Type { MT_FOLDER = 0, MT_FILE, MT_IMAGE };
-
-		cFileLocation mLocation;
-		Type          mType;
-		bool          mBuildIncluded;
-		uint32        mSize;
-		WideTime      mWritedTime;
-
-
-		bool operator==(const FileMeta& v) const;
-		bool operator!=(const FileMeta& v) const;
-
-		SERIALIZBLE_METHODS(FileMeta);
-		virtual FileMeta* clone() const;
-	};
-	typedef vector<FileMeta*> FilesMetaVec;
-
-	struct ImageFileMeta: public FileMeta
-	{
-		string mAtlas;
-		SERIALIZBLE_INHERITED_METHODS(ImageFileMeta, FileMeta);
-		virtual FileMeta* clone() const;
-	};
-
-	struct PathMeta: public FileMeta
-	{
-		string mAttachedAtlas;
-		SERIALIZBLE_INHERITED_METHODS(PathMeta, FileMeta);
-		virtual FileMeta* clone() const;
-	};
-
-	struct AssetChangesInfo
-	{
-		FilesMetaVec mNewFiles;
-		FilesMetaVec mRemovedFiles;
-		FilesMetaVec mMovedFiles;
-		FilesMetaVec mChangedFiles;
-		FilesMetaVec mProcessedFiles;
-
-		AssetChangesInfo();
-		~AssetChangesInfo();
-
-		void clear();
-	};
-
 	struct IBuildStage
 	{
 		cBuildSystem* mBuildSystem;
@@ -85,7 +38,6 @@ protected:
 	BuildConfigsVec  mBuildConfigs;
 	cBuildConfig*    mActiveBuildConfig;
 	cBuildInfo*      mBuildInfo;
-	AssetChangesInfo mAssetsChangesInfo;
 	bool             mReady;
 
 	BuildStagesVec   mBuildStages;
@@ -113,12 +65,12 @@ private:
 	void loadBuildInfo(bool errors = false);
 
 	void gatherAssetsChanges();
-	void gatherAssetsFilesMeta(FilesMetaVec& filesMeta);
-	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta);
-	FileMeta* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
-	FileMeta* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
-	void loadFileMeta(FileMeta* meta, const string& pathPrefix = "");
-	void createFileMeta(FileMeta* meta, const string& pathPrefix = "");
+	void gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta);
+	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta);
+	cBuildFileInfo* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
+	cBuildFileInfo* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
+	void loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
+	void createFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
 	void processBuildStages();
 
 	uint32 genNewMetaId() const;

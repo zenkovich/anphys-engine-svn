@@ -95,7 +95,8 @@ bool cSerializer::serialize(cSerializable* object, const string& id, bool errors
 	if (mType == ST_SERIALIZE)
 	{
 		createNode(id);
-		object->onBeginSerialize.call();
+		object->onBeginSerialize();
+		object->onBeginSerializeEvent.call();
 		mCurrentNode.append_attribute("type") = object->getTypeName().c_str();
 		object->serialize(this);
 		popNode();
@@ -107,7 +108,8 @@ bool cSerializer::serialize(cSerializable* object, const string& id, bool errors
 			return false;
 
 		object->serialize(this);
-		object->onDeserialized.call();
+		object->onDeserialized();
+		object->onDeserializedEvent.call();
 		popNode();
 	}
 

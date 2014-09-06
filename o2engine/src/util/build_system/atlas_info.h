@@ -3,38 +3,65 @@
 
 #include "public.h"
 #include "util/serialize_util.h"
-#include "build_system.h"
+#include "build_info.h"
 
 OPEN_O2_NAMESPACE
 
+/** Images atlas info. Contains infos of images. */
 class cImageAtlasInfo: public cSerializable
 {
-public: 
-	typedef vector<cBuildSystem::ImageFileMeta*> ImagesMetaVec;
 
 protected:
-	string        mName;
-	cFileLocation mAttachedPath;
+	string          mName;            /** Name of atlas. */
+	cFileLocation   mAttachedPathLoc; /** Attached path location. */
+	cBuildPathInfo* mAttachedPath;    /** Attached path pointer. */
 
 public:
-	vec2f         mMaxSize;
-	ImagesMetaVec mImages;
+	vec2f             mMaxSize;       /** Max atlas size. */
+	BuildImageInfoVec mImages;        /** Images array. */
 
 public:
+	/** ctor. */
 	cImageAtlasInfo();
+
+	/** dtor. */
 	~cImageAtlasInfo();
 
-	void addImage(cBuildSystem::ImageFileMeta* meta);
-	void removeImage(cBuildSystem::ImageFileMeta* meta);
-	cBuildSystem::ImageFileMeta* getImage(const cFileLocation& location);
+	/** Clearing atlas. All images will get NULL atlas. */
+	void clear();
 
+	/** Refreshing images array in attached path. */
+	void refreshImages();
+
+	/** Adding image to atlas. */
+	void addImage(cBuildImageInfo* image);
+
+	/** Removing image from atlas. */
+	void removeImage(cBuildImageInfo* image);
+
+	/** Returns image by location. */
+	cBuildImageInfo* getImage(const cFileLocation& location);
+
+	/** Sets atlas name. */
 	void setName(const string& name);
+
+	/** Returns atlas name. */
 	string getName() const;
 
-	void attachPath(const cFileLocation& pathLocation);
-	void unattachPath();
+	/** Attaching atlas to path. */
+	void attachPath(cBuildPathInfo* path);
 
+	/** Deattaching atlas from path. */
+	void unattachPath();
+	
 	SERIALIZBLE_METHODS(cImageAtlasInfo);
+
+private:
+	/** gathering all images inside attached path. */
+	void gatherImagesFromAttachedPath();
+
+	/** Searching images recursively in path. */
+	void searchPathImages(cBuildPathInfo* path);
 };
 
 CLOSE_O2_NAMESPACE
