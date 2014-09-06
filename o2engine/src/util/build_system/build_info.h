@@ -3,7 +3,6 @@
 
 #include "public.h"
 #include "util/serialize_util.h"
-#include "build_system.h"
 #include "util/file_system/file_system.h"
 
 OPEN_O2_NAMESPACE
@@ -77,6 +76,8 @@ public:
 /** Build info data. Contains all files and atlases information. */
 class cBuildInfo: public cSerializable
 {
+	friend class cBuildSystem;
+
 public:
 	typedef vector<cImageAtlasInfo*> AtlasesVec;
 

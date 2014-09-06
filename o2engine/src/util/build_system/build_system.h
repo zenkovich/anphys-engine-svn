@@ -8,12 +8,10 @@
 #include "util/time_utils.h"
 #include "util/serialize_util.h"
 #include "util/file_system/file_system.h"
+#include "build_config.h"
+#include "atlas_info.h"
 
-OPEN_O2_NAMESPACE
-	
-class cBuildConfig;
-class cBuildInfo;
-class cImageAtlasInfo;
+OPEN_O2_NAMESPACE	
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
@@ -57,14 +55,14 @@ public:
 	string getBuildAssetsPath() const;
 	string getAssetsPath() const;
 
-	cImageAtlasInfo* createImageAtlas(const string& name, const vec2f& maxSize, const string& attachingPath = "");
+	cImageAtlasInfo* createImageAtlas(const string& name, const vec2f& maxSize, cBuildPathInfo* attachingPath = NULL);
 	void removeAtlas(const string& name);
 	cImageAtlasInfo* getAtlas(const string& name);
 
 private:
 	void loadBuildInfo(bool errors = false);
 
-	void gatherAssetsChanges();
+	void updateBuildConfig();
 	void gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta);
 	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta);
 	cBuildFileInfo* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
@@ -72,7 +70,6 @@ private:
 	void loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
 	void createFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
 	void processBuildStages();
-
 	uint32 genNewMetaId() const;
 
 	void saveBuildInfo();
