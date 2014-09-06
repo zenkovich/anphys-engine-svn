@@ -58,13 +58,13 @@ void cNonBuildFilesBuildStage::moveFiles()
 	string assetsPath = mBuildSystem->getAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mMovedFiles, metaIt)
 	{
-		cBuildSystem::FileMeta* oldFile = mBuildSystem->mBuildInfo->findFile((*metaIt)->mLocation.mId);
+		cBuildSystem::cBuildFileInfo* oldFile = mBuildSystem->mBuildInfo->getFile((*metaIt)->mLocation.mId);
 		
 		hlog("Move file: %s -> %s", oldFile->mPath.c_str(), (*metaIt)->mLocation.mPath.c_str());
 
 		getFileSystem().deleteFile(buildDataPath + oldFile->mLocation.mPath);
 		mBuildSystem->mBuildInfo->removeFile(oldFile);
-		mBuildSystem->mActiveBuildConfig->removeFile(mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mLocation.mId));
+		mBuildSystem->mActiveBuildConfig->removeFile(mBuildSystem->mActiveBuildConfig->getFile((*metaIt)->mLocation.mId));
 
 		getFileSystem().copyFile(assetsPath + (*metaIt)->mLocation.mPath, buildDataPath + (*metaIt)->mLocation.mPath);
 		mBuildSystem->mActiveBuildConfig->addFile((*metaIt)->clone());
@@ -89,8 +89,8 @@ void cNonBuildFilesBuildStage::copyChangedFiles()
 		getFileSystem().deleteFile(buildDataPath + (*metaIt)->mLocation.mPath);
 		getFileSystem().copyFile(assetsPath + (*metaIt)->mLocation.mPath, buildDataPath + (*metaIt)->mLocation.mPath);
 		
-		cBuildSystem::FileMeta* confMeta = mBuildSystem->mActiveBuildConfig->findFile((*metaIt)->mLocation.mId);
-		cBuildSystem::FileMeta* infoMeta = mBuildSystem->mBuildInfo->findFile((*metaIt)->mLocation.mId);
+		cBuildSystem::cBuildFileInfo* confMeta = mBuildSystem->mActiveBuildConfig->getFile((*metaIt)->mLocation.mId);
+		cBuildSystem::cBuildFileInfo* infoMeta = mBuildSystem->mBuildInfo->getFile((*metaIt)->mLocation.mId);
 		
 		*confMeta = **metaIt;
 		*infoMeta = **metaIt;

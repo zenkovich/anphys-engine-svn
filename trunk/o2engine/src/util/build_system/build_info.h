@@ -10,29 +10,113 @@ OPEN_O2_NAMESPACE
 
 class cImageAtlasInfo;
 
+/** Build info file. Contains location, type and some data about when it wrote. */
+struct cBuildFileInfo: public cSerializable
+{
+	enum Type { MT_FOLDER = 0, MT_FILE, MT_IMAGE };
+
+	cFileLocation mLocation;      /** FIle location. */
+	Type          mType;          /** File type. */
+	bool          mBuildIncluded; /** True, if it file included into build. */
+	uint32        mSize;          /** Size of file in bytes. */
+	WideTime      mWritedTime;    /** Last wrote time. */
+
+	bool operator==(const cBuildFileInfo& v) const;
+	bool operator!=(const cBuildFileInfo& v) const;
+
+	SERIALIZBLE_METHODS(cBuildFileInfo);
+};
+typedef vector<cBuildFileInfo*> BuildFileInfoVec;
+
+/** Build image file info. Inherites from cBuildFileInfo and contains atlas, where that image positioning. */
+struct cBuildImageInfo: public cBuildFileInfo
+{
+	friend class cImageAtlasInfo;
+	friend class cBuildInfo;
+
+protected:
+	string           mAtlasName; /** Atlas name. */
+	cImageAtlasInfo* mAtlas;     /** Atlas pointer. */
+
+public:
+	/** Sets atlas to image. */
+	void setAtlas(cImageAtlasInfo* atlas);
+
+	/** Returns atlas pointer. */
+	cImageAtlasInfo* getAtlas() const;
+
+	SERIALIZBLE_INHERITED_METHODS(cBuildImageInfo, cBuildFileInfo);
+};
+typedef vector<cBuildImageInfo*> BuildImageInfoVec;
+
+/** Build path info. Contains link to attached atlas and filed inside that path. */
+struct cBuildPathInfo: public cBuildFileInfo
+{
+	friend class cImageAtlasInfo;
+	friend class cBuildInfo;
+
+protected:
+	string           mAttachedAtlasName; /** Attached atlas name. */
+	cImageAtlasInfo* mAttachedAtlas;     /** Attached atlas pointer. */
+
+public:
+	BuildFileInfoVec mFiles;             /** Files inside path. */
+
+	/** Attaching to atlas. NULL - no attached atlas. */
+	void attachAtlas(cImageAtlasInfo* atlas);
+
+	/** Returns attached atlas. */
+	cImageAtlasInfo* getAttachedAtlas() const;
+
+	/** Returns all inside files and paths. */
+	BuildFileInfoVec getAllInsideFiles() const;
+
+	SERIALIZBLE_INHERITED_METHODS(cBuildPathInfo, cBuildFileInfo);
+};
+
+/** Build info data. Contains all files and atlases information. */
 class cBuildInfo: public cSerializable
 {
 public:
 	typedef vector<cImageAtlasInfo*> AtlasesVec;
-	typedef cBuildSystem::FilesMetaVec FilesMetaVec;
 
-	FilesMetaVec     mFilesMeta;
-	AtlasesVec       mAtlases;
-	cImageAtlasInfo* mBasicAtlas;
+private:
+	BuildFileInfoVec mFileInfos;  /** Files infos. */
+	AtlasesVec       mAtlases;    /** Atlases. */
+	cImageAtlasInfo* mBasicAtlas; /** Basic atlas, attached to root path. */
 
+public:
+	/** ctor. */
 	cBuildInfo();
+
+	/** dtor. */
 	virtual ~cBuildInfo();
 
-	void addFile(cBuildSystem::FileMeta* meta);
-	void removeFile(cBuildSystem::FileMeta* meta);
-	cBuildSystem::FileMeta* findFile(uint32 id);
-	cBuildSystem::FileMeta* findFile(const cFileLocation& location);
+	/** Adding file. */
+	void addFile(cBuildFileInfo* info);
 
-	cImageAtlasInfo* addAtlas(const string& name, const vec2f& maxSize, const string& attachingPath = "");
+	/** Removing file. */
+	void removeFile(cBuildFileInfo* info);
+
+	/** Returns file by id. */
+	cBuildFileInfo* getFile(uint32 id) const;
+
+	/** Returns file by location. */
+	cBuildFileInfo* getFile(const cFileLocation& location) const;
+
+	/** Adding atlas. */
+	cImageAtlasInfo* addAtlas(const string& name, const vec2f& maxSize, cBuildPathInfo* attachingPath = NULL);
+
+	/** Returns atlas by name. */
 	cImageAtlasInfo* getAtlas(const string& name) const;
+
+	/** Removes atlas. */
 	void removeAtlas(const string& name);
 
 	SERIALIZBLE_METHODS(cBuildInfo);
+
+protected:
+	virtual void onDeserialized();
 };
 
 CLOSE_O2_NAMESPACE

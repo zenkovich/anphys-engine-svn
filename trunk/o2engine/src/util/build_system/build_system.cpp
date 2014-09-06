@@ -13,60 +13,6 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(cBuildSystem);
 
-std::map<string, cSerializable*> gSerializeTypesContainer::mSamples;
-
-SERIALIZE_METHOD_IMPL(cBuildSystem::FileMeta)
-{
-	SERIALIZE_ID(&mLocation, "location");
-	SERIALIZE_ID(mBuildIncluded, "buildIncluded");
-	SERIALIZE_ID(mSize, "size");
-	SERIALIZE_ID(mWritedTime, "writedTime");
-
-	int itype = (int)mType;
-	SERIALIZE_ID(itype, "type");
-	mType = (Type)itype;
-
-	return true;
-}
-
-cBuildSystem::FileMeta* cBuildSystem::FileMeta::clone() const
-{
-	return mnew FileMeta(*this);
-}
-
-bool cBuildSystem::FileMeta::operator==(const FileMeta& v) const
-{
-	return mLocation == v.mLocation && mSize == v.mSize && mWritedTime == v.mWritedTime;
-}
-
-bool cBuildSystem::FileMeta::operator!=(const FileMeta& v) const
-{
-	return !(*this == v);
-}
-
-SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::ImageFileMeta)
-{
-	SERIALIZE_ID(mAtlas, "atlas");
-	return true;
-}
-
-cBuildSystem::FileMeta* cBuildSystem::ImageFileMeta::clone() const
-{
-	return mnew ImageFileMeta(*this);
-}
-
-SERIALIZE_INHERITED_METHOD_IMPL(cBuildSystem::PathMeta)
-{
-	SERIALIZE_ID(mAttachedAtlas, "attachedAtlas");
-	return true;
-}
-
-cBuildSystem::FileMeta* cBuildSystem::PathMeta::clone() const
-{
-	return mnew PathMeta(*this);
-}
-
-
 cBuildSystem::AssetChangesInfo::AssetChangesInfo()
 {
 }
@@ -78,11 +24,11 @@ cBuildSystem::AssetChangesInfo::~AssetChangesInfo()
 
 void cBuildSystem::AssetChangesInfo::clear()
 {
-	RELEASE_VECTOR(FilesMetaVec, mNewFiles);
-	RELEASE_VECTOR(FilesMetaVec, mRemovedFiles);
-	RELEASE_VECTOR(FilesMetaVec, mMovedFiles);
-	RELEASE_VECTOR(FilesMetaVec, mChangedFiles);
-	RELEASE_VECTOR(FilesMetaVec, mProcessedFiles);
+	RELEASE_VECTOR(BuildFileInfoVec, mNewFiles);
+	RELEASE_VECTOR(BuildFileInfoVec, mRemovedFiles);
+	RELEASE_VECTOR(BuildFileInfoVec, mMovedFiles);
+	RELEASE_VECTOR(BuildFileInfoVec, mChangedFiles);
+	RELEASE_VECTOR(BuildFileInfoVec, mProcessedFiles);
 }
 
 
@@ -249,23 +195,23 @@ void cBuildSystem::loadBuildInfo(bool errors /*= false*/)
 
 void cBuildSystem::gatherAssetsChanges()
 {	
-	FilesMetaVec assetsFiles;
+	BuildFileInfoVec assetsFiles;
 	gatherAssetsFilesMeta(assetsFiles);
 
 	//filter assets metas
 	int cutMetaPathIdx = (mProjectPath + "/assets/").length();
-	FOREACH(FilesMetaVec, assetsFiles, meta)
+	FOREACH(BuildFileInfoVec, assetsFiles, meta)
 		(*meta)->mLocation.mPath = (*meta)->mLocation.mPath.substr(cutMetaPathIdx);
 
 	//search removed files
 	string assetsPath = getAssetsPath();
-	FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
+	FOREACH(BuildFileInfoVec, mActiveBuildConfig->mFileInfos, metaIt)
 	{
-		FileMeta* meta = *metaIt;
+		cBuildFileInfo* meta = *metaIt;
 
 		bool exist = false;
 		bool changed = false;
-		FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
+		FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
 		{
 			if (meta->mLocation == (*asMetaIt)->mLocation)
 			{
@@ -288,11 +234,11 @@ void cBuildSystem::gatherAssetsChanges()
 	}
 
 	//search new files
-	FOREACH(FilesMetaVec, assetsFiles, asMetaIt)
+	FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
 	{
 		bool isNew = true;
 
-		FOREACH(FilesMetaVec, mActiveBuildConfig->mFilesMeta, metaIt)
+		FOREACH(BuildFileInfoVec, mActiveBuildConfig->mFileInfos, metaIt)
 		{
 			if ((*metaIt)->mLocation == (*asMetaIt)->mLocation)
 			{
@@ -311,10 +257,10 @@ void cBuildSystem::gatherAssetsChanges()
 	}
 
 	//check moved files
-	for(FilesMetaVec::iterator newMetaIt = mAssetsChangesInfo.mNewFiles.begin(); newMetaIt != mAssetsChangesInfo.mNewFiles.end(); )
+	for(BuildFileInfoVec::iterator newMetaIt = mAssetsChangesInfo.mNewFiles.begin(); newMetaIt != mAssetsChangesInfo.mNewFiles.end(); )
 	{
 		bool moved = false;
-		FOREACH(FilesMetaVec, mAssetsChangesInfo.mRemovedFiles, remMetaIt)
+		FOREACH(BuildFileInfoVec, mAssetsChangesInfo.mRemovedFiles, remMetaIt)
 		{
 			if ((*newMetaIt)->mLocation.mId == (*remMetaIt)->mLocation.mId)
 			{
@@ -334,13 +280,13 @@ void cBuildSystem::gatherAssetsChanges()
 	}
 }
 
-void cBuildSystem::gatherAssetsFilesMeta(FilesMetaVec& filesMeta)
+void cBuildSystem::gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta)
 {
 	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets");
 	gatherAssetsFilesMetaFromFolder(assetsPathInfo, filesMeta);
 }
 
-void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMetaVec& filesMeta)
+void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta)
 {
 	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
 		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
@@ -356,10 +302,10 @@ void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, FilesMet
 	}
 }
 
-cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo& pathinfo)
+cBuildSystem::cBuildFileInfo* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo& pathinfo)
 {
-	FileMeta* res = mnew PathMeta();
-	res->mType = FileMeta::MT_FOLDER;
+	cBuildFileInfo* res = mnew cBuildPathInfo();
+	res->mType = cBuildFileInfo::MT_FOLDER;
 	
 	res->mLocation.mPath = pathinfo.mPath;
 	res->mBuildIncluded = true;
@@ -370,18 +316,18 @@ cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo
 	return res;
 }
 
-cBuildSystem::FileMeta* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo& fileInfo)
+cBuildSystem::cBuildFileInfo* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo& fileInfo)
 {
-	FileMeta* res;
+	cBuildFileInfo* res;
 	if (fileInfo.mFileType == cFileType::FT_IMAGE) 
 	{
-		res = mnew ImageFileMeta();
-		res->mType = FileMeta::MT_IMAGE;
+		res = mnew cBuildImageInfo();
+		res->mType = cBuildFileInfo::MT_IMAGE;
 	}
 	else
 	{
-		res = mnew FileMeta();
-		res->mType = FileMeta::MT_FILE;
+		res = mnew cBuildFileInfo();
+		res->mType = cBuildFileInfo::MT_FILE;
 	}
 	
 	res->mLocation.mPath = fileInfo.mPath;
@@ -401,7 +347,7 @@ void cBuildSystem::saveBuildInfo()
 	outSer.save(getBuildAssetsPath() + "/buildInfo");
 }
 
-void cBuildSystem::loadFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
+void cBuildSystem::loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix /*= ""*/)
 {
 	cSerializer metaSerz;
 	if (metaSerz.load(pathPrefix + meta->mLocation.mPath + ".meta"))
@@ -413,7 +359,7 @@ void cBuildSystem::loadFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*
 	else meta->mLocation.mId = 0;
 }
 
-void cBuildSystem::createFileMeta(FileMeta* meta, const string& pathPrefix /*= ""*/)
+void cBuildSystem::createFileMeta(cBuildFileInfo* meta, const string& pathPrefix /*= ""*/)
 {
 	meta->mLocation.mId = genNewMetaId();
 

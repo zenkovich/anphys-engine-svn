@@ -57,15 +57,15 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	//process new files
-	for(cBuildSystem::FilesMetaVec::iterator metaIt = changesInf->mNewFiles.begin(); metaIt != changesInf->mNewFiles.end();)
+	for(cBuildSystem::BuildFileInfoVec::iterator metaIt = changesInf->mNewFiles.begin(); metaIt != changesInf->mNewFiles.end();)
 	{
-		if ((*metaIt)->mType != cBuildSystem::FileMeta::MT_IMAGE)
+		if ((*metaIt)->mType != cBuildSystem::cBuildFileInfo::MT_IMAGE)
 		{
 			metaIt++;
 			continue;
 		}
 
-		cBuildSystem::ImageFileMeta* imageMeta = static_cast<cBuildSystem::ImageFileMeta*>(*metaIt);
+		cBuildSystem::cBuildImageInfo* imageMeta = static_cast<cBuildSystem::cBuildImageInfo*>(*metaIt);
 
 		if (worksByPath)
 		{
@@ -85,21 +85,21 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 			}
 		}
 			
-		atlas->addImage( static_cast<cBuildSystem::ImageFileMeta*>(imageMeta->clone()) );
+		atlas->addImage( static_cast<cBuildSystem::cBuildImageInfo*>(imageMeta->clone()) );
 		changesInf->mProcessedFiles.push_back(*metaIt);
 		metaIt = changesInf->mNewFiles.erase(metaIt);
 	}
 
 	//process removed files
-	for(cBuildSystem::FilesMetaVec::iterator metaIt = changesInf->mRemovedFiles.begin(); metaIt != changesInf->mRemovedFiles.end();)
+	for(cBuildSystem::BuildFileInfoVec::iterator metaIt = changesInf->mRemovedFiles.begin(); metaIt != changesInf->mRemovedFiles.end();)
 	{
-		if ((*metaIt)->mType != cBuildSystem::FileMeta::MT_IMAGE)
+		if ((*metaIt)->mType != cBuildSystem::cBuildFileInfo::MT_IMAGE)
 		{
 			metaIt++;
 			continue;
 		}
 
-		cBuildSystem::ImageFileMeta* imageMeta = static_cast<cBuildSystem::ImageFileMeta*>(*metaIt);
+		cBuildSystem::cBuildImageInfo* imageMeta = static_cast<cBuildSystem::cBuildImageInfo*>(*metaIt);
 
 		if (atlas->getImage(imageMeta->mLocation) == NULL)
 		{
@@ -113,16 +113,16 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 	}
 
 	//process changed files	
-	for(cBuildSystem::FilesMetaVec::iterator metaIt = changesInf->mChangedFiles.begin(); metaIt != changesInf->mChangedFiles.end();)
+	for(cBuildSystem::BuildFileInfoVec::iterator metaIt = changesInf->mChangedFiles.begin(); metaIt != changesInf->mChangedFiles.end();)
 	{
-		if ((*metaIt)->mType != cBuildSystem::FileMeta::MT_IMAGE)
+		if ((*metaIt)->mType != cBuildSystem::cBuildFileInfo::MT_IMAGE)
 		{
 			metaIt++;
 			continue;
 		}
 
-		cBuildSystem::ImageFileMeta* imageMeta = static_cast<cBuildSystem::ImageFileMeta*>(*metaIt);
-		cBuildSystem::ImageFileMeta* imageMetaInAtlas = atlas->getImage(imageMeta->mLocation);
+		cBuildSystem::cBuildImageInfo* imageMeta = static_cast<cBuildSystem::cBuildImageInfo*>(*metaIt);
+		cBuildSystem::cBuildImageInfo* imageMetaInAtlas = atlas->getImage(imageMeta->mLocation);
 		if (imageMetaInAtlas == NULL)
 		{
 			metaIt++;
@@ -135,15 +135,15 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 	}
 
 	//process moved files
-	for(cBuildSystem::FilesMetaVec::iterator metaIt = changesInf->mMovedFiles.begin(); metaIt != changesInf->mMovedFiles.end();)
+	for(cBuildSystem::BuildFileInfoVec::iterator metaIt = changesInf->mMovedFiles.begin(); metaIt != changesInf->mMovedFiles.end();)
 	{
-		if ((*metaIt)->mType != cBuildSystem::FileMeta::MT_IMAGE)
+		if ((*metaIt)->mType != cBuildSystem::cBuildFileInfo::MT_IMAGE)
 		{
 			metaIt++;
 			continue;
 		}
 
-		cBuildSystem::ImageFileMeta* imageMeta = static_cast<cBuildSystem::ImageFileMeta*>(*metaIt);
+		cBuildSystem::cBuildImageInfo* imageMeta = static_cast<cBuildSystem::cBuildImageInfo*>(*metaIt);
 
 		if (worksByPath)
 		{
@@ -163,7 +163,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 			}
 		}
 			
-		atlas->addImage( static_cast<cBuildSystem::ImageFileMeta*>(imageMeta->clone()) );
+		atlas->addImage( static_cast<cBuildSystem::cBuildImageInfo*>(imageMeta->clone()) );
 		changesInf->mProcessedFiles.push_back(*metaIt);
 		metaIt = changesInf->mMovedFiles.erase(metaIt);
 	}

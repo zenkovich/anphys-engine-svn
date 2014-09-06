@@ -10,9 +10,6 @@ OPEN_O2_NAMESPACE
 class cBuildConfig: public cBuildInfo
 {
 public:
-	typedef vector<cImageAtlasInfo> AtlasesVec;
-	typedef cBuildSystem::FilesMetaVec FilesMetaVec;
-
 	string mName;
 	string mTargetPlatform;
 
