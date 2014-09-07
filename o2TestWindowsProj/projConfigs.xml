@@ -746,15 +746,20 @@
 					<type v="1" />
 				</elem71>
 				<elem72 type="FileMeta">
-					<path v="test_serialization.xml" />
+					<path v="arial.xml" />
 					<buildIncluded v="true" />
-					<size v="442" />
-					<writedTime second="23" minute="5" hour="20" day="22" month="8" year="2014" />
-					<metaId v="7" />
+					<size v="53430" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<metaId v="42" />
 					<type v="1" />
 				</elem72>
 			</filesMeta>
 			<atlases count="0" />
+			<basicAtlas type="cImageAtlasInfo">
+				<name v="" />
+				<maxSize x="0" y="0" />
+				<images count="0" />
+			</basicAtlas>
 		</cBuildInfo>
 		<name v="win32" />
 		<platform v="" />

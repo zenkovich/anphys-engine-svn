@@ -13,7 +13,7 @@ void cAtlasesBuildingStage::process()
 	rebuildChangedAtlases();
 }
 
-bool atlasesSortFunc(cImageAtlasInfo* atlas1, cImageAtlasInfo* atlas2) 
+/*bool atlasesSortFunc(cImageAtlasInfo* atlas1, cImageAtlasInfo* atlas2) 
 {
 	int length1 = atlas1->mAttachedPath.length();
 	int length2 = atlas2->mAttachedPath.length();
@@ -25,11 +25,11 @@ bool atlasesSortFunc(cImageAtlasInfo* atlas1, cImageAtlasInfo* atlas2)
 		length2 = INT_MAX;
 
 	return length1 < length2;
-}
+}*/
 
 void cAtlasesBuildingStage::updateAtlases()
 {	
-	cBuildInfo::AtlasesVec sortedAtlases;
+	/*cBuildInfo::AtlasesVec sortedAtlases;
 	FOREACH(cBuildInfo::AtlasesVec, mBuildSystem->mActiveBuildConfig->mAtlases, atlas)
 		sortedAtlases.push_back(*atlas);
 
@@ -38,7 +38,7 @@ void cAtlasesBuildingStage::updateAtlases()
 	sortedAtlases.push_back(mBuildSystem->mActiveBuildConfig->mBasicAtlas);
 
 	FOREACH(cBuildInfo::AtlasesVec, sortedAtlases, atlas) 
-		updateAtlas(*atlas);
+		updateAtlas(*atlas);*/
 }
 
 void cAtlasesBuildingStage::getChangedAtlases()
@@ -53,7 +53,7 @@ void cAtlasesBuildingStage::rebuildChangedAtlases()
 
 void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 {
-	bool worksByPath = atlas->mAttachedPath.length() > 0;
+	/*bool worksByPath = atlas->mAttachedPath.length() > 0;
 	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	//process new files
@@ -166,7 +166,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* atlas)
 		atlas->addImage( static_cast<cBuildSystem::cBuildImageInfo*>(imageMeta->clone()) );
 		changesInf->mProcessedFiles.push_back(*metaIt);
 		metaIt = changesInf->mMovedFiles.erase(metaIt);
-	}
+	}*/
 }
 
 CLOSE_O2_NAMESPACE

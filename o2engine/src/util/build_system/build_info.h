@@ -22,7 +22,8 @@ struct cBuildFileInfo: public cSerializable
 
 	bool operator==(const cBuildFileInfo& v) const;
 	bool operator!=(const cBuildFileInfo& v) const;
-
+	
+	virtual cBuildFileInfo* clone() const;
 	SERIALIZBLE_METHODS(cBuildFileInfo);
 };
 typedef vector<cBuildFileInfo*> BuildFileInfoVec;
@@ -45,6 +46,7 @@ public:
 	cImageAtlasInfo* getAtlas() const;
 
 	SERIALIZBLE_INHERITED_METHODS(cBuildImageInfo, cBuildFileInfo);
+	virtual cBuildFileInfo* clone() const;
 };
 typedef vector<cBuildImageInfo*> BuildImageInfoVec;
 
@@ -71,6 +73,7 @@ public:
 	BuildFileInfoVec getAllInsideFiles() const;
 
 	SERIALIZBLE_INHERITED_METHODS(cBuildPathInfo, cBuildFileInfo);
+	virtual cBuildFileInfo* clone() const;
 };
 
 /** Build info data. Contains all files and atlases information. */

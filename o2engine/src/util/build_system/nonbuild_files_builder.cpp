@@ -14,7 +14,7 @@ void cNonBuildFilesBuildStage::process()
 
 void cNonBuildFilesBuildStage::removeFiles()
 {
-	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
+/*	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	FOREACH(cBuildSystem::FilesMetaVec, changesInf->mRemovedFiles, metaIt)
@@ -28,12 +28,12 @@ void cNonBuildFilesBuildStage::removeFiles()
 		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
 
-	changesInf->mRemovedFiles.clear();
+	changesInf->mRemovedFiles.clear();*/
 }
 
 void cNonBuildFilesBuildStage::copyNewFiles()
 {
-	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
+	/*cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	string assetsPath = mBuildSystem->getAssetsPath();
@@ -47,12 +47,12 @@ void cNonBuildFilesBuildStage::copyNewFiles()
 		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
 
-	changesInf->mNewFiles.clear();
+	changesInf->mNewFiles.clear();*/
 }
 
 void cNonBuildFilesBuildStage::moveFiles()
 {
-	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
+	/*cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	string assetsPath = mBuildSystem->getAssetsPath();
@@ -73,12 +73,12 @@ void cNonBuildFilesBuildStage::moveFiles()
 		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
 
-	changesInf->mMovedFiles.clear();
+	changesInf->mMovedFiles.clear();*/
 }
 
 void cNonBuildFilesBuildStage::copyChangedFiles()
 {
-	cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
+	/*cBuildSystem::AssetChangesInfo* changesInf = &mBuildSystem->mAssetsChangesInfo;
 
 	string buildDataPath = mBuildSystem->getBuildAssetsPath();
 	string assetsPath = mBuildSystem->getAssetsPath();
@@ -98,7 +98,7 @@ void cNonBuildFilesBuildStage::copyChangedFiles()
 		changesInf->mProcessedFiles.push_back(*metaIt);
 	}
 
-	changesInf->mChangedFiles.clear();
+	changesInf->mChangedFiles.clear();*/
 }
 
 CLOSE_O2_NAMESPACE

@@ -11,7 +11,6 @@
 	#include "d3d9c\render_system_d3d9c.h"
 #endif
 
-//#define renderSystem() (grRenderSystem*)grRenderSystem::instancePtr()
 OPEN_O2_NAMESPACE
 
 inline grRenderSystem* renderSystem() { return (grRenderSystem*)(grRenderSystem::instancePtr()); }
