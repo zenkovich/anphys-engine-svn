@@ -192,17 +192,39 @@ void cBuildSystem::updateBuildConfig()
 				{
 					*metaIt = *asMetaIt;
 				}
+
+				break;
 			}
 		}
 
 		if (!exist) 
 		{
+			mActiveBuildConfig->addFile((*asMetaIt)->clone());
 		}
 	}
 
-	/*
-		if ((*asMetaIt)->mLocation.mId == 0)
-			createFileMeta(*asMetaIt, mProjectPath + "/assets/");*/
+	//search removed files
+	for(BuildFileInfoVec::iterator metaIt = mActiveBuildConfig->mFileInfos.begin(); metaIt != mActiveBuildConfig->mFileInfos.end();)
+	{
+		bool exist = false;
+		FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
+		{
+			if ((*asMetaIt)->mLocation == (*metaIt)->mLocation)
+			{
+				exist = true;
+				break;
+			}
+		}
+
+		if (!exist)
+		{ 
+			safe_release(*metaIt);
+			metaIt = mActiveBuildConfig->mFileInfos.erase(metaIt);
+		}
+		else metaIt++;
+	}
+
+	RELEASE_VECTOR(BuildFileInfoVec, assetsFiles);
 }
 
 void cBuildSystem::gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta)
@@ -281,7 +303,7 @@ void cBuildSystem::loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix /
 		metaSerz.serialize(metaId, "id");
 		meta->mLocation.mId = metaId;
 	}
-	else meta->mLocation.mId = 0;
+	else createFileMeta(meta, pathPrefix);
 }
 
 void cBuildSystem::createFileMeta(cBuildFileInfo* meta, const string& pathPrefix /*= ""*/)

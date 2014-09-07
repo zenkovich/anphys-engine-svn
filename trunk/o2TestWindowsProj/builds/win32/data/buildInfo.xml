@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<filesMeta count="74">
+<filesMeta count="75">
 	<elem0 type="FileMeta">
 		<path v="o2_font/test_serialization.xml" />
 		<buildIncluded v="true" />
@@ -757,5 +757,18 @@
 		<metaId v="7" />
 		<type v="1" />
 	</elem73>
+	<elem74 type="FileMeta">
+		<path v="arial.xml" />
+		<buildIncluded v="true" />
+		<size v="53430" />
+		<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+		<metaId v="42" />
+		<type v="1" />
+	</elem74>
 </filesMeta>
 <atlases count="0" />
+<basicAtlas type="cImageAtlasInfo">
+	<name v="" />
+	<maxSize x="0" y="0" />
+	<images count="0" />
+</basicAtlas>
