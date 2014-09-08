@@ -39,6 +39,8 @@ protected:
 	cImageAtlasInfo* mAtlas;     /** Atlas pointer. */
 
 public:
+	cBuildImageInfo();
+
 	/** Sets atlas to image. */
 	void setAtlas(cImageAtlasInfo* atlas);
 
@@ -62,6 +64,8 @@ protected:
 
 public:
 	BuildFileInfoVec mFiles;             /** Files inside path. */
+
+	cBuildPathInfo();
 
 	/** Attaching to atlas. NULL - no attached atlas. */
 	void attachAtlas(cImageAtlasInfo* atlas);
