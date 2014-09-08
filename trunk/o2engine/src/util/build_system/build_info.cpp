@@ -62,6 +62,10 @@ cImageAtlasInfo* cBuildImageInfo::getAtlas() const
 	return mAtlas;
 }
 
+cBuildImageInfo::cBuildImageInfo():mAtlas(NULL)
+{
+}
+
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildPathInfo)
 {
 	SERIALIZE_ID(mAttachedAtlasName, "attachedAtlas");
@@ -106,6 +110,10 @@ void cBuildPathInfo::attachAtlas(cImageAtlasInfo* atlas)
 cImageAtlasInfo* cBuildPathInfo::getAttachedAtlas() const
 {
 	return mAttachedAtlas;
+}
+
+cBuildPathInfo::cBuildPathInfo():mAttachedAtlas(NULL)
+{
 }
 
 
