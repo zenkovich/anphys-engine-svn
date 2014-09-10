@@ -188,9 +188,9 @@ void cBuildSystem::updateBuildConfig()
 			{
 				exist = true;
 
-				if (*asMetaIt != *metaIt)
+				if (**asMetaIt != **metaIt)
 				{
-					*metaIt = *asMetaIt;
+					**metaIt = **asMetaIt;
 				}
 
 				break;

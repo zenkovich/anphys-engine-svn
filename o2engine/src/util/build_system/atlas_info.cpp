@@ -11,7 +11,8 @@ SERIALIZE_METHOD_IMPL(cImageAtlasInfo)
 	return true;
 }
 
-cImageAtlasInfo::cImageAtlasInfo()
+cImageAtlasInfo::cImageAtlasInfo(cBuildInfo* buildInfo):
+	mOwnerBuildInfo(buildInfo), mAttachedPath(NULL)
 {
 }
 

@@ -10,11 +10,13 @@ OPEN_O2_NAMESPACE
 /** Images atlas info. Contains infos of images. */
 class cImageAtlasInfo: public cSerializable
 {
+	friend class cBuildInfo;
 
 protected:
 	string          mName;            /** Name of atlas. */
 	cFileLocation   mAttachedPathLoc; /** Attached path location. */
 	cBuildPathInfo* mAttachedPath;    /** Attached path pointer. */
+	cBuildInfo*     mOwnerBuildInfo;  /** owner build onfo pointer. */
 
 public:
 	vec2f             mMaxSize;       /** Max atlas size. */
@@ -22,7 +24,7 @@ public:
 
 public:
 	/** ctor. */
-	cImageAtlasInfo();
+	cImageAtlasInfo(cBuildInfo* buildInfo = NULL);
 
 	/** dtor. */
 	~cImageAtlasInfo();
