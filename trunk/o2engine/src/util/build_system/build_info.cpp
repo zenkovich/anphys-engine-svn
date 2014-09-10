@@ -224,11 +224,17 @@ void cBuildInfo::onDeserialized()
 			path->attachAtlas(getAtlas(path->mAttachedAtlasName));
 		}
 	}
+
+	//attach atlases owner to this
+	FOREACH(AtlasesVec, mAtlases, atlasIt)
+		(*atlasIt)->mOwnerBuildInfo = this;
+
+	mBasicAtlas->mOwnerBuildInfo = this;
 }
 
 cImageAtlasInfo* cBuildInfo::addAtlas( const string& name, const vec2f& maxSize, cBuildPathInfo* attachingPath /*= NULL*/ )
 {
-	cImageAtlasInfo* newAtlas = mnew cImageAtlasInfo();
+	cImageAtlasInfo* newAtlas = mnew cImageAtlasInfo(this);
 	newAtlas->setName(name);
 	newAtlas->mMaxSize = maxSize;
 	mAtlases.push_back(newAtlas);
