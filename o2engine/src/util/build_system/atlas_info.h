@@ -60,10 +60,13 @@ public:
 
 private:
 	/** gathering all images inside attached path. */
-	void gatherImagesFromAttachedPath();
+	void searchImagesFromAttachedPath();
 
 	/** Searching images recursively in path. */
 	void searchPathImages(cBuildPathInfo* path);
+
+	/** Search images what attached to this atlas. */
+	void searchImagesForAtlas();
 };
 
 CLOSE_O2_NAMESPACE

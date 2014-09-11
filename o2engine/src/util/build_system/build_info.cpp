@@ -120,6 +120,7 @@ cBuildPathInfo::cBuildPathInfo():mAttachedAtlas(NULL)
 cBuildInfo::cBuildInfo()
 {
 	mBasicAtlas = mnew cImageAtlasInfo();
+	mBasicAtlas->setName("basic");
 }
 
 cBuildInfo::~cBuildInfo()
