@@ -16,7 +16,8 @@ protected:
 	string          mName;            /** Name of atlas. */
 	cFileLocation   mAttachedPathLoc; /** Attached path location. */
 	cBuildPathInfo* mAttachedPath;    /** Attached path pointer. */
-	cBuildInfo*     mOwnerBuildInfo;  /** owner build onfo pointer. */
+	cBuildInfo*     mOwnerBuildInfo;  /** Owner build info pointer. */
+	bool            mIsBasic;
 
 public:
 	vec2f             mMaxSize;       /** Max atlas size. */
@@ -33,7 +34,7 @@ public:
 	void clear();
 
 	/** Refreshing images array in attached path. */
-	void refreshImages();
+	void refreshImagesList();
 
 	/** Adding image to atlas. */
 	void addImage(cBuildImageInfo* image);
@@ -60,13 +61,16 @@ public:
 
 private:
 	/** gathering all images inside attached path. */
-	void searchImagesFromAttachedPath();
+	void searchImagesAsAttachedPath();
 
 	/** Searching images recursively in path. */
-	void searchPathImages(cBuildPathInfo* path);
+	void searchImagesInPath(cBuildPathInfo* path);
 
 	/** Search images what attached to this atlas. */
-	void searchImagesForAtlas();
+	void searchImagesAsNamedAtlas();
+
+	/** Search images, what not attached to other atlas (basic atlas). */
+	void searchImagesAsBasic();
 };
 
 CLOSE_O2_NAMESPACE

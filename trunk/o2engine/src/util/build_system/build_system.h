@@ -63,12 +63,12 @@ private:
 	void loadBuildInfo(bool errors = false);
 
 	void updateBuildConfig();
-	void gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta);
-	void gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta);
-	cBuildFileInfo* createFileMetaFromFileInfo(const cFileInfo& fileInfo);
-	cBuildFileInfo* createFileMetaFromPathInfo(const cPathInfo& pathinfo);
-	void loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
-	void createFileMeta(cBuildFileInfo* meta, const string& pathPrefix = "");
+	void gatherAssetsFileInfos(BuildFileInfoVec& filesMeta);
+	void gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta);
+	cBuildFileInfo* createBuildFileInfo(const cFileInfo& fileInfo);
+	cBuildFileInfo* createBuildFileMeta(const cPathInfo& pathinfo);
+	void loadFileMeta(cBuildFileInfo* info, const string& pathPrefix = "");
+	void createFileMeta(cBuildFileInfo* info, const string& pathPrefix = "");
 	void processBuildStages();
 	uint32 genNewMetaId() const;
 

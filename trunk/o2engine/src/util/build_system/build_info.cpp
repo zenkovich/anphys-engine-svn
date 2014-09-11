@@ -116,11 +116,34 @@ cBuildPathInfo::cBuildPathInfo():mAttachedAtlas(NULL)
 {
 }
 
+void cBuildPathInfo::updateInsideFiles(BuildFileInfoVec& files)
+{
+	mFiles.clear();
+
+	int locLength = mLocation.mPath.length();
+	FOREACH(BuildFileInfoVec, files, file)
+	{
+		if (*file == this)
+			continue;
+
+		int pathSearchIdx = (*file)->mLocation.mPath.find(mLocation.mPath);
+		if (pathSearchIdx != 0)
+			continue;
+
+		int delRightIdx = (*file)->mLocation.mPath.rfind("/");
+		if (delRightIdx != string::npos && delRightIdx > locLength)
+			continue;
+
+		mFiles.push_back(*file);
+	}
+}
+
 
 cBuildInfo::cBuildInfo()
 {
-	mBasicAtlas = mnew cImageAtlasInfo();
+	mBasicAtlas = mnew cImageAtlasInfo(this);
 	mBasicAtlas->setName("basic");
+	mBasicAtlas->mIsBasic = true;
 }
 
 cBuildInfo::~cBuildInfo()
@@ -197,22 +220,7 @@ void cBuildInfo::onDeserialized()
 		if ((*file)->mType == cBuildFileInfo::MT_FOLDER)
 		{
 			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*file);
-			
-			FOREACH(BuildFileInfoVec, mFileInfos, file2)
-			{
-				if (*file2 == *file)
-					continue;
-
-				int pathSearchIdx = (*file2)->mLocation.mPath.find(path->mLocation.mPath);
-				if (pathSearchIdx == string::npos)
-					continue;
-
-				int delRightIdx = (*file2)->mLocation.mPath.rfind("/");
-				if (delRightIdx != string::npos && delRightIdx < pathSearchIdx)
-					continue;
-
-				path->mFiles.push_back(*file2);
-			}
+			path->updateInsideFiles(mFileInfos);			
 		}
 	}
 
@@ -269,6 +277,14 @@ void cBuildInfo::removeAtlas( const string& name )
 			return;
 		}
 	}		
+}
+
+void cBuildInfo::refreshAtlases()
+{
+	FOREACH(AtlasesVec, mAtlases, atl)
+		(*atl)->refreshImagesList();
+
+	mBasicAtlas->refreshImagesList();
 }
 
 

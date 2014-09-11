@@ -12,7 +12,7 @@ SERIALIZE_METHOD_IMPL(cImageAtlasInfo)
 }
 
 cImageAtlasInfo::cImageAtlasInfo(cBuildInfo* buildInfo):
-	mOwnerBuildInfo(buildInfo), mAttachedPath(NULL)
+	mOwnerBuildInfo(buildInfo), mAttachedPath(NULL), mIsBasic(false)
 {
 }
 
@@ -28,14 +28,20 @@ void cImageAtlasInfo::clear()
 	mImages.clear();
 }
 
-void cImageAtlasInfo::refreshImages()
+void cImageAtlasInfo::refreshImagesList()
 {
 	clear();
 
+	if (mIsBasic) 
+	{
+		searchImagesAsBasic();
+		return;
+	}
+
 	if (!mAttachedPath) 
-		searchImagesForAtlas();
+		searchImagesAsNamedAtlas();
 	else
-		searchImagesFromAttachedPath();
+		searchImagesAsAttachedPath();
 }
 
 void cImageAtlasInfo::addImage( cBuildImageInfo* image )
@@ -103,7 +109,7 @@ void cImageAtlasInfo::attachPath(cBuildPathInfo* path)
 		mAttachedPathLoc = path->mLocation;
 		mAttachedPath->mAttachedAtlasName = mName;
 		mAttachedPath->mAttachedAtlas = this;
-		searchImagesFromAttachedPath();
+		searchImagesAsAttachedPath();
 	}
 	else 
 	{
@@ -116,17 +122,17 @@ void cImageAtlasInfo::unattachPath()
 	attachPath(NULL);
 }
 
-void cImageAtlasInfo::searchImagesFromAttachedPath()
+void cImageAtlasInfo::searchImagesAsAttachedPath()
 {
 	clear();
 
 	if (!mAttachedPath)
 		return;
 
-	searchPathImages(mAttachedPath);
+	searchImagesInPath(mAttachedPath);
 }
 
-void cImageAtlasInfo::searchPathImages(cBuildPathInfo* path)
+void cImageAtlasInfo::searchImagesInPath(cBuildPathInfo* path)
 {
 	FOREACH(BuildFileInfoVec, path->mFiles, file) 
 	{
@@ -141,14 +147,14 @@ void cImageAtlasInfo::searchPathImages(cBuildPathInfo* path)
 		{
 			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*file);
 			if (path->getAttachedAtlas() != this)
-				searchPathImages(path);
+				searchImagesInPath(path);
 		}
 	}
 }
 
-void cImageAtlasInfo::searchImagesForAtlas()
+void cImageAtlasInfo::searchImagesAsNamedAtlas()
 {
-	if (mOwnerBuildInfo)
+	if (!mOwnerBuildInfo)
 		return;
 
 	FOREACH(BuildFileInfoVec, mOwnerBuildInfo->mFileInfos, file) 
@@ -161,6 +167,11 @@ void cImageAtlasInfo::searchImagesForAtlas()
 				addImage(image);
 		}
 	}
+}
+
+void cImageAtlasInfo::searchImagesAsBasic()
+{
+
 }
 
 CLOSE_O2_NAMESPACE
