@@ -76,6 +76,9 @@ public:
 	/** Returns all inside files and paths. */
 	BuildFileInfoVec getAllInsideFiles() const;
 
+	/** Updates inside files array from files. */
+	void updateInsideFiles(BuildFileInfoVec& files);
+
 	SERIALIZBLE_INHERITED_METHODS(cBuildPathInfo, cBuildFileInfo);
 	virtual cBuildFileInfo* clone() const;
 };
@@ -93,6 +96,7 @@ private:
 	BuildFileInfoVec mFileInfos;  /** Files infos. */
 	AtlasesVec       mAtlases;    /** Atlases. */
 	cImageAtlasInfo* mBasicAtlas; /** Basic atlas, attached to root path. */
+	cBuildPathInfo*  mRootPath;   /** Root path info. */
 
 public:
 	/** ctor. */
@@ -121,6 +125,9 @@ public:
 
 	/** Removes atlas. */
 	void removeAtlas(const string& name);
+
+	/** Refreshing images lists in atlases. */
+	void refreshAtlases();
 
 	SERIALIZBLE_METHODS(cBuildInfo);
 

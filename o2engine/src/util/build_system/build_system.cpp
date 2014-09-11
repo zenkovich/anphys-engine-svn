@@ -168,7 +168,7 @@ void cBuildSystem::loadBuildInfo(bool errors /*= false*/)
 void cBuildSystem::updateBuildConfig()
 {	
 	BuildFileInfoVec assetsFiles;
-	gatherAssetsFilesMeta(assetsFiles);
+	gatherAssetsFileInfos(assetsFiles);
 
 	//filter assets metas
 	int cutMetaPathIdx = (mProjectPath + "/assets/").length();
@@ -224,32 +224,44 @@ void cBuildSystem::updateBuildConfig()
 		else metaIt++;
 	}
 
+	//update paths infos inside files arrays
+	FOREACH(BuildFileInfoVec, mActiveBuildConfig->mFileInfos, fileIt) 
+	{
+		if ((*fileIt)->mType == cBuildFileInfo::MT_FOLDER)
+		{
+			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*fileIt);
+			path->updateInsideFiles(mActiveBuildConfig->mFileInfos);
+		}
+	}
+
 	RELEASE_VECTOR(BuildFileInfoVec, assetsFiles);
+
+	mActiveBuildConfig->refreshAtlases();
 }
 
-void cBuildSystem::gatherAssetsFilesMeta(BuildFileInfoVec& filesMeta)
+void cBuildSystem::gatherAssetsFileInfos(BuildFileInfoVec& filesMeta)
 {
 	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets");
-	gatherAssetsFilesMetaFromFolder(assetsPathInfo, filesMeta);
+	gatherAssetsFileInfosFromFolder(assetsPathInfo, filesMeta);
 }
 
-void cBuildSystem::gatherAssetsFilesMetaFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta)
+void cBuildSystem::gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta)
 {
 	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
 		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
 			continue;
 
-		filesMeta.push_back(createFileMetaFromFileInfo(*fileInfo));
+		filesMeta.push_back(createBuildFileInfo(*fileInfo));
 	}
 
 	FOREACH(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
 	{
-		filesMeta.push_back(createFileMetaFromPathInfo(*pathInfoIt));
-		gatherAssetsFilesMetaFromFolder(*pathInfoIt, filesMeta);
+		filesMeta.push_back(createBuildFileMeta(*pathInfoIt));
+		gatherAssetsFileInfosFromFolder(*pathInfoIt, filesMeta);
 	}
 }
 
-cBuildFileInfo* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo& pathinfo)
+cBuildFileInfo* cBuildSystem::createBuildFileMeta(const cPathInfo& pathinfo)
 {
 	cBuildFileInfo* res = mnew cBuildPathInfo();
 	res->mType = cBuildFileInfo::MT_FOLDER;
@@ -263,7 +275,7 @@ cBuildFileInfo* cBuildSystem::createFileMetaFromPathInfo(const cPathInfo& pathin
 	return res;
 }
 
-cBuildFileInfo* cBuildSystem::createFileMetaFromFileInfo(const cFileInfo& fileInfo)
+cBuildFileInfo* cBuildSystem::createBuildFileInfo(const cFileInfo& fileInfo)
 {
 	cBuildFileInfo* res;
 	if (fileInfo.mFileType == cFileType::FT_IMAGE) 
@@ -294,25 +306,25 @@ void cBuildSystem::saveBuildInfo()
 	outSer.save(getBuildAssetsPath() + "/buildInfo");
 }
 
-void cBuildSystem::loadFileMeta(cBuildFileInfo* meta, const string& pathPrefix /*= ""*/)
+void cBuildSystem::loadFileMeta(cBuildFileInfo* info, const string& pathPrefix /*= ""*/)
 {
 	cSerializer metaSerz;
-	if (metaSerz.load(pathPrefix + meta->mLocation.mPath + ".meta"))
+	if (metaSerz.load(pathPrefix + info->mLocation.mPath + ".meta"))
 	{
 		int metaId;
 		metaSerz.serialize(metaId, "id");
-		meta->mLocation.mId = metaId;
+		info->mLocation.mId = metaId;
 	}
-	else createFileMeta(meta, pathPrefix);
+	else createFileMeta(info, pathPrefix);
 }
 
-void cBuildSystem::createFileMeta(cBuildFileInfo* meta, const string& pathPrefix /*= ""*/)
+void cBuildSystem::createFileMeta(cBuildFileInfo* info, const string& pathPrefix /*= ""*/)
 {
-	meta->mLocation.mId = genNewMetaId();
+	info->mLocation.mId = genNewMetaId();
 
 	cSerializer metaSerz(cSerializer::ST_SERIALIZE);
-	metaSerz.serialize(meta->mLocation.mId, "id");
-	metaSerz.save(pathPrefix + meta->mLocation.mPath + ".meta");
+	metaSerz.serialize(info->mLocation.mId, "id");
+	metaSerz.save(pathPrefix + info->mLocation.mPath + ".meta");
 }
 
 void cBuildSystem::processBuildStages()
