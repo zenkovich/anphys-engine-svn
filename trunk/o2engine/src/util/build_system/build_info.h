@@ -84,6 +84,7 @@ public:
 class cBuildInfo: public cSerializable
 {
 	friend class cBuildSystem;
+	friend class cImageAtlasInfo;
 
 public:
 	typedef vector<cImageAtlasInfo*> AtlasesVec;

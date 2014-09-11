@@ -30,11 +30,12 @@ void cImageAtlasInfo::clear()
 
 void cImageAtlasInfo::refreshImages()
 {
-	if (!mAttachedPath)
-		return;
-
 	clear();
-	gatherImagesFromAttachedPath();
+
+	if (!mAttachedPath) 
+		searchImagesForAtlas();
+	else
+		searchImagesFromAttachedPath();
 }
 
 void cImageAtlasInfo::addImage( cBuildImageInfo* image )
@@ -102,7 +103,7 @@ void cImageAtlasInfo::attachPath(cBuildPathInfo* path)
 		mAttachedPathLoc = path->mLocation;
 		mAttachedPath->mAttachedAtlasName = mName;
 		mAttachedPath->mAttachedAtlas = this;
-		gatherImagesFromAttachedPath();
+		searchImagesFromAttachedPath();
 	}
 	else 
 	{
@@ -115,7 +116,7 @@ void cImageAtlasInfo::unattachPath()
 	attachPath(NULL);
 }
 
-void cImageAtlasInfo::gatherImagesFromAttachedPath()
+void cImageAtlasInfo::searchImagesFromAttachedPath()
 {
 	clear();
 
@@ -132,15 +133,32 @@ void cImageAtlasInfo::searchPathImages(cBuildPathInfo* path)
 		if ((*file)->mType == cBuildFileInfo::MT_IMAGE)
 		{
 			cBuildImageInfo* image = static_cast<cBuildImageInfo*>(*file);
-			if (!image->getAtlas())
+			if (!image->getAtlas() || image->getAtlas()->mAttachedPath != NULL)
 				addImage(image);
 		}
 
 		if ((*file)->mType == cBuildFileInfo::MT_FOLDER)
 		{
 			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*file);
-			if (!path->getAttachedAtlas())
+			if (path->getAttachedAtlas() != this)
 				searchPathImages(path);
+		}
+	}
+}
+
+void cImageAtlasInfo::searchImagesForAtlas()
+{
+	if (mOwnerBuildInfo)
+		return;
+
+	FOREACH(BuildFileInfoVec, mOwnerBuildInfo->mFileInfos, file) 
+	{
+		if ((*file)->mType == cBuildFileInfo::MT_IMAGE)
+		{
+			cBuildImageInfo* image = static_cast<cBuildImageInfo*>(*file);
+
+			if (image->mAtlasName == mName)
+				addImage(image);
 		}
 	}
 }
