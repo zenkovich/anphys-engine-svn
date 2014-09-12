@@ -190,7 +190,9 @@ void cBuildSystem::updateBuildConfig()
 
 				if (**asMetaIt != **metaIt)
 				{
-					**metaIt = **asMetaIt;
+					(*metaIt)->mLocation = (*asMetaIt)->mLocation;
+					(*metaIt)->mSize = (*asMetaIt)->mSize;
+					(*metaIt)->mWritedTime = (*asMetaIt)->mWritedTime;
 				}
 
 				break;
@@ -235,6 +237,7 @@ void cBuildSystem::updateBuildConfig()
 	}
 
 	RELEASE_VECTOR(BuildFileInfoVec, assetsFiles);
+	mActiveBuildConfig->updateRootPathFiles();
 
 	mActiveBuildConfig->refreshAtlases();
 }
