@@ -6,13 +6,12 @@ SERIALIZE_METHOD_IMPL(cImageAtlasInfo)
 {
 	SERIALIZE_ID(mName, "name");
 	SERIALIZE_ID(mMaxSize, "maxSize");
-	SERIALIZE_ID(mImages, "images");
 
 	return true;
 }
 
 cImageAtlasInfo::cImageAtlasInfo(cBuildInfo* buildInfo):
-	mOwnerBuildInfo(buildInfo), mAttachedPath(NULL), mIsBasic(false)
+	mOwnerBuildInfo(buildInfo), mAttachedPath(NULL)
 {
 }
 
@@ -23,7 +22,11 @@ cImageAtlasInfo::~cImageAtlasInfo()
 void cImageAtlasInfo::clear()
 {
 	FOREACH(BuildImageInfoVec, mImages, image)
-		(*image)->setAtlas(NULL);
+	{
+		(*image)->mAtlas = NULL;
+		(*image)->mAtlasName = "";
+	}
+
 
 	mImages.clear();
 }
@@ -31,12 +34,6 @@ void cImageAtlasInfo::clear()
 void cImageAtlasInfo::refreshImagesList()
 {
 	clear();
-
-	if (mIsBasic) 
-	{
-		searchImagesAsBasic();
-		return;
-	}
 
 	if (!mAttachedPath) 
 		searchImagesAsNamedAtlas();
@@ -60,6 +57,8 @@ void cImageAtlasInfo::removeImage( cBuildImageInfo* image )
 	{
 		if ((*img)->mLocation == image->mLocation)
 		{
+			image->mAtlas = NULL;
+			image->mAtlasName = "";
 			mImages.erase(img);
 			return;
 		}
@@ -167,11 +166,6 @@ void cImageAtlasInfo::searchImagesAsNamedAtlas()
 				addImage(image);
 		}
 	}
-}
-
-void cImageAtlasInfo::searchImagesAsBasic()
-{
-
 }
 
 CLOSE_O2_NAMESPACE

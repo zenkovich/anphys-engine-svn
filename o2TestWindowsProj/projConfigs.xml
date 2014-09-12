@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<projectName v="o2proj" />
+<buildConfigs count="1">
+	<elem0 type="cBuildConfig">
+		<cBuildInfo>
+			<filesMeta count="9">
+				<elem0 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="arial.xml" />
+						<id v="42" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="53430" />
+					<writedTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
+					<type v="1" />
+				</elem0>
+				<elem1 type="cBuildPathInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="o2_font" />
+							<id v="18468" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="0" />
+						<writedTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+						<type v="0" />
+					</cBuildFileInfo>
+					<attachedAtlas v="" />
+				</elem1>
+				<elem2 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.bmfc" />
+						<id v="6335" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="804" />
+					<writedTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
+					<type v="1" />
+				</elem2>
+				<elem3 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.xml" />
+						<id v="26501" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="64773" />
+					<writedTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
+					<type v="1" />
+				</elem3>
+				<elem4 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="o2_font/myriad_0.png" />
+							<id v="19170" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="119671" />
+						<writedTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem4>
+				<elem5 type="cBuildPathInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="o2_font/xxx" />
+							<id v="15725" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="0" />
+						<writedTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+						<type v="0" />
+					</cBuildFileInfo>
+					<attachedAtlas v="" />
+				</elem5>
+				<elem6 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/xxx/myriad.bmfc" />
+						<id v="11479" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="804" />
+					<writedTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
+					<type v="1" />
+				</elem6>
+				<elem7 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/xxx/myriad.xml" />
+						<id v="29359" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="64773" />
+					<writedTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
+					<type v="1" />
+				</elem7>
+				<elem8 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="myriad_0.png" />
+							<id v="26963" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="119671" />
+						<writedTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem8>
+			</filesMeta>
+			<atlases count="0" />
+			<basicAtlas type="cImageAtlasInfo">
+				<name v="basic" />
+				<maxSize x="0" y="0" />
+			</basicAtlas>
+		</cBuildInfo>
+		<name v="win32" />
+		<platform v="" />
+	</elem0>
+</buildConfigs>
+<activeBuildConfig v="win32" />

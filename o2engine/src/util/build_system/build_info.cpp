@@ -27,13 +27,15 @@ cBuildFileInfo* cBuildFileInfo::clone() const
 
 bool cBuildFileInfo::operator==(const cBuildFileInfo& v) const
 {
-	return mLocation == v.mLocation && mSize == v.mSize && mWritedTime == v.mWritedTime;
+	return mLocation == v.mLocation && mLocation.mPath == v.mLocation.mPath && 
+		   mSize == v.mSize && mWritedTime == v.mWritedTime;
 }
 
 bool cBuildFileInfo::operator!=(const cBuildFileInfo& v) const
 {
 	return !(*this == v);
 }
+
 
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildImageInfo)
 {
@@ -52,6 +54,9 @@ void cBuildImageInfo::setAtlas(cImageAtlasInfo* atlas)
 		atlas->addImage(this);
 	else
 	{
+		if (mAtlas)
+			mAtlas->removeImage(this);
+
 		mAtlas = NULL;
 		mAtlasName = "";
 	}
@@ -65,6 +70,12 @@ cImageAtlasInfo* cBuildImageInfo::getAtlas() const
 cBuildImageInfo::cBuildImageInfo():mAtlas(NULL)
 {
 }
+
+cBuildImageInfo::cBuildImageInfo(const cBuildImageInfo& info):
+	cBuildFileInfo(info), mAtlas(NULL)
+{
+}
+
 
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildPathInfo)
 {
@@ -116,6 +127,11 @@ cBuildPathInfo::cBuildPathInfo():mAttachedAtlas(NULL)
 {
 }
 
+cBuildPathInfo::cBuildPathInfo(const cBuildPathInfo& info):
+	cBuildFileInfo(info), mAttachedAtlas(NULL)
+{
+}
+
 void cBuildPathInfo::updateInsideFiles(BuildFileInfoVec& files)
 {
 	mFiles.clear();
@@ -143,7 +159,9 @@ cBuildInfo::cBuildInfo()
 {
 	mBasicAtlas = mnew cImageAtlasInfo(this);
 	mBasicAtlas->setName("basic");
-	mBasicAtlas->mIsBasic = true;
+
+	mRootPath = mnew cBuildPathInfo();
+	mRootPath->attachAtlas(mBasicAtlas);
 }
 
 cBuildInfo::~cBuildInfo()
@@ -151,6 +169,7 @@ cBuildInfo::~cBuildInfo()
 	RELEASE_VECTOR(BuildFileInfoVec, mFileInfos);
 	RELEASE_VECTOR(AtlasesVec, mAtlases);
 	safe_release(mBasicAtlas);
+	safe_release(mRootPath);
 }
 
 void cBuildInfo::addFile(cBuildFileInfo* info)
@@ -224,6 +243,8 @@ void cBuildInfo::onDeserialized()
 		}
 	}
 
+	updateRootPathFiles();
+
 	//restore path<->atlas links
 	FOREACH(BuildFileInfoVec, mFileInfos, file)
 	{
@@ -258,6 +279,9 @@ cImageAtlasInfo* cBuildInfo::getAtlas( const string& name ) const
 		if ((*atl)->getName() == name)
 			return *atl;
 
+	if (name == mBasicAtlas->getName())
+		return mBasicAtlas;
+
 	return NULL;
 }
 
@@ -285,6 +309,11 @@ void cBuildInfo::refreshAtlases()
 		(*atl)->refreshImagesList();
 
 	mBasicAtlas->refreshImagesList();
+}
+
+void cBuildInfo::updateRootPathFiles()
+{
+	mRootPath->updateInsideFiles(mFileInfos);
 }
 
 

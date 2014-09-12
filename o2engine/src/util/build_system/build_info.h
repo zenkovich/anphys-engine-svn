@@ -40,6 +40,7 @@ protected:
 
 public:
 	cBuildImageInfo();
+	cBuildImageInfo(const cBuildImageInfo& info);
 
 	/** Sets atlas to image. */
 	void setAtlas(cImageAtlasInfo* atlas);
@@ -66,6 +67,7 @@ public:
 	BuildFileInfoVec mFiles;             /** Files inside path. */
 
 	cBuildPathInfo();
+	cBuildPathInfo(const cBuildPathInfo& info);
 
 	/** Attaching to atlas. NULL - no attached atlas. */
 	void attachAtlas(cImageAtlasInfo* atlas);
@@ -133,6 +135,9 @@ public:
 
 protected:
 	virtual void onDeserialized();
+
+	/** Updates root path files. */
+	void updateRootPathFiles();
 };
 
 CLOSE_O2_NAMESPACE

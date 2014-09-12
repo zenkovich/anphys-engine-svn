@@ -17,7 +17,6 @@ protected:
 	cFileLocation   mAttachedPathLoc; /** Attached path location. */
 	cBuildPathInfo* mAttachedPath;    /** Attached path pointer. */
 	cBuildInfo*     mOwnerBuildInfo;  /** Owner build info pointer. */
-	bool            mIsBasic;
 
 public:
 	vec2f             mMaxSize;       /** Max atlas size. */
@@ -68,9 +67,6 @@ private:
 
 	/** Search images what attached to this atlas. */
 	void searchImagesAsNamedAtlas();
-
-	/** Search images, what not attached to other atlas (basic atlas). */
-	void searchImagesAsBasic();
 };
 
 CLOSE_O2_NAMESPACE
