@@ -76,6 +76,11 @@ cBuildImageInfo::cBuildImageInfo(const cBuildImageInfo& info):
 {
 }
 
+cBuildImageInfo::~cBuildImageInfo()
+{
+	setAtlas(NULL);
+}
+
 
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildPathInfo)
 {
@@ -152,6 +157,11 @@ void cBuildPathInfo::updateInsideFiles(BuildFileInfoVec& files)
 
 		mFiles.push_back(*file);
 	}
+}
+
+cBuildPathInfo::~cBuildPathInfo()
+{
+	attachAtlas(NULL);
 }
 
 

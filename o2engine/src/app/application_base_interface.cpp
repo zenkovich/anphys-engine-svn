@@ -1,5 +1,6 @@
 #include "application_base_interface.h"
 
+#include <time.h>
 #include "render_system/render_system.h"
 #include "ui/ui_controller.h"
 #include "util/file_system/file_system.h"
@@ -28,6 +29,8 @@ cApplicationBaseInterface::~cApplicationBaseInterface()
 
 void cApplicationBaseInterface::initalizeSystems()
 {
+	srand(time(NULL));
+
 	mInputMessage = mnew cInputMessage();
 
 //file system

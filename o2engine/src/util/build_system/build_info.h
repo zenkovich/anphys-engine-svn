@@ -20,6 +20,8 @@ struct cBuildFileInfo: public cSerializable
 	uint32        mSize;          /** Size of file in bytes. */
 	WideTime      mWritedTime;    /** Last wrote time. */
 
+	virtual ~cBuildFileInfo() {}
+
 	bool operator==(const cBuildFileInfo& v) const;
 	bool operator!=(const cBuildFileInfo& v) const;
 	
@@ -41,6 +43,7 @@ protected:
 public:
 	cBuildImageInfo();
 	cBuildImageInfo(const cBuildImageInfo& info);
+	~cBuildImageInfo();
 
 	/** Sets atlas to image. */
 	void setAtlas(cImageAtlasInfo* atlas);
@@ -68,6 +71,7 @@ public:
 
 	cBuildPathInfo();
 	cBuildPathInfo(const cBuildPathInfo& info);
+	~cBuildPathInfo();
 
 	/** Attaching to atlas. NULL - no attached atlas. */
 	void attachAtlas(cImageAtlasInfo* atlas);
