@@ -178,36 +178,13 @@ void cBuildSystem::updateBuildConfig()
 	//search removed files
 	string assetsPath = getAssetsPath();
 
-	//search new files
-	FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
-	{
-		bool exist = false;
-		FOREACH(BuildFileInfoVec, mActiveBuildConfig->mFileInfos, metaIt)
-		{
-			if ((*asMetaIt)->mLocation == (*metaIt)->mLocation)
-			{
-				exist = true;
-
-				if (**asMetaIt != **metaIt)
-				{
-					(*metaIt)->mLocation = (*asMetaIt)->mLocation;
-					(*metaIt)->mSize = (*asMetaIt)->mSize;
-					(*metaIt)->mWritedTime = (*asMetaIt)->mWritedTime;
-				}
-
-				break;
-			}
-		}
-
-		if (!exist) 
-		{
-			mActiveBuildConfig->addFile((*asMetaIt)->clone());
-		}
-	}
+	hlog("Searching removed files:");
 
 	//search removed files
 	for(BuildFileInfoVec::iterator metaIt = mActiveBuildConfig->mFileInfos.begin(); metaIt != mActiveBuildConfig->mFileInfos.end();)
 	{
+		hlog("Processing asset: %s ...", (*metaIt)->mLocation.mPath.c_str());
+
 		bool exist = false;
 		FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
 		{
@@ -220,10 +197,49 @@ void cBuildSystem::updateBuildConfig()
 
 		if (!exist)
 		{ 
+			hlog("Removed!");
+
 			safe_release(*metaIt);
 			metaIt = mActiveBuildConfig->mFileInfos.erase(metaIt);
 		}
 		else metaIt++;
+	}
+
+	hlog("Searching new files:");
+
+	//search new files
+	FOREACH(BuildFileInfoVec, assetsFiles, asMetaIt)
+	{
+		hlog("Processing asset: %s ...", (*asMetaIt)->mLocation.mPath.c_str());
+
+		bool exist = false;
+		FOREACH(BuildFileInfoVec, mActiveBuildConfig->mFileInfos, metaIt)
+		{
+			if ((*asMetaIt)->mLocation == (*metaIt)->mLocation)
+			{
+				hlog("Already exist");
+
+				exist = true;
+
+				if (**asMetaIt != **metaIt)
+				{
+					hlog("Changed!");
+
+					(*metaIt)->mLocation = (*asMetaIt)->mLocation;
+					(*metaIt)->mSize = (*asMetaIt)->mSize;
+					(*metaIt)->mWritedTime = (*asMetaIt)->mWritedTime;
+				}
+
+				break;
+			}
+		}
+
+		if (!exist) 
+		{
+			hlog("New asset. Adding to build info");
+
+			mActiveBuildConfig->addFile((*asMetaIt)->clone());
+		}
 	}
 
 	//update paths infos inside files arrays
@@ -338,7 +354,9 @@ void cBuildSystem::processBuildStages()
 
 uint32 cBuildSystem::genNewMetaId() const
 {
-	return rand()%(UINT_MAX - 1) + 1;
+	uint32 res = rand()%(UINT_MAX - 1) + 1;
+	hlog("new id: %i", res);
+	return res;
 }
 
 cImageAtlasInfo* cBuildSystem::createImageAtlas( const string& name, const vec2f& maxSize, 

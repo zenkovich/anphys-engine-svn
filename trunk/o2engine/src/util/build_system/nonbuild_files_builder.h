@@ -10,11 +10,6 @@ struct cNonBuildFilesBuildStage: cBuildSystem::IBuildStage
 	cNonBuildFilesBuildStage(cBuildSystem* buildSystem):cBuildSystem::IBuildStage(buildSystem) {}
 
 	void process();
-
-	void removeFiles();
-	void copyNewFiles();
-	void moveFiles();
-	void copyChangedFiles();
 };
 
 CLOSE_O2_NAMESPACE
