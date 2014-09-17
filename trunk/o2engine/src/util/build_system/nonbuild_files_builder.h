@@ -5,11 +5,20 @@
 
 OPEN_O2_NAMESPACE
 
-struct cNonBuildFilesBuildStage: cBuildSystem::IBuildStage
+class cNonBuildFilesBuildStage: public cBuildSystem::IBuildStage
 {
+	string mAssetsPath;
+	string mDataPath;
+
+public:
 	cNonBuildFilesBuildStage(cBuildSystem* buildSystem):cBuildSystem::IBuildStage(buildSystem) {}
 
 	void process();
+
+protected:
+	void removeFile(cBuildFileInfo* fileInfo);
+	void changeFile(cBuildFileInfo* oldFileInfo, cBuildFileInfo* newFileInfo);
+	void copyFile(cBuildFileInfo* fileInfo);
 };
 
 CLOSE_O2_NAMESPACE

@@ -15,7 +15,7 @@ OPEN_O2_NAMESPACE
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
-	friend struct cNonBuildFilesBuildStage;
+	friend class cNonBuildFilesBuildStage;
 	friend struct cAtlasesBuildingStage;
 
 public:

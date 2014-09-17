@@ -7,18 +7,18 @@
 				<elem0 type="cBuildFileInfo">
 					<location type="cFileLocation">
 						<path v="arial.xml" />
-						<id v="31858" />
+						<id v="336" />
 					</location>
 					<buildIncluded v="true" />
 					<size v="53430" />
-					<writedTime second="35" minute="50" hour="17" day="13" month="9" year="2014" />
+					<writedTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
 					<type v="1" />
 				</elem0>
 				<elem1 type="cBuildPathInfo">
 					<cBuildFileInfo>
 						<location type="cFileLocation">
 							<path v="o2_font" />
-							<id v="24497" />
+							<id v="4541" />
 						</location>
 						<buildIncluded v="true" />
 						<size v="0" />
@@ -30,32 +30,32 @@
 				<elem2 type="cBuildFileInfo">
 					<location type="cFileLocation">
 						<path v="o2_font/myriad.bmfc" />
-						<id v="2853" />
+						<id v="1207" />
 					</location>
 					<buildIncluded v="true" />
 					<size v="804" />
-					<writedTime second="35" minute="50" hour="17" day="13" month="9" year="2014" />
+					<writedTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
 					<type v="1" />
 				</elem2>
 				<elem3 type="cBuildFileInfo">
 					<location type="cFileLocation">
 						<path v="o2_font/myriad.xml" />
-						<id v="2723" />
+						<id v="14780" />
 					</location>
 					<buildIncluded v="true" />
 					<size v="64773" />
-					<writedTime second="33" minute="50" hour="17" day="13" month="9" year="2014" />
+					<writedTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
 					<type v="1" />
 				</elem3>
 				<elem4 type="cBuildImageInfo">
 					<cBuildFileInfo>
 						<location type="cFileLocation">
 							<path v="o2_font/myriad_0.png" />
-							<id v="16968" />
+							<id v="16579" />
 						</location>
 						<buildIncluded v="true" />
 						<size v="119671" />
-						<writedTime second="34" minute="50" hour="17" day="13" month="9" year="2014" />
+						<writedTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
 						<type v="2" />
 					</cBuildFileInfo>
 					<atlas v="basic" />
@@ -64,7 +64,7 @@
 					<cBuildFileInfo>
 						<location type="cFileLocation">
 							<path v="xxx" />
-							<id v="1516" />
+							<id v="2459" />
 						</location>
 						<buildIncluded v="true" />
 						<size v="0" />
@@ -76,32 +76,32 @@
 				<elem6 type="cBuildFileInfo">
 					<location type="cFileLocation">
 						<path v="xxx/myriad.bmfc" />
-						<id v="5236" />
+						<id v="25787" />
 					</location>
 					<buildIncluded v="true" />
 					<size v="804" />
-					<writedTime second="34" minute="50" hour="17" day="13" month="9" year="2014" />
+					<writedTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
 					<type v="1" />
 				</elem6>
 				<elem7 type="cBuildFileInfo">
 					<location type="cFileLocation">
 						<path v="xxx/myriad.xml" />
-						<id v="20726" />
+						<id v="1040" />
 					</location>
 					<buildIncluded v="true" />
 					<size v="64773" />
-					<writedTime second="34" minute="50" hour="17" day="13" month="9" year="2014" />
+					<writedTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
 					<type v="1" />
 				</elem7>
 				<elem8 type="cBuildImageInfo">
 					<cBuildFileInfo>
 						<location type="cFileLocation">
 							<path v="xxx/myriad_0.png" />
-							<id v="17876" />
+							<id v="24288" />
 						</location>
 						<buildIncluded v="true" />
 						<size v="119671" />
-						<writedTime second="34" minute="50" hour="17" day="13" month="9" year="2014" />
+						<writedTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
 						<type v="2" />
 					</cBuildFileInfo>
 					<atlas v="basic" />
