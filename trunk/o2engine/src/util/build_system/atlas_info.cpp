@@ -168,4 +168,33 @@ void cImageAtlasInfo::searchImagesAsNamedAtlas()
 	}
 }
 
+bool cImageAtlasInfo::operator==(const cImageAtlasInfo& atlas)
+{
+	if (mImages.size() != atlas.mImages.size())
+		return false;
+
+	FOREACH(BuildImageInfoVec, mImages, imgIt)
+	{
+		bool found = false;
+		FOREACH_CONST(BuildImageInfoVec, mImages, atlImIt)
+		{
+			if (**imgIt == **atlImIt)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+			return false;
+	}
+
+	return true;
+}
+
+bool cImageAtlasInfo::operator!=(const cImageAtlasInfo& atlas)
+{
+	return !(*this == atlas);
+}
+
 CLOSE_O2_NAMESPACE

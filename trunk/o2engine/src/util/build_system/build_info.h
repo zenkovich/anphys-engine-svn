@@ -95,6 +95,7 @@ class cBuildInfo: public cSerializable
 	friend class cBuildSystem;
 	friend class cImageAtlasInfo;
 	friend class cNonBuildFilesBuildStage;
+	friend class cAtlasesBuildingStage;
 
 public:
 	typedef vector<cImageAtlasInfo*> AtlasesVec;

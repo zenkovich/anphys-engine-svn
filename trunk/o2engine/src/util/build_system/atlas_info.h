@@ -11,6 +11,7 @@ OPEN_O2_NAMESPACE
 class cImageAtlasInfo: public cSerializable
 {
 	friend class cBuildInfo;
+	friend class cAtlasesBuildingStage;
 
 protected:
 	string          mName;            /** Name of atlas. */
@@ -28,6 +29,9 @@ public:
 
 	/** dtor. */
 	~cImageAtlasInfo();
+	
+	bool operator==(const cImageAtlasInfo& atlas);
+	bool operator!=(const cImageAtlasInfo& atlas);
 
 	/** Clearing atlas. All images will get NULL atlas. */
 	void clear();

@@ -147,13 +147,16 @@ void cBuildPathInfo::updateInsideFiles(BuildFileInfoVec& files)
 		if (*file == this)
 			continue;
 
-		int pathSearchIdx = (*file)->mLocation.mPath.find(mLocation.mPath);
+		if (!isPathInsideOtherPath((*file)->mLocation.mPath, mLocation.mPath, true))
+			continue;
+
+		/*int pathSearchIdx = (*file)->mLocation.mPath.find(mLocation.mPath);
 		if (pathSearchIdx != 0)
 			continue;
 
 		int delRightIdx = (*file)->mLocation.mPath.rfind("/");
 		if (delRightIdx != string::npos && delRightIdx > locLength)
-			continue;
+			continue;*/
 
 		mFiles.push_back(*file);
 	}
@@ -185,6 +188,19 @@ cBuildInfo::~cBuildInfo()
 void cBuildInfo::addFile(cBuildFileInfo* info)
 {
 	mFileInfos.push_back(info);
+
+	FOREACH(BuildFileInfoVec, mFileInfos, fileIt)
+	{
+		if ((*fileIt)->mType == cBuildFileInfo::MT_FOLDER)
+		{
+			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*fileIt);
+			if (isPathInsideOtherPath(info->mLocation.mPath, path->mLocation.mPath, true))
+				path->mFiles.push_back(info);
+		}
+	}
+
+	if (isPathInsideOtherPath(info->mLocation.mPath, mRootPath->mLocation.mPath, true))
+		mRootPath->mFiles.push_back(info);
 }
 
 void cBuildInfo::removeFile(cBuildFileInfo* info)
@@ -213,6 +229,9 @@ cBuildFileInfo* cBuildInfo::getFile(uint32 id) const
 
 cBuildFileInfo* cBuildInfo::getFile(const cFileLocation& location) const
 {
+	if (location == cFileLocation())
+		return mRootPath;
+
 	FOREACH_CONST(BuildFileInfoVec, mFileInfos, metaIt)
 	{
 		if (location == (*metaIt)->mLocation)
