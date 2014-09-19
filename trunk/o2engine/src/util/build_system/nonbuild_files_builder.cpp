@@ -12,6 +12,8 @@ void cNonBuildFilesBuildStage::process()
 	cBuildInfo* buildInfo = mBuildSystem->mBuildInfo;
 	cBuildConfig* buildConfig = mBuildSystem->mActiveBuildConfig;
 
+	StringsVec removingPaths;
+
 	//search removed and changed files
 	FOREACH(BuildFileInfoVec, buildInfo->mFileInfos, fileInfIt) 
 	{
@@ -29,11 +31,17 @@ void cNonBuildFilesBuildStage::process()
 
 		if (removed)
 		{
+			if ((*fileInfIt)->mType == cBuildFileInfo::MT_FOLDER)
+				removingPaths.push_back(mDataPath + (*fileInfIt)->mLocation.mPath);
+
 			removeFile(*fileInfIt);
 			safe_release(*fileInfIt);
 			*fileInfIt = NULL;
 		}
 	}
+
+	FOREACH(StringsVec, removingPaths, pathIt)
+		getFileSystem().removeDirectory((*pathIt));
 
 	for (BuildFileInfoVec::iterator it = buildInfo->mFileInfos.begin(); it != buildInfo->mFileInfos.end();)
 	{
