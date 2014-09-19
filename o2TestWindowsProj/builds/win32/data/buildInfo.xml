@@ -55,7 +55,7 @@
 				<writedTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
 				<type v="2" />
 			</cBuildFileInfo>
-			<atlas v="" />
+			<atlas v="basic" />
 		</elem4>
 		<elem5 type="cBuildPathInfo">
 			<cBuildFileInfo>
@@ -101,7 +101,7 @@
 				<writedTime second="2" minute="48" hour="9" day="19" month="9" year="2014" />
 				<type v="2" />
 			</cBuildFileInfo>
-			<atlas v="" />
+			<atlas v="basic" />
 		</elem8>
 	</filesMeta>
 	<atlases count="0" />
