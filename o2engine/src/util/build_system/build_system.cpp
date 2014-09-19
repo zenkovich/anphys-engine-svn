@@ -23,8 +23,8 @@ cBuildSystem::cBuildSystem(const string& projectPath):
 		createEmptyBuildConfig("win32");
 	}
 	
-	mBuildStages.push_back(mnew cAtlasesBuildingStage(this));
 	mBuildStages.push_back(mnew cNonBuildFilesBuildStage(this));
+	mBuildStages.push_back(mnew cAtlasesBuildingStage(this));
 }
 
 
@@ -162,7 +162,7 @@ void cBuildSystem::loadBuildInfo(bool errors /*= false*/)
 			logWarning("Failed to load build info file: %s", buildInfoFile.c_str());
 	}
 	else
-		mBuildInfo->serialize(&buildInfoSerialz);
+		buildInfoSerialz.serialize(mBuildInfo, "info"); 
 }
 
 void cBuildSystem::updateBuildConfig()
@@ -321,7 +321,7 @@ cBuildFileInfo* cBuildSystem::createBuildFileInfo(const cFileInfo& fileInfo)
 void cBuildSystem::saveBuildInfo()
 {
 	cSerializer outSer(cSerializer::ST_SERIALIZE);
-	mBuildInfo->serialize(&outSer);
+	outSer.serialize(mBuildInfo, "info");
 	outSer.save(getBuildAssetsPath() + "/buildInfo");
 }
 

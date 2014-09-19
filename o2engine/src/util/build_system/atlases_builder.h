@@ -7,17 +7,24 @@ OPEN_O2_NAMESPACE
 
 class cImageAtlasInfo;
 
-struct cAtlasesBuildingStage: cBuildSystem::IBuildStage
+class cAtlasesBuildingStage: cBuildSystem::IBuildStage
 {
+	friend class cBuildSystem;
+
+	typedef cBuildInfo::AtlasesVec AtlasesVec;
+
+	AtlasesVec mRebuildingAtlases;
+
+public:
 	cAtlasesBuildingStage(cBuildSystem* buildSystem):cBuildSystem::IBuildStage(buildSystem) {}
 
 	void process();
 
+protected:
 	void updateAtlases();
-	void getChangedAtlases();
-	void rebuildChangedAtlases();
-
-	void updateAtlas(cImageAtlasInfo* atlas);
+	void rebuildAtlases();
+	void updateAtlas(cImageAtlasInfo* confAtlas, cImageAtlasInfo* infoAtlas);
+	void rebuildAtlas(cImageAtlasInfo* atlas);
 };
 
 CLOSE_O2_NAMESPACE

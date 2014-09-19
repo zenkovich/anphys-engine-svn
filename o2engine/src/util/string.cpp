@@ -97,10 +97,20 @@ string extractPath(const string& filePath)
 	return filePath.substr(0, fnd);
 }
 
-bool isPathInsideOtherPath(const string& path, const string& insideChecking)
+bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly /*= false*/)
 {
-	int fnd = insideChecking.find(path);
-	return fnd == 0;
+	int a = whatPath.find(wherePath);
+	if (a != 0)
+		return false;
+
+	if (!strongly)
+		return true;
+
+	int lastSlashIdx = whatPath.rfind("/");
+	if (lastSlashIdx != string::npos && lastSlashIdx > (int)wherePath.length())
+		return false;
+
+	return true;
 }
 
 #endif //PLATFORM_WIN
