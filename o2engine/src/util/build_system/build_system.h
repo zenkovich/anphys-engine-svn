@@ -33,6 +33,7 @@ public:
 protected:
 	string           mProjectName;
 	string           mProjectPath;
+	string           mAtlasesPath;
 	BuildConfigsVec  mBuildConfigs;
 	cBuildConfig*    mActiveBuildConfig;
 	cBuildInfo*      mBuildInfo;
@@ -52,6 +53,9 @@ public:
 	void rebuildAssets(bool forcible = false);
 	void saveConfig();
 
+	void setAtlasesPath(const string& path);
+
+	string getAtlasesPath() const;
 	string getBuildAssetsPath() const;
 	string getAssetsPath() const;
 

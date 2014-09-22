@@ -40,6 +40,14 @@ bool cBuildFileInfo::operator!=(const cBuildFileInfo& v) const
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildImageInfo)
 {
 	SERIALIZE_ID(mAtlasName, "atlas");
+
+	if (serializer->getType() == cSerializer::ST_DESERIALIZE || mSourceRect != fRect())
+		SERIALIZE_ID(mSourceRect, "sourceRect");
+	if (serializer->getType() == cSerializer::ST_DESERIALIZE || mAtlasRect != fRect())
+		SERIALIZE_ID(mAtlasRect, "atlasRect");
+	if (serializer->getType() == cSerializer::ST_DESERIALIZE || mAtlasPage > -1)
+		SERIALIZE_ID(mAtlasPage, "atlasPage");
+
 	return true;
 }
 
@@ -67,7 +75,7 @@ cImageAtlasInfo* cBuildImageInfo::getAtlas() const
 	return mAtlas;
 }
 
-cBuildImageInfo::cBuildImageInfo():mAtlas(NULL)
+cBuildImageInfo::cBuildImageInfo():mAtlas(NULL), mAtlasPage(-1)
 {
 }
 
@@ -85,6 +93,7 @@ cBuildImageInfo::~cBuildImageInfo()
 SERIALIZE_INHERITED_METHOD_IMPL(cBuildPathInfo)
 {
 	SERIALIZE_ID(mAttachedAtlasName, "attachedAtlas");
+
 	return true;
 }
 
