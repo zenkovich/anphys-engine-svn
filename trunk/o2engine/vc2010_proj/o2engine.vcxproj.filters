@@ -507,6 +507,9 @@
     <ClInclude Include="..\src\util\build_system\atlases_builder.h">
       <Filter>src\util\build_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\build_system\atlas_packer.h">
+      <Filter>src\util\build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">

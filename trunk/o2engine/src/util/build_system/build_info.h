@@ -41,6 +41,12 @@ protected:
 	cImageAtlasInfo* mAtlas;     /** Atlas pointer. */
 
 public:
+	vec2f mSize;       /** Size of asset image. */
+	fRect mSourceRect; /** Source rect in PSD file. */
+	fRect mAtlasRect;  /** Atlas rect of image. */
+	int   mAtlasPage;  /** Atlas page. Negative - no atlas. */
+
+public:
 	cBuildImageInfo();
 	cBuildImageInfo(const cBuildImageInfo& info);
 	~cBuildImageInfo();

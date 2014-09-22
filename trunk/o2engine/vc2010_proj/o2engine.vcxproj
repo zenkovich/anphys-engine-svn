@@ -172,6 +172,7 @@
     <ClInclude Include="..\src\util\assert.h" />
     <ClInclude Include="..\src\util\build_system\atlases_builder.h" />
     <ClInclude Include="..\src\util\build_system\atlas_info.h" />
+    <ClInclude Include="..\src\util\build_system\atlas_packer.h" />
     <ClInclude Include="..\src\util\build_system\build_config.h" />
     <ClInclude Include="..\src\util\build_system\build_info.h" />
     <ClInclude Include="..\src\util\build_system\build_system.h" />
