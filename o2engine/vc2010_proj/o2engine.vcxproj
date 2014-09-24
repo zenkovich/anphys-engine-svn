@@ -198,6 +198,7 @@
     <ClInclude Include="..\src\util\math\math.h" />
     <ClInclude Include="..\src\util\math\basis.h" />
     <ClInclude Include="..\src\util\math\rect.h" />
+    <ClInclude Include="..\src\util\math\rects_packer.h" />
     <ClInclude Include="..\src\util\math\vector2.h" />
     <ClInclude Include="..\src\util\math\vertex.h" />
     <ClInclude Include="..\src\util\mem_utils\allocator_interface.h" />
@@ -209,6 +210,7 @@
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
     <ClInclude Include="..\src\util\objects.h" />
+    <ClInclude Include="..\src\util\pool.h" />
     <ClInclude Include="..\src\util\property.h" />
     <ClInclude Include="..\src\util\property_list.h" />
     <ClInclude Include="..\src\util\public_includes.h" />
@@ -332,6 +334,7 @@
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />
     <ClCompile Include="..\src\util\log\file_log_stream.cpp" />
     <ClCompile Include="..\src\util\math\math.cpp" />
+    <ClCompile Include="..\src\util\math\rects_packer.cpp" />
     <ClCompile Include="..\src\util\mem_utils\allocator_interface.cpp" />
     <ClCompile Include="..\src\util\mem_utils\alloc_operators.cpp" />
     <ClCompile Include="..\src\util\mem_utils\linear_allocator.cpp" />

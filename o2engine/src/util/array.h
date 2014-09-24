@@ -22,7 +22,7 @@ class array: public IEnumerable<_type>
 	int    mCapacity;
 
 public:
-	array(int capacity = 4)
+	array(int capacity = 5)
 	{
 		if (isDataChecksEnabled())
 			assert(capacity > 0, "Can't initialize array with empty capacity");
@@ -51,11 +51,27 @@ public:
 	array& operator=(const array& arr)
 	{
 		reserve(arr.mCapacity);
-		mCapacity = arr.mCapacity;
 		mCount = arr.mCount;
 
 		for (int i = 0; i < mCount; i++)
 			mValues[i] = arr.mValues[i];
+
+		return *this;
+	}
+
+	bool operator==(const array& arr) {
+		if (arr.mCount != mCount)
+			return false;
+
+		for (int i = 0; i < mCount; i++)
+			if (mValues[i] != arr.mValues[i])
+				return false;
+
+		return true;
+	}
+
+	bool operator!=(const array& arr) {
+		return !(*this == arr);
 	}
 
 	int count() const
@@ -79,6 +95,9 @@ public:
 
 	void reserve(int newCapacity)
 	{
+		if (isDataChecksEnabled())
+			assert(newCapacity > 0, "Can't reserve array to zero size");
+
 		if (newCapacity < mCount)
 			newCapacity = mCount;
 
@@ -97,6 +116,7 @@ public:
 			tmp[i] = mValues[i];
 
 		delete[] tmp;
+		mCapacity = newCapacity;
 	}
 
 	_type& get(int idx)
@@ -123,6 +143,15 @@ public:
 		mValues[mCount++] = value;
 
 		return value;
+	}
+
+	_type& popBack()
+	{
+		if (isDataChecksEnabled())
+			assert(mCount > 0 ,"Can't pop value from array: no values");
+
+		mCount--;
+		return mValues[mCount];
 	}
 
 	_type& insert(const _type& value, int position)
