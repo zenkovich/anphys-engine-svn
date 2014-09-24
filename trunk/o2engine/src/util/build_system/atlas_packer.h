@@ -5,7 +5,14 @@
 
 OPEN_O2_NAMESPACE
 
-
+class cAtlasPacker
+{
+public:
+	struct rect
+	{
+		fRect m
+	};
+};
 
 CLOSE_O2_NAMESPACE
 
