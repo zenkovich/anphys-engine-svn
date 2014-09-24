@@ -82,6 +82,9 @@
     <Filter Include="src\util\build_system">
       <UniqueIdentifier>{41a1b556-00f5-442b-aa6e-fa0ab86bc799}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util\containers">
+      <UniqueIdentifier>{8ba52a35-2d75-4f88-b15d-1217bd5c564b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -438,12 +441,6 @@
     <ClInclude Include="..\src\util\math\layout.h">
       <Filter>src\util\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\enumerable.h">
-      <Filter>src\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\array.h">
-      <Filter>src\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\dependencies\stack_walker\StackWalker.h">
       <Filter>dependencies\stack_walker</Filter>
     </ClInclude>
@@ -513,8 +510,17 @@
     <ClInclude Include="..\src\util\math\rects_packer.h">
       <Filter>src\util\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\pool.h">
-      <Filter>src\util</Filter>
+    <ClInclude Include="..\src\util\containers\array.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\enumerable.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\pool.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\utils.h">
+      <Filter>src\util\containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
