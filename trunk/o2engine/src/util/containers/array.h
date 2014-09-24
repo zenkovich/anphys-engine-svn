@@ -4,14 +4,6 @@
 #include "enumerable.h"
 #include "assert.h"
 
-#define ENABLE_DATA_CHECKS
-
-#ifdef ENABLE_DATA_CHECKS
-#define isDataChecksEnabled() true
-#else
-#define isDataChecksEnabled() false
-#endif
-
 OPEN_O2_NAMESPACE
 
 template<typename _type>
@@ -24,7 +16,7 @@ class array: public IEnumerable<_type>
 public:
 	array(int capacity = 5)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(capacity > 0, "Can't initialize array with empty capacity");
 
 		mValues = new _type[capacity];
@@ -86,7 +78,7 @@ public:
 
 	void resize(int newCount)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(newCount > 0, "Can't resize array to zero size");
 
 		reserve(getReservingSize(newCount));
@@ -95,7 +87,7 @@ public:
 
 	void reserve(int newCapacity)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(newCapacity > 0, "Can't reserve array to zero size");
 
 		if (newCapacity < mCount)
@@ -121,7 +113,7 @@ public:
 
 	_type& get(int idx)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(idx < 0 || idx >= mCount ,"Can't get array element: index out of range");
 
 		return mValues[idx];
@@ -129,7 +121,7 @@ public:
 
 	void set(int idx, const _type& value)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(idx < 0 || idx >= mCount ,"Can't set array element: index out of range");
 
 		mValues[idx] = value;
@@ -147,7 +139,7 @@ public:
 
 	_type& popBack()
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(mCount > 0 ,"Can't pop value from array: no values");
 
 		mCount--;
@@ -156,7 +148,7 @@ public:
 
 	_type& insert(const _type& value, int position)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(idx < 0 || idx >= mCount ,"Can't insert element: index out of range");
 
 		if (mCount == mCapacity)
@@ -195,7 +187,7 @@ public:
 
 	void remove(int idx)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 			assert(idx < 0 || idx >= mCount ,"Can't remove element: index out of range");
 
 		for (int i = idx; i < mCount - 1; i++)
@@ -206,7 +198,7 @@ public:
 
 	void removeRange(int begin, int end)
 	{
-		if (isDataChecksEnabled())
+		if (CONTAINERS_DEBUG)
 		{
 			assert(begin < 0 || begin >= mCount || end < 0 || end >= mCount || end < begin, 
 			       "Can't remove elements: indexes out of range");

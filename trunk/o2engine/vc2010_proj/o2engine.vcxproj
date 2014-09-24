@@ -168,7 +168,6 @@
     <ClInclude Include="..\src\util\animation\frame.h" />
     <ClInclude Include="..\src\util\animation\frame_interpolation.h" />
     <ClInclude Include="..\src\util\animation\animation_base.h" />
-    <ClInclude Include="..\src\util\array.h" />
     <ClInclude Include="..\src\util\assert.h" />
     <ClInclude Include="..\src\util\build_system\atlases_builder.h" />
     <ClInclude Include="..\src\util\build_system\atlas_info.h" />
@@ -179,8 +178,11 @@
     <ClInclude Include="..\src\util\build_system\nonbuild_files_builder.h" />
     <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\clipboard.h" />
+    <ClInclude Include="..\src\util\containers\array.h" />
+    <ClInclude Include="..\src\util\containers\enumerable.h" />
+    <ClInclude Include="..\src\util\containers\pool.h" />
+    <ClInclude Include="..\src\util\containers\utils.h" />
     <ClInclude Include="..\src\util\data_utils.h" />
-    <ClInclude Include="..\src\util\enumerable.h" />
     <ClInclude Include="..\src\util\file_system\file.h" />
     <ClInclude Include="..\src\util\file_system\file_info.h" />
     <ClInclude Include="..\src\util\file_system\file_system.h" />
@@ -210,7 +212,6 @@
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
     <ClInclude Include="..\src\util\objects.h" />
-    <ClInclude Include="..\src\util\pool.h" />
     <ClInclude Include="..\src\util\property.h" />
     <ClInclude Include="..\src\util\property_list.h" />
     <ClInclude Include="..\src\util\public_includes.h" />
