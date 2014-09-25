@@ -2,7 +2,9 @@
 #define POOL_H
 
 #include "assert.h"
-#include "array.h"
+#include "util/containers/array.h"
+
+OPEN_O2_NAMESPACE
 
 template<typename _type>
 class pool
@@ -11,46 +13,21 @@ class pool
 	int           mChunkSize;
 
 public:
-	pool(int initialCount = 5, int chunkSize = 5):mChunkSize(chunkSize) 
-	{
-		createObjects(initialCount);
-	}
+	pool(int initialCount = 5, int chunkSize = 5);
 
-	~pool()
-	{
-		for (int i = 0; i < mObjects.count(); i++)
-			delete mObjects[i];
-		mObjects.clear();
-	}
+	~pool();
 
-	void setChunkSize(int chunkSize)
-	{
-		mChunkSize = chunkSize;
-	}
+	void setChunkSize(int chunkSize);
 
-	int getChunkSize() const 
-	{
-		return mChunkSize;
-	}
+	int getChunkSize() const;
 
-	_type* take()
-	{
-		if (mObjects.count() == 0)
-			createObjects(mChunkSize);
+	_type* take();
 
-		return mObjects.popBack();
-	}
+	void free(_type* obj);
 
-	void free(_type* obj)
-	{
-		mObjects.add(obj);
-	}
-
-	void createObjects(int count) 
-	{
-		for (int i = 0; i < count ; i++)
-			mObjects.add(new _type());
-	}
+	void createObjects(int count);
 };
+
+CLOSE_O2_NAMESPACE
 
 #endif // POOL_H

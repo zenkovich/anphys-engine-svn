@@ -2,7 +2,9 @@
 #define RECT_PACKER_H
 
 #include "public.h"
-#include "util/pool.h"
+#include "util/containers/pool.h"
+#include "util/containers/array.h"
+#include "util/containers/tree_interface.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,10 +16,15 @@ public:
 		fRect mRect;
 		vec2f mSize;
 
-		rect(const vec2f& size):mSize(size) {}
+		rect(const vec2f& size = vec2f()):mSize(size) {}
 	};
 
 protected:
+	struct quadNode: public ITreeNode<quadNode>
+	{
+		fRect mRect;
+	};
+
 	pool<rect>   mRectsPool;
 	array<rect*> mRects;
 	vec2f        mMaxSize;
