@@ -1,11 +1,15 @@
-#ifndef ASSERT_H
-#define ASSERT_H
+#ifndef O2_ASSERT_H
+#define O2_ASSERT_H
 
 #include "public_namespace.h"
 OPEN_O2_NAMESPACE
 
+#ifdef assert
+#undef assert
+#endif
+
 /** Outing assert with description, if x is false. */
-#define assert(x, desc) \
+#define o2assert(x, desc) \
 	if (!(x)) \
 	{ \
 		errorMessage(desc, __FILE__, __LINE__); \

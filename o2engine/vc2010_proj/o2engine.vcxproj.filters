@@ -522,6 +522,9 @@
     <ClInclude Include="..\src\util\containers\utils.h">
       <Filter>src\util\containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\containers\tree_interface.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -889,6 +892,18 @@
     </ClCompile>
     <ClCompile Include="..\src\util\math\rects_packer.cpp">
       <Filter>src\util\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\containers\array.cpp">
+      <Filter>src\util\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\containers\enumerable.cpp">
+      <Filter>src\util\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\containers\pool.cpp">
+      <Filter>src\util\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\containers\tree_interface.cpp">
+      <Filter>src\util\containers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

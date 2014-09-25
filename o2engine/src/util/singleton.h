@@ -11,7 +11,7 @@ public:
 	cSingleton()                        { mInstance = static_cast<CLASS*>(this); }
 	virtual ~cSingleton()               { mInstance = NULL; }
 
-	static CLASS&   instance()          { assert(mInstance, "Singleton not initialized"); return *mInstance; }
+	static CLASS&   instance()          { o2assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
 	static CLASS* instancePtr()         { return mInstance; }
 

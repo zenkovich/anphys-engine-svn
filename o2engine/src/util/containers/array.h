@@ -1,8 +1,8 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef CONTAINER_ARRAY_H
+#define CONTAINER_ARRAY_H
 
-#include "enumerable.h"
-#include "assert.h"
+#include "util/containers/enumerable.h"
+#include "util/assert.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,221 +14,61 @@ class array: public IEnumerable<_type>
 	int    mCapacity;
 
 public:
-	array(int capacity = 5)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(capacity > 0, "Can't initialize array with empty capacity");
+	array(int capacity = 5);
 
-		mValues = new _type[capacity];
-		mCapacity = capacity;
-		mCount = 0;
-	}
+	array(const array& arr);
 
-	array(const array& arr)
-	{
-		mValues = new _type[arr.mCapacity];
-		mCapacity = arr.mCapacity;
-		mCount = arr.mCount;
+	virtual ~array();
 
-		for (int i = 0; i < mCount; i++)
-			mValues[i] = arr.mValues[i];
-	}
+	array& operator=(const array& arr);
 
-	virtual ~array()
-	{
-		clear();
-		delete[] mValues;
-	}
+	bool operator==(const array& arr);
 
-	array& operator=(const array& arr)
-	{
-		reserve(arr.mCapacity);
-		mCount = arr.mCount;
+	bool operator!=(const array& arr);
 
-		for (int i = 0; i < mCount; i++)
-			mValues[i] = arr.mValues[i];
+	int count() const;
 
-		return *this;
-	}
+	bool isEmpty() const;
 
-	bool operator==(const array& arr) {
-		if (arr.mCount != mCount)
-			return false;
+	int capacity() const;
 
-		for (int i = 0; i < mCount; i++)
-			if (mValues[i] != arr.mValues[i])
-				return false;
+	void resize(int newCount);
 
-		return true;
-	}
+	void reserve(int newCapacity);
 
-	bool operator!=(const array& arr) {
-		return !(*this == arr);
-	}
+	_type& get(int idx);
 
-	int count() const
-	{
-		return  mCount;
-	}
+	void set(int idx, const _type& value);
 
-	int capacity() const
-	{
-		return mCapacity;
-	}
+	_type& add(const _type& value);
 
-	void resize(int newCount)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(newCount > 0, "Can't resize array to zero size");
+	_type& popBack();
 
-		reserve(getReservingSize(newCount));
-		mCount = newCount;
-	}
+	_type& insert(const _type& value, int position);
 
-	void reserve(int newCapacity)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(newCapacity > 0, "Can't reserve array to zero size");
+	int find(const _type& value);
 
-		if (newCapacity < mCount)
-			newCapacity = mCount;
+	bool contains(const _type& value);
 
-		if (newCapacity < 5)
-			newCapacity = 5;
+	void remove(int idx);
 
-		_type* tmp = new _type[mCount];
+	void removeRange(int begin, int end);
 
-		for (int i = 0; i < mCount; i++)
-			tmp[i] = mValues[i];
+	bool remove(const _type& value);
 
-		delete[] mValues;
-		mValues = new _type[newCapacity];
-		
-		for (int i = 0; i < mCount; i++)
-			tmp[i] = mValues[i];
-
-		delete[] tmp;
-		mCapacity = newCapacity;
-	}
-
-	_type& get(int idx)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(idx < 0 || idx >= mCount ,"Can't get array element: index out of range");
-
-		return mValues[idx];
-	}
-
-	void set(int idx, const _type& value)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(idx < 0 || idx >= mCount ,"Can't set array element: index out of range");
-
-		mValues[idx] = value;
-	}
-
-	_type& add(const _type& value)
-	{
-		if (mCount == mCapacity)
-			reserve(getReservingSize(mCount));
-
-		mValues[mCount++] = value;
-
-		return value;
-	}
-
-	_type& popBack()
-	{
-		if (CONTAINERS_DEBUG)
-			assert(mCount > 0 ,"Can't pop value from array: no values");
-
-		mCount--;
-		return mValues[mCount];
-	}
-
-	_type& insert(const _type& value, int position)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(idx < 0 || idx >= mCount ,"Can't insert element: index out of range");
-
-		if (mCount == mCapacity)
-			reserve(getReservingSize(mCount));
-		
-		mCount++;
-
-		_type tmp = value;
-		for (int i = position; i < mCount; i++)
-		{
-			_type curValue = mValues[i];
-			mValues[i] = tmp;
-			tmp = curValue;
-		}
-
-		return value;
-	}
-
-	int find(const _type& value)
-	{
-		for (int i = 0; i < mCount; i++)
-			if (mValues[i] == value)
-				return i;
-
-		return -1;
-	}
-
-	bool contains(const _type& value)
-	{
-		for (int i = 0; i < mCount; i++)
-			if (mValues[i] == value)
-				return true;
-
-		return false;
-	}
-
-	void remove(int idx)
-	{
-		if (CONTAINERS_DEBUG)
-			assert(idx < 0 || idx >= mCount ,"Can't remove element: index out of range");
-
-		for (int i = idx; i < mCount - 1; i++)
-			mValues[i] = mValues[i + 1];
-
-		mCount--;
-	}
-
-	void removeRange(int begin, int end)
-	{
-		if (CONTAINERS_DEBUG)
-		{
-			assert(begin < 0 || begin >= mCount || end < 0 || end >= mCount || end < begin, 
-			       "Can't remove elements: indexes out of range");
-		}
-
-		int diff = end - begin;
-
-		for (int i = begin; i < mCount - diff; i++)
-			mValues[i] = mValues[i + diff];
-
-		mCount -= diff;
-	}
-
-	void remove(const _type& value)
-	{
-		remove(find(value));
-	}
-
-	void clear()
-	{
-		mCount = 0;
-	}
+	void clear();
+	
+	void sort(void (*compareFunc)(_type&, _type&));
+	void sort();
 
 protected:
-	int getReservingSize(int size) 
-	{
-		return (int)((float)size*1.5f);
-	}
+	int getReservingSize(int size);
+	void quickSort(void (*compareFunc)(_type&, _type&), int left, int right);
+
+	template<typename _ct>
+	static bool stdComparer(_ct& a, _ct& b) { return a < b; }
 };
 
 CLOSE_O2_NAMESPACE
 
-#endif //ARRAY_H
+#endif //CONTAINER_ARRAY_H
