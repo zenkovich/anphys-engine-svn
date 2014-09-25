@@ -2,16 +2,35 @@
 #define ATLAS_PACHER_H
 
 #include "public.h"
+#include "util/math/rects_packer.h"
 
 OPEN_O2_NAMESPACE
 
+class cBuildSystem;
+struct cBuildImageInfo;
+class cImageAtlasInfo;
+
 class cAtlasPacker
 {
-public:
-	struct rect
+protected:
+	struct imageContainer
 	{
-		fRect m
+		cRectsPacker::rect* mRect;
+		cBuildImageInfo*    mImageInfo;
+
+		imageContainer():mRect(NULL), mImageInfo(NULL) {}
+		imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo):mRect(rect), mImageInfo(imageInfo) {}
 	};
+
+	cBuildSystem*         mBuildSystem;
+	cRectsPacker          mRectsPacker;
+	array<imageContainer> mImages;
+
+public:
+	cAtlasPacker(cBuildSystem* buildSystem);
+	~cAtlasPacker();
+
+	void packAtlas(cImageAtlasInfo* atlas);
 };
 
 CLOSE_O2_NAMESPACE

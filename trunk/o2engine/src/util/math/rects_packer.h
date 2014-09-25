@@ -30,7 +30,7 @@ protected:
 	vec2f        mMaxSize;
 
 public:
-	cRectsPacker(const vec2f&  maxSize);
+	cRectsPacker(const vec2f&  maxSize = vec2f(512, 512));
 	~cRectsPacker();
 
 	rect* addRect(const vec2f&  size);

@@ -6,6 +6,7 @@
 OPEN_O2_NAMESPACE
 
 class cImageAtlasInfo;
+class cAtlasPacker;
 
 class cAtlasesBuildingStage: cBuildSystem::IBuildStage
 {
@@ -13,10 +14,11 @@ class cAtlasesBuildingStage: cBuildSystem::IBuildStage
 
 	typedef cBuildInfo::AtlasesVec AtlasesVec;
 
-	AtlasesVec mRebuildingAtlases;
+	AtlasesVec    mRebuildingAtlases;
+	cAtlasPacker* mAtlasPacker;
 
 public:
-	cAtlasesBuildingStage(cBuildSystem* buildSystem):cBuildSystem::IBuildStage(buildSystem) {}
+	cAtlasesBuildingStage(cBuildSystem* buildSystem);
 
 	void process();
 
