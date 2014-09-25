@@ -319,6 +319,7 @@
     <ClCompile Include="..\src\util\assert_win.cpp" />
     <ClCompile Include="..\src\util\build_system\atlases_builder.cpp" />
     <ClCompile Include="..\src\util\build_system\atlas_info.cpp" />
+    <ClCompile Include="..\src\util\build_system\atlas_packer.cpp" />
     <ClCompile Include="..\src\util\build_system\build_config.cpp" />
     <ClCompile Include="..\src\util\build_system\build_info.cpp" />
     <ClCompile Include="..\src\util\build_system\build_system.cpp" />

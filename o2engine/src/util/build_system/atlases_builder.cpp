@@ -5,6 +5,11 @@
 #include "build_config.h"
 
 OPEN_O2_NAMESPACE
+	
+cAtlasesBuildingStage::cAtlasesBuildingStage(cBuildSystem* buildSystem):
+	cBuildSystem::IBuildStage(buildSystem), mAtlasPacker(buildSystem)
+{
+}
 
 void cAtlasesBuildingStage::process()
 {

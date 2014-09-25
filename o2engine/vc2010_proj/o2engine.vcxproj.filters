@@ -905,5 +905,8 @@
     <ClCompile Include="..\src\util\containers\tree_interface.cpp">
       <Filter>src\util\containers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\util\build_system\atlas_packer.cpp">
+      <Filter>src\util\build_system</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
