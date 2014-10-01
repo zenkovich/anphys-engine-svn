@@ -16,19 +16,65 @@ protected:
 	array<_type*> mChilds;
 
 public:
-	ITreeNode();
+	ITreeNode():mParent(0)
+	{
+		_this = dynamic_cast<_type*>(this);
+	}
 
-	virtual ~ITreeNode();
+	virtual ~ITreeNode()
+	{
+		removeAllChilds();
+	}
 
-	virtual _type* addChild(_type* node);
+	virtual _type* addChild(_type* node)
+	{
+		if (node->getParent())
+			node->getParent()->removeChild(node, false);
 
-	virtual bool removeChild(_type* node, bool release = true);
+		node->mParent = _this;
 
-	virtual void removeAllChilds();
+		mChilds.add(node);
+		return node;
+	}
 
-	virtual void setParent(_type* parent);
+	virtual bool removeChild(_type* node, bool release = true)
+	{
+		node->mParent = NULL;
 
-	virtual _type* getParent() const;
+		if (!mChilds.remove(node))
+			return false;
+
+		if (release)
+			safe_release(node);
+
+		return true;
+	}
+
+	virtual void removeAllChilds()
+	{
+		foreach(_type*, mChilds, child)
+			safe_release(*child);
+
+		mChilds.clear();
+	}
+
+	virtual void setParent(_type* parent)
+	{
+		if (parent)
+			parent->addChild(_this);
+		else
+		{
+			if (mParent)
+				mParent->removeChild(_this, false);
+
+			mParent = NULL;
+		}
+	}
+
+	virtual _type* getParent() const
+	{
+		return mParent;
+	}
 };
 
 CLOSE_O2_NAMESPACE

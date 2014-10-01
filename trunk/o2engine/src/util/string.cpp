@@ -99,17 +99,25 @@ string extractPath(const string& filePath)
 
 bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly /*= false*/)
 {
-	int a = whatPath.find(wherePath);
-	if (a != 0)
-		return false;
+	int rootWhatPathBeg = 0;
+	int rootWherePathBeg = 0;
 
-	if (!strongly)
-		return true;
+	do
+	{
+		int rootWhatPathEnd = whatPath.find("/", rootWhatPathBeg);
+		int rootWherePathEnd = wherePath.find("/", rootWhatPathBeg);
 
-	int lastSlashIdx = whatPath.rfind("/");
-	if (lastSlashIdx != string::npos && lastSlashIdx > (int)wherePath.length())
-		return false;
+		if (whatPath.substr(rootWhatPathBeg, rootWhatPathEnd - rootWhatPathBeg) != 
+			wherePath.substr(rootWherePathBeg, rootWherePathEnd - rootWherePathBeg))
+		{
+			return false;
+		}
 
+		rootWhatPathBeg = rootWhatPathEnd;
+		rootWherePathBeg = rootWherePathEnd;
+	}
+	while(rootWhatPathBeg != string::npos && rootWherePathBeg != string::npos);
+	
 	return true;
 }
 

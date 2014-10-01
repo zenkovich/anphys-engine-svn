@@ -3,12 +3,19 @@
 #include "build_system.h"
 #include "atlas_info.h"
 #include "build_config.h"
+#include "atlas_packer.h"
 
 OPEN_O2_NAMESPACE
 	
 cAtlasesBuildingStage::cAtlasesBuildingStage(cBuildSystem* buildSystem):
-	cBuildSystem::IBuildStage(buildSystem), mAtlasPacker(buildSystem)
+	cBuildSystem::IBuildStage(buildSystem)
 {
+	mAtlasPacker = mnew cAtlasPacker(buildSystem);
+}
+
+cAtlasesBuildingStage::~cAtlasesBuildingStage()
+{
+	safe_release(mAtlasPacker);
 }
 
 void cAtlasesBuildingStage::process()
@@ -101,7 +108,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* confAtlas, cImageAtlasI
 
 void cAtlasesBuildingStage::rebuildAtlas(cImageAtlasInfo* atlas)
 {
-
+	mAtlasPacker->packAtlas(atlas);
 }
 
 

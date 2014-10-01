@@ -20,6 +20,8 @@ protected:
 
 		imageContainer():mRect(NULL), mImageInfo(NULL) {}
 		imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo):mRect(rect), mImageInfo(imageInfo) {}
+
+		bool operator==(const imageContainer& cc) { return cc.mRect == mRect && cc.mImageInfo == mImageInfo; }
 	};
 
 	cBuildSystem*         mBuildSystem;

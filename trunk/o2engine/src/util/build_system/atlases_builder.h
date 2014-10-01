@@ -19,6 +19,7 @@ class cAtlasesBuildingStage: cBuildSystem::IBuildStage
 
 public:
 	cAtlasesBuildingStage(cBuildSystem* buildSystem);
+	~cAtlasesBuildingStage();
 
 	void process();
 
