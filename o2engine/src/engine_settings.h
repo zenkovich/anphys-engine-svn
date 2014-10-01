@@ -47,5 +47,8 @@
 /* Debug checks and messages in containers. */
 #define CONTAINERS_DEBUG true
 
+/** Building assets before launching app. */
+#define BUILD_ASSETS true
+
 
 #endif //ENGINE_SETTINGS_H

@@ -27,7 +27,7 @@ public:
 	virtual ~uiContextMenu();
 
 	/** Returns clone of widget. */
-	virtual uiContextMenu* clone() const;
+	virtual uiWidget* clone() const;
 
 	/** Adding button element. If position negative, adding at end. */
 	uiButton* addButtonElement(const wstring& caption, const string& key = "", const string& iconTextureName = "", 

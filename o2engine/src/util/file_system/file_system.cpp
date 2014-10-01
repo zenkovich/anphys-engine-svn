@@ -188,6 +188,9 @@ bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/)
 
 void cFileSystem::checkAssetsBuilding() const
 {
+	if (!BUILD_ASSETS)
+		return;
+
 	if (!cBuildSystem::isSingletonInitialzed())	
 		mnew cBuildSystem("../../..");
 
