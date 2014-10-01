@@ -99,26 +99,47 @@ string extractPath(const string& filePath)
 
 bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly /*= false*/)
 {
-	int rootWhatPathBeg = 0;
-	int rootWherePathBeg = 0;
+	string whatNorm = normalizePathString(whatPath);
+	string whereNorm = normalizePathString(wherePath);
 
-	do
-	{
-		int rootWhatPathEnd = whatPath.find("/", rootWhatPathBeg);
-		int rootWherePathEnd = wherePath.find("/", rootWhatPathBeg);
+	if (whatNorm == whereNorm)
+		return false;
 
-		if (whatPath.substr(rootWhatPathBeg, rootWhatPathEnd - rootWhatPathBeg) != 
-			wherePath.substr(rootWherePathBeg, rootWherePathEnd - rootWherePathBeg))
-		{
-			return false;
-		}
+	int a = whatNorm.find(whereNorm);
+	if (a != 0)
+		return false;
 
-		rootWhatPathBeg = rootWhatPathEnd;
-		rootWherePathBeg = rootWherePathEnd;
-	}
-	while(rootWhatPathBeg != string::npos && rootWherePathBeg != string::npos);
-	
+	int whereLength = wherePath.length();
+	if (whereLength > 0 && whatPath[whereLength] != '/')
+		return false;
+
+	if (!strongly)
+		return true;
+
+	int lastSlashIdx = whatNorm.rfind("/");
+	if (lastSlashIdx != string::npos && lastSlashIdx > whereLength)
+		return false;
+
 	return true;
+}
+
+string normalizePathString(const string& path )
+{
+	string res = path;
+	int length = res.length();
+
+	if (length == 0)
+		return res;
+
+	for (int i = 0; i < length; i++)
+		if (res[i] == '\\')
+			res[i] = '/';
+
+	int first = res[0] == '/' ? 1:0;
+	int end = res[length - 1] == '/' ? length - 1:length;
+
+	res = res.substr(first, end - first);
+	return res;
 }
 
 #endif //PLATFORM_WIN

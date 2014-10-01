@@ -22,6 +22,9 @@ string extractPath(const string& filePath);
 /** Returns true, if whatPath path is wherePath path. */
 bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly = false);
 
+/** Format path string to normalized. Ex "asd/das/dasd". */
+string normalizePathString(const string& path);
+
 /** Returns character form virtual code. */
 uint16 getUnicodeFromVirtualCode( uint8 code );
 

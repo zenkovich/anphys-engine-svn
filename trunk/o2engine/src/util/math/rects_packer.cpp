@@ -48,9 +48,14 @@ vec2f cRectsPacker::getMaxSize() const
 
 bool cRectsPacker::pack()
 {
-	mRects.sort();
+	mRects.sort(&rectSizeCompare);
 
 	return false;
+}
+
+bool cRectsPacker::rectSizeCompare( rect*& a, rect*& b )
+{
+	return a->mSize.x*a->mSize.y > b->mSize.x*b->mSize.y;
 }
 
 CLOSE_O2_NAMESPACE

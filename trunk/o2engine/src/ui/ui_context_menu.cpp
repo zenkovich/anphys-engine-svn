@@ -26,7 +26,7 @@ uiContextMenu::~uiContextMenu()
 	safe_release(mDelimerSample);
 }
 
-uiContextMenu* uiContextMenu::clone() const
+uiWidget* uiContextMenu::clone() const
 {
 	return mnew uiContextMenu(*this);
 }

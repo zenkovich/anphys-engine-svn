@@ -15,19 +15,11 @@ public:
 	{
 		IEnumerable* mArray;
 		int          mIndex;
-		_type*       mObjPtr;
 
 	public:
 		iterator(IEnumerable* arr = NULL, int index = 0) :
-			mArray(arr), mIndex(index), mObjPtr(NULL)
+			mArray(arr), mIndex(index)
 		{
-			if (mArray)
-			{
-				if (CONTAINERS_DEBUG)
-					o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to initialize iterator: index out of range"); 
-
-				mObjPtr = &mArray->get(mIndex);
-			}
 		}
 
 		int index() const
@@ -49,10 +41,8 @@ public:
 		{
 			mIndex++;
 
-			if (CONTAINERS_DEBUG)
-				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-			mObjPtr = &mArray->get(mIndex);
+// 			if (CONTAINERS_DEBUG)
+// 				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
 
 			return *this ;
 		}
@@ -63,10 +53,8 @@ public:
 
 			mIndex++;
 
-			if (CONTAINERS_DEBUG)
-				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-			mObjPtr = &mArray->get(mIndex);
+// 			if (CONTAINERS_DEBUG)
+// 				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
 
 			return temp ;
 		}
@@ -75,10 +63,8 @@ public:
 		{
 			mIndex--;
 
-			if (CONTAINERS_DEBUG)
-				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-			mObjPtr = &mArray->get(mIndex);
+// 			if (CONTAINERS_DEBUG)
+// 				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
 
 			return *this ;
 		}
@@ -89,10 +75,8 @@ public:
 
 			mIndex--;
 
-			if (CONTAINERS_DEBUG)
-				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-			mObjPtr = &mArray->get(mIndex);
+// 			if (CONTAINERS_DEBUG)
+// 				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
 
 			return temp ;
 		}
@@ -131,22 +115,30 @@ public:
 
 		operator bool()
 		{
-			return mObjPtr != NULL;
+			return mIndex >= 0 && mIndex < mArray->count();
 		}
 
 		operator _type*()
 		{
-			return mObjPtr;
+			return &value();
 		}
 
 		_type* operator->()
 		{
-			return mObjPtr;
+			return &value();
 		}
 
 		_type& operator*()
 		{
-			return *mObjPtr;
+			return value();
+		}
+
+		_type& value() 
+		{
+			if (CONTAINERS_DEBUG)
+				o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to get value iterator: index out of range"); 
+
+			return mArray->get(mIndex);
 		}
 	};
 

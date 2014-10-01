@@ -41,6 +41,9 @@ public:
 	vec2f getMaxSize() const;
 
 	bool pack();
+
+protected:
+	static bool rectSizeCompare(rect*& a, rect*& b);
 };
 
 CLOSE_O2_NAMESPACE
