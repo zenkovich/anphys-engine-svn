@@ -9,61 +9,278 @@ OPEN_O2_NAMESPACE
 template<typename _type>
 class array: public IEnumerable<_type>
 {
-	_type* mValues;
+	(_type*) mValues;
 	int    mCount;
 	int    mCapacity;
 
 public:
-	array(int capacity = 5);
+	array(int capacity = 5)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(capacity > 0, "Can't initialize array with empty capacity");
 
-	array(const array& arr);
+		mValues = new _type[capacity];
+		mCapacity = capacity;
+		mCount = 0;
+	}
 
-	virtual ~array();
+	array(const array& arr)
+	{
+		mValues = new _type[arr.mCapacity];
+		mCapacity = arr.mCapacity;
+		mCount = arr.mCount;
 
-	array& operator=(const array& arr);
+		for (int i = 0; i < mCount; i++)
+			mValues[i] = arr.mValues[i];
+	}
 
-	bool operator==(const array& arr);
+	virtual ~array()
+	{
+		clear();
+		delete[] mValues;
+	}
 
-	bool operator!=(const array& arr);
+	array& operator=(const array& arr)
+	{
+		reserve(arr.mCapacity);
+		mCount = arr.mCount;
 
-	int count() const;
+		for (int i = 0; i < mCount; i++)
+			mValues[i] = arr.mValues[i];
 
-	bool isEmpty() const;
+		return *this;
+	}
 
-	int capacity() const;
+	bool operator==(const array& arr)
+	{
+		if (arr.mCount != mCount)
+			return false;
 
-	void resize(int newCount);
+		for (int i = 0; i < mCount; i++)
+			if (mValues[i] != arr.mValues[i])
+				return false;
 
-	void reserve(int newCapacity);
+		return true;
+	}
 
-	_type& get(int idx);
+	bool operator!=(const array& arr)
+	{
+		return !(*this == arr);
+	}
 
-	void set(int idx, const _type& value);
+	int count() const
+	{
+		return  mCount;
+	}
 
-	_type& add(const _type& value);
+	bool isEmpty() const
+	{
+		return mCount == 0;
+	}
 
-	_type& popBack();
+	int capacity() const
+	{
+		return mCapacity;
+	}
 
-	_type& insert(const _type& value, int position);
+	void resize(int newCount)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(newCount > 0, "Can't resize array to zero size");
 
-	int find(const _type& value);
+		reserve(getReservingSize(newCount));
+		mCount = newCount;
+	}
 
-	bool contains(const _type& value);
+	void reserve(int newCapacity)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(newCapacity > 0, "Can't reserve array to zero size");
 
-	void remove(int idx);
+		if (newCapacity < mCount)
+			newCapacity = mCount;
 
-	void removeRange(int begin, int end);
+		if (newCapacity < 5)
+			newCapacity = 5;
 
-	bool remove(const _type& value);
+		_type* tmp = new _type[mCount];
 
-	void clear();
+		for (int i = 0; i < mCount; i++)
+			tmp[i] = mValues[i];
+
+		delete[] mValues;
+		mValues = new _type[newCapacity];
+
+		for (int i = 0; i < mCount; i++)
+			tmp[i] = mValues[i];
+
+		delete[] tmp;
+		mCapacity = newCapacity;
+	}
+
+	_type& get(int idx)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(idx < 0 || idx >= mCount ,"Can't get array element: index out of range");
+
+		return mValues[idx];
+	}
+
+	void set(int idx, const _type& value)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(idx < 0 || idx >= mCount ,"Can't set array element: index out of range");
+
+		mValues[idx] = value;
+	}
+
+	_type& add(const _type& value)
+	{
+		if (mCount == mCapacity)
+			reserve(getReservingSize(mCount));
+
+		mValues[mCount++] = value;
+
+		return mValues[mCount - 1];
+	}
+
+	_type& popBack()
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(mCount > 0 ,"Can't pop value from array: no values");
+
+		mCount--;
+		return mValues[mCount];
+	}
+
+	_type& insert(const _type& value, int position)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(idx < 0 || idx >= mCount ,"Can't insert element: index out of range");
+
+		if (mCount == mCapacity)
+			reserve(getReservingSize(mCount));
+
+		mCount++;
+
+		_type tmp = value;
+		for (int i = position; i < mCount; i++)
+		{
+			_type curValue = mValues[i];
+			mValues[i] = tmp;
+			tmp = curValue;
+		}
+
+		return value;
+	}
+
+	int find(const _type& value) const
+	{
+		for (int i = 0; i < mCount; i++)
+			if (mValues[i] == value)
+				return i;
+
+		return -1;
+	}
+
+	bool contains(const _type& value) const
+	{
+		for (int i = 0; i < mCount; i++)
+			if (mValues[i] == value)
+				return true;
+
+		return false;
+	}
+
+	void remove(int idx)
+	{
+		if (CONTAINERS_DEBUG)
+			o2assert(idx < 0 || idx >= mCount ,"Can't remove element: index out of range");
+
+		for (int i = idx; i < mCount - 1; i++)
+			mValues[i] = mValues[i + 1];
+
+		mCount--;
+	}
+
+	void removeRange(int begin, int end)
+	{
+		if (CONTAINERS_DEBUG)
+		{
+			o2assert(begin < 0 || begin >= mCount || end < 0 || end >= mCount || end < begin, 
+				"Can't remove elements: indexes out of range");
+		}
+
+		int diff = end - begin;
+
+		for (int i = begin; i < mCount - diff; i++)
+			mValues[i] = mValues[i + diff];
+
+		mCount -= diff;
+	}
+
+	bool remove(const _type& value)
+	{
+		int idx = find(value);
+		if (idx < 0)
+			return false;
+
+		remove(idx);
+		return true;
+	}
+
+	void clear()
+	{
+		mCount = 0;
+	}
 	
-	void sort(void (*compareFunc)(_type&, _type&));
-	void sort();
+	void sort(bool (*compareFunc)(_type&, _type&))
+	{
+		quickSort(compareFunc, 0, mCount);
+	}
+
+	void sort()
+	{
+		sort(&stdComparer);
+	}
 
 protected:
-	int getReservingSize(int size);
-	void quickSort(void (*compareFunc)(_type&, _type&), int left, int right);
+	int getReservingSize(int size)
+	{
+		return (int)((float)size*1.5f);
+	}
+
+	void quickSort(bool (*compareFunc)(_type&, _type&), int left, int right)		
+	{
+		int i = left, j = right;
+		_type tmp;
+		_type pivot = mValues[(left + right)/2];
+
+		/* partition */
+		while (i <= j) 
+		{
+			while ( compareFunc(mValues[i], pivot) )
+				i++;
+
+			while ( !compareFunc(mValues[j], pivot) )
+				j--;
+
+			if (i <= j)
+			{
+				tmp = mValues[i];
+				mValues[i] = mValues[j];
+				mValues[j] = tmp;
+				i++;
+				j--;
+			}
+		};
+
+		/* recursion */
+		if (left < j)
+			quickSort(compareFunc, left, j);
+		if (i < right)
+			quickSort(compareFunc, i, right);
+	}
 
 	template<typename _ct>
 	static bool stdComparer(_ct& a, _ct& b) { return a < b; }

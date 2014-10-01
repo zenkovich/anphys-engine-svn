@@ -13,19 +13,47 @@ class pool
 	int           mChunkSize;
 
 public:
-	pool(int initialCount = 5, int chunkSize = 5);
+	pool(int initialCount = 5, int chunkSize = 5):
+		mChunkSize(chunkSize)
+	{
+		createObjects(initialCount);
+	}
 
-	~pool();
+	~pool()
+	{
+		for (int i = 0; i < mObjects.count(); i++)
+			delete mObjects[i];
+		mObjects.clear();
+	}
 
-	void setChunkSize(int chunkSize);
+	void setChunkSize(int chunkSize)
+	{
+		mChunkSize = chunkSize;
+	}
 
-	int getChunkSize() const;
+	int getChunkSize() const
+	{
+		return mChunkSize;
+	}
 
-	_type* take();
+	_type* take()
+	{
+		if (mObjects.count() == 0)
+			createObjects(mChunkSize);
 
-	void free(_type* obj);
+		return mObjects.popBack();
+	}
 
-	void createObjects(int count);
+	void free(_type* obj)
+	{
+		mObjects.add(obj);
+	}
+
+	void createObjects(int count)
+	{
+		for (int i = 0; i < count ; i++)
+			mObjects.add(new _type());
+	}
 };
 
 CLOSE_O2_NAMESPACE
