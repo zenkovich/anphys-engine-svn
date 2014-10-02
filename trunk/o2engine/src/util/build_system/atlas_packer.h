@@ -9,6 +9,7 @@ OPEN_O2_NAMESPACE
 class cBuildSystem;
 struct cBuildImageInfo;
 class cImageAtlasInfo;
+class cImage;
 
 class cAtlasPacker
 {
@@ -17,11 +18,13 @@ protected:
 	{
 		cRectsPacker::rect* mRect;
 		cBuildImageInfo*    mImageInfo;
+		cImage*             mImage;
 
-		imageContainer():mRect(NULL), mImageInfo(NULL) {}
-		imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo):mRect(rect), mImageInfo(imageInfo) {}
+		imageContainer();
+		imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo, cImage* image);
+		~imageContainer();
 
-		bool operator==(const imageContainer& cc) { return cc.mRect == mRect && cc.mImageInfo == mImageInfo; }
+		bool operator==(const imageContainer& cc);
 	};
 
 	cBuildSystem*         mBuildSystem;

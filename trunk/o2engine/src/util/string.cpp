@@ -97,6 +97,12 @@ string extractPath(const string& filePath)
 	return filePath.substr(0, fnd);
 }
 
+string extractExtension(const string& filePath)
+{
+	int fnd = filePath.rfind(".");
+	return filePath.substr(0, fnd);
+}
+
 bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly /*= false*/)
 {
 	string whatNorm = normalizePathString(whatPath);

@@ -16,6 +16,12 @@ cImage::cImage( Format format, const vec2i& size ):
 	create(format, size);
 }
 
+cImage::cImage(const string& fileName, ImageType type /*= IT_AUTO*/, cLogStream* clog /*= NULL*/):
+	mFormat(FMT_NONE), mData(NULL)
+{
+	load(fileName, type, clog);
+}
+
 cImage::~cImage()
 {
 	safe_release_arr(mData);

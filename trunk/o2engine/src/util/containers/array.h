@@ -236,7 +236,7 @@ public:
 	
 	void sort(bool (*compareFunc)(_type&, _type&))
 	{
-		quickSort(compareFunc, 0, mCount);
+		quickSort(compareFunc, 0, mCount - 1);
 	}
 
 	void sort()

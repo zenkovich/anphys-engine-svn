@@ -26,6 +26,7 @@ protected:
 public:
 	cImage();
 	cImage(Format format, const vec2i& size);
+	cImage(const string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
 	virtual ~cImage();
 
 	/** Creates image with specified format. */

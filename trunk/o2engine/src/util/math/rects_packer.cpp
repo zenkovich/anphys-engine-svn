@@ -55,7 +55,7 @@ bool cRectsPacker::pack()
 
 bool cRectsPacker::rectSizeCompare( rect*& a, rect*& b )
 {
-	return a->mSize.x*a->mSize.y > b->mSize.x*b->mSize.y;
+	return a->mSize.x*a->mSize.y < b->mSize.x*b->mSize.y;
 }
 
 CLOSE_O2_NAMESPACE
