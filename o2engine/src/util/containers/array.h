@@ -262,7 +262,7 @@ protected:
 			while ( compareFunc(mValues[i], pivot) )
 				i++;
 
-			while ( !compareFunc(mValues[j], pivot) )
+			while ( compareFunc(pivot, mValues[j])  )
 				j--;
 
 			if (i <= j)
