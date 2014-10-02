@@ -19,6 +19,9 @@ string convWide2String(const wstring& wide);
 /** Extracting path string from file path. Ex "folder/xx/yy.png" returns "folder/xx/". */
 string extractPath(const string& filePath);
 
+/** Extracting extension from file path. Ex "folder/xx/yy.png" returns "folder/xx/yy". */
+string extractExtension(const string& filePath);
+
 /** Returns true, if whatPath path is wherePath path. */
 bool isPathInsideOtherPath(const string& whatPath, const string& wherePath, bool strongly = false);
 
