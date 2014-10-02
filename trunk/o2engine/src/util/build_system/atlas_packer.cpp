@@ -30,6 +30,11 @@ void cAtlasPacker::packAtlas(cImageAtlasInfo* atlas)
 	}
 
 	mRectsPacker.pack();
+
+	foreach(imageContainer, mImages, img)
+		safe_release(img->mImage);
+
+	mImages.clear();
 }
 
 
@@ -41,11 +46,6 @@ cAtlasPacker::imageContainer::imageContainer():
 cAtlasPacker::imageContainer::imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo, cImage* image):
 	mRect(rect), mImageInfo(imageInfo), mImage(image)
 {
-}
-
-cAtlasPacker::imageContainer::~imageContainer()
-{
-	safe_release(mImage);
 }
 
 bool cAtlasPacker::imageContainer::operator==(const imageContainer& cc)

@@ -181,6 +181,7 @@ cBuildInfo::cBuildInfo()
 {
 	mBasicAtlas = mnew cImageAtlasInfo(this);
 	mBasicAtlas->setName("basic");
+	mBasicAtlas->mMaxSize = vec2f(2048, 2048);
 
 	mRootPath = mnew cBuildPathInfo();
 	mRootPath->attachAtlas(mBasicAtlas);

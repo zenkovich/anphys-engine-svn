@@ -22,7 +22,6 @@ protected:
 
 		imageContainer();
 		imageContainer(cRectsPacker::rect* rect, cBuildImageInfo* imageInfo, cImage* image);
-		~imageContainer();
 
 		bool operator==(const imageContainer& cc);
 	};
