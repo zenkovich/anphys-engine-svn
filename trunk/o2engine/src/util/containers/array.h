@@ -1,8 +1,10 @@
 #ifndef CONTAINER_ARRAY_H
 #define CONTAINER_ARRAY_H
 
-#include "util/containers/enumerable.h"
+#include "util/containers/container_interface.h"
 #include "util/assert.h"
+#include "util/mem_utils/memory_manager.h"
+#include "util/mem_utils/alloc_operators.h"
 
 OPEN_O2_NAMESPACE
 
@@ -19,14 +21,14 @@ public:
 		if (CONTAINERS_DEBUG)
 			o2assert(capacity > 0, "Can't initialize array with empty capacity");
 
-		mValues = new _type[capacity];
+		mValues = mnew _type[capacity];
 		mCapacity = capacity;
 		mCount = 0;
 	}
 
 	array(const array& arr)
 	{
-		mValues = new _type[arr.mCapacity];
+		mValues = mnew _type[arr.mCapacity];
 		mCapacity = arr.mCapacity;
 		mCount = arr.mCount;
 
@@ -108,13 +110,13 @@ public:
 		for (int i = 0; i < mCount; i++)
 			tmp[i] = mValues[i];
 
-		delete[] mValues;
+		safe_release_arr(mValues);
 		mValues = new _type[newCapacity];
 
 		for (int i = 0; i < mCount; i++)
-			tmp[i] = mValues[i];
+			mValues[i] = tmp[i];
 
-		delete[] tmp;
+		safe_release_arr(tmp);
 		mCapacity = newCapacity;
 	}
 

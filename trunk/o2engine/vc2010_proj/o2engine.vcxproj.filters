@@ -513,9 +513,6 @@
     <ClInclude Include="..\src\util\containers\array.h">
       <Filter>src\util\containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\containers\enumerable.h">
-      <Filter>src\util\containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\containers\pool.h">
       <Filter>src\util\containers</Filter>
     </ClInclude>
@@ -523,6 +520,12 @@
       <Filter>src\util\containers</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\containers\tree_interface.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\ienumerable">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\idictionary.h">
       <Filter>src\util\containers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -892,18 +895,6 @@
     </ClCompile>
     <ClCompile Include="..\src\util\math\rects_packer.cpp">
       <Filter>src\util\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\containers\array.cpp">
-      <Filter>src\util\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\containers\enumerable.cpp">
-      <Filter>src\util\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\containers\pool.cpp">
-      <Filter>src\util\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\containers\tree_interface.cpp">
-      <Filter>src\util\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\build_system\atlas_packer.cpp">
       <Filter>src\util\build_system</Filter>

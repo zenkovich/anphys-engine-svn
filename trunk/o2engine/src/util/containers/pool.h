@@ -22,7 +22,8 @@ public:
 	~pool()
 	{
 		for (int i = 0; i < mObjects.count(); i++)
-			delete mObjects[i];
+			safe_release(mObjects[i]);
+
 		mObjects.clear();
 	}
 
@@ -52,7 +53,7 @@ public:
 	void createObjects(int count)
 	{
 		for (int i = 0; i < count ; i++)
-			mObjects.add(new _type());
+			mObjects.add(mnew _type());
 	}
 };
 
