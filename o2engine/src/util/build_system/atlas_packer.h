@@ -26,9 +26,11 @@ protected:
 		bool operator==(const imageContainer& cc);
 	};
 
-	cBuildSystem*         mBuildSystem;
-	cRectsPacker          mRectsPacker;
-	array<imageContainer> mImages;
+	typedef array<imageContainer> ImagesArr;
+
+	cBuildSystem* mBuildSystem;
+	cRectsPacker  mRectsPacker;
+	ImagesArr     mImages;
 
 public:
 	cAtlasPacker(cBuildSystem* buildSystem);

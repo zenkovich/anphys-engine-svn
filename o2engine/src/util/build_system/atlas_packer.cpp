@@ -31,7 +31,7 @@ void cAtlasPacker::packAtlas(cImageAtlasInfo* atlas)
 
 	mRectsPacker.pack();
 
-	foreach(imageContainer, mImages, img)
+	foreach(ImagesArr, mImages, img)
 		safe_release(img->mImage);
 
 	mImages.clear();

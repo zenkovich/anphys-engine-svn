@@ -30,7 +30,7 @@ void cRectsPacker::removeRect(rect* remRect)
 
 void cRectsPacker::clear()
 {
-	foreach(rect*, mRects, rt)
+	foreach(RectsArr, mRects, rt)
 		mRectsPool.free(*rt);
 
 	mRects.clear();
@@ -48,14 +48,71 @@ vec2f cRectsPacker::getMaxSize() const
 
 bool cRectsPacker::pack()
 {
+	mQuadNodes.clear();
+
 	mRects.sort(&rectSizeCompare);
 
-	return false;
+	foreach(RectsArr, mRects, rt)
+		if (!insertRect(**rt))
+			return false;
+
+	return true;
 }
 
 bool cRectsPacker::rectSizeCompare( rect*& a, rect*& b )
 {
-	return a->mSize.x*a->mSize.y < b->mSize.x*b->mSize.y;
+	return a->mSize.x*a->mSize.y > b->mSize.x*b->mSize.y;
+}
+
+void cRectsPacker::createNewPage()
+{
+	int maxPage = -1;
+	foreach(RectsArr, mRects, rt)
+		maxPage = max(maxPage, (*rt)->mPage);
+
+	mQuadNodes.add( quadNode(maxPage + 1, fRect(vec2f(), mMaxSize)) );
+}
+
+bool cRectsPacker::insertRect(rect& rt)
+{
+	foreach(NodesArr, mQuadNodes, node)
+		if (tryInsertRect(rt, *node))
+			return true;
+
+	createNewPage();
+	
+	foreach(NodesArr, mQuadNodes, node)
+		if (tryInsertRect(rt, *node))
+			return true;
+
+	return false;
+}
+
+bool cRectsPacker::tryInsertRect(rect& rt, quadNode& node)
+{
+	if (node.mFree && node.mRect.getSizeX() >= rt.mSize.x && 
+		              node.mRect.getSizeY() >= rt.mSize.y)
+	{
+		vec2f leftTop = node.mRect.getltCorner();
+		vec2f center = leftTop + rt.mSize;
+		vec2f rightDown = node.mRect.getrdCorner();
+
+		node.mFree = false;
+		node.addChild(mnew quadNode(node.mPage, fRect(center.x, leftTop.y, rightDown.x, center.y)));
+		node.addChild(mnew quadNode(node.mPage, fRect(center.x, center.y,  rightDown.x, rightDown.y)));
+		node.addChild(mnew quadNode(node.mPage, fRect(leftTop.x, center.y,  center.x, rightDown.y)));
+
+		rt.mPage = node.mPage;
+		rt.mRect = fRect(leftTop, center);
+
+		return true;
+	}
+
+	foreach(quadNode::ChildArr, node.getChilds(), childNode)
+		if (tryInsertRect(rt, **childNode))
+			return true;
+
+	return false;
 }
 
 CLOSE_O2_NAMESPACE

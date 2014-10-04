@@ -178,9 +178,12 @@
     <ClInclude Include="..\src\util\build_system\nonbuild_files_builder.h" />
     <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\clipboard.h" />
+    <ClInclude Include="..\src\util\compare.h" />
     <ClInclude Include="..\src\util\containers\array.h" />
+    <ClInclude Include="..\src\util\containers\dictionary.h" />
     <ClInclude Include="..\src\util\containers\idictionary.h" />
-    <ClInclude Include="..\src\util\containers\ienumerable" />
+    <ClInclude Include="..\src\util\containers\iarray.h" />
+    <ClInclude Include="..\src\util\containers\pair.h" />
     <ClInclude Include="..\src\util\containers\pool.h" />
     <ClInclude Include="..\src\util\containers\tree_interface.h" />
     <ClInclude Include="..\src\util\containers\utils.h" />

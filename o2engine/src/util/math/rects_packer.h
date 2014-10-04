@@ -13,21 +13,40 @@ class cRectsPacker
 public:
 	struct rect
 	{
+		int   mPage;
 		fRect mRect;
 		vec2f mSize;
 
-		rect(const vec2f& size = vec2f()):mSize(size) {}
+		rect(const vec2f& size = vec2f()):mSize(size), mPage(-1) {}
 	};
+
+	typedef array< rect* > RectsArr;
 
 protected:
 	struct quadNode: public ITreeNode<quadNode>
 	{
 		fRect mRect;
-	};
+		int   mPage;
+		bool  mFree;
 
-	pool<rect>   mRectsPool;
-	array<rect*> mRects;
-	vec2f        mMaxSize;
+		quadNode(int page = 0, const fRect& rect = fRect()):mPage(page), mRect(rect), mFree(true) {}
+
+		void onChildAdded(quadNode* child) 
+		{
+			child->mPage = mPage;
+		}
+
+		bool operator==(const quadNode& other)
+		{
+			return mRect == other.mRect && mPage == other.mPage && mFree == other.mFree;
+		}
+	};
+	typedef array<quadNode> NodesArr;
+
+	pool<rect> mRectsPool;
+	RectsArr   mRects;
+	NodesArr   mQuadNodes;
+	vec2f      mMaxSize;
 
 public:
 	cRectsPacker(const vec2f&  maxSize = vec2f(512, 512));
@@ -43,6 +62,10 @@ public:
 	bool pack();
 
 protected:
+	bool insertRect(rect& rt);
+	bool tryInsertRect(rect& rt, quadNode& node);
+	void createNewPage();
+
 	static bool rectSizeCompare(rect*& a, rect*& b);
 };
 
