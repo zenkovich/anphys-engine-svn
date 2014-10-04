@@ -522,11 +522,20 @@
     <ClInclude Include="..\src\util\containers\tree_interface.h">
       <Filter>src\util\containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\containers\ienumerable">
-      <Filter>src\util\containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\containers\idictionary.h">
       <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\iarray.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\dictionary.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\containers\pair.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\compare.h">
+      <Filter>src\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
