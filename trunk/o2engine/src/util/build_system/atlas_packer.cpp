@@ -30,6 +30,14 @@ void cAtlasPacker::packAtlas(cImageAtlasInfo* atlas)
 	}
 
 	mRectsPacker.pack();
+	
+	cImage res(cImage::FMT_R8G8B8A8, atlas->mMaxSize);
+	res.fill(color4(0, 0, 0, 0));
+
+	foreach(ImagesArr, mImages, img)
+		res.copyImage(img->mImage, img->mRect->mRect.getltCorner());
+
+	res.save(mBuildSystem->getBuildAssetsPath() + "/atlas_" + atlas->getName() + ".png", cImage::IT_PNG);
 
 	foreach(ImagesArr, mImages, img)
 		safe_release(img->mImage);
