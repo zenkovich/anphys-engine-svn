@@ -11,7 +11,7 @@ cImage::cImage():
 }
 
 cImage::cImage( Format format, const vec2i& size ):
-	mFormat(format), mSize(size)
+	mFormat(format), mSize(size), mData(NULL)
 {
 	create(format, size);
 }
@@ -105,6 +105,39 @@ const unsigned char* cImage::getDataConst() const
 const string& cImage::getFilename() const
 {
 	return mFilename;
+}
+
+void cImage::copyImage( cImage* img, const vec2i& position /*= vec2f()*/ )
+{
+	if (mFormat != img->mFormat)
+		return;
+
+	int pixelSize = 4;
+
+	for (int x = 0; x < img->mSize.x; x++)
+	{
+		if (x + position.x >= mSize.x)
+			break;
+
+		for (int y = 0; y < img->mSize.y; y++)
+		{
+			if (y + position.y >= mSize.y)
+				break;
+
+			uint32 srcIdx = (img->mSize.y - y - 1)*img->mSize.x + x;
+			uint32 dstIdx = (mSize.y - 1 - (y + position.y))*mSize.x + x + position.x;
+
+			unsigned long colr = color4::blue().dword();
+			memcpy(mData + dstIdx*pixelSize, img->mData + srcIdx*pixelSize, pixelSize);
+		}
+	}
+}
+
+void cImage::fill( const color4& color )
+{
+	unsigned long colrDw = color.dword();
+	for (int x = 0; x < mSize.x*mSize.y; x++)
+		memcpy(mData + x*4, &colrDw, 4);
 }
 
 CLOSE_O2_NAMESPACE

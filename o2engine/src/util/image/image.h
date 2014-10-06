@@ -55,6 +55,12 @@ public:
 
 	/** Return file name. */
 	const string& getFilename() const;
+
+	/** Copy image to position. */
+	void copyImage(cImage* img, const vec2i& position = vec2i());
+
+	/** Fill image with color. */
+	void fill(const color4& color);
 };
 
 CLOSE_O2_NAMESPACE
