@@ -115,4 +115,15 @@ bool cRectsPacker::tryInsertRect(rect& rt, quadNode& node)
 	return false;
 }
 
+
+void cRectsPacker::quadNode::onChildAdded(quadNode* child)
+{
+	child->mPage = mPage;
+}
+
+bool cRectsPacker::quadNode::operator==(const quadNode& other)
+{
+	return mRect == other.mRect && mPage == other.mPage && mFree == other.mFree;
+}
+
 CLOSE_O2_NAMESPACE
