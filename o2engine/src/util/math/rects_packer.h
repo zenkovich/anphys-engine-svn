@@ -31,15 +31,9 @@ protected:
 
 		quadNode(int page = 0, const fRect& rect = fRect()):mPage(page), mRect(rect), mFree(true) {}
 
-		void onChildAdded(quadNode* child) 
-		{
-			child->mPage = mPage;
-		}
+		void onChildAdded(quadNode* child);
 
-		bool operator==(const quadNode& other)
-		{
-			return mRect == other.mRect && mPage == other.mPage && mFree == other.mFree;
-		}
+		bool operator==(const quadNode& other);
 	};
 	typedef array<quadNode> NodesArr;
 
