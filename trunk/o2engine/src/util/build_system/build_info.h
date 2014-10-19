@@ -28,7 +28,7 @@ struct cBuildFileInfo: public cSerializable
 	virtual cBuildFileInfo* clone() const;
 	SERIALIZBLE_METHODS(cBuildFileInfo);
 };
-typedef vector<cBuildFileInfo*> BuildFileInfoVec;
+typedef array<cBuildFileInfo*> BuildFileInfoArr;
 
 /** Build image file info. Inherites from cBuildFileInfo and contains atlas, where that image positioning. */
 struct cBuildImageInfo: public cBuildFileInfo
@@ -60,7 +60,7 @@ public:
 	SERIALIZBLE_INHERITED_METHODS(cBuildImageInfo, cBuildFileInfo);
 	virtual cBuildFileInfo* clone() const;
 };
-typedef vector<cBuildImageInfo*> BuildImageInfoVec;
+typedef array<cBuildImageInfo*> BuildImageInfoArr;
 
 /** Build path info. Contains link to attached atlas and filed inside that path. */
 struct cBuildPathInfo: public cBuildFileInfo
@@ -73,7 +73,7 @@ protected:
 	cImageAtlasInfo* mAttachedAtlas;     /** Attached atlas pointer. */
 
 public:
-	BuildFileInfoVec mFiles;             /** Files inside path. */
+	BuildFileInfoArr mFiles;             /** Files inside path. */
 
 	cBuildPathInfo();
 	cBuildPathInfo(const cBuildPathInfo& info);
@@ -86,10 +86,10 @@ public:
 	cImageAtlasInfo* getAttachedAtlas() const;
 
 	/** Returns all inside files and paths. */
-	BuildFileInfoVec getAllInsideFiles() const;
+	BuildFileInfoArr getAllInsideFiles() const;
 
 	/** Updates inside files array from files. */
-	void updateInsideFiles(BuildFileInfoVec& files);
+	void updateInsideFiles(BuildFileInfoArr& files);
 
 	SERIALIZBLE_INHERITED_METHODS(cBuildPathInfo, cBuildFileInfo);
 	virtual cBuildFileInfo* clone() const;
@@ -104,11 +104,11 @@ class cBuildInfo: public cSerializable
 	friend class cAtlasesBuildingStage;
 
 public:
-	typedef vector<cImageAtlasInfo*> AtlasesVec;
+	typedef array<cImageAtlasInfo*> AtlasesArr;
 
 private:
-	BuildFileInfoVec mFileInfos;  /** Files infos. */
-	AtlasesVec       mAtlases;    /** Atlases. */
+	BuildFileInfoArr mFileInfos;  /** Files infos. */
+	AtlasesArr       mAtlases;    /** Atlases. */
 	cImageAtlasInfo* mBasicAtlas; /** Basic atlas, attached to root path. */
 	cBuildPathInfo*  mRootPath;   /** Root path info. */
 

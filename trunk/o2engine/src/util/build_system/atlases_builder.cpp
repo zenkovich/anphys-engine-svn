@@ -96,7 +96,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* confAtlas, cImageAtlasI
 	else
 	{
 		infoAtlas->clear();
-		FOREACH(BuildImageInfoVec, confAtlas->mImages, confImgIt)
+		FOREACH(BuildImageInfoArr, confAtlas->mImages, confImgIt)
 		{
 			cBuildImageInfo* image = static_cast<cBuildImageInfo*>(buildInfo->getFile((*confImgIt)->mLocation));
 			infoAtlas->addImage( image );

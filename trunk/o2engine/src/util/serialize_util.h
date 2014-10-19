@@ -243,6 +243,87 @@ public:
 			
 		return true;
 	}
+	
+	/** Saving data from object to xml node. */
+	template<typename T>
+	bool serialize(array<T>& arr, const string& id, bool errors = true)
+	{
+		if (mType == ST_SERIALIZE)
+		{
+			createNode(id);
+
+			mCurrentNode.append_attribute("count") = arr.size();
+			for (int i = 0; i < (int)arr.count(); i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				T* arrElem = &(arr[i]);
+				serialize(arrElem, elemNodeName, errors);
+			}
+
+			popNode();
+			return true;
+		}
+		else
+		{
+			if (!getNode(id, errors))
+				return false;
+			
+			arr.clear();
+			int srCount = mCurrentNode.attribute("count").as_int();
+			for (int i = 0; i < srCount; i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				array.push_back(T());
+				T* elemPtr = &arr.back();
+				serialize(elemPtr, elemNodeName, errors);
+			}
+
+			popNode();
+		}
+			
+		return true;
+	}
+	
+	/** Saving data from object to xml node. */
+	template<typename T>
+	bool serialize(array<T*>& arr, const string& id, bool errors = true)
+	{
+		if (mType == ST_SERIALIZE)
+		{
+			createNode(id);
+
+			mCurrentNode.append_attribute("count") = arr.count();
+			for (int i = 0; i < (int)arr.count(); i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				T* elem = arr[i];
+				serialize(elem, elemNodeName, errors);
+			}
+
+			popNode();
+			return true;
+		}
+		else
+		{
+			if (!getNode(id, errors))
+				return false;
+			
+			arr.clear();
+			int srCount = mCurrentNode.attribute("count").as_int();
+			for (int i = 0; i < srCount; i++)
+			{
+				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
+				string type = mCurrentNode.child(elemNodeName).attribute("type").value();
+				T* elem = static_cast<T*>(createSerializableSample(type));
+				serialize(elem, elemNodeName, errors);
+				arr.add(elem);
+			}
+
+			popNode();
+		}
+			
+		return true;
+	}
 
 private:
 	static cSerializable* createSerializableSample(const string& type);

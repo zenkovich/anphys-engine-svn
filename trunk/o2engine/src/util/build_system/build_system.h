@@ -27,19 +27,19 @@ public:
 		virtual void process() = 0;
 	};
 
-	typedef vector<cBuildConfig*> BuildConfigsVec;
-	typedef vector<IBuildStage*> BuildStagesVec;
+	typedef array<cBuildConfig*> BuildConfigsArr;
+	typedef array<IBuildStage*> BuildStagesArr;
 
 protected:
 	string           mProjectName;
 	string           mProjectPath;
 	string           mAtlasesPath;
-	BuildConfigsVec  mBuildConfigs;
+	BuildConfigsArr  mBuildConfigs;
 	cBuildConfig*    mActiveBuildConfig;
 	cBuildInfo*      mBuildInfo;
 	bool             mReady;
 
-	BuildStagesVec   mBuildStages;
+	BuildStagesArr   mBuildStages;
 
 public:
 	cBuildSystem(const string& projectPath);
@@ -67,8 +67,8 @@ private:
 	void loadBuildInfo(bool errors = false);
 
 	void updateBuildConfig();
-	void gatherAssetsFileInfos(BuildFileInfoVec& filesMeta);
-	void gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoVec& filesMeta);
+	void gatherAssetsFileInfos(BuildFileInfoArr& filesMeta);
+	void gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoArr& filesMeta);
 	cBuildFileInfo* createBuildFileInfo(const cFileInfo& fileInfo);
 	cBuildFileInfo* createBuildFileMeta(const cPathInfo& pathinfo);
 	void loadFileMeta(cBuildFileInfo* info, const string& pathPrefix = "");
