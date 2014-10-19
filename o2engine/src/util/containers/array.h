@@ -54,9 +54,9 @@ public:
 
 	bool contains(const _type& value) const;
 
-	void remove(int idx);
+	bool remove(int idx);
 
-	void removeRange(int begin, int end);
+	bool removeRange(int begin, int end);
 
 	bool remove(const _type& value);
 
@@ -279,25 +279,24 @@ bool array<_type>::contains(const _type& value) const
 }
 
 template<typename _type>
-void array<_type>::remove(int idx)
+bool array<_type>::remove(int idx)
 {
-	if (CONTAINERS_DEBUG)
-		o2assert(idx >= 0 || idx < mCount ,"Can't remove element: index out of range");
+	if (idx < 0 || idx >= mCount)
+		return false;
 
 	for (int i = idx; i < mCount - 1; i++)
 		mValues[i] = mValues[i + 1];
 
 	mCount--;
+
+	return true;
 }
 
 template<typename _type>
-void array<_type>::removeRange(int begin, int end)
+bool array<_type>::removeRange(int begin, int end)
 {
-	if (CONTAINERS_DEBUG)
-	{
-		o2assert(begin >= 0 || begin < mCount || end >= 0 || end < mCount || end < begin, 
-			"Can't remove elements: indexes out of range");
-	}
+	if (begin < 0 || end < 0 || begin >= mCount || end >= mCount || begin > end)
+		return false;
 
 	int diff = end - begin;
 
@@ -305,6 +304,8 @@ void array<_type>::removeRange(int begin, int end)
 		mValues[i] = mValues[i + diff];
 
 	mCount -= diff;
+
+	return true;
 }
 
 template<typename _type>

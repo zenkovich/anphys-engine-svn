@@ -15,10 +15,10 @@ void cNonBuildFilesBuildStage::process()
 	StringsVec removingPaths;
 
 	//search removed and changed files
-	FOREACH(BuildFileInfoVec, buildInfo->mFileInfos, fileInfIt) 
+	FOREACH(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt) 
 	{
 		bool removed = true;
-		FOREACH(BuildFileInfoVec, buildConfig->mFileInfos, fileConfIt)
+		FOREACH(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
 		{
 			if ((*fileInfIt)->mLocation == (*fileConfIt)->mLocation)
 			{
@@ -43,19 +43,15 @@ void cNonBuildFilesBuildStage::process()
 	FOREACH(StringsVec, removingPaths, pathIt)
 		getFileSystem().removeDirectory((*pathIt));
 
-	for (BuildFileInfoVec::iterator it = buildInfo->mFileInfos.begin(); it != buildInfo->mFileInfos.end();)
-	{
+	foreach(BuildFileInfoArr, buildInfo->mFileInfos, it)
 		if (*it == NULL)
-			it = buildInfo->mFileInfos.erase(it);
-		else
-			++it;
-	}
+			buildInfo->mFileInfos.remove(it);
 
 	//search new files
-	FOREACH(BuildFileInfoVec, buildConfig->mFileInfos, fileConfIt)
+	FOREACH(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
 	{
 		bool newFile = true;
-		FOREACH(BuildFileInfoVec, buildInfo->mFileInfos, fileInfIt)
+		FOREACH(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt)
 		{
 			if ((*fileInfIt)->mLocation == (*fileConfIt)->mLocation)
 				newFile = false;

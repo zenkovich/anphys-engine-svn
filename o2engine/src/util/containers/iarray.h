@@ -64,11 +64,13 @@ public:
 
 	virtual _type& insert(const _type& value, int position) = 0;
 
-	virtual void remove(int idx) = 0;
+	virtual bool remove(int idx) = 0;
 
-	virtual void removeRange(int begin, int end) = 0;
+	virtual bool removeRange(int begin, int end) = 0;
 
 	virtual bool remove(const _type& value) = 0;
+
+	virtual bool remove(const iterator& it);
 
 	virtual void clear() = 0;
 
@@ -86,11 +88,10 @@ public:
 
 	virtual bool isEmpty() const;
 
-	virtual iterator begin();
+	virtual iterator begin() const;
 
-	virtual iterator end();
+	virtual iterator end() const;
 };
-
 
 //implementation IEnumerable::iterator
 
@@ -233,6 +234,13 @@ _type& IArray<_type>::iterator::value()
 
 //implementation IEnumerable
 template<typename _type>
+bool IArray<_type>::remove( const iterator& it )
+{
+	return remove(it.index());
+}
+
+
+template<typename _type>
 _type& IArray<_type>::first()
 {
 	return get(0);
@@ -245,13 +253,13 @@ _type& IArray<_type>::last()
 }
 
 template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::begin()
+typename IArray<_type>::iterator IArray<_type>::begin() const
 {
 	return iterator(this, 0);
 }
 
 template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::end()
+typename IArray<_type>::iterator IArray<_type>::end() const
 {
 	return iterator(this, count() - 1);
 }

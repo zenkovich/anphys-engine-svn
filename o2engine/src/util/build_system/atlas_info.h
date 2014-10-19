@@ -21,7 +21,7 @@ protected:
 
 public:
 	vec2f             mMaxSize;       /** Max atlas size. */
-	BuildImageInfoVec mImages;        /** Images array. */
+	BuildImageInfoArr mImages;        /** Images array. */
 
 public:
 	/** ctor. */

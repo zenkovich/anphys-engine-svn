@@ -12,7 +12,7 @@ class cAtlasesBuildingStage: cBuildSystem::IBuildStage
 {
 	friend class cBuildSystem;
 
-	typedef cBuildInfo::AtlasesVec AtlasesVec;
+	typedef cBuildInfo::AtlasesArr AtlasesVec;
 
 	AtlasesVec    mRebuildingAtlases;
 	cAtlasPacker* mAtlasPacker;
