@@ -181,7 +181,7 @@ void cBuildSystem::updateBuildConfig()
 	hlog("Searching removed files:");
 
 	//search removed files
-	for(BuildFileInfoArr::iterator metaIt = mActiveBuildConfig->mFileInfos.begin(); metaIt != mActiveBuildConfig->mFileInfos.end();)
+	foreach(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, metaIt)
 	{
 		hlog("Processing asset: %s ...", (*metaIt)->mLocation.mPath.c_str());
 
@@ -200,7 +200,7 @@ void cBuildSystem::updateBuildConfig()
 			hlog("Removed!");
 
 			safe_release(*metaIt);
-			metaIt = mActiveBuildConfig->mFileInfos.erase(metaIt);
+			mActiveBuildConfig->mFileInfos.remove(metaIt);
 		}
 		else metaIt++;
 	}
@@ -270,12 +270,12 @@ void cBuildSystem::gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFil
 		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
 			continue;
 
-		filesMeta.push_back(createBuildFileInfo(*fileInfo));
+		filesMeta.add(createBuildFileInfo(*fileInfo));
 	}
 
 	FOREACH(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
 	{
-		filesMeta.push_back(createBuildFileMeta(*pathInfoIt));
+		filesMeta.add(createBuildFileMeta(*pathInfoIt));
 		gatherAssetsFileInfosFromFolder(*pathInfoIt, filesMeta);
 	}
 }

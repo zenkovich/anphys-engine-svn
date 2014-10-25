@@ -180,6 +180,7 @@
     <ClInclude Include="..\src\util\clipboard.h" />
     <ClInclude Include="..\src\util\compare.h" />
     <ClInclude Include="..\src\util\containers\array.h" />
+    <ClInclude Include="..\src\util\containers\containers_test.h" />
     <ClInclude Include="..\src\util\containers\dictionary.h" />
     <ClInclude Include="..\src\util\containers\idictionary.h" />
     <ClInclude Include="..\src\util\containers\iarray.h" />
@@ -329,6 +330,7 @@
     <ClCompile Include="..\src\util\build_system\build_system.cpp" />
     <ClCompile Include="..\src\util\build_system\nonbuild_files_builder.cpp" />
     <ClCompile Include="..\src\util\clipboard.cpp" />
+    <ClCompile Include="..\src\util\containers\containers_test.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />
     <ClCompile Include="..\src\util\file_system\file_info.cpp" />
     <ClCompile Include="..\src\util\file_system\file_system.cpp" />

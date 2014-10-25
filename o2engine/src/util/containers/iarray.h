@@ -13,41 +13,6 @@ template<typename _type>
 class IArray
 {
 public:
-	/** Array iterator. */
-	class iterator
-	{
-		IArray* mArray;
-		int     mIndex;
-
-	public:
-		iterator(IArray* arr = NULL, int index = 0);
-
-		int       index() const;
-		_type&    value();
-
-		iterator operator+(int offs);
-		iterator operator-(int offs);
-
-		iterator& operator++();
-        iterator operator++(int);
-		iterator& operator--();
-        iterator operator--(int);
-
-		iterator operator+=(int offs);	
-		iterator operator-=(int offs);
-
-		bool operator>(const iterator& itr);
-		bool operator<(const iterator& itr);
-		bool operator>=(const iterator& itr);
-		bool operator<=(const iterator& itr);
-
-		operator bool();
-
-		_type* operator->();
-		_type& operator*();
-	};
-
-public:
 	virtual IArray* clone() const = 0;
 
 	virtual _type& get(int idx) const = 0;
@@ -70,8 +35,6 @@ public:
 
 	virtual bool remove(const _type& value) = 0;
 
-	virtual bool remove(const iterator& it);
-
 	virtual void clear() = 0;
 
 	virtual bool contains(const _type& value) const = 0;
@@ -87,157 +50,7 @@ public:
 	virtual _type& last();
 
 	virtual bool isEmpty() const;
-
-	virtual iterator begin() const;
-
-	virtual iterator end() const;
 };
-
-//implementation IEnumerable::iterator
-
-template<typename _type>
-IArray<_type>::iterator::iterator(IArray<_type>* arr = NULL, int index = 0) :
-	mArray(arr), mIndex(index)
-{
-}
-	
-template<typename _type>
-int IArray<_type>::iterator::index() const
-{
-	return mIndex;
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator+(int offs)
-{
-	return iterator(mArray, mIndex + offs);
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator-(int offs)
-{
-	return iterator(mArray, mIndex - offs);
-}
-
-template<typename _type>
-typename IArray<_type>::iterator& IArray<_type>::iterator::operator++() // ++A;
-{
-	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-	return *this ;
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator++(int) // A++;
-{
-	iterator temp = *this;
-
-	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-	return temp ;
-}
-
-template<typename _type>
-typename IArray<_type>::iterator& IArray<_type>::iterator::operator--() // --A;
-{
-	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-	return *this ;
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator--(int) // A--;		
-{
-	iterator temp = *this;
-
-	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
-	return temp ;
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator+=(int offs)
-{
-	*this = *this + offs; 
-	return *this;
-}	
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::iterator::operator-=(int offs)
-{
-	*this = *this - offs; 
-	return *this;
-}	
-
-template<typename _type>
-bool IArray<_type>::iterator::operator>(const iterator& itr)
-{
-	return mIndex > itr->mIndex;
-}
-
-template<typename _type>
-bool IArray<_type>::iterator::operator<(const iterator& itr)
-{
-	return mIndex < itr->mIndex;
-}
-
-template<typename _type>
-bool IArray<_type>::iterator::operator>=(const iterator& itr)
-{
-	return mIndex >= itr->mIndex;
-}
-
-template<typename _type>
-bool IArray<_type>::iterator::operator<=(const iterator& itr)
-{
-	return mIndex <= itr->mIndex;
-}
-
-template<typename _type>
-IArray<_type>::iterator::operator bool()
-{
-	return mIndex >= 0 && mIndex < mArray->count();
-}
-
-template<typename _type>
-_type* IArray<_type>::iterator::operator->()
-{
-	return &value();
-}
-
-template<typename _type>
-_type& IArray<_type>::iterator::operator*()
-{
-	return value();
-}
-
-template<typename _type>
-_type& IArray<_type>::iterator::value() 
-{
-	if (CONTAINERS_DEBUG)
-		o2assert(mArray && mIndex >= 0 && mIndex < mArray->count(), "Failed to get value iterator: index out of range"); 
-
-	return mArray->get(mIndex);
-}
-
-//implementation IEnumerable
-template<typename _type>
-bool IArray<_type>::remove( const iterator& it )
-{
-	return remove(it.index());
-}
 
 
 template<typename _type>
@@ -250,18 +63,6 @@ template<typename _type>
 _type& IArray<_type>::last()
 {
 	return get(count() - 1);
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::begin() const
-{
-	return iterator(this, 0);
-}
-
-template<typename _type>
-typename IArray<_type>::iterator IArray<_type>::end() const
-{
-	return iterator(this, count() - 1);
 }
 
 template<typename _type>

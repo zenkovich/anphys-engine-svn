@@ -537,6 +537,9 @@
     <ClInclude Include="..\src\util\compare.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\containers\containers_test.h">
+      <Filter>src\util\containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -907,6 +910,9 @@
     </ClCompile>
     <ClCompile Include="..\src\util\build_system\atlas_packer.cpp">
       <Filter>src\util\build_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\containers\containers_test.cpp">
+      <Filter>src\util\containers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
