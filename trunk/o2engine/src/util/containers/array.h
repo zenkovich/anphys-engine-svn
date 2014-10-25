@@ -11,6 +11,76 @@ OPEN_O2_NAMESPACE
 template<typename _type>
 class array: public IArray<_type>
 {
+public:
+	/** Array iterator. */
+	class iterator
+	{
+		array* mArray;
+		int    mIndex;
+
+	public:
+		iterator(array* arr = NULL, int index = 0);
+
+		int       index() const;
+		_type&    value();
+
+		iterator operator+(int offs);
+		iterator operator-(int offs);
+
+		iterator& operator++();
+        iterator operator++(int);
+		iterator& operator--();
+        iterator operator--(int);
+
+		iterator operator+=(int offs);	
+		iterator operator-=(int offs);
+
+		bool operator>(const iterator& itr);
+		bool operator<(const iterator& itr);
+		bool operator>=(const iterator& itr);
+		bool operator<=(const iterator& itr);
+
+		operator bool();
+
+		_type* operator->();
+		_type& operator*();
+	};
+	
+	/** Array const iterator. */
+	class citerator
+	{
+		const array* const mArray;
+		int    mIndex;
+
+	public:
+		citerator(const array* const arr = NULL, int index = 0);
+
+		int          index() const;
+		const _type& value() const;
+		
+		citerator operator+(int offs);
+		citerator operator-(int offs);
+		
+		citerator& operator++();
+        citerator operator++(int);
+		citerator& operator--();
+        citerator operator--(int);
+		
+		citerator operator+=(int offs);	
+		citerator operator-=(int offs);
+
+		bool operator>(const citerator& itr);
+		bool operator<(const citerator& itr);
+		bool operator>=(const citerator& itr);
+		bool operator<=(const citerator& itr);
+
+		operator bool() const;
+
+		const _type* const operator->();
+		const _type&       operator*();
+	};
+
+protected:
 	(_type*) mValues;
 	int      mCount;
 	int      mCapacity;
@@ -60,9 +130,19 @@ public:
 
 	bool remove(const _type& value);
 
+	bool remove(const iterator& it);
+
 	void clear();
 	
 	void sort(bool (*compareFunc)(_type&, _type&) = &stdCompareLess);
+
+	iterator begin();
+
+	iterator end();
+	
+	citerator cbegin() const;
+	
+	citerator cend() const;
 
 protected:
 	int getReservingSize(int size);
@@ -70,7 +150,285 @@ protected:
 	void quickSort(bool (*compareFunc)(_type&, _type&), int left, int right);
 };
 
-//implementation
+//implementation array::iterator
+template<typename _type>
+array<_type>::iterator::iterator(array<_type>* arr = NULL, int index = 0) :
+	mArray(arr), mIndex(index)
+{
+}
+	
+template<typename _type>
+int array<_type>::iterator::index() const
+{
+	return mIndex;
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator+(int offs)
+{
+	return iterator(mArray, mIndex + offs);
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator-(int offs)
+{
+	return iterator(mArray, mIndex - offs);
+}
+
+template<typename _type>
+typename array<_type>::iterator& array<_type>::iterator::operator++() // ++A;
+{
+	mIndex++;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return *this ;
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator++(int) // A++;
+{
+	iterator temp = *this;
+
+	mIndex++;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return temp ;
+}
+
+template<typename _type>
+typename array<_type>::iterator& array<_type>::iterator::operator--() // --A;
+{
+	mIndex--;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return *this ;
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator--(int) // A--;		
+{
+	iterator temp = *this;
+
+	mIndex--;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return temp ;
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator+=(int offs)
+{
+	*this = *this + offs; 
+	return *this;
+}	
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::iterator::operator-=(int offs)
+{
+	*this = *this - offs; 
+	return *this;
+}	
+
+template<typename _type>
+bool array<_type>::iterator::operator>(const iterator& itr)
+{
+	return mIndex > itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::iterator::operator<(const iterator& itr)
+{
+	return mIndex < itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::iterator::operator>=(const iterator& itr)
+{
+	return mIndex >= itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::iterator::operator<=(const iterator& itr)
+{
+	return mIndex <= itr->mIndex;
+}
+
+template<typename _type>
+array<_type>::iterator::operator bool()
+{
+	return mIndex >= 0 && mIndex < mArray->count();
+}
+
+template<typename _type>
+_type* array<_type>::iterator::operator->()
+{
+	return &value();
+}
+
+template<typename _type>
+_type& array<_type>::iterator::operator*()
+{
+	return value();
+}
+
+template<typename _type>
+_type& array<_type>::iterator::value() 
+{
+	if (CONTAINERS_DEBUG)
+		o2assert(mArray && mIndex >= 0 && mIndex < mArray->count(), "Failed to get value iterator: index out of range"); 
+
+	return mArray->get(mIndex);
+}
+
+
+//implementation array::citerator
+template<typename _type>
+array<_type>::citerator::citerator(const array<_type>* const arr = NULL, int index = 0) :
+	mArray(arr), mIndex(index)
+{
+}
+	
+template<typename _type>
+int array<_type>::citerator::index() const
+{
+	return mIndex;
+}
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator+(int offs)
+{
+	return citerator(mArray, mIndex + offs);
+}
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator-(int offs)
+{
+	return citerator(mArray, mIndex - offs);
+}
+
+template<typename _type>
+typename array<_type>::citerator& array<_type>::citerator::operator++() // ++A;
+{
+	mIndex++;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return *this ;
+}
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator++(int) // A++;
+{
+	iterator temp = *this;
+
+	mIndex++;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return temp ;
+}
+
+template<typename _type>
+typename array<_type>::citerator& array<_type>::citerator::operator--() // --A;
+{
+	mIndex--;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return *this ;
+}
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator--(int) // A--;		
+{
+	citerator temp = *this;
+
+	mIndex--;
+
+//  if (CONTAINERS_DEBUG)
+//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
+
+	return temp ;
+}
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator+=(int offs)
+{
+	*this = *this + offs; 
+	return *this;
+}	
+
+template<typename _type>
+typename array<_type>::citerator array<_type>::citerator::operator-=(int offs)
+{
+	*this = *this - offs; 
+	return *this;
+}	
+
+template<typename _type>
+bool array<_type>::citerator::operator>(const citerator& itr)
+{
+	return mIndex > itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::citerator::operator<(const citerator& itr)
+{
+	return mIndex < itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::citerator::operator>=(const citerator& itr)
+{
+	return mIndex >= itr->mIndex;
+}
+
+template<typename _type>
+bool array<_type>::citerator::operator<=(const citerator& itr)
+{
+	return mIndex <= itr->mIndex;
+}
+
+template<typename _type>
+array<_type>::citerator::operator bool() const
+{
+	return mIndex >= 0 && mIndex < mArray->count();
+}
+
+template<typename _type>
+const _type* const array<_type>::citerator::operator->()
+{
+	return &value();
+}
+
+template<typename _type>
+const _type& array<_type>::citerator::operator*()
+{
+	return value();
+}
+
+template<typename _type>
+const _type& array<_type>::citerator::value() const
+{
+	if (CONTAINERS_DEBUG)
+		o2assert(mArray && mIndex >= 0 && mIndex < mArray->count(), "Failed to get value iterator: index out of range"); 
+
+	return mArray->get(mIndex);
+}
+
+
+//implementation array
 template<typename _type>
 array<_type>::array(int capacity = 5)
 {
@@ -320,6 +678,12 @@ bool array<_type>::remove(const _type& value)
 }
 
 template<typename _type>
+bool array<_type>::remove( const iterator& it )
+{
+	return remove(it.index());
+}
+
+template<typename _type>
 void array<_type>::clear()
 {
 	mCount = 0;
@@ -370,6 +734,29 @@ void array<_type>::quickSort(bool (*compareFunc)(_type&, _type&), int left, int 
 		quickSort(compareFunc, i, right);
 }
 
+template<typename _type>
+typename array<_type>::iterator array<_type>::begin()
+{
+	return iterator(this, 0);
+}
+
+template<typename _type>
+typename array<_type>::iterator array<_type>::end()
+{
+	return iterator(this, count() - 1);
+}
+	
+template<typename _type>
+typename array<_type>::citerator array<_type>::cbegin() const
+{
+	return citerator(this, 0);
+}
+	
+template<typename _type>
+typename array<_type>::citerator array<_type>::cend() const
+{
+	return citerator(this, count() - 1);
+}
 
 CLOSE_O2_NAMESPACE
 

@@ -105,7 +105,7 @@ cBuildFileInfo* cBuildPathInfo::clone() const
 BuildFileInfoArr cBuildPathInfo::getAllInsideFiles() const
 {
 	BuildFileInfoArr res;
-	foreach(BuildFileInfoArr, mFiles, file) 
+	foreach_const(BuildFileInfoArr, mFiles, file) 
 	{
 		res.add(*file);
 
@@ -151,7 +151,7 @@ void cBuildPathInfo::updateInsideFiles(BuildFileInfoArr& files)
 	mFiles.clear();
 
 	int locLength = mLocation.mPath.length();
-	FOREACH(BuildFileInfoArr, files, file)
+	foreach(BuildFileInfoArr, files, file)
 	{
 		if (*file == this)
 			continue;
@@ -167,7 +167,7 @@ void cBuildPathInfo::updateInsideFiles(BuildFileInfoArr& files)
 		if (delRightIdx != string::npos && delRightIdx > locLength)
 			continue;*/
 
-		mFiles.push_back(*file);
+		mFiles.add(*file);
 	}
 }
 
@@ -197,29 +197,29 @@ cBuildInfo::~cBuildInfo()
 
 void cBuildInfo::addFile(cBuildFileInfo* info)
 {
-	mFileInfos.push_back(info);
+	mFileInfos.add(info);
 
-	FOREACH(BuildFileInfoArr, mFileInfos, fileIt)
+	foreach(BuildFileInfoArr, mFileInfos, fileIt)
 	{
 		if ((*fileIt)->mType == cBuildFileInfo::MT_FOLDER)
 		{
 			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*fileIt);
 			if (isPathInsideOtherPath(info->mLocation.mPath, path->mLocation.mPath, true))
-				path->mFiles.push_back(info);
+				path->mFiles.add(info);
 		}
 	}
 
 	if (isPathInsideOtherPath(info->mLocation.mPath, mRootPath->mLocation.mPath, true))
-		mRootPath->mFiles.push_back(info);
+		mRootPath->mFiles.add(info);
 }
 
 void cBuildInfo::removeFile(cBuildFileInfo* info)
 {
-	FOREACH(BuildFileInfoArr, mFileInfos, metaIt)
+	foreach(BuildFileInfoArr, mFileInfos, metaIt)
 	{
 		if (info->mLocation == (*metaIt)->mLocation)
 		{
-			mFileInfos.erase(metaIt);
+			mFileInfos.remove(metaIt);
 			safe_release(info);
 			return;
 		}
@@ -228,7 +228,7 @@ void cBuildInfo::removeFile(cBuildFileInfo* info)
 
 cBuildFileInfo* cBuildInfo::getFile(uint32 id) const
 {
-	FOREACH_CONST(BuildFileInfoArr, mFileInfos, metaIt)
+	foreach_const(BuildFileInfoArr, mFileInfos, metaIt)
 	{
 		if (id == (*metaIt)->mLocation.mId)
 			return *metaIt;
@@ -242,7 +242,7 @@ cBuildFileInfo* cBuildInfo::getFile(const cFileLocation& location) const
 	if (location == cFileLocation())
 		return mRootPath;
 
-	FOREACH_CONST(BuildFileInfoArr, mFileInfos, metaIt)
+	foreach_const(BuildFileInfoArr, mFileInfos, metaIt)
 	{
 		if (location == (*metaIt)->mLocation)
 			return *metaIt;
@@ -263,7 +263,7 @@ SERIALIZE_METHOD_IMPL(cBuildInfo)
 void cBuildInfo::onDeserialized()
 {
 	//restore image<->atlas links
-	FOREACH(BuildFileInfoArr, mFileInfos, file)
+	foreach(BuildFileInfoArr, mFileInfos, file)
 	{
 		if ((*file)->mType == cBuildFileInfo::MT_IMAGE)
 		{
@@ -273,7 +273,7 @@ void cBuildInfo::onDeserialized()
 	}
 
 	//get folders files
-	FOREACH(BuildFileInfoArr, mFileInfos, file)
+	foreach(BuildFileInfoArr, mFileInfos, file)
 	{
 		if ((*file)->mType == cBuildFileInfo::MT_FOLDER)
 		{
@@ -285,7 +285,7 @@ void cBuildInfo::onDeserialized()
 	updateRootPathFiles();
 
 	//restore path<->atlas links
-	FOREACH(BuildFileInfoArr, mFileInfos, file)
+	foreach(BuildFileInfoArr, mFileInfos, file)
 	{
 		if ((*file)->mType == cBuildFileInfo::MT_FOLDER)
 		{
@@ -295,7 +295,7 @@ void cBuildInfo::onDeserialized()
 	}
 
 	//attach atlases owner to this
-	FOREACH(AtlasesArr, mAtlases, atlasIt)
+	foreach(AtlasesArr, mAtlases, atlasIt)
 		(*atlasIt)->mOwnerBuildInfo = this;
 
 	mBasicAtlas->mOwnerBuildInfo = this;
@@ -306,7 +306,7 @@ cImageAtlasInfo* cBuildInfo::addAtlas( const string& name, const vec2f& maxSize,
 	cImageAtlasInfo* newAtlas = mnew cImageAtlasInfo(this);
 	newAtlas->setName(name);
 	newAtlas->mMaxSize = maxSize;
-	mAtlases.push_back(newAtlas);
+	mAtlases.add(newAtlas);
 	newAtlas->attachPath(attachingPath);
 
 	return newAtlas;
@@ -314,7 +314,7 @@ cImageAtlasInfo* cBuildInfo::addAtlas( const string& name, const vec2f& maxSize,
 
 cImageAtlasInfo* cBuildInfo::getAtlas( const string& name ) const
 {
-	FOREACH_CONST(AtlasesArr, mAtlases, atl)
+	foreach_const(AtlasesArr, mAtlases, atl)
 		if ((*atl)->getName() == name)
 			return *atl;
 
@@ -326,17 +326,17 @@ cImageAtlasInfo* cBuildInfo::getAtlas( const string& name ) const
 
 void cBuildInfo::removeAtlas( const string& name )
 {
-	FOREACH(AtlasesArr, mAtlases, atl) 
+	foreach(AtlasesArr, mAtlases, atl) 
 	{
 		if ((*atl)->getName() == name)
 		{
 			//copy images metas
-			FOREACH(BuildImageInfoArr, (*atl)->mImages, img)
+			foreach(BuildImageInfoArr, (*atl)->mImages, img)
 				mBasicAtlas->addImage(*img);
 			(*atl)->mImages.clear();
 
 			safe_release(*atl);
-			mAtlases.erase(atl);
+			mAtlases.remove(atl);
 			return;
 		}
 	}		
@@ -344,7 +344,7 @@ void cBuildInfo::removeAtlas( const string& name )
 
 void cBuildInfo::refreshAtlases()
 {
-	FOREACH(AtlasesArr, mAtlases, atl)
+	foreach(AtlasesArr, mAtlases, atl)
 		(*atl)->refreshImagesList();
 
 	mBasicAtlas->refreshImagesList();

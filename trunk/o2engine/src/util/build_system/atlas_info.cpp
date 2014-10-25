@@ -46,7 +46,7 @@ void cImageAtlasInfo::addImage( cBuildImageInfo* image )
 	if (image->mAtlas)
 		image->mAtlas->removeImage(image);
 
-	mImages.push_back(image);
+	mImages.add(image);
 	image->mAtlas = this;
 	image->mAtlasName = mName;
 }
@@ -59,7 +59,7 @@ void cImageAtlasInfo::removeImage( cBuildImageInfo* image )
 		{
 			image->mAtlas = NULL;
 			image->mAtlasName = "";
-			mImages.erase(img);
+			mImages.remove(img);
 			return;
 		}
 	}
@@ -170,13 +170,13 @@ void cImageAtlasInfo::searchImagesAsNamedAtlas()
 
 bool cImageAtlasInfo::operator==(const cImageAtlasInfo& atlas)
 {
-	if (mImages.size() != atlas.mImages.size())
+	if (mImages.count() != atlas.mImages.count())
 		return false;
 
-	FOREACH(BuildImageInfoArr, mImages, imgIt)
+	foreach(BuildImageInfoArr, mImages, imgIt)
 	{
 		bool found = false;
-		FOREACH_CONST(BuildImageInfoArr, mImages, atlImIt)
+		foreach_const(BuildImageInfoArr, mImages, atlImIt)
 		{
 			if (**imgIt == **atlImIt)
 			{

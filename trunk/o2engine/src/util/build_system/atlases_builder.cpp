@@ -30,10 +30,10 @@ void cAtlasesBuildingStage::updateAtlases()
 	cBuildInfo* buildInfo = mBuildSystem->mBuildInfo;
 
 	//search removed or changed atlases atlases
-	for(AtlasesVec::iterator infAtlIt = buildInfo->mAtlases.begin(); infAtlIt != buildInfo->mAtlases.end();)
+	foreach(AtlasesArr, buildInfo->mAtlases, infAtlIt)
 	{
 		bool removed = true;
-		FOREACH(AtlasesVec, buildConfig->mAtlases, confAtlIt)
+		FOREACH(AtlasesArr, buildConfig->mAtlases, confAtlIt)
 		{
 			if ((*infAtlIt)->mName == (*confAtlIt)->mName)
 			{
@@ -46,16 +46,15 @@ void cAtlasesBuildingStage::updateAtlases()
 		if (removed)
 		{
 			safe_release(*infAtlIt);
-			infAtlIt = buildInfo->mAtlases.erase(infAtlIt);
+			buildInfo->mAtlases.remove(infAtlIt);
 		}
-		else infAtlIt++;
 	}
 
 	//search new atlases
-	FOREACH(AtlasesVec, buildConfig->mAtlases, confAtlIt)
+	FOREACH(AtlasesArr, buildConfig->mAtlases, confAtlIt)
 	{
 		bool newAtlas = true;
-		FOREACH(AtlasesVec, buildInfo->mAtlases, infAtlIt)
+		FOREACH(AtlasesArr, buildInfo->mAtlases, infAtlIt)
 		{
 			if ((*infAtlIt)->mName == (*confAtlIt)->mName)
 			{
@@ -78,7 +77,7 @@ void cAtlasesBuildingStage::updateAtlases()
 
 void cAtlasesBuildingStage::rebuildAtlases()
 {
-	FOREACH(AtlasesVec, mRebuildingAtlases, atlIt)
+	FOREACH(AtlasesArr, mRebuildingAtlases, atlIt)
 		rebuildAtlas(*atlIt);
 }
 
@@ -103,7 +102,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* confAtlas, cImageAtlasI
 		}
 	}
 
-	mRebuildingAtlases.push_back(infoAtlas);
+	mRebuildingAtlases.add(infoAtlas);
 }
 
 void cAtlasesBuildingStage::rebuildAtlas(cImageAtlasInfo* atlas)

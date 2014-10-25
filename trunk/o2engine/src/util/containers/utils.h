@@ -5,9 +5,12 @@
 #include "array.h"
 
 OPEN_O2_NAMESPACE
-
+	
 #define foreach(_container_type, _enumerable, _iterator) \
 	for (_container_type::iterator _iterator = _enumerable.begin(); _iterator.index() < _enumerable.count(); ++_iterator)
+	
+#define foreach_const(_container_type, _enumerable, _iterator) \
+	for (_container_type::citerator _iterator = _enumerable.cbegin(); _iterator.index() < _enumerable.count(); ++_iterator)
 	
 CLOSE_O2_NAMESPACE
 
