@@ -21,7 +21,7 @@ void cAtlasPacker::packAtlas(cImageAtlasInfo* atlas)
 	mRectsPacker.clear();
 	mRectsPacker.setMaxSize(atlas->mMaxSize);
 
-	FOREACH(BuildImageInfoArr, atlas->mImages, imgIt)
+	foreach(BuildImageInfoArr, atlas->mImages, imgIt)
 	{
 		cImage* image = mnew cImage( mBuildSystem->getAssetsPath() + extractExtension((*imgIt)->mLocation.mPath) );
 		(*imgIt)->mSize = image->getSize();

@@ -16,9 +16,9 @@ OPEN_O2_NAMESPACE
 	for (_container_type::iterator _iterator = _enumerable.begin(); _iterator.index() < _enumerable.count(); )
 
 #define release_array(_vector_type, _enumerable) \
-	for (_container_type::iterator _iterator = _enumerable.begin(); _iterator.index() < _enumerable.count(); ++_iterator) \
+	for (_vector_type::iterator _iterator = _enumerable.begin(); _iterator.index() < _enumerable.count(); ++_iterator) \
 		safe_release(*_iterator); \
-	(_vector).clear()
+	(_enumerable).clear()
 	
 CLOSE_O2_NAMESPACE
 

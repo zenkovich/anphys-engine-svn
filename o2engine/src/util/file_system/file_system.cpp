@@ -54,9 +54,9 @@ cPathInfo cFileSystem::getPathInfo(const string& path) const
 				continue;
 
 			if (f.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
-				res.mPaths.push_back(getPathInfo(path + "/" + f.cFileName));
+				res.mPaths.add(getPathInfo(path + "/" + f.cFileName));
 			else
-				res.mFiles.push_back(getFileInfo(path + "/" + f.cFileName));
+				res.mFiles.add(getFileInfo(path + "/" + f.cFileName));
 		} 
 		while(FindNextFile(h, &f));
 	}

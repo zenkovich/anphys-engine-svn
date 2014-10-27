@@ -15,10 +15,10 @@ void cNonBuildFilesBuildStage::process()
 	StringsVec removingPaths;
 
 	//search removed and changed files
-	FOREACH(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt) 
+	foreach(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt) 
 	{
 		bool removed = true;
-		FOREACH(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
+		foreach(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
 		{
 			if ((*fileInfIt)->mLocation == (*fileConfIt)->mLocation)
 			{
@@ -49,10 +49,10 @@ void cNonBuildFilesBuildStage::process()
 		else ++it;
 
 	//search new files
-	FOREACH(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
+	foreach(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
 	{
 		bool newFile = true;
-		FOREACH(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt)
+		foreach(BuildFileInfoArr, buildInfo->mFileInfos, fileInfIt)
 		{
 			if ((*fileInfIt)->mLocation == (*fileConfIt)->mLocation)
 				newFile = false;

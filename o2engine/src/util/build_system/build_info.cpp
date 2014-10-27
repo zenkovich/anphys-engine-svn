@@ -113,7 +113,7 @@ BuildFileInfoArr cBuildPathInfo::getAllInsideFiles() const
 		{
 			cBuildPathInfo* path = static_cast<cBuildPathInfo*>(*file);
 			BuildFileInfoArr pathFiles = path->getAllInsideFiles();
-			FOREACH(BuildFileInfoArr, pathFiles, pathFile)
+			foreach(BuildFileInfoArr, pathFiles, pathFile)
 				res.add(*pathFile);
 		}
 	}
@@ -189,8 +189,8 @@ cBuildInfo::cBuildInfo()
 
 cBuildInfo::~cBuildInfo()
 {
-	RELEASE_VECTOR(BuildFileInfoArr, mFileInfos);
-	RELEASE_VECTOR(AtlasesArr, mAtlases);
+	release_array(BuildFileInfoArr, mFileInfos);
+	release_array(AtlasesArr, mAtlases);
 	safe_release(mBasicAtlas);
 	safe_release(mRootPath);
 }
