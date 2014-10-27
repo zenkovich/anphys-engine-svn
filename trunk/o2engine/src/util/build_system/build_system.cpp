@@ -172,7 +172,7 @@ void cBuildSystem::updateBuildConfig()
 
 	//filter assets metas
 	int cutMetaPathIdx = (mProjectPath + "/assets/").length();
-	FOREACH(BuildFileInfoArr, assetsFiles, meta)
+	foreach(BuildFileInfoArr, assetsFiles, meta)
 		(*meta)->mLocation.mPath = (*meta)->mLocation.mPath.substr(cutMetaPathIdx);
 
 	//search removed files
@@ -181,12 +181,12 @@ void cBuildSystem::updateBuildConfig()
 	hlog("Searching removed files:");
 
 	//search removed files
-	foreach(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, metaIt)
+	foreach_rem(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, metaIt)
 	{
 		hlog("Processing asset: %s ...", (*metaIt)->mLocation.mPath.c_str());
 
 		bool exist = false;
-		FOREACH(BuildFileInfoArr, assetsFiles, asMetaIt)
+		foreach(BuildFileInfoArr, assetsFiles, asMetaIt)
 		{
 			if ((*asMetaIt)->mLocation == (*metaIt)->mLocation)
 			{
@@ -208,12 +208,12 @@ void cBuildSystem::updateBuildConfig()
 	hlog("Searching new files:");
 
 	//search new files
-	FOREACH(BuildFileInfoArr, assetsFiles, asMetaIt)
+	foreach(BuildFileInfoArr, assetsFiles, asMetaIt)
 	{
 		hlog("Processing asset: %s ...", (*asMetaIt)->mLocation.mPath.c_str());
 
 		bool exist = false;
-		FOREACH(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, metaIt)
+		foreach(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, metaIt)
 		{
 			if ((*asMetaIt)->mLocation == (*metaIt)->mLocation)
 			{
@@ -243,7 +243,7 @@ void cBuildSystem::updateBuildConfig()
 	}
 
 	//update paths infos inside files arrays
-	FOREACH(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, fileIt) 
+	foreach(BuildFileInfoArr, mActiveBuildConfig->mFileInfos, fileIt) 
 	{
 		if ((*fileIt)->mType == cBuildFileInfo::MT_FOLDER)
 		{
@@ -252,7 +252,7 @@ void cBuildSystem::updateBuildConfig()
 		}
 	}
 
-	RELEASE_VECTOR(BuildFileInfoArr, assetsFiles);
+	release_array(BuildFileInfoArr, assetsFiles);
 	mActiveBuildConfig->updateRootPathFiles();
 
 	mActiveBuildConfig->refreshAtlases();
@@ -266,14 +266,14 @@ void cBuildSystem::gatherAssetsFileInfos(BuildFileInfoArr& filesMeta)
 
 void cBuildSystem::gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoArr& filesMeta)
 {
-	FOREACH(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
+	foreach(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
 		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
 			continue;
 
 		filesMeta.add(createBuildFileInfo(*fileInfo));
 	}
 
-	FOREACH(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
+	foreach(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
 	{
 		filesMeta.add(createBuildFileMeta(*pathInfoIt));
 		gatherAssetsFileInfosFromFolder(*pathInfoIt, filesMeta);
@@ -348,7 +348,7 @@ void cBuildSystem::createFileMeta(cBuildFileInfo* info, const string& pathPrefix
 
 void cBuildSystem::processBuildStages()
 {
-	FOREACH(BuildStagesArr, mBuildStages, stage)
+	foreach(BuildStagesArr, mBuildStages, stage)
 		(*stage)->process();
 }
 

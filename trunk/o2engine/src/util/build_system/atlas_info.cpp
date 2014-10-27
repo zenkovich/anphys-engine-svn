@@ -53,7 +53,7 @@ void cImageAtlasInfo::addImage( cBuildImageInfo* image )
 
 void cImageAtlasInfo::removeImage( cBuildImageInfo* image )
 {
-	FOREACH(BuildImageInfoArr, mImages, img) 
+	foreach(BuildImageInfoArr, mImages, img) 
 	{
 		if ((*img)->mLocation == image->mLocation)
 		{

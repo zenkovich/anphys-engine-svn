@@ -43,9 +43,10 @@ void cNonBuildFilesBuildStage::process()
 	FOREACH(StringsVec, removingPaths, pathIt)
 		getFileSystem().removeDirectory((*pathIt));
 
-	foreach(BuildFileInfoArr, buildInfo->mFileInfos, it)
+	foreach_rem(BuildFileInfoArr, buildInfo->mFileInfos, it)
 		if (*it == NULL)
 			buildInfo->mFileInfos.remove(it);
+		else ++it;
 
 	//search new files
 	FOREACH(BuildFileInfoArr, buildConfig->mFileInfos, fileConfIt)
