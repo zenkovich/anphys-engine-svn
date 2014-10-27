@@ -435,7 +435,7 @@ array<_type>::array(int capacity = 5)
 	if (CONTAINERS_DEBUG)
 		o2assert(capacity > 0, "Can't initialize array with empty capacity");
 
-	mValues = mnew _type[capacity];
+	mValues = (_type*)malloc(sizeof(_type)*capacity);
 	mCapacity = capacity;
 	mCount = 0;
 }
@@ -443,7 +443,7 @@ array<_type>::array(int capacity = 5)
 template<typename _type>
 array<_type>::array(const array& arr)
 {
-	mValues = mnew _type[arr.mCapacity];
+	mValues = (_type*)malloc(sizeof(_type)*arr.mCapacity);
 	mCapacity = arr.mCapacity;
 	mCount = arr.mCount;
 
@@ -456,7 +456,7 @@ array<_type>::array(const IArray<_type>* arr)
 {
 	mCount = arr->count();
 	mCapacity = getReservingSize(mCount);
-	mValues = mnew _type[mCapacity];
+	mValues = (_type*)malloc(sizeof(_type)*mCapacity);
 
 	for (int i = 0; i < mCount; i++)
 		mValues[i] = arr->get(i);
@@ -466,7 +466,7 @@ template<typename _type>
 array<_type>::~array()
 {
 	clear();
-	delete[] mValues;
+	free(mValues);
 }
 
 template<typename _type>

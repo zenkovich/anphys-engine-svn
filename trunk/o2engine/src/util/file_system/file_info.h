@@ -18,17 +18,28 @@ public:
 	WideTime         mEditDate;
 	uint32           mSize;
 	uint64           mCheckSumm;
+
+	bool operator==(const cFileInfo& fi) const
+	{
+		return mPath == fi.mPath && mFileType == fi.mFileType && mCreatedDate == fi.mCreatedDate &&
+			   mAccessDate == fi.mAccessDate && mEditDate == fi.mEditDate && mSize == fi.mSize;
+	}
 };
 
 class cPathInfo 
 {
 public:
-	typedef vector<cFileInfo> FilesVec;
-	typedef vector<cPathInfo> PathsVec;
+	typedef array<cFileInfo> FilesArr;
+	typedef array<cPathInfo> PathsArr;
 
 	string   mPath;
-	FilesVec mFiles;
-	PathsVec mPaths;
+	FilesArr mFiles;
+	PathsArr mPaths;
+
+	bool operator==(const cPathInfo& pi) const
+	{
+		return mPath == pi.mPath;
+	}
 };
 
 class cFileLocation: public cSerializable

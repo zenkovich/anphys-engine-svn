@@ -21,7 +21,7 @@ cImageAtlasInfo::~cImageAtlasInfo()
 
 void cImageAtlasInfo::clear()
 {
-	FOREACH(BuildImageInfoArr, mImages, image)
+	foreach(BuildImageInfoArr, mImages, image)
 	{
 		(*image)->mAtlas = NULL;
 		(*image)->mAtlasName = "";
@@ -67,7 +67,7 @@ void cImageAtlasInfo::removeImage( cBuildImageInfo* image )
 
 cBuildImageInfo* cImageAtlasInfo::getImage(const cFileLocation& location)
 {
-	FOREACH(BuildImageInfoArr, mImages, img) 
+	foreach(BuildImageInfoArr, mImages, img) 
 	{
 		if ((*img)->mLocation == location)
 		{
@@ -82,7 +82,7 @@ void cImageAtlasInfo::setName(const string& name)
 {
 	mName = name;
 
-	FOREACH(BuildImageInfoArr, mImages, img)
+	foreach(BuildImageInfoArr, mImages, img)
 		(*img)->mAtlasName = mName;
 }
 
@@ -133,7 +133,7 @@ void cImageAtlasInfo::searchImagesAsAttachedPath()
 
 void cImageAtlasInfo::searchImagesInPath(cBuildPathInfo* path)
 {
-	FOREACH(BuildFileInfoArr, path->mFiles, file) 
+	foreach(BuildFileInfoArr, path->mFiles, file) 
 	{
 		if ((*file)->mType == cBuildFileInfo::MT_IMAGE)
 		{
@@ -156,7 +156,7 @@ void cImageAtlasInfo::searchImagesAsNamedAtlas()
 	if (!mOwnerBuildInfo)
 		return;
 
-	FOREACH(BuildFileInfoArr, mOwnerBuildInfo->mFileInfos, file) 
+	foreach(BuildFileInfoArr, mOwnerBuildInfo->mFileInfos, file) 
 	{
 		if ((*file)->mType == cBuildFileInfo::MT_IMAGE)
 		{

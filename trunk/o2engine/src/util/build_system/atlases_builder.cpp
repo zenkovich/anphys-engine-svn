@@ -33,7 +33,7 @@ void cAtlasesBuildingStage::updateAtlases()
 	foreach_rem(AtlasesArr, buildInfo->mAtlases, infAtlIt)
 	{
 		bool removed = true;
-		FOREACH(AtlasesArr, buildConfig->mAtlases, confAtlIt)
+		foreach(AtlasesArr, buildConfig->mAtlases, confAtlIt)
 		{
 			if ((*infAtlIt)->mName == (*confAtlIt)->mName)
 			{
@@ -52,10 +52,10 @@ void cAtlasesBuildingStage::updateAtlases()
 	}
 
 	//search new atlases
-	FOREACH(AtlasesArr, buildConfig->mAtlases, confAtlIt)
+	foreach(AtlasesArr, buildConfig->mAtlases, confAtlIt)
 	{
 		bool newAtlas = true;
-		FOREACH(AtlasesArr, buildInfo->mAtlases, infAtlIt)
+		foreach(AtlasesArr, buildInfo->mAtlases, infAtlIt)
 		{
 			if ((*infAtlIt)->mName == (*confAtlIt)->mName)
 			{
@@ -78,7 +78,7 @@ void cAtlasesBuildingStage::updateAtlases()
 
 void cAtlasesBuildingStage::rebuildAtlases()
 {
-	FOREACH(AtlasesArr, mRebuildingAtlases, atlIt)
+	foreach(AtlasesArr, mRebuildingAtlases, atlIt)
 		rebuildAtlas(*atlIt);
 }
 
@@ -96,7 +96,7 @@ void cAtlasesBuildingStage::updateAtlas(cImageAtlasInfo* confAtlas, cImageAtlasI
 	else
 	{
 		infoAtlas->clear();
-		FOREACH(BuildImageInfoArr, confAtlas->mImages, confImgIt)
+		foreach(BuildImageInfoArr, confAtlas->mImages, confImgIt)
 		{
 			cBuildImageInfo* image = static_cast<cBuildImageInfo*>(buildInfo->getFile((*confImgIt)->mLocation));
 			infoAtlas->addImage( image );

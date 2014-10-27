@@ -31,7 +31,7 @@ cBuildSystem::cBuildSystem(const string& projectPath):
 cBuildSystem::~cBuildSystem()
 {
 	saveConfig();
-	RELEASE_VECTOR(BuildConfigsArr, mBuildConfigs);
+	release_array(BuildConfigsArr, mBuildConfigs);
 	safe_release(mBuildInfo);
 }
 
@@ -65,7 +65,7 @@ bool cBuildSystem::loadProject(const string& projectPath)
 
 void cBuildSystem::setActiveBuildConfig(const string& name)
 {	
-	FOREACH(BuildConfigsArr, mBuildConfigs, conf)
+	foreach(BuildConfigsArr, mBuildConfigs, conf)
 	{
 		if ((*conf)->mName == name) 
 		{
@@ -87,7 +87,7 @@ void cBuildSystem::createEmptyProject(const string& projName, const string& proj
 	mProjectName = projName;
 	mProjectPath = projPath;
 
-	RELEASE_VECTOR(BuildConfigsArr, mBuildConfigs);
+	release_array(BuildConfigsArr, mBuildConfigs);
 	mActiveBuildConfig = NULL;
 	mReady = false;
 }
@@ -266,14 +266,14 @@ void cBuildSystem::gatherAssetsFileInfos(BuildFileInfoArr& filesMeta)
 
 void cBuildSystem::gatherAssetsFileInfosFromFolder(cPathInfo& pathInfo, BuildFileInfoArr& filesMeta)
 {
-	foreach(cPathInfo::FilesVec, pathInfo.mFiles, fileInfo) {
+	foreach(cPathInfo::FilesArr, pathInfo.mFiles, fileInfo) {
 		if (fileInfo->mPath.rfind(".meta.xml") == fileInfo->mPath.length() - 9)
 			continue;
 
 		filesMeta.add(createBuildFileInfo(*fileInfo));
 	}
 
-	foreach(cPathInfo::PathsVec, pathInfo.mPaths, pathInfoIt)
+	foreach(cPathInfo::PathsArr, pathInfo.mPaths, pathInfoIt)
 	{
 		filesMeta.add(createBuildFileMeta(*pathInfoIt));
 		gatherAssetsFileInfosFromFolder(*pathInfoIt, filesMeta);
