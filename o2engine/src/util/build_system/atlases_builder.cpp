@@ -30,7 +30,7 @@ void cAtlasesBuildingStage::updateAtlases()
 	cBuildInfo* buildInfo = mBuildSystem->mBuildInfo;
 
 	//search removed or changed atlases atlases
-	foreach(AtlasesArr, buildInfo->mAtlases, infAtlIt)
+	foreach_rem(AtlasesArr, buildInfo->mAtlases, infAtlIt)
 	{
 		bool removed = true;
 		FOREACH(AtlasesArr, buildConfig->mAtlases, confAtlIt)
@@ -46,8 +46,9 @@ void cAtlasesBuildingStage::updateAtlases()
 		if (removed)
 		{
 			safe_release(*infAtlIt);
-			buildInfo->mAtlases.remove(infAtlIt);
+			infAtlIt = buildInfo->mAtlases.remove(infAtlIt);
 		}
+		else ++infAtlIt;
 	}
 
 	//search new atlases

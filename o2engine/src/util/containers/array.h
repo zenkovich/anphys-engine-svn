@@ -130,7 +130,7 @@ public:
 
 	bool remove(const _type& value);
 
-	bool remove(const iterator& it);
+	iterator remove(const iterator& it);
 
 	void clear();
 	
@@ -678,9 +678,10 @@ bool array<_type>::remove(const _type& value)
 }
 
 template<typename _type>
-bool array<_type>::remove( const iterator& it )
+typename array<_type>::iterator array<_type>::remove( const iterator& it )
 {
-	return remove(it.index());
+	remove(it.index());
+	return it;
 }
 
 template<typename _type>
