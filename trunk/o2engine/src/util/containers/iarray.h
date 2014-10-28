@@ -25,7 +25,7 @@ public:
 
 	virtual _type& add(const _type& value) = 0;
 
-	virtual _type& popBack() = 0;
+	virtual _type popBack() = 0;
 
 	virtual _type& insert(const _type& value, int position) = 0;
 
