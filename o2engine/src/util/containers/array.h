@@ -116,7 +116,7 @@ public:
 
 	_type& add(const _type& value);
 
-	_type& popBack();
+	_type popBack();
 
 	_type& insert(const _type& value, int position);
 
@@ -447,8 +447,8 @@ array<_type>::array(const array& arr)
 	mCapacity = arr.mCapacity;
 	mCount = arr.mCount;
 
-	for (int i = 0; i < mCount; i++)
-		mValues[i] = arr.mValues[i];
+	for (int i = 0; i < mCount; i++) 
+		new (mValues + i*sizeof(_type)) _type(arr.mValues[i]);
 }
 	
 template<typename _type>
@@ -459,7 +459,7 @@ array<_type>::array(const IArray<_type>* arr)
 	mValues = (_type*)malloc(sizeof(_type)*mCapacity);
 
 	for (int i = 0; i < mCount; i++)
-		mValues[i] = arr->get(i);
+		new (mValues + i*sizeof(_type)) _type(arr->get(i));
 }
 
 template<typename _type>
@@ -481,8 +481,13 @@ array<_type>& array<_type>::operator=(const array<_type>& arr)
 	reserve(arr.mCapacity);
 	mCount = arr.mCount;
 
-	for (int i = 0; i < mCount; i++)
-		mValues[i] = arr.mValues[i];
+	for (int i = 0; i < arr.mCount; i++)
+	{
+		if (i < mCount)
+			mValues[i] = arr.mValues[i];
+		else
+			new (mValues + i*sizeof(_type)) _type(arr.mValues[i]);
+	}
 
 	return *this;
 }
@@ -525,6 +530,14 @@ void array<_type>::resize(int newCount)
 		o2assert(newCount > 0, "Can't resize array to zero size");
 
 	reserve(getReservingSize(newCount));
+
+	if (mCount < newCount)
+		for (int i = newCount; i < mCount; i++)
+			mValues[i].~_type();
+	else
+		for (int i = mCount; i < newCount; i++)
+			new (mValues + i*sizeof(_type)) _type();
+
 	mCount = newCount;
 }
 
@@ -540,19 +553,9 @@ void array<_type>::reserve(int newCapacity)
 	if (newCapacity < 5)
 		newCapacity = 5;
 
-	_type* tmp = new _type[mCount];
-
-	for (int i = 0; i < mCount; i++)
-		tmp[i] = mValues[i];
-
-	safe_release_arr(mValues);
-	mValues = new _type[newCapacity];
-
-	for (int i = 0; i < mCount; i++)
-		mValues[i] = tmp[i];
-
-	safe_release_arr(tmp);
 	mCapacity = newCapacity;
+
+	mValues = (_type*)realloc(mValues, mCapacity*sizeof(_type));
 }
 
 template<typename _type>
@@ -579,19 +582,22 @@ _type& array<_type>::add(const _type& value)
 	if (mCount == mCapacity)
 		reserve(getReservingSize(mCount));
 
-	mValues[mCount++] = value;
+	new (mValues + mCount*sizeof(_type)) _type(value);
+	mCount++;
 
 	return mValues[mCount - 1];
 }
 
 template<typename _type>
-_type& array<_type>::popBack()
+_type array<_type>::popBack()
 {
 	if (CONTAINERS_DEBUG)
 		o2assert(mCount > 0 ,"Can't pop value from array: no values");
 
 	mCount--;
-	return mValues[mCount];
+	_type res = mValues[mCount];
+	mValues[mCount].~_type();
+	return res;
 }
 
 template<typename _type>
@@ -602,7 +608,8 @@ _type& array<_type>::insert(const _type& value, int position)
 
 	if (mCount == mCapacity)
 		reserve(getReservingSize(mCount));
-
+	
+	new (mValues + mCount*sizeof(_type)) _type();
 	mCount++;
 
 	_type tmp = value;
@@ -642,6 +649,8 @@ bool array<_type>::remove(int idx)
 	if (idx < 0 || idx >= mCount)
 		return false;
 
+	mValues[idx].~_type();
+
 	for (int i = idx; i < mCount - 1; i++)
 		mValues[i] = mValues[i + 1];
 
@@ -657,6 +666,9 @@ bool array<_type>::removeRange(int begin, int end)
 		return false;
 
 	int diff = end - begin;
+
+	for (int i = begin; i < end; i++)
+		mValues[i].~_type();
 
 	for (int i = begin; i < mCount - diff; i++)
 		mValues[i] = mValues[i + diff];
