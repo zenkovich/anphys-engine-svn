@@ -448,7 +448,7 @@ array<_type>::array(const array& arr)
 	mCount = arr.mCount;
 
 	for (int i = 0; i < mCount; i++) 
-		new (mValues + i*sizeof(_type)) _type(arr.mValues[i]);
+		new (mValues + i) _type(arr.mValues[i]);
 }
 	
 template<typename _type>
@@ -459,7 +459,7 @@ array<_type>::array(const IArray<_type>* arr)
 	mValues = (_type*)malloc(sizeof(_type)*mCapacity);
 
 	for (int i = 0; i < mCount; i++)
-		new (mValues + i*sizeof(_type)) _type(arr->get(i));
+		new (mValues + i) _type(arr->get(i));
 }
 
 template<typename _type>
@@ -486,7 +486,7 @@ array<_type>& array<_type>::operator=(const array<_type>& arr)
 		if (i < mCount)
 			mValues[i] = arr.mValues[i];
 		else
-			new (mValues + i*sizeof(_type)) _type(arr.mValues[i]);
+			new (mValues + i) _type(arr.mValues[i]);
 	}
 
 	return *this;
@@ -536,7 +536,7 @@ void array<_type>::resize(int newCount)
 			mValues[i].~_type();
 	else
 		for (int i = mCount; i < newCount; i++)
-			new (mValues + i*sizeof(_type)) _type();
+			new (mValues + i) _type();
 
 	mCount = newCount;
 }
@@ -582,7 +582,7 @@ _type& array<_type>::add(const _type& value)
 	if (mCount == mCapacity)
 		reserve(getReservingSize(mCount));
 
-	new (mValues + mCount*sizeof(_type)) _type(value);
+	new (mValues + mCount) _type(value);
 	mCount++;
 
 	return mValues[mCount - 1];
@@ -609,7 +609,7 @@ _type& array<_type>::insert(const _type& value, int position)
 	if (mCount == mCapacity)
 		reserve(getReservingSize(mCount));
 	
-	new (mValues + mCount*sizeof(_type)) _type();
+	new (mValues + mCount) _type();
 	mCount++;
 
 	_type tmp = value;
