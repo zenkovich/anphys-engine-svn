@@ -179,10 +179,6 @@ template<typename _type>
 typename array<_type>::iterator& array<_type>::iterator::operator++() // ++A;
 {
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -190,12 +186,7 @@ template<typename _type>
 typename array<_type>::iterator array<_type>::iterator::operator++(int) // A++;
 {
 	iterator temp = *this;
-
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
@@ -203,10 +194,6 @@ template<typename _type>
 typename array<_type>::iterator& array<_type>::iterator::operator--() // --A;
 {
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -214,12 +201,7 @@ template<typename _type>
 typename array<_type>::iterator array<_type>::iterator::operator--(int) // A--;		
 {
 	iterator temp = *this;
-
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
@@ -318,10 +300,6 @@ template<typename _type>
 typename array<_type>::citerator& array<_type>::citerator::operator++() // ++A;
 {
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -329,12 +307,7 @@ template<typename _type>
 typename array<_type>::citerator array<_type>::citerator::operator++(int) // A++;
 {
 	iterator temp = *this;
-
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
@@ -342,10 +315,6 @@ template<typename _type>
 typename array<_type>::citerator& array<_type>::citerator::operator--() // --A;
 {
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -353,12 +322,7 @@ template<typename _type>
 typename array<_type>::citerator array<_type>::citerator::operator--(int) // A--;		
 {
 	citerator temp = *this;
-
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
