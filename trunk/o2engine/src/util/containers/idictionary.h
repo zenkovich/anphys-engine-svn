@@ -119,10 +119,6 @@ template<typename _key_type, typename _value_type>
 typename IDictionary<_key_type, _value_type>::iterator& IDictionary<_key_type, _value_type>::iterator::operator++() // ++A;
 {
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -132,10 +128,6 @@ typename IDictionary<_key_type, _value_type>::iterator IDictionary<_key_type, _v
 	iterator temp = *this;
 
 	mIndex++;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
@@ -143,10 +135,6 @@ template<typename _key_type, typename _value_type>
 typename IDictionary<_key_type, _value_type>::iterator& IDictionary<_key_type, _value_type>::iterator::operator--() // --A;
 {
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return *this ;
 }
 
@@ -154,12 +142,7 @@ template<typename _key_type, typename _value_type>
 typename IDictionary<_key_type, _value_type>::iterator IDictionary<_key_type, _value_type>::iterator::operator--(int) // A--;		
 {
 	iterator temp = *this;
-
 	mIndex--;
-
-//  if (CONTAINERS_DEBUG)
-//  	o2assert(mIndex >= 0 && mIndex < mArray->count(), "Failed to increment iterator: index out of range");
-
 	return temp ;
 }
 
