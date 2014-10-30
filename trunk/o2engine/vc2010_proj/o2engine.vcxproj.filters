@@ -85,6 +85,9 @@
     <Filter Include="src\util\containers">
       <UniqueIdentifier>{8ba52a35-2d75-4f88-b15d-1217bd5c564b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\assets">
+      <UniqueIdentifier>{dc5d9539-6221-401c-b965-0c41ce6f55c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -539,6 +542,12 @@
     </ClInclude>
     <ClInclude Include="..\src\util\containers\containers_test.h">
       <Filter>src\util\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\assets.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\asset.h">
+      <Filter>src\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

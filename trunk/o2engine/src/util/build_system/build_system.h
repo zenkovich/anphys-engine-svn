@@ -9,9 +9,10 @@
 #include "util/serialize_util.h"
 #include "util/file_system/file_system.h"
 #include "build_config.h"
-#include "atlas_info.h"
 
 OPEN_O2_NAMESPACE	
+
+class cImageAtlasInfo;
 
 class cBuildSystem: public cSingleton<cBuildSystem>
 {
@@ -29,6 +30,7 @@ public:
 
 	typedef array<cBuildConfig*> BuildConfigsArr;
 	typedef array<IBuildStage*> BuildStagesArr;
+	typedef array<cImageAtlasInfo*> AtlasesArr;
 
 protected:
 	string           mProjectName;
@@ -37,6 +39,8 @@ protected:
 	BuildConfigsArr  mBuildConfigs;
 	cBuildConfig*    mActiveBuildConfig;
 	cBuildInfo*      mBuildInfo;
+	cImageAtlasInfo* mBasicAtlas;
+
 	bool             mReady;
 
 	BuildStagesArr   mBuildStages;
