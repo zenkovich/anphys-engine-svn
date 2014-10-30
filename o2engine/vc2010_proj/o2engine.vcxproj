@@ -114,6 +114,8 @@
     <ClInclude Include="..\src\app\application.h" />
     <ClInclude Include="..\src\app\application_base_interface.h" />
     <ClInclude Include="..\src\app\win\application_win.h" />
+    <ClInclude Include="..\src\assets\asset.h" />
+    <ClInclude Include="..\src\assets\assets.h" />
     <ClInclude Include="..\src\engine_settings.h" />
     <ClInclude Include="..\src\other\device_info.h" />
     <ClInclude Include="..\src\public.h" />
