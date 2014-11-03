@@ -1,0 +1,890 @@
+<?xml version="1.0"?>
+<projectName v="o2proj" />
+<buildConfigs count="1">
+	<elem0 type="cBuildConfig">
+		<cBuildInfo>
+			<filesMeta count="71">
+				<elem0 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="arial.xml" />
+						<id v="31558" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="53430" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem0>
+				<elem1 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="arial_0.png" />
+							<id v="25383" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="93338" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem1>
+				<elem2 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="config.xml" />
+						<id v="18682" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="1535" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem2>
+				<elem3 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="grass.png" />
+							<id v="24652" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="940683" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem3>
+				<elem4 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="man_walk_frames.png" />
+							<id v="7267" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17325" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem4>
+				<elem5 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="pic.png" />
+							<id v="3245" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="378079" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem5>
+				<elem6 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="test.png" />
+							<id v="3601" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="77208" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem6>
+				<elem7 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="test_serialization.xml" />
+						<id v="4943" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="440" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem7>
+				<elem8 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_test.png" />
+							<id v="9929" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="98806" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem8>
+				<elem9 type="cBuildPathInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="o2_font" />
+							<id v="1132" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="0" />
+						<writedTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+						<type v="0" />
+					</cBuildFileInfo>
+					<attachedAtlas v="" />
+				</elem9>
+				<elem10 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.bmfc" />
+						<id v="24126" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="804" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem10>
+				<elem11 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.xml" />
+						<id v="1992" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="64773" />
+					<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem11>
+				<elem12 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="o2_font/myriad_0.png" />
+							<id v="30870" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="119671" />
+						<writedTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem12>
+				<elem13 type="cBuildPathInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin" />
+							<id v="26270" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="0" />
+						<writedTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+						<type v="0" />
+					</cBuildFileInfo>
+					<attachedAtlas v="" />
+				</elem13>
+				<elem14 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/background.png" />
+							<id v="291" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="67117" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem14>
+				<elem15 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/background_shadow.png" />
+							<id v="20969" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="29243" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem15>
+				<elem16 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar.png" />
+							<id v="21507" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="20451" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem16>
+				<elem17 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/bar_bar.psd" />
+						<id v="12320" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="833820" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem17>
+				<elem18 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar_hover.png" />
+							<id v="30072" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="22187" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem18>
+				<elem19 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar_pressed.png" />
+							<id v="21912" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="20409" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem19>
+				<elem20 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_bk.png" />
+							<id v="11570" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19446" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem20>
+				<elem21 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/bar_bk.psd" />
+						<id v="25894" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="825522" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem21>
+				<elem22 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_drag_icn.png" />
+							<id v="19698" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19575" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem22>
+				<elem23 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_glow.png" />
+							<id v="17090" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="18482" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem23>
+				<elem24 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_hover.png" />
+							<id v="1319" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="20907" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem24>
+				<elem25 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_pressed.png" />
+							<id v="4142" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="22347" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem25>
+				<elem26 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_regular.png" />
+							<id v="32618" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="20804" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem26>
+				<elem27 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_shadow.png" />
+							<id v="11250" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19090" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem27>
+				<elem28 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/checkbox.psd" />
+						<id v="30228" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="829572" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem28>
+				<elem29 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_check.png" />
+							<id v="31035" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19376" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem29>
+				<elem30 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_glow.png" />
+							<id v="27426" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19373" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem30>
+				<elem31 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_hover.png" />
+							<id v="21721" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="3388" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem31>
+				<elem32 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_pressed.png" />
+							<id v="21794" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="3209" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem32>
+				<elem33 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_delimer.png" />
+							<id v="26860" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17734" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem33>
+				<elem34 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/context_menu.psd" />
+						<id v="18641" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="1155566" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem34>
+				<elem35 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_menu_bk.png" />
+							<id v="3019" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="24519" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem35>
+				<elem36 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_selection.png" />
+							<id v="15761" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="18026" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem36>
+				<elem37 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/dark_background.png" />
+							<id v="4111" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="47421" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem37>
+				<elem38 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/dot_gray_line_hor.png" />
+							<id v="6485" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17760" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem38>
+				<elem39 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/dot_gray_line_ver.png" />
+							<id v="4788" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17753" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem39>
+				<elem40 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/editbox.psd" />
+						<id v="24751" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="825656" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem40>
+				<elem41 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_bk.png" />
+							<id v="7016" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19763" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem41>
+				<elem42 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_glow.png" />
+							<id v="17523" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19814" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem42>
+				<elem43 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_hover.png" />
+							<id v="10268" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="5027" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem43>
+				<elem44 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/folder_icn.png" />
+							<id v="24951" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="18165" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem44>
+				<elem45 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/hint.psd" />
+						<id v="18002" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="924742" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem45>
+				<elem46 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/hint_bk.png" />
+							<id v="27437" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="34890" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem46>
+				<elem47 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/minus_icn.png" />
+							<id v="12231" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17949" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem47>
+				<elem48 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/pad.psd" />
+						<id v="41" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="893738" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem48>
+				<elem49 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_bk.png" />
+							<id v="19807" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="64176" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem49>
+				<elem50 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_glow.png" />
+							<id v="8155" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="20175" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem50>
+				<elem51 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_hover.png" />
+							<id v="23167" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="65706" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem51>
+				<elem52 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/plus_icn.png" />
+							<id v="13051" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="17984" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem52>
+				<elem53 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar.png" />
+							<id v="29759" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19591" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem53>
+				<elem54 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar_hover.png" />
+							<id v="25725" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19598" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem54>
+				<elem55 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar_pressed.png" />
+							<id v="31508" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19590" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem55>
+				<elem56 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bk.png" />
+							<id v="14091" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19602" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem56>
+				<elem57 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/small_vert_bar.psd" />
+						<id v="8931" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="37192" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem57>
+				<elem58 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar.png" />
+							<id v="25424" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19159" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem58>
+				<elem59 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar_hover.png" />
+							<id v="11424" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19159" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem59>
+				<elem60 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar_pressed.png" />
+							<id v="11673" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19159" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem60>
+				<elem61 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bk.png" />
+							<id v="24033" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19170" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem61>
+				<elem62 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/tabs.psd" />
+						<id v="5535" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="1522701" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem62>
+				<elem63 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/tabs_.psd" />
+						<id v="11791" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="835060" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem63>
+				<elem64 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_active.png" />
+							<id v="6515" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="22732" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem64>
+				<elem65 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_inactive.png" />
+							<id v="7707" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="22106" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem65>
+				<elem66 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_inactive_hover.png" />
+							<id v="19676" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="22296" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem66>
+				<elem67 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_line.png" />
+							<id v="5855" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19899" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem67>
+				<elem68 type="cBuildImageInfo">
+					<cBuildFileInfo>
+						<location type="cFileLocation">
+							<path v="ui_skin/transparent_rect_bk.png" />
+							<id v="20656" />
+						</location>
+						<buildIncluded v="true" />
+						<size v="19150" />
+						<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<type v="2" />
+					</cBuildFileInfo>
+					<atlas v="basic" />
+				</elem68>
+				<elem69 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/tree.psd" />
+						<id v="19356" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="2186145" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem69>
+				<elem70 type="cBuildFileInfo">
+					<location type="cFileLocation">
+						<path v="ui_skin/tree_node.psd" />
+						<id v="20975" />
+					</location>
+					<buildIncluded v="true" />
+					<size v="830326" />
+					<writedTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<type v="1" />
+				</elem70>
+			</filesMeta>
+			<atlases count="0" />
+			<basicAtlas type="cImageAtlasInfo">
+				<name v="basic" />
+				<maxSize x="2048" y="2048" />
+			</basicAtlas>
+		</cBuildInfo>
+		<name v="win32" />
+		<platform v="" />
+	</elem0>
+</buildConfigs>
+<activeBuildConfig v="win32" />
