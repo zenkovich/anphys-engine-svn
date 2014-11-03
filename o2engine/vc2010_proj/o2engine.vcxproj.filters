@@ -88,6 +88,9 @@
     <Filter Include="src\assets">
       <UniqueIdentifier>{dc5d9539-6221-401c-b965-0c41ce6f55c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\assets\asset_build_system">
+      <UniqueIdentifier>{7102725b-dd2f-4e35-a738-58e2a96e9b83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\public.h">
@@ -548,6 +551,15 @@
     </ClInclude>
     <ClInclude Include="..\src\assets\asset.h">
       <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\image_asset.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\xml_asset.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\asset_build_system\asset_build_system.h">
+      <Filter>src\assets\asset_build_system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

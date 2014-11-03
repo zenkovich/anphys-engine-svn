@@ -50,5 +50,8 @@
 /** Building assets before launching app. */
 #define BUILD_ASSETS true
 
+/** Enabling saving assets from code. */
+#define ENABLE_EDITING_ASSETS true
+
 
 #endif //ENGINE_SETTINGS_H
