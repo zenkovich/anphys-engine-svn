@@ -1,6 +1,7 @@
 #include "application_base_interface.h"
 
 #include <time.h>
+#include "config/project_config.h"
 #include "render_system/render_system.h"
 #include "ui/ui_controller.h"
 #include "util/file_system/file_system.h"
@@ -31,6 +32,10 @@ void cApplicationBaseInterface::initalizeSystems()
 {
 	srand(time(NULL));
 
+//project config
+	mProjectConfig = mnew ProjectConfig();
+
+//input message
 	mInputMessage = mnew cInputMessage();
 
 //file system
@@ -65,6 +70,7 @@ void cApplicationBaseInterface::deinitializeSystems()
 	safe_release(mScheduler);
 	safe_release(mTimeUtils);
 	safe_release(mUIController);
+	safe_release(mProjectConfig);
 
 	mLog->out("All systems deinitialized");
 

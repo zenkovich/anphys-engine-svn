@@ -6,10 +6,12 @@
 
 OPEN_O2_NAMESPACE
 
+class ProjectBuildConfig;
+
 class AssetBuildSystem: public cSingleton<AssetBuildSystem>
 {
 public:
-	bool rebuildAssets(bool forcible = false);
+	bool rebuildAssets(ProjectBuildConfig* buildConfig, bool forcible = false);
 };
 
 CLOSE_O2_NAMESPACE

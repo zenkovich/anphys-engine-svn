@@ -1,0 +1,34 @@
+#ifndef BUILD_CONFIG_H
+#define BUILD_CONFIG_H
+
+#include "public.h"
+
+OPEN_O2_NAMESPACE
+
+class ProjectConfig;
+class cAssetConfig;
+	
+class ProjectBuildConfig
+{
+public:
+	typedef array<cAssetConfig*> AssetsConfigsArr;
+
+protected:
+	string           mName;
+	ProjectConfig*   mProjectConfig;
+	AssetsConfigsArr mAssetsConfigs;
+
+public:
+	ProjectBuildConfig(ProjectConfig* projConfig);
+	~ProjectBuildConfig();
+
+	string getName() const;
+	ProjectConfig* getProjectConfigs() const;
+
+protected:
+	void initializeDefault(const string& configFilePath);
+};
+
+CLOSE_O2_NAMESPACE
+
+#endif // BUILD_CONFIG_H
