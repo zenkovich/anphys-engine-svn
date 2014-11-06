@@ -15,9 +15,11 @@ class cScheduler;
 class cTimeUtil;
 class cTimer;
 class uiController;
+class ProjectConfig;
 	
 /** Basic application class. Not implementing frame data. 
   * Containing input message and systems:
+  * Project configs
   * Application log stream,
   * Render system,
   * File system,
@@ -28,22 +30,23 @@ class uiController;
 class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
 {
 protected:
-	cInputMessage*  mInputMessage; /**< While application user input message. */
-	cLogStream*     mLog;          /**< Log stream with id "app", using only for application messages. */
-	grRenderSystem* mRenderSystem; /**< Render system. */
-	cFileSystem*    mFileSystem;   /**< File system. */
-	cScheduler*     mScheduler;    /**< Scheduler. */
-	cTimeUtil*      mTimeUtils;    /**< Time utilities. */
-	uiController*   mUIController; /**< User interface controller host. */									   
-	cTimer*         mTimer;        /**< Timer for detecting delta time for update. */
+	ProjectConfig*  mProjectConfig; /**< Project config. */
+	cInputMessage*  mInputMessage;  /**< While application user input message. */
+	cLogStream*     mLog;           /**< Log stream with id "app", using only for application messages. */
+	grRenderSystem* mRenderSystem;  /**< Render system. */
+	cFileSystem*    mFileSystem;    /**< File system. */
+	cScheduler*     mScheduler;     /**< Scheduler. */
+	cTimeUtil*      mTimeUtils;     /**< Time utilities. */
+	uiController*   mUIController;  /**< User interface controller host. */									   
+	cTimer*         mTimer;         /**< Timer for detecting delta time for update. */
 
 public:
-	cCallbackChain onActivatedEvent;      /**< On Activated event callbacks. */
-	cCallbackChain onDeactivatedEvent;    /**< On deactivated event callbacks. */
-	cCallbackChain onStartedEvent;        /**< On started event callbacks. */
-	cCallbackChain onClosingEvent;        /**< On closing event callbacks. */
-	cCallbackChain onResizingEvent;       /**< On resized app window callbacks. Ignoring on mobiles/tables. */
-	cCallbackChain onMovingEvent;         /**< On moving app window callbacks. Ignoring on mobiles/tables. */
+	cCallbackChain onActivatedEvent;   /**< On Activated event callbacks. */
+	cCallbackChain onDeactivatedEvent; /**< On deactivated event callbacks. */
+	cCallbackChain onStartedEvent;     /**< On started event callbacks. */
+	cCallbackChain onClosingEvent;     /**< On closing event callbacks. */
+	cCallbackChain onResizingEvent;    /**< On resized app window callbacks. Ignoring on mobiles/tables. */
+	cCallbackChain onMovingEvent;      /**< On moving app window callbacks. Ignoring on mobiles/tables. */
 
 	/** ctor. */
 	cApplicationBaseInterface();
