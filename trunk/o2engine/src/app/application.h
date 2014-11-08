@@ -12,7 +12,7 @@
 OPEN_O2_NAMESPACE
 
 inline cApplication* application() { return static_cast<cApplication*>(cApplication::instancePtr()); }
-inline cInputMessage* appInput() { return application()->getInputMessage(); }
+
 
 CLOSE_O2_NAMESPACE
 

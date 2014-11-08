@@ -6,38 +6,6 @@
 
 OPEN_O2_NAMESPACE
 
-const char* cLogStream::BindValue::getStr()
-{
-	switch (mType)
-	{
-	case BV_INT:
-		sprintf(mBuffer, "%.4i", *((int*)mValuePtr));
-		break;
-		
-	case BV_BOOL:
-		if ( *((bool*)mValuePtr) )
-			strcpy(mBuffer, "true");
-		else
-			strcpy(mBuffer, "false");
-		break;
-		
-	case BV_FLOAT:
-		sprintf(mBuffer, "%.4f", *((float*)mValuePtr));
-		break;
-
-	case BV_CHAR_PTR:
-		strncpy(mBuffer, (char*)mValuePtr, 255);
-		mBuffer[255] = '\0';
-		break;
-		
-	case BV_STRING:
-		strncpy(mBuffer, (*(string*)mValuePtr).c_str(), 255);
-		mBuffer[255] = '\0';
-		break;
-	};
-
-	return mBuffer;
-}
 
 cLogStream::cLogStream():
 	mParentStream(NULL), mLevel(2)
@@ -52,8 +20,9 @@ cLogStream::cLogStream( const string& id ):
 
 cLogStream::~cLogStream()
 {
+	if (mParentStream)
+		mParentStream->unbindStream(this, false);
 	unbindAllStreams();
-	unbindAllValues();
 }
 
 void cLogStream::setLevel( uint8 level )
@@ -81,13 +50,14 @@ void cLogStream::bindStream( cLogStream* stream )
 	mChildStreams.push_back(stream);
 }
 
-void cLogStream::unbindStream( cLogStream* stream )
+void cLogStream::unbindStream( cLogStream* stream, bool release /*= true*/ )
 {
 	LogSteamsVec::iterator fnd = std::find(mChildStreams.begin(), mChildStreams.end(), stream);
 	if (fnd != mChildStreams.end())
 		mChildStreams.erase(fnd);
 
-	safe_release(stream);
+	if (release)
+		safe_release(stream);
 }
 
 void cLogStream::unbindAllStreams()
@@ -98,41 +68,6 @@ void cLogStream::unbindAllStreams()
 	}
 
 	mChildStreams.clear();
-}
-
-void cLogStream::bindValue( void* valuePtr, BindValType type, const string& id )
-{
-	mBindedValues.push_back(BindValue(valuePtr, type, id));
-}
-
-void cLogStream::unbindvalue( void* valuePtr )
-{
-	for (BindValVec::iterator it = mBindedValues.begin(); it != mBindedValues.end(); ++it)
-	{
-		if (valuePtr == it->mValuePtr)
-		{
-			mBindedValues.erase(it);
-			break;
-		}
-	}
-}
-
-void cLogStream::unbindAllValues()
-{
-	mBindedValues.clear();
-}
-
-void cLogStream::checkBindedValues()
-{
-	for (BindValVec::iterator it = mBindedValues.begin(); it != mBindedValues.end(); ++it)
-	{
-		outStrEx(it->getStr());
-	}
-
-	for (LogSteamsVec::iterator it = mChildStreams.begin(); it != mChildStreams.end(); ++it)
-	{
-		(*it)->checkBindedValues();
-	}
 }
 
 void cLogStream::out( const char* format, ... )

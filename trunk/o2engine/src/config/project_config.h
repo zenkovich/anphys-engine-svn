@@ -2,13 +2,13 @@
 #define PROJECT_CONFIG_H
 
 #include "public.h"
-#include "util/singleton.h"
+#include "app/application.h"
 
 OPEN_O2_NAMESPACE
 
 class ProjectBuildConfig;
 
-class ProjectConfig: public cSingleton<ProjectConfig>
+class ProjectConfig
 {
 	string              mProjectName;
 	ProjectBuildConfig* mBuildConfig;
@@ -24,7 +24,6 @@ protected:
 	void initializeDefault(const string& configFilePath);
 };
 
-inline ProjectConfig* projectConfig() { return (ProjectConfig*)(ProjectConfig::instancePtr()); }
 inline ProjectBuildConfig* projectBuildConfig() { return projectConfig()->getBuildConfig(); }
 
 CLOSE_O2_NAMESPACE

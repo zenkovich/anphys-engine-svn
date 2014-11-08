@@ -2,7 +2,6 @@
 #define RENDER_SYSTEM_BASE_INTERFACE_H
 
 #include "public.h"
-#include "util/singleton.h"
 #include "util/property.h"
 #include "util/math/vector2.h"
 #include "util/math/color.h"
@@ -22,7 +21,7 @@ class grTexture;
 class grTextureDef;
 
 /** Render system base interface. Containing resolution of render frame, textures, camera and log. */
-class grRenderSystemBaseInterface: public cSingleton<grRenderSystemBaseInterface>
+class grRenderSystemBaseInterface
 {
 	friend class grTextureDef;
 	friend class grTextureDefBaseInterface;

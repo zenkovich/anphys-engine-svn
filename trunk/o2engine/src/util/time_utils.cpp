@@ -2,8 +2,6 @@
 
 OPEN_O2_NAMESPACE
 
-DECLARE_SINGLETON(cTimeUtil);
-
 cTimeUtil::cTimeUtil():
 	mApplicationTime(0), mLocalTime(0), mCurrentFrame(0), mDeltaTime(0), mFPS(0), mFPSSum(0),
 	mFramesSum(0), mLastFPSCheckingTime(0)

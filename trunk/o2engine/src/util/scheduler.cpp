@@ -3,8 +3,6 @@
 #include "math\math.h"
 
 OPEN_O2_NAMESPACE
-	
-DECLARE_SINGLETON(cScheduler);
 
 bool cScheduler::Task::execute()
 {

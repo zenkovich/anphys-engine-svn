@@ -28,7 +28,6 @@ public:
 
 	void setData(char* data, uint32 size);
 
-ENABLE_EDITING_ASSETS_PROTECTION
 	bool save();
 	bool save(const string& path);
 

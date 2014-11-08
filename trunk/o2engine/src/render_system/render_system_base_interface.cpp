@@ -9,8 +9,6 @@
 
 OPEN_O2_NAMESPACE
 
-DECLARE_SINGLETON(grRenderSystemBaseInterface);
-
 grRenderSystemBaseInterface::grRenderSystemBaseInterface():
 	mCurrentCamera(NULL)
 {

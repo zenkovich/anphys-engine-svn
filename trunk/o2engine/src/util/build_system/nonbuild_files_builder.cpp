@@ -1,6 +1,7 @@
 #include "nonbuild_files_builder.h"
 
 #include "build_config.h"
+#include "app/application.h"
 
 OPEN_O2_NAMESPACE
 
@@ -41,7 +42,7 @@ void cNonBuildFilesBuildStage::process()
 	}
 
 	FOREACH(StringsVec, removingPaths, pathIt)
-		getFileSystem().removeDirectory((*pathIt));
+		fileSystem()->removeDirectory((*pathIt));
 
 	foreach_rem(BuildFileInfoArr, buildInfo->mFileInfos, it)
 		if (*it == NULL)
@@ -68,20 +69,20 @@ void cNonBuildFilesBuildStage::process()
 
 void cNonBuildFilesBuildStage::removeFile(cBuildFileInfo* fileInfo)
 {
-	getFileSystem().deleteFile(mDataPath + fileInfo->mLocation.mPath);
+	fileSystem()->deleteFile(mDataPath + fileInfo->mLocation.mPath);
 	hlog("Deleted file: %s", fileInfo->mLocation.mPath.c_str());
 }
 
 void cNonBuildFilesBuildStage::changeFile(cBuildFileInfo* oldFileInfo, cBuildFileInfo* newFileInfo)
 {
-	getFileSystem().deleteFile(mDataPath + oldFileInfo->mLocation.mPath);
-	getFileSystem().copyFile(mAssetsPath + newFileInfo->mLocation.mPath, mDataPath + newFileInfo->mLocation.mPath);
+	fileSystem()->deleteFile(mDataPath + oldFileInfo->mLocation.mPath);
+	fileSystem()->copyFile(mAssetsPath + newFileInfo->mLocation.mPath, mDataPath + newFileInfo->mLocation.mPath);
 	hlog("Changed file: %s to %s", oldFileInfo->mLocation.mPath.c_str(), newFileInfo->mLocation.mPath.c_str());
 }
 
 void cNonBuildFilesBuildStage::copyFile(cBuildFileInfo* fileInfo)
 {
-	getFileSystem().copyFile(mAssetsPath + fileInfo->mLocation.mPath, mDataPath + fileInfo->mLocation.mPath);
+	fileSystem()->copyFile(mAssetsPath + fileInfo->mLocation.mPath, mDataPath + fileInfo->mLocation.mPath);
 	hlog("Copied file: %s", fileInfo->mLocation.mPath.c_str());
 }
 

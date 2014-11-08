@@ -16,7 +16,6 @@ public:
 protected:
 	string           mName;
 	ProjectConfig*   mProjectConfig;
-	AssetsConfigsArr mAssetsConfigs;
 
 public:
 	ProjectBuildConfig(ProjectConfig* projConfig);

@@ -3,14 +3,13 @@
 
 #include "public.h"
 
-#include "util/singleton.h"
 #include "ui_widget.h"
 #include "ui_hint_controller.h"
 
 OPEN_O2_NAMESPACE
 
 /** User interface controller. Processing and drawing widgets. */
-class uiController: public cSingleton<uiController>
+class uiController
 {
 	friend class uiStdSkinInitializer;
 
@@ -75,9 +74,6 @@ public:
 
 private:
 };
-
-/** Basic application ui controller host. */
-#define uiHost() uiController::instancePtr()
 
 CLOSE_O2_NAMESPACE
 

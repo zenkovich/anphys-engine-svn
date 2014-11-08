@@ -46,7 +46,7 @@ cUITest::cUITest()
 	uiButton* btn = testStretchingWdg->addTChild( uiSkin()->button("Add button", cLayout::both().fixHeight(25.0f)) );
 	btn->onClickEvent.add( callback(&AddTestStretchButton) );
 
-	cPathInfo rePathInfo = getFileSystem().getPathInfo(getFileSystem().getResourcePath());
+	cPathInfo rePathInfo = fileSystem()->getPathInfo(fileSystem()->getResourcePath());
 	/*uiHost()->addWidget( uiSkin()->button("Button 1", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 300))) );
 	uiHost()->addWidget( uiSkin()->button("Button 2", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 330))) );
 	uiHost()->addWidget( uiSkin()->button("Button 3", cLayout::fixedSize(vec2f(100, 20), vec2f(300, 360))) );

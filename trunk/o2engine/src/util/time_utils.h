@@ -2,7 +2,6 @@
 #define TIME_UTILS_H
 
 #include "public.h"
-#include "singleton.h"
 
 OPEN_O2_NAMESPACE
 
@@ -32,7 +31,7 @@ struct WideTime
 	}
 };
 
-class cTimeUtil: public cSingleton<cTimeUtil>
+class cTimeUtil
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
@@ -46,7 +45,8 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 	float   mFPSSum;              /** Summary of fps. */
 	float   mFramesSum;           /** Frames summary. */
 	float   mLastFPSCheckingTime; /** Last average fps checking time. */
-
+	
+public:
 	/** ctor. */
 	cTimeUtil();
 
@@ -56,7 +56,6 @@ class cTimeUtil: public cSingleton<cTimeUtil>
 	/** Update parameters. */
 	void update(float dt);
 
-public:
 	/** Returns application working time, in seconds. */
 	float getApplicationTime() const;
 
@@ -78,8 +77,6 @@ public:
 	/** Returns average frames per second for 0.3 seconds. */
 	float getFPS() const;
 };
-
-#define timeUtils() cTimeUtil::instancePtr()
 
 CLOSE_O2_NAMESPACE
 

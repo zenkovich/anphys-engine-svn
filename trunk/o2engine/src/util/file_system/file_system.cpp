@@ -5,8 +5,6 @@
 
 OPEN_O2_NAMESPACE
 
-DECLARE_SINGLETON(cFileSystem);
-
 cFileSystem::cFileSystem()
 {
 	mExtensions[cFileType::FT_IMAGE].push_back("png");
