@@ -16,6 +16,7 @@ class cTimeUtil;
 class cTimer;
 class uiController;
 class ProjectConfig;
+class Assets;
 	
 /** Basic application class. Not implementing frame data. 
   * Containing input message and systems:
@@ -37,7 +38,9 @@ protected:
 	cFileSystem*    mFileSystem;    /**< File system. */
 	cScheduler*     mScheduler;     /**< Scheduler. */
 	cTimeUtil*      mTimeUtils;     /**< Time utilities. */
-	uiController*   mUIController;  /**< User interface controller host. */									   
+	uiController*   mUIController;  /**< User interface controller host. */				
+	Assets*         mAssets;        /**< Assets. */
+						   
 	cTimer*         mTimer;         /**< Timer for detecting delta time for update. */
 
 public:
@@ -57,8 +60,29 @@ public:
 	/** Returns pointer to input message object. */
 	cInputMessage* getInputMessage();
 
-	/** Returns pointer to input message object. */
+	/** Returns pointer to render system object. */
 	grRenderSystem* getRenderSystem() const;
+	
+	/** Returns pointer to log object. */
+	cLogStream* getLog() const;
+	
+	/** Returns pointer to project config object. */
+	ProjectConfig* getProjectConfig() const;
+	
+	/** Returns pointer to file system object. */
+	cFileSystem* getFileSystem() const;
+	
+	/** Returns pointer to scheduler object. */
+	cScheduler* getScheduler() const;
+	
+	/** Returns pointer to time utils object. */
+	cTimeUtil* getTimeUtils() const;
+	
+	/** Returns pointer to ui controller object. */
+	uiController* getUIController() const;
+	
+	/** Returns pointer to assets object. */
+	Assets* getAssets() const;
 
 	/** Launching application cycle. */
 	virtual void launch() {}
@@ -136,6 +160,15 @@ protected:
 	/** Calls when application window moved. Ignoring on mobiles/tablets. */
 	virtual void onMoved() {}
 };
+
+inline cInputMessage* appInput() { return cApplicationBaseInterface::instancePtr()->getInputMessage(); }
+inline grRenderSystem* renderSystem() { return cApplicationBaseInterface::instancePtr()->getRenderSystem(); }
+inline ProjectConfig* projectConfig() { return cApplicationBaseInterface::instancePtr()->getProjectConfig(); }
+inline cFileSystem* fileSystem() { return cApplicationBaseInterface::instancePtr()->getFileSystem(); }
+inline cScheduler* scheduler() { return cApplicationBaseInterface::instancePtr()->getScheduler(); }
+inline cTimeUtil* timeUtils() { return cApplicationBaseInterface::instancePtr()->getTimeUtils(); }
+inline uiController* uiHost() { return cApplicationBaseInterface::instancePtr()->getUIController(); }
+inline Assets* assets() { return cApplicationBaseInterface::instancePtr()->getAssets(); }
 
 CLOSE_O2_NAMESPACE
 

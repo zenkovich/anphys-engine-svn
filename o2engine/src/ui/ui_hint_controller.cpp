@@ -2,6 +2,7 @@
 
 #include "ui_label.h"
 #include "ui_controller.h"
+#include "app/application.h"
 
 OPEN_O2_NAMESPACE
 

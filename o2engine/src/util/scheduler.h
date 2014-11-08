@@ -4,14 +4,13 @@
 #include "public.h"
 
 #include <vector>
-#include "singleton.h"
 #include "callback.h"
 #include "smart_ptrs.h"
 
 OPEN_O2_NAMESPACE
 
 /** Scheduler class. Processing tasks at begin and end frame. */
-class cScheduler: public cSingleton<cScheduler>
+class cScheduler
 {
 	friend class cApplication;
 	friend class cApplicationBaseInterface;
@@ -41,13 +40,13 @@ protected:
 	TaskVec  mUnusedTasks;  /** Unused tasks vector. When needs some task object, first will take from here. */
 	int      mLastTaskId;   /** Last task id. */
 	
+public:	
 	/** ctor. */
 	cScheduler();
 
 	/** dtor. */
 	~cScheduler();
 
-public:	
 	/** Adding once time execution callback. Return id of task. */
 	int addTask(ICallback* callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);
 
@@ -76,8 +75,6 @@ protected:
 	/** Returns task sample filled with specified parameters. */
 	Task* getTask(ICallback* callback, float delay, float repeatDelay, ExecStage stage, bool variableRepeatDelay);
 };
-
-#define scheduler() cScheduler::instancePtr()
 
 CLOSE_O2_NAMESPACE
 

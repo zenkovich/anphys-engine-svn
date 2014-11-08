@@ -20,7 +20,6 @@ ProjectBuildConfig::ProjectBuildConfig(ProjectConfig* projConfig):
 	}
 
 	serializer.serialize(mName, "buildName");
-	serializer.serialize(mAssetsConfigs, "assetsConfigs");
 }
 
 ProjectBuildConfig::~ProjectBuildConfig()
@@ -43,7 +42,6 @@ void ProjectBuildConfig::initializeDefault(const string& configFilePath)
 
 	cSerializer serializer(cSerializer::ST_SERIALIZE);
 	serializer.serialize(mName, "buildName");
-	serializer.serialize(mAssetsConfigs, "assetsConfigs");
 	serializer.save(configFilePath);
 }
 

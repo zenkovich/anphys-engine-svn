@@ -1,6 +1,7 @@
 #include "file.h"
 
 #include "file_system.h"
+#include "app/application_base_interface.h"
 
 OPEN_O2_NAMESPACE
 	
@@ -37,10 +38,10 @@ bool cInFile::open( const string& filename, cFileType::value type /*= cFileType:
 	{
 		bool success = false;
 
-		const cFileSystem::ExtensionsVec extensions = getFileSystem().getExtensions(type);
+		const cFileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
 		for (cFileSystem::ExtensionsVec::const_iterator it = extensions.cbegin(); it != extensions.cend(); ++it)
 		{
-			string resFilename = getFileSystem().getResourcePath() + filename + "." + (*it);
+			string resFilename = fileSystem()->getResourcePath() + filename + "." + (*it);
 
 			mIfstream.open(resFilename.c_str(), std::ios::binary);
 
@@ -138,12 +139,12 @@ bool cOutFile::open( const string& filename, cFileType::value type /*= cFileType
 	if (type != cFileType::FT_FILE)
 	{
 		string extensionStr;		
-		const cFileSystem::ExtensionsVec extensions = getFileSystem().getExtensions(type);
+		const cFileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
 
 		if (extensions.size() > 0)
 			extensionStr = extensions[0];
 
-		resFilename = getFileSystem().getResourcePath() + filename + "." + extensionStr;
+		resFilename = fileSystem()->getResourcePath() + filename + "." + extensionStr;
 	}
 
 	mOfstream.open(resFilename.c_str(), std::ios::binary);

@@ -286,6 +286,7 @@
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
     <ClCompile Include="..\src\app\application_base_interface.cpp" />
     <ClCompile Include="..\src\app\win\application_win.cpp" />
+    <ClCompile Include="..\src\assets\assets.cpp" />
     <ClCompile Include="..\src\config\asset_config.cpp" />
     <ClCompile Include="..\src\config\build_config.cpp" />
     <ClCompile Include="..\src\config\project_config.cpp" />

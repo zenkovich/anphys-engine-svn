@@ -8,6 +8,7 @@
 #include "util/serialize_util.h"
 #include "nonbuild_files_builder.h"
 #include "atlases_builder.h"
+#include "app/application.h"
 
 OPEN_O2_NAMESPACE
 
@@ -144,10 +145,10 @@ void cBuildSystem::cleanUpBuildedAssest()
 {
 	hlog("Cleanup assets");
 
-	if (!getFileSystem().removeDirectory(getBuildAssetsPath()))
+	if (!fileSystem()->removeDirectory(getBuildAssetsPath()))
 		hlog("failed to remove dir");
 
-	getFileSystem().createDirectory(getBuildAssetsPath());
+	fileSystem()->createDirectory(getBuildAssetsPath());
 }
 
 void cBuildSystem::loadBuildInfo(bool errors /*= false*/)
@@ -260,7 +261,7 @@ void cBuildSystem::updateBuildConfig()
 
 void cBuildSystem::gatherAssetsFileInfos(BuildFileInfoArr& filesMeta)
 {
-	cPathInfo assetsPathInfo = getFileSystem().getPathInfo(mProjectPath + "/Assets");
+	cPathInfo assetsPathInfo = fileSystem()->getPathInfo(mProjectPath + "/Assets");
 	gatherAssetsFileInfosFromFolder(assetsPathInfo, filesMeta);
 }
 

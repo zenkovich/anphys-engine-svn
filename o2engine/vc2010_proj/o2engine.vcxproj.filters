@@ -956,5 +956,8 @@
     <ClCompile Include="..\src\config\asset_config.cpp">
       <Filter>src\config</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\assets\assets.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

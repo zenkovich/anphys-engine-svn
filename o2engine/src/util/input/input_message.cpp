@@ -4,6 +4,7 @@
 #include "util/data_utils.h"
 #include "util/time_utils.h"
 #include "util/log.h"
+#include "app/application.h"
 
 #ifdef PLATFORM_WIN
 #include <Windows.h>

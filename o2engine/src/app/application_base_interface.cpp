@@ -11,6 +11,7 @@
 #include "util/scheduler.h"
 #include "util/time_utils.h"
 #include "util/timer.h"
+#include "assets/assets.h"
 
 OPEN_O2_NAMESPACE
 
@@ -34,6 +35,9 @@ void cApplicationBaseInterface::initalizeSystems()
 
 //project config
 	mProjectConfig = mnew ProjectConfig();
+
+//assets
+	mAssets = mnew Assets();
 
 //input message
 	mInputMessage = mnew cInputMessage();
@@ -71,20 +75,11 @@ void cApplicationBaseInterface::deinitializeSystems()
 	safe_release(mTimeUtils);
 	safe_release(mUIController);
 	safe_release(mProjectConfig);
+	safe_release(mAssets);
 
 	mLog->out("All systems deinitialized");
 
 	//safe_release(gLog->getParentStream());
-}
-
-cInputMessage* cApplicationBaseInterface::getInputMessage()
-{
-	return mInputMessage;
-}
-
-grRenderSystem* cApplicationBaseInterface::getRenderSystem() const
-{
-	return mRenderSystem;
 }
 
 void cApplicationBaseInterface::processFrame()
@@ -106,6 +101,51 @@ void cApplicationBaseInterface::processFrame()
 	mInputMessage->update(dt);
 
 	mScheduler->processAfterFrame(dt);
+}
+
+cInputMessage* cApplicationBaseInterface::getInputMessage()
+{
+	return mInputMessage;
+}
+
+grRenderSystem* cApplicationBaseInterface::getRenderSystem() const
+{
+	return mRenderSystem;
+}
+
+cLogStream* cApplicationBaseInterface::getLog() const
+{
+	return mLog;
+}
+
+ProjectConfig* cApplicationBaseInterface::getProjectConfig() const
+{
+	return mProjectConfig;
+}
+
+cFileSystem* cApplicationBaseInterface::getFileSystem() const
+{
+	return mFileSystem;
+}
+
+cScheduler* cApplicationBaseInterface::getScheduler() const
+{
+	return mScheduler;
+}
+
+cTimeUtil* cApplicationBaseInterface::getTimeUtils() const
+{
+	return mTimeUtils;
+}
+
+uiController* cApplicationBaseInterface::getUIController() const
+{
+	return mUIController;
+}
+
+Assets* cApplicationBaseInterface::getAssets() const
+{
+	return mAssets;
 }
 
 CLOSE_O2_NAMESPACE

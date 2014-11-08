@@ -4,7 +4,6 @@
 #include <map>
 
 #include "public.h"
-#include "util/singleton.h"
 #include "file.h"
 #include "file_info.h"
 #include "util/string.h"
@@ -12,7 +11,7 @@
 OPEN_O2_NAMESPACE
 	
 /** File system, singleton. Containing basic resource path, extension strings. */
-class cFileSystem:public cSingleton<cFileSystem>
+class cFileSystem
 {
 public:
 	typedef vector<string> ExtensionsVec;
@@ -62,8 +61,6 @@ public:
 	/** Returns true if specified directory exist. */
 	bool isDirectoryExist(const string& path) const;
 };
-
-#define getFileSystem() cFileSystem::instance()
 
 CLOSE_O2_NAMESPACE
 

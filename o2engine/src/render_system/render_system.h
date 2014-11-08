@@ -11,9 +11,10 @@
 	#include "d3d9c\render_system_d3d9c.h"
 #endif
 
+#include "app/application.h"
+
 OPEN_O2_NAMESPACE
 
-inline grRenderSystem* renderSystem() { return (grRenderSystem*)(grRenderSystem::instancePtr()); }
 inline grFontManager* fontsManager() { return renderSystem()->getFontManager(); }
 
 CLOSE_O2_NAMESPACE

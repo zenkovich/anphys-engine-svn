@@ -2,6 +2,7 @@
 
 #include "build_config.h"
 #include "util\serialize_util.h"
+#include "build_config.h"
 
 OPEN_O2_NAMESPACE
 

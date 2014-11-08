@@ -25,7 +25,7 @@ TestApp::TestApp():
 	setWindowCaption("o2 test");
 	//setOption(cApplicationOption::RESIZIBLE, false);
 
-	getFileSystem().setResourcePath("../data/");
+	fileSystem()->setResourcePath("../data/");
 
 	//mTest = mnew InputMsgTest();
 	//mTest = mnew cTextTest();
