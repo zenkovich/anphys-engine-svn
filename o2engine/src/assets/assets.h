@@ -23,8 +23,8 @@ public:
 		SourcePath(const string& path);
 
 		string getPath() const;
-		cFileLocation getFileLocation(const string& path) const;
-		cFileLocation getFileLocation(uint32 id) const;
+		bool getFileLocation(const string& path, cFileLocation& location) const;
+		bool getFileLocation(uint32 id, cFileLocation& location) const;
 	};
 	typedef array<SourcePath> SourcePathsArr;
 
@@ -38,6 +38,8 @@ public:
 
 	void addAssetsPath(const string& path);
 
+	string getPathByFileFromFileId(const string& path);
+
 	asAsset* loadAsset(const string& path);
 
 	template<typename _asType>
@@ -48,8 +50,8 @@ public:
 
 template<typename _asType>
 _asType* Assets::loadAsset(const string& path)
-{
-	return static_cast<_asType>(loadAsset(path));
+{	
+	return mnew _asType(getPathByFileFromFileId(path));
 }
 
 CLOSE_O2_NAMESPACE
