@@ -252,7 +252,7 @@ public:
 		{
 			createNode(id);
 
-			mCurrentNode.append_attribute("count") = arr.size();
+			mCurrentNode.append_attribute("count") = arr.count();
 			for (int i = 0; i < (int)arr.count(); i++)
 			{
 				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
@@ -273,8 +273,8 @@ public:
 			for (int i = 0; i < srCount; i++)
 			{
 				char elemNodeName[32]; sprintf(elemNodeName, "elem%i", i);
-				array.push_back(T());
-				T* elemPtr = &arr.back();
+				arr.add(T());
+				T* elemPtr = &arr.last();
 				serialize(elemPtr, elemNodeName, errors);
 			}
 

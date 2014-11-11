@@ -117,6 +117,7 @@
     <ClInclude Include="..\src\assets\asset.h" />
     <ClInclude Include="..\src\assets\assets.h" />
     <ClInclude Include="..\src\assets\asset_build_system\asset_build_system.h" />
+    <ClInclude Include="..\src\assets\asset_ref.h" />
     <ClInclude Include="..\src\assets\image_asset.h" />
     <ClInclude Include="..\src\assets\xml_asset.h" />
     <ClInclude Include="..\src\config\asset_config.h" />
@@ -234,7 +235,7 @@
     <ClInclude Include="..\src\util\public_platforms.h" />
     <ClInclude Include="..\src\util\public_types.h" />
     <ClInclude Include="..\src\util\public_utils.h" />
-    <ClInclude Include="..\src\util\ref_counter.h" />
+    <ClInclude Include="..\src\util\ref_object.h" />
     <ClInclude Include="..\src\util\scheduler.h" />
     <ClInclude Include="..\src\util\serialize_util.h" />
     <ClInclude Include="..\src\util\singleton.h" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\dependencies\zlib\zutil.c" />
     <ClCompile Include="..\src\app\application_base_interface.cpp" />
     <ClCompile Include="..\src\app\win\application_win.cpp" />
+    <ClCompile Include="..\src\assets\asset.cpp" />
     <ClCompile Include="..\src\assets\assets.cpp" />
     <ClCompile Include="..\src\config\asset_config.cpp" />
     <ClCompile Include="..\src\config\build_config.cpp" />
