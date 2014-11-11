@@ -13,7 +13,7 @@
 
 OPEN_O2_NAMESPACE
 
-class grTexture: public cReferenceObj<grTextureDef>, public grTextureInterface
+class grTexture: public cObjectRef<grTextureDef>, public grTextureInterface
 {
 	friend class grRenderSystem;
 	friend class grRenderTargetBaseInterface;

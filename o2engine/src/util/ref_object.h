@@ -6,17 +6,17 @@
 OPEN_O2_NAMESPACE
 
 /** Object, containing reference count. */
-class IRefCounter
+class IRefObject
 {
 protected:
 	int mRefCount; /**< Reference count. */
 
 public:
 	/** ctor. */
-	IRefCounter():mRefCount(0) {}
+	IRefObject():mRefCount(0) {}
 
 	/** dtor. */
-	virtual ~IRefCounter() {}
+	virtual ~IRefObject() {}
 
 	/** Increase reference count. */
 	void incRefCount() 
@@ -52,23 +52,23 @@ protected:
 };
 
 
-/** Reference object. Containing IRefCouner and working with reference count. */
+/** Reference object. Containing IRefObject and working with reference count. */
 template<typename T>
-class cReferenceObj
+class cObjectRef
 {
 protected:
-	T* mObject; /**< IRefCouner object. */
+	T* mObject; /**< IRefObject object. */
 
 public:
 	/** ctor. */
-	cReferenceObj(T* object):mObject(object)
+	cObjectRef(T* object):mObject(object)
 	{
 		if (mObject)
 			mObject->incRefCount();
 	}
 
 	/** copy ctor. Increases reference. */
-	cReferenceObj(const cReferenceObj<T>& refObject)
+	cObjectRef(const cObjectRef<T>& refObject)
 	{
 		mObject = refObject.mObject;
 		if (mObject)
@@ -76,14 +76,14 @@ public:
 	}
 
 	/** dtor. */
-	virtual ~cReferenceObj() 
+	virtual ~cObjectRef() 
 	{
 		if (mObject)
 			mObject->decRefCount();
 	}
 
 	/** copy operator. */
-	cReferenceObj<T> operator=(const cReferenceObj<T>& refObject)
+	cObjectRef<T> operator=(const cObjectRef<T>& refObject)
 	{
 		mObject = refObject.mObject;
 		if (mObject)

@@ -2,7 +2,7 @@
 #define TEXTURE_BASE_INTERFACE_H
 
 #include "public.h"
-#include "util/ref_counter.h"
+#include "util/ref_object.h"
 #include "util/math/vector2.h"
 
 OPEN_O2_NAMESPACE
@@ -71,7 +71,7 @@ public:
 
 
 /** Texture definition base interface, derives from texture interface and reference counter. */
-class grTextureDefBaseInterface: public grTextureInterface, public IRefCounter 
+class grTextureDefBaseInterface: public grTextureInterface, public IRefObject 
 {
 protected:
 	/** ctor. */

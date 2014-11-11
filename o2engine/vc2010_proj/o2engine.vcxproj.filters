@@ -378,9 +378,6 @@
     <ClInclude Include="..\src\util\data_utils.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\ref_counter.h">
-      <Filter>src\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\scheduler.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -572,6 +569,12 @@
     </ClInclude>
     <ClInclude Include="..\src\config\asset_config.h">
       <Filter>src\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util\ref_object.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\assets\asset_ref.h">
+      <Filter>src\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -957,6 +960,9 @@
       <Filter>src\config</Filter>
     </ClCompile>
     <ClCompile Include="..\src\assets\assets.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\assets\asset.cpp">
       <Filter>src\assets</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,7 +6,7 @@
 OPEN_O2_NAMESPACE
 
 grTexture::grTexture( grTextureDef* object ):
-	cReferenceObj(object)
+	cObjectRef(object)
 {
 	if (object) {
 		mSize = object->mSize;

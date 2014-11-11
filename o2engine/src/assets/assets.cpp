@@ -18,6 +18,11 @@ Assets::SourcePath::SourcePath(const string& path):
 	serilizer.serialize(mFiles, "files");
 }
 
+Assets::SourcePath::SourcePath()
+{
+
+}
+
 string Assets::SourcePath::getPath() const
 {
 	return mPath;
@@ -51,6 +56,11 @@ bool Assets::SourcePath::getFileLocation(uint32 id, cFileLocation& location) con
 	return false;
 }
 
+bool Assets::SourcePath::operator==(const SourcePath& other)
+{
+	return mPath == other.mPath;
+}
+
 
 Assets::Assets()
 {
@@ -67,24 +77,13 @@ void Assets::addAssetsPath(const string& path)
 {
 	mSourcePaths.add(SourcePath(path));
 }
-	
-asAsset* Assets::loadAsset(const string& path)
-{
-	asAsset* newAsset = mnew asAsset(getPathByFileFromFileId(path));
-	return newAsset;
-}
 
-bool Assets::saveAsset(asAsset* asset, const string& path)
-{
-	asset->
-}
-
-string Assets::getPathByFileFromFileId( const string& path )
+string Assets::getAssetsRealPath( const string& path )
 {
 	string convertedPath = path;
 
 	if (convertedPath == "")
-		return NULL;
+		return convertedPath;
 
 	uint32 fileId = 0;
 	if (convertedPath[0] == '@')
@@ -107,6 +106,40 @@ string Assets::getPathByFileFromFileId( const string& path )
 	}
 
 	return convertedPath;
+}
+
+cFileLocation Assets::getAssetFileLocation(const string& path)
+{
+	string convertedPath = getAssetsRealPath(path);
+
+	foreach_back(SourcePathsArr, mSourcePaths, sourcePath)
+	{
+		cFileLocation fileLoc;
+		if (sourcePath->getFileLocation(convertedPath, fileLoc))
+			return fileLoc;
+	}
+}
+
+void Assets::saveLoadedAssets()
+{
+	foreach(AssetsArr, mLoadedAssets, asset)
+		(*asset)->saveData();
+
+	//check assets rebuilding
+}
+
+uint32 Assets::generateFileId() const
+{
+	return rand()%(UINT_MAX - 1) + 1;
+}
+
+void Assets::assetUnused(asAsset* asset)
+{
+	mLoadedAssets.remove(asset);
+	asset->saveData();
+	mUnusedAssets.add(asset);
+
+	//check assets rebuilding
 }
 
 CLOSE_O2_NAMESPACE
