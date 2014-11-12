@@ -92,6 +92,10 @@ public:
 	}
 };
 
+#define DEFINE_REF_TYPE() public:                                        \
+	virtual UniqueType getType() { return mObject->getType(); }          \
+	virtual const char* getTypeName() { return mObject->getTypeName(); }
+
 CLOSE_O2_NAMESPACE
 
 #endif // REF_COUNTER_H

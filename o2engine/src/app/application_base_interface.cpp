@@ -33,18 +33,6 @@ void cApplicationBaseInterface::initalizeSystems()
 {
 	srand(time(NULL));
 
-//project config
-	mProjectConfig = mnew ProjectConfig();
-
-//assets
-	mAssets = mnew Assets();
-
-//input message
-	mInputMessage = mnew cInputMessage();
-
-//file system
-	mFileSystem = mnew cFileSystem();
-
 //log
 	cFileLogStream* fileLog = mnew cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
 	gLog = mnew cConsoleLogStream(BASIC_LOG_LEVEL);
@@ -53,6 +41,18 @@ void cApplicationBaseInterface::initalizeSystems()
 	gLog->bindStream(mLog);
 
 	mLog->out("All Systems initialized");
+
+//file system
+	mFileSystem = mnew cFileSystem();
+
+//project config
+	mProjectConfig = mnew ProjectConfig();
+
+//assets
+	mAssets = mnew Assets();
+
+//input message
+	mInputMessage = mnew cInputMessage();
 
 //scheduler
 	mScheduler = mnew cScheduler();
