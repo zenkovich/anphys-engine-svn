@@ -2,8 +2,9 @@
 #define ASSET_H
 
 #include "public.h"
-#include "util\file_system\file_info.h"
-#include "util\ref_object.h"
+#include "util/file_system/file_info.h"
+#include "util/ref_object.h"
+#include "util/type_indexation.h"
 
 OPEN_O2_NAMESPACE
 
@@ -11,6 +12,8 @@ class asAsset: public IRefObject
 {
 	friend class Assets;
 	friend class asAssetRef;
+
+	DEFINE_TYPE(asAsset);
 
 protected:
 	cFileLocation mLocation;
@@ -30,15 +33,10 @@ protected:
 	string getPath() const;
 	uint32 getFileId() const;
 
-	char* getData() const;
-	uint32 getDataSize() const;
-
-	void setData(char* data, uint32 size);
-
 	void save(const string& path);
 
 protected:
-	virtual void saveData() {}
+	virtual void saveData() = 0;
 
 	void onZeroRefCount();
 };

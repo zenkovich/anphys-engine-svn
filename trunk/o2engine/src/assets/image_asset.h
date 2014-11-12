@@ -9,21 +9,25 @@ class cImage;
 
 class asImage: public asAsset
 {
+	DEFINE_TYPE(asImage);
+
 protected:
 	cImage* mImage;
 
-public:
+protected:
 	asImage();
 	asImage(const string& location);
 	asImage(const cFileLocation& location);
 	asImage(cImage* image);
 	~asImage();
 
+	asImage& operator=(const asImage& asset);
+
 	cImage* getImage() const;
 	void setImage(cImage* image);
 
 protected:
-	virtual void saveData();
+	void saveData();
 };
 
 CLOSE_O2_NAMESPACE

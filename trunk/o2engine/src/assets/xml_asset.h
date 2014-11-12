@@ -6,22 +6,27 @@
 
 OPEN_O2_NAMESPACE
 
-class asXmlAsset: public asAsset
+class asXmlDoc: public asAsset
 {
+	DEFINE_TYPE(asXmlDoc);
+
 protected:
 	pugi::xml_document mXmlDoc;
 
-public:
-	asXmlAsset();
-	asXmlAsset(const string& location);
-	asXmlAsset(const cFileLocation& location);
-	asXmlAsset(const pugi::xml_document& xmlDoc);
-	~asXmlAsset();
+protected:
+	asXmlDoc();
+	asXmlDoc(const string& location);
+	asXmlDoc(const cFileLocation& location);
+	~asXmlDoc();	
 
 	pugi::xml_document& getXmlDoc();
 
+private:
+	asXmlDoc& operator=(const asXmlDoc& asset);
+
 protected:
-	virtual void saveData();
+	void loadData();
+	void saveData();
 };
 
 CLOSE_O2_NAMESPACE

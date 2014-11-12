@@ -6,6 +6,7 @@
 OPEN_O2_NAMESPACE
 
 #define UniqueType unsigned int
+
 struct TypeIdxContainer
 {
 	static UniqueType index;

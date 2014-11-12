@@ -12,30 +12,16 @@ class cLogStream;
 class Assets
 {
 	friend class asAsset;
+	friend class asFile;
+	friend class asImage;
+	friend class asXmlDoc;
 
 public:
 	typedef array<cFileLocation> FilesLocsArr;
 	typedef array<asAsset*> AssetsArr;
 
-	class SourcePath
-	{
-		string       mPath;
-		FilesLocsArr mFiles;
-
-	public:
-		SourcePath();
-		SourcePath(const string& path);
-
-		string getPath() const;
-		bool getFileLocation(const string& path, cFileLocation& location) const;
-		bool getFileLocation(uint32 id, cFileLocation& location) const;
-
-		bool operator==(const SourcePath& other);
-	};
-	typedef array<SourcePath> SourcePathsArr;
-
 protected:
-	SourcePathsArr mSourcePaths;
+	FilesLocsArr   mFilesLocs;
 	AssetsArr      mLoadedAssets;
 	AssetsArr      mUnusedAssets;
 	cLogStream*    mLog;
@@ -43,8 +29,6 @@ protected:
 public:
 	Assets();
 	~Assets();
-
-	void addAssetsPath(const string& path);
 
 	string getAssetsRealPath(const string& path);
 	cFileLocation getAssetFileLocation(const string& path);
@@ -62,6 +46,8 @@ public:
 	void removeAsset(_asType& asset);
 
 	void saveLoadedAssets();
+
+	void rebuildAssets(bool forcible = false);
 
 protected:
 	uint32 generateFileId() const;
@@ -85,6 +71,7 @@ void Assets::removeAsset(_asType& asset)
 	fileSystem()->deleteFile(asset.getPath());
 
 	//check assets rebuilding
+	rebuildAssets();
 }
 
 template<typename _asType>
