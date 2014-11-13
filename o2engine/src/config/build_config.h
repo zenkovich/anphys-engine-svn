@@ -6,12 +6,12 @@
 OPEN_O2_NAMESPACE
 
 class ProjectConfig;
-class cAssetConfig;
+class asAssetConfig;
 	
 class ProjectBuildConfig
 {
 public:
-	typedef array<cAssetConfig*> AssetsConfigsArr;
+	typedef array<asAssetConfig*> AssetsConfigsArr;
 
 protected:
 	string           mName;

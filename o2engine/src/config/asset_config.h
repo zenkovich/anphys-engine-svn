@@ -7,28 +7,40 @@
 
 OPEN_O2_NAMESPACE
 
-class cAssetConfig: public cSerializable
+class asAssetConfig: public cSerializable
 {
 public:
 	cFileLocation mLocation;
 	bool          mIncludeBuild;
 
 public:
-	cAssetConfig();
+	asAssetConfig();
 
-	SERIALIZBLE_METHODS(cAssetConfig);
+	SERIALIZBLE_METHODS(asAssetConfig);
+};
+typedef array<asAssetConfig*> AssetsConfigsArr;
+
+class asPathConfig: public asAssetConfig
+{
+public:
+	AssetsConfigsArr mAssets;
+
+public:
+	asPathConfig();
+
+	SERIALIZBLE_INHERITED_METHODS(asPathConfig, asAssetConfig);
 };
 
-class cImageAssetConfig: public cAssetConfig
+class asImageConfig: public asAssetConfig
 {
 public:
 	float  mScale;
 	string mAtlas;
 
 public:
-	cImageAssetConfig();
+	asImageConfig();
 
-	SERIALIZBLE_INHERITED_METHODS(cImageAssetConfig, cAssetConfig);
+	SERIALIZBLE_INHERITED_METHODS(asImageConfig, asAssetConfig);
 };
 
 CLOSE_O2_NAMESPACE

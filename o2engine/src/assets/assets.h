@@ -2,12 +2,13 @@
 #define ASSETS_H
 
 #include "public.h"
-#include "util/file_system/file_info.h"
+#include "asset.h"
 
 OPEN_O2_NAMESPACE
 
 class asAsset;
 class cLogStream;
+class AssetBuildSystem;
 
 class Assets
 {
@@ -17,14 +18,15 @@ class Assets
 	friend class asXmlDoc;
 
 public:
-	typedef array<cFileLocation> FilesLocsArr;
+	typedef array<asAssetInfo> AssetsInfosArr;
 	typedef array<asAsset*> AssetsArr;
 
 protected:
-	FilesLocsArr   mFilesLocs;
-	AssetsArr      mLoadedAssets;
-	AssetsArr      mUnusedAssets;
-	cLogStream*    mLog;
+	AssetsInfosArr    mAssetsInfos;
+	AssetsArr         mLoadedAssets;
+	AssetsArr         mUnusedAssets;
+	cLogStream*       mLog;
+	AssetBuildSystem* mBuildSystem;
 
 public:
 	Assets();
@@ -70,7 +72,6 @@ void Assets::removeAsset(_asType& asset)
 	mLoadedAssets.remove(asset.mObject);
 	fileSystem()->deleteFile(asset.getPath());
 
-	//check assets rebuilding
 	rebuildAssets();
 }
 
