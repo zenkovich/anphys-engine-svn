@@ -5,6 +5,8 @@
 #include "util/file_system/file_info.h"
 #include "util/ref_object.h"
 #include "util/type_indexation.h"
+#include "util/time_utils.h"
+#include "util/serialize_util.h"
 
 OPEN_O2_NAMESPACE
 
@@ -39,6 +41,15 @@ protected:
 	virtual void saveData() = 0;
 
 	void onZeroRefCount();
+};
+
+struct asAssetInfo: public cSerializable
+{
+	cFileLocation mLocation;
+	string        mTypeName;
+	WideTime      mWriteTime;
+
+	SERIALIZBLE_METHODS(asAssetInfo);
 };
 
 CLOSE_O2_NAMESPACE

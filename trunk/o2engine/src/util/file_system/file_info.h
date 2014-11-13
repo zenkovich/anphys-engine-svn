@@ -19,11 +19,7 @@ public:
 	uint32           mSize;
 	uint64           mCheckSumm;
 
-	bool operator==(const cFileInfo& fi) const
-	{
-		return mPath == fi.mPath && mFileType == fi.mFileType && mCreatedDate == fi.mCreatedDate &&
-			   mAccessDate == fi.mAccessDate && mEditDate == fi.mEditDate && mSize == fi.mSize;
-	}
+	bool operator==(const cFileInfo& fi) const;
 };
 
 class cPathInfo 
@@ -36,10 +32,9 @@ public:
 	FilesArr mFiles;
 	PathsArr mPaths;
 
-	bool operator==(const cPathInfo& pi) const
-	{
-		return mPath == pi.mPath;
-	}
+	bool operator==(const cPathInfo& pi) const;
+
+	bool isFileExist(const string& path);
 };
 
 class cFileLocation: public cSerializable
@@ -50,18 +45,8 @@ public:
 
 	cFileLocation(const string& path = "", uint32 id = 0):mPath(path), mId(id) {}
 
-	bool operator==(const cFileLocation& v) const
-	{ 
-		if (mId != 0)
-			return mId == v.mId;
-
-		return mPath == v.mPath; 
-	}
-
-	bool operator!=(const cFileLocation& v) const
-	{ 
-		return !(v == *this);
-	}
+	bool operator==(const cFileLocation& v) const;
+	bool operator!=(const cFileLocation& v) const;
 
 	SERIALIZBLE_METHODS(cFileLocation);
 };

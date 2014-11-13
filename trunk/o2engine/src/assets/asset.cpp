@@ -67,4 +67,12 @@ void asAsset::onZeroRefCount()
 	assets()->assetUnused(this);
 }
 
+
+SERIALIZE_METHOD_IMPL(asAssetInfo)
+{
+	SERIALIZE_ID(&mLocation, "location");
+	SERIALIZE_ID(mTypeName, "type");
+	SERIALIZE_ID(mWriteTime, "writeTime");
+}
+
 CLOSE_O2_NAMESPACE

@@ -2,11 +2,11 @@
 
 OPEN_O2_NAMESPACE
 
-cAssetConfig::cAssetConfig()
+asAssetConfig::asAssetConfig()
 {
 }
 
-SERIALIZE_METHOD_IMPL(cAssetConfig)
+SERIALIZE_METHOD_IMPL(asAssetConfig)
 {
 	SERIALIZE_ID(&mLocation, "location");
 	SERIALIZE_ID(mIncludeBuild, "includeBuild");
@@ -14,15 +14,26 @@ SERIALIZE_METHOD_IMPL(cAssetConfig)
 }
 
 
-cImageAssetConfig::cImageAssetConfig()
+asImageConfig::asImageConfig():
+	mScale(1.0f)
 {
 }
 
-SERIALIZE_INHERITED_METHOD_IMPL(cImageAssetConfig) 
+SERIALIZE_INHERITED_METHOD_IMPL(asImageConfig) 
 {
 	SERIALIZE_ID(mScale, "scale");
 	SERIALIZE_ID(mAtlas, "atlas");
 	return true;
+}
+
+
+asPathConfig::asPathConfig()
+{
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(asPathConfig)
+{
+	SERIALIZE_ID(mAssets, "assets");
 }
 
 CLOSE_O2_NAMESPACE
