@@ -35,6 +35,10 @@ public:
 	bool operator==(const cPathInfo& pi) const;
 
 	bool isFileExist(const string& path);
+	void clampPathNames();
+
+protected:
+	void processPathNamesClamping(int charCount);
 };
 
 class cFileLocation: public cSerializable

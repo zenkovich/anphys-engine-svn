@@ -5,12 +5,12 @@
 OPEN_O2_NAMESPACE
 
 asAssetBuildingConvertor::asAssetBuildingConvertor():
-	mAssets(NULL)
+	mBuildSystem(NULL)
 {
 }
 
-asAssetBuildingConvertor::asAssetBuildingConvertor(Assets* assets):
-	mAssets(assets)
+asAssetBuildingConvertor::asAssetBuildingConvertor(AssetBuildSystem* buildSystem):
+	mBuildSystem(buildSystem)
 {
 }
 

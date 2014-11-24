@@ -59,7 +59,7 @@ cPathInfo cFileSystem::getPathInfo(const string& path) const
 		while(FindNextFile(h, &f));
 	}
 	else
-		gLog->error("failed getpathIfno: Error opening directory %s", path.c_str());
+		gLog->error("Failed getPathInfo: Error opening directory %s", path.c_str());
 
 	FindClose(h);
 	
@@ -189,10 +189,10 @@ void cFileSystem::checkAssetsBuilding() const
 	if (!BUILD_ASSETS)
 		return;
 
-	if (!cBuildSystem::isSingletonInitialzed())	
+	/*if (!cBuildSystem::isSingletonInitialzed())	
 		mnew cBuildSystem("../../..");
 
-	cBuildSystem::instance().rebuildAssets(false);
+	cBuildSystem::instance().rebuildAssets(false);*/
 }
 
 bool cFileSystem::isDirectoryExist(const string& path) const

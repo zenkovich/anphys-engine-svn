@@ -588,6 +588,9 @@
     <ClInclude Include="..\src\assets\asset_build_system\asset_file_info.h">
       <Filter>src\assets\asset_build_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\assets\asset_build_system\asset_file_building_convertor.h">
+      <Filter>src\assets\asset_build_system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -990,6 +993,12 @@
       <Filter>src\assets\asset_build_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\assets\asset_build_system\asset_building_convertor.cpp">
+      <Filter>src\assets\asset_build_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\assets\asset_build_system\asset_file_info.cpp">
+      <Filter>src\assets\asset_build_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\assets\asset_build_system\asset_file_building_convertor.cpp">
       <Filter>src\assets\asset_build_system</Filter>
     </ClCompile>
   </ItemGroup>

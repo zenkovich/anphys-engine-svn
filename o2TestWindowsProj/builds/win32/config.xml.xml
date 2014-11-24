@@ -1,0 +1,736 @@
+<?xml version="1.0"?>
+<assetsConfigs type="asPathConfig">
+	<asAssetConfig>
+		<location type="cFileLocation">
+			<path v="" />
+			<id v="0" />
+		</location>
+		<includeBuild v="true" />
+	</asAssetConfig>
+	<assets count="11">
+		<elem0 type="asAssetConfig">
+			<location type="cFileLocation">
+				<path v="arial.xml" />
+				<id v="0" />
+			</location>
+			<includeBuild v="true" />
+		</elem0>
+		<elem1 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="arial_0.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem1>
+		<elem2 type="asAssetConfig">
+			<location type="cFileLocation">
+				<path v="config.xml" />
+				<id v="0" />
+			</location>
+			<includeBuild v="true" />
+		</elem2>
+		<elem3 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="grass.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem3>
+		<elem4 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="man_walk_frames.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem4>
+		<elem5 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="pic.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem5>
+		<elem6 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="test.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem6>
+		<elem7 type="asAssetConfig">
+			<location type="cFileLocation">
+				<path v="test_serialization.xml" />
+				<id v="0" />
+			</location>
+			<includeBuild v="true" />
+		</elem7>
+		<elem8 type="asImageConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="ui_test.png" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<scale v="1" />
+			<atlas v="" />
+		</elem8>
+		<elem9 type="asPathConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="o2_font" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<assets count="3">
+				<elem0 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.bmfc" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem0>
+				<elem1 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="o2_font/myriad.xml" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem1>
+				<elem2 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="o2_font/myriad_0.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem2>
+			</assets>
+		</elem9>
+		<elem10 type="asPathConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="ui_skin" />
+					<id v="0" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<assets count="58">
+				<elem0 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/background.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem0>
+				<elem1 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/background_shadow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem1>
+				<elem2 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem2>
+				<elem3 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/bar_bar.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem3>
+				<elem4 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem4>
+				<elem5 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bar_pressed.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem5>
+				<elem6 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem6>
+				<elem7 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/bar_bk.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem7>
+				<elem8 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/bar_drag_icn.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem8>
+				<elem9 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_glow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem9>
+				<elem10 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem10>
+				<elem11 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_pressed.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem11>
+				<elem12 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_regular.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem12>
+				<elem13 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/btn_shadow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem13>
+				<elem14 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/checkbox.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem14>
+				<elem15 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem15>
+				<elem16 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_check.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem16>
+				<elem17 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_glow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem17>
+				<elem18 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem18>
+				<elem19 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/checkbox_pressed.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem19>
+				<elem20 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_delimer.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem20>
+				<elem21 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/context_menu.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem21>
+				<elem22 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_menu_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem22>
+				<elem23 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/context_selection.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem23>
+				<elem24 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/dark_background.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem24>
+				<elem25 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/dot_gray_line_hor.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem25>
+				<elem26 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/dot_gray_line_ver.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem26>
+				<elem27 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/editbox.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem27>
+				<elem28 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem28>
+				<elem29 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_glow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem29>
+				<elem30 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/editbox_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem30>
+				<elem31 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/folder_icn.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem31>
+				<elem32 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/hint.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem32>
+				<elem33 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/hint_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem33>
+				<elem34 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/minus_icn.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem34>
+				<elem35 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/pad.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem35>
+				<elem36 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem36>
+				<elem37 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_glow.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem37>
+				<elem38 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/pad_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem38>
+				<elem39 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/plus_icn.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem39>
+				<elem40 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem40>
+				<elem41 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem41>
+				<elem42 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bar_pressed.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem42>
+				<elem43 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_hor_bar_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem43>
+				<elem44 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/small_vert_bar.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem44>
+				<elem45 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem45>
+				<elem46 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem46>
+				<elem47 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bar_pressed.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem47>
+				<elem48 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/small_vert_bar_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem48>
+				<elem49 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/tabs.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem49>
+				<elem50 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/tabs_.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem50>
+				<elem51 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_active.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem51>
+				<elem52 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_inactive.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem52>
+				<elem53 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_inactive_hover.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem53>
+				<elem54 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/tab_line.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem54>
+				<elem55 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="ui_skin/transparent_rect_bk.png" />
+							<id v="0" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem55>
+				<elem56 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/tree.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem56>
+				<elem57 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="ui_skin/tree_node.psd" />
+						<id v="0" />
+					</location>
+					<includeBuild v="true" />
+				</elem57>
+			</assets>
+		</elem10>
+	</assets>
+</assetsConfigs>

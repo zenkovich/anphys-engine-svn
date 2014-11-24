@@ -73,6 +73,13 @@ SERIALIZE_METHOD_IMPL(asAssetInfo)
 	SERIALIZE_ID(&mLocation, "location");
 	SERIALIZE_ID(mTypeName, "type");
 	SERIALIZE_ID(mWriteTime, "writeTime");
+
+	return true;
+}
+
+bool asAssetInfo::operator==(const asAssetInfo& other) const
+{
+	return mLocation == other.mLocation && mWriteTime == other.mWriteTime;
 }
 
 CLOSE_O2_NAMESPACE
