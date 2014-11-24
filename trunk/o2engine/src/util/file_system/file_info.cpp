@@ -49,4 +49,21 @@ bool cPathInfo::isFileExist(const string& path)
 	return false;
 }
 
+void cPathInfo::clampPathNames()
+{
+	processPathNamesClamping(mPath.length() + 1);
+}
+
+void cPathInfo::processPathNamesClamping(int charCount)
+{
+	mPath = mPath.substr(min(charCount, (int)mPath.length()), max((int)mPath.length() - charCount, 0));
+
+	foreach(FilesArr, mFiles, fileIt)
+		fileIt->mPath = fileIt->mPath.substr(min(charCount, (int)fileIt->mPath.length()), 
+		                                     max((int)fileIt->mPath.length() - charCount, 0));
+
+	foreach(PathsArr, mPaths, pathIt)
+		pathIt->processPathNamesClamping(charCount);
+}
+
 CLOSE_O2_NAMESPACE

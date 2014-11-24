@@ -16,6 +16,7 @@ class Assets
 	friend class asFile;
 	friend class asImage;
 	friend class asXmlDoc;
+	friend class abImageAssetInfo;
 
 public:
 	typedef array<asAssetInfo> AssetsInfosArr;

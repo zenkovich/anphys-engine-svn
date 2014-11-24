@@ -23,10 +23,13 @@ typedef array<asAssetConfig*> AssetsConfigsArr;
 class asPathConfig: public asAssetConfig
 {
 public:
-	AssetsConfigsArr mAssets;
+	AssetsConfigsArr mInsideAssets;
 
 public:
 	asPathConfig();
+	~asPathConfig();
+
+	asAssetConfig* getAssetConfig(const string& path);
 
 	SERIALIZBLE_INHERITED_METHODS(asPathConfig, asAssetConfig);
 };

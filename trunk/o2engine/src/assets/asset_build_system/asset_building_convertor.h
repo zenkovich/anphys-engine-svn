@@ -4,27 +4,23 @@
 #include "public.h"
 #include "util/file_system/file_info.h"
 #include "util/type_indexation.h"
+#include "asset_file_info.h"
 
 OPEN_O2_NAMESPACE
 
-class Assets;
-
-struct asAssetConfig
-{
-	cFileLocation mLocation;
-	bool          mIncludeBuild;
-};
+class AssetBuildSystem;
 
 class asAssetBuildingConvertor
 {
-	Assets* mAssets;
+protected:
+	AssetBuildSystem* mBuildSystem;
 
 public:
 	asAssetBuildingConvertor();
-	asAssetBuildingConvertor(Assets* assets);
+	asAssetBuildingConvertor(AssetBuildSystem* buildSystem);
 	virtual ~asAssetBuildingConvertor();
 
-	virtual void convert(asAssetConfig* assetCfg) = 0;
+	virtual void convert(abAssetInfo* asset) = 0;
 	virtual UniqueType getConvertingType() const = 0;
 };
 

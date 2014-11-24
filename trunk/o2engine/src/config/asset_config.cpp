@@ -31,9 +31,25 @@ asPathConfig::asPathConfig()
 {
 }
 
+asPathConfig::~asPathConfig()
+{
+	release_array(AssetsConfigsArr, mInsideAssets);
+}
+
 SERIALIZE_INHERITED_METHOD_IMPL(asPathConfig)
 {
-	SERIALIZE_ID(mAssets, "assets");
+	SERIALIZE_ID(mInsideAssets, "assets");
+
+	return true;
+}
+
+asAssetConfig* asPathConfig::getAssetConfig(const string& path)
+{
+	foreach(AssetsConfigsArr, mInsideAssets, assetIt)
+		if ((*assetIt)->mLocation.mPath == path)
+			return *assetIt;
+
+	return NULL;
 }
 
 CLOSE_O2_NAMESPACE

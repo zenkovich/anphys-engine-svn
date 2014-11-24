@@ -49,6 +49,8 @@ struct asAssetInfo: public cSerializable
 	string        mTypeName;
 	WideTime      mWriteTime;
 
+	bool operator==(const asAssetInfo& other) const;
+
 	SERIALIZBLE_METHODS(asAssetInfo);
 };
 

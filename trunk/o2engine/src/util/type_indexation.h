@@ -15,7 +15,7 @@ struct TypeIdxContainer
 #define DEFINE_TYPE(TYPENAME) public:                              \
 	static UniqueType TYPENAME ## Type;                            \
 	static UniqueType getStaticType() { return TYPENAME ## Type; } \
-	virtual UniqueType getType() { return TYPENAME ## Type; }      \
+	virtual UniqueType getType() const { return TYPENAME ## Type; }      \
 	virtual const char* getTypeName() { return #TYPENAME; }
 
 #define DEFINE_TEMPLATE_TYPE(TYPENAME, T) DEFINE_TYPE(TYPENAME ## T)
