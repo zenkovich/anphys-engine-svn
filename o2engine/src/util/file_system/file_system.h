@@ -25,17 +25,11 @@ public:
 	cFileSystem();
 	~cFileSystem();
 
-	/** Sets resource path. */
-	void setResourcePath(const string& path);
-
 	/** Returns resource path. */
 	const string& getResourcePath() const;
 
 	/** Returns vector of extension strings for extension type. */
 	const ExtensionsVec& getExtensions(cFileType::value fileType) const;
-
-	/** Checking assets building. */
-	void checkAssetsBuilding() const;
 
 	/** Returns info of paths and files of specified path. */
 	cPathInfo getPathInfo(const string& path) const;

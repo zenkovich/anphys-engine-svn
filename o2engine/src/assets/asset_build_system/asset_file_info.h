@@ -57,6 +57,7 @@ public:
 	~abFolderInfo();
 
 	abAssetInfo* getInsideAsset(const cFileLocation& location);
+	void addInsideAsset(abAssetInfo* asset);
 	void clear();
 	virtual asAssetConfig* getConfigs() const;
 	virtual abAssetInfo* clone() const;

@@ -120,6 +120,8 @@
     <ClInclude Include="..\src\assets\asset_build_system\asset_build_system.h" />
     <ClInclude Include="..\src\assets\asset_build_system\asset_file_building_convertor.h" />
     <ClInclude Include="..\src\assets\asset_build_system\asset_file_info.h" />
+    <ClInclude Include="..\src\assets\asset_build_system\asset_folder_building_convertor.h" />
+    <ClInclude Include="..\src\assets\asset_build_system\asset_image_building_convertor.h" />
     <ClInclude Include="..\src\assets\file_asset.h" />
     <ClInclude Include="..\src\assets\image_asset.h" />
     <ClInclude Include="..\src\assets\image_asset_ref.h" />
@@ -298,6 +300,8 @@
     <ClCompile Include="..\src\assets\asset_build_system\asset_build_system.cpp" />
     <ClCompile Include="..\src\assets\asset_build_system\asset_file_building_convertor.cpp" />
     <ClCompile Include="..\src\assets\asset_build_system\asset_file_info.cpp" />
+    <ClCompile Include="..\src\assets\asset_build_system\asset_folder_building_convertor.cpp" />
+    <ClCompile Include="..\src\assets\asset_build_system\asset_image_building_convertor.cpp" />
     <ClCompile Include="..\src\assets\file_asset.cpp" />
     <ClCompile Include="..\src\assets\image_asset.cpp" />
     <ClCompile Include="..\src\assets\xml_asset.cpp" />

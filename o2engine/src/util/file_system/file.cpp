@@ -25,7 +25,7 @@ bool cInFile::open( const string& filename, cFileType::value type /*= cFileType:
 {
 	close();
 
-	if (type == cFileType::FT_FILE)
+	if (type == cFileType::FILE)
 	{
 		mIfstream.open(filename.c_str(), std::ios::binary);
 
@@ -136,7 +136,7 @@ bool cOutFile::open( const string& filename, cFileType::value type /*= cFileType
 	close();
 
 	string resFilename = filename;
-	if (type != cFileType::FT_FILE)
+	if (type != cFileType::FILE)
 	{
 		string extensionStr;		
 		const cFileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);

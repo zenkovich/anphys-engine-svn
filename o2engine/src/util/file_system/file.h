@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 struct cFileType
 {
-	enum value { FT_FILE = 0, FT_IMAGE, FT_CONFIG };
+	enum value { FILE = 0, IMAGE, CONFIG };
 };
 
 /** Input file. */
@@ -20,12 +20,12 @@ class cInFile
 
 public:
 	cInFile();
-	cInFile(const string& filename, cFileType::value type = cFileType::FT_FILE);
+	cInFile(const string& filename, cFileType::value type = cFileType::FILE);
 	~cInFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with extension string from file system. */
-	bool open(const string& filename, cFileType::value type = cFileType::FT_FILE);
+	bool open(const string& filename, cFileType::value type = cFileType::FILE);
 
 	/** Closing file. */
 	bool close();
@@ -61,12 +61,12 @@ class cOutFile
 
 public:
 	cOutFile();
-	cOutFile(const string& filename, cFileType::value type = cFileType::FT_FILE);
+	cOutFile(const string& filename, cFileType::value type = cFileType::FILE);
 	~cOutFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with first extension string from file system. */
-	bool open(const string& filename, cFileType::value type = cFileType::FT_FILE);
+	bool open(const string& filename, cFileType::value type = cFileType::FILE);
 
 	/** Close file. */
 	bool close();

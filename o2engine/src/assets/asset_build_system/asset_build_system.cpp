@@ -6,18 +6,22 @@
 #include "util/file_system/file_system.h"
 #include "config/asset_config.h"
 #include "asset_file_building_convertor.h"
+#include "asset_folder_building_convertor.h"
+#include "asset_image_building_convertor.h"
 
 OPEN_O2_NAMESPACE
 
 AssetBuildSystem::AssetBuildSystem(Assets* assets):
 	mAssets(assets)
 {
-	mAssetsFolderPath = "../../../assets";
-	mBuildedAssetsFolderPath = "../assets";
-	mAssetsPathConfigFilePath = "../config.xml";
-	mBuildedAssetsInfoFilePath = "../tmp/assets_info.xml";
-
+	mAssetsFolderPath = ASSETS_PATH;
+	mBuildedAssetsFolderPath = ASSETS_BUILDED_PATH;
+	mAssetsFolderConfigFilePath = ASSETS_FOLDER_CONFIG_FILE_PATH;
+	mBuildedAssetsInfoFilePath = ASSETS_BUILDED_INFO_FILE_PATH;
+	
 	mAssetConverters.add(mnew asAssetFileBuildingConvertor(this));
+	mAssetConverters.add(mnew asAssetFolderBuildingConvertor(this));
+	mAssetConverters.add(mnew asAssetImageBuildingConvertor(this));
 }
 
 AssetBuildSystem::~AssetBuildSystem()
@@ -48,7 +52,7 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	//load assets configs
 	asPathConfig assetsPathConfig;
 	cSerializer serializer;
-	if (serializer.load(mAssetsPathConfigFilePath))
+	if (serializer.load(mAssetsFolderConfigFilePath))
 		serializer.serialize(&assetsPathConfig, "assetsConfigs");
 
 	//process loading assets infos
@@ -57,7 +61,7 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	//save configs
 	cSerializer outSerializer(cSerializer::ST_SERIALIZE);
 	outSerializer.serialize(&assetsPathConfig, "assetsConfigs");
-	outSerializer.save(mAssetsPathConfigFilePath);
+	outSerializer.save(mAssetsFolderConfigFilePath);
 }
 
 void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo)
@@ -118,23 +122,45 @@ void AssetBuildSystem::loadBuildedAssetsFolderInfo()
 
 void AssetBuildSystem::checkRemovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo)
 {
+	//remove files first
 	foreach_rem(abAssetsInfosArr, buildedAssetFolderInfo.mInsideAssets, assetIt) 
 	{
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType()) 
+		{
+			++assetIt;
+			continue;
+		}
+
 		abAssetInfo* assetInfo = assetFolderInfo.getInsideAsset((*assetIt)->mLocation);
 		if (assetInfo == NULL) 
 		{
 			//remove builded asset
-			if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-				fileSystem()->removeDirectory((*assetIt)->mLocation.mPath);
-			else
-				fileSystem()->deleteFile((*assetIt)->mLocation.mPath);
-
+			removeConvertedAsset(*assetIt);
 			assetIt = buildedAssetFolderInfo.mInsideAssets.remove(assetIt);
 			continue;
 		}
 
-		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-			checkRemovedFiles(assetFolderInfo, *static_cast<abFolderInfo*>(*assetIt));
+		++assetIt;
+	}
+	
+	//after remove folders
+	foreach_rem(abAssetsInfosArr, buildedAssetFolderInfo.mInsideAssets, assetIt) 
+	{
+		if ((*assetIt)->getType() != abFolderInfo::getStaticType()) 
+		{
+			++assetIt;
+			continue;
+		}		
+
+		abAssetInfo* assetInfo = assetFolderInfo.getInsideAsset((*assetIt)->mLocation);
+		if (assetInfo == NULL) 
+		{
+			//remove builded asset
+			removeConvertedAsset(*assetIt);
+			assetIt = buildedAssetFolderInfo.mInsideAssets.remove(assetIt);
+			continue;
+		}
+		else checkRemovedFiles(*static_cast<abFolderInfo*>(assetInfo), *static_cast<abFolderInfo*>(*assetIt));
 
 		++assetIt;
 	}
@@ -142,20 +168,40 @@ void AssetBuildSystem::checkRemovedFiles(abFolderInfo& assetFolderInfo, abFolder
 
 void AssetBuildSystem::checkNewFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo)
 {
+	//create folders first
 	foreach(abAssetsInfosArr, assetFolderInfo.mInsideAssets, assetIt)
-	{
+	{		
+		if ((*assetIt)->getType() != abFolderInfo::getStaticType()) 
+			continue;
+
 		abAssetInfo* assetInfo = buildedAssetFolderInfo.getInsideAsset((*assetIt)->mLocation);
 		if (assetInfo == NULL)
 		{
 			assetInfo = (*assetIt)->clone();
-			abFolderInfo* containingFolder = 
+			buildedAssetFolderInfo.addInsideAsset(assetInfo);
 
 			//copy and convert new asset
-			processAssetConverting(*assetIt, assetInfo);
+			copyAndConvertAsset(*assetIt, assetInfo);
 		}
 
-		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-			checkNewFiles(*static_cast<abFolderInfo*>(*assetIt), buildedAssetFolderInfo);
+		checkNewFiles(*static_cast<abFolderInfo*>(*assetIt), *static_cast<abFolderInfo*>(assetInfo));
+	}
+	
+	//after create files
+	foreach(abAssetsInfosArr, assetFolderInfo.mInsideAssets, assetIt)
+	{		
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType()) 
+			continue;
+
+		abAssetInfo* assetInfo = buildedAssetFolderInfo.getInsideAsset((*assetIt)->mLocation);
+		if (assetInfo == NULL)
+		{
+			assetInfo = (*assetIt)->clone();
+			buildedAssetFolderInfo.addInsideAsset(assetInfo);
+
+			//copy and convert new asset
+			copyAndConvertAsset(*assetIt, assetInfo);
+		}
 	}
 }
 
@@ -164,18 +210,22 @@ void AssetBuildSystem::convertFiles(abFolderInfo& assetFolderInfo, abFolderInfo&
 	foreach(abAssetsInfosArr, assetFolderInfo.mInsideAssets, assetIt)
 	{
 		abAssetInfo* assetInfo = buildedAssetFolderInfo.getInsideAsset((*assetIt)->mLocation);
-		if (assetInfo && assetInfo->isEquals(*assetIt))
+		if (assetInfo && !assetInfo->isEquals(*assetIt))
 		{
 			//copy and convert new asset
-			processAssetConverting(*assetIt, assetInfo);
+			removeConvertedAsset(assetInfo);
+			copyAndConvertAsset(*assetIt, assetInfo);
 		}
 
-		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-			convertFiles(*static_cast<abFolderInfo*>(*assetIt), buildedAssetFolderInfo);
+		if (assetInfo)
+		{
+			if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+				convertFiles(*static_cast<abFolderInfo*>(*assetIt), *static_cast<abFolderInfo*>(assetInfo));
+		}
 	}
 }
 
-void AssetBuildSystem::processAssetConverting(abAssetInfo* assetInfo, abAssetInfo* buildAssetInfo)
+void AssetBuildSystem::copyAndConvertAsset(abAssetInfo* assetInfo, abAssetInfo* buildAssetInfo)
 {
 	buildAssetInfo->copyFrom(assetInfo);
 
@@ -183,6 +233,15 @@ void AssetBuildSystem::processAssetConverting(abAssetInfo* assetInfo, abAssetInf
 	{
 		if ((*convIt)->getConvertingType() == assetInfo->getType())
 			(*convIt)->convert(assetInfo);
+	}
+}
+
+void AssetBuildSystem::removeConvertedAsset(abAssetInfo* buildAssetInfo)
+{
+	foreach(AsConvertersArr, mAssetConverters, convIt)
+	{
+		if ((*convIt)->getConvertingType() == buildAssetInfo->getType())
+			(*convIt)->remove(buildAssetInfo);
 	}
 }
 
@@ -213,7 +272,7 @@ string AssetBuildSystem::getBuildedAssetsFolderPath() const
 
 abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const cFileInfo& fileInfo)
 {
-	if (fileInfo.mFileType == cFileType::FT_IMAGE)
+	if (fileInfo.mFileType == cFileType::IMAGE)
 		return mnew abImageAssetInfo();
 
 	return mnew abAssetInfo();

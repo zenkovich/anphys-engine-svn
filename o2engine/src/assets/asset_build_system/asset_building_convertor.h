@@ -21,6 +21,7 @@ public:
 	virtual ~asAssetBuildingConvertor();
 
 	virtual void convert(abAssetInfo* asset) = 0;
+	virtual void remove(abAssetInfo* asset);
 	virtual UniqueType getConvertingType() const = 0;
 };
 

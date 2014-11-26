@@ -1,6 +1,9 @@
 #include "asset_building_convertor.h"
 
+#include "asset_build_system.h"
 #include "assets/assets.h"
+#include "app/application.h"
+#include "util/file_system/file_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -16,6 +19,11 @@ asAssetBuildingConvertor::asAssetBuildingConvertor(AssetBuildSystem* buildSystem
 
 asAssetBuildingConvertor::~asAssetBuildingConvertor()
 {
+}
+
+void asAssetBuildingConvertor::remove(abAssetInfo* asset)
+{
+	fileSystem()->deleteFile(mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }
 
 CLOSE_O2_NAMESPACE

@@ -9,8 +9,8 @@ OPEN_O2_NAMESPACE
 
 Assets::Assets()
 {
-	string buildedAssetsPath = "../assets/";
-	string assetsInfoFilePath = buildedAssetsPath + "../assets_info.xml";
+	string buildedAssetsPath = ASSETS_BUILDED_PATH;
+	string assetsInfoFilePath = buildedAssetsPath + "../assets_info";
 
 	mLog = mnew cLogStream("assets");
 	gLog->bindStream(mLog);
@@ -23,7 +23,8 @@ Assets::Assets()
 		serializer.serialize(mAssetsInfos, "assets");
 	}
 
-	rebuildAssets();
+	if (ASSETS_PREBUILDING_ENABLE)
+		rebuildAssets();
 }
 
 Assets::~Assets()

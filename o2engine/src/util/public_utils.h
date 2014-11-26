@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 
 /** Enable assets saving protection macros. */
 #define ENABLE_EDITING_ASSETS_PROTECTION \
-#if ENABLE_EDITING_ASSETS != true \
+#if ASSETS_RUNTIME_EDITING_ENABLE != true \
 protected: \
 #endif 
 

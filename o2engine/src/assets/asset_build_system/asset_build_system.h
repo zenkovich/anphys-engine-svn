@@ -17,6 +17,9 @@ class AssetBuildSystem
 {
 	friend class Assets;
 	friend class asAssetFileBuildingConvertor;
+	friend class asAssetFolderBuildingConvertor;
+	friend class asAssetBuildingConvertor;
+	friend class asAssetImageBuildingConvertor;
 
 	typedef array<asAssetBuildingConvertor*> AsConvertersArr;
 
@@ -27,7 +30,7 @@ protected:
 	abFolderInfo    mBuildedAssetsFolderInfo;
 	string          mAssetsFolderPath;
 	string          mBuildedAssetsFolderPath;
-	string          mAssetsPathConfigFilePath;
+	string          mAssetsFolderConfigFilePath;
 	string          mBuildedAssetsInfoFilePath;
 
 protected:
@@ -46,7 +49,8 @@ protected:
 	void checkRemovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void checkNewFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void convertFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
-	void processAssetConverting(abAssetInfo* assetInfo, abAssetInfo* buildAssetInfo);
+	void copyAndConvertAsset(abAssetInfo* assetInfo, abAssetInfo* buildAssetInfo);
+	void removeConvertedAsset(abAssetInfo* buildAssetInfo);
 	void saveBuildInfo();
 
 	void processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo);

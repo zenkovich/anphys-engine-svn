@@ -22,8 +22,8 @@ asAssetFileBuildingConvertor::~asAssetFileBuildingConvertor()
 
 void asAssetFileBuildingConvertor::convert(abAssetInfo* asset)
 {
-	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + asset->mLocation.mPath,
-		                   mBuildSystem->getBuildedAssetsFolderPath() + asset->mLocation.mPath);
+	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
+		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }
 
 UniqueType asAssetFileBuildingConvertor::getConvertingType() const
