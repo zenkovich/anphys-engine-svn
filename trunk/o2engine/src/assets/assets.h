@@ -28,6 +28,7 @@ protected:
 	AssetsArr         mUnusedAssets;
 	cLogStream*       mLog;
 	AssetBuildSystem* mBuildSystem;
+	string            mBuildedAssetsPath;
 
 public:
 	Assets();

@@ -298,7 +298,7 @@ cBuildFileInfo* cBuildSystem::createBuildFileMeta(const cPathInfo& pathinfo)
 cBuildFileInfo* cBuildSystem::createBuildFileInfo(const cFileInfo& fileInfo)
 {
 	cBuildFileInfo* res;
-	if (fileInfo.mFileType == cFileType::FT_IMAGE) 
+	if (fileInfo.mFileType == cFileType::IMAGE) 
 	{
 		res = mnew cBuildImageInfo();
 		res->mType = cBuildFileInfo::MT_IMAGE;

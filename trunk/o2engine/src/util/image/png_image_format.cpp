@@ -34,7 +34,7 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 {	
 	cLogStream* log = plog ? plog:gLog;
 
-	cInFile pngImageFile(fileName, cFileType::FT_IMAGE);
+	cInFile pngImageFile(fileName, cFileType::IMAGE);
 	if (!pngImageFile.isOpened())
 	{
 		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());

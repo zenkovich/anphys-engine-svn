@@ -23,9 +23,6 @@ TestApp::TestApp():
 {
 	setContentSize(vec2i(800, 600));
 	setWindowCaption("o2 test");
-	//setOption(cApplicationOption::RESIZIBLE, false);
-
-	fileSystem()->setResourcePath("../data/");
 
 	//mTest = mnew InputMsgTest();
 	//mTest = mnew cTextTest();

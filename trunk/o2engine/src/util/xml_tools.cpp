@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc )
 {
-	cInFile inFile(fileName, cFileType::FT_CONFIG);
+	cInFile inFile(fileName, cFileType::CONFIG);
 
 	if (!inFile.isOpened())
 		return false;
@@ -60,7 +60,7 @@ bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc)
 		}
 	};
 
-	cOutFile outFile(fileName, cFileType::FT_CONFIG);
+	cOutFile outFile(fileName, cFileType::CONFIG);
 
 	if (!outFile.isOpened())
 		return false;

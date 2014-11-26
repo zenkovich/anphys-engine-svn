@@ -7,24 +7,21 @@ OPEN_O2_NAMESPACE
 
 cFileSystem::cFileSystem()
 {
-	mExtensions[cFileType::FT_IMAGE].push_back("png");
-	mExtensions[cFileType::FT_IMAGE].push_back("jpg");
-	mExtensions[cFileType::FT_IMAGE].push_back("dds");
-	mExtensions[cFileType::FT_IMAGE].push_back("pvr");
+	mExtensions[cFileType::IMAGE].push_back("png");
+	mExtensions[cFileType::IMAGE].push_back("jpg");
+	mExtensions[cFileType::IMAGE].push_back("dds");
+	mExtensions[cFileType::IMAGE].push_back("pvr");
 	
-	mExtensions[cFileType::FT_CONFIG].push_back("xml");
-	mExtensions[cFileType::FT_CONFIG].push_back("txt");
-	mExtensions[cFileType::FT_CONFIG].push_back("cfg");
+	mExtensions[cFileType::CONFIG].push_back("xml");
+	mExtensions[cFileType::CONFIG].push_back("txt");
+	mExtensions[cFileType::CONFIG].push_back("cfg");
+
+	mResourcePath = ASSETS_BUILDED_PATH;
 }
 
 cFileSystem::~cFileSystem()
 {
 	cBuildSystem::deinitializeSingleton();
-}
-
-void cFileSystem::setResourcePath( const string& path )
-{
-	mResourcePath = path;
 }
 
 const cFileSystem::ExtensionsVec& cFileSystem::getExtensions( cFileType::value fileType ) const
@@ -115,7 +112,7 @@ cFileInfo cFileSystem::getFileInfo(const string& path) const
 
 	res.mPath = path;
 	string extension = path.substr(path.rfind(".") + 1);
-	res.mFileType = cFileType::FT_FILE;
+	res.mFileType = cFileType::FILE;
 
 	FOREACH_CONST(ExtensionsMap, mExtensions, iext)
 	{
@@ -182,17 +179,6 @@ bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/)
 	FindClose(h);
 
 	return RemoveDirectory(path.c_str()) == TRUE;
-}
-
-void cFileSystem::checkAssetsBuilding() const
-{
-	if (!BUILD_ASSETS)
-		return;
-
-	/*if (!cBuildSystem::isSingletonInitialzed())	
-		mnew cBuildSystem("../../..");
-
-	cBuildSystem::instance().rebuildAssets(false);*/
 }
 
 bool cFileSystem::isDirectoryExist(const string& path) const

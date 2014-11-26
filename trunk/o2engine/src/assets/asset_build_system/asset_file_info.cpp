@@ -145,12 +145,6 @@ abAssetInfo* abFolderInfo::getInsideAsset(const cFileLocation& location)
 	{
 		if ((*assetIt)->mLocation == location)
 			return *assetIt;
-
-		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-		{			
-			if (abAssetInfo* res = (static_cast<abFolderInfo*>(*assetIt))->getInsideAsset(location))
-				return res;
-		}
 	}
 
 	return NULL;
@@ -161,6 +155,11 @@ abAssetInfo* abFolderInfo::clone() const
 	abAssetInfo* res = mnew abFolderInfo();
 	res->copyFrom(this);
 	return res;
+}
+
+void abFolderInfo::addInsideAsset(abAssetInfo* asset)
+{
+	mInsideAssets.add(asset);
 }
 
 
