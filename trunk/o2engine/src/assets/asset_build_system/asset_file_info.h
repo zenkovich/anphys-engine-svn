@@ -15,8 +15,8 @@ public:
 	cFileLocation mLocation;
 	WideTime      mWriteTime;
 
-	virtual void getConfigs(asAssetConfig* config) {}
-	virtual asAssetConfig* getConfigs() const;
+	virtual void initFromConfigs(asAssetConfig* config) {}
+	virtual asAssetConfig* getConfigsSample() const;
 	virtual bool isEquals(abAssetInfo* other);
 	virtual void copyFrom(const abAssetInfo* other);
 	virtual abAssetInfo* clone() const;
@@ -36,13 +36,32 @@ public:
 	string mAtlas;
 	float  mScale;
 	
-	virtual void getConfigs(asAssetConfig* config);
-	virtual asAssetConfig* getConfigs() const;
+	virtual void initFromConfigs(asAssetConfig* config);
+	virtual asAssetConfig* getConfigsSample() const;
 	virtual bool isEquals(abAssetInfo* other);
 	virtual void copyFrom(const abAssetInfo* other);
 	virtual abAssetInfo* clone() const;
 
 	SERIALIZBLE_INHERITED_METHODS(abImageAssetInfo, abAssetInfo);
+};
+
+class abAtlasAssetInfo: public abAssetInfo
+{
+public:
+	abAtlasAssetInfo();
+
+	DEFINE_TYPE(abAtlasAssetInfo);
+
+	string mName;
+	vec2f  mMaxSize;
+	
+	virtual void initFromConfigs(asAssetConfig* config);
+	virtual asAssetConfig* getConfigsSample() const;
+	virtual bool isEquals(abAssetInfo* other);
+	virtual void copyFrom(const abAssetInfo* other);
+	virtual abAssetInfo* clone() const;
+
+	SERIALIZBLE_INHERITED_METHODS(abAtlasAssetInfo, abAssetInfo);
 };
 
 class abFolderInfo: public abAssetInfo
@@ -59,7 +78,7 @@ public:
 	abAssetInfo* getInsideAsset(const cFileLocation& location);
 	void addInsideAsset(abAssetInfo* asset);
 	void clear();
-	virtual asAssetConfig* getConfigs() const;
+	virtual asAssetConfig* initFromConfigs() const;
 	virtual abAssetInfo* clone() const;
 
 	SERIALIZBLE_INHERITED_METHODS(abFolderInfo, abAssetInfo);

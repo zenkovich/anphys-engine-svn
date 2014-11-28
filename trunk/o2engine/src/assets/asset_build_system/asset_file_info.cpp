@@ -15,7 +15,7 @@ SERIALIZE_METHOD_IMPL(abAssetInfo)
 	return true;
 }
 
-asAssetConfig* abAssetInfo::getConfigs() const
+asAssetConfig* abAssetInfo::getConfigsSample() const
 {
 	asAssetConfig* res = mnew asAssetConfig();
 	res->mLocation = mLocation;
@@ -50,7 +50,7 @@ SERIALIZE_INHERITED_METHOD_IMPL(abImageAssetInfo)
 	return true;
 }
 
-void abImageAssetInfo::getConfigs(asAssetConfig* config)
+void abImageAssetInfo::initFromConfigs(asAssetConfig* config)
 {
 	asImageConfig* imgConfig = dynamic_cast<asImageConfig*>(config);
 
@@ -64,7 +64,7 @@ void abImageAssetInfo::getConfigs(asAssetConfig* config)
 	mScale = imgConfig->mScale;
 }
 
-asAssetConfig* abImageAssetInfo::getConfigs() const
+asAssetConfig* abImageAssetInfo::getConfigsSample() const
 {
 	asImageConfig* res = mnew asImageConfig();
 	res->mLocation = mLocation;
@@ -132,7 +132,7 @@ SERIALIZE_INHERITED_METHOD_IMPL(abFolderInfo)
 	return true;
 }
 
-asAssetConfig* abFolderInfo::getConfigs() const
+asAssetConfig* abFolderInfo::initFromConfigs() const
 {
 	asPathConfig* res = mnew asPathConfig();
 	res->mLocation = mLocation;
@@ -162,5 +162,64 @@ void abFolderInfo::addInsideAsset(abAssetInfo* asset)
 	mInsideAssets.add(asset);
 }
 
+
+
+abAtlasAssetInfo::abAtlasAssetInfo():
+	mMaxSize(2048.0f, 2048.0f), mName("unnamed")
+{
+}
+
+void abAtlasAssetInfo::initFromConfigs(asAssetConfig* config)
+{
+	asAtlasConfig* atlConfig = dynamic_cast<asAtlasConfig*>(config);
+
+	if (atlConfig == NULL)
+	{
+		logError("Failed to get atlas configs: %s. Incorrect config type!", mLocation.mPath);
+		return;
+	}
+
+	mName = atlConfig->mName;
+	mMaxSize = atlConfig->mMaxSize;
+}
+
+asAssetConfig* abAtlasAssetInfo::getConfigsSample() const
+{
+	asAtlasConfig* res = mnew asAtlasConfig();
+	res->mLocation = mLocation;
+	res->mName = mName;
+	res->mMaxSize= mMaxSize;
+	return res;
+}
+
+bool abAtlasAssetInfo::isEquals(abAssetInfo* other)
+{
+	if (other->getType() != getType())
+		return false;
+
+	abAtlasAssetInfo* imgOther = static_cast<abAtlasAssetInfo*>(other);
+
+	return abAssetInfo::isEquals(other) && mName == imgOther->mName && mMaxSize == imgOther->mMaxSize;
+}
+
+void abAtlasAssetInfo::copyFrom(const abAssetInfo* other)
+{
+	abAssetInfo::copyFrom(other);
+
+	if (other->getType() != getType())
+		return;
+
+	const abAtlasAssetInfo* imgOther = static_cast<const abAtlasAssetInfo*>(other);
+
+	mMaxSize = imgOther->mMaxSize;
+	mName = imgOther->mName;
+}
+
+abAssetInfo* abAtlasAssetInfo::clone() const
+{
+	abAssetInfo* res = mnew abAtlasAssetInfo();
+	res->copyFrom(this);
+	return res;
+}
 
 CLOSE_O2_NAMESPACE

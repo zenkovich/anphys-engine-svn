@@ -46,6 +46,18 @@ public:
 	SERIALIZBLE_INHERITED_METHODS(asImageConfig, asAssetConfig);
 };
 
+class asAtlasConfig: public asAssetConfig
+{
+public:
+	vec2f  mMaxSize;
+	string mName;
+
+public:
+	asAtlasConfig();
+	
+	SERIALIZBLE_INHERITED_METHODS(asAtlasConfig, asAssetConfig);
+};
+
 CLOSE_O2_NAMESPACE
 
 #endif // ASSET_CONFIG_H

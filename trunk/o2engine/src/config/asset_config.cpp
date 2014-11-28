@@ -52,4 +52,18 @@ asAssetConfig* asPathConfig::getAssetConfig(const string& path)
 	return NULL;
 }
 
+
+asAtlasConfig::asAtlasConfig():
+	mMaxSize(2048, 2048)
+{
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(asAtlasConfig)
+{
+	SERIALIZE_ID(mName, "name");
+	SERIALIZE_ID(mMaxSize, "maxSize");
+
+	return true;
+}
+
 CLOSE_O2_NAMESPACE
