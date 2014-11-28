@@ -81,9 +81,9 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 		asFileInfo->mWriteTime = fileInfIt->mEditDate;		
 
 		if (asFileConfig)
-			asFileInfo->getConfigs(asFileConfig);
+			asFileInfo->getConfigsSample(asFileConfig);
 		else
-			pathConfig.mInsideAssets.add(asFileInfo->getConfigs());
+			pathConfig.mInsideAssets.add(asFileInfo->getConfigsSample());
 
 
 		asPathInfo.mInsideAssets.add(asFileInfo);
@@ -101,7 +101,7 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 		folderInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, pathInfIt->mPath);		
 
 		if (!asFileConfig) 
-			asFileConfig = pathConfig.mInsideAssets.add(folderInfo->getConfigs());
+			asFileConfig = pathConfig.mInsideAssets.add(folderInfo->initFromConfigs());
 
 		asPathInfo.mInsideAssets.add(folderInfo);
 
