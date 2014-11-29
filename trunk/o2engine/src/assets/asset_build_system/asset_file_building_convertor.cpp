@@ -22,6 +22,8 @@ asAssetFileBuildingConvertor::~asAssetFileBuildingConvertor()
 
 void asAssetFileBuildingConvertor::convert(abAssetInfo* asset)
 {
+	hlog("Converting asset: %s", asset->mLocation.mPath.c_str());
+
 	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
 		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }

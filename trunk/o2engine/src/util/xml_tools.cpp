@@ -6,9 +6,9 @@
 
 OPEN_O2_NAMESPACE
 
-bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc )
+bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/ )
 {
-	cInFile inFile(fileName, cFileType::CONFIG);
+	cInFile inFile(fileName, isConfigFile ? cFileType::CONFIG:cFileType::FILE);
 
 	if (!inFile.isOpened())
 		return false;
@@ -48,7 +48,7 @@ bool cXmlTools::saveToString(string& data, pugi::xml_document& xmlDoc)
 	return true;
 }
 
-bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc)
+bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/)
 {
 	struct xmlWriter:public pugi::xml_writer
 	{
@@ -60,7 +60,7 @@ bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc)
 		}
 	};
 
-	cOutFile outFile(fileName, cFileType::CONFIG);
+	cOutFile outFile(fileName, isConfigFile ? cFileType::CONFIG:cFileType::FILE);
 
 	if (!outFile.isOpened())
 		return false;

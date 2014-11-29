@@ -43,6 +43,8 @@ protected:
 	string getBuildedAssetsFolderPath() const;
 
 protected:
+	void removeAllBuildedAssets();
+
 	void loadAssetFolderInfo();
 	void loadBuildedAssetsFolderInfo();
 

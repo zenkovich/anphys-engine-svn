@@ -22,7 +22,8 @@ asAssetBuildingConvertor::~asAssetBuildingConvertor()
 }
 
 void asAssetBuildingConvertor::remove(abAssetInfo* asset)
-{
+{	
+	hlog("Removing asset: %s", asset->mLocation.mPath.c_str());
 	fileSystem()->deleteFile(mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }
 

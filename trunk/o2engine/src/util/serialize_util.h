@@ -81,10 +81,10 @@ public:
 	SerializeType getType() const;
 
 	/** Loading file, sets type deserialization and returns a flag of successful execution. */
-	bool load(const string& file);
+	bool load(const string& file, bool stdConfigExt = true);
 
 	/** Saving data to file. */
-	bool save(const string& file);
+	bool save(const string& file, bool stdConfigExt = true);
 
 	/** Loads data from file and returns a flag of successful execution. */
 	bool loadFromString(const string& data);
