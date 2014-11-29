@@ -14,13 +14,13 @@ class cSerializable;
 struct cXmlTools
 {
 	/** Loads xml file. */
-	static bool loadFromFile(const string& fileName, pugi::xml_document& xmlDoc);
+	static bool loadFromFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile = true);
 	
 	/** Loads xml from buffer. */
 	static bool loadFromString(const string& data, pugi::xml_document& xmlDoc);
 
 	/** Loads xml file. */
-	static bool saveToFile(const string& fileName, pugi::xml_document& xmlDoc);
+	static bool saveToFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile = true);
 
 	/** Loads xml buffer. */
 	static bool saveToString(string& data, pugi::xml_document& xmlDoc);

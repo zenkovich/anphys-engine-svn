@@ -1,15 +1,14 @@
 #include "project_config.h"
 
 #include "build_config.h"
-#include "util\serialize_util.h"
 #include "build_config.h"
 
 OPEN_O2_NAMESPACE
 
 ProjectConfig::ProjectConfig():
-	mBuildConfig(NULL)
+	mBuildConfig(NULL), mAssetsUsesMetaIds(true)
 {
-	string cfgFilePath = "../../../config.xml";
+	string cfgFilePath = PROJECT_CONFIG_FILE_PATH;
 
 	cSerializer serializer;
 	if (!serializer.load(cfgFilePath))
@@ -18,10 +17,7 @@ ProjectConfig::ProjectConfig():
 		initializeDefault(cfgFilePath);
 		return;
 	}
-	else 
-	{
-		serializer.serialize(mProjectName, "projectName");
-	}
+	else serializer.serialize(this, "config");
 
 	mBuildConfig = mnew ProjectBuildConfig(this);
 }
@@ -46,8 +42,16 @@ void ProjectConfig::initializeDefault(const string& configFilePath)
 	mProjectName = "unnamed";
 
 	cSerializer serializer;
-	serializer.serialize(mProjectName, "projectName");
+	serializer.serialize(this, "config");
 	serializer.save(configFilePath);
+}
+
+bool ProjectConfig::serialize(cSerializer* serializer)
+{
+	SERIALIZE_ID(mProjectName, "projectName");
+	SERIALIZE_ID(mAssetsUsesMetaIds, "assetsUsingMetaIds");
+
+	return true;
 }
 
 

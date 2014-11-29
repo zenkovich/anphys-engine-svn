@@ -55,6 +55,17 @@
 
 
 /**********************************/
+/** Project configuration section. */
+/**********************************/
+
+/** Project config file path. Relative from executable. */
+#define PROJECT_CONFIG_FILE_PATH "../../../config"
+
+/** Build config file path. Relative from executable. */
+#define BUILD_CONFIG_FILE_PATH "../config"
+
+
+/**********************************/
 /** Assets configuration section. */
 /**********************************/
 
@@ -71,7 +82,7 @@
 #define ASSETS_BUILDED_PATH "../assets/"
 
 /** Assets configuration file path. */
-#define ASSETS_FOLDER_CONFIG_FILE_PATH "../config"
+#define ASSETS_FOLDER_CONFIG_FILE_PATH "../assets_config"
 
 /** Assets builded info file path. */
 #define ASSETS_BUILDED_INFO_FILE_PATH "../tmp/assets_build_info"

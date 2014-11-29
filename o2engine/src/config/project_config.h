@@ -3,14 +3,16 @@
 
 #include "public.h"
 #include "app/application.h"
+#include "util\serialize_util.h"
 
 OPEN_O2_NAMESPACE
 
 class ProjectBuildConfig;
 
-class ProjectConfig
+class ProjectConfig: public cSerializable
 {
 	string              mProjectName;
+	bool                mAssetsUsesMetaIds;
 	ProjectBuildConfig* mBuildConfig;
 
 public:
@@ -19,6 +21,8 @@ public:
 
 	string getProjectName() const;	
 	ProjectBuildConfig* getBuildConfig() const;
+
+	SERIALIZBLE_METHODS(ProjectConfig);
 
 protected:
 	void initializeDefault(const string& configFilePath);

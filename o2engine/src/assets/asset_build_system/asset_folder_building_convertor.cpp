@@ -22,6 +22,7 @@ asAssetFolderBuildingConvertor::~asAssetFolderBuildingConvertor()
 
 void asAssetFolderBuildingConvertor::convert(abAssetInfo* asset)
 {
+	hlog("Converting folder: %s", asset->mLocation.mPath.c_str());
 	fileSystem()->createDirectory(mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }
 
@@ -32,6 +33,7 @@ UniqueType asAssetFolderBuildingConvertor::getConvertingType() const
 
 void asAssetFolderBuildingConvertor::remove(abAssetInfo* asset)
 {
+	hlog("Removing folder: %s", asset->mLocation.mPath.c_str());
 	fileSystem()->removeDirectory(mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 }
 

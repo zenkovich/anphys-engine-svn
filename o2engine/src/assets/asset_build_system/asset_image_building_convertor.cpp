@@ -22,8 +22,18 @@ asAssetImageBuildingConvertor::~asAssetImageBuildingConvertor()
 
 void asAssetImageBuildingConvertor::convert(abAssetInfo* asset)
 {
-	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
-		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
+// 	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
+// 		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
+	
+	hlog("Converting image: %s", asset->mLocation.mPath.c_str());
+
+	abImageAssetInfo* imgAsset = static_cast<abImageAssetInfo*>(asset);
+
+	cSerializer serializer;
+	serializer.serialize(imgAsset->mAtlas, "atlas");
+
+	string fullPath = mBuildSystem->getBuildedAssetsFolderPath() + "/" + extractExtension(asset->mLocation.mPath) + ".atl_img";
+	serializer.save(fullPath, false);
 }
 
 UniqueType asAssetImageBuildingConvertor::getConvertingType() const

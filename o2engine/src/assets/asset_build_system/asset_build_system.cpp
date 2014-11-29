@@ -31,6 +31,9 @@ AssetBuildSystem::~AssetBuildSystem()
 
 void AssetBuildSystem::rebuildAssets(bool forcible /*= false*/)
 {
+	if (forcible)
+		removeAllBuildedAssets();
+
 	loadAssetFolderInfo();
 	loadBuildedAssetsFolderInfo();
 
@@ -39,6 +42,13 @@ void AssetBuildSystem::rebuildAssets(bool forcible /*= false*/)
 	convertFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 
 	saveBuildInfo();
+}
+
+void AssetBuildSystem::removeAllBuildedAssets()
+{
+	fileSystem()->removeDirectory(mBuildedAssetsFolderPath);
+	fileSystem()->createDirectory(mBuildedAssetsFolderPath);
+	fileSystem()->deleteFile(fileSystem()->getFilePathByExt(mBuildedAssetsInfoFilePath, cFileType::CONFIG));
 }
 
 void AssetBuildSystem::loadAssetFolderInfo()
@@ -81,7 +91,7 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 		asFileInfo->mWriteTime = fileInfIt->mEditDate;		
 
 		if (asFileConfig)
-			asFileInfo->getConfigsSample(asFileConfig);
+			asFileInfo->initFromConfigs(asFileConfig);
 		else
 			pathConfig.mInsideAssets.add(asFileInfo->getConfigsSample());
 
@@ -274,6 +284,8 @@ abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const cFileInfo& fil
 {
 	if (fileInfo.mFileType == cFileType::IMAGE)
 		return mnew abImageAssetInfo();
+	else if (fileInfo.mFileType == cFileType::ATLAS)
+		return mnew abAtlasAssetInfo();
 
 	return mnew abAssetInfo();
 }

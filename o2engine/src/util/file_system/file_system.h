@@ -31,6 +31,9 @@ public:
 	/** Returns vector of extension strings for extension type. */
 	const ExtensionsVec& getExtensions(cFileType::value fileType) const;
 
+	/** Returns full file path with extension by file type. */
+	string getFilePathByExt(const string& path, cFileType::value fileType) const;
+
 	/** Returns info of paths and files of specified path. */
 	cPathInfo getPathInfo(const string& path) const;
 
@@ -54,6 +57,9 @@ public:
 
 	/** Returns true if specified directory exist. */
 	bool isDirectoryExist(const string& path) const;
+
+	/** Returns true if specified file exist. */
+	bool isFileExist(const string& path) const;
 };
 
 CLOSE_O2_NAMESPACE

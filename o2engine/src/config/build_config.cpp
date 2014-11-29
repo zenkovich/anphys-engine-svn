@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 ProjectBuildConfig::ProjectBuildConfig(ProjectConfig* projConfig):
 	mProjectConfig(projConfig)
 {
-	string cfgFilePath = "../config.xml";
+	string cfgFilePath = BUILD_CONFIG_FILE_PATH;
 
 	cSerializer serializer;
 	if (!serializer.load(cfgFilePath)) 

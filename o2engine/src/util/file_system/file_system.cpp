@@ -15,6 +15,8 @@ cFileSystem::cFileSystem()
 	mExtensions[cFileType::CONFIG].push_back("xml");
 	mExtensions[cFileType::CONFIG].push_back("txt");
 	mExtensions[cFileType::CONFIG].push_back("cfg");
+	
+	mExtensions[cFileType::ATLAS].push_back("atlas");
 
 	mResourcePath = ASSETS_BUILDED_PATH;
 }
@@ -27,6 +29,19 @@ cFileSystem::~cFileSystem()
 const cFileSystem::ExtensionsVec& cFileSystem::getExtensions( cFileType::value fileType ) const
 {
 	return mExtensions.at(fileType);
+}
+
+string cFileSystem::getFilePathByExt(const string& path, cFileType::value fileType) const
+{
+	ExtensionsVec exts = getExtensions(fileType);
+	FOREACH(ExtensionsVec, exts, ext)
+	{
+		string fullPath = path + "." + (*ext);
+		if (isFileExist(fullPath))
+			return fullPath;
+	}
+
+	return path + "." + exts[0];
 }
 
 const string& cFileSystem::getResourcePath() const
@@ -192,6 +207,19 @@ bool cFileSystem::isDirectoryExist(const string& path) const
 		return true;
 
 	return false;
+}
+
+bool cFileSystem::isFileExist(const string& path) const
+{
+	DWORD tp = GetFileAttributes(path.c_str());
+	
+	if (tp == INVALID_FILE_ATTRIBUTES)
+		return false;
+
+	if (tp & FILE_ATTRIBUTE_DIRECTORY)
+		return false;
+
+	return true;
 }
 
 CLOSE_O2_NAMESPACE

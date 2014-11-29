@@ -27,9 +27,9 @@ cSerializer::~cSerializer()
 {
 }
 
-bool cSerializer::load(const string& file)
+bool cSerializer::load(const string& file, bool stdConfigExt /*= true*/)
 {
-	if (!cXmlTools::loadFromFile(file, mRootNode))
+	if (!cXmlTools::loadFromFile(file, mRootNode, stdConfigExt))
 		return false;
 
 	mCurrentNode = mRootNode;
@@ -38,9 +38,9 @@ bool cSerializer::load(const string& file)
 	return true;
 }
 
-bool cSerializer::save(const string& file)
+bool cSerializer::save(const string& file, bool stdConfigExt /*= true*/)
 {	
-	return cXmlTools::saveToFile(file, mRootNode);
+	return cXmlTools::saveToFile(file, mRootNode, stdConfigExt);
 }
 
 bool cSerializer::loadFromString(const string& data)

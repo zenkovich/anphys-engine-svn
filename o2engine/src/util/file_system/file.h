@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 struct cFileType
 {
-	enum value { FILE = 0, IMAGE, CONFIG };
+	enum value { FILE = 0, IMAGE, CONFIG, ATLAS };
 };
 
 /** Input file. */

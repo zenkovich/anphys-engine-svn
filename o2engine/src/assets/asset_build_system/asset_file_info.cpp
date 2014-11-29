@@ -164,6 +164,8 @@ void abFolderInfo::addInsideAsset(abAssetInfo* asset)
 
 
 
+REGIST_TYPE(abAtlasAssetInfo);
+
 abAtlasAssetInfo::abAtlasAssetInfo():
 	mMaxSize(2048.0f, 2048.0f), mName("unnamed")
 {
@@ -220,6 +222,14 @@ abAssetInfo* abAtlasAssetInfo::clone() const
 	abAssetInfo* res = mnew abAtlasAssetInfo();
 	res->copyFrom(this);
 	return res;
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(abAtlasAssetInfo)
+{
+	SERIALIZE_ID(mName, "name");
+	SERIALIZE_ID(mMaxSize, "maxSize");
+
+	return true;
 }
 
 CLOSE_O2_NAMESPACE
