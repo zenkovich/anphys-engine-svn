@@ -75,6 +75,7 @@ public:
 	abFolderInfo();
 	~abFolderInfo();
 
+	abAssetsInfosArr getAllInsideAssets() const;
 	abAssetInfo* getInsideAsset(const cFileLocation& location);
 	void addInsideAsset(abAssetInfo* asset);
 	void clear();

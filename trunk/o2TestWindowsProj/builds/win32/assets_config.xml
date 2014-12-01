@@ -11,7 +11,7 @@
 		<elem0 type="asAssetConfig">
 			<location type="cFileLocation">
 				<path v="arial.xml" />
-				<id v="0" />
+				<id v="1496" />
 			</location>
 			<includeBuild v="true" />
 		</elem0>
@@ -19,7 +19,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="arial_0.png" />
-					<id v="0" />
+					<id v="19096" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -29,7 +29,7 @@
 		<elem2 type="asAssetConfig">
 			<location type="cFileLocation">
 				<path v="config.xml" />
-				<id v="0" />
+				<id v="85" />
 			</location>
 			<includeBuild v="true" />
 		</elem2>
@@ -37,7 +37,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="grass.png" />
-					<id v="0" />
+					<id v="26582" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -48,7 +48,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="man_walk_frames.png" />
-					<id v="0" />
+					<id v="6428" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -59,7 +59,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="pic.png" />
-					<id v="0" />
+					<id v="2079" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -70,7 +70,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="test.png" />
-					<id v="0" />
+					<id v="17412" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -80,7 +80,7 @@
 		<elem7 type="asAssetConfig">
 			<location type="cFileLocation">
 				<path v="test_serialization.xml" />
-				<id v="0" />
+				<id v="310" />
 			</location>
 			<includeBuild v="true" />
 		</elem7>
@@ -88,7 +88,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="ui_test.png" />
-					<id v="0" />
+					<id v="5097" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -99,7 +99,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="o2_font" />
-					<id v="0" />
+					<id v="26152" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -107,14 +107,14 @@
 				<elem0 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="o2_font/myriad.bmfc" />
-						<id v="0" />
+						<id v="21720" />
 					</location>
 					<includeBuild v="true" />
 				</elem0>
 				<elem1 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="o2_font/myriad.xml" />
-						<id v="0" />
+						<id v="2864" />
 					</location>
 					<includeBuild v="true" />
 				</elem1>
@@ -122,7 +122,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="o2_font/myriad_0.png" />
-							<id v="0" />
+							<id v="2270" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -135,7 +135,7 @@
 			<asAssetConfig>
 				<location type="cFileLocation">
 					<path v="ui_skin" />
-					<id v="0" />
+					<id v="30181" />
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
@@ -144,7 +144,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/background.png" />
-							<id v="0" />
+							<id v="25608" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -155,7 +155,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/background_shadow.png" />
-							<id v="0" />
+							<id v="940" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -166,7 +166,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/bar_bar.png" />
-							<id v="0" />
+							<id v="2444" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -176,7 +176,7 @@
 				<elem3 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/bar_bar.psd" />
-						<id v="0" />
+						<id v="8374" />
 					</location>
 					<includeBuild v="true" />
 				</elem3>
@@ -184,7 +184,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/bar_bar_hover.png" />
-							<id v="0" />
+							<id v="6981" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -195,7 +195,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/bar_bar_pressed.png" />
-							<id v="0" />
+							<id v="31779" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -206,7 +206,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/bar_bk.png" />
-							<id v="0" />
+							<id v="30168" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -216,7 +216,7 @@
 				<elem7 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/bar_bk.psd" />
-						<id v="0" />
+						<id v="18938" />
 					</location>
 					<includeBuild v="true" />
 				</elem7>
@@ -224,7 +224,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/bar_drag_icn.png" />
-							<id v="0" />
+							<id v="1857" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -235,7 +235,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/btn_glow.png" />
-							<id v="0" />
+							<id v="27154" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -246,7 +246,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/btn_hover.png" />
-							<id v="0" />
+							<id v="23200" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -257,7 +257,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/btn_pressed.png" />
-							<id v="0" />
+							<id v="17190" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -268,7 +268,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/btn_regular.png" />
-							<id v="0" />
+							<id v="2930" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -279,7 +279,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/btn_shadow.png" />
-							<id v="0" />
+							<id v="23464" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -289,7 +289,7 @@
 				<elem14 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/checkbox.psd" />
-						<id v="0" />
+						<id v="9122" />
 					</location>
 					<includeBuild v="true" />
 				</elem14>
@@ -297,7 +297,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/checkbox_bk.png" />
-							<id v="0" />
+							<id v="17940" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -308,7 +308,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/checkbox_check.png" />
-							<id v="0" />
+							<id v="17172" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -319,7 +319,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/checkbox_glow.png" />
-							<id v="0" />
+							<id v="25794" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -330,7 +330,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/checkbox_hover.png" />
-							<id v="0" />
+							<id v="9369" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -341,7 +341,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/checkbox_pressed.png" />
-							<id v="0" />
+							<id v="27037" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -352,7 +352,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/context_delimer.png" />
-							<id v="0" />
+							<id v="29549" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -362,7 +362,7 @@
 				<elem21 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/context_menu.psd" />
-						<id v="0" />
+						<id v="22554" />
 					</location>
 					<includeBuild v="true" />
 				</elem21>
@@ -370,7 +370,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/context_menu_bk.png" />
-							<id v="0" />
+							<id v="15784" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -381,7 +381,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/context_selection.png" />
-							<id v="0" />
+							<id v="17513" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -392,7 +392,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/dark_background.png" />
-							<id v="0" />
+							<id v="29524" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -403,7 +403,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/dot_gray_line_hor.png" />
-							<id v="0" />
+							<id v="8379" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -414,7 +414,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/dot_gray_line_ver.png" />
-							<id v="0" />
+							<id v="7932" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -424,7 +424,7 @@
 				<elem27 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/editbox.psd" />
-						<id v="0" />
+						<id v="12806" />
 					</location>
 					<includeBuild v="true" />
 				</elem27>
@@ -432,7 +432,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/editbox_bk.png" />
-							<id v="0" />
+							<id v="11252" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -443,7 +443,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/editbox_glow.png" />
-							<id v="0" />
+							<id v="20409" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -454,7 +454,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/editbox_hover.png" />
-							<id v="0" />
+							<id v="28590" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -465,7 +465,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/folder_icn.png" />
-							<id v="0" />
+							<id v="28216" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -475,7 +475,7 @@
 				<elem32 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/hint.psd" />
-						<id v="0" />
+						<id v="5838" />
 					</location>
 					<includeBuild v="true" />
 				</elem32>
@@ -483,7 +483,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/hint_bk.png" />
-							<id v="0" />
+							<id v="12830" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -494,7 +494,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/minus_icn.png" />
-							<id v="0" />
+							<id v="23526" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -504,7 +504,7 @@
 				<elem35 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/pad.psd" />
-						<id v="0" />
+						<id v="31376" />
 					</location>
 					<includeBuild v="true" />
 				</elem35>
@@ -512,7 +512,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/pad_bk.png" />
-							<id v="0" />
+							<id v="23805" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -523,7 +523,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/pad_glow.png" />
-							<id v="0" />
+							<id v="807" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -534,7 +534,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/pad_hover.png" />
-							<id v="0" />
+							<id v="20038" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -545,7 +545,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/plus_icn.png" />
-							<id v="0" />
+							<id v="576" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -556,7 +556,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_hor_bar_bar.png" />
-							<id v="0" />
+							<id v="31678" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -567,7 +567,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_hor_bar_bar_hover.png" />
-							<id v="0" />
+							<id v="3761" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -578,7 +578,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_hor_bar_bar_pressed.png" />
-							<id v="0" />
+							<id v="22662" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -589,7 +589,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_hor_bar_bk.png" />
-							<id v="0" />
+							<id v="12334" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -599,7 +599,7 @@
 				<elem44 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/small_vert_bar.psd" />
-						<id v="0" />
+						<id v="4655" />
 					</location>
 					<includeBuild v="true" />
 				</elem44>
@@ -607,7 +607,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_vert_bar_bar.png" />
-							<id v="0" />
+							<id v="22510" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -618,7 +618,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_vert_bar_bar_hover.png" />
-							<id v="0" />
+							<id v="3931" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -629,7 +629,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_vert_bar_bar_pressed.png" />
-							<id v="0" />
+							<id v="11079" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -640,7 +640,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/small_vert_bar_bk.png" />
-							<id v="0" />
+							<id v="15447" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -650,14 +650,14 @@
 				<elem49 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/tabs.psd" />
-						<id v="0" />
+						<id v="6236" />
 					</location>
 					<includeBuild v="true" />
 				</elem49>
 				<elem50 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/tabs_.psd" />
-						<id v="0" />
+						<id v="23966" />
 					</location>
 					<includeBuild v="true" />
 				</elem50>
@@ -665,7 +665,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/tab_active.png" />
-							<id v="0" />
+							<id v="11542" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -676,7 +676,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/tab_inactive.png" />
-							<id v="0" />
+							<id v="8039" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -687,7 +687,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/tab_inactive_hover.png" />
-							<id v="0" />
+							<id v="11000" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -698,7 +698,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/tab_line.png" />
-							<id v="0" />
+							<id v="4778" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -709,7 +709,7 @@
 					<asAssetConfig>
 						<location type="cFileLocation">
 							<path v="ui_skin/transparent_rect_bk.png" />
-							<id v="0" />
+							<id v="26261" />
 						</location>
 						<includeBuild v="true" />
 					</asAssetConfig>
@@ -719,14 +719,14 @@
 				<elem56 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/tree.psd" />
-						<id v="0" />
+						<id v="2879" />
 					</location>
 					<includeBuild v="true" />
 				</elem56>
 				<elem57 type="asAssetConfig">
 					<location type="cFileLocation">
 						<path v="ui_skin/tree_node.psd" />
-						<id v="0" />
+						<id v="14255" />
 					</location>
 					<includeBuild v="true" />
 				</elem57>
