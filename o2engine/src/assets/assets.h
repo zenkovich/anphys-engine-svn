@@ -19,7 +19,6 @@ class Assets
 	friend class abImageAssetInfo;
 
 public:
-	typedef array<asAssetInfo> AssetsInfosArr;
 	typedef array<asAsset*> AssetsArr;
 
 protected:

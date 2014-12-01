@@ -49,10 +49,15 @@ struct asAssetInfo: public cSerializable
 	string        mTypeName;
 	WideTime      mWriteTime;
 
+public:
+	asAssetInfo();
+	asAssetInfo(const cFileLocation& location, const string& typeName, const WideTime& writeTime);
+
 	bool operator==(const asAssetInfo& other) const;
 
 	SERIALIZBLE_METHODS(asAssetInfo);
 };
+typedef array<asAssetInfo> AssetsInfosArr;
 
 CLOSE_O2_NAMESPACE
 

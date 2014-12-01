@@ -11,6 +11,8 @@ class ProjectBuildConfig;
 
 class ProjectConfig: public cSerializable
 {
+	friend class AssetBuildSystem;
+
 	string              mProjectName;
 	bool                mAssetsUsesMetaIds;
 	ProjectBuildConfig* mBuildConfig;

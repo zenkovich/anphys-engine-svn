@@ -68,6 +68,15 @@ void asAsset::onZeroRefCount()
 }
 
 
+asAssetInfo::asAssetInfo()
+{
+}
+
+asAssetInfo::asAssetInfo(const cFileLocation& location, const string& typeName, const WideTime& writeTime):
+	mLocation(location), mTypeName(typeName), mWriteTime(writeTime)
+{
+}
+
 SERIALIZE_METHOD_IMPL(asAssetInfo)
 {
 	SERIALIZE_ID(&mLocation, "location");

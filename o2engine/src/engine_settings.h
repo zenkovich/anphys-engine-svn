@@ -84,6 +84,9 @@
 /** Assets configuration file path. */
 #define ASSETS_FOLDER_CONFIG_FILE_PATH "../assets_config"
 
+/** Assets info file path. Relative from executable. */
+#define ASSETS_INFO_FILE_PATH "../assets_info"
+
 /** Assets builded info file path. */
 #define ASSETS_BUILDED_INFO_FILE_PATH "../tmp/assets_build_info"
 

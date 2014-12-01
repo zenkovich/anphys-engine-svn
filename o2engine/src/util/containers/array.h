@@ -96,6 +96,10 @@ public:
 
 	array& operator=(const array& arr);
 
+	array operator+(const array& arr) const;
+
+	array operator+=(const array& arr);
+
 	bool operator==(const array& arr);
 
 	bool operator!=(const array& arr);
@@ -116,9 +120,13 @@ public:
 
 	_type& add(const _type& value);
 
+	void add(const IArray& arr);
+
 	_type popBack();
 
 	_type& insert(const _type& value, int position);
+
+	void insert(const IArray& arr, int position);
 
 	int find(const _type& value) const;
 
@@ -457,6 +465,21 @@ array<_type>& array<_type>::operator=(const array<_type>& arr)
 }
 
 template<typename _type>
+array<_type> array<_type>::operator+(const array<_type>& arr) const
+{ 
+	array<_type> res(*this);
+	res.add(arr);
+	return res;
+}
+
+template<typename _type>
+array<_type> array<_type>::operator+=(const array<_type>& arr) 
+{
+	add(arr);
+	return *this;
+}
+
+template<typename _type>
 bool array<_type>::operator==(const array<_type>& arr)
 {
 	if (arr.mCount != mCount)
@@ -511,8 +534,8 @@ void array<_type>::reserve(int newCapacity)
 	if (CONTAINERS_DEBUG)
 		o2assert(newCapacity > 0, "Can't reserve array to zero size");
 
-	if (newCapacity < mCount)
-		newCapacity = mCount;
+	if (newCapacity < mCapacity)
+		newCapacity = mCapacity;
 
 	if (newCapacity < 5)
 		newCapacity = 5;
@@ -544,12 +567,25 @@ template<typename _type>
 _type& array<_type>::add(const _type& value)
 {
 	if (mCount == mCapacity)
-		reserve(getReservingSize(mCount));
+		reserve(getReservingSize(mCount + 1));
 
 	new (mValues + mCount) _type(value);
 	mCount++;
 
 	return mValues[mCount - 1];
+}
+
+template<typename _type>	
+void array<_type>::add(const IArray<_type>& arr)
+{
+	int arrCount = arr.count();
+	if (mCount + arrCount >= mCapacity)
+		reserve(getReservingSize(mCount + arrCount));
+
+	for (int i = 0; i < arrCount; i++)
+		new (mValues + mCount + i) _type(arr.get(i));
+
+	mCount += arrCount;
 }
 
 template<typename _type>
@@ -571,7 +607,7 @@ _type& array<_type>::insert(const _type& value, int position)
 		o2assert(position >= 0 || position < mCount ,"Can't insert element: index out of range");
 
 	if (mCount == mCapacity)
-		reserve(getReservingSize(mCount));
+		reserve(getReservingSize(mCount + 1));
 	
 	new (mValues + mCount) _type();
 	mCount++;
@@ -585,6 +621,27 @@ _type& array<_type>::insert(const _type& value, int position)
 	}
 
 	return mValues[position];
+}
+
+template<typename _type>
+void array<_type>::insert(const IArray<_type>& arr, int position)
+{
+	int arrCount = arr.count();
+	if (mCount + arrCount >= mCapacity)
+		reserve(getReservingSize(mCount + arrCount));
+
+	for (int i = position; i < mCount; i++)
+		new (mValues + i + arrCount) _type(mValues[i]);
+
+	for (int i = 0; i < arrCount; i++)
+	{
+		if (i < mCount)
+			mValues[i + position] = arr.get(i);
+		else
+			new (mValues + i + position) _type(arr.get(i));
+	}
+
+	mCount += arrCount;
 }
 
 template<typename _type>

@@ -24,7 +24,8 @@ asAssetConfig* abAssetInfo::getConfigsSample() const
 
 bool abAssetInfo::isEquals(abAssetInfo* other)
 {
-	return mLocation == other->mLocation && mWriteTime == other->mWriteTime;
+	return mLocation.mId == other->mLocation.mId && mLocation.mPath == other->mLocation.mPath && 
+		   mWriteTime == other->mWriteTime;
 }
 
 void abAssetInfo::copyFrom(const abAssetInfo* other)
@@ -160,6 +161,19 @@ abAssetInfo* abFolderInfo::clone() const
 void abFolderInfo::addInsideAsset(abAssetInfo* asset)
 {
 	mInsideAssets.add(asset);
+}
+
+abAssetsInfosArr abFolderInfo::getAllInsideAssets() const
+{
+	abAssetsInfosArr res;
+	foreach_const(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		res.add(*assetIt);
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+			res.add((static_cast<abFolderInfo*>(*assetIt))->getAllInsideAssets());
+	}
+
+	return res;
 }
 
 

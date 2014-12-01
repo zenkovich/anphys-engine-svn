@@ -5,9 +5,11 @@
 #include "app/application.h"
 #include "util/file_system/file_system.h"
 #include "config/asset_config.h"
+#include "config/project_config.h"
 #include "asset_file_building_convertor.h"
 #include "asset_folder_building_convertor.h"
 #include "asset_image_building_convertor.h"
+#include "asset_atlas_building_convertor.h"
 
 OPEN_O2_NAMESPACE
 
@@ -22,6 +24,7 @@ AssetBuildSystem::AssetBuildSystem(Assets* assets):
 	mAssetConverters.add(mnew asAssetFileBuildingConvertor(this));
 	mAssetConverters.add(mnew asAssetFolderBuildingConvertor(this));
 	mAssetConverters.add(mnew asAssetImageBuildingConvertor(this));
+	mAssetConverters.add(mnew asAssetAtlasBuildingConvertor(this));
 }
 
 AssetBuildSystem::~AssetBuildSystem()
@@ -37,11 +40,13 @@ void AssetBuildSystem::rebuildAssets(bool forcible /*= false*/)
 	loadAssetFolderInfo();
 	loadBuildedAssetsFolderInfo();
 
+	checkMovedFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 	checkRemovedFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 	checkNewFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 	convertFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 
 	saveBuildInfo();
+	saveAssetsInfo();
 }
 
 void AssetBuildSystem::removeAllBuildedAssets()
@@ -128,6 +133,11 @@ void AssetBuildSystem::loadBuildedAssetsFolderInfo()
 	{
 		serializer.serialize(&mBuildedAssetsFolderInfo, "assets");
 	}
+}
+
+void AssetBuildSystem::checkMovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo)
+{
+
 }
 
 void AssetBuildSystem::checkRemovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo)
@@ -259,15 +269,29 @@ uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const strin
 {
 	uint32 res = 0;
 
-	string metaPath = path + ".meta";
+	string metaPath = extractExtension(path) + ".meta";
 
 	if (pathInfo.isFileExist(metaPath))
 	{
-		cSerializer serializer(metaPath);
+		cSerializer serializer;
+		serializer.load(mAssetsFolderPath + "/" + metaPath, false);
 		serializer.serialize(res, "id");
+	}
+	else if (projectConfig()->mAssetsUsesMetaIds) 
+	{
+		uint32 metaId = generateFileId();
+		cSerializer serializer;
+		serializer.serialize(metaId, "id");
+		serializer.save(mAssetsFolderPath + "/" + metaPath, false);
+		return metaId;
 	}
 
 	return res;
+}
+
+uint32 AssetBuildSystem::generateFileId() const
+{
+	return rand()%(UINT_MAX - 1) + 1;
 }
 
 string AssetBuildSystem::getAssetsFolderPath() const
@@ -295,6 +319,22 @@ void AssetBuildSystem::saveBuildInfo()
 	cSerializer serializer;
 	serializer.serialize(&mBuildedAssetsFolderInfo, "assets");
 	serializer.save(mBuildedAssetsInfoFilePath);
+}
+
+void AssetBuildSystem::saveAssetsInfo()
+{
+	abAssetsInfosArr assetsBuildInfos = mBuildedAssetsFolderInfo.getAllInsideAssets();
+	AssetsInfosArr assetsInfos;
+	foreach(abAssetsInfosArr, assetsBuildInfos, assetIt)
+	{
+		cFileLocation loc = (*assetIt)->mLocation;
+		loc.mPath = extractExtension(loc.mPath);
+		assetsInfos.add(asAssetInfo(loc, (*assetIt)->getTypeName(), (*assetIt)->mWriteTime));
+	}
+
+	cSerializer serializer;
+	serializer.serialize(assetsInfos, "assets");
+	serializer.save(ASSETS_INFO_FILE_PATH);
 }
 
 CLOSE_O2_NAMESPACE

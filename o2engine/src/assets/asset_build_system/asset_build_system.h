@@ -20,6 +20,7 @@ class AssetBuildSystem
 	friend class asAssetFolderBuildingConvertor;
 	friend class asAssetBuildingConvertor;
 	friend class asAssetImageBuildingConvertor;
+	friend class asAssetAtlasBuildingConvertor;
 
 	typedef array<asAssetBuildingConvertor*> AsConvertersArr;
 
@@ -48,18 +49,20 @@ protected:
 	void loadAssetFolderInfo();
 	void loadBuildedAssetsFolderInfo();
 
+	void checkMovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void checkRemovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void checkNewFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void convertFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo);
 	void copyAndConvertAsset(abAssetInfo* assetInfo, abAssetInfo* buildAssetInfo);
 	void removeConvertedAsset(abAssetInfo* buildAssetInfo);
 	void saveBuildInfo();
+	void saveAssetsInfo();
 
 	void processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo);
 	abAssetInfo* createAssetInfroFromFileInfo(const cFileInfo& fileInfo);
 
 	uint32 tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const string& path);
-
+	uint32 generateFileId() const;
 };
 
 CLOSE_O2_NAMESPACE
