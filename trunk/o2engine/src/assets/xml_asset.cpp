@@ -40,12 +40,12 @@ pugi::xml_document& asXmlDoc::getXmlDoc()
 
 void asXmlDoc::saveData()
 {
-	cXmlTools::saveToFile(mLocation.mPath, mXmlDoc);
+	cXmlTools::saveToFile(assets()->getAssetSourceFullPath(mLocation.mPath), mXmlDoc);
 }
 
 void asXmlDoc::loadData()
 {
-	if (!cXmlTools::loadFromFile(mLocation.mPath, mXmlDoc))
+	if (!cXmlTools::loadFromFile(assets()->getAssetFullPath(mLocation.mPath), mXmlDoc))
 	{
 		assets()->mLog->error("Filed to load xml asset: %s", mLocation.mPath.c_str());
 	}

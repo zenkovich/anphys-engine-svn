@@ -10,7 +10,7 @@
 
 OPEN_O2_NAMESPACE
 
-class asAsset: public IRefObject
+class asAsset
 {
 	friend class Assets;
 	friend class asAssetRef;
@@ -22,7 +22,7 @@ protected:
 	char*         mData;
 	uint32        mDataSize;
 
-protected:
+public:
 	asAsset();
 	asAsset(const string& location);
 	asAsset(const cFileLocation& location);
@@ -39,8 +39,6 @@ protected:
 
 protected:
 	virtual void saveData() = 0;
-
-	void onZeroRefCount();
 };
 
 struct asAssetInfo: public cSerializable

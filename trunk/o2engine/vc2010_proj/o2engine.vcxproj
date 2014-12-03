@@ -125,9 +125,7 @@
     <ClInclude Include="..\src\assets\asset_build_system\asset_image_building_convertor.h" />
     <ClInclude Include="..\src\assets\file_asset.h" />
     <ClInclude Include="..\src\assets\image_asset.h" />
-    <ClInclude Include="..\src\assets\image_asset_ref.h" />
     <ClInclude Include="..\src\assets\xml_asset.h" />
-    <ClInclude Include="..\src\assets\xml_asset_ref.h" />
     <ClInclude Include="..\src\config\asset_config.h" />
     <ClInclude Include="..\src\config\build_config.h" />
     <ClInclude Include="..\src\config\project_config.h" />

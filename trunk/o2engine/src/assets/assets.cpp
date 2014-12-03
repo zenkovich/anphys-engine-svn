@@ -9,8 +9,6 @@ OPEN_O2_NAMESPACE
 
 Assets::Assets()
 {
-	string assetsInfoFilePath = ASSETS_INFO_FILE_PATH;
-
 	mLog = mnew cLogStream("assets");
 	gLog->bindStream(mLog);
 
@@ -18,12 +16,8 @@ Assets::Assets()
 
 	if (ASSETS_PREBUILDING_ENABLE)
 		rebuildAssets();
-
-	cSerializer serializer;
-	if (serializer.load(assetsInfoFilePath))
-	{
-		serializer.serialize(mAssetsInfos, "assets");
-	}
+	else
+		loadBuildedAssetsInfo();
 }
 
 Assets::~Assets()
@@ -32,7 +26,17 @@ Assets::~Assets()
 	safe_release(mBuildSystem);
 }
 
-string Assets::getAssetsRealPath( const string& path )
+string Assets::getAssetSourceFullPath(const string& path)
+{
+	return ASSETS_PATH + getAssetRealPath(path);
+}
+
+string Assets::getAssetFullPath(const string& path)
+{
+	return ASSETS_BUILDED_PATH + getAssetRealPath(path);
+}
+
+string Assets::getAssetRealPath( const string& path )
 {
 	string convertedPath = path;
 
@@ -63,21 +67,13 @@ string Assets::getAssetsRealPath( const string& path )
 
 cFileLocation Assets::getAssetFileLocation(const string& path)
 {
-	string convertedPath = getAssetsRealPath(path);
+	string convertedPath = getAssetRealPath(path);
 
 	foreach(AssetsInfosArr, mAssetsInfos, fileIt)
-		if (fileIt->mLocation.mPath == path)
+		if (fileIt->mLocation.mPath == convertedPath)
 			return fileIt->mLocation;
 
 	return cFileLocation();
-}
-
-void Assets::saveLoadedAssets()
-{
-	foreach(AssetsArr, mLoadedAssets, asset)
-		(*asset)->saveData();
-
-	rebuildAssets();
 }
 
 uint32 Assets::generateFileId() const
@@ -85,18 +81,21 @@ uint32 Assets::generateFileId() const
 	return rand()%(UINT_MAX - 1) + 1;
 }
 
-void Assets::assetUnused(asAsset* asset)
-{
-	mLoadedAssets.remove(asset);
-	asset->saveData();
-	mUnusedAssets.add(asset);
-
-	rebuildAssets();
-}
-
 void Assets::rebuildAssets(bool forcible /*= false*/)
 {
 	mBuildSystem->rebuildAssets(forcible);
+	loadBuildedAssetsInfo();
+}
+
+void Assets::loadBuildedAssetsInfo()
+{
+	mAssetsInfos.clear();
+
+	cSerializer serializer;
+	if (serializer.load(ASSETS_INFO_FILE_PATH))
+	{
+		serializer.serialize(mAssetsInfos, "assets");
+	}
 }
 
 CLOSE_O2_NAMESPACE

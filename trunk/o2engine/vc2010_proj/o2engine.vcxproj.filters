@@ -573,12 +573,6 @@
     <ClInclude Include="..\src\util\ref_object.h">
       <Filter>src\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\assets\image_asset_ref.h">
-      <Filter>src\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\assets\xml_asset_ref.h">
-      <Filter>src\assets</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\assets\asset_build_system\asset_building_convertor.h">
       <Filter>src\assets\asset_build_system</Filter>
     </ClInclude>
