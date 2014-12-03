@@ -291,7 +291,7 @@ uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const strin
 
 uint32 AssetBuildSystem::generateFileId() const
 {
-	return rand()%(UINT_MAX - 1) + 1;
+	return mAssets->generateFileId();
 }
 
 string AssetBuildSystem::getAssetsFolderPath() const

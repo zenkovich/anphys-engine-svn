@@ -14,7 +14,6 @@ asAssetAtlasBuildingConvertor::asAssetAtlasBuildingConvertor():
 asAssetAtlasBuildingConvertor::asAssetAtlasBuildingConvertor(AssetBuildSystem* buildSystem):
 	asAssetBuildingConvertor(buildSystem)
 {
-
 }
 
 asAssetAtlasBuildingConvertor::~asAssetAtlasBuildingConvertor()

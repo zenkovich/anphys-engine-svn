@@ -13,7 +13,7 @@ class asXmlDoc: public asAsset
 protected:
 	pugi::xml_document mXmlDoc;
 
-protected:
+public:
 	asXmlDoc();
 	asXmlDoc(const string& location);
 	asXmlDoc(const cFileLocation& location);

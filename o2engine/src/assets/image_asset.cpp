@@ -1,6 +1,8 @@
 #include "image_asset.h"
 
 #include "util/image/image.h"
+#include "app/application.h"
+#include "assets.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,13 +16,13 @@ asImage::asImage():
 asImage::asImage(const string& location):
 	asAsset(location), mImage(NULL)
 {
-	mImage = mnew cImage(mLocation.mPath);
+	loadData();
 }
 
 asImage::asImage(const cFileLocation& location):
 	asAsset(location), mImage(NULL)
 {
-	mImage = mnew cImage(mLocation.mPath);
+	loadData();
 }
 
 asImage::asImage(cImage* image):
@@ -33,8 +35,11 @@ asImage::~asImage()
 	safe_release(mImage);
 }
 
-cImage* asImage::getImage() const
+cImage* asImage::getImage()
 {
+	if (mImage ==  NULL)
+		loadImage();
+
 	return mImage;
 }
 
@@ -50,9 +55,33 @@ asImage& asImage::operator=(const asImage& asset)
 	return *this;
 }
 
+void asImage::loadData()
+{
+	cSerializer serializer;
+	if (!serializer.load(assets()->getAssetFullPath(mLocation.mPath) + ".atl_img", false))
+	{
+		assets()->mLog->error("Failed to load image asset: %s", mLocation.mPath.c_str());
+		return;
+	}
+
+	serializer.serialize(mAtlas, "atlas");
+}
+
+void asImage::loadImage()
+{
+	mImage = mnew cImage(assets()->getAssetSourceFullPath(mLocation.mPath));
+}
+
 void asImage::saveData()
 {
-	mImage->save(mLocation.mPath, cImage::IT_PNG);
+	mImage->save(assets()->getAssetSourceFullPath(mLocation.mPath), cImage::IT_PNG);
+}
+
+SERIALIZE_METHOD_IMPL(asImage)
+{
+	SERIALIZE_ID(mAtlas, "atlas")
+
+	return true;
 }
 
 CLOSE_O2_NAMESPACE

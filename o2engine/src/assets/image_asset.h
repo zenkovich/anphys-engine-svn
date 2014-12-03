@@ -7,14 +7,15 @@ OPEN_O2_NAMESPACE
 
 class cImage;
 
-class asImage: public asAsset
+class asImage: public asAsset, public cSerializable
 {
 	DEFINE_TYPE(asImage);
 
 protected:
 	cImage* mImage;
+	string  mAtlas;
 
-protected:
+public:
 	asImage();
 	asImage(const string& location);
 	asImage(const cFileLocation& location);
@@ -23,11 +24,15 @@ protected:
 
 	asImage& operator=(const asImage& asset);
 
-	cImage* getImage() const;
+	cImage* getImage();
 	void setImage(cImage* image);
 
+	SERIALIZBLE_METHODS(asImage);
+
 protected:
+	void loadData();
 	void saveData();
+	void loadImage();
 };
 
 CLOSE_O2_NAMESPACE

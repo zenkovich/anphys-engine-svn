@@ -60,11 +60,10 @@ void asAsset::save(const string& path)
 
 	mLocation.mPath = path;
 	mLocation.mId = assets()->generateFileId();
-}
 
-void asAsset::onZeroRefCount()
-{
-	assets()->assetUnused(this);
+	saveData();
+
+	assets()->rebuildAssets();
 }
 
 

@@ -76,13 +76,14 @@ void asFile::setData(char* data, uint32 size)
 
 void asFile::saveData()
 {
-	cOutFile file(mLocation.mPath);
+	cOutFile file(assets()->getAssetSourceFullPath(mLocation.mPath));
 	file.writeData(mData, mDataSize);
+	file.close();
 }
 
 void asFile::loadData()
 {
-	cInFile file(mLocation.mPath);
+	cInFile file(assets()->getAssetFullPath(mLocation.mPath));
 
 	if (!file.isOpened())
 	{
