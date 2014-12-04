@@ -8,6 +8,9 @@
     <Filter Include="src\tests">
       <UniqueIdentifier>{b98c831e-dc57-4863-aed1-972af6b8e36d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\bubble_game">
+      <UniqueIdentifier>{7163007a-a36c-410a-82ba-cec3c839a660}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp">
@@ -28,6 +31,9 @@
     <ClCompile Include="main_win.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\verlet_physics.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\tests\animation_test.h">
@@ -47,6 +53,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\test_app.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\bubble_app.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\game_state.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\level_gameplay_state.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\verlet_physics.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\game_object.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\player_bubble_object.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\pad_game_object.h">
+      <Filter>src\bubble_game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
