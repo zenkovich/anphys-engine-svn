@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<assets count="69">
+<assets count="73">
 	<elem0 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="o2_font" />
@@ -552,4 +552,36 @@
 		<type v="abImageAssetInfo" />
 		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 	</elem68>
+	<elem69 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game" />
+			<id v="11154" />
+		</location>
+		<type v="abFolderInfo" />
+		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+	</elem69>
+	<elem70 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/bubble" />
+			<id v="32165" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="11" minute="6" hour="17" day="4" month="12" year="2014" />
+	</elem70>
+	<elem71 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/back" />
+			<id v="20578" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="19" minute="53" hour="17" day="4" month="12" year="2014" />
+	</elem71>
+	<elem72 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/circle" />
+			<id v="13378" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="40" minute="59" hour="17" day="4" month="12" year="2014" />
+	</elem72>
 </assets>

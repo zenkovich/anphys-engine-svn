@@ -22,8 +22,8 @@ asAssetImageBuildingConvertor::~asAssetImageBuildingConvertor()
 
 void asAssetImageBuildingConvertor::convert(abAssetInfo* asset)
 {
-// 	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
-// 		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
+ 	fileSystem()->copyFile(mBuildSystem->getAssetsFolderPath() + "/" + asset->mLocation.mPath,
+ 		                   mBuildSystem->getBuildedAssetsFolderPath() + "/" + asset->mLocation.mPath);
 	
 	hlog("Converting image: %s", asset->mLocation.mPath.c_str());
 

@@ -49,6 +49,22 @@ struct vertex2:public vec2<float>
 		color = ccolor;
 		tu = u; tv = v;
 	}
+
+	void setUV(float u, float v)
+	{
+		tu = u; tv = v;
+	}
+
+	void setUV(const vec2f& uv)
+	{
+		tu = uv.x; tv = uv.y;
+	}
+
+	vertex2 operator=(const vec2f& vec)
+	{
+		x = vec.x; y = vec.y;
+		return *this;
+	}
 };
 
 CLOSE_O2_NAMESPACE

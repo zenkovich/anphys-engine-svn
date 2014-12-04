@@ -2,6 +2,7 @@
 #define BUBBLE_APP_H
 
 #include "app/application.h"
+#include "util/type_indexation.h"
 
 OPEN_O2_NAMESPACE
 
@@ -14,6 +15,7 @@ public:
 
 private:
 	GameStatesArr mGameStates;
+	IGameState*   mCurrentGameState;
 
 public:	
 	/** ctor. */
@@ -28,9 +30,17 @@ public:
 	/** Drawing frame. */
 	void onDraw();
 
+	void goMainMenuState();
+
+	void goGamePlayState();
+
+	void goGameOverState();
+
 public:
 	/** Calls when application is starting. */
 	void onStarted();
+
+	void setGameState(UniqueType type);
 };
 
 CLOSE_O2_NAMESPACE

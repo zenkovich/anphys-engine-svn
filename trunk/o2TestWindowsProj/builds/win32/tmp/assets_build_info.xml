@@ -7,7 +7,7 @@
 		</location>
 		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
 	</abAssetInfo>
-	<insideAssets count="11">
+	<insideAssets count="12">
 		<elem0 type="abFolderInfo">
 			<abAssetInfo>
 				<location type="cFileLocation">
@@ -703,5 +703,45 @@
 			<atlas v="" />
 			<scale v="1" />
 		</elem10>
+		<elem11 type="abFolderInfo">
+			<abAssetInfo>
+				<location type="cFileLocation">
+					<path v="bubble_game" />
+					<id v="11154" />
+				</location>
+				<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+			</abAssetInfo>
+			<insideAssets count="3">
+				<elem0 type="abAssetInfo">
+					<location type="cFileLocation">
+						<path v="bubble_game/bubble.png" />
+						<id v="32165" />
+					</location>
+					<writeTime second="11" minute="6" hour="17" day="4" month="12" year="2014" />
+				</elem0>
+				<elem1 type="abImageAssetInfo">
+					<abAssetInfo>
+						<location type="cFileLocation">
+							<path v="bubble_game/back.png" />
+							<id v="20578" />
+						</location>
+						<writeTime second="19" minute="53" hour="17" day="4" month="12" year="2014" />
+					</abAssetInfo>
+					<atlas v="" />
+					<scale v="1" />
+				</elem1>
+				<elem2 type="abImageAssetInfo">
+					<abAssetInfo>
+						<location type="cFileLocation">
+							<path v="bubble_game/circle.png" />
+							<id v="13378" />
+						</location>
+						<writeTime second="40" minute="59" hour="17" day="4" month="12" year="2014" />
+					</abAssetInfo>
+					<atlas v="" />
+					<scale v="1" />
+				</elem2>
+			</insideAssets>
+		</elem11>
 	</insideAssets>
 </assets>

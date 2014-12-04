@@ -3,6 +3,8 @@
 
 #include "public.h"
 #include "util/type_indexation.h"
+#include "util/objects.h"
+#include "util/property.h"
 
 OPEN_O2_NAMESPACE
 
@@ -15,11 +17,26 @@ protected:
 public:
 	DEFINE_TYPE(IGameObject);
 
+	PROPERTY(IGameObject, vec2f) position;
+	PROPERTY(IGameObject, float) rotation;
+
+
 	IGameObject(const vec2f& position = vec2f(), float rotation = 0);
 	virtual ~IGameObject();
 
 	virtual void update(float dt) = 0;
 	virtual void draw() = 0;
+
+	void setPosition(const vec2f& position);
+	vec2f getPosition() const;
+
+	void setRotation(float rotation);
+	float getRotation() const;
+
+	vec2f transformLocalToWorld(const vec2f& pointLocal);
+
+protected:
+	void initializeProperties();
 };
 
 CLOSE_O2_NAMESPACE
