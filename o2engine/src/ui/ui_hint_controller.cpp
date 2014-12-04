@@ -19,6 +19,9 @@ uiHintController::~uiHintController()
 
 void uiHintController::showAt( const vec2f& position, const string& hintString )
 {
+	if (!mWidget)
+		return;
+
 	mNeedShow = true;
 	mNextPlacePosition = position;
 	mNextPlaceHintText = hintString;
@@ -31,6 +34,9 @@ void uiHintController::showAt( const vec2f& position, const string& hintString )
 
 void uiHintController::hide()
 {
+	if (!mWidget)
+		return;
+
 	mWidget->setVisible(false);
 }
 
@@ -52,6 +58,9 @@ void uiHintController::widgetDisappeared()
 
 void uiHintController::beginAppearing()
 {
+	if (!mWidget)
+		return;
+
 	mNeedShow = false;
 
 	mLabel->setCText(mNextPlaceHintText);
@@ -67,11 +76,17 @@ void uiHintController::beginAppearing()
 
 void uiHintController::update( float dt )
 {
+	if (!mWidget)
+		return;
+
 	mWidget->update(dt);
 }
 
 void uiHintController::draw()
 {
+	if (!mWidget)
+		return;
+
 	mWidget->draw();
 }
 

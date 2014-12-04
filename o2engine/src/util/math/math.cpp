@@ -14,4 +14,5 @@ void orthoProjMatrix(float* mat, float left, float right, float bottom, float to
 	mat[3] = 0.0f;                mat[7] = 0.0f;                mat[11] = 0.0f;                 mat[15] = 1.0f;
 }
 
+
 CLOSE_O2_NAMESPACE

@@ -128,6 +128,23 @@ void grRenderSystemBaseInterface::drawCross( const vec2f& pos, float size /*= 5*
 	drawLines(v, 2);
 }
 
+void grRenderSystemBaseInterface::drawCircle(const vec2f& pos, float radius /*= 5*/, const color4 color /*= color4::white()*/)
+{
+	const int segCount = 20;
+	vertex2 v[segCount*2];
+	unsigned long dcolor = color.dword();
+
+	float angleSeg = 2.0f*PI/(float)(segCount - 1);
+	for (int i = 0; i < segCount; i++)
+	{
+		float a = (float)i*angleSeg;
+		v[i*2]     = vertex2(vec2f::rotated(a           )*radius + pos, dcolor, 0, 0);
+		v[i*2 + 1] = vertex2(vec2f::rotated(a + angleSeg)*radius + pos, dcolor, 0, 0);
+	}
+
+	drawLines(v, segCount);
+}
+
 grTextureDef* grRenderSystemBaseInterface::addTextureDef( grTextureDef* texture )
 {
 	mTextures.push_back(texture);

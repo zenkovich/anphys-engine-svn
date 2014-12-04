@@ -7,7 +7,7 @@
 		</location>
 		<includeBuild v="true" />
 	</asAssetConfig>
-	<assets count="11">
+	<assets count="12">
 		<elem0 type="asAssetConfig">
 			<location type="cFileLocation">
 				<path v="arial.xml" />
@@ -732,5 +732,56 @@
 				</elem57>
 			</assets>
 		</elem10>
+		<elem11 type="asPathConfig">
+			<asAssetConfig>
+				<location type="cFileLocation">
+					<path v="bubble_game" />
+					<id v="11154" />
+				</location>
+				<includeBuild v="true" />
+			</asAssetConfig>
+			<assets count="4">
+				<elem0 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="bubble_game/bubble.png" />
+							<id v="24773" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem0>
+				<elem1 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="bubble_game/bubble.psd" />
+						<id v="32165" />
+					</location>
+					<includeBuild v="true" />
+				</elem1>
+				<elem2 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="bubble_game/back.png" />
+							<id v="20578" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem2>
+				<elem3 type="asImageConfig">
+					<asAssetConfig>
+						<location type="cFileLocation">
+							<path v="bubble_game/circle.png" />
+							<id v="13378" />
+						</location>
+						<includeBuild v="true" />
+					</asAssetConfig>
+					<scale v="1" />
+					<atlas v="" />
+				</elem3>
+			</assets>
+		</elem11>
 	</assets>
 </assetsConfigs>

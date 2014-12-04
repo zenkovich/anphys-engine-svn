@@ -88,6 +88,9 @@ public:
 	/** Draw cross with color. */
 	void drawCross(const vec2f& pos, float size = 5, const color4 color = color4::white());
 
+	/** Draw circle with color. */
+	void drawCircle(const vec2f& pos, float radius = 5, const color4 color = color4::white());
+
 	/** Beginning rendering. */
 	virtual bool beginRender() = 0;
 

@@ -34,6 +34,27 @@
     <ClCompile Include="..\..\..\..\src\bubble_game\verlet_physics.cpp">
       <Filter>src\bubble_game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\bubble_app.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\level_gameplay_state.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\game_state.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\player_bubble_object.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\game_object.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\pad_game_object.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\bubble_game\background_game_object.cpp">
+      <Filter>src\bubble_game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\tests\animation_test.h">
@@ -73,6 +94,9 @@
       <Filter>src\bubble_game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\bubble_game\pad_game_object.h">
+      <Filter>src\bubble_game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\bubble_game\background_game_object.h">
       <Filter>src\bubble_game</Filter>
     </ClInclude>
   </ItemGroup>

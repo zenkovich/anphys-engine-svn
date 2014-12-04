@@ -119,6 +119,11 @@ struct vec2
 		return vec2(x*v.x, y*v.y);
 	}	
 
+	inline vec2 scaleOrigin(const vec2& v, const vec2& origin) const
+	{
+		return (*this - origin).scale(v) + origin;
+	}	
+
 	inline vec2 invScale(const vec2& v) const
 	{
 		return vec2(x/v.x, y/v.y);
@@ -146,6 +151,11 @@ struct vec2
 		return sqrt((*this)*(*this));
 	}
 
+	inline T squareLength() const 
+	{
+		return *this*(*this);
+	}
+
 	inline vec2 normalize() const
 	{ 
 		T ln = length();
@@ -155,7 +165,7 @@ struct vec2
 			return vec2(0, 0); 
 	}
 
-	inline vec2 Rotate(float rad) const
+	inline vec2 rotate(float rad) const
 	{
 		float cs = cosf(rad), 
 			  sn = sinf(rad);
@@ -165,7 +175,7 @@ struct vec2
 		return v;
 	}
 
-	inline vec2 Rotate(float cs, float sn) const
+	inline vec2 rotate(float cs, float sn) const
 	{
 		vec2 v( (T)(cs*x - sn*y), (T)(sn*x + cs*y) );
 		v = v^(T)(1.0f);
@@ -173,14 +183,14 @@ struct vec2
 		return v;
 	}
 
-	inline void Rotate(float rad, const vec2& c) 
+	inline void rotate(float rad, const vec2& c) 
 	{
 		*this -= c;
-		Rotate(rad); 
+		rotate(rad); 
 		*this += c;
 	}	
 
-	inline vec2 Inv(bool bx = true, bool by = true)  const
+	inline vec2 inv(bool bx = true, bool by = true)  const
 	{
 		vec2 r = *this; 
 		if (bx) r.x = -r.x; 
@@ -188,14 +198,14 @@ struct vec2
 		return r; 
 	} 
 
-	inline vec2 InvX() const
+	inline vec2 invX() const
 	{ 
 		vec2 r = *this;
 		r.x = -r.x; 
 		return r; 
 	}
 
-	inline vec2 InvY() const
+	inline vec2 invY() const
 	{ 
 		vec2 r = *this;
 		r.y = -r.y;
@@ -206,6 +216,36 @@ struct vec2
 	vec2<T2> castTo() const
 	{
 		return vec2<T2>((T2)x, (T2)y);
+	}
+	
+	static vec2<T> rotated(float angle)
+	{
+		return vec2<T>(cosf(angle), sinf(angle));
+	}
+
+	static vec2<T> up() 
+	{
+		return vec2<T>(0, -1.0f);
+	}
+
+	static vec2<T> down() 
+	{
+		return vec2<T>(0, 1.0f);
+	}
+
+	static vec2<T> left() 
+	{
+		return vec2<T>(-1.0f, 0);
+	}
+
+	static vec2<T> right() 
+	{
+		return vec2<T>(1.0f, 0);
+	}
+
+	static vec2<T> one() 
+	{
+		return vec2<T>(1.0f, 1.0f);
 	}
 };
 
@@ -238,7 +278,7 @@ inline vec2<T> scale(const vec2<T>& a, const vec2<T>& b)
 template<typename T>
 inline vec2<T> rotateVec(float rad, const vec2<T>& v)
 { 
-	v.Rotate(rad); return v; 
+	v.rotate(rad); return v; 
 }
 
 #define vec2f vec2<float>

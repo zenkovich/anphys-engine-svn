@@ -11,6 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\bubble_game\background_game_object.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\bubble_app.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\game_object.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\game_state.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\level_gameplay_state.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\pad_game_object.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\player_bubble_object.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\verlet_physics.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\input_msg_test.cpp" />
@@ -20,6 +27,7 @@
     <ClCompile Include="main_win.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\bubble_game\background_game_object.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\bubble_app.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\game_object.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\game_state.h" />
