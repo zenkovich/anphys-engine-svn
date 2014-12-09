@@ -11,21 +11,16 @@ PlayerBubble::PlayerBubble(const vec2f& position /*= vec2f()*/):
 	IGameObject(position), mRadius(1.0f), mInputSense(0.2f, 0.6f), mSegmentsCount(30), mMesh(NULL), mRootHardness(0.01f),
 	mPressureCoef(0.3f), mShellHardness(0.8f), mLastCollisionTime(0), mControlTime(0.1f)
 {
-	initPhysicsModel();
-	initGraphics();
 }
 
 PlayerBubble::~PlayerBubble()
 {
 	safe_release(mMesh);
+}
 
-	verletPhysics()->removeParticle(mPhysicsRootParticle);
-
-	foreach(VeretPhysics::ParticlesArr, mPhysicsShellParticles, particleIt)
-		verletPhysics()->removeParticle(*particleIt);
-	
-	foreach(VeretPhysics::LinksArr, mPhysicsLinks, linkIt)
-		verletPhysics()->removeLink(*linkIt);
+void PlayerBubble::onLoad()
+{
+	initGraphics();
 }
 
 void PlayerBubble::initPhysicsModel()
@@ -55,6 +50,21 @@ void PlayerBubble::initPhysicsModel()
 	mPhysicsLinks.add(verletPhysics()->createLink(mPhysicsShellParticles.last(), mPhysicsShellParticles[0], -1, mShellHardness));
 	
 	mInitialSquare = getSquare();
+}
+
+void PlayerBubble::deinitPhysicsModel()
+{
+	verletPhysics()->removeParticle(mPhysicsRootParticle);
+
+	foreach(VeretPhysics::ParticlesArr, mPhysicsShellParticles, particleIt)
+		verletPhysics()->removeParticle(*particleIt);
+
+	mPhysicsShellParticles.clear();
+	
+	foreach(VeretPhysics::LinksArr, mPhysicsLinks, linkIt)
+		verletPhysics()->removeLink(*linkIt);
+
+	mPhysicsLinks.clear();
 }
 
 void PlayerBubble::draw()
@@ -169,9 +179,9 @@ void PlayerBubble::initGraphics()
 	const string texturePath = "bubble_game/bubble";
 	grTexture texture = grTexture::createFromFile(texturePath);
 
-	mMesh = mnew grMesh(texture, mPhysicsShellParticles.count()*3, mPhysicsShellParticles.count());
-	mMesh->mVertexCount = mPhysicsShellParticles.count()*3;
-	mMesh->mPolyCount = mPhysicsShellParticles.count();
+	mMesh = mnew grMesh(texture, mSegmentsCount*3, mSegmentsCount);
+	mMesh->mVertexCount = mSegmentsCount*3;
+	mMesh->mPolyCount = mSegmentsCount;
 
 	for (int i = 0; i < mMesh->mVertexCount; i++)
 	{
@@ -229,6 +239,16 @@ void PlayerBubble::onCollide( CollisionListener* other )
 		wd->active = false;
 		hlog("WaterDrop!");
 	}
+}
+
+void PlayerBubble::onActivate()
+{
+	initPhysicsModel();
+}
+
+void PlayerBubble::onDeactivate()
+{
+	deinitPhysicsModel();
 }
 
 CLOSE_O2_NAMESPACE

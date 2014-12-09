@@ -1,6 +1,5 @@
 #include "build_config.h"
 
-#include "project_config.h"
 #include "util\serialize_util.h"
 #include "asset_config.h"
 

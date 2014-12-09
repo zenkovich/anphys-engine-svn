@@ -23,7 +23,7 @@
 							<path v="bubble_game/back.png" />
 							<id v="1892" />
 						</location>
-						<writeTime second="10" minute="12" hour="21" day="4" month="12" year="2014" />
+						<writeTime second="19" minute="53" hour="17" day="4" month="12" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -33,7 +33,7 @@
 						<path v="bubble_game/back.psd" />
 						<id v="1763" />
 					</location>
-					<writeTime second="5" minute="53" hour="0" day="9" month="12" year="2014" />
+					<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
 				</elem1>
 				<elem2 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -41,7 +41,7 @@
 							<path v="bubble_game/bubble.png" />
 							<id v="25282" />
 						</location>
-						<writeTime second="14" minute="12" hour="14" day="7" month="12" year="2014" />
+						<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -51,7 +51,7 @@
 						<path v="bubble_game/bubble.psd" />
 						<id v="27710" />
 					</location>
-					<writeTime second="53" minute="52" hour="0" day="9" month="12" year="2014" />
+					<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
 				</elem3>
 				<elem4 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -59,7 +59,7 @@
 							<path v="bubble_game/circle.png" />
 							<id v="13298" />
 						</location>
-						<writeTime second="10" minute="12" hour="21" day="4" month="12" year="2014" />
+						<writeTime second="40" minute="59" hour="17" day="4" month="12" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -80,14 +80,14 @@
 						<path v="o2_font/myriad.bmfc" />
 						<id v="4865" />
 					</location>
-					<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
 				</elem0>
 				<elem1 type="abAssetInfo">
 					<location type="cFileLocation">
 						<path v="o2_font/myriad.xml" />
 						<id v="13703" />
 					</location>
-					<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
 				</elem1>
 				<elem2 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -95,7 +95,7 @@
 							<path v="o2_font/myriad_0.png" />
 							<id v="14404" />
 						</location>
-						<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -117,7 +117,7 @@
 							<path v="ui_skin/background.png" />
 							<id v="7611" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="24" minute="4" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -128,7 +128,7 @@
 							<path v="ui_skin/background_shadow.png" />
 							<id v="3694" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="5" minute="18" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -139,7 +139,7 @@
 							<path v="ui_skin/bar_bar.png" />
 							<id v="9364" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="50" minute="50" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -149,7 +149,7 @@
 						<path v="ui_skin/bar_bar.psd" />
 						<id v="29971" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem3>
 				<elem4 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -157,7 +157,7 @@
 							<path v="ui_skin/bar_bar_hover.png" />
 							<id v="10161" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="12" minute="24" hour="10" day="28" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -168,7 +168,7 @@
 							<path v="ui_skin/bar_bar_pressed.png" />
 							<id v="19645" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="18" minute="51" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -179,7 +179,7 @@
 							<path v="ui_skin/bar_bk.png" />
 							<id v="27476" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="38" minute="50" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -189,7 +189,7 @@
 						<path v="ui_skin/bar_bk.psd" />
 						<id v="22792" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem7>
 				<elem8 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -197,7 +197,7 @@
 							<path v="ui_skin/bar_drag_icn.png" />
 							<id v="7025" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="53" minute="31" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -208,7 +208,7 @@
 							<path v="ui_skin/btn_glow.png" />
 							<id v="14808" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="16" minute="13" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -219,7 +219,7 @@
 							<path v="ui_skin/btn_hover.png" />
 							<id v="21803" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="55" minute="13" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -230,7 +230,7 @@
 							<path v="ui_skin/btn_pressed.png" />
 							<id v="26959" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="20" minute="14" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -241,7 +241,7 @@
 							<path v="ui_skin/btn_regular.png" />
 							<id v="23934" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="31" minute="12" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -252,7 +252,7 @@
 							<path v="ui_skin/btn_shadow.png" />
 							<id v="1614" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="59" minute="12" hour="17" day="27" month="5" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -262,7 +262,7 @@
 						<path v="ui_skin/checkbox.psd" />
 						<id v="30266" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem14>
 				<elem15 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -270,7 +270,7 @@
 							<path v="ui_skin/checkbox_bk.png" />
 							<id v="14353" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="12" minute="56" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -281,7 +281,7 @@
 							<path v="ui_skin/checkbox_check.png" />
 							<id v="2987" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="41" minute="56" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -292,7 +292,7 @@
 							<path v="ui_skin/checkbox_glow.png" />
 							<id v="7086" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="25" minute="56" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -303,7 +303,7 @@
 							<path v="ui_skin/checkbox_hover.png" />
 							<id v="2211" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="36" minute="52" hour="9" day="28" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -314,7 +314,7 @@
 							<path v="ui_skin/checkbox_pressed.png" />
 							<id v="29305" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="36" minute="52" hour="9" day="28" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -325,7 +325,7 @@
 							<path v="ui_skin/context_delimer.png" />
 							<id v="19400" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="59" minute="50" hour="11" day="6" month="8" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -335,7 +335,7 @@
 						<path v="ui_skin/context_menu.psd" />
 						<id v="16540" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem21>
 				<elem22 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -343,7 +343,7 @@
 							<path v="ui_skin/context_menu_bk.png" />
 							<id v="20556" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="8" minute="46" hour="11" day="6" month="8" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -354,7 +354,7 @@
 							<path v="ui_skin/context_selection.png" />
 							<id v="17767" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="53" minute="47" hour="11" day="6" month="8" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -365,7 +365,7 @@
 							<path v="ui_skin/dark_background.png" />
 							<id v="28032" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="34" minute="21" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -376,7 +376,7 @@
 							<path v="ui_skin/dot_gray_line_hor.png" />
 							<id v="17187" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="42" minute="35" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -387,7 +387,7 @@
 							<path v="ui_skin/dot_gray_line_ver.png" />
 							<id v="27616" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="5" minute="36" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -397,7 +397,7 @@
 						<path v="ui_skin/editbox.psd" />
 						<id v="31337" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem27>
 				<elem28 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -405,7 +405,7 @@
 							<path v="ui_skin/editbox_bk.png" />
 							<id v="25474" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="8" minute="59" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -416,7 +416,7 @@
 							<path v="ui_skin/editbox_glow.png" />
 							<id v="7501" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="31" minute="59" hour="11" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -427,7 +427,7 @@
 							<path v="ui_skin/editbox_hover.png" />
 							<id v="14103" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="10" minute="14" hour="12" day="7" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -438,7 +438,7 @@
 							<path v="ui_skin/folder_icn.png" />
 							<id v="24807" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="57" minute="33" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -448,7 +448,7 @@
 						<path v="ui_skin/hint.psd" />
 						<id v="22495" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem32>
 				<elem33 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -456,7 +456,7 @@
 							<path v="ui_skin/hint_bk.png" />
 							<id v="18417" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="38" minute="40" hour="15" day="6" month="8" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -467,7 +467,7 @@
 							<path v="ui_skin/minus_icn.png" />
 							<id v="8760" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="48" minute="32" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -477,7 +477,7 @@
 						<path v="ui_skin/pad.psd" />
 						<id v="22429" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem35>
 				<elem36 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -485,7 +485,7 @@
 							<path v="ui_skin/pad_bk.png" />
 							<id v="24499" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="11" minute="1" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -496,7 +496,7 @@
 							<path v="ui_skin/pad_glow.png" />
 							<id v="12237" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="21" minute="20" hour="16" day="26" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -507,7 +507,7 @@
 							<path v="ui_skin/pad_hover.png" />
 							<id v="8924" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="7" minute="20" hour="16" day="26" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -518,7 +518,7 @@
 							<path v="ui_skin/plus_icn.png" />
 							<id v="2638" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="14" minute="33" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -529,7 +529,7 @@
 							<path v="ui_skin/small_hor_bar_bar.png" />
 							<id v="4616" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="38" minute="40" hour="12" day="11" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -540,7 +540,7 @@
 							<path v="ui_skin/small_hor_bar_bar_hover.png" />
 							<id v="212" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="45" minute="40" hour="12" day="11" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -551,7 +551,7 @@
 							<path v="ui_skin/small_hor_bar_bar_pressed.png" />
 							<id v="8692" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="54" minute="40" hour="12" day="11" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -562,7 +562,7 @@
 							<path v="ui_skin/small_hor_bar_bk.png" />
 							<id v="14263" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="31" minute="40" hour="12" day="11" month="7" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -572,7 +572,7 @@
 						<path v="ui_skin/small_vert_bar.psd" />
 						<id v="1527" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem44>
 				<elem45 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -580,7 +580,7 @@
 							<path v="ui_skin/small_vert_bar_bar.png" />
 							<id v="15305" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="45" minute="5" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -591,7 +591,7 @@
 							<path v="ui_skin/small_vert_bar_bar_hover.png" />
 							<id v="2829" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="55" minute="5" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -602,7 +602,7 @@
 							<path v="ui_skin/small_vert_bar_bar_pressed.png" />
 							<id v="5059" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="8" minute="6" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -613,7 +613,7 @@
 							<path v="ui_skin/small_vert_bar_bk.png" />
 							<id v="31760" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="27" minute="5" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -623,14 +623,14 @@
 						<path v="ui_skin/tabs.psd" />
 						<id v="18957" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem49>
 				<elem50 type="abAssetInfo">
 					<location type="cFileLocation">
 						<path v="ui_skin/tabs_.psd" />
 						<id v="24787" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem50>
 				<elem51 type="abImageAssetInfo">
 					<abAssetInfo>
@@ -638,7 +638,7 @@
 							<path v="ui_skin/tab_active.png" />
 							<id v="6653" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="41" minute="26" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -649,7 +649,7 @@
 							<path v="ui_skin/tab_inactive.png" />
 							<id v="14077" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="38" minute="25" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -660,7 +660,7 @@
 							<path v="ui_skin/tab_inactive_hover.png" />
 							<id v="950" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="25" minute="26" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -671,7 +671,7 @@
 							<path v="ui_skin/tab_line.png" />
 							<id v="31444" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="3" minute="27" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -682,7 +682,7 @@
 							<path v="ui_skin/transparent_rect_bk.png" />
 							<id v="25674" />
 						</location>
-						<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+						<writeTime second="8" minute="31" hour="12" day="4" month="6" year="2014" />
 					</abAssetInfo>
 					<atlas v="" />
 					<scale v="1" />
@@ -692,14 +692,14 @@
 						<path v="ui_skin/tree.psd" />
 						<id v="18273" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem56>
 				<elem57 type="abAssetInfo">
 					<location type="cFileLocation">
 						<path v="ui_skin/tree_node.psd" />
 						<id v="23520" />
 					</location>
-					<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+					<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
 				</elem57>
 			</insideAssets>
 		</elem2>
@@ -708,7 +708,7 @@
 				<path v="arial.xml" />
 				<id v="15460" />
 			</location>
-			<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+			<writeTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
 		</elem3>
 		<elem4 type="abImageAssetInfo">
 			<abAssetInfo>
@@ -716,7 +716,7 @@
 					<path v="arial_0.png" />
 					<id v="7667" />
 				</location>
-				<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+				<writeTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
@@ -726,7 +726,7 @@
 				<path v="config.xml" />
 				<id v="20548" />
 			</location>
-			<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+			<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 		</elem5>
 		<elem6 type="abImageAssetInfo">
 			<abAssetInfo>
@@ -734,7 +734,7 @@
 					<path v="grass.png" />
 					<id v="3332" />
 				</location>
-				<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+				<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
@@ -745,7 +745,7 @@
 					<path v="man_walk_frames.png" />
 					<id v="4502" />
 				</location>
-				<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+				<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
@@ -756,7 +756,7 @@
 					<path v="pic.png" />
 					<id v="29084" />
 				</location>
-				<writeTime second="47" minute="35" hour="9" day="30" month="11" year="2014" />
+				<writeTime second="9" minute="10" hour="12" day="29" month="11" year="2014" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
@@ -767,7 +767,7 @@
 					<path v="test.png" />
 					<id v="28106" />
 				</location>
-				<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+				<writeTime second="44" minute="0" hour="12" day="21" month="8" year="2014" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
@@ -777,7 +777,7 @@
 				<path v="test_serialization.xml" />
 				<id v="13358" />
 			</location>
-			<writeTime second="3" minute="55" hour="8" day="23" month="8" year="2014" />
+			<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 		</elem10>
 		<elem11 type="abImageAssetInfo">
 			<abAssetInfo>
@@ -785,7 +785,7 @@
 					<path v="ui_test.png" />
 					<id v="16677" />
 				</location>
-				<writeTime second="2" minute="55" hour="8" day="23" month="8" year="2014" />
+				<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />

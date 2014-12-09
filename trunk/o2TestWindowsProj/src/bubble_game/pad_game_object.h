@@ -29,8 +29,14 @@ public:
 	void update(float dt);
 	void setPhysicsLayer(int layer);
 
+	SERIALIZBLE_INHERITED_METHODS(PadGameObject, IGameObject);
+
 private:
+	void onLoad();
+	void onActivate();
+	void onDeactivate();
 	void initializePhysics();
+	void deinitializePhysics();
 };
 
 CLOSE_O2_NAMESPACE

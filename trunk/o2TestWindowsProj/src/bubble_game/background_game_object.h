@@ -22,6 +22,9 @@ public:
 
 	void update(float dt);
 	void draw();
+
+protected:
+	void onLoad();
 };
 
 CLOSE_O2_NAMESPACE

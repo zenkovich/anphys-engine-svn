@@ -165,6 +165,7 @@ void VeretPhysics::checkCollisions()
 VeretPhysics::Particle* VeretPhysics::createParticle( const vec2f& position /*= vec2f()*/, float radius /*= 0.2f*/ )
 {
 	Particle* res = mParticlesPool.take();
+	*res = Particle();
 	res->mPosition = position;
 	res->mLastPosition = position;
 	res->mRadius = radius;
@@ -183,6 +184,7 @@ VeretPhysics::Link* VeretPhysics::createLink( Particle* particleA, Particle* par
 	                                          float hardness /*= 1.0f*/ )
 {
 	Link* res = mLinksPool.take();
+	*res = Link();
 
 	res->mParticleA = particleA;
 	res->mParticleB = particleB;

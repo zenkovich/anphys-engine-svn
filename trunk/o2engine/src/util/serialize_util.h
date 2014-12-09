@@ -329,6 +329,8 @@ private:
 	static cSerializable* createSerializableSample(const string& type);
 };
 
+#define FIRST_SERIALIZATION() std::map<string, cSerializable*> gSerializeTypesContainer::mSamples
+
 /** Implementation of serialize method. You must define class. */
 #define SERIALIZE_METHOD_IMPL(CLASS)                  \
 	gSerializeTypesInitializer<CLASS> CLASS::RegType; \

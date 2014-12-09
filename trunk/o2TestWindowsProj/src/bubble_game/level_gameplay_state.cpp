@@ -14,7 +14,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(LeveGameplayState);
 
 LeveGameplayState::LeveGameplayState():
-	mVerletPhysics(NULL)
+	mVerletPhysics(NULL), mEditing(false)
 {
 	mVerletPhysics = mnew VeretPhysics();
 	initializeObjects();
@@ -29,7 +29,6 @@ LeveGameplayState::~LeveGameplayState()
 
 void LeveGameplayState::onActivate()
 {
-	renderSystem()->camera = mCamera;
 }
 
 void LeveGameplayState::onDeactivate()
@@ -39,14 +38,38 @@ void LeveGameplayState::onDeactivate()
 
 void LeveGameplayState::update(float dt)
 {
+	if (appInput()->isKeyPressed('S'))
+		saveLevel("level");
+
+	if (appInput()->isKeyPressed('L'))
+		loadLevel("level");
+
+	if (appInput()->isKeyPressed('E'))
+		mEditing = !mEditing;
+
+// 	if (!appInput()->isKeyRepeating(VK_SPACE) && !appInput()->isKeyPressed(VK_SPACE))
+// 		return;
+
+	if (!mEditing)
+		mCamera->mPosition = lerp(mCamera->mPosition, mPlayer->getPosition(), dt*3.0f);
+	else
+	{	
+		if (appInput()->isKeyPressed('P'))
+			addPadGameObject(mCamera->mPosition);
+	
+		if (appInput()->isKeyPressed('W'))
+			addWaterDrop(mCamera->mPosition);
+	
+		mCamera->mScale -= vec2f::one()*appInput()->getMouseWheelDelta()*0.0001f;	
+		if (appInput()->isCursorDown())
+			mCamera->mPosition -= appInput()->getCursorDelta().scale(mCamera->mScale);
+	}
+
 	foreach(GameObjectsArr, mGameObjects, objIt)
 		if ((*objIt)->isActive())
 			(*objIt)->update(dt);
 
 	mVerletPhysics->update(dt);
-
-	mCamera->mScale -= vec2f::one()*appInput()->getMouseWheelDelta()*0.0001f;	
-	mCamera->mPosition = lerp(mCamera->mPosition, mPlayer->getPosition(), dt*3.0f);
 }
 
 void LeveGameplayState::draw()
@@ -66,21 +89,21 @@ void LeveGameplayState::initializeObjects()
 
 	mCamera = mnew grCamera(vec2f(-10, 0), vec2f(0.03f, 0.03f));
 	mCamera->mPivot = vec2f::one()*0.5f;
+	renderSystem()->camera = mCamera;
 	
-	mGameObjects.add(mnew BackgroundGameObject());
+	addObject(mnew BackgroundGameObject());
 
 	mPlayer = mnew PlayerBubble();
+	addObject(mPlayer);
 	mPlayer->setPhysicsLayer(PL_PLAYER);
-	mGameObjects.add(mPlayer);
+}
 
-	//test pads	
-	addPadGameObject(vec2f(0.0f, 5.0f), 6, 30);
-	addPadGameObject(vec2f(5.0f, 8.0f), 4, -30);
-	addPadGameObject(vec2f(5.0f, 2.0f), 4, 0);
-	addPadGameObject(vec2f(10.0f, -2.0f), 4, 0);
-	addPadGameObject(vec2f(5.0f, 10.0f), 40, 0);
+void LeveGameplayState::clearObjects()
+{
+	foreach(GameObjectsArr, mGameObjects, objIt)
+		(*objIt)->onDeactivate();
 
-	addWaterDrop(vec2f(-3, 0));
+	release_array(GameObjectsArr, mGameObjects);
 }
 
 void LeveGameplayState::initPhysicsLayers()
@@ -94,15 +117,75 @@ void LeveGameplayState::initPhysicsLayers()
 void LeveGameplayState::addPadGameObject( const vec2f& position, float width /*= 6.0f*/, float rotation /*= 0*/ )
 {
 	PadGameObject* pad = mnew PadGameObject(position, width, rotation);
+	addObject(pad);
 	pad->setPhysicsLayer(PL_PAD);
-	mGameObjects.add(pad);
 }
 
 void LeveGameplayState::addWaterDrop( const vec2f& position )
 {
 	WaterDropGameObject* drop = mnew WaterDropGameObject(position);
+	addObject(drop);
 	drop->setPhysicsLayer(PL_PAD);
-	mGameObjects.add(drop);
+}
+
+void LeveGameplayState::loadLevel(const string& filePath)
+{
+	clearObjects();	
+	initializeObjects();
+
+	GameObjectsArr newObjects;
+
+	cSerializer serializer;
+	if (!serializer.load(filePath))
+	{
+		logError("Failed to load level: %s", filePath.c_str());
+		return;
+	}
+
+	serializer.serialize(newObjects, "objects");
+
+	foreach(GameObjectsArr, newObjects, objIt)
+	{
+		addObject(*objIt);
+
+		if ((*objIt)->getType() == PadGameObject::getStaticType())
+			(*objIt)->setPhysicsLayer(PL_PAD);
+
+		if ((*objIt)->getType() == WaterDropGameObject::getStaticType())
+			(*objIt)->setPhysicsLayer(PL_PAD);
+	}
+}
+
+void LeveGameplayState::saveLevel(const string& filePath)
+{
+	const int saveObjectsTypesCount = 2;
+	UniqueType saveObjectsTypes[saveObjectsTypesCount] = { 
+		PadGameObject::getStaticType(), WaterDropGameObject::getStaticType() };
+
+	GameObjectsArr saveObjects;
+	foreach(GameObjectsArr, mGameObjects, objIt)
+	{
+		UniqueType tp = (*objIt)->getType();
+		for (int i = 0; i < saveObjectsTypesCount; i++)
+		{
+			if (tp == saveObjectsTypes[i])
+			{
+				saveObjects.add(*objIt);
+				break;
+			}
+		}
+	}
+
+	cSerializer serializer;
+	serializer.serialize(saveObjects, "objects");
+	serializer.save(filePath);
+}
+
+void LeveGameplayState::addObject(IGameObject* object)
+{
+	object->onLoad();
+	object->onActivate();
+	mGameObjects.add(object);
 }
 
 CLOSE_O2_NAMESPACE

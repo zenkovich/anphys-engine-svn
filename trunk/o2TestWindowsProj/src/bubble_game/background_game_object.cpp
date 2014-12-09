@@ -11,6 +11,16 @@ REGIST_TYPE(BackgroundGameObject);
 BackgroundGameObject::BackgroundGameObject():
 	IGameObject()
 {
+}
+
+BackgroundGameObject::~BackgroundGameObject()
+{
+	safe_release(mBgSprite);
+	release_array(SpritesArr, mParallaxCirclesSprites);
+}
+
+void BackgroundGameObject::onLoad()
+{
 	const string bgTexturePath = "bubble_game/back";
 	const string circleTexturePath = "bubble_game/circle";
 	const int circlesCount = 50;
@@ -31,12 +41,6 @@ BackgroundGameObject::BackgroundGameObject():
 		parallaxCirceSprite->scale = vec2f::one()*scale;
 		mParallaxCirclesSprites.add(parallaxCirceSprite);
 	}
-}
-
-BackgroundGameObject::~BackgroundGameObject()
-{
-	safe_release(mBgSprite);
-	release_array(SpritesArr, mParallaxCirclesSprites);
 }
 
 void BackgroundGameObject::update(float dt)

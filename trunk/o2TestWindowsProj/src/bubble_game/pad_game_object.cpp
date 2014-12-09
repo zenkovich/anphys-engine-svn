@@ -9,25 +9,21 @@ REGIST_TYPE(PadGameObject);
 PadGameObject::PadGameObject(const vec2f& position /*= vec2f()*/, float width /*= 6*/, float rotation /*= 0f*/):
 	IGameObject(position, rotation), mParticleSprite(NULL), mWidth(0.3f), mLength(width), mLinksHardness(0.9f),
 	mParticlesHardness(2.0f)
-{
-	initializePhysics();
-	
-	const string texturePath = "bubble_game/circle";
-	mParticleSprite = mnew grSprite(grTexture::createFromFile(texturePath));
-	mParticleSprite->size = vec2f::one()*mWidth*2.5f;
-	mParticleSprite->relPivot = vec2f::one()*0.5f;
-	mParticleSprite->color = color4(1.0f, 1.0f, 1.0f, 0.7f);
+{	
 }
 
 PadGameObject::~PadGameObject()
 {
 	safe_release(mParticleSprite);
+}
 
-	foreach(VeretPhysics::ParticlesArr, mPhysicsPartices, particleIt)
-		verletPhysics()->removeParticle(*particleIt);
-	
-	foreach(VeretPhysics::LinksArr, mPhysicsLinks, linkIt)
-		verletPhysics()->removeLink(*linkIt);
+void PadGameObject::onLoad()
+{
+	const string texturePath = "bubble_game/circle";
+	mParticleSprite = mnew grSprite(grTexture::createFromFile(texturePath));
+	mParticleSprite->size = vec2f::one()*mWidth*2.5f;
+	mParticleSprite->relPivot = vec2f::one()*0.5f;
+	mParticleSprite->color = color4(1.0f, 1.0f, 1.0f, 0.7f);
 }
 
 void PadGameObject::draw()
@@ -72,6 +68,37 @@ void PadGameObject::setPhysicsLayer( int layer )
 {
 	foreach(VeretPhysics::ParticlesArr, mPhysicsPartices, particleIt)
 		(*particleIt)->mLayer = layer;
+}
+
+void PadGameObject::onActivate()
+{
+	initializePhysics();
+}
+
+void PadGameObject::onDeactivate()
+{
+	deinitializePhysics();
+}
+
+void PadGameObject::deinitializePhysics()
+{
+	foreach(VeretPhysics::ParticlesArr, mPhysicsPartices, particleIt)
+		verletPhysics()->removeParticle(*particleIt);
+
+	mPhysicsPartices.clear();
+	
+	foreach(VeretPhysics::LinksArr, mPhysicsLinks, linkIt)
+		verletPhysics()->removeLink(*linkIt);
+
+	mPhysicsLinks.clear();
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(PadGameObject)
+{
+	SERIALIZE_ID(mWidth, "width");
+	SERIALIZE_ID(mLength, "length");
+
+	return true;
 }
 
 CLOSE_O2_NAMESPACE
