@@ -249,8 +249,10 @@ bool grRenderSystem::drawLines( vertex2* verticies, int count )
 		return false;
 	
 //check difference
-	if (mCurrentPrimitiveType == GL_TRIANGLES)
-	{
+	if (mCurrentPrimitiveType == GL_TRIANGLES ||
+		mLastDrawVertex + count*2 >= mVertexBufferSize ||
+		mLastDrawIdx + count*2 >= mIndexBufferSize)
+	{											
 		drawPrimitives();
 
 		mLastDrawTexture = NULL;
@@ -286,7 +288,9 @@ void grRenderSystem::updateCameraTransforms()
 	if (mCurrentCamera)
 	{
 		float cs = cosf(-mCurrentCamera->mRotation), sn = sinf(-mCurrentCamera->mRotation);
-		vec2f scale(1.0f/mCurrentCamera->mScale.x, 1.0f/mCurrentCamera->mScale.y), offs = mCurrentCamera->mPosition;
+		vec2f scale(1.0f/mCurrentCamera->mScale.x, 1.0f/mCurrentCamera->mScale.y);
+		vec2f pivotOffset = mCurrentCamera->mPivot.scale(mResolution).scale(mCurrentCamera->mScale).rotate(mCurrentCamera->mRotation);
+		vec2f offs = mCurrentCamera->mPosition - pivotOffset;
 		float ofx = -offs.x*scale.x, ofy = -offs.y*scale.y;
 		
 		modelMatrix[0] = cs*scale.x;  modelMatrix[1] = sn*scale.x; 

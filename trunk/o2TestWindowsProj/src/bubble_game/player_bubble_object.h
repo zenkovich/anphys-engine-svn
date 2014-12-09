@@ -7,7 +7,7 @@
 
 OPEN_O2_NAMESPACE
 
-class PlayerBubble: public IGameObject
+class PlayerBubble: public IGameObject, public VeretPhysics::CollisionListener
 {
 	float                      mRadius;
 	vec2f                      mInputSense;
@@ -15,6 +15,7 @@ class PlayerBubble: public IGameObject
 	float                      mRootHardness;
 	float                      mPressureCoef;
 	float                      mShellHardness;
+	float                      mControlTime;
 
 	grMesh*                    mMesh;
 
@@ -23,6 +24,7 @@ class PlayerBubble: public IGameObject
 	VeretPhysics::LinksArr     mPhysicsLinks;
 
 	float                      mInitialSquare;
+	float                      mLastCollisionTime;
 	
 public:
 	PlayerBubble(const vec2f& position = vec2f());
@@ -30,8 +32,11 @@ public:
 
 	void update(float dt);
 	void draw();
+	void setPhysicsLayer(int layer);
 
 protected:
+	void onCollide(CollisionListener* other);
+
 	void initPhysicsModel();
 	void initGraphics();
 

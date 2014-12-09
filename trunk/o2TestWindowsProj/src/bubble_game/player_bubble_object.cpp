@@ -1,12 +1,15 @@
 #include "player_bubble_object.h"
 
 #include "app/application.h"
+#include "util/time_utils.h"
+#include "pad_game_object.h"
+#include "water_drop_game_object.h"
 
 OPEN_O2_NAMESPACE
 
 PlayerBubble::PlayerBubble(const vec2f& position /*= vec2f()*/):
 	IGameObject(position), mRadius(1.0f), mInputSense(0.2f, 0.6f), mSegmentsCount(30), mMesh(NULL), mRootHardness(0.01f),
-	mPressureCoef(0.3f), mShellHardness(0.8f)
+	mPressureCoef(0.3f), mShellHardness(0.8f), mLastCollisionTime(0), mControlTime(0.1f)
 {
 	initPhysicsModel();
 	initGraphics();
@@ -27,7 +30,7 @@ PlayerBubble::~PlayerBubble()
 
 void PlayerBubble::initPhysicsModel()
 {
-	const float segRadiusDecrCoef = 0.6f;
+	const float segRadiusDecrCoef = 1.0f;
 
 	float segRadius = 2.0f*PI*mRadius/(float)mSegmentsCount/2.0f*segRadiusDecrCoef;
 
@@ -40,6 +43,7 @@ void PlayerBubble::initPhysicsModel()
 		vec2f pos = mPosition + vec2f::rotated(angle)*(mRadius - segRadius);
 		
 		VeretPhysics::Particle* newParticle = verletPhysics()->createParticle(pos, segRadius);
+		newParticle->mCollisionListener = this;
 		mPhysicsShellParticles.add(newParticle);
 
 		mPhysicsLinks.add(verletPhysics()->createLink(mPhysicsRootParticle, newParticle, mRadius, mRootHardness));
@@ -69,15 +73,17 @@ void PlayerBubble::update(float dt)
 
 void PlayerBubble::updateControl(float dt)
 {
+	bool collidedPad = timeUtils()->getApplicationTime() - mLastCollisionTime < mControlTime;
+
 	vec2f moveVec;
-	if (appInput()->isKeyDown(VK_UP))
+	if (appInput()->isKeyDown(VK_UP) && collidedPad)
 		moveVec += vec2f::up();	
-	if (appInput()->isKeyDown(VK_DOWN))
-		moveVec += vec2f::down();	
+
 	if (appInput()->isKeyDown(VK_RIGHT))
-		moveVec += vec2f::right();	
+		moveVec += vec2f::right()*(collidedPad ? 1.0f:0.5f);	
+
 	if (appInput()->isKeyDown(VK_LEFT))
-		moveVec += vec2f::left();
+		moveVec += vec2f::left()*(collidedPad ? 1.0f:0.5f);
 
 	moveVec = moveVec.scale(mInputSense)*dt;
 
@@ -104,7 +110,7 @@ void PlayerBubble::updateVolumePressure(float dt)
 		(*particleIt)->mPosition = (*particleIt)->mPosition.scaleOrigin(scaleVec, particlesCenter);
 
 	//move root particle to shell center
-	mPhysicsRootParticle->mPosition = interpolate(mPhysicsRootParticle->mPosition, particlesCenter, 0.3f);
+	mPhysicsRootParticle->mPosition = lerp(mPhysicsRootParticle->mPosition, particlesCenter, 0.3f);
 }
 
 void PlayerBubble::updateStabilityEuristic(float dt)
@@ -202,6 +208,26 @@ void PlayerBubble::updateMesh()
 		mMesh->mVerticies[i*3    ].setUV(0.5f, 0.5f);
 		mMesh->mVerticies[i*3 + 1].setUV(tex1);
 		mMesh->mVerticies[i*3 + 2].setUV(tex2);
+	}
+}
+
+void PlayerBubble::setPhysicsLayer( int layer )
+{
+	foreach(VeretPhysics::ParticlesArr, mPhysicsShellParticles, particeIt)
+		(*particeIt)->mLayer = layer;
+}
+
+void PlayerBubble::onCollide( CollisionListener* other )
+{
+	if (other->getType() == PadGameObject::getStaticType())
+		mLastCollisionTime = timeUtils()->getApplicationTime();
+
+	
+	if (other->getType() == WaterDropGameObject::getStaticType())
+	{
+		WaterDropGameObject* wd = static_cast<WaterDropGameObject*>(other);
+		wd->active = false;
+		hlog("WaterDrop!");
 	}
 }
 

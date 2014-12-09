@@ -1,7 +1,6 @@
 #include "project_config.h"
 
 #include "build_config.h"
-#include "build_config.h"
 
 OPEN_O2_NAMESPACE
 

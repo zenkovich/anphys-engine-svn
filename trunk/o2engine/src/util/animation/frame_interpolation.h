@@ -63,7 +63,7 @@ public:
 		if (mBezier) 
 			return interpolateBezier<T>(mBeginValue, mSupportValueBegin, mSupportValueEnd, mEndValue, frameCoef);
 		else
-			return interpolate<T>(mBeginValue, mEndValue, frameCoef);
+			return lerp<T>(mBeginValue, mEndValue, frameCoef);
 	}
 };
 

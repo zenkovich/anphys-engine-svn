@@ -48,11 +48,11 @@
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\..\o2engine\lib\</OutDir>
+    <OutDir>$(ProjectDir)\..\lib</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>..\dependencies\pthreads;..\dependencies;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\dependencies\pthreads;..\dependencies\;..\dependencies\zlib;..\src;$(IncludePath)</IncludePath>
     <SourcePath>..\src;$(SourcePath)</SourcePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
