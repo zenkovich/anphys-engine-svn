@@ -11,6 +11,8 @@ OPEN_O2_NAMESPACE
 
 class IGameObject: public IDynamicDrawable, public cSerializable
 {
+	friend class LeveGameplayState;
+
 protected:
 	vec2f mPosition;
 	float mRotation;
@@ -27,8 +29,8 @@ public:
 	IGameObject(const vec2f& position = vec2f(), float rotation = 0);
 	virtual ~IGameObject();
 
-	virtual void update(float dt) = 0;
-	virtual void draw() = 0;
+	virtual void update(float dt) {};
+	virtual void draw() {};
 	virtual void setPhysicsLayer(int layer) {}
 
 	void setPosition(const vec2f& position);
@@ -45,10 +47,9 @@ public:
 	SERIALIZBLE_METHODS(IGameObject);
 
 protected:
+	virtual void onLoad() {}
 	virtual void onActivate() {}
 	virtual void onDeactivate() {}
-
-	virtual void onDeserialized();
 
 	void initializeProperties();
 };

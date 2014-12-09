@@ -66,6 +66,8 @@ void IGameObject::initializeProperties()
 	REG_PROPERTY_SETTER_NONCONST(IGameObject, active, setActive, isActive);
 }
 
+	
+FIRST_SERIALIZATION();
 SERIALIZE_METHOD_IMPL(IGameObject)
 {
 	SERIALIZE_ID(mPosition, "position");
@@ -73,12 +75,6 @@ SERIALIZE_METHOD_IMPL(IGameObject)
 	SERIALIZE_ID(mActive,   "active");
 
 	return true;
-}
-
-void IGameObject::onDeserialized()
-{
-	mActive = !mActive;
-	setActive(!mActive);
 }
 
 CLOSE_O2_NAMESPACE

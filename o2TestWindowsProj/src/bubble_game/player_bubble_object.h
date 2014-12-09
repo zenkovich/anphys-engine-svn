@@ -35,9 +35,14 @@ public:
 	void setPhysicsLayer(int layer);
 
 protected:
+	void onLoad();
+	void onActivate();
+	void onDeactivate();
+
 	void onCollide(CollisionListener* other);
 
 	void initPhysicsModel();
+	void deinitPhysicsModel();
 	void initGraphics();
 
 	void updateControl(float dt);

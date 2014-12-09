@@ -1,8 +1,7 @@
 #include "file_info.h"
 
 OPEN_O2_NAMESPACE
-	
-std::map<string, cSerializable*> gSerializeTypesContainer::mSamples;
+
 SERIALIZE_METHOD_IMPL(cFileLocation)
 {
 	SERIALIZE_ID(mPath, "path");

@@ -23,6 +23,7 @@ private:
 	VeretPhysics*  mVerletPhysics;
 	PlayerBubble*  mPlayer;
 	grCamera*      mCamera;
+	bool           mEditing;
 
 public:
 	DEFINE_TYPE(LeveGameplayState);
@@ -35,10 +36,15 @@ public:
 
 	void update(float dt);
 	void draw();
+	
+	void loadLevel(const string& filePath);
+	void saveLevel(const string& filePath);
 
 protected:
 	void initPhysicsLayers();
 	void initializeObjects();
+	void clearObjects();
+	void addObject(IGameObject* object);
 	void addPadGameObject(const vec2f& position, float width = 6.0f, float rotation = 0);
 	void addWaterDrop(const vec2f& position);
 };

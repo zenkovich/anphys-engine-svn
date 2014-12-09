@@ -10,13 +10,12 @@ class grSprite;
 
 class WaterDropGameObject: public IGameObject, public VeretPhysics::Collider
 {
-	float     mRadius;
 	grSprite* mSprite;
 
 public:
 	DEFINE_TYPE(WaterDropGameObject);
 
-	WaterDropGameObject(const vec2f& position);
+	WaterDropGameObject(const vec2f& position = vec2f());
 	~WaterDropGameObject();
 
 	void update(float dt);
@@ -24,7 +23,11 @@ public:
 
 	void setPhysicsLayer(int layer);
 
+	SERIALIZBLE_INHERITED_METHODS(WaterDropGameObject, IGameObject);
+
 protected:
+	void onLoad();
+	void onActivate();
 	void onDeactivate();
 };
 
