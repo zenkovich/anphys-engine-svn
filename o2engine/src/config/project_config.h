@@ -30,8 +30,6 @@ protected:
 	void initializeDefault(const string& configFilePath);
 };
 
-inline ProjectBuildConfig* projectBuildConfig() { return projectConfig()->getBuildConfig(); }
-
 CLOSE_O2_NAMESPACE
 
 #endif // PROJECT_CONFIG_H

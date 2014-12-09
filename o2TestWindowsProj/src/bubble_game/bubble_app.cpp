@@ -30,6 +30,9 @@ void BubbeGameApplication::onDraw()
 
 void BubbeGameApplication::onStarted()
 {
+	setResizible(false);
+	setWindowCaption("Bubble");
+
 	goGamePlayState();
 }
 

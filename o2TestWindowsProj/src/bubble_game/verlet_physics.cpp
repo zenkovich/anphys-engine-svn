@@ -7,8 +7,19 @@ OPEN_O2_NAMESPACE
 
 DECLARE_SINGLETON(VeretPhysics);
 
-VeretPhysics::Particle::Particle( const vec2f& position /*= vec2f()*/, float radius /*= 0.2f*/ ):
-	mPosition(position), mLastPosition(position), mRadius(radius)
+typedef VeretPhysics::CollisionListener VeretPhysicsCollisionListener;
+
+UniqueType VeretPhysics::CollisionListener::CollisionListenerType = TypeIdxContainer::index++;
+UniqueType VeretPhysics::Collider::ColliderType = TypeIdxContainer::index++;
+
+VeretPhysics::Collider::Collider( const vec2f& position /*= vec2f()*/, float radius /*= 1.0f*/, int layer /*= 0*/ ):
+	mPosition(position), mRadius(radius), mLayer(layer)
+{
+}
+
+
+VeretPhysics::Particle::Particle( const vec2f& position /*= vec2f()*/, float radius /*= 0.2f*/, int layer /*= 0*/ ):
+	mPosition(position), mLastPosition(position), mRadius(radius), mLayer(layer), mCollisionListener(NULL)
 {
 }
 
@@ -47,8 +58,10 @@ void VeretPhysics::Link::resolve()
 
 VeretPhysics::VeretPhysics():
 	mGravity(0, 9.8f), mParticlesPool(100, 20), mLinksPool(100, 20), mWorldFriction(0.6f), mSolveIterations(10),
-	mDeltaTime(1.0f/60.0f), mAccumulatedDt(0), mFloor(10.0f)
+	mDeltaTime(1.0f/60.0f), mAccumulatedDt(0), mFloor(20.0f), mLayersMask(NULL), mMaxLayer(0)
 {
+	bool initLayerMask[1] = { true };
+	setupLayerMask(initLayerMask, 1);
 }
 
 VeretPhysics::~VeretPhysics()
@@ -73,6 +86,9 @@ void VeretPhysics::updateFixedDeltaTime()
 	float friction = 1.0f - mWorldFriction*mDeltaTime;
 	foreach(ParticlesArr, mParticles, particleIt)
 	{
+		if ((*particleIt)->mLayer > mMaxLayer - 1)
+			(*particleIt)->mLayer = mMaxLayer - 1;
+
 		(*particleIt)->mPosition += gravityOffset;
 		(*particleIt)->integrate(friction);
 	}
@@ -88,6 +104,9 @@ void VeretPhysics::updateFixedDeltaTime()
 
 void VeretPhysics::checkCollisions()
 {
+	static CollisionInfosArr collisions;
+	collisions.clear();
+
 	for (int i = 0; i < mParticles.count(); i++)
 	{
 		Particle* pa = mParticles[i];
@@ -96,7 +115,7 @@ void VeretPhysics::checkCollisions()
 			Particle* pb = mParticles[j];
 
 			vec2f dir = pb->mPosition - pa->mPosition;
-			float sqrtDist = (dir).squareLength();
+			float sqrtDist = (dir).squareLength() + mLayersMask[pa->mLayer*mMaxLayer + pb->mLayer];
 			float radSumm = pa->mRadius + pb->mRadius;
 			if (sqrtDist < radSumm*radSumm)
 			{
@@ -111,6 +130,21 @@ void VeretPhysics::checkCollisions()
 
 				pa->mPosition -= d;
 				pb->mPosition += d;
+
+				if (pa->mCollisionListener && pb->mCollisionListener)
+					collisions.add(CollisionInfo(pa->mCollisionListener, pb->mCollisionListener));
+			}
+		}
+
+		foreach(CollidersArr, mColliders, colliderIt)
+		{
+			vec2f dir = (*colliderIt)->mPosition - pa->mPosition;
+			float sqrtDist = (dir).squareLength() + mLayersMask[pa->mLayer*mMaxLayer + (*colliderIt)->mLayer];
+			float radSumm = pa->mRadius + (*colliderIt)->mRadius;
+			if (sqrtDist < radSumm*radSumm)
+			{
+				if (pa->mCollisionListener)
+					collisions.add(CollisionInfo(pa->mCollisionListener, *colliderIt));
 			}
 		}
 
@@ -119,6 +153,12 @@ void VeretPhysics::checkCollisions()
 			pa->mPosition.y = mFloor;
 			pa->mPosition.x += (pa->mPosition.x - pa->mLastPosition.x)*-0.4f;
 		}
+	}
+
+	foreach(CollisionInfosArr, collisions, collIt)
+	{
+		collIt->mListenerA->onCollide(collIt->mListenerB);
+		collIt->mListenerB->onCollide(collIt->mListenerA);
 	}
 }
 
@@ -185,6 +225,36 @@ void VeretPhysics::dbgDraw()
 
 	foreach(ParticlesArr, mParticles, particleIt)
 		renderSystem()->drawCircle((*particleIt)->mPosition, (*particleIt)->mRadius);
+}
+
+void VeretPhysics::setupLayerMask( bool* maskArr, int maxLayer )
+{
+	safe_release_arr(mLayersMask);
+	mMaxLayer = maxLayer;
+	mLayersMask = mnew float[maxLayer*maxLayer];
+	for (int i = 0; i < maxLayer*maxLayer; i++)
+		mLayersMask[i] = maskArr[i] ? 0.0f:1000000000000.0f;
+}
+
+void VeretPhysics::addCollider( Collider* collider )
+{
+	mColliders.add(collider);
+}
+
+void VeretPhysics::removeCollider( Collider* collider )
+{
+	mColliders.remove(collider);
+}
+
+
+VeretPhysics::CollisionInfo::CollisionInfo( CollisionListener* ca /*= NULL*/, CollisionListener* cb /*= NULL*/ ):
+	mListenerA(ca), mListenerB(cb)
+{
+}
+
+bool VeretPhysics::CollisionInfo::operator==( const CollisionInfo& other ) const
+{
+	return mListenerA == other.mListenerA && mListenerB == other.mListenerB;
 }
 
 CLOSE_O2_NAMESPACE

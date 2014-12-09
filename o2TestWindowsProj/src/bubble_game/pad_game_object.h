@@ -3,18 +3,19 @@
 
 #include "game_object.h"
 #include "verlet_physics.h"
-#include "render_system/mesh.h"
 
 OPEN_O2_NAMESPACE
 
-class PadGameObject: public IGameObject
+class grSprite;
+
+class PadGameObject: public IGameObject, public VeretPhysics::CollisionListener
 {
 	float                      mWidth;
 	float                      mLength;
 	float                      mLinksHardness;
 	float                      mParticlesHardness;
 
-	grMesh*                    mMesh;
+	grSprite*                  mParticleSprite;
 	VeretPhysics::ParticlesArr mPhysicsPartices;
 	VeretPhysics::LinksArr     mPhysicsLinks;
 
@@ -26,6 +27,7 @@ public:
 
 	void draw();
 	void update(float dt);
+	void setPhysicsLayer(int layer);
 
 private:
 	void initializePhysics();

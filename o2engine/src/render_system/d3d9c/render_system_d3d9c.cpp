@@ -30,7 +30,7 @@ void grRenderSystem::initializeD3D()
 {
 	mReady = false;
 	
-	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getContentSize();
 
 //initializing d3d8 render
 	mDirect3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -220,7 +220,9 @@ void grRenderSystem::updateCameraTransforms()
 	if (mCurrentCamera)
 	{
 		float cs = cosf(-mCurrentCamera->mRotation), sn = sinf(-mCurrentCamera->mRotation);
-		vec2f scale(1.0f/mCurrentCamera->mScale.x, 1.0f/mCurrentCamera->mScale.y), offs = mCurrentCamera->mPosition;
+		vec2f scale(1.0f/mCurrentCamera->mScale.x, 1.0f/mCurrentCamera->mScale.y);
+		vec2f pivotOffset = mCurrentCamera->mPivot.scale(mResolution).scale(mCurrentCamera->mScale).rotate(mCurrentCamera->mRotation);
+		vec2f offs = mCurrentCamera->mPosition - pivotOffset;
 		float ofx = -offs.x*scale.x, ofy = -offs.y*scale.y;
 		
 		modelMatrix.m[0][0] = cs*scale.x;      modelMatrix.m[0][1] = sn*scale.x; 
@@ -599,7 +601,7 @@ vec2i grRenderSystem::getMaxTextureSize() const
 
 void grRenderSystem::frameResized()
 {	
-	application()->getOption(cApplicationOption::CLIENT_RECT, &mResolution);
+	application()->getContentSize();
 }
 
 void grRenderSystem::checkCompatibles()

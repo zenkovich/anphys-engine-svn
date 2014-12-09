@@ -740,7 +740,7 @@
 				</location>
 				<includeBuild v="true" />
 			</asAssetConfig>
-			<assets count="4">
+			<assets count="5">
 				<elem0 type="asImageConfig">
 					<asAssetConfig>
 						<location type="cFileLocation">
@@ -781,6 +781,13 @@
 					<scale v="1" />
 					<atlas v="" />
 				</elem3>
+				<elem4 type="asAssetConfig">
+					<location type="cFileLocation">
+						<path v="bubble_game/back.psd" />
+						<id v="20578" />
+					</location>
+					<includeBuild v="true" />
+				</elem4>
 			</assets>
 		</elem11>
 	</assets>

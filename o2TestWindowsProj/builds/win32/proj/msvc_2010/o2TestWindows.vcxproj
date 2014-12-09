@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\..\..\src\bubble_game\pad_game_object.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\player_bubble_object.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\verlet_physics.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\water_drop_game_object.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\animation_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\input_msg_test.cpp" />
     <ClCompile Include="..\..\..\..\src\tests\text_test.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="..\..\..\..\src\bubble_game\pad_game_object.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\player_bubble_object.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\verlet_physics.h" />
+    <ClInclude Include="..\..\..\..\src\bubble_game\water_drop_game_object.h" />
     <ClInclude Include="..\..\..\..\src\tests\animation_test.h" />
     <ClInclude Include="..\..\..\..\src\tests\input_msg_test.h" />
     <ClInclude Include="..\..\..\..\src\tests\test_interface.h" />
@@ -76,8 +78,9 @@
     <IncludePath>../../../../src;../../../../../o2engine\dependencies\pthreads;../../../../../o2engine\dependencies;../../../../../o2engine\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\work\home\o2TestWindowsProj\src;..\..\..\..\..\o2engine\dependencies;..\..\..\..\..\o2engine\src;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\bin\</OutDir>
+    <IncludePath>../../../../src;../../../../../o2engine\dependencies\pthreads;../../../../../o2engine\dependencies;../../../../../o2engine\src;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)../../bin/</OutDir>
+    <LibraryPath>../../../../../o2engine/lib;../../../../../o2engine\dependencies\pthreads;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

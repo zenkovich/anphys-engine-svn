@@ -269,7 +269,7 @@ uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const strin
 {
 	uint32 res = 0;
 
-	string metaPath = extractExtension(path) + ".meta";
+	string metaPath = path + ".meta";
 
 	if (pathInfo.isFileExist(metaPath))
 	{

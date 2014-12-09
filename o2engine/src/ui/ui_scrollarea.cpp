@@ -158,7 +158,7 @@ void uiScrollArea::localUpdate( float dt )
 {
 	float scrollingCoef = 20.0f;
 	vec2f lastSmoothScroll = mSmoothScroll;
-	mSmoothScroll = interpolate(mSmoothScroll, mScroll, clamp(dt*scrollingCoef, 0.0f, 1.0f));
+	mSmoothScroll = lerp(mSmoothScroll, mScroll, clamp(dt*scrollingCoef, 0.0f, 1.0f));
 
 	if (!equals(lastSmoothScroll, mSmoothScroll)) {
 		updateLayout();

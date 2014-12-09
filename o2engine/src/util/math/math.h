@@ -82,7 +82,7 @@ T random(const T& minValue = 0, const T& maxValue = 1)
 }
 
 template<typename T>
-T interpolate(const T& a, const T& b, float coef)
+T lerp(const T& a, const T& b, float coef)
 {
 	return (b - a)*coef + a;
 }
