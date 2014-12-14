@@ -10,6 +10,7 @@ class IGameObject;
 class VeretPhysics;
 class grCamera;
 class PlayerBubble;
+class grText;
 
 class LeveGameplayState: public IGameState
 {
@@ -23,6 +24,7 @@ private:
 	VeretPhysics*  mVerletPhysics;
 	PlayerBubble*  mPlayer;
 	grCamera*      mCamera;
+	grText*        mScoreText;
 	bool           mEditing;
 
 public:

@@ -1,0 +1,148 @@
+App:All Systems initialized
+App:Initializing window..
+App:Window initialized!
+Render:Initializing OpenGL render..
+Render:GL_VENDOR: Intel
+Render:GL_RENDERER: Intel(R) HD Graphics
+Render:GL_VERSION: 2.1.0 - Build 8.15.10.2993
+App:=== DEVICE INFO ===
+App:Device id: 'PC WIN'
+App:Render targets: available
+App:Max texture size: 8192 x 8192
+App:===================
+Render:Created texture 'bubble_game/font/bubble_font'
+Render:Created texture 'bubble_game/back'
+App:Application launched!
+App:set resizible: false 
+Render:Created texture 'bubble_game/circle'
+Render:Created texture 'bubble_game/bubble'
+Loaded level: 46 objects
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+Render:Created texture 'bubble_game/circle'
+Render:Created texture 'bubble_game/bubble'
+Loaded level: 46 objects
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+Render:Created texture 'bubble_game/circle'
+Render:Created texture 'bubble_game/bubble'
+Loaded level: 46 objects
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+Render:Created texture 'bubble_game/circle'
+Render:Created texture 'bubble_game/bubble'
+Loaded level: 46 objects
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+Render:Created texture 'bubble_game/circle'
+Render:Created texture 'bubble_game/bubble'
+Loaded level: 46 objects
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+WaterDrop!
+App:All systems deinitialized

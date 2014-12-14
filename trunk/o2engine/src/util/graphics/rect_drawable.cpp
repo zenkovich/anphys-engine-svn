@@ -4,7 +4,7 @@ OPEN_O2_NAMESPACE
 
 IRectDrawable::IRectDrawable(const vec2f& size /*= vec2f()*/, const vec2f& position /*= vec2f()*/, 
                              const color4& color /*= color4::white()*/, const vec2f& pivot /*= vec2f()*/):
-	mPivot(pivot), mPosition(position), mSize(size), mColor(color)
+	mPivot(pivot), mPosition(position), mSize(size), mColor(color), mEnabled(true)
 {
 	initializeProperties();
 }

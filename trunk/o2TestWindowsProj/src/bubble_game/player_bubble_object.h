@@ -25,6 +25,8 @@ class PlayerBubble: public IGameObject, public VeretPhysics::CollisionListener
 
 	float                      mInitialSquare;
 	float                      mLastCollisionTime;
+
+	int                        mScore;
 	
 public:
 	PlayerBubble(const vec2f& position = vec2f());
@@ -33,6 +35,8 @@ public:
 	void update(float dt);
 	void draw();
 	void setPhysicsLayer(int layer);
+
+	int getScore() const;
 
 protected:
 	void onLoad();
@@ -49,6 +53,8 @@ protected:
 	void updateVolumePressure(float dt);
 	void updateStabilityEuristic(float dt);
 	void updateMesh();
+
+	void checkGameOver();
 
 	float getSquare();
 };

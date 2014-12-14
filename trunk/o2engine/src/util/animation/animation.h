@@ -19,16 +19,17 @@ class cAnimation: virtual public IAnimation
 public:
 	
 protected:
-	T         mValue;     /**< Animating value. */
-	T         mLastValue; /**< Last value. */
-	T*        mBindValue; /**< Pointer to binded value. */
-	FramesVec mFrames;    /**< Frames vector. */
-			  
-	int       mCurrentFrame;             /**< Index of current frame. */
-	float     mCurrentFrameBeginTime;    /**< Current frame begin time. */
-	float     mCurrentFrameEndTime;      /**< Current frame end time. */
-	float     mCurrentFrameDuration;     /**< Duration of current frame. */
-	float     mCurrentFrameInvDuration;  /**< Inverted duration of current frame. */
+	T             mValue;     /**< Animating value. */
+	T             mLastValue; /**< Last value. */
+	T*            mBindValue; /**< Pointer to binded value. */
+	ICallback*    mUpdateFunc;
+	FramesVec     mFrames;    /**< Frames vector. */
+			      
+	int           mCurrentFrame;             /**< Index of current frame. */
+	float         mCurrentFrameBeginTime;    /**< Current frame begin time. */
+	float         mCurrentFrameEndTime;      /**< Current frame end time. */
+	float         mCurrentFrameDuration;     /**< Duration of current frame. */
+	float         mCurrentFrameInvDuration;  /**< Inverted duration of current frame. */
 
 	cFrameInterpolation<T> mFrameInterp; /**< Frames interpolator. */
 
@@ -37,7 +38,7 @@ public:
 	/** ctor. */
 	cAnimation(int frames = 0, float duration = 1.0f): IAnimation(),
 		       mCurrentFrame(0), mCurrentFrameBeginTime(0), mCurrentFrameEndTime(0), mCurrentFrameDuration(0),
-		       mCurrentFrameInvDuration(1)
+		       mCurrentFrameInvDuration(1), mUpdateFunc(NULL)
 	{
 		mBindValue = &mValue;
 
@@ -61,6 +62,11 @@ public:
 	void bindValue(T* valuePtr) 
 	{
 		mBindValue = valuePtr;
+	}
+
+	void setUpdateFunc(ICallback* callBack)
+	{
+		mUpdateFunc = callBack;
 	}
 
 	/** Returns true, if value changed from last frame. */
@@ -138,6 +144,9 @@ protected:
 		
 		mLastValue = mValue;
 		*mBindValue = mValue;
+
+		if (mUpdateFunc)
+			mUpdateFunc->call(&mValue);
 	}
 
 	/** Seek frame by local time. */

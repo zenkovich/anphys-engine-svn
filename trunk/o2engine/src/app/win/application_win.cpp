@@ -9,7 +9,6 @@
 #include "util/scheduler.h"
 #include "util/time_utils.h"
 #include "util/timer.h"
-#include "util/build_system/build_system.h"
 #include "ui/ui_controller.h"
 
 OPEN_O2_NAMESPACE

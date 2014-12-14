@@ -16,6 +16,7 @@ public:
 private:
 	GameStatesArr mGameStates;
 	IGameState*   mCurrentGameState;
+	IGameState*   mNextGameState;
 
 public:	
 	/** ctor. */
@@ -30,11 +31,11 @@ public:
 	/** Drawing frame. */
 	void onDraw();
 
-	void goMainMenuState();
-
 	void goGamePlayState();
 
 	void goGameOverState();
+
+	IGameState* getGameSate(UniqueType type);
 
 public:
 	/** Calls when application is starting. */

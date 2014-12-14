@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Animations group. Animates some animation with same absolute time and intervals. */
-class cAnimationGroup: virtual public IAnimation
+class cAnimationGroup: public IAnimation
 {
 public:
 	typedef vector< IAnimation* > AnimationsVec;
@@ -40,6 +40,9 @@ public:
 
 	/** Playing animation. */
 	void play(float begin, float end);
+
+	/** Playing animation. */
+	void play(bool restart = false, bool stopAtEnd = true);
 	
 	/** Stop animation. */
 	void stop();

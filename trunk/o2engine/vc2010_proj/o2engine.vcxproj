@@ -184,13 +184,6 @@
     <ClInclude Include="..\src\util\animation\frame_interpolation.h" />
     <ClInclude Include="..\src\util\animation\animation_base.h" />
     <ClInclude Include="..\src\util\assert.h" />
-    <ClInclude Include="..\src\util\build_system\atlases_builder.h" />
-    <ClInclude Include="..\src\util\build_system\atlas_info.h" />
-    <ClInclude Include="..\src\util\build_system\atlas_packer.h" />
-    <ClInclude Include="..\src\util\build_system\build_config.h" />
-    <ClInclude Include="..\src\util\build_system\build_info.h" />
-    <ClInclude Include="..\src\util\build_system\build_system.h" />
-    <ClInclude Include="..\src\util\build_system\nonbuild_files_builder.h" />
     <ClInclude Include="..\src\util\callback.h" />
     <ClInclude Include="..\src\util\clipboard.h" />
     <ClInclude Include="..\src\util\compare.h" />
@@ -352,13 +345,6 @@
     <ClCompile Include="..\src\util\animation\animation_base.cpp" />
     <ClCompile Include="..\src\util\animation\animation_group.cpp" />
     <ClCompile Include="..\src\util\assert_win.cpp" />
-    <ClCompile Include="..\src\util\build_system\atlases_builder.cpp" />
-    <ClCompile Include="..\src\util\build_system\atlas_info.cpp" />
-    <ClCompile Include="..\src\util\build_system\atlas_packer.cpp" />
-    <ClCompile Include="..\src\util\build_system\build_config.cpp" />
-    <ClCompile Include="..\src\util\build_system\build_info.cpp" />
-    <ClCompile Include="..\src\util\build_system\build_system.cpp" />
-    <ClCompile Include="..\src\util\build_system\nonbuild_files_builder.cpp" />
     <ClCompile Include="..\src\util\clipboard.cpp" />
     <ClCompile Include="..\src\util\containers\containers_test.cpp" />
     <ClCompile Include="..\src\util\file_system\file.cpp" />

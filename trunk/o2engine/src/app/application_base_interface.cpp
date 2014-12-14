@@ -83,7 +83,7 @@ void cApplicationBaseInterface::deinitializeSystems()
 
 void cApplicationBaseInterface::processFrame()
 {	
-	float dt = clamp(mTimer->getElapsedTime(), 0.001f, 0.1f);
+	float dt = clamp(mTimer->getElapsedTime(), 0.001f, 0.05f);
 
 	mTimeUtils->update(dt);
 

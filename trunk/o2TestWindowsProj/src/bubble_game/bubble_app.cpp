@@ -2,13 +2,18 @@
 
 #include "game_state.h"
 #include "level_gameplay_state.h"
+#include "game_over_game_state.h"
 
 OPEN_O2_NAMESPACE
 
 BubbeGameApplication::BubbeGameApplication():
-	mCurrentGameState(NULL)
+	mCurrentGameState(NULL), mNextGameState(NULL)
 {
 	mGameStates.add(mnew LeveGameplayState());
+	mGameStates.add(mnew GameOverGameState());
+
+	foreach(GameStatesArr, mGameStates, stateIt)
+		(*stateIt)->mBubbeGameApp = this;
 }
 
 BubbeGameApplication::~BubbeGameApplication()
@@ -20,6 +25,17 @@ void BubbeGameApplication::onUpdate(float dt)
 {
 	if (mCurrentGameState)
 		mCurrentGameState->update(dt);
+
+	if (mNextGameState)
+	{
+		if (mCurrentGameState)
+			mCurrentGameState->onDeactivate();
+
+		mCurrentGameState = mNextGameState;
+		mCurrentGameState->onActivate();
+
+		mNextGameState = NULL;
+	}
 }
 
 void BubbeGameApplication::onDraw()
@@ -43,12 +59,7 @@ void BubbeGameApplication::goGamePlayState()
 
 void BubbeGameApplication::goGameOverState()
 {
-
-}
-
-void BubbeGameApplication::goMainMenuState()
-{
-
+	setGameState(GameOverGameState::getStaticType());
 }
 
 void BubbeGameApplication::setGameState(UniqueType type)
@@ -56,18 +67,18 @@ void BubbeGameApplication::setGameState(UniqueType type)
 	if (mCurrentGameState && mCurrentGameState->getType()  == type)
 		return;
 
-	if (mCurrentGameState)
-		mCurrentGameState->onDeactivate();
+	mNextGameState = getGameSate(type);
+}
 
+IGameState* BubbeGameApplication::getGameSate( UniqueType type )
+{
 	foreach(GameStatesArr, mGameStates, stateIt)
 	{
 		if ((*stateIt)->getType() == type)
-		{
-			mCurrentGameState = *stateIt;
-		}
+			return *stateIt;
 	}
 
-	mCurrentGameState->onActivate();
+	return NULL;
 }
 
 CLOSE_O2_NAMESPACE

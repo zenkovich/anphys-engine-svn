@@ -5,7 +5,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(IGameObject);
 
 IGameObject::IGameObject(const vec2f& position /*= vec2f()*/, float rotation /*= 0*/):
-	mPosition(position), mRotation(rotation)
+	mPosition(position), mRotation(rotation), mActive(true)
 {
 	initializeProperties();
 }
@@ -72,7 +72,6 @@ SERIALIZE_METHOD_IMPL(IGameObject)
 {
 	SERIALIZE_ID(mPosition, "position");
 	SERIALIZE_ID(mRotation, "rotation");
-	SERIALIZE_ID(mActive,   "active");
 
 	return true;
 }

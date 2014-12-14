@@ -1,0 +1,16 @@
+Initializing OpenGL render..
+GL_VENDOR: Intel
+GL_RENDERER: Intel(R) HD Graphics
+GL_VERSION: 2.1.0 - Build 8.15.10.2993
+Created texture 'bubble_game/font/bubble_font'
+Created texture 'bubble_game/back'
+Created texture 'bubble_game/circle'
+Created texture 'bubble_game/bubble'
+Created texture 'bubble_game/circle'
+Created texture 'bubble_game/bubble'
+Created texture 'bubble_game/circle'
+Created texture 'bubble_game/bubble'
+Created texture 'bubble_game/circle'
+Created texture 'bubble_game/bubble'
+Created texture 'bubble_game/circle'
+Created texture 'bubble_game/bubble'

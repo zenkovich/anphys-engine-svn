@@ -1,7 +1,6 @@
 #include "file_system.h"
 #include <Windows.h>
 #include "util/time_utils.h"
-#include "util/build_system/build_system.h"
 
 OPEN_O2_NAMESPACE
 
@@ -23,7 +22,6 @@ cFileSystem::cFileSystem()
 
 cFileSystem::~cFileSystem()
 {
-	cBuildSystem::deinitializeSingleton();
 }
 
 const cFileSystem::ExtensionsVec& cFileSystem::getExtensions( cFileType::value fileType ) const

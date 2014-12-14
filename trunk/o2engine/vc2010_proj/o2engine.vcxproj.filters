@@ -79,9 +79,6 @@
     <Filter Include="dependencies\stack_walker">
       <UniqueIdentifier>{1a5f7661-556e-48ed-a700-caec9d668901}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\util\build_system">
-      <UniqueIdentifier>{41a1b556-00f5-442b-aa6e-fa0ab86bc799}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\util\containers">
       <UniqueIdentifier>{8ba52a35-2d75-4f88-b15d-1217bd5c564b}</UniqueIdentifier>
     </Filter>
@@ -480,9 +477,6 @@
     <ClInclude Include="..\src\util\file_system\file_info.h">
       <Filter>src\util\file_system</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\build_system\build_system.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ui\ui_hor_layout.h">
       <Filter>src\ui</Filter>
     </ClInclude>
@@ -492,26 +486,8 @@
     <ClInclude Include="..\src\ui\ui_ver_layout.h">
       <Filter>src\ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\build_system\build_config.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\build_system\atlas_info.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\build_system\build_info.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\serialize_util.h">
       <Filter>src\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\build_system\nonbuild_files_builder.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\build_system\atlases_builder.h">
-      <Filter>src\util\build_system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\util\build_system\atlas_packer.h">
-      <Filter>src\util\build_system</Filter>
     </ClInclude>
     <ClInclude Include="..\src\util\math\rects_packer.h">
       <Filter>src\util\math</Filter>
@@ -935,35 +911,14 @@
     <ClCompile Include="..\src\ui\ui_ver_layout.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\util\build_system\build_system.cpp">
-      <Filter>src\util\build_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\atlas_info.cpp">
-      <Filter>src\util\build_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\build_info.cpp">
-      <Filter>src\util\build_system</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\util\serialize_util.cpp">
       <Filter>src\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\build_config.cpp">
-      <Filter>src\util\build_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\nonbuild_files_builder.cpp">
-      <Filter>src\util\build_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\atlases_builder.cpp">
-      <Filter>src\util\build_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\file_system\file_info.cpp">
       <Filter>src\util\file_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\math\rects_packer.cpp">
       <Filter>src\util\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\build_system\atlas_packer.cpp">
-      <Filter>src\util\build_system</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\containers\containers_test.cpp">
       <Filter>src\util\containers</Filter>

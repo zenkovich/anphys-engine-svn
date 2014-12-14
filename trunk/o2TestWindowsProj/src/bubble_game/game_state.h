@@ -6,8 +6,15 @@
 
 OPEN_O2_NAMESPACE
 
+class BubbeGameApplication;
+
 class IGameState
 {
+	friend class BubbeGameApplication;
+
+protected:
+	BubbeGameApplication* mBubbeGameApp;
+
 public:
 	DEFINE_TYPE(IGameState);
 
