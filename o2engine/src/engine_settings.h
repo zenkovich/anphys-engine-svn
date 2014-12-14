@@ -51,7 +51,7 @@
 #define UI_DEBUG_FRAMES false
 
 /* Debug checks and messages in containers. */
-#define CONTAINERS_DEBUG true
+#define CONTAINERS_DEBUG false
 
 
 /**********************************/
@@ -70,13 +70,13 @@
 /**********************************/
 
 /** Building assets before launching app. */
-#define ASSETS_PREBUILDING_ENABLE true
+#define ASSETS_PREBUILDING_ENABLE false
 
 /** Enabling saving assets from code. */
 #define ASSETS_RUNTIME_EDITING_ENABLE true
 
 /** Assets path. Relative from executable. */
-#define ASSETS_PATH "../../../assets/"
+#define ASSETS_PATH "../../../assetsd/"
 
 /** Builded assets path. Relative from executable. */
 #define ASSETS_BUILDED_PATH "../assets/"

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<assets count="78">
+<assets count="60">
 	<elem0 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="bubble_game" />
@@ -14,7 +14,7 @@
 			<id v="1892" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="19" minute="53" hour="17" day="4" month="12" year="2014" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem1>
 	<elem2 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -22,7 +22,7 @@
 			<id v="1763" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem2>
 	<elem3 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -30,7 +30,7 @@
 			<id v="25282" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
+		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem3>
 	<elem4 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -38,7 +38,7 @@
 			<id v="27710" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="5" minute="4" hour="11" day="9" month="12" year="2014" />
+		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem4>
 	<elem5 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -46,127 +46,127 @@
 			<id v="13298" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="40" minute="59" hour="17" day="4" month="12" year="2014" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem5>
 	<elem6 type="asAssetInfo">
 		<location type="cFileLocation">
-			<path v="o2_font" />
-			<id v="15885" />
+			<path v="bubble_game/font" />
+			<id v="22948" />
 		</location>
 		<type v="abFolderInfo" />
 		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
 	</elem6>
 	<elem7 type="asAssetInfo">
 		<location type="cFileLocation">
+			<path v="bubble_game/font/bubble_font" />
+			<id v="18296" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="7" minute="33" hour="22" day="9" month="12" year="2014" />
+	</elem7>
+	<elem8 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/font/bubble_font" />
+			<id v="1200" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="13" minute="5" hour="23" day="9" month="12" year="2014" />
+	</elem8>
+	<elem9 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="o2_font" />
+			<id v="15885" />
+		</location>
+		<type v="abFolderInfo" />
+		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+	</elem9>
+	<elem10 type="asAssetInfo">
+		<location type="cFileLocation">
 			<path v="o2_font/myriad" />
 			<id v="4865" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="2" minute="15" hour="14" day="30" month="5" year="2014" />
-	</elem7>
-	<elem8 type="asAssetInfo">
+		<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem10>
+	<elem11 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="o2_font/myriad" />
 			<id v="13703" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="14" minute="18" hour="14" day="30" month="5" year="2014" />
-	</elem8>
-	<elem9 type="asAssetInfo">
+		<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem11>
+	<elem12 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="o2_font/myriad_0" />
 			<id v="14404" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="9" minute="19" hour="14" day="30" month="5" year="2014" />
-	</elem9>
-	<elem10 type="asAssetInfo">
+		<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem12>
+	<elem13 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin" />
 			<id v="17877" />
 		</location>
 		<type v="abFolderInfo" />
 		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
-	</elem10>
-	<elem11 type="asAssetInfo">
+	</elem13>
+	<elem14 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/background" />
 			<id v="7611" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="24" minute="4" hour="17" day="27" month="5" year="2014" />
-	</elem11>
-	<elem12 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem14>
+	<elem15 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/background_shadow" />
 			<id v="3694" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="5" minute="18" hour="17" day="27" month="5" year="2014" />
-	</elem12>
-	<elem13 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/bar_bar" />
-			<id v="9364" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="50" minute="50" hour="11" day="4" month="6" year="2014" />
-	</elem13>
-	<elem14 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem15>
+	<elem16 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/bar_bar" />
 			<id v="29971" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem14>
-	<elem15 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem16>
+	<elem17 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/bar_bar_hover" />
 			<id v="10161" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="12" minute="24" hour="10" day="28" month="6" year="2014" />
-	</elem15>
-	<elem16 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem17>
+	<elem18 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/bar_bar_pressed" />
 			<id v="19645" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="18" minute="51" hour="11" day="4" month="6" year="2014" />
-	</elem16>
-	<elem17 type="asAssetInfo">
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem18>
+	<elem19 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/bar_bk" />
 			<id v="27476" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="38" minute="50" hour="11" day="4" month="6" year="2014" />
-	</elem17>
-	<elem18 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/bar_bk" />
-			<id v="22792" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem18>
-	<elem19 type="asAssetInfo">
+		<writeTime second="33" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem19>
+	<elem20 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/bar_drag_icn" />
 			<id v="7025" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="53" minute="31" hour="11" day="4" month="6" year="2014" />
-	</elem19>
-	<elem20 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/btn_glow" />
-			<id v="14808" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="16" minute="13" hour="17" day="27" month="5" year="2014" />
+		<writeTime second="34" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem20>
 	<elem21 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -174,7 +174,7 @@
 			<id v="21803" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="55" minute="13" hour="17" day="27" month="5" year="2014" />
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem21>
 	<elem22 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -182,7 +182,7 @@
 			<id v="26959" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="20" minute="14" hour="17" day="27" month="5" year="2014" />
+		<writeTime second="29" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem22>
 	<elem23 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -190,7 +190,7 @@
 			<id v="23934" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="31" minute="12" hour="17" day="27" month="5" year="2014" />
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem23>
 	<elem24 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -198,430 +198,286 @@
 			<id v="1614" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="59" minute="12" hour="17" day="27" month="5" year="2014" />
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem24>
 	<elem25 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/checkbox" />
-			<id v="30266" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem25>
-	<elem26 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/checkbox_bk" />
-			<id v="14353" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="12" minute="56" hour="11" day="4" month="6" year="2014" />
-	</elem26>
-	<elem27 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/checkbox_check" />
 			<id v="2987" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="41" minute="56" hour="11" day="4" month="6" year="2014" />
-	</elem27>
-	<elem28 type="asAssetInfo">
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem25>
+	<elem26 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/checkbox_glow" />
 			<id v="7086" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="25" minute="56" hour="11" day="4" month="6" year="2014" />
-	</elem28>
-	<elem29 type="asAssetInfo">
+		<writeTime second="30" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem26>
+	<elem27 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/checkbox_hover" />
 			<id v="2211" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="36" minute="52" hour="9" day="28" month="6" year="2014" />
-	</elem29>
-	<elem30 type="asAssetInfo">
+		<writeTime second="33" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem27>
+	<elem28 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/checkbox_pressed" />
 			<id v="29305" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="36" minute="52" hour="9" day="28" month="6" year="2014" />
-	</elem30>
-	<elem31 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/context_delimer" />
-			<id v="19400" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="59" minute="50" hour="11" day="6" month="8" year="2014" />
-	</elem31>
-	<elem32 type="asAssetInfo">
+		<writeTime second="29" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem28>
+	<elem29 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/context_menu" />
 			<id v="16540" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem32>
-	<elem33 type="asAssetInfo">
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem29>
+	<elem30 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/context_menu_bk" />
 			<id v="20556" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="8" minute="46" hour="11" day="6" month="8" year="2014" />
-	</elem33>
-	<elem34 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem30>
+	<elem31 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/context_selection" />
 			<id v="17767" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="53" minute="47" hour="11" day="6" month="8" year="2014" />
-	</elem34>
-	<elem35 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem31>
+	<elem32 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/dark_background" />
 			<id v="28032" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="34" minute="21" hour="12" day="4" month="6" year="2014" />
-	</elem35>
-	<elem36 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem32>
+	<elem33 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/dot_gray_line_hor" />
 			<id v="17187" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="42" minute="35" hour="12" day="4" month="6" year="2014" />
-	</elem36>
-	<elem37 type="asAssetInfo">
+		<writeTime second="33" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem33>
+	<elem34 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/dot_gray_line_ver" />
 			<id v="27616" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="5" minute="36" hour="12" day="4" month="6" year="2014" />
-	</elem37>
-	<elem38 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/editbox" />
-			<id v="31337" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem38>
-	<elem39 type="asAssetInfo">
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem34>
+	<elem35 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/editbox_bk" />
 			<id v="25474" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="8" minute="59" hour="11" day="4" month="6" year="2014" />
-	</elem39>
-	<elem40 type="asAssetInfo">
+		<writeTime second="32" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem35>
+	<elem36 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/editbox_glow" />
 			<id v="7501" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="31" minute="59" hour="11" day="4" month="6" year="2014" />
-	</elem40>
-	<elem41 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem36>
+	<elem37 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/editbox_hover" />
 			<id v="14103" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="10" minute="14" hour="12" day="7" month="7" year="2014" />
-	</elem41>
-	<elem42 type="asAssetInfo">
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem37>
+	<elem38 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/folder_icn" />
 			<id v="24807" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="57" minute="33" hour="12" day="4" month="6" year="2014" />
-	</elem42>
-	<elem43 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/hint" />
-			<id v="22495" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem43>
-	<elem44 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/hint_bk" />
-			<id v="18417" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="38" minute="40" hour="15" day="6" month="8" year="2014" />
-	</elem44>
-	<elem45 type="asAssetInfo">
+		<writeTime second="29" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem38>
+	<elem39 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/minus_icn" />
 			<id v="8760" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="48" minute="32" hour="12" day="4" month="6" year="2014" />
-	</elem45>
-	<elem46 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/pad" />
-			<id v="22429" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem46>
-	<elem47 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem39>
+	<elem40 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/pad_bk" />
 			<id v="24499" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="11" minute="1" hour="12" day="4" month="6" year="2014" />
-	</elem47>
-	<elem48 type="asAssetInfo">
+		<writeTime second="33" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem40>
+	<elem41 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/pad_glow" />
 			<id v="12237" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="21" minute="20" hour="16" day="26" month="7" year="2014" />
-	</elem48>
-	<elem49 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem41>
+	<elem42 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/pad_hover" />
 			<id v="8924" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="7" minute="20" hour="16" day="26" month="7" year="2014" />
-	</elem49>
-	<elem50 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/plus_icn" />
-			<id v="2638" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="14" minute="33" hour="12" day="4" month="6" year="2014" />
-	</elem50>
-	<elem51 type="asAssetInfo">
+		<writeTime second="34" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem42>
+	<elem43 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_hor_bar_bar" />
 			<id v="4616" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="38" minute="40" hour="12" day="11" month="7" year="2014" />
-	</elem51>
-	<elem52 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem43>
+	<elem44 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_hor_bar_bar_hover" />
 			<id v="212" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="45" minute="40" hour="12" day="11" month="7" year="2014" />
-	</elem52>
-	<elem53 type="asAssetInfo">
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem44>
+	<elem45 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_hor_bar_bar_pressed" />
 			<id v="8692" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="54" minute="40" hour="12" day="11" month="7" year="2014" />
-	</elem53>
-	<elem54 type="asAssetInfo">
+		<writeTime second="35" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem45>
+	<elem46 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_hor_bar_bk" />
 			<id v="14263" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="31" minute="40" hour="12" day="11" month="7" year="2014" />
-	</elem54>
-	<elem55 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem46>
+	<elem47 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_vert_bar" />
 			<id v="1527" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem55>
-	<elem56 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/small_vert_bar_bar" />
-			<id v="15305" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="45" minute="5" hour="12" day="4" month="6" year="2014" />
-	</elem56>
-	<elem57 type="asAssetInfo">
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem47>
+	<elem48 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_vert_bar_bar_hover" />
 			<id v="2829" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="55" minute="5" hour="12" day="4" month="6" year="2014" />
-	</elem57>
-	<elem58 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem48>
+	<elem49 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_vert_bar_bar_pressed" />
 			<id v="5059" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="8" minute="6" hour="12" day="4" month="6" year="2014" />
-	</elem58>
-	<elem59 type="asAssetInfo">
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem49>
+	<elem50 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/small_vert_bar_bk" />
 			<id v="31760" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="27" minute="5" hour="12" day="4" month="6" year="2014" />
-	</elem59>
-	<elem60 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/tabs" />
-			<id v="18957" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem60>
-	<elem61 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/tabs_" />
-			<id v="24787" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem61>
-	<elem62 type="asAssetInfo">
+		<writeTime second="32" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem50>
+	<elem51 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/tab_active" />
 			<id v="6653" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="41" minute="26" hour="12" day="4" month="6" year="2014" />
-	</elem62>
-	<elem63 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/tab_inactive" />
-			<id v="14077" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="38" minute="25" hour="12" day="4" month="6" year="2014" />
-	</elem63>
-	<elem64 type="asAssetInfo">
+		<writeTime second="28" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem51>
+	<elem52 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/tab_inactive_hover" />
 			<id v="950" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="25" minute="26" hour="12" day="4" month="6" year="2014" />
-	</elem64>
-	<elem65 type="asAssetInfo">
+		<writeTime second="31" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem52>
+	<elem53 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/tab_line" />
 			<id v="31444" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="3" minute="27" hour="12" day="4" month="6" year="2014" />
-	</elem65>
-	<elem66 type="asAssetInfo">
+		<writeTime second="29" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem53>
+	<elem54 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_skin/transparent_rect_bk" />
 			<id v="25674" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="8" minute="31" hour="12" day="4" month="6" year="2014" />
-	</elem66>
-	<elem67 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/tree" />
-			<id v="18273" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem67>
-	<elem68 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="ui_skin/tree_node" />
-			<id v="23520" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="37" minute="27" hour="17" day="22" month="9" year="2014" />
-	</elem68>
-	<elem69 type="asAssetInfo">
+		<writeTime second="34" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem54>
+	<elem55 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="arial" />
 			<id v="15460" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
-	</elem69>
-	<elem70 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="arial_0" />
-			<id v="7667" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="55" minute="3" hour="12" day="12" month="2" year="2014" />
-	</elem70>
-	<elem71 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="config" />
-			<id v="20548" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
-	</elem71>
-	<elem72 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="grass" />
-			<id v="3332" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
-	</elem72>
-	<elem73 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="man_walk_frames" />
-			<id v="4502" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
-	</elem73>
-	<elem74 type="asAssetInfo">
+		<writeTime second="40" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem55>
+	<elem56 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="pic" />
 			<id v="29084" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="9" minute="10" hour="12" day="29" month="11" year="2014" />
-	</elem74>
-	<elem75 type="asAssetInfo">
+		<writeTime second="27" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem56>
+	<elem57 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="test" />
 			<id v="28106" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="44" minute="0" hour="12" day="21" month="8" year="2014" />
-	</elem75>
-	<elem76 type="asAssetInfo">
+		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem57>
+	<elem58 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="test_serialization" />
 			<id v="13358" />
 		</location>
 		<type v="abAssetInfo" />
-		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
-	</elem76>
-	<elem77 type="asAssetInfo">
+		<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem58>
+	<elem59 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_test" />
 			<id v="16677" />
 		</location>
 		<type v="abImageAssetInfo" />
-		<writeTime second="30" minute="30" hour="11" day="4" month="11" year="2013" />
-	</elem77>
+		<writeTime second="27" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem59>
 </assets>

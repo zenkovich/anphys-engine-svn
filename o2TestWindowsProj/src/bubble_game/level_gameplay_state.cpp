@@ -1,12 +1,14 @@
 #include "level_gameplay_state.h"
 
-#include "game_object.h"
-#include "verlet_physics.h"
-#include "player_bubble_object.h"
 #include "app/application.h"
-#include "render_system/render_system.h"
-#include "pad_game_object.h"
 #include "background_game_object.h"
+#include "game_object.h"
+#include "pad_game_object.h"
+#include "player_bubble_object.h"
+#include "render_system/font.h"
+#include "render_system/render_system.h"
+#include "render_system/text.h"
+#include "verlet_physics.h"
 #include "water_drop_game_object.h"
 
 OPEN_O2_NAMESPACE
@@ -17,7 +19,8 @@ LeveGameplayState::LeveGameplayState():
 	mVerletPhysics(NULL), mEditing(false)
 {
 	mVerletPhysics = mnew VeretPhysics();
-	initializeObjects();
+	mScoreText = mnew grText(fontsManager()->loadBMFont("bubble_game/font/bubble_font"));
+	mScoreText->position = vec2f(20, 20);
 }
 
 LeveGameplayState::~LeveGameplayState()
@@ -25,10 +28,12 @@ LeveGameplayState::~LeveGameplayState()
 	release_array(GameObjectsArr, mGameObjects);
 	safe_release(mVerletPhysics);
 	safe_release(mCamera);
+	safe_release(mScoreText);
 }
 
 void LeveGameplayState::onActivate()
 {
+	loadLevel("level");
 }
 
 void LeveGameplayState::onDeactivate()
@@ -41,7 +46,7 @@ void LeveGameplayState::update(float dt)
 	if (appInput()->isKeyPressed('S'))
 		saveLevel("level");
 
-	if (appInput()->isKeyPressed('L'))
+	if (appInput()->isKeyPressed('R'))
 		loadLevel("level");
 
 	if (appInput()->isKeyPressed('E'))
@@ -51,7 +56,10 @@ void LeveGameplayState::update(float dt)
 // 		return;
 
 	if (!mEditing)
+	{
 		mCamera->mPosition = lerp(mCamera->mPosition, mPlayer->getPosition(), dt*3.0f);
+		mCamera->mPosition.y = min(mCamera->mPosition.y, 10.0f);
+	}
 	else
 	{	
 		if (appInput()->isKeyPressed('P'))
@@ -70,6 +78,8 @@ void LeveGameplayState::update(float dt)
 			(*objIt)->update(dt);
 
 	mVerletPhysics->update(dt);
+
+	application()->setWindowCaption(format("Bubble: %.2f FPS", timeUtils()->getFPS()));
 }
 
 void LeveGameplayState::draw()
@@ -78,9 +88,13 @@ void LeveGameplayState::draw()
 		if ((*objIt)->isActive())
 			(*objIt)->draw();
 
-	//mVerletPhysics->dbgDraw();
+	if (appInput()->isKeyDown('D'))
+		mVerletPhysics->dbgDraw();
 
-	//renderSystem()->drawRectFrame(vec2f(), vec2f(10, 10));
+	renderSystem()->camera = NULL;
+	mScoreText->ctext = format("SCORE:%i", mPlayer->getScore());
+	mScoreText->draw();
+	renderSystem()->camera = mCamera;
 }
 
 void LeveGameplayState::initializeObjects()
@@ -154,6 +168,8 @@ void LeveGameplayState::loadLevel(const string& filePath)
 		if ((*objIt)->getType() == WaterDropGameObject::getStaticType())
 			(*objIt)->setPhysicsLayer(PL_PAD);
 	}
+
+	hlog("Loaded level: %i objects", newObjects.count());
 }
 
 void LeveGameplayState::saveLevel(const string& filePath)
@@ -183,6 +199,7 @@ void LeveGameplayState::saveLevel(const string& filePath)
 
 void LeveGameplayState::addObject(IGameObject* object)
 {
+	object->mActive = true;
 	object->onLoad();
 	object->onActivate();
 	mGameObjects.add(object);

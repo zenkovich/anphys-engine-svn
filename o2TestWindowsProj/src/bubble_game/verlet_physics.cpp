@@ -58,7 +58,7 @@ void VeretPhysics::Link::resolve()
 
 VeretPhysics::VeretPhysics():
 	mGravity(0, 9.8f), mParticlesPool(100, 20), mLinksPool(100, 20), mWorldFriction(0.6f), mSolveIterations(10),
-	mDeltaTime(1.0f/60.0f), mAccumulatedDt(0), mFloor(20.0f), mLayersMask(NULL), mMaxLayer(0)
+	mDeltaTime(1.0f/60.0f), mAccumulatedDt(0), mFloor(50.0f), mLayersMask(NULL), mMaxLayer(0)
 {
 	bool initLayerMask[1] = { true };
 	setupLayerMask(initLayerMask, 1);

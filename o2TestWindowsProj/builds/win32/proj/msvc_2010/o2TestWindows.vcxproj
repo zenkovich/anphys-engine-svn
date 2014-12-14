@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\..\..\src\bubble_game\background_game_object.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\bubble_app.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\game_object.cpp" />
+    <ClCompile Include="..\..\..\..\src\bubble_game\game_over_game_state.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\game_state.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\level_gameplay_state.cpp" />
     <ClCompile Include="..\..\..\..\src\bubble_game\pad_game_object.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="..\..\..\..\src\bubble_game\background_game_object.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\bubble_app.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\game_object.h" />
+    <ClInclude Include="..\..\..\..\src\bubble_game\game_over_game_state.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\game_state.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\level_gameplay_state.h" />
     <ClInclude Include="..\..\..\..\src\bubble_game\pad_game_object.h" />
@@ -110,6 +112,7 @@
       <AdditionalLibraryDirectories>..\..\..\..\..\o2engine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>o2engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

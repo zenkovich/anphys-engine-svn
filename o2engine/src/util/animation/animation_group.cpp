@@ -57,6 +57,11 @@ void cAnimationGroup::play( float begin, float end )
 		(*it)->play(begin, end);
 }
 
+void cAnimationGroup::play( bool restart /*= false*/, bool stopAtEnd /*= true*/ )
+{
+	IAnimation::play(restart, stopAtEnd);
+}
+
 void cAnimationGroup::setTime( float time )
 {
 	IAnimation::setTime(time);

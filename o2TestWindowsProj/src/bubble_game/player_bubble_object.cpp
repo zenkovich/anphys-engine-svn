@@ -4,12 +4,14 @@
 #include "util/time_utils.h"
 #include "pad_game_object.h"
 #include "water_drop_game_object.h"
+#include "bubble_app.h"
+#include "game_over_game_state.h"
 
 OPEN_O2_NAMESPACE
 
 PlayerBubble::PlayerBubble(const vec2f& position /*= vec2f()*/):
 	IGameObject(position), mRadius(1.0f), mInputSense(0.2f, 0.6f), mSegmentsCount(30), mMesh(NULL), mRootHardness(0.01f),
-	mPressureCoef(0.3f), mShellHardness(0.8f), mLastCollisionTime(0), mControlTime(0.1f)
+	mPressureCoef(0.3f), mShellHardness(0.8f), mLastCollisionTime(0), mControlTime(0.1f), mScore(0)
 {
 }
 
@@ -79,6 +81,7 @@ void PlayerBubble::update(float dt)
 	updateVolumePressure(dt);
 	updateStabilityEuristic(dt);
 	mPosition = mPhysicsRootParticle->mPosition;
+	checkGameOver();
 }
 
 void PlayerBubble::updateControl(float dt)
@@ -236,8 +239,12 @@ void PlayerBubble::onCollide( CollisionListener* other )
 	if (other->getType() == WaterDropGameObject::getStaticType())
 	{
 		WaterDropGameObject* wd = static_cast<WaterDropGameObject*>(other);
-		wd->active = false;
-		hlog("WaterDrop!");
+		if (wd->active)
+		{
+			wd->active = false;
+			mScore++;
+			hlog("WaterDrop!");
+		}
 	}
 }
 
@@ -249,6 +256,23 @@ void PlayerBubble::onActivate()
 void PlayerBubble::onDeactivate()
 {
 	deinitPhysicsModel();
+}
+
+int PlayerBubble::getScore() const
+{
+	return mScore;
+}
+
+void PlayerBubble::checkGameOver()
+{
+	if (mPosition.y > 20.0f)
+	{
+		BubbeGameApplication* bubbleApp = static_cast<BubbeGameApplication*>(application());
+		GameOverGameState* gameOverState = 
+			static_cast<GameOverGameState*>(bubbleApp->getGameSate(GameOverGameState::getStaticType()));
+		gameOverState->setScore(mScore);
+		bubbleApp->goGameOverState();
+	}
 }
 
 CLOSE_O2_NAMESPACE

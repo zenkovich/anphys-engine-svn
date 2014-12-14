@@ -1,0 +1,11 @@
+All Systems initialized
+Initializing window..
+Window initialized!
+=== DEVICE INFO ===
+Device id: 'PC WIN'
+Render targets: available
+Max texture size: 8192 x 8192
+===================
+Application launched!
+set resizible: false 
+All systems deinitialized
