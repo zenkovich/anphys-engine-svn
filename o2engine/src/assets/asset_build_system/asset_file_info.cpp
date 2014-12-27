@@ -110,78 +110,10 @@ abAssetInfo* abImageAssetInfo::clone() const
 }
 
 
-REGIST_TYPE(abFolderInfo);
-
-abFolderInfo::abFolderInfo()
-{
-}
-
-abFolderInfo::~abFolderInfo()
-{
-	clear();
-}
-
-void abFolderInfo::clear()
-{
-	release_array(abAssetsInfosArr, mInsideAssets);
-}
-
-SERIALIZE_INHERITED_METHOD_IMPL(abFolderInfo)
-{
-	SERIALIZE_ID(mInsideAssets, "insideAssets");
-
-	return true;
-}
-
-asAssetConfig* abFolderInfo::initFromConfigs() const
-{
-	asPathConfig* res = mnew asPathConfig();
-	res->mLocation = mLocation;
-	return res;
-}
-
-abAssetInfo* abFolderInfo::getInsideAsset(const cFileLocation& location)
-{
-	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
-	{
-		if ((*assetIt)->mLocation == location)
-			return *assetIt;
-	}
-
-	return NULL;
-}
-
-abAssetInfo* abFolderInfo::clone() const
-{
-	abAssetInfo* res = mnew abFolderInfo();
-	res->copyFrom(this);
-	return res;
-}
-
-void abFolderInfo::addInsideAsset(abAssetInfo* asset)
-{
-	mInsideAssets.add(asset);
-}
-
-abAssetsInfosArr abFolderInfo::getAllInsideAssets() const
-{
-	abAssetsInfosArr res;
-	foreach_const(abAssetsInfosArr, mInsideAssets, assetIt)
-	{
-		res.add(*assetIt);
-		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-			res.add((static_cast<abFolderInfo*>(*assetIt))->getAllInsideAssets());
-	}
-
-	return res;
-}
-
-
-
 REGIST_TYPE(abAtlasAssetInfo);
 
 abAtlasAssetInfo::abAtlasAssetInfo():
-	mMaxSize(2048.0f, 2048.0f), mName("unnamed")
+	mMaxSize(2048.0f, 2048.0f), mName("unnamed"), mAttachedToFolder(false)
 {
 }
 
@@ -244,6 +176,112 @@ SERIALIZE_INHERITED_METHOD_IMPL(abAtlasAssetInfo)
 	SERIALIZE_ID(mMaxSize, "maxSize");
 
 	return true;
+}
+
+
+REGIST_TYPE(abFolderInfo);
+
+abFolderInfo::abFolderInfo()
+{
+}
+
+abFolderInfo::~abFolderInfo()
+{
+	clear();
+}
+
+void abFolderInfo::clear()
+{
+	release_array(abAssetsInfosArr, mInsideAssets);
+}
+
+SERIALIZE_INHERITED_METHOD_IMPL(abFolderInfo)
+{
+	SERIALIZE_ID(mInsideAssets, "insideAssets");
+
+	return true;
+}
+
+asAssetConfig* abFolderInfo::initFromConfigs() const
+{
+	asPathConfig* res = mnew asPathConfig();
+	res->mLocation = mLocation;
+	return res;
+}
+
+abAssetInfo* abFolderInfo::getInsideAsset(const cFileLocation& location, bool recursive /*= false*/)
+{
+	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		if ((*assetIt)->mLocation == location)
+			return *assetIt;
+	}
+
+	if (!recursive)
+		return NULL;
+
+	
+	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+		{
+			abAssetInfo* res = static_cast<abFolderInfo*>(*assetIt)->getInsideAsset(location, true);
+			if (res)
+				return res;
+		}
+	}
+
+	return NULL;
+}
+
+abAssetInfo* abFolderInfo::clone() const
+{
+	abAssetInfo* res = mnew abFolderInfo();
+	res->copyFrom(this);
+	return res;
+}
+
+void abFolderInfo::addInsideAsset(abAssetInfo* asset)
+{
+	mInsideAssets.add(asset);
+}
+
+abAssetsInfosArr abFolderInfo::getAllInsideAssets() const
+{
+	abAssetsInfosArr res;
+	foreach_const(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		res.add(*assetIt);
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+			res.add((static_cast<abFolderInfo*>(*assetIt))->getAllInsideAssets());
+	}
+
+	return res;
+}
+
+void abFolderInfo::linkAtlases()
+{
+	abAtlasAssetsInfosArr allAtlases;
+	abAssetsInfosArr insideAssets = getAllInsideAssets();
+
+	foreach(abAssetsInfosArr, insideAssets, assetIt)
+	{
+		if ((*assetIt)->getType() == abAtlasAssetInfo::getStaticType())
+		{
+			abAtlasAssetInfo* atlas = static_cast<abAtlasAssetInfo*>(*assetIt);
+			allAtlases.add(atlas);
+		}
+	}
+
+	foreach(abAtlasAssetsInfosArr, allAtlases, atlasIt)
+	{
+		if ((*atlasIt)->mAttachedToFolder)
+		{
+			abFolderInfo* folder = static_cast<abFolderInfo*>(getInsideAsset((*atlasIt)->mAttachFolderLocation, true));
+			(*atlasIt)->mAttachFolder = folder;
+			folder->mAttachedAtlas = *atlasIt;
+		}
+	}
 }
 
 CLOSE_O2_NAMESPACE

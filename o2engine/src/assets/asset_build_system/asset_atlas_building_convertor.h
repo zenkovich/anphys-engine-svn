@@ -5,8 +5,13 @@
 
 OPEN_O2_NAMESPACE
 
+class abImageAssetInfo;
+
 class asAssetAtlasBuildingConvertor: public asAssetBuildingConvertor
 {
+public: 
+	typedef array<abImageAssetInfo*> ImageAssetsInfosArr;
+
 public:
 	asAssetAtlasBuildingConvertor();
 	asAssetAtlasBuildingConvertor(AssetBuildSystem* buildSystem);

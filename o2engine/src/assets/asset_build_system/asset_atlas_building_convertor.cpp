@@ -22,7 +22,6 @@ asAssetAtlasBuildingConvertor::~asAssetAtlasBuildingConvertor()
 
 void asAssetAtlasBuildingConvertor::convert(abAssetInfo* asset)
 {
-
 }
 
 void asAssetAtlasBuildingConvertor::remove(abAssetInfo* asset)
