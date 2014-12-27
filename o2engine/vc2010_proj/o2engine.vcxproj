@@ -226,6 +226,7 @@
     <ClInclude Include="..\src\util\mem_utils\std_allocator.h" />
     <ClInclude Include="..\src\util\mem_utils\test_allocator.h" />
     <ClInclude Include="..\src\util\objects.h" />
+    <ClInclude Include="..\src\util\obj_manager_test.h" />
     <ClInclude Include="..\src\util\property.h" />
     <ClInclude Include="..\src\util\property_list.h" />
     <ClInclude Include="..\src\util\public_includes.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="..\src\util\mem_utils\stack_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\std_allocator.cpp" />
     <ClCompile Include="..\src\util\mem_utils\test_allocator.cpp" />
+    <ClCompile Include="..\src\util\obj_manager_test.cpp" />
     <ClCompile Include="..\src\util\property_list.cpp" />
     <ClCompile Include="..\src\util\scheduler.cpp" />
     <ClCompile Include="..\src\util\serialize_util.cpp" />

@@ -570,6 +570,9 @@
     <ClInclude Include="..\src\assets\asset_build_system\asset_atlas_building_convertor.h">
       <Filter>src\assets\asset_build_system</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\obj_manager_test.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -967,6 +970,9 @@
     </ClCompile>
     <ClCompile Include="..\src\assets\asset_build_system\asset_atlas_building_convertor.cpp">
       <Filter>src\assets\asset_build_system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\obj_manager_test.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
