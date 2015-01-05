@@ -45,7 +45,7 @@ REGIST_TYPE(abImageAssetInfo);
 
 SERIALIZE_INHERITED_METHOD_IMPL(abImageAssetInfo)
 {
-	SERIALIZE_ID(mAtlas, "atlas");
+	SERIALIZE_ID(mAtlasName, "atlas");
 	SERIALIZE_ID(mScale, "scale");
 
 	return true;
@@ -61,7 +61,7 @@ void abImageAssetInfo::initFromConfigs(asAssetConfig* config)
 		return;
 	}
 
-	mAtlas = imgConfig->mAtlas;
+	mAtlasName = imgConfig->mAtlas;
 	mScale = imgConfig->mScale;
 }
 
@@ -69,7 +69,7 @@ asAssetConfig* abImageAssetInfo::getConfigsSample() const
 {
 	asImageConfig* res = mnew asImageConfig();
 	res->mLocation = mLocation;
-	res->mAtlas = mAtlas;
+	res->mAtlas = mAtlasName;
 	res->mScale = mScale;
 	return res;
 }
@@ -81,7 +81,7 @@ bool abImageAssetInfo::isEquals(abAssetInfo* other)
 
 	abImageAssetInfo* imgOther = static_cast<abImageAssetInfo*>(other);
 
-	return abAssetInfo::isEquals(other) && mAtlas == imgOther->mAtlas && mScale == imgOther->mScale;
+	return abAssetInfo::isEquals(other) && mAtlasName == imgOther->mAtlasName && mScale == imgOther->mScale;
 }
 
 void abImageAssetInfo::copyFrom(const abAssetInfo* other)
@@ -93,12 +93,12 @@ void abImageAssetInfo::copyFrom(const abAssetInfo* other)
 
 	const abImageAssetInfo* imgOther = static_cast<const abImageAssetInfo*>(other);
 
-	mAtlas = imgOther->mAtlas;
+	mAtlasName = imgOther->mAtlasName;
 	mScale = imgOther->mScale;
 }
 
 abImageAssetInfo::abImageAssetInfo():
-	mScale(1.0f)
+	mScale(1.0f), mAtlas(NULL)
 {
 }
 
@@ -113,7 +113,7 @@ abAssetInfo* abImageAssetInfo::clone() const
 REGIST_TYPE(abAtlasAssetInfo);
 
 abAtlasAssetInfo::abAtlasAssetInfo():
-	mMaxSize(2048.0f, 2048.0f), mName("unnamed"), mAttachedToFolder(false)
+	mMaxSize(2048.0f, 2048.0f), mName("unnamed"), mAttachedToFolder(false), mAttachFolder(NULL)
 {
 }
 
@@ -145,9 +145,32 @@ bool abAtlasAssetInfo::isEquals(abAssetInfo* other)
 	if (other->getType() != getType())
 		return false;
 
-	abAtlasAssetInfo* imgOther = static_cast<abAtlasAssetInfo*>(other);
+	abAtlasAssetInfo* atlOther = static_cast<abAtlasAssetInfo*>(other);
 
-	return abAssetInfo::isEquals(other) && mName == imgOther->mName && mMaxSize == imgOther->mMaxSize;
+	if (!(abAssetInfo::isEquals(other) && mName == atlOther->mName && mMaxSize == atlOther->mMaxSize && 
+		  mImages.count() == atlOther->mImages.count()))
+		return false;
+
+	foreach(abImageAssetsInfosArr, mImages, imgIt)
+	{
+		abImageAssetInfo* otherImg = NULL;
+		foreach(abImageAssetsInfosArr, atlOther->mImages, imgIt2)
+		{
+			if ((*imgIt)->mLocation == (*imgIt2)->mLocation)
+			{
+				otherImg = *imgIt2;
+				break;
+			}
+		}
+
+		if (!otherImg)
+			return false;
+
+		if (!otherImg->isEquals(*imgIt))
+			return false;
+	}
+
+	return true;
 }
 
 void abAtlasAssetInfo::copyFrom(const abAssetInfo* other)
@@ -157,10 +180,12 @@ void abAtlasAssetInfo::copyFrom(const abAssetInfo* other)
 	if (other->getType() != getType())
 		return;
 
-	const abAtlasAssetInfo* imgOther = static_cast<const abAtlasAssetInfo*>(other);
+	const abAtlasAssetInfo* atlOther = static_cast<const abAtlasAssetInfo*>(other);
 
-	mMaxSize = imgOther->mMaxSize;
-	mName = imgOther->mName;
+	mMaxSize = atlOther->mMaxSize;
+	mName = atlOther->mName;
+	mAttachedToFolder = atlOther->mAttachedToFolder;
+	mAttachFolderLocation = atlOther->mAttachFolderLocation;
 }
 
 abAssetInfo* abAtlasAssetInfo::clone() const
@@ -174,6 +199,8 @@ SERIALIZE_INHERITED_METHOD_IMPL(abAtlasAssetInfo)
 {
 	SERIALIZE_ID(mName, "name");
 	SERIALIZE_ID(mMaxSize, "maxSize");
+	SERIALIZE_ID(mAttachedToFolder, "attachedToFolder");
+	SERIALIZE_ID(&mAttachFolderLocation, "attachoFolderLocation");
 
 	return true;
 }
@@ -181,7 +208,8 @@ SERIALIZE_INHERITED_METHOD_IMPL(abAtlasAssetInfo)
 
 REGIST_TYPE(abFolderInfo);
 
-abFolderInfo::abFolderInfo()
+abFolderInfo::abFolderInfo():
+	mAttachedAtlas(NULL), mParentFolder(NULL)
 {
 }
 
@@ -211,6 +239,9 @@ asAssetConfig* abFolderInfo::initFromConfigs() const
 
 abAssetInfo* abFolderInfo::getInsideAsset(const cFileLocation& location, bool recursive /*= false*/)
 {
+	if (location == cFileLocation())
+		return this;
+
 	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
 	{
 		if ((*assetIt)->mLocation == location)
@@ -243,6 +274,9 @@ abAssetInfo* abFolderInfo::clone() const
 
 void abFolderInfo::addInsideAsset(abAssetInfo* asset)
 {
+	if (asset->getType() == abFolderInfo::getStaticType())
+		static_cast<abFolderInfo*>(asset)->mParentFolder = this;
+
 	mInsideAssets.add(asset);
 }
 
@@ -261,15 +295,34 @@ abAssetsInfosArr abFolderInfo::getAllInsideAssets() const
 
 void abFolderInfo::linkAtlases()
 {
+	linkChildFolders(NULL);
+
 	abAtlasAssetsInfosArr allAtlases;
+	abImageAssetsInfosArr allImages;
 	abAssetsInfosArr insideAssets = getAllInsideAssets();
+
+	mAttachedAtlas = NULL;
 
 	foreach(abAssetsInfosArr, insideAssets, assetIt)
 	{
 		if ((*assetIt)->getType() == abAtlasAssetInfo::getStaticType())
 		{
 			abAtlasAssetInfo* atlas = static_cast<abAtlasAssetInfo*>(*assetIt);
+			atlas->mAttachFolder = NULL;
 			allAtlases.add(atlas);
+		}
+
+		if ((*assetIt)->getType() == abImageAssetInfo::getStaticType())
+		{
+			abImageAssetInfo* image = static_cast<abImageAssetInfo*>(*assetIt);
+			image->mAtlas = NULL;
+			allImages.add(image);
+		}
+
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+		{
+			abFolderInfo* folder = static_cast<abFolderInfo*>(*assetIt);
+			folder->mAttachedAtlas = NULL;
 		}
 	}
 
@@ -281,6 +334,69 @@ void abFolderInfo::linkAtlases()
 			(*atlasIt)->mAttachFolder = folder;
 			folder->mAttachedAtlas = *atlasIt;
 		}
+	}
+
+	foreach(abImageAssetsInfosArr, allImages, imageIt)
+	{
+		if (!(*imageIt)->mAtlasName.empty())
+		{
+			foreach(abAtlasAssetsInfosArr, allAtlases, atlasIt)
+			{
+				if ((*atlasIt)->mName == (*imageIt)->mAtlasName)
+				{
+					(*imageIt)->mAtlas = *atlasIt;
+					break;
+				}
+			}
+		}
+	}
+
+	linkImages();
+}
+
+void abFolderInfo::linkImages()
+{
+	abAtlasAssetInfo* upAtlas = NULL;
+	abFolderInfo* upAtlasFolder = this;
+	while(upAtlas == NULL && upAtlasFolder != NULL)
+	{
+		if (upAtlasFolder->mAttachedAtlas)
+		{
+			upAtlas = upAtlasFolder->mAttachedAtlas;
+			break;
+		}
+
+		upAtlasFolder = upAtlasFolder->mParentFolder;
+	}
+
+	if (!upAtlas)
+		return;
+
+	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		if ((*assetIt)->getType() == abImageAssetInfo::getStaticType())
+		{
+			abImageAssetInfo* image = static_cast<abImageAssetInfo*>(*assetIt);
+			if (image->mAtlasName.empty())
+			{
+				image->mAtlas = upAtlas;
+				upAtlas->mImages.add(image);
+			}
+		}
+
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+			static_cast<abFolderInfo*>(*assetIt)->linkImages();
+	}
+}
+
+void abFolderInfo::linkChildFolders( abFolderInfo* parentFolder )
+{
+	mParentFolder = parentFolder;
+
+	foreach(abAssetsInfosArr, mInsideAssets, assetIt)
+	{
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+			static_cast<abFolderInfo*>(*assetIt)->linkChildFolders(this);
 	}
 }
 

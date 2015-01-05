@@ -573,6 +573,9 @@
     <ClInclude Include="..\src\util\obj_manager_test.h">
       <Filter>src\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\assets\atlas_asset.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">

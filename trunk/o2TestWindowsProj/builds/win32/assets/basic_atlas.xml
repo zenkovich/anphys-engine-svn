@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<images count="46">
+	<elem0 type="imageDef">
+		<location type="cFileLocation">
+			<path v="pic.png" />
+			<id v="29084" />
+		</location>
+		<rect left="1024" top="0" right="2048" down="512" />
+	</elem0>
+	<elem1 type="imageDef">
+		<location type="cFileLocation">
+			<path v="test.png" />
+			<id v="28106" />
+		</location>
+		<rect left="1024" top="1403" right="1280" down="1659" />
+	</elem1>
+	<elem2 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_test.png" />
+			<id v="16677" />
+		</location>
+		<rect left="1403" top="1663" right="1659" down="1919" />
+	</elem2>
+	<elem3 type="imageDef">
+		<location type="cFileLocation">
+			<path v="bubble_game/back.png" />
+			<id v="1892" />
+		</location>
+		<rect left="0" top="0" right="1024" down="1024" />
+	</elem3>
+	<elem4 type="imageDef">
+		<location type="cFileLocation">
+			<path v="bubble_game/bubble.png" />
+			<id v="25282" />
+		</location>
+		<rect left="1024" top="1024" right="1403" down="1403" />
+	</elem4>
+	<elem5 type="imageDef">
+		<location type="cFileLocation">
+			<path v="bubble_game/circle.png" />
+			<id v="13298" />
+		</location>
+		<rect left="206" top="1024" right="372" down="1190" />
+	</elem5>
+	<elem6 type="imageDef">
+		<location type="cFileLocation">
+			<path v="bubble_game/font/bubble_font.png" />
+			<id v="1200" />
+		</location>
+		<rect left="1024" top="512" right="1536" down="1024" />
+	</elem6>
+	<elem7 type="imageDef">
+		<location type="cFileLocation">
+			<path v="o2_font/myriad_0.png" />
+			<id v="14404" />
+		</location>
+		<rect left="1536" top="512" right="2048" down="1024" />
+	</elem7>
+	<elem8 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/background.png" />
+			<id v="7611" />
+		</location>
+		<rect left="1024" top="1659" right="1280" down="1915" />
+	</elem8>
+	<elem9 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/background_shadow.png" />
+			<id v="3694" />
+		</location>
+		<rect left="1682" top="1663" right="1938" down="1919" />
+	</elem9>
+	<elem10 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/bar_bar_hover.png" />
+			<id v="10161" />
+		</location>
+		<rect left="1682" top="1378" right="1795" down="1396" />
+	</elem10>
+	<elem11 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/bar_bar_pressed.png" />
+			<id v="19645" />
+		</location>
+		<rect left="1682" top="1919" right="1795" down="1937" />
+	</elem11>
+	<elem12 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/bar_bk.png" />
+			<id v="27476" />
+		</location>
+		<rect left="1795" top="1919" right="1908" down="1937" />
+	</elem12>
+	<elem13 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/bar_drag_icn.png" />
+			<id v="7025" />
+		</location>
+		<rect left="2036" top="1260" right="2047" down="1273" />
+	</elem13>
+	<elem14 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/btn_hover.png" />
+			<id v="21803" />
+		</location>
+		<rect left="1845" top="1331" right="2008" down="1378" />
+	</elem14>
+	<elem15 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/btn_pressed.png" />
+			<id v="26959" />
+		</location>
+		<rect left="1682" top="1331" right="1845" down="1378" />
+	</elem15>
+	<elem16 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/btn_regular.png" />
+			<id v="23934" />
+		</location>
+		<rect left="1845" top="1284" right="2008" down="1331" />
+	</elem16>
+	<elem17 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/btn_shadow.png" />
+			<id v="1614" />
+		</location>
+		<rect left="1682" top="1284" right="1845" down="1331" />
+	</elem17>
+	<elem18 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/checkbox_check.png" />
+			<id v="2987" />
+		</location>
+		<rect left="1984" top="1068" right="2007" down="1091" />
+	</elem18>
+	<elem19 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/checkbox_glow.png" />
+			<id v="7086" />
+		</location>
+		<rect left="1961" top="1068" right="1984" down="1091" />
+	</elem19>
+	<elem20 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/checkbox_hover.png" />
+			<id v="2211" />
+		</location>
+		<rect left="1984" top="1091" right="2007" down="1114" />
+	</elem20>
+	<elem21 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/checkbox_pressed.png" />
+			<id v="29305" />
+		</location>
+		<rect left="2007" top="1068" right="2030" down="1091" />
+	</elem21>
+	<elem22 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/context_menu_bk.png" />
+			<id v="20556" />
+		</location>
+		<rect left="0" top="1024" right="206" down="1226" />
+	</elem22>
+	<elem23 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/context_selection.png" />
+			<id v="17767" />
+		</location>
+		<rect left="1403" top="1284" right="1604" down="1313" />
+	</elem23>
+	<elem24 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/dark_background.png" />
+			<id v="28032" />
+		</location>
+		<rect left="1682" top="1403" right="1938" down="1659" />
+	</elem24>
+	<elem25 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/dot_gray_line_hor.png" />
+			<id v="17187" />
+		</location>
+		<rect left="1984" top="1114" right="2004" down="1119" />
+	</elem25>
+	<elem26 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/dot_gray_line_ver.png" />
+			<id v="27616" />
+		</location>
+		<rect left="2030" top="1068" right="2035" down="1088" />
+	</elem26>
+	<elem27 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/editbox_bk.png" />
+			<id v="25474" />
+		</location>
+		<rect left="1938" top="1439" right="2046" down="1472" />
+	</elem27>
+	<elem28 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/editbox_glow.png" />
+			<id v="7501" />
+		</location>
+		<rect left="1938" top="1472" right="2046" down="1505" />
+	</elem28>
+	<elem29 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/editbox_hover.png" />
+			<id v="14103" />
+		</location>
+		<rect left="1938" top="1505" right="2046" down="1538" />
+	</elem29>
+	<elem30 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/folder_icn.png" />
+			<id v="24807" />
+		</location>
+		<rect left="2007" top="1091" right="2025" down="1109" />
+	</elem30>
+	<elem31 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/minus_icn.png" />
+			<id v="8760" />
+		</location>
+		<rect left="2007" top="1114" right="2022" down="1129" />
+	</elem31>
+	<elem32 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/pad_bk.png" />
+			<id v="24499" />
+		</location>
+		<rect left="1403" top="1024" right="1682" down="1284" />
+	</elem32>
+	<elem33 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/pad_glow.png" />
+			<id v="12237" />
+		</location>
+		<rect left="1682" top="1024" right="1961" down="1284" />
+	</elem33>
+	<elem34 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/pad_hover.png" />
+			<id v="8924" />
+		</location>
+		<rect left="1403" top="1403" right="1682" down="1663" />
+	</elem34>
+	<elem35 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_hor_bar_bar.png" />
+			<id v="4616" />
+		</location>
+		<rect left="1961" top="1057" right="2036" down="1068" />
+	</elem35>
+	<elem36 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_hor_bar_bar_hover.png" />
+			<id v="212" />
+		</location>
+		<rect left="1961" top="1024" right="2036" down="1035" />
+	</elem36>
+	<elem37 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_hor_bar_bar_pressed.png" />
+			<id v="8692" />
+		</location>
+		<rect left="1961" top="1035" right="2036" down="1046" />
+	</elem37>
+	<elem38 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_hor_bar_bk.png" />
+			<id v="14263" />
+		</location>
+		<rect left="1961" top="1046" right="2036" down="1057" />
+	</elem38>
+	<elem39 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_vert_bar_bar_hover.png" />
+			<id v="2829" />
+		</location>
+		<rect left="2036" top="1185" right="2047" down="1260" />
+	</elem39>
+	<elem40 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_vert_bar_bar_pressed.png" />
+			<id v="5059" />
+		</location>
+		<rect left="2036" top="1035" right="2047" down="1110" />
+	</elem40>
+	<elem41 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/small_vert_bar_bk.png" />
+			<id v="31760" />
+		</location>
+		<rect left="2036" top="1110" right="2047" down="1185" />
+	</elem41>
+	<elem42 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/tab_active.png" />
+			<id v="6653" />
+		</location>
+		<rect left="1403" top="1313" right="1512" down="1349" />
+	</elem42>
+	<elem43 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/tab_inactive_hover.png" />
+			<id v="950" />
+		</location>
+		<rect left="1938" top="1403" right="2047" down="1439" />
+	</elem43>
+	<elem44 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/tab_line.png" />
+			<id v="31444" />
+		</location>
+		<rect left="1403" top="1349" right="1512" down="1385" />
+	</elem44>
+	<elem45 type="imageDef">
+		<location type="cFileLocation">
+			<path v="ui_skin/transparent_rect_bk.png" />
+			<id v="25674" />
+		</location>
+		<rect left="1845" top="1378" right="1964" down="1400" />
+	</elem45>
+</images>

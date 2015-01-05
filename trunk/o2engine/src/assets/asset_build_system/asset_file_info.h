@@ -31,6 +31,8 @@ class abFolderInfo;
 
 class abImageAssetInfo: public abAssetInfo
 {
+	friend class abFolderInfo;
+
 	abAtlasAssetInfo* mAtlas;
 
 public:
@@ -38,7 +40,7 @@ public:
 
 	DEFINE_TYPE(abImageAssetInfo);
 
-	string mAtlas;
+	string mAtlasName;
 	float  mScale;
 	
 	virtual void initFromConfigs(asAssetConfig* config);
@@ -54,6 +56,8 @@ typedef array<abImageAssetInfo*> abImageAssetsInfosArr;
 class abAtlasAssetInfo: public abAssetInfo
 {
 	friend class abFolderInfo;
+	friend class AssetBuildSystem;
+	friend class asAssetAtlasBuildingConvertor;
 
 	abImageAssetsInfosArr mImages;
 	bool                  mAttachedToFolder;
@@ -80,9 +84,12 @@ typedef array<abAtlasAssetInfo*> abAtlasAssetsInfosArr;
 
 class abFolderInfo: public abAssetInfo
 {
+	friend class AssetBuildSystem;
+
 public: 
 	DEFINE_TYPE(abFolderInfo);
 
+	abFolderInfo*     mParentFolder;
 	abAssetsInfosArr  mInsideAssets;
 	abAtlasAssetInfo* mAttachedAtlas;
 
@@ -101,6 +108,8 @@ public:
 
 private:
 	void linkAtlases();
+	void linkImages();
+	void linkChildFolders(abFolderInfo* parentFolder);
 };
 
 CLOSE_O2_NAMESPACE

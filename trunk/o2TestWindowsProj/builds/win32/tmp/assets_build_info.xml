@@ -7,7 +7,7 @@
 		</location>
 		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
 	</abAssetInfo>
-	<insideAssets count="8">
+	<insideAssets count="10">
 		<elem0 type="abFolderInfo">
 			<abAssetInfo>
 				<location type="cFileLocation">
@@ -17,54 +17,7 @@
 				<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
 			</abAssetInfo>
 			<insideAssets count="6">
-				<elem0 type="abImageAssetInfo">
-					<abAssetInfo>
-						<location type="cFileLocation">
-							<path v="bubble_game/back.png" />
-							<id v="1892" />
-						</location>
-						<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-					</abAssetInfo>
-					<atlas v="" />
-					<scale v="1" />
-				</elem0>
-				<elem1 type="abAssetInfo">
-					<location type="cFileLocation">
-						<path v="bubble_game/back.psd" />
-						<id v="1763" />
-					</location>
-					<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-				</elem1>
-				<elem2 type="abImageAssetInfo">
-					<abAssetInfo>
-						<location type="cFileLocation">
-							<path v="bubble_game/bubble.png" />
-							<id v="25282" />
-						</location>
-						<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
-					</abAssetInfo>
-					<atlas v="" />
-					<scale v="1" />
-				</elem2>
-				<elem3 type="abAssetInfo">
-					<location type="cFileLocation">
-						<path v="bubble_game/bubble.psd" />
-						<id v="27710" />
-					</location>
-					<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
-				</elem3>
-				<elem4 type="abImageAssetInfo">
-					<abAssetInfo>
-						<location type="cFileLocation">
-							<path v="bubble_game/circle.png" />
-							<id v="13298" />
-						</location>
-						<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-					</abAssetInfo>
-					<atlas v="" />
-					<scale v="1" />
-				</elem4>
-				<elem5 type="abFolderInfo">
+				<elem0 type="abFolderInfo">
 					<abAssetInfo>
 						<location type="cFileLocation">
 							<path v="bubble_game/font" />
@@ -73,14 +26,7 @@
 						<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
 					</abAssetInfo>
 					<insideAssets count="2">
-						<elem0 type="abAssetInfo">
-							<location type="cFileLocation">
-								<path v="bubble_game/font/bubble_font.xml" />
-								<id v="18296" />
-							</location>
-							<writeTime second="7" minute="33" hour="22" day="9" month="12" year="2014" />
-						</elem0>
-						<elem1 type="abImageAssetInfo">
+						<elem0 type="abImageAssetInfo">
 							<abAssetInfo>
 								<location type="cFileLocation">
 									<path v="bubble_game/font/bubble_font.png" />
@@ -90,8 +36,62 @@
 							</abAssetInfo>
 							<atlas v="" />
 							<scale v="1" />
+						</elem0>
+						<elem1 type="abAssetInfo">
+							<location type="cFileLocation">
+								<path v="bubble_game/font/bubble_font.xml" />
+								<id v="18296" />
+							</location>
+							<writeTime second="7" minute="33" hour="22" day="9" month="12" year="2014" />
 						</elem1>
 					</insideAssets>
+				</elem0>
+				<elem1 type="abImageAssetInfo">
+					<abAssetInfo>
+						<location type="cFileLocation">
+							<path v="bubble_game/back.png" />
+							<id v="1892" />
+						</location>
+						<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
+					</abAssetInfo>
+					<atlas v="" />
+					<scale v="1" />
+				</elem1>
+				<elem2 type="abAssetInfo">
+					<location type="cFileLocation">
+						<path v="bubble_game/back.psd" />
+						<id v="1763" />
+					</location>
+					<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
+				</elem2>
+				<elem3 type="abImageAssetInfo">
+					<abAssetInfo>
+						<location type="cFileLocation">
+							<path v="bubble_game/bubble.png" />
+							<id v="25282" />
+						</location>
+						<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
+					</abAssetInfo>
+					<atlas v="" />
+					<scale v="1" />
+				</elem3>
+				<elem4 type="abAssetInfo">
+					<location type="cFileLocation">
+						<path v="bubble_game/bubble.psd" />
+						<id v="27710" />
+					</location>
+					<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
+				</elem4>
+				<elem5 type="abImageAssetInfo">
+					<abAssetInfo>
+						<location type="cFileLocation">
+							<path v="bubble_game/circle.png" />
+							<id v="13298" />
+						</location>
+						<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
+					</abAssetInfo>
+					<atlas v="" />
+					<scale v="1" />
 				</elem5>
 			</insideAssets>
 		</elem0>
@@ -588,7 +588,14 @@
 			</location>
 			<writeTime second="40" minute="16" hour="21" day="9" month="12" year="2014" />
 		</elem3>
-		<elem4 type="abImageAssetInfo">
+		<elem4 type="abAssetInfo">
+			<location type="cFileLocation">
+				<path v="level.xml" />
+				<id v="32768" />
+			</location>
+			<writeTime second="6" minute="49" hour="1" day="10" month="12" year="2014" />
+		</elem4>
+		<elem5 type="abImageAssetInfo">
 			<abAssetInfo>
 				<location type="cFileLocation">
 					<path v="pic.png" />
@@ -598,8 +605,8 @@
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
-		</elem4>
-		<elem5 type="abImageAssetInfo">
+		</elem5>
+		<elem6 type="abImageAssetInfo">
 			<abAssetInfo>
 				<location type="cFileLocation">
 					<path v="test.png" />
@@ -609,15 +616,15 @@
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
-		</elem5>
-		<elem6 type="abAssetInfo">
+		</elem6>
+		<elem7 type="abAssetInfo">
 			<location type="cFileLocation">
 				<path v="test_serialization.xml" />
 				<id v="13358" />
 			</location>
 			<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
-		</elem6>
-		<elem7 type="abImageAssetInfo">
+		</elem7>
+		<elem8 type="abImageAssetInfo">
 			<abAssetInfo>
 				<location type="cFileLocation">
 					<path v="ui_test.png" />
@@ -627,6 +634,22 @@
 			</abAssetInfo>
 			<atlas v="" />
 			<scale v="1" />
-		</elem7>
+		</elem8>
+		<elem9 type="abAtlasAssetInfo">
+			<abAssetInfo>
+				<location type="cFileLocation">
+					<path v="basic_atlas" />
+					<id v="0" />
+				</location>
+				<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+			</abAssetInfo>
+			<name v="basic" />
+			<maxSize x="2048" y="2048" />
+			<attachedToFolder v="true" />
+			<attachoFolderLocation type="cFileLocation">
+				<path v="" />
+				<id v="0" />
+			</attachoFolderLocation>
+		</elem9>
 	</insideAssets>
 </assets>

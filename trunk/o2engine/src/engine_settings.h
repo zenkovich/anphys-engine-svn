@@ -70,13 +70,13 @@
 /**********************************/
 
 /** Building assets before launching app. */
-#define ASSETS_PREBUILDING_ENABLE false
+#define ASSETS_PREBUILDING_ENABLE true
 
 /** Enabling saving assets from code. */
 #define ASSETS_RUNTIME_EDITING_ENABLE true
 
 /** Assets path. Relative from executable. */
-#define ASSETS_PATH "../../../assetsd/"
+#define ASSETS_PATH "../../../assets/"
 
 /** Builded assets path. Relative from executable. */
 #define ASSETS_BUILDED_PATH "../assets/"

@@ -42,8 +42,8 @@ void AssetBuildSystem::rebuildAssets(bool forcible /*= false*/)
 
 	checkMovedFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 	checkRemovedFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
-	checkNewFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 	convertFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
+	checkNewFiles(mAssetsFolderInfo, mBuildedAssetsFolderInfo);
 
 	saveBuildInfo();
 	saveAssetsInfo();
@@ -73,6 +73,17 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	//process loading assets infos
 	processLoadingAssetsFolderInfo(assetsPathInfo, assetsPathConfig, mAssetsFolderInfo);
 
+	//add fake basic atlas asset
+	abAtlasAssetInfo* basicAtlas = mnew abAtlasAssetInfo();
+	basicAtlas->mName = "basic";
+	basicAtlas->mAttachedToFolder = true;
+	basicAtlas->mAttachFolderLocation = mAssetsFolderInfo.mLocation;
+	basicAtlas->mLocation = cFileLocation("basic_atlas");
+	mAssetsFolderInfo.addInsideAsset(basicAtlas);
+
+	//make links between folders, atlases and images
+	mAssetsFolderInfo.linkAtlases();
+
 	//save configs
 	cSerializer outSerializer(cSerializer::ST_SERIALIZE);
 	outSerializer.serialize(&assetsPathConfig, "assetsConfigs");
@@ -101,7 +112,7 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 			pathConfig.mInsideAssets.add(asFileInfo->getConfigsSample());
 
 
-		asPathInfo.mInsideAssets.add(asFileInfo);
+		asPathInfo.addInsideAsset(asFileInfo);
 	}
 
 	foreach(cPathInfo::PathsArr, pathInfo.mPaths, pathInfIt)
@@ -118,7 +129,7 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 		if (!asFileConfig) 
 			asFileConfig = pathConfig.mInsideAssets.add(folderInfo->initFromConfigs());
 
-		asPathInfo.mInsideAssets.add(folderInfo);
+		asPathInfo.addInsideAsset(folderInfo);
 
 		processLoadingAssetsFolderInfo(*pathInfIt, *(asPathConfig*)asFileConfig, *folderInfo);
 	}
@@ -130,9 +141,9 @@ void AssetBuildSystem::loadBuildedAssetsFolderInfo()
 
 	cSerializer serializer;
 	if (serializer.load(mBuildedAssetsInfoFilePath))
-	{
 		serializer.serialize(&mBuildedAssetsFolderInfo, "assets");
-	}
+
+	mBuildedAssetsFolderInfo.linkAtlases();
 }
 
 void AssetBuildSystem::checkMovedFiles(abFolderInfo& assetFolderInfo, abFolderInfo& buildedAssetFolderInfo)
@@ -230,18 +241,18 @@ void AssetBuildSystem::convertFiles(abFolderInfo& assetFolderInfo, abFolderInfo&
 	foreach(abAssetsInfosArr, assetFolderInfo.mInsideAssets, assetIt)
 	{
 		abAssetInfo* assetInfo = buildedAssetFolderInfo.getInsideAsset((*assetIt)->mLocation);
-		if (assetInfo && !assetInfo->isEquals(*assetIt))
+		if (!assetInfo)
+			continue;
+
+		if (!assetInfo->isEquals(*assetIt))
 		{
 			//copy and convert new asset
 			removeConvertedAsset(assetInfo);
 			copyAndConvertAsset(*assetIt, assetInfo);
 		}
 
-		if (assetInfo)
-		{
-			if ((*assetIt)->getType() == abFolderInfo::getStaticType())
-				convertFiles(*static_cast<abFolderInfo*>(*assetIt), *static_cast<abFolderInfo*>(assetInfo));
-		}
+		if ((*assetIt)->getType() == abFolderInfo::getStaticType())
+			convertFiles(*static_cast<abFolderInfo*>(*assetIt), *static_cast<abFolderInfo*>(assetInfo));
 	}
 }
 
