@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<assets count="60">
+<assets count="62">
 	<elem0 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="bubble_game" />
@@ -10,67 +10,67 @@
 	</elem0>
 	<elem1 type="asAssetInfo">
 		<location type="cFileLocation">
-			<path v="bubble_game/back" />
-			<id v="1892" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem1>
-	<elem2 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="bubble_game/back" />
-			<id v="1763" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem2>
-	<elem3 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="bubble_game/bubble" />
-			<id v="25282" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem3>
-	<elem4 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="bubble_game/bubble" />
-			<id v="27710" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem4>
-	<elem5 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="bubble_game/circle" />
-			<id v="13298" />
-		</location>
-		<type v="abImageAssetInfo" />
-		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem5>
-	<elem6 type="asAssetInfo">
-		<location type="cFileLocation">
 			<path v="bubble_game/font" />
 			<id v="22948" />
 		</location>
 		<type v="abFolderInfo" />
 		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
-	</elem6>
-	<elem7 type="asAssetInfo">
-		<location type="cFileLocation">
-			<path v="bubble_game/font/bubble_font" />
-			<id v="18296" />
-		</location>
-		<type v="abAssetInfo" />
-		<writeTime second="7" minute="33" hour="22" day="9" month="12" year="2014" />
-	</elem7>
-	<elem8 type="asAssetInfo">
+	</elem1>
+	<elem2 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="bubble_game/font/bubble_font" />
 			<id v="1200" />
 		</location>
 		<type v="abImageAssetInfo" />
 		<writeTime second="13" minute="5" hour="23" day="9" month="12" year="2014" />
+	</elem2>
+	<elem3 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/font/bubble_font" />
+			<id v="18296" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="7" minute="33" hour="22" day="9" month="12" year="2014" />
+	</elem3>
+	<elem4 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/back" />
+			<id v="1892" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem4>
+	<elem5 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/back" />
+			<id v="1763" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem5>
+	<elem6 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/bubble" />
+			<id v="25282" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem6>
+	<elem7 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/bubble" />
+			<id v="27710" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="38" minute="16" hour="21" day="9" month="12" year="2014" />
+	</elem7>
+	<elem8 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="bubble_game/circle" />
+			<id v="13298" />
+		</location>
+		<type v="abImageAssetInfo" />
+		<writeTime second="39" minute="16" hour="21" day="9" month="12" year="2014" />
 	</elem8>
 	<elem9 type="asAssetInfo">
 		<location type="cFileLocation">
@@ -450,34 +450,50 @@
 	</elem55>
 	<elem56 type="asAssetInfo">
 		<location type="cFileLocation">
+			<path v="level" />
+			<id v="32768" />
+		</location>
+		<type v="abAssetInfo" />
+		<writeTime second="6" minute="49" hour="1" day="10" month="12" year="2014" />
+	</elem56>
+	<elem57 type="asAssetInfo">
+		<location type="cFileLocation">
 			<path v="pic" />
 			<id v="29084" />
 		</location>
 		<type v="abImageAssetInfo" />
 		<writeTime second="27" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem56>
-	<elem57 type="asAssetInfo">
+	</elem57>
+	<elem58 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="test" />
 			<id v="28106" />
 		</location>
 		<type v="abImageAssetInfo" />
 		<writeTime second="36" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem57>
-	<elem58 type="asAssetInfo">
+	</elem58>
+	<elem59 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="test_serialization" />
 			<id v="13358" />
 		</location>
 		<type v="abAssetInfo" />
 		<writeTime second="37" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem58>
-	<elem59 type="asAssetInfo">
+	</elem59>
+	<elem60 type="asAssetInfo">
 		<location type="cFileLocation">
 			<path v="ui_test" />
 			<id v="16677" />
 		</location>
 		<type v="abImageAssetInfo" />
 		<writeTime second="27" minute="16" hour="21" day="9" month="12" year="2014" />
-	</elem59>
+	</elem60>
+	<elem61 type="asAssetInfo">
+		<location type="cFileLocation">
+			<path v="basic_atlas" />
+			<id v="0" />
+		</location>
+		<type v="abAtlasAssetInfo" />
+		<writeTime second="0" minute="0" hour="0" day="0" month="0" year="0" />
+	</elem61>
 </assets>

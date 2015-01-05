@@ -123,6 +123,7 @@
     <ClInclude Include="..\src\assets\asset_build_system\asset_file_info.h" />
     <ClInclude Include="..\src\assets\asset_build_system\asset_folder_building_convertor.h" />
     <ClInclude Include="..\src\assets\asset_build_system\asset_image_building_convertor.h" />
+    <ClInclude Include="..\src\assets\atlas_asset.h" />
     <ClInclude Include="..\src\assets\file_asset.h" />
     <ClInclude Include="..\src\assets\image_asset.h" />
     <ClInclude Include="..\src\assets\xml_asset.h" />

@@ -132,7 +132,7 @@ public:
 
 	bool contains(const _type& value) const;
 
-	bool remove(int idx);
+	bool removeAt(int idx);
 
 	bool removeRange(int begin, int end);
 
@@ -665,7 +665,7 @@ bool array<_type>::contains(const _type& value) const
 }
 
 template<typename _type>
-bool array<_type>::remove(int idx)
+bool array<_type>::removeAt(int idx)
 {
 	if (idx < 0 || idx >= mCount)
 		return false;
@@ -706,14 +706,14 @@ bool array<_type>::remove(const _type& value)
 	if (idx < 0)
 		return false;
 
-	remove(idx);
+	removeAt(idx);
 	return true;
 }
 
 template<typename _type>
 typename array<_type>::iterator array<_type>::remove( const iterator& it )
 {
-	remove(it.index());
+	removeAt(it.index());
 	return it;
 }
 

@@ -59,10 +59,11 @@ class ObjectsManager: public cSingleton<ObjectsManager>
 	IntArr     mFreeHandles;
 	ObjectsArr mReleasedObjects;
 
-private:
+public:
 	ObjectsManager();
 	~ObjectsManager();
-
+	
+private:
 	int addObject(Object* object);
 	void removeObject(int handleIdx);
 	void processObjectsReleasing();

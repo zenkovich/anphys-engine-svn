@@ -67,19 +67,24 @@ void asAsset::save(const string& path)
 }
 
 
-asAssetInfo::asAssetInfo()
+asAssetInfo::asAssetInfo():
+	mType(TP_FILE)
 {
 }
 
-asAssetInfo::asAssetInfo(const cFileLocation& location, const string& typeName, const WideTime& writeTime):
-	mLocation(location), mTypeName(typeName), mWriteTime(writeTime)
+asAssetInfo::asAssetInfo(const cFileLocation& location, Type type, const WideTime& writeTime):
+	mLocation(location), mType(type), mWriteTime(writeTime)
 {
 }
 
 SERIALIZE_METHOD_IMPL(asAssetInfo)
 {
 	SERIALIZE_ID(&mLocation, "location");
-	SERIALIZE_ID(mTypeName, "type");
+
+	int type = (int)mType;
+	SERIALIZE_ID(type, "type");
+	mType = (Type)type;
+
 	SERIALIZE_ID(mWriteTime, "writeTime");
 
 	return true;
@@ -87,7 +92,7 @@ SERIALIZE_METHOD_IMPL(asAssetInfo)
 
 bool asAssetInfo::operator==(const asAssetInfo& other) const
 {
-	return mLocation == other.mLocation && mWriteTime == other.mWriteTime;
+	return mLocation == other.mLocation && mWriteTime == other.mWriteTime && mType == other.mType;
 }
 
 CLOSE_O2_NAMESPACE

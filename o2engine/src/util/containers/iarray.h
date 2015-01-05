@@ -33,7 +33,7 @@ public:
 
 	virtual void insert(const IArray& arr, int position) = 0;
 
-	virtual bool remove(int idx) = 0;
+	virtual bool removeAt(int idx) = 0;
 
 	virtual bool removeRange(int begin, int end) = 0;
 

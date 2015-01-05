@@ -43,13 +43,16 @@ protected:
 
 struct asAssetInfo: public cSerializable
 {
+public:
+	enum Type { TP_FILE, TP_IMAGE, TP_ATLAS, TP_FOLDER };
+
 	cFileLocation mLocation;
-	string        mTypeName;
+	Type          mType;
 	WideTime      mWriteTime;
 
 public:
 	asAssetInfo();
-	asAssetInfo(const cFileLocation& location, const string& typeName, const WideTime& writeTime);
+	asAssetInfo(const cFileLocation& location, Type type, const WideTime& writeTime);
 
 	bool operator==(const asAssetInfo& other) const;
 

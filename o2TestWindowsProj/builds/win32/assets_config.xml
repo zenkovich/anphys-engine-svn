@@ -7,7 +7,7 @@
 		</location>
 		<includeBuild v="true" />
 	</asAssetConfig>
-	<assets count="12">
+	<assets count="13">
 		<elem0 type="asAssetConfig">
 			<location type="cFileLocation">
 				<path v="arial.xml" />
@@ -837,5 +837,12 @@
 				</elem57>
 			</assets>
 		</elem11>
+		<elem12 type="asAssetConfig">
+			<location type="cFileLocation">
+				<path v="level.xml" />
+				<id v="32768" />
+			</location>
+			<includeBuild v="true" />
+		</elem12>
 	</assets>
 </assetsConfigs>
