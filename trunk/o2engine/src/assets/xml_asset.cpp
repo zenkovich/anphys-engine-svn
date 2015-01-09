@@ -18,7 +18,7 @@ asXmlDoc::asXmlDoc(const string& location):
 	loadData();
 }
 
-asXmlDoc::asXmlDoc(const cFileLocation& location):
+asXmlDoc::asXmlDoc(const FileLocation& location):
 	asAsset(location)
 {
 	loadData();

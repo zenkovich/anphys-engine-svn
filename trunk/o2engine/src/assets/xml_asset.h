@@ -16,7 +16,7 @@ protected:
 public:
 	asXmlDoc();
 	asXmlDoc(const string& location);
-	asXmlDoc(const cFileLocation& location);
+	asXmlDoc(const FileLocation& location);
 	~asXmlDoc();	
 
 	pugi::xml_document& getXmlDoc();

@@ -297,6 +297,7 @@
     <ClCompile Include="..\src\assets\asset_build_system\asset_file_info.cpp" />
     <ClCompile Include="..\src\assets\asset_build_system\asset_folder_building_convertor.cpp" />
     <ClCompile Include="..\src\assets\asset_build_system\asset_image_building_convertor.cpp" />
+    <ClCompile Include="..\src\assets\atlas_asset.cpp" />
     <ClCompile Include="..\src\assets\file_asset.cpp" />
     <ClCompile Include="..\src\assets\image_asset.cpp" />
     <ClCompile Include="..\src\assets\xml_asset.cpp" />

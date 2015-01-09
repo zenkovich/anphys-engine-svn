@@ -47,9 +47,9 @@ const string& cFileSystem::getResourcePath() const
 	return mResourcePath;
 }
 
-cPathInfo cFileSystem::getPathInfo(const string& path) const
+PathInfo cFileSystem::getPathInfo(const string& path) const
 {
-	cPathInfo res;
+	PathInfo res;
 	res.mPath = path;
 
 	WIN32_FIND_DATA f;
@@ -93,9 +93,9 @@ bool cFileSystem::moveFile(const string& source, const string& dest) const
 	return MoveFile(source.c_str(), dest.c_str()) == TRUE;
 }
 
-cFileInfo cFileSystem::getFileInfo(const string& path) const
+FileInfo cFileSystem::getFileInfo(const string& path) const
 {
-	cFileInfo res;
+	FileInfo res;
 	res.mPath = "invalid_file";
 
 	FILETIME creationTime, lastAccessTime, lastWriteTime;

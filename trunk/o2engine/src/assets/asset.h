@@ -18,20 +18,20 @@ class asAsset
 	DEFINE_TYPE(asAsset);
 
 protected:
-	cFileLocation mLocation;
+	FileLocation mLocation;
 	char*         mData;
 	uint32        mDataSize;
 
 public:
 	asAsset();
 	asAsset(const string& location);
-	asAsset(const cFileLocation& location);
+	asAsset(const FileLocation& location);
 	asAsset(const asAsset& asset);
 	virtual ~asAsset();
 
 	asAsset& operator=(const asAsset& asset);
 
-	cFileLocation getLocation() const;
+	FileLocation getLocation() const;
 	string getPath() const;
 	uint32 getFileId() const;
 
@@ -46,13 +46,13 @@ struct asAssetInfo: public cSerializable
 public:
 	enum Type { TP_FILE, TP_IMAGE, TP_ATLAS, TP_FOLDER };
 
-	cFileLocation mLocation;
+	FileLocation mLocation;
 	Type          mType;
 	WideTime      mWriteTime;
 
 public:
 	asAssetInfo();
-	asAssetInfo(const cFileLocation& location, Type type, const WideTime& writeTime);
+	asAssetInfo(const FileLocation& location, Type type, const WideTime& writeTime);
 
 	bool operator==(const asAssetInfo& other) const;
 

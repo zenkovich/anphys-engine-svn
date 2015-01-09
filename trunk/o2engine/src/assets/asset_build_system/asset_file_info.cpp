@@ -237,9 +237,9 @@ asAssetConfig* abFolderInfo::initFromConfigs() const
 	return res;
 }
 
-abAssetInfo* abFolderInfo::getInsideAsset(const cFileLocation& location, bool recursive /*= false*/)
+abAssetInfo* abFolderInfo::getInsideAsset(const FileLocation& location, bool recursive /*= false*/)
 {
-	if (location == cFileLocation())
+	if (location == FileLocation())
 		return this;
 
 	foreach(abAssetsInfosArr, mInsideAssets, assetIt)

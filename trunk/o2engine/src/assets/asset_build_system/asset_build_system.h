@@ -58,10 +58,10 @@ protected:
 	void saveBuildInfo();
 	void saveAssetsInfo();
 
-	void processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo);
-	abAssetInfo* createAssetInfroFromFileInfo(const cFileInfo& fileInfo);
+	void processLoadingAssetsFolderInfo(PathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo);
+	abAssetInfo* createAssetInfroFromFileInfo(const FileInfo& fileInfo);
 
-	uint32 tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const string& path);
+	uint32 tryGetAssetsInfoMetaId(PathInfo &pathInfo, const string& path);
 	uint32 generateFileId() const;
 };
 

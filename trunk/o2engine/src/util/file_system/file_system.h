@@ -35,10 +35,10 @@ public:
 	string getFilePathByExt(const string& path, cFileType::value fileType) const;
 
 	/** Returns info of paths and files of specified path. */
-	cPathInfo getPathInfo(const string& path) const;
+	PathInfo getPathInfo(const string& path) const;
 
 	/** Returns file info. */
-	cFileInfo getFileInfo(const string& path) const;
+	FileInfo getFileInfo(const string& path) const;
 
 	/** Copying file. */
 	bool copyFile(const string& source, const string& dest) const;

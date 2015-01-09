@@ -18,7 +18,7 @@ asAsset::asAsset(const string& location):
 	mLocation = assets()->getAssetFileLocation(location);
 }
 
-asAsset::asAsset(const cFileLocation& location):
+asAsset::asAsset(const FileLocation& location):
 	mData(NULL), mDataSize(0)
 {
 	mLocation = location;
@@ -38,7 +38,7 @@ asAsset& asAsset::operator=(const asAsset& asset)
 	return *this;
 }
 
-cFileLocation asAsset::getLocation() const
+FileLocation asAsset::getLocation() const
 {
 	return mLocation;
 }
@@ -72,7 +72,7 @@ asAssetInfo::asAssetInfo():
 {
 }
 
-asAssetInfo::asAssetInfo(const cFileLocation& location, Type type, const WideTime& writeTime):
+asAssetInfo::asAssetInfo(const FileLocation& location, Type type, const WideTime& writeTime):
 	mLocation(location), mType(type), mWriteTime(writeTime)
 {
 }

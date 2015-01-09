@@ -977,5 +977,8 @@
     <ClCompile Include="..\src\util\obj_manager_test.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\assets\atlas_asset.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

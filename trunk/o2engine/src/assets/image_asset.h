@@ -18,7 +18,7 @@ protected:
 public:
 	asImage();
 	asImage(const string& location);
-	asImage(const cFileLocation& location);
+	asImage(const FileLocation& location);
 	asImage(cImage* image);
 	~asImage();
 

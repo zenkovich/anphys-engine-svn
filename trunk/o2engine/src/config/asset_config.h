@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 class asAssetConfig: public cSerializable
 {
 public:
-	cFileLocation mLocation;
+	FileLocation mLocation;
 	bool          mIncludeBuild;
 
 public:
