@@ -16,7 +16,7 @@ protected:
 protected:
 	asFile();
 	asFile(const string& location);
-	asFile(const cFileLocation& location);
+	asFile(const FileLocation& location);
 	asFile(const asFile& asset);
 	virtual ~asFile();
 

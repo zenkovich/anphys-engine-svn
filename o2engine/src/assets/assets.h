@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include "asset.h"
+#include "util/file_system/file_info.h"
 
 OPEN_O2_NAMESPACE
 
@@ -35,10 +36,13 @@ public:
 	string getAssetSourceFullPath(const string& path);
 	string getAssetFullPath(const string& path);
 	string getAssetRealPath(const string& path);
-	cFileLocation getAssetFileLocation(const string& path);
+	FileLocation getAssetFileLocation(const string& path);
 
 	template<typename _asType>
 	_asType loadAsset(const string& path);
+
+	template<typename _asType>
+	_asType loadAsset(const FileLocation& location);
 	
 	template<typename _asType>
 	_asType createAsset();
@@ -48,8 +52,6 @@ public:
 	
 	template<typename _asType>
 	void removeAsset(_asType& asset);
-
-	void saveLoadedAssets();
 
 	void rebuildAssets(bool forcible = false);
 

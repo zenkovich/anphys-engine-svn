@@ -19,7 +19,7 @@ asImage::asImage(const string& location):
 	loadData();
 }
 
-asImage::asImage(const cFileLocation& location):
+asImage::asImage(const FileLocation& location):
 	asAsset(location), mImage(NULL)
 {
 	loadData();

@@ -61,7 +61,7 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	mAssetsFolderInfo.clear();
 
 	//load assets path info
-	cPathInfo assetsPathInfo = fileSystem()->getPathInfo(mAssetsFolderPath);
+	PathInfo assetsPathInfo = fileSystem()->getPathInfo(mAssetsFolderPath);
 	assetsPathInfo.clampPathNames();
 
 	//load assets configs
@@ -78,7 +78,7 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	basicAtlas->mName = "basic";
 	basicAtlas->mAttachedToFolder = true;
 	basicAtlas->mAttachFolderLocation = mAssetsFolderInfo.mLocation;
-	basicAtlas->mLocation = cFileLocation("basic_atlas");
+	basicAtlas->mLocation = FileLocation("basic_atlas");
 	mAssetsFolderInfo.addInsideAsset(basicAtlas);
 
 	//make links between folders, atlases and images
@@ -90,9 +90,9 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	outSerializer.save(mAssetsFolderConfigFilePath);
 }
 
-void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo)
+void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo)
 {
-	foreach(cPathInfo::FilesArr, pathInfo.mFiles, fileInfIt)
+	foreach(PathInfo::FilesArr, pathInfo.mFiles, fileInfIt)
 	{
 		if (fileInfIt->mPath.rfind(".meta") != string::npos)
 			continue;
@@ -115,7 +115,7 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(cPathInfo& pathInfo, asPat
 		asPathInfo.addInsideAsset(asFileInfo);
 	}
 
-	foreach(cPathInfo::PathsArr, pathInfo.mPaths, pathInfIt)
+	foreach(PathInfo::PathsArr, pathInfo.mPaths, pathInfIt)
 	{
 		asAssetConfig* asFileConfig = pathConfig.getAssetConfig(pathInfIt->mPath);
 		if (asFileConfig && !asFileConfig->mIncludeBuild)
@@ -276,7 +276,7 @@ void AssetBuildSystem::removeConvertedAsset(abAssetInfo* buildAssetInfo)
 	}
 }
 
-uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(cPathInfo &pathInfo, const string& path)
+uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(PathInfo &pathInfo, const string& path)
 {
 	uint32 res = 0;
 
@@ -315,7 +315,7 @@ string AssetBuildSystem::getBuildedAssetsFolderPath() const
 	return mBuildedAssetsFolderPath;
 }
 
-abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const cFileInfo& fileInfo)
+abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const FileInfo& fileInfo)
 {
 	if (fileInfo.mFileType == cFileType::IMAGE)
 		return mnew abImageAssetInfo();
@@ -338,7 +338,7 @@ void AssetBuildSystem::saveAssetsInfo()
 	AssetsInfosArr assetsInfos;
 	foreach(abAssetsInfosArr, assetsBuildInfos, assetIt)
 	{
-		cFileLocation loc = (*assetIt)->mLocation;
+		FileLocation loc = (*assetIt)->mLocation;
 		loc.mPath = extractExtension(loc.mPath);
 		assetsInfos.add(asAssetInfo(loc, (*assetIt)->getTypeName(), (*assetIt)->mWriteTime));
 	}

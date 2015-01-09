@@ -65,7 +65,7 @@ string Assets::getAssetRealPath( const string& path )
 	return convertedPath;
 }
 
-cFileLocation Assets::getAssetFileLocation(const string& path)
+FileLocation Assets::getAssetFileLocation(const string& path)
 {
 	string convertedPath = getAssetRealPath(path);
 
@@ -73,7 +73,7 @@ cFileLocation Assets::getAssetFileLocation(const string& path)
 		if (fileIt->mLocation.mPath == convertedPath)
 			return fileIt->mLocation;
 
-	return cFileLocation();
+	return FileLocation();
 }
 
 uint32 Assets::generateFileId() const

@@ -12,7 +12,7 @@ class abAssetInfo: public cSerializable
 public:
 	DEFINE_TYPE(abAssetInfo);
 
-	cFileLocation mLocation;
+	FileLocation mLocation;
 	WideTime      mWriteTime;
 
 	virtual void initFromConfigs(asAssetConfig* config) {}
@@ -61,7 +61,7 @@ class abAtlasAssetInfo: public abAssetInfo
 
 	abImageAssetsInfosArr mImages;
 	bool                  mAttachedToFolder;
-	cFileLocation         mAttachFolderLocation;
+	FileLocation         mAttachFolderLocation;
 	abFolderInfo*         mAttachFolder;
 
 public:
@@ -98,7 +98,7 @@ public:
 	~abFolderInfo();
 
 	abAssetsInfosArr getAllInsideAssets() const;
-	abAssetInfo* getInsideAsset(const cFileLocation& location, bool recursive = false);
+	abAssetInfo* getInsideAsset(const FileLocation& location, bool recursive = false);
 	void addInsideAsset(abAssetInfo* asset);
 	void clear();
 	virtual asAssetConfig* initFromConfigs() const;

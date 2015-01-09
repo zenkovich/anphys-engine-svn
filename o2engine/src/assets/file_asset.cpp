@@ -19,7 +19,7 @@ asFile::asFile(const string& location):
 	loadData();
 }
 
-asFile::asFile(const cFileLocation& location):
+asFile::asFile(const FileLocation& location):
 	asAsset(location), mData(NULL), mDataSize(0)
 {
 	loadData();

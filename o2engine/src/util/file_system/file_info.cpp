@@ -2,14 +2,14 @@
 
 OPEN_O2_NAMESPACE
 
-SERIALIZE_METHOD_IMPL(cFileLocation)
+SERIALIZE_METHOD_IMPL(FileLocation)
 {
 	SERIALIZE_ID(mPath, "path");
 	SERIALIZE_ID(mId, "id");
 	return true;
 }
 
-bool cFileLocation::operator==(const cFileLocation& v) const
+bool FileLocation::operator==(const FileLocation& v) const
 {
 	if (mId != 0)
 		return mId == v.mId;
@@ -17,25 +17,25 @@ bool cFileLocation::operator==(const cFileLocation& v) const
 	return mPath == v.mPath;
 }
 
-bool cFileLocation::operator!=(const cFileLocation& v) const
+bool FileLocation::operator!=(const FileLocation& v) const
 {
 	return !(v == *this);
 }
 
 
-bool cFileInfo::operator==(const cFileInfo& fi) const
+bool FileInfo::operator==(const FileInfo& fi) const
 {
 	return mPath == fi.mPath && mFileType == fi.mFileType && mCreatedDate == fi.mCreatedDate &&
 		mAccessDate == fi.mAccessDate && mEditDate == fi.mEditDate && mSize == fi.mSize;
 }
 
 
-bool cPathInfo::operator==(const cPathInfo& pi) const
+bool PathInfo::operator==(const PathInfo& pi) const
 {
 	return mPath == pi.mPath;
 }
 
-bool cPathInfo::isFileExist(const string& path)
+bool PathInfo::isFileExist(const string& path)
 {
 	foreach(FilesArr, mFiles, fileIt)
 		if (fileIt->mPath == path)
@@ -48,12 +48,12 @@ bool cPathInfo::isFileExist(const string& path)
 	return false;
 }
 
-void cPathInfo::clampPathNames()
+void PathInfo::clampPathNames()
 {
 	processPathNamesClamping(mPath.length() + 1);
 }
 
-void cPathInfo::processPathNamesClamping(int charCount)
+void PathInfo::processPathNamesClamping(int charCount)
 {
 	mPath = mPath.substr(min(charCount, (int)mPath.length()), max((int)mPath.length() - charCount, 0));
 
