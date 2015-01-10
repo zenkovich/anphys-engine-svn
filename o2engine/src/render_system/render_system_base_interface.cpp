@@ -1,6 +1,6 @@
 #include "render_system_base_interface.h"
 
-#include "util/image/image.h"
+#include "util/image/bitmap.h"
 #include "util/log/file_log_stream.h"
 #include "util/log.h"
 #include "app/application.h"
@@ -12,7 +12,7 @@ OPEN_O2_NAMESPACE
 grRenderSystemBaseInterface::grRenderSystemBaseInterface():
 	mCurrentCamera(NULL)
 {
-	mLog = mnew cFileLogStream("Render", gLog->getLevel(), "render_log.txt");
+	mLog = mnew FileLogStream("Render", gLog->getLevel(), "render_log.txt");
 	gLog->bindStream(mLog);
 	mFontManager = mnew grFontManager();
 
@@ -74,7 +74,7 @@ grTexture grRenderSystemBaseInterface::createTexture( const vec2f& size,
 	return grTexture(res);
 }
 
-grTexture grRenderSystemBaseInterface::createTextureFromImage( cImage* image )
+grTexture grRenderSystemBaseInterface::createTextureFromImage( Bitmap* image )
 {
 	grTextureDef* res = mnew grTextureDef();
 	res->createFromImage(image);

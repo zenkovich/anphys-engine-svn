@@ -4,8 +4,8 @@
 
 OPEN_O2_NAMESPACE
 
-cFileLogStream::cFileLogStream( uint8 level, const string& fileName ):
-	cLogStream(), mOutFile(NULL)
+FileLogStream::FileLogStream( uint8 level, const string& fileName ):
+	LogStream(), mOutFile(NULL)
 {
 	setLevel(level);
 
@@ -13,8 +13,8 @@ cFileLogStream::cFileLogStream( uint8 level, const string& fileName ):
 		openFile(fileName);
 }
 
-cFileLogStream::cFileLogStream( const string& id, uint8 level, const string& fileName ):
-	cLogStream(id), mOutFile(NULL)
+FileLogStream::FileLogStream( const string& id, uint8 level, const string& fileName ):
+	LogStream(id), mOutFile(NULL)
 {
 	setLevel(level);
 
@@ -22,12 +22,12 @@ cFileLogStream::cFileLogStream( const string& id, uint8 level, const string& fil
 		openFile(fileName);
 }
 
-cFileLogStream::~cFileLogStream()
+FileLogStream::~FileLogStream()
 {
 	safe_release(mOutFile);
 }
 
-void cFileLogStream::outStrEx( const string& str )
+void FileLogStream::outStrEx( const string& str )
 {
 	if (mOutFile)
 	{
@@ -35,12 +35,12 @@ void cFileLogStream::outStrEx( const string& str )
 	}
 }
 
-void cFileLogStream::openFile( const string& fileName )
+void FileLogStream::openFile( const string& fileName )
 {
-	mOutFile = mnew cOutFile(fileName);
+	mOutFile = mnew OutFile(fileName);
 }
 
-void cFileLogStream::outErrorEx( const string& srt )
+void FileLogStream::outErrorEx( const string& srt )
 {
 	if (mOutFile)
 	{
@@ -48,7 +48,7 @@ void cFileLogStream::outErrorEx( const string& srt )
 	}
 }
 
-void cFileLogStream::outWarningEx( const string& srt )
+void FileLogStream::outWarningEx( const string& srt )
 {
 	if (mOutFile)
 	{

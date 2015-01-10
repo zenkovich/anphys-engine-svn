@@ -53,7 +53,7 @@ uint32 asAsset::getFileId() const
 	return mLocation.mId;
 }
 
-void asAsset::save(const string& path)
+void asAsset::save(const string& path, bool rebuildAssetsImmediately /*= true*/)
 {
 	if (mLocation.mPath == path)
 		return;
@@ -63,7 +63,8 @@ void asAsset::save(const string& path)
 
 	saveData();
 
-	assets()->rebuildAssets();
+	if (rebuildAssetsImmediately)
+		assets()->rebuildAssets();
 }
 
 

@@ -12,10 +12,10 @@
 	void* operator new(uint32 size, const char* location, int line)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			return ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->allocs(size, location, (unsigned int)line);
+			return ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->allocs(size, location, (unsigned int)line);
 		#else
 			void* res = malloc(size);
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().registAlloc(res, size, location, line, NULL);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().registAlloc(res, size, location, line, NULL);
 			return res;
 		#endif
 	}
@@ -23,10 +23,10 @@
 	void* operator new[](uint32 size, const char* location, int line)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			return ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->allocs(size, location, (unsigned int)line);
+			return ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->allocs(size, location, (unsigned int)line);
 		#else
 			void* res = malloc(size);
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().registAlloc(res, size, location, line, NULL);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().registAlloc(res, size, location, line, NULL);
 			return res;
 		#endif
 	}
@@ -34,7 +34,7 @@
 	void operator delete(void* ptr)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
 			//ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
@@ -44,7 +44,7 @@
 	void operator delete[](void* ptr)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
 			//ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
@@ -54,9 +54,9 @@
 	void operator delete(void* ptr, const char* location, int line)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
 		#endif
 	}
@@ -64,9 +64,9 @@
 	void operator delete[](void* ptr, const char* location, int line)
 	{
 		#ifdef BASIC_MEMORY_ALLOCATOR
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->frees(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->frees(ptr);
 		#else
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().unregistAlloc(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().unregistAlloc(ptr);
 			free(ptr);
 		#endif
 	}
@@ -82,12 +82,12 @@
 
 		void operator delete(void* ptr)
 		{		
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->free(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->free(ptr);
 		}
 
 		void operator delete[](void* ptr)
 		{
-			ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->free(ptr);
+			ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->free(ptr);
 		}
 
 	#endif
@@ -98,12 +98,12 @@
 
 	void* operator new(uint32 size)
 	{	
-		return ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->alloc(size);
+		return ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->alloc(size);
 	}
 
 	void* operator new[](uint32 size)
 	{
-		return ENGINE_NAMESPACE_NAME::cMemoryManager::instance().mBasicAllocator->alloc(size);
+		return ENGINE_NAMESPACE_NAME::MemoryManager::instance().mBasicAllocator->alloc(size);
 	}
 
 #endif

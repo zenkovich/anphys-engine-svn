@@ -4,32 +4,32 @@
 
 OPEN_O2_NAMESPACE
 
-cFileSystem::cFileSystem()
+FileSystem::FileSystem()
 {
-	mExtensions[cFileType::IMAGE].push_back("png");
-	mExtensions[cFileType::IMAGE].push_back("jpg");
-	mExtensions[cFileType::IMAGE].push_back("dds");
-	mExtensions[cFileType::IMAGE].push_back("pvr");
+	mExtensions[FileType::IMAGE].push_back("png");
+	mExtensions[FileType::IMAGE].push_back("jpg");
+	mExtensions[FileType::IMAGE].push_back("dds");
+	mExtensions[FileType::IMAGE].push_back("pvr");
 	
-	mExtensions[cFileType::CONFIG].push_back("xml");
-	mExtensions[cFileType::CONFIG].push_back("txt");
-	mExtensions[cFileType::CONFIG].push_back("cfg");
+	mExtensions[FileType::CONFIG].push_back("xml");
+	mExtensions[FileType::CONFIG].push_back("txt");
+	mExtensions[FileType::CONFIG].push_back("cfg");
 	
-	mExtensions[cFileType::ATLAS].push_back("atlas");
+	mExtensions[FileType::ATLAS].push_back("atlas");
 
 	mResourcePath = ASSETS_BUILDED_PATH;
 }
 
-cFileSystem::~cFileSystem()
+FileSystem::~FileSystem()
 {
 }
 
-const cFileSystem::ExtensionsVec& cFileSystem::getExtensions( cFileType::value fileType ) const
+const FileSystem::ExtensionsVec& FileSystem::getExtensions( FileType::value fileType ) const
 {
 	return mExtensions.at(fileType);
 }
 
-string cFileSystem::getFilePathByExt(const string& path, cFileType::value fileType) const
+string FileSystem::getFilePathByExt(const string& path, FileType::value fileType) const
 {
 	ExtensionsVec exts = getExtensions(fileType);
 	FOREACH(ExtensionsVec, exts, ext)
@@ -42,12 +42,12 @@ string cFileSystem::getFilePathByExt(const string& path, cFileType::value fileTy
 	return path + "." + exts[0];
 }
 
-const string& cFileSystem::getResourcePath() const
+const string& FileSystem::getResourcePath() const
 {
 	return mResourcePath;
 }
 
-PathInfo cFileSystem::getPathInfo(const string& path) const
+PathInfo FileSystem::getPathInfo(const string& path) const
 {
 	PathInfo res;
 	res.mPath = path;
@@ -76,24 +76,24 @@ PathInfo cFileSystem::getPathInfo(const string& path) const
 	return res;
 }
 
-bool cFileSystem::copyFile(const string& source, const string& dest) const
+bool FileSystem::copyFile(const string& source, const string& dest) const
 {
 	deleteFile(dest);
 	createDirectory(extractPath(dest));
 	return CopyFile(source.c_str(), dest.c_str(), TRUE) == TRUE;
 }
 
-bool cFileSystem::deleteFile(const string& file) const
+bool FileSystem::deleteFile(const string& file) const
 {
 	return DeleteFile(file.c_str()) == TRUE;
 }
 
-bool cFileSystem::moveFile(const string& source, const string& dest) const
+bool FileSystem::moveFile(const string& source, const string& dest) const
 {
 	return MoveFile(source.c_str(), dest.c_str()) == TRUE;
 }
 
-FileInfo cFileSystem::getFileInfo(const string& path) const
+FileInfo FileSystem::getFileInfo(const string& path) const
 {
 	FileInfo res;
 	res.mPath = "invalid_file";
@@ -125,7 +125,7 @@ FileInfo cFileSystem::getFileInfo(const string& path) const
 
 	res.mPath = path;
 	string extension = path.substr(path.rfind(".") + 1);
-	res.mFileType = cFileType::FILE;
+	res.mFileType = FileType::FILE;
 
 	FOREACH_CONST(ExtensionsMap, mExtensions, iext)
 	{
@@ -146,7 +146,7 @@ FileInfo cFileSystem::getFileInfo(const string& path) const
 	return res;
 }
 
-bool cFileSystem::createDirectory(const string& path, bool recursive /*= true*/) const
+bool FileSystem::createDirectory(const string& path, bool recursive /*= true*/) const
 {
 	if (isDirectoryExist(path))
 		return true;
@@ -164,7 +164,7 @@ bool cFileSystem::createDirectory(const string& path, bool recursive /*= true*/)
 	return createDirectory(extrPath, true);
 }
 
-bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/) const
+bool FileSystem::removeDirectory(const string& path, bool recursive /*= true*/) const
 {
 	if (!isDirectoryExist(path))
 		return false;
@@ -194,7 +194,7 @@ bool cFileSystem::removeDirectory(const string& path, bool recursive /*= true*/)
 	return RemoveDirectory(path.c_str()) == TRUE;
 }
 
-bool cFileSystem::isDirectoryExist(const string& path) const
+bool FileSystem::isDirectoryExist(const string& path) const
 {
 	DWORD tp = GetFileAttributes(path.c_str());
 	
@@ -207,7 +207,7 @@ bool cFileSystem::isDirectoryExist(const string& path) const
 	return false;
 }
 
-bool cFileSystem::isFileExist(const string& path) const
+bool FileSystem::isFileExist(const string& path) const
 {
 	DWORD tp = GetFileAttributes(path.c_str());
 	

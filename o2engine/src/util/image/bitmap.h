@@ -8,10 +8,10 @@
 
 OPEN_O2_NAMESPACE
 
-class cLogStream;
+class LogStream;
 
 /** Image. Containing formatted pixel data, size, filename. */
-class cImage
+class Bitmap
 {
 public:
 	enum Format { FMT_NONE = 0, FMT_R8G8B8A8 };
@@ -24,19 +24,19 @@ protected:
 	string         mFilename; /**< File name. Empty if no file. */
 
 public:
-	cImage();
-	cImage(Format format, const vec2i& size);
-	cImage(const string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
-	virtual ~cImage();
+	Bitmap();
+	Bitmap(Format format, const vec2i& size);
+	Bitmap(const string& fileName, ImageType type = IT_AUTO, LogStream* clog = NULL);
+	virtual ~Bitmap();
 
 	/** Creates image with specified format. */
 	void create(Format format, const vec2i& size);
 
 	/** Loading image from file. */
-	bool load(const string& fileName, ImageType type = IT_AUTO, cLogStream* clog = NULL);
+	bool load(const string& fileName, ImageType type = IT_AUTO, LogStream* clog = NULL);
 
 	/** Saving image to file. */
-	bool save(const string& fileName, ImageType type, cLogStream* clog = NULL) const;
+	bool save(const string& fileName, ImageType type, LogStream* clog = NULL) const;
 
 	/** Clearing image with color. */
 	void clear(const color4& color);
@@ -57,7 +57,7 @@ public:
 	const string& getFilename() const;
 
 	/** Copy image to position. */
-	void copyImage(cImage* img, const vec2i& position = vec2i());
+	void copyImage(Bitmap* img, const vec2i& position = vec2i());
 
 	/** Fill image with color. */
 	void fill(const color4& color);

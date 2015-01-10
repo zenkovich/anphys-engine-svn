@@ -10,26 +10,26 @@
 
 OPEN_O2_NAMESPACE
 
-cMemoryManager::AllocSign::AllocSign( void* memPtr, uint32 size, const char* source, unsigned int sourceLine, 
+MemoryManager::AllocSign::AllocSign( void* memPtr, uint32 size, const char* source, unsigned int sourceLine, 
                                       IAllocator* allocator ):
 	mPtr(memPtr), mSize(size), mSourceLine(sourceLine), mAllocator(allocator)
 {
 	strcpy(mSource, source + max<int>(0, (strlen(source) - 65)));
 }
 
-cMemoryManager::AllocSign::AllocSign( const AllocSign& allocSign )
+MemoryManager::AllocSign::AllocSign( const AllocSign& allocSign )
 {
 	*this = allocSign;
 }
 
-cMemoryManager::AllocSign& cMemoryManager::AllocSign::operator=( const AllocSign& allocSign )
+MemoryManager::AllocSign& MemoryManager::AllocSign::operator=( const AllocSign& allocSign )
 {
 	memcpy(this, &allocSign, sizeof(allocSign));
 	return *this;
 }
 
 
-cMemoryManager::cMemoryManager()
+MemoryManager::MemoryManager()
 {
 	#ifdef BASIC_MEMORY_ALLOCATOR
 		BASIC_MEMORY_ALLOCATOR* allocator = (BASIC_MEMORY_ALLOCATOR*)malloc(sizeof(BASIC_MEMORY_ALLOCATOR));
@@ -43,11 +43,11 @@ cMemoryManager::cMemoryManager()
 	mAllocSigns = new (mAllocSigns) AllocSignsList;
 	mUsedMemory = 0;
 
-	mAllocSignsMutex = (cMutex*)malloc(sizeof(cMutex));
-	mAllocSignsMutex = new (mAllocSignsMutex) cMutex;
+	mAllocSignsMutex = (Mutex*)malloc(sizeof(Mutex));
+	mAllocSignsMutex = new (mAllocSignsMutex) Mutex;
 }
 
-cMemoryManager::~cMemoryManager()
+MemoryManager::~MemoryManager()
 {
 	free(mAllocSigns);
 
@@ -56,11 +56,11 @@ cMemoryManager::~cMemoryManager()
 		free(mBasicAllocator);
 	#endif
 
-	mAllocSignsMutex->~cMutex();
+	mAllocSignsMutex->~Mutex();
 	free(mAllocSignsMutex);
 }
 
-void cMemoryManager::registAlloc( void* memPtr, uint32 size, const char* source, unsigned int sourceLine, IAllocator* allocator )
+void MemoryManager::registAlloc( void* memPtr, uint32 size, const char* source, unsigned int sourceLine, IAllocator* allocator )
 {
 	mStaticObj.mAllocSignsMutex->lock();
 
@@ -70,7 +70,7 @@ void cMemoryManager::registAlloc( void* memPtr, uint32 size, const char* source,
 	mStaticObj.mAllocSignsMutex->unlock();
 }
 
-void cMemoryManager::unregistAlloc( void* memPtr )
+void MemoryManager::unregistAlloc( void* memPtr )
 {
 	if (mStaticObj.mAllocSignsMutex->tryLock() == 0)
 	{
@@ -89,7 +89,7 @@ void cMemoryManager::unregistAlloc( void* memPtr )
 	}
 }
 
-void cMemoryManager::dump()
+void MemoryManager::dump()
 {
 	//mStaticObj.mAllocSignsMutex->lock();
 
@@ -106,6 +106,6 @@ void cMemoryManager::dump()
 	//mStaticObj.mAllocSignsMutex->unlock();
 }
 
-cMemoryManager cMemoryManager::mStaticObj;
+MemoryManager MemoryManager::mStaticObj;
 
 CLOSE_O2_NAMESPACE

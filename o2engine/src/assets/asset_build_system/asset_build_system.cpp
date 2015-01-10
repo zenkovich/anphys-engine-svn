@@ -53,7 +53,7 @@ void AssetBuildSystem::removeAllBuildedAssets()
 {
 	fileSystem()->removeDirectory(mBuildedAssetsFolderPath);
 	fileSystem()->createDirectory(mBuildedAssetsFolderPath);
-	fileSystem()->deleteFile(fileSystem()->getFilePathByExt(mBuildedAssetsInfoFilePath, cFileType::CONFIG));
+	fileSystem()->deleteFile(fileSystem()->getFilePathByExt(mBuildedAssetsInfoFilePath, FileType::CONFIG));
 }
 
 void AssetBuildSystem::loadAssetFolderInfo()
@@ -64,14 +64,8 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	PathInfo assetsPathInfo = fileSystem()->getPathInfo(mAssetsFolderPath);
 	assetsPathInfo.clampPathNames();
 
-	//load assets configs
-	asPathConfig assetsPathConfig;
-	cSerializer serializer;
-	if (serializer.load(mAssetsFolderConfigFilePath))
-		serializer.serialize(&assetsPathConfig, "assetsConfigs");
-
 	//process loading assets infos
-	processLoadingAssetsFolderInfo(assetsPathInfo, assetsPathConfig, mAssetsFolderInfo);
+	processLoadingAssetsFolderInfo(assetsPathInfo, mAssets->mAssetsConfigs, mAssetsFolderInfo);
 
 	//add fake basic atlas asset
 	abAtlasAssetInfo* basicAtlas = mnew abAtlasAssetInfo();
@@ -85,53 +79,79 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	mAssetsFolderInfo.linkAtlases();
 
 	//save configs
-	cSerializer outSerializer(cSerializer::ST_SERIALIZE);
-	outSerializer.serialize(&assetsPathConfig, "assetsConfigs");
+	Serializer outSerializer(Serializer::ST_SERIALIZE);
+	outSerializer.serialize(&mAssets->mAssetsConfigs, "assetsConfigs");
 	outSerializer.save(mAssetsFolderConfigFilePath);
 }
 
-void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asPathConfig& pathConfig, abFolderInfo& asPathInfo)
+void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asFolderConfig& pathConfig, abFolderInfo& asPathInfo)
 {
 	foreach(PathInfo::FilesArr, pathInfo.mFiles, fileInfIt)
 	{
+		//skip metas
 		if (fileInfIt->mPath.rfind(".meta") != string::npos)
 			continue;
 
-		asAssetConfig* asFileConfig = pathConfig.getAssetConfig(fileInfIt->mPath);
-		if (asFileConfig && !asFileConfig->mIncludeBuild)
-			continue;
-		
+		//create asset info by file info type
 		abAssetInfo* asFileInfo = createAssetInfroFromFileInfo(*fileInfIt);
+		
+		//copy basic parametres for asset info
 		asFileInfo->mLocation.mPath = fileInfIt->mPath;
 		asFileInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, fileInfIt->mPath);
 		asFileInfo->mWriteTime = fileInfIt->mEditDate;		
 
+		//seek asset config and remove from searched place
+		asAssetConfig* asFileConfig = mAssets->mAssetsConfigs.getAndRemoveAssetConfig(asFileInfo->mLocation);
+
+		//skip if asset not included 
+		if (asFileConfig && !asFileConfig->mIncludeBuild)
+		{
+			safe_release(asFileInfo);
+			continue;
+		}
+
+		//copy configuration into asset info, if config was found. Else - create new config
 		if (asFileConfig)
 			asFileInfo->initFromConfigs(asFileConfig);
 		else
-			pathConfig.mInsideAssets.add(asFileInfo->getConfigsSample());
+			asFileConfig = asFileInfo->getConfigsSample();
+		
+		//add asset config at right place in configs hierarhy
+		pathConfig.mInsideAssets.add(asFileConfig);
 
-
+		//and add asset info in assets infos hierarhy
 		asPathInfo.addInsideAsset(asFileInfo);
 	}
 
 	foreach(PathInfo::PathsArr, pathInfo.mPaths, pathInfIt)
 	{
-		asAssetConfig* asFileConfig = pathConfig.getAssetConfig(pathInfIt->mPath);
-		if (asFileConfig && !asFileConfig->mIncludeBuild)
-			continue;
-
+		//create folder asset info
 		abFolderInfo* folderInfo = mnew abFolderInfo();
-
+		
+		//copy location parametres for folder asset info
 		folderInfo->mLocation.mPath = pathInfIt->mPath;
-		folderInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, pathInfIt->mPath);		
+		folderInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, pathInfIt->mPath);	
+		
+		//seek asset config and remove from searched place
+		asAssetConfig* asFldrConfig = mAssets->mAssetsConfigs.getAndRemoveAssetConfig(pathInfIt->mPath);
+		if (asFldrConfig && !asFldrConfig->mIncludeBuild)
+		{
+			safe_release(folderInfo);
+			continue;
+		}	
 
-		if (!asFileConfig) 
-			asFileConfig = pathConfig.mInsideAssets.add(folderInfo->initFromConfigs());
+		//create new config, if needs
+		if (!asFldrConfig) 
+			asFldrConfig = folderInfo->getConfigsSample();
 
+		//add asset config at right place in configs hierarhy
+		pathConfig.mInsideAssets.add(asFldrConfig);
+		
+		//and add asset info in assets infos hierarhy
 		asPathInfo.addInsideAsset(folderInfo);
 
-		processLoadingAssetsFolderInfo(*pathInfIt, *(asPathConfig*)asFileConfig, *folderInfo);
+		//process files inside that folder
+		processLoadingAssetsFolderInfo(*pathInfIt, *(asFolderConfig*)asFldrConfig, *folderInfo);
 	}
 }
 
@@ -139,7 +159,7 @@ void AssetBuildSystem::loadBuildedAssetsFolderInfo()
 {
 	mBuildedAssetsFolderInfo.clear();
 
-	cSerializer serializer;
+	Serializer serializer;
 	if (serializer.load(mBuildedAssetsInfoFilePath))
 		serializer.serialize(&mBuildedAssetsFolderInfo, "assets");
 
@@ -284,14 +304,14 @@ uint32 AssetBuildSystem::tryGetAssetsInfoMetaId(PathInfo &pathInfo, const string
 
 	if (pathInfo.isFileExist(metaPath))
 	{
-		cSerializer serializer;
+		Serializer serializer;
 		serializer.load(mAssetsFolderPath + "/" + metaPath, false);
 		serializer.serialize(res, "id");
 	}
 	else if (projectConfig()->mAssetsUsesMetaIds) 
 	{
 		uint32 metaId = generateFileId();
-		cSerializer serializer;
+		Serializer serializer;
 		serializer.serialize(metaId, "id");
 		serializer.save(mAssetsFolderPath + "/" + metaPath, false);
 		return metaId;
@@ -317,9 +337,9 @@ string AssetBuildSystem::getBuildedAssetsFolderPath() const
 
 abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const FileInfo& fileInfo)
 {
-	if (fileInfo.mFileType == cFileType::IMAGE)
+	if (fileInfo.mFileType == FileType::IMAGE)
 		return mnew abImageAssetInfo();
-	else if (fileInfo.mFileType == cFileType::ATLAS)
+	else if (fileInfo.mFileType == FileType::ATLAS)
 		return mnew abAtlasAssetInfo();
 
 	return mnew abAssetInfo();
@@ -327,7 +347,7 @@ abAssetInfo* AssetBuildSystem::createAssetInfroFromFileInfo(const FileInfo& file
 
 void AssetBuildSystem::saveBuildInfo()
 {
-	cSerializer serializer;
+	Serializer serializer;
 	serializer.serialize(&mBuildedAssetsFolderInfo, "assets");
 	serializer.save(mBuildedAssetsInfoFilePath);
 }
@@ -343,7 +363,7 @@ void AssetBuildSystem::saveAssetsInfo()
 		assetsInfos.add(asAssetInfo(loc, (*assetIt)->getTypeName(), (*assetIt)->mWriteTime));
 	}
 
-	cSerializer serializer;
+	Serializer serializer;
 	serializer.serialize(assetsInfos, "assets");
 	serializer.save(ASSETS_INFO_FILE_PATH);
 }

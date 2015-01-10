@@ -9,7 +9,7 @@ ProjectConfig::ProjectConfig():
 {
 	string cfgFilePath = PROJECT_CONFIG_FILE_PATH;
 
-	cSerializer serializer;
+	Serializer serializer;
 	if (!serializer.load(cfgFilePath))
 	{
 		logError("Failed to load Project Config. Path: %s. Initializing default values.", cfgFilePath.c_str());
@@ -40,12 +40,12 @@ void ProjectConfig::initializeDefault(const string& configFilePath)
 {
 	mProjectName = "unnamed";
 
-	cSerializer serializer;
+	Serializer serializer;
 	serializer.serialize(this, "config");
 	serializer.save(configFilePath);
 }
 
-bool ProjectConfig::serialize(cSerializer* serializer)
+bool ProjectConfig::serialize(Serializer* serializer)
 {
 	SERIALIZE_ID(mProjectName, "projectName");
 	SERIALIZE_ID(mAssetsUsesMetaIds, "assetsUsingMetaIds");

@@ -5,9 +5,9 @@
 
 OPEN_O2_NAMESPACE
 
-class cMutex;
+class Mutex;
 
-class cTestAllocator:public IAllocator
+class TestAllocator:public IAllocator
 {
 	IAllocator* mParentAllocator;
 	char*       mMemory;
@@ -16,8 +16,8 @@ class cTestAllocator:public IAllocator
 	//cMutex*     mMutex;
 
 public:
-	cTestAllocator(uint32 size, IAllocator* parentAllocator = NULL);
-	~cTestAllocator();
+	TestAllocator(uint32 size, IAllocator* parentAllocator = NULL);
+	~TestAllocator();
 
 	void* alloc(uint32 bytes);
 	void* realloc(void* ptr, uint32 bytes);

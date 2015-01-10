@@ -2,23 +2,23 @@
 
 OPEN_O2_NAMESPACE
 
-cTimer::cTimer()
+Timer::Timer()
 {
 	reset();
 }
 
-cTimer::~cTimer()
+Timer::~Timer()
 {
 }
 
-void cTimer::reset()
+void Timer::reset()
 {	
 	QueryPerformanceFrequency(&mFrequency);
 	QueryPerformanceCounter(&mStartTime);
 	mLastElapsedTime = mStartTime.QuadPart;
 }
 
-float cTimer::getTime()
+float Timer::getTime()
 {	
 	LARGE_INTEGER curTime;
 	QueryPerformanceCounter(&curTime);
@@ -29,7 +29,7 @@ float cTimer::getTime()
 	return res;
 }
 
-float cTimer::getElapsedTime()
+float Timer::getElapsedTime()
 {
 	LARGE_INTEGER curTime;
 	QueryPerformanceCounter(&curTime);

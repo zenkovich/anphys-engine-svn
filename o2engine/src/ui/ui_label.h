@@ -27,7 +27,7 @@ public:
 	PROPERTY(uiLabel, float)            linesDistCoef;       /** Lines distance coef, 1 is standard. Uses set/getLinesDistCoef. */
 	
 	/** ctor. */
-	uiLabel(grFont* font, const cLayout& layout, const string& id = "");
+	uiLabel(grFont* font, const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiLabel(const uiLabel& label);

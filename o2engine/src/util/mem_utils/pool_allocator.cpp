@@ -7,14 +7,14 @@ OPEN_O2_NAMESPACE
 
 	//void mfree(void* ptr) { free(ptr); }
 
-cPoolAllocator::cPoolAllocator( uint32 chunksCount, uint16 chunkSize /*= 4*/, IAllocator* parentAllocator /*= NULL*/ ):
+PoolAllocator::PoolAllocator( uint32 chunksCount, uint16 chunkSize /*= 4*/, IAllocator* parentAllocator /*= NULL*/ ):
 	mParentAllocator(parentAllocator)
 {
 	mMemorySize = chunksCount*chunkSize;
 	mChunkSize = chunkSize;
 	mChunksCount = chunksCount;
 
-	uint32 mutexSize = sizeof(cMutex);
+	uint32 mutexSize = sizeof(Mutex);
 
 	if (parentAllocator)
 	{
@@ -33,12 +33,12 @@ cPoolAllocator::cPoolAllocator( uint32 chunksCount, uint16 chunkSize /*= 4*/, IA
 
 	mHead = mMemory;
 
-	mMutex = new (mMemory + mMemorySize) cMutex;
+	mMutex = new (mMemory + mMemorySize) Mutex;
 }
 
-cPoolAllocator::~cPoolAllocator()
+PoolAllocator::~PoolAllocator()
 {
-	mMutex->~cMutex();
+	mMutex->~Mutex();
 
 	if (mParentAllocator)
 	{
@@ -50,7 +50,7 @@ cPoolAllocator::~cPoolAllocator()
 	}
 }
 
-void* cPoolAllocator::alloc( uint32 bytes )
+void* PoolAllocator::alloc( uint32 bytes )
 {	
 	mMutex->lock();
 
@@ -65,12 +65,12 @@ void* cPoolAllocator::alloc( uint32 bytes )
 	return res;
 }
 
-void* cPoolAllocator::realloc( void* ptr, uint32 bytes )
+void* PoolAllocator::realloc( void* ptr, uint32 bytes )
 {
 	return ptr;
 }
 
-void cPoolAllocator::free( void* ptr )
+void PoolAllocator::free( void* ptr )
 {
 	mMutex->lock();
 

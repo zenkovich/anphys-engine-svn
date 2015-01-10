@@ -8,7 +8,7 @@
 
 OPEN_O2_NAMESPACE
 
-class cTimer;
+class Timer;
 
 /** Windows applacation. 
   * Contains window handle, options

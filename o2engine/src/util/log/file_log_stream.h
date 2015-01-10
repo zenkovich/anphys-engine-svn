@@ -5,16 +5,16 @@
 
 OPEN_O2_NAMESPACE
 
-class cOutFile;
+class OutFile;
 
-class cFileLogStream:public cLogStream
+class FileLogStream:public LogStream
 {
-	cOutFile* mOutFile;
+	OutFile* mOutFile;
 
 public:
-	cFileLogStream(uint8 level, const string& fileName);
-	cFileLogStream(const string& id, uint8 level, const string& fileName);
-	~cFileLogStream();
+	FileLogStream(uint8 level, const string& fileName);
+	FileLogStream(const string& id, uint8 level, const string& fileName);
+	~FileLogStream();
 
 protected:
 	void outStrEx(const string& str);

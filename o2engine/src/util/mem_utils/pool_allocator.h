@@ -6,9 +6,9 @@
 
 OPEN_O2_NAMESPACE
 	
-class cMutex;
+class Mutex;
 
-class cPoolAllocator:public IAllocator
+class PoolAllocator:public IAllocator
 {
 	IAllocator* mParentAllocator;
 
@@ -23,11 +23,11 @@ class cPoolAllocator:public IAllocator
 	uint16  mChunkSize;
 	uint32  mChunksCount;
 	
-	cMutex* mMutex;
+	Mutex* mMutex;
 
 public:
-	cPoolAllocator(uint32 chunksCount, uint16 chunkSize = 16, IAllocator* parentAllocator = NULL);
-	~cPoolAllocator();
+	PoolAllocator(uint32 chunksCount, uint16 chunkSize = 16, IAllocator* parentAllocator = NULL);
+	~PoolAllocator();
 
 	void* alloc(uint32 bytes);
 	void* realloc(void* ptr, uint32 bytes);

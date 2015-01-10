@@ -7,11 +7,11 @@
 
 OPEN_O2_NAMESPACE
 
-cStretchRect::Part::Part()
+StretchRect::Part::Part()
 {
 }
 
-cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
+StretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
 	                      const fRect& texRect, bool wrapTexture /*= false*/,
 						  const color4& vertex0Color /*= color4::white()*/, 
 						  const color4& vertex1Color /*= color4::white()*/, 
@@ -33,14 +33,14 @@ cStretchRect::Part::Part( const vec2f& LTPercent, const vec2f& LTPixel, const ve
 }
 
 
-cStretchRect::cStretchRect( int parts /*= 0*/, const grTexture& texture /*= grTexture()*/ ):
+StretchRect::StretchRect( int parts /*= 0*/, const grTexture& texture /*= grTexture()*/ ):
 	mMesh(NULL), mNeedUpdateMesh(true), IRectDrawable(), mNeedUpdateColors(false)
 {
 	createMesh(max(parts, 1), texture);
 	mMinSize = vec2f(0, 0);
 }
 
-cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
+StretchRect::StretchRect( const StretchRect& stretchRect ):
 	IRectDrawable(stretchRect)
 {
 	mMesh = mnew grMesh(*stretchRect.mMesh);
@@ -52,7 +52,7 @@ cStretchRect::cStretchRect( const cStretchRect& stretchRect ):
 	mNeedUpdateColors = false;
 }
 
-cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, 
+StretchRect::StretchRect(const grTexture& texture, int left, int top, int right, int bottom, 
 	                       const fRect& texRect /*= fRect()*/, const color4& color /*= color4::white()*/):
 	mNeedUpdateMesh(false), IRectDrawable(), mNeedUpdateColors(false), mMesh(NULL)
 {
@@ -114,7 +114,7 @@ cStretchRect::cStretchRect(const grTexture& texture, int left, int top, int righ
 	updateMesh();
 }
 
-cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
+StretchRect& StretchRect::operator=( const StretchRect& stretchRect )
 {
 	safe_release(mMesh);
 	mMesh = mnew grMesh(*stretchRect.mMesh);
@@ -131,18 +131,18 @@ cStretchRect& cStretchRect::operator=( const cStretchRect& stretchRect )
 	return *this;
 }
 
-IRectDrawable* cStretchRect::clone() const
+IRectDrawable* StretchRect::clone() const
 {
-	return mnew cStretchRect(*this);
+	return mnew StretchRect(*this);
 }
 
-void cStretchRect::createMesh(int partsCount, const grTexture& texture)
+void StretchRect::createMesh(int partsCount, const grTexture& texture)
 {
 	mMesh = mnew grMesh(texture, partsCount*4, partsCount*2);
 	initMeshPolygons();
 }
 
-void cStretchRect::initMeshPolygons( int startIdx /*= 0*/ )
+void StretchRect::initMeshPolygons( int startIdx /*= 0*/ )
 {
 	int partsCount = mMesh->getMaxPolyCount()/2;
 	for (int i = startIdx; i < partsCount; i++)
@@ -156,7 +156,7 @@ void cStretchRect::initMeshPolygons( int startIdx /*= 0*/ )
 	}
 }
 
-int cStretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
+int StretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const vec2f& RBPercent, const vec2f& RBPixel, 
 	                       const fRect& texRect, bool wrapTexture /*= false*/, 
 						   const color4& vertex0Color /*= color4::white()*/, 
 						   const color4& vertex1Color /*= color4::white()*/, 
@@ -179,7 +179,7 @@ int cStretchRect::addPart( const vec2f& LTPercent, const vec2f& LTPixel, const v
 	return partsCount - 1;
 }
 
-void cStretchRect::removePart( int idx )
+void StretchRect::removePart( int idx )
 {
 	if (idx < 0 || idx > (int)mParts.size() - 1)
 		return;
@@ -189,33 +189,33 @@ void cStretchRect::removePart( int idx )
 	mNeedUpdateMesh = true;
 }
 
-void cStretchRect::setMinSize( const vec2f& minSize )
+void StretchRect::setMinSize( const vec2f& minSize )
 {
 	mMinSize = minSize;
 	mNeedUpdateMesh = true;
 }
 
-vec2f cStretchRect::getMinSize() const
+vec2f StretchRect::getMinSize() const
 {
 	return mMinSize;
 }
 
-void cStretchRect::positionChanged()
+void StretchRect::positionChanged()
 {
 	mNeedUpdateMesh = true;
 }
 
-void cStretchRect::sizeChanged()
+void StretchRect::sizeChanged()
 {
 	mNeedUpdateMesh = true;
 }
 
-void cStretchRect::pivotChanged()
+void StretchRect::pivotChanged()
 {
 	mNeedUpdateMesh = true;
 }
 
-void cStretchRect::colorChanged()
+void StretchRect::colorChanged()
 {
 	mNeedUpdateColors = true;
 }
@@ -240,7 +240,7 @@ inline void cStretchRectClamp(float& minSide, float& maxSide, bool clampMin, boo
 	maxSide -= maxDiff; maxTex -= maxDiff;
 }
 
-void cStretchRect::updateMesh()
+void StretchRect::updateMesh()
 {
 	if (!mMesh)
 		return;
@@ -290,7 +290,7 @@ void cStretchRect::updateMesh()
 	mNeedUpdateColors = false;
 }
 
-void cStretchRect::updateColors()
+void StretchRect::updateColors()
 {
 	int i = 0;
 	for (PartsVec::iterator it = mParts.begin(); it != mParts.end(); ++it, i++)
@@ -302,7 +302,7 @@ void cStretchRect::updateColors()
 	mNeedUpdateColors = false;
 }
 
-void cStretchRect::drawDebug()
+void StretchRect::drawDebug()
 {
 	vec2f pos = mPosition - mPivot;
 	int clr = 1;
@@ -331,7 +331,7 @@ void cStretchRect::drawDebug()
 	}
 }
 
-void cStretchRect::draw()
+void StretchRect::draw()
 {
 	if (!mEnabled)
 		return;

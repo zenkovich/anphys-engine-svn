@@ -24,8 +24,8 @@ protected:
 public:
 	PROPERTY(scComponent, bool) enable;
 
-	cCallbackChain onEnalbedEvent;
-	cCallbackChain onDisabledEvent;
+	CallbackChain onEnalbedEvent;
+	CallbackChain onDisabledEvent;
 
 	scComponent(scNode* ownerNode);
 	virtual ~scComponent();

@@ -6,11 +6,11 @@
 OPEN_O2_NAMESPACE
 
 template<typename T>
-struct cAnimFrame;
+struct AnimFrame;
 
 /** Supporting structure, for interpolation value between two frames. Caching some data. */
 template<typename T>
-class cFrameInterpolation
+class FrameInterpolation
 {	
 	InterpolationType mInterpolationType; /** Type of time interpolation. */
 	bool              mBezier;            /** Bezier usage. */
@@ -24,7 +24,7 @@ class cFrameInterpolation
 
 public:
 	/** Initialize from two frames. */
-	void initialize(cAnimFrame<T>* beginFrame, cAnimFrame<T>* endFrame)
+	void initialize(AnimFrame<T>* beginFrame, AnimFrame<T>* endFrame)
 	{		
 		mBeginValue = beginFrame->mValue;
 		mEndValue = endFrame->mValue;

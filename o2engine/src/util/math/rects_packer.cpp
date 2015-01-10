@@ -4,16 +4,16 @@
 
 OPEN_O2_NAMESPACE
 
-cRectsPacker::cRectsPacker(const vec2f& maxSize):mMaxSize(maxSize), mRectsPool(25, 25)
+RectsPacker::RectsPacker(const vec2f& maxSize):mMaxSize(maxSize), mRectsPool(25, 25)
 {
 }
 
-cRectsPacker::~cRectsPacker()
+RectsPacker::~RectsPacker()
 {
 	clear();
 }
 
-cRectsPacker::rect* cRectsPacker::addRect(const vec2f& size)
+RectsPacker::rect* RectsPacker::addRect(const vec2f& size)
 {
 	rect* newRect = mRectsPool.take();
 	newRect->mSize = size;
@@ -22,13 +22,13 @@ cRectsPacker::rect* cRectsPacker::addRect(const vec2f& size)
 	return newRect;
 }
 
-void cRectsPacker::removeRect(rect* remRect)
+void RectsPacker::removeRect(rect* remRect)
 {
 	mRects.remove(remRect);
 	mRectsPool.free(remRect);
 }
 
-void cRectsPacker::clear()
+void RectsPacker::clear()
 {
 	foreach(RectsArr, mRects, rt)
 		mRectsPool.free(*rt);
@@ -36,17 +36,17 @@ void cRectsPacker::clear()
 	mRects.clear();
 }
 
-void cRectsPacker::setMaxSize(const vec2f& maxSize)
+void RectsPacker::setMaxSize(const vec2f& maxSize)
 {
 	mMaxSize = maxSize;
 }
 
-vec2f cRectsPacker::getMaxSize() const
+vec2f RectsPacker::getMaxSize() const
 {
 	return mMaxSize;
 }
 
-bool cRectsPacker::pack()
+bool RectsPacker::pack()
 {
 	mQuadNodes.clear();
 
@@ -59,12 +59,12 @@ bool cRectsPacker::pack()
 	return true;
 }
 
-bool cRectsPacker::rectSizeCompare( rect*& a, rect*& b )
+bool RectsPacker::rectSizeCompare( rect*& a, rect*& b )
 {
 	return a->mSize.x*a->mSize.y > b->mSize.x*b->mSize.y;
 }
 
-void cRectsPacker::createNewPage()
+void RectsPacker::createNewPage()
 {
 	int maxPage = -1;
 	foreach(RectsArr, mRects, rt)
@@ -73,7 +73,7 @@ void cRectsPacker::createNewPage()
 	mQuadNodes.add( quadNode(maxPage + 1, fRect(vec2f(), mMaxSize)) );
 }
 
-bool cRectsPacker::insertRect(rect& rt)
+bool RectsPacker::insertRect(rect& rt)
 {
 	foreach(NodesArr, mQuadNodes, node)
 		if (tryInsertRect(rt, *node))
@@ -88,7 +88,7 @@ bool cRectsPacker::insertRect(rect& rt)
 	return false;
 }
 
-bool cRectsPacker::tryInsertRect(rect& rt, quadNode& node)
+bool RectsPacker::tryInsertRect(rect& rt, quadNode& node)
 {
 	if (node.mFree && node.mRect.getSizeX() >= rt.mSize.x && 
 		              node.mRect.getSizeY() >= rt.mSize.y)
@@ -116,12 +116,12 @@ bool cRectsPacker::tryInsertRect(rect& rt, quadNode& node)
 }
 
 
-void cRectsPacker::quadNode::onChildAdded(quadNode* child)
+void RectsPacker::quadNode::onChildAdded(quadNode* child)
 {
 	child->mPage = mPage;
 }
 
-bool cRectsPacker::quadNode::operator==(const quadNode& other)
+bool RectsPacker::quadNode::operator==(const quadNode& other)
 {
 	return mRect == other.mRect && mPage == other.mPage && mFree == other.mFree;
 }

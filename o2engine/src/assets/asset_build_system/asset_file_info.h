@@ -7,7 +7,7 @@
 
 OPEN_O2_NAMESPACE
 
-class abAssetInfo: public cSerializable
+class abAssetInfo: public Serializable
 {
 public:
 	DEFINE_TYPE(abAssetInfo);
@@ -61,7 +61,7 @@ class abAtlasAssetInfo: public abAssetInfo
 
 	abImageAssetsInfosArr mImages;
 	bool                  mAttachedToFolder;
-	FileLocation         mAttachFolderLocation;
+	FileLocation          mAttachFolderLocation;
 	abFolderInfo*         mAttachFolder;
 
 public:
@@ -101,7 +101,7 @@ public:
 	abAssetInfo* getInsideAsset(const FileLocation& location, bool recursive = false);
 	void addInsideAsset(abAssetInfo* asset);
 	void clear();
-	virtual asAssetConfig* initFromConfigs() const;
+	virtual asAssetConfig* getConfigsSample() const;
 	virtual abAssetInfo* clone() const;
 
 	SERIALIZBLE_INHERITED_METHODS(abFolderInfo, abAssetInfo);

@@ -6,28 +6,40 @@
 
 OPEN_O2_NAMESPACE
 	
-class asAtlas: public asAsset, public cSerializable
+class asAtlas: public asAsset, public Serializable
 {
 	DEFINE_TYPE(asAtlas);
 
+public:
+	struct ImageDef: public Serializable
+	{
+		FileLocation mLocation;
+		bool         mLinkedDirectly;
+
+		ImageDef(const FileLocation& location = FileLocation(), bool linkedDirectly = true);
+
+		SERIALIZBLE_METHODS(ImageDef);
+
+		bool operator=(const ImageDef& other);
+	};
+	typedef array<ImageDef> ImagesDefsArr;
+
 protected:
-	string           mAtlasName;
-	vec2f            mMaxSize;
-	bool             mAttachedToFolder;
-	FileLocation     mAttachFolder;
-	FileLocationsArr mImages;
+	string        mAtlasName;
+	vec2f         mMaxSize;
+	bool          mAttachedToFolder;
+	FileLocation  mAttachFolder;
+	ImagesDefsArr mImages;
 
 public:
 	asAtlas();
 	asAtlas(const string& location);
 	asAtlas(const FileLocation& location);
 	~asAtlas();
-
-	asAtlas& operator=(const asAtlas& asset);
-
+	
 	void addImage(const FileLocation& imageLocation);
-	void removeImage(const FileLocation& imageLocation);
-	FileLocationsArr getImagesArray() const;
+	bool removeImage(const FileLocation& imageLocation);
+	ImagesDefsArr getImagesArray() const;
 
 	void setMaxSize(const vec2f& maxSize);
 	vec2f getMaxSize() const;
@@ -45,6 +57,8 @@ public:
 protected:
 	void loadData();
 	void saveData();
+	
+	asAtlas& operator=(const asAtlas& asset);
 };
 
 CLOSE_O2_NAMESPACE

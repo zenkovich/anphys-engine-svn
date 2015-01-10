@@ -6,9 +6,9 @@
 
 OPEN_O2_NAMESPACE
 
-bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/ )
+bool XmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/ )
 {
-	cInFile inFile(fileName, isConfigFile ? cFileType::CONFIG:cFileType::FILE);
+	InFile inFile(fileName, isConfigFile ? FileType::CONFIG:FileType::FILE);
 
 	if (!inFile.isOpened())
 		return false;
@@ -23,13 +23,13 @@ bool cXmlTools::loadFromFile( const string& fileName, pugi::xml_document& xmlDoc
 	return res.status == pugi::status_ok;
 }
 
-bool cXmlTools::loadFromString(const string& data, pugi::xml_document& xmlDoc)
+bool XmlTools::loadFromString(const string& data, pugi::xml_document& xmlDoc)
 {
 	pugi::xml_parse_result res = xmlDoc.load_buffer(data.c_str(), data.length());
 	return res.status == pugi::status_ok;
 }
 
-bool cXmlTools::saveToString(string& data, pugi::xml_document& xmlDoc)
+bool XmlTools::saveToString(string& data, pugi::xml_document& xmlDoc)
 {
 	struct xmlWriter:public pugi::xml_writer
 	{
@@ -48,11 +48,11 @@ bool cXmlTools::saveToString(string& data, pugi::xml_document& xmlDoc)
 	return true;
 }
 
-bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/)
+bool XmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile /*= true*/)
 {
 	struct xmlWriter:public pugi::xml_writer
 	{
-		cOutFile* file;
+		OutFile* file;
 
 		void write(const void* data, size_t size)
 		{
@@ -60,7 +60,7 @@ bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc, b
 		}
 	};
 
-	cOutFile outFile(fileName, isConfigFile ? cFileType::CONFIG:cFileType::FILE);
+	OutFile outFile(fileName, isConfigFile ? FileType::CONFIG:FileType::FILE);
 
 	if (!outFile.isOpened())
 		return false;
@@ -74,7 +74,7 @@ bool cXmlTools::saveToFile(const string& fileName, pugi::xml_document& xmlDoc, b
 	return true;
 }
 
-pugi::xml_node cXmlTools::getNode( const pugi::xml_node& node, const string& path )
+pugi::xml_node XmlTools::getNode( const pugi::xml_node& node, const string& path )
 {
 	int slashPos = path.find('/');
 	string currNode = path.substr(0, slashPos);
@@ -85,44 +85,44 @@ pugi::xml_node cXmlTools::getNode( const pugi::xml_node& node, const string& pat
 		return getNode(node.child(currNode.c_str()), path.substr(slashPos + 1));
 }
 
-void cXmlTools::toXmlNode(int object, pugi::xml_node& node)
+void XmlTools::toXmlNode(int object, pugi::xml_node& node)
 {
 	node.append_attribute("v") = object;
 }
 
-void cXmlTools::toXmlNode(unsigned int object, pugi::xml_node& node)
+void XmlTools::toXmlNode(unsigned int object, pugi::xml_node& node)
 {
 	node.append_attribute("v") = object;
 }
 
-void cXmlTools::toXmlNode(float object, pugi::xml_node& node)
+void XmlTools::toXmlNode(float object, pugi::xml_node& node)
 {
 	node.append_attribute("v") = object;
 }
 
-void cXmlTools::toXmlNode(string& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(string& object, pugi::xml_node& node)
 {
 	node.append_attribute("v") = object.c_str();
 }
 
-void cXmlTools::toXmlNode(bool object, pugi::xml_node& node)
+void XmlTools::toXmlNode(bool object, pugi::xml_node& node)
 {
 	node.append_attribute("v") = object;
 }
 
-void cXmlTools::toXmlNode(vec2f& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(vec2f& object, pugi::xml_node& node)
 {
 	node.append_attribute("x") = object.x;
 	node.append_attribute("y") = object.y;
 }
 
-void cXmlTools::toXmlNode(vec2i& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(vec2i& object, pugi::xml_node& node)
 {
 	node.append_attribute("x") = object.x;
 	node.append_attribute("y") = object.y;
 }
 
-void cXmlTools::toXmlNode(fRect& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(fRect& object, pugi::xml_node& node)
 {
 	node.append_attribute("left") = object.left;
 	node.append_attribute("top") = object.top;
@@ -130,7 +130,7 @@ void cXmlTools::toXmlNode(fRect& object, pugi::xml_node& node)
 	node.append_attribute("down") = object.down;
 }
 
-void cXmlTools::toXmlNode(iRect& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(iRect& object, pugi::xml_node& node)
 {
 	node.append_attribute("left") = object.left;
 	node.append_attribute("top") = object.top;
@@ -138,7 +138,7 @@ void cXmlTools::toXmlNode(iRect& object, pugi::xml_node& node)
 	node.append_attribute("down") = object.down;
 }
 
-void cXmlTools::toXmlNode(color4& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(color4& object, pugi::xml_node& node)
 {
 	node.append_attribute("r") = object.r;
 	node.append_attribute("g") = object.g;
@@ -146,7 +146,7 @@ void cXmlTools::toXmlNode(color4& object, pugi::xml_node& node)
 	node.append_attribute("a") = object.a;
 }
 
-void cXmlTools::toXmlNode(WideTime& object, pugi::xml_node& node)
+void XmlTools::toXmlNode(WideTime& object, pugi::xml_node& node)
 {
 	node.append_attribute("second") = object.mSecond;
 	node.append_attribute("minute") = object.mMinute;
@@ -156,44 +156,44 @@ void cXmlTools::toXmlNode(WideTime& object, pugi::xml_node& node)
 	node.append_attribute("year")   = object.mYear;
 }
 
-void cXmlTools::fromXmlNode(int& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(int& object, pugi::xml_node& node)
 {
 	object = node.attribute("v").as_int();
 }
 
-void cXmlTools::fromXmlNode(unsigned int& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(unsigned int& object, pugi::xml_node& node)
 {
 	object = node.attribute("v").as_uint();
 }
 
-void cXmlTools::fromXmlNode(float& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(float& object, pugi::xml_node& node)
 {
 	object = node.attribute("v").as_float();
 }
 
-void cXmlTools::fromXmlNode(string& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(string& object, pugi::xml_node& node)
 {
 	object = node.attribute("v").value();
 }
 
-void cXmlTools::fromXmlNode(bool& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(bool& object, pugi::xml_node& node)
 {
 	object = node.attribute("v").as_bool();
 }
 
-void cXmlTools::fromXmlNode(vec2f& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(vec2f& object, pugi::xml_node& node)
 {
 	object.x = node.attribute("x").as_float();
 	object.y = node.attribute("y").as_float();
 }
 
-void cXmlTools::fromXmlNode(vec2i& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(vec2i& object, pugi::xml_node& node)
 {
 	object.x = node.attribute("x").as_int();
 	object.y = node.attribute("y").as_int();
 }
 
-void cXmlTools::fromXmlNode(fRect& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(fRect& object, pugi::xml_node& node)
 {
 	object.left = node.attribute("left").as_float();
 	object.right = node.attribute("right").as_float();
@@ -201,7 +201,7 @@ void cXmlTools::fromXmlNode(fRect& object, pugi::xml_node& node)
 	object.down = node.attribute("down").as_float();
 }
 
-void cXmlTools::fromXmlNode(iRect& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(iRect& object, pugi::xml_node& node)
 {
 	object.left = node.attribute("left").as_int();
 	object.right = node.attribute("right").as_int();
@@ -209,7 +209,7 @@ void cXmlTools::fromXmlNode(iRect& object, pugi::xml_node& node)
 	object.down = node.attribute("down").as_int();
 }
 
-void cXmlTools::fromXmlNode(color4& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(color4& object, pugi::xml_node& node)
 {
 	object.r = node.attribute("r").as_int();
 	object.g = node.attribute("g").as_int();
@@ -217,7 +217,7 @@ void cXmlTools::fromXmlNode(color4& object, pugi::xml_node& node)
 	object.a = node.attribute("a").as_int();
 }
 
-void cXmlTools::fromXmlNode(WideTime& object, pugi::xml_node& node)
+void XmlTools::fromXmlNode(WideTime& object, pugi::xml_node& node)
 {
 	object.mSecond = node.attribute("second").as_int();
 	object.mMinute = node.attribute("minute").as_int();

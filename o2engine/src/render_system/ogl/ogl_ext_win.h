@@ -8,10 +8,10 @@
 
 OPEN_O2_NAMESPACE
 
-class cLogStream;
+class LogStream;
 
 /** Getting openGL extensions. */
-void getGLExtensions(cLogStream* log = NULL);
+void getGLExtensions(LogStream* log = NULL);
 
 extern PFNGLGENFRAMEBUFFERSEXTPROC        glGenFramebuffersEXT;
 extern PFNGLBINDFRAMEBUFFEREXTPROC        glBindFramebufferEXT;

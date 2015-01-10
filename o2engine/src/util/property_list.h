@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 	
 
 /** Object property list class. Contains properties array, processing properties. */
-class cPropertyList
+class PropertyList
 {
 	friend class IProperty;
 
@@ -17,8 +17,8 @@ public:
 	{
 	public:	
 		string         mName;         /** Name of property. */
-		cPropertyList* mOwnerPropList; /** Owner property list. NULL, if no owner. */
-		cCallbackChain onChangeEvent; /** Calls when calling setter. */
+		PropertyList* mOwnerPropList; /** Owner property list. NULL, if no owner. */
+		CallbackChain onChangeEvent; /** Calls when calling setter. */
 
 		IProperty(const string& name):
 			mName(name), mOwnerPropList(NULL) {} 
@@ -31,7 +31,7 @@ public:
 		template<typename _class>
 		void checkPropertyList(_class* tclass)
 		{
-			cPropertyList* propList = dynamic_cast<cPropertyList*>(tclass);
+			PropertyList* propList = dynamic_cast<PropertyList*>(tclass);
 			if (propList)
 			{
 				propList->mPropertiesList.push_back(this);
@@ -102,21 +102,21 @@ public:
 	};
 
 	typedef vector<IProperty*> PropertiesVec;
-	typedef vector<cPropertyList*> PropertiesListsVec;
+	typedef vector<PropertyList*> PropertiesListsVec;
 
 protected:
 	string             mPropertyListName;   /** Property list name. */
-	cPropertyList*     mParentPropertyList; /** Parent property list. */
+	PropertyList*     mParentPropertyList; /** Parent property list. */
 	PropertiesListsVec mChildPropertyLists; /** Child properties list array. */
 	PropertiesVec      mPropertiesList;     /** Properties array .*/
 
 public:
-	cPropertyList(const string& name = "");
-	virtual ~cPropertyList();
+	PropertyList(const string& name = "");
+	virtual ~PropertyList();
 
 	void setPropertyListName(const string& name);
-	void addChildPropertyList(cPropertyList* propList);
-	void removeChildPropertyList(cPropertyList* propList, bool release = true);
+	void addChildPropertyList(PropertyList* propList);
+	void removeChildPropertyList(PropertyList* propList, bool release = true);
 	void removeAllChildPropertyLists();
 
 	template<typename T>

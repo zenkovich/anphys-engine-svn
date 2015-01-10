@@ -4,7 +4,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiCheckBox);
 
-uiCheckBox::uiCheckBox( const cLayout& layout, const string& id /*= ""*/ ):
+uiCheckBox::uiCheckBox( const layout& layout, const string& id /*= ""*/ ):
 	uiButton(layout, id), mCheckedState(NULL), mChecked(false)
 {
 	initializeProperties();

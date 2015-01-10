@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiScrollArea);
 
-uiScrollArea::uiScrollArea( const cLayout& layout, uiScrollBar* horBarSample /*= NULL*/, 
+uiScrollArea::uiScrollArea( const layout& layout, uiScrollBar* horBarSample /*= NULL*/, 
 	                        uiScrollBar* verBarSample /*= NULL*/, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHorScrollbar(NULL), mVerScrollbar(NULL)
 {
@@ -166,7 +166,7 @@ void uiScrollArea::localUpdate( float dt )
 	}
 }
 
-bool uiScrollArea::localProcessInputMessage( const cInputMessage& msg )
+bool uiScrollArea::localProcessInputMessage( const InputMessage& msg )
 {
 	bool insideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
 

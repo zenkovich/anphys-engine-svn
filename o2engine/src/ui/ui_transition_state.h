@@ -73,10 +73,10 @@ public:
 	template<typename T>
 	class ValueProperty: public uiTransitionState::IProperty
 	{
-		cPropertyList::Property<T>* mProperty;
-		cAnimFrame<T>               mStateOff;         /** Off state animation frame. */
-		cAnimFrame<T>               mStateOn;          /** On State animation frame. */
-		cFrameInterpolation<T>      mInterpolator;     /** Frame interpolator. */
+		PropertyList::Property<T>* mProperty;
+		AnimFrame<T>               mStateOff;         /** Off state animation frame. */
+		AnimFrame<T>               mStateOn;          /** On State animation frame. */
+		FrameInterpolation<T>      mInterpolator;     /** Frame interpolator. */
 		float                       mCoef;             /** Interpolation coeficient. 0 - off state, 1 - on state. */
 		float                       mCoefTime;         /** Coef time multiplier. */
 		bool                        mTargetState;      /** Target state. */
@@ -89,14 +89,14 @@ public:
 		/** ctor. */
 		ValueProperty() {}
 
-		static ValueProperty<T>* create(cPropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, 
+		static ValueProperty<T>* create(PropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, 
 			                            float duration, ICallback* onChanged = NULL)
 		{
 			ValueProperty<T>* res = mnew ValueProperty<T>();
 
 			res->mProperty = prop;
-			res->mStateOff = cAnimFrame<T>(stateOff, duration);
-			res->mStateOn = cAnimFrame<T>(stateOn, duration);
+			res->mStateOff = AnimFrame<T>(stateOff, duration);
+			res->mStateOn = AnimFrame<T>(stateOn, duration);
 			res->mInterpolator.initialize(&res->mStateOff, &res->mStateOn);
 			res->mCoef = 0;
 			res->mCoefTime = 1.0f;
@@ -109,8 +109,8 @@ public:
 			return res;
 		}
 
-		static ValueProperty<T>* create(cPropertyList::Property<T>* prop, 
-			                            const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+		static ValueProperty<T>* create(PropertyList::Property<T>* prop, 
+			                            const AnimFrame<T>& stateOff, const AnimFrame<T>& stateOn, 
 					                    ICallback* onChanged = NULL)	
 		{
 			ValueProperty<T>* res = mnew ValueProperty<T>();
@@ -244,7 +244,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	ValueProperty<T>* addProperty(cPropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, float duration, 
+	ValueProperty<T>* addProperty(PropertyList::Property<T>* prop, const T& stateOff, const T& stateOn, float duration, 
 					               ICallback* onChanged = NULL)
 	{
 		return addProperty_(ValueProperty<T>::create(prop, stateOff, stateOn, duration, onChanged));
@@ -252,7 +252,7 @@ public:
 
 	/** Adding property. */
 	template<typename T>
-	ValueProperty<T>* addProperty(cPropertyList::Property<T>* prop, const cAnimFrame<T>& stateOff, const cAnimFrame<T>& stateOn, 
+	ValueProperty<T>* addProperty(PropertyList::Property<T>* prop, const AnimFrame<T>& stateOff, const AnimFrame<T>& stateOn, 
 					              ICallback* onChanged = NULL)
 	{
 		return addProperty_(ValueProperty<T>::create(prop, stateOff, stateOn, onChanged));

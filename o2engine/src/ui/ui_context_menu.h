@@ -18,7 +18,7 @@ public:
 	DEFINE_TYPE(uiContextMenu);
 
 	/** ctor. */
-	uiContextMenu(const cLayout& layout, const string& id = "");
+	uiContextMenu(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiContextMenu(const uiContextMenu& contextMenu);
@@ -47,7 +47,7 @@ protected:
 	virtual void layoutUpdated();
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	virtual bool localProcessInputMessage(const InputMessage& msg);
 };
 
 CLOSE_O2_NAMESPACE

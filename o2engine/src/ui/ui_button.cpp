@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiButton);
 
-uiButton::uiButton(const cLayout& layout, const string& id /*= ""*/):
+uiButton::uiButton(const layout& layout, const string& id /*= ""*/):
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mPressedState(NULL), mPressed(false),
 	mPressedByButton(false), mHover(false), mUnderCursorTime(0), mHinting(false)
 {
@@ -98,7 +98,7 @@ void uiButton::localUpdate(float dt)
 	}
 }
 
-bool uiButton::localProcessInputMessage(const cInputMessage& msg)
+bool uiButton::localProcessInputMessage(const InputMessage& msg)
 {
 	/*hlog("button processing %.i cursorPos %i %i cursor %i", 
 		timeUtils()->getCurrentFrame(), (int)(appInput()->getCursorPos()).x, (int)(appInput()->getCursorPos()).y,

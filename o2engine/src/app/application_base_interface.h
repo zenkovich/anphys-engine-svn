@@ -9,11 +9,11 @@
 OPEN_O2_NAMESPACE
 
 class grRenderSystem;
-class cLogStream;
-class cFileSystem;
-class cScheduler;
-class cTimeUtil;
-class cTimer;
+class LogStream;
+class FileSystem;
+class Scheduler;
+class TimeUtil;
+class Timer;
 class uiController;
 class ProjectConfig;
 class Assets;
@@ -28,28 +28,28 @@ class Assets;
   * Time utils,
   * UI controller
  */
-class cApplicationBaseInterface: public cSingleton<cApplicationBaseInterface>
+class cApplicationBaseInterface: public Singleton<cApplicationBaseInterface>
 {
 protected:
 	ProjectConfig*  mProjectConfig; /**< Project config. */
-	cInputMessage*  mInputMessage;  /**< While application user input message. */
-	cLogStream*     mLog;           /**< Log stream with id "app", using only for application messages. */
+	InputMessage*  mInputMessage;  /**< While application user input message. */
+	LogStream*     mLog;           /**< Log stream with id "app", using only for application messages. */
 	grRenderSystem* mRenderSystem;  /**< Render system. */
-	cFileSystem*    mFileSystem;    /**< File system. */
-	cScheduler*     mScheduler;     /**< Scheduler. */
-	cTimeUtil*      mTimeUtils;     /**< Time utilities. */
+	FileSystem*    mFileSystem;    /**< File system. */
+	Scheduler*     mScheduler;     /**< Scheduler. */
+	TimeUtil*      mTimeUtils;     /**< Time utilities. */
 	uiController*   mUIController;  /**< User interface controller host. */				
 	Assets*         mAssets;        /**< Assets. */
 						   
-	cTimer*         mTimer;         /**< Timer for detecting delta time for update. */
+	Timer*         mTimer;         /**< Timer for detecting delta time for update. */
 
 public:
-	cCallbackChain onActivatedEvent;   /**< On Activated event callbacks. */
-	cCallbackChain onDeactivatedEvent; /**< On deactivated event callbacks. */
-	cCallbackChain onStartedEvent;     /**< On started event callbacks. */
-	cCallbackChain onClosingEvent;     /**< On closing event callbacks. */
-	cCallbackChain onResizingEvent;    /**< On resized app window callbacks. Ignoring on mobiles/tables. */
-	cCallbackChain onMovingEvent;      /**< On moving app window callbacks. Ignoring on mobiles/tables. */
+	CallbackChain onActivatedEvent;   /**< On Activated event callbacks. */
+	CallbackChain onDeactivatedEvent; /**< On deactivated event callbacks. */
+	CallbackChain onStartedEvent;     /**< On started event callbacks. */
+	CallbackChain onClosingEvent;     /**< On closing event callbacks. */
+	CallbackChain onResizingEvent;    /**< On resized app window callbacks. Ignoring on mobiles/tables. */
+	CallbackChain onMovingEvent;      /**< On moving app window callbacks. Ignoring on mobiles/tables. */
 
 	/** ctor. */
 	cApplicationBaseInterface();
@@ -58,25 +58,25 @@ public:
 	virtual ~cApplicationBaseInterface();
 
 	/** Returns pointer to input message object. */
-	cInputMessage* getInputMessage();
+	InputMessage* getInputMessage();
 
 	/** Returns pointer to render system object. */
 	grRenderSystem* getRenderSystem() const;
 	
 	/** Returns pointer to log object. */
-	cLogStream* getLog() const;
+	LogStream* getLog() const;
 	
 	/** Returns pointer to project config object. */
 	ProjectConfig* getProjectConfig() const;
 	
 	/** Returns pointer to file system object. */
-	cFileSystem* getFileSystem() const;
+	FileSystem* getFileSystem() const;
 	
 	/** Returns pointer to scheduler object. */
-	cScheduler* getScheduler() const;
+	Scheduler* getScheduler() const;
 	
 	/** Returns pointer to time utils object. */
-	cTimeUtil* getTimeUtils() const;
+	TimeUtil* getTimeUtils() const;
 	
 	/** Returns pointer to ui controller object. */
 	uiController* getUIController() const;
@@ -161,12 +161,12 @@ protected:
 	virtual void onMoved() {}
 };
 
-inline cInputMessage* appInput() { return cApplicationBaseInterface::instancePtr()->getInputMessage(); }
+inline InputMessage* appInput() { return cApplicationBaseInterface::instancePtr()->getInputMessage(); }
 inline grRenderSystem* renderSystem() { return cApplicationBaseInterface::instancePtr()->getRenderSystem(); }
 inline ProjectConfig* projectConfig() { return cApplicationBaseInterface::instancePtr()->getProjectConfig(); }
-inline cFileSystem* fileSystem() { return cApplicationBaseInterface::instancePtr()->getFileSystem(); }
-inline cScheduler* scheduler() { return cApplicationBaseInterface::instancePtr()->getScheduler(); }
-inline cTimeUtil* timeUtils() { return cApplicationBaseInterface::instancePtr()->getTimeUtils(); }
+inline FileSystem* fileSystem() { return cApplicationBaseInterface::instancePtr()->getFileSystem(); }
+inline Scheduler* scheduler() { return cApplicationBaseInterface::instancePtr()->getScheduler(); }
+inline TimeUtil* timeUtils() { return cApplicationBaseInterface::instancePtr()->getTimeUtils(); }
 inline uiController* uiHost() { return cApplicationBaseInterface::instancePtr()->getUIController(); }
 inline Assets* assets() { return cApplicationBaseInterface::instancePtr()->getAssets(); }
 

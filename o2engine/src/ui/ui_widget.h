@@ -18,11 +18,11 @@
 
 OPEN_O2_NAMESPACE
 
-class cGeometry;
+class Geometry;
 class uiState;
 
 /** Basic widget object. Contains id, parent, childes, position and other strange data. */
-class uiWidget: public cPropertyList
+class uiWidget: public PropertyList
 {
 	friend class uiController;
 	friend class uiState;
@@ -40,15 +40,15 @@ protected:
 	string         mId;                      /**< Identificator or name. */
 	string         mHint;                    /**< Hint text. */
 	uiWidget*      mParent;                  /**< Parent widget. NULL if no parent. */
-	cLayout        mLayout;                  /**< Widget layout. */
-	cLayout        mChildsLayout;            /**< Childes layout. */
+	layout        mLayout;                  /**< Widget layout. */
+	layout        mChildsLayout;            /**< Childes layout. */
 	WidgetsVec     mChildWidgets;            /**< Childes widgets. */
 	vec2f          mGlobalPosition;          /**< Position in screen space. */
 	vec2f          mSize;                    /**< Size of widget. Not including childes. */
 	vec2f          mAbsMinSize;              /**< Absolute widget minimal size, depends on mLayout and child mResMinSize. */
 	vec2f          mFixedMinSize;            /**< Widgets fixed min size. */
 	vec2f          mChildsOffset;            /**< Offset for childrens. */
-	cGeometry*     mGeometry;                /**< Colliding geometry. May be NULL. */
+	Geometry*     mGeometry;                /**< Colliding geometry. May be NULL. */
 	fRect          mBounds;                  /**< Widget with childes bounds. */
 	bool           mResizeByChilds;          /**< Resize by childes, if true, widget will be resized so that all fit. */
 	bool           mVisible;                 /**< True, if widget is visible. */
@@ -64,7 +64,7 @@ protected:
 	uint32         mDrawedAtFrame;           /** Last drawing frame index. */
 	uint32         mProcessedInputAtFrame;   /** Last input processing frame index. */
 
-	cCallbackChain mResTransparencyChanged;  /** Calls when result transparency changed. */
+	CallbackChain mResTransparencyChanged;  /** Calls when result transparency changed. */
 	ICallback*     mCheckParentTransparency; /** Calls when parent transparency changing. */
 
 public:
@@ -73,8 +73,8 @@ public:
 	//Type definition
 	DEFINE_TYPE(uiWidget);
 
-	cCallbackChain onVisibleOn;
-	cCallbackChain onVisibleOff;
+	CallbackChain onVisibleOn;
+	CallbackChain onVisibleOff;
 
 	//properties
 	PROPERTY(uiWidget, uiWidget*) parent;         /**< Parent property. Using setParent/getParent. */
@@ -83,12 +83,12 @@ public:
 	PROPERTY(uiWidget, vec2f)     globalPosition; /**< Global position property. Using setGlobalPosition/get.. */
 	PROPERTY(uiWidget, vec2f)     size;           /**< Size property. Using setSize/getSize. */
 	PROPERTY(uiWidget, bool)      visible;        /**< Visibility property. Using set/isVisible. */
-	PROPERTY(uiWidget, cLayout)   layout;         /**< Widget layout. Using set/getLayout. */
+	PROPERTY(uiWidget, layout)   layout;         /**< Widget layout. Using set/getLayout. */
 	PROPERTY(uiWidget, float)     transparency;   /**< Widget transparency. Using set/getTransparency. */
 
 
 	/** ctor. */
-	uiWidget(const cLayout& layout, const string& id = "");
+	uiWidget(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiWidget(const uiWidget& widget);
@@ -106,7 +106,7 @@ public:
 	virtual void update(float dt);
 
 	/** Process message in widget, and after in childes. */
-	virtual bool processInputMessage(const cInputMessage& msg);
+	virtual bool processInputMessage(const InputMessage& msg);
 
 	/** Returns true, if point inside widget or inside childes. */
 	virtual bool isInside(const vec2f& point) const;
@@ -206,22 +206,22 @@ public:
 	vec2f getSize() const;
 
 	/** Sets widget layout. */
-	void setLayout(const cLayout& layout);
+	void setLayout(const layout& layout);
 
 	/** Returns widget layout. */
-	cLayout getLayout() const;
+	layout getLayout() const;
 
 	/** Sets childes layout. */
-	void setChildsLayout(const cLayout& layout);
+	void setChildsLayout(const layout& layout);
 
 	/** Returns childes layout. */
-	cLayout getChildsLayout() const;
+	layout getChildsLayout() const;
 
 	/** Sets the colliding geometry. */
-	void setGeometry(cGeometry* geometry);
+	void setGeometry(Geometry* geometry);
 
 	/** Returns colliding geometry ptr. */
-	cGeometry* getGeometry() const;
+	Geometry* getGeometry() const;
 
 	/** Sets transparency of widget. */
 	void setTransparency(float transparency);
@@ -258,7 +258,7 @@ protected:
 	virtual void layoutUpdated() {}
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg) { return false; }
+	virtual bool localProcessInputMessage(const InputMessage& msg) { return false; }
 
 	/** Returns true, if point inside current widget. */
 	virtual bool isLocalInside(const vec2f& point) const { return true; }
@@ -273,7 +273,7 @@ protected:
 	virtual void updateResTransparency();
 
 	/** Sets widget layout with parametres. */
-	void setLayoutParams(const cLayout& layout, bool onlyDownUpdate);
+	void setLayoutParams(const layout& layout, bool onlyDownUpdate);
 
 	/** Calls when need to update result min size. */
 	void updateAbsMinSize();

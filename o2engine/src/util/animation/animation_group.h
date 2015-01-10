@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Animations group. Animates some animation with same absolute time and intervals. */
-class cAnimationGroup: public IAnimation
+class AnimationGroup: public IAnimation
 {
 public:
 	typedef vector< IAnimation* > AnimationsVec;
@@ -18,10 +18,10 @@ protected:
 
 public:
 	/** ctor. */
-	cAnimationGroup();
+	AnimationGroup();
 
 	/** dtor. */
-	~cAnimationGroup();
+	~AnimationGroup();
 
 	/** Adding animation in group. */
 	void addAnimation(IAnimation* animation);

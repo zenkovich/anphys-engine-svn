@@ -14,7 +14,7 @@ OPEN_O2_NAMESPACE
 class grRenderSystem;
 
 /** Stretching rect drawable. Contains some parts, what building using position and size of drawable. */
-class cStretchRect:public IRectDrawable
+class StretchRect:public IRectDrawable
 {
 	/** Drawable part. Contains texture source rect, each corners colors, texture wrapping and position params. */
 	struct Part
@@ -51,17 +51,17 @@ class cStretchRect:public IRectDrawable
 public:
 
 	/** ctor. */
-	cStretchRect(int parts = 0, const grTexture& texture = grTexture());
+	StretchRect(int parts = 0, const grTexture& texture = grTexture());
 
 	/** ctor, creating standard 9-slice stretching rect. */
-	cStretchRect(const grTexture& texture, int left, int top, int right, int bottom, const fRect& texRect = fRect(), 
+	StretchRect(const grTexture& texture, int left, int top, int right, int bottom, const fRect& texRect = fRect(), 
 		         const color4& color = color4::white());
 
 	/** copy-ctor. */
-	cStretchRect(const cStretchRect& stretchRect);
+	StretchRect(const StretchRect& stretchRect);
 
 	/** copy operator. */
-	cStretchRect& operator=(const cStretchRect& stretchRect);
+	StretchRect& operator=(const StretchRect& stretchRect);
 
 	/** Returns a copy of drawable. */
 	IRectDrawable* clone() const;

@@ -11,7 +11,7 @@ SERIALIZE_METHOD_IMPL(FileLocation)
 
 bool FileLocation::operator==(const FileLocation& v) const
 {
-	if (mId != 0)
+	if (mId != 0 && v.mId != 0)
 		return mId == v.mId;
 
 	return mPath == v.mPath;

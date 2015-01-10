@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Mutex. Uses POSIX. */
-class cMutex
+class Mutex
 {
 	pthread_mutex_t mMutex;       /** Mutex identificator. */
 	bool            mInitialized; /** True, when initialized. */
@@ -17,10 +17,10 @@ public:
 	enum Type { MT_DEFAULT = 0, MT_RECURSIVE };
 
 	/** ctor. */
-	cMutex(Type type = MT_DEFAULT);
+	Mutex(Type type = MT_DEFAULT);
 
 	/** dtor. */
-	~cMutex();
+	~Mutex();
 
 	/** Locking mutex. Returns 0 if success. */
 	int lock();

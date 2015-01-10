@@ -24,10 +24,10 @@ protected:
 public: 
 	PROPERTY(uiState, bool) state; /** State property. Using set/getState. */
 
-	cCallbackChain onActiveStateEvent;        /** On state active callbacks. Calls when active state completely setted. */
-	cCallbackChain onBeginActiveStateEvent;   /** On state begin active callbacks. Calls when state beginning. */
-	cCallbackChain onDeactiveStateEvent;      /** On state deactive callbacks. Calls when active state completely setted. */   
-	cCallbackChain onBeginDeactiveStateEvent; /** On state begin deactive callbacks. Calls when state beginning. */
+	CallbackChain onActiveStateEvent;        /** On state active callbacks. Calls when active state completely setted. */
+	CallbackChain onBeginActiveStateEvent;   /** On state begin active callbacks. Calls when state beginning. */
+	CallbackChain onDeactiveStateEvent;      /** On state deactive callbacks. Calls when active state completely setted. */   
+	CallbackChain onBeginDeactiveStateEvent; /** On state begin deactive callbacks. Calls when state beginning. */
 
 
 	/** ctor. */

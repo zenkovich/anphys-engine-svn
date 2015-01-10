@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-cStackAllocator::cStackAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
+StackAllocator::StackAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
 	mParentAllocator(parentAllocator), mMemorySize(size)
 {
 	if (parentAllocator)
@@ -17,12 +17,12 @@ cStackAllocator::cStackAllocator( uint32 size, IAllocator* parentAllocator /*= N
 		mMemory = (char*)malloc(size);
 	}
 
-	mMutex = mnew cMutex;
+	mMutex = mnew Mutex;
 
 	mUsedMemory = 0;
 }
 
-cStackAllocator::~cStackAllocator()
+StackAllocator::~StackAllocator()
 {
 	if (mParentAllocator)
 	{
@@ -36,7 +36,7 @@ cStackAllocator::~cStackAllocator()
 	safe_release(mMutex);
 }
 
-void* cStackAllocator::alloc( uint32 bytes )
+void* StackAllocator::alloc( uint32 bytes )
 {	
 	mMutex->lock();
 
@@ -55,7 +55,7 @@ void* cStackAllocator::alloc( uint32 bytes )
 	}
 }
 
-void* cStackAllocator::realloc( void* ptr, uint32 bytes )
+void* StackAllocator::realloc( void* ptr, uint32 bytes )
 {
 	mMutex->lock();
 
@@ -67,7 +67,7 @@ void* cStackAllocator::realloc( void* ptr, uint32 bytes )
 	return res;
 }
 
-void cStackAllocator::free( void* ptr )
+void StackAllocator::free( void* ptr )
 {
 	mMutex->lock();
 

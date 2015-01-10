@@ -11,7 +11,7 @@ class uiDrawablesListWidget: public uiWidget
 {
 public: 
 	/** Base drawable class. COntains name, drawable, parent and childs, layout. */
-	class Drawable: public cPropertyList
+	class Drawable: public PropertyList
 	{
 		friend class uiDrawablesListWidget;
 	public:
@@ -20,18 +20,18 @@ public:
 	protected:
 		string         mName;           /** Name of drawable. */
 		IRectDrawable* mDrawable;       /** Rect drawable. Null, if no drawable. */
-		cLayout        mLayout;         /** Layout. */
+		layout        mLayout;         /** Layout. */
 		Drawable*      mParentDrawable; /** Parent drawable. NULL if no parent. */
 		DrawablesVec   mChildDrawables; /** Child drawables. */
 
 	public:
-		PROPERTY(Drawable, cLayout) layout; /** Layout property. Using set/getlayout. */
+		PROPERTY(Drawable, layout) layout; /** Layout property. Using set/getlayout. */
 
 		/** ctor. */
 		Drawable() {}
 
 		/** ctor. */
-		Drawable(const string& name, IRectDrawable* drawable, const cLayout& layout = cLayout::both(),
+		Drawable(const string& name, IRectDrawable* drawable, const layout& layout = layout::both(),
 			     Drawable* parentDrawable = NULL);
 
 		/** copy-ctor. */
@@ -60,7 +60,7 @@ public:
 
 		/** Adding child drawable. */
 		Drawable* addChildDrawable(const string& name, IRectDrawable* drawable, 
-			                       const cLayout& layout = cLayout::both());
+			                       const layout& layout = layout::both());
 
 		/** Returns child drawable by path. */
 		Drawable* getChildDrawable(const string& path);
@@ -72,10 +72,10 @@ public:
 		void removeAllChildDrawables();
 
 		/** Sets layout. */
-		void setLayout(const cLayout& layout);
+		void setLayout(const layout& layout);
 
 		/** Returns layout. */
-		cLayout getLayout() const;
+		layout getLayout() const;
 
 		/** Updates layout. */
 		void updateLayoutManual(const vec2f& parPos, const vec2f& parSize);
@@ -100,7 +100,7 @@ protected:
 
 public:
 	/** ctor. */
-	uiDrawablesListWidget(const cLayout& layout, const string& id = "");
+	uiDrawablesListWidget(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiDrawablesListWidget(const uiDrawablesListWidget& widget);
@@ -115,7 +115,7 @@ public:
 	Drawable* addDrawable(Drawable* drawable);
 
 	/** Adding drawable with specified id. */
-	Drawable* addDrawable(IRectDrawable* drawable, const string& id, const cLayout& layout = cLayout::both());
+	Drawable* addDrawable(IRectDrawable* drawable, const string& id, const layout& layout = layout::both());
 
 	/** Returns drawable by id. */
 	Drawable* getDrawable(const string& path);

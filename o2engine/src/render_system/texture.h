@@ -34,7 +34,7 @@ public:
 				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	static grTexture createFromImage(cImage* image);
+	static grTexture createFromImage(Bitmap* image);
 				       
 	/** Creates texture from file. */
 	static grTexture createFromFile(const string& fileName);

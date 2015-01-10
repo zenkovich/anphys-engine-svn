@@ -30,7 +30,7 @@ class grTextureDef:public grTextureDefBaseInterface
 		  	    grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	void createFromImage(cImage* image);
+	void createFromImage(Bitmap* image);
 		       
 	/** Creates texture from file. */
 	void createFromFile(const string& fileName);

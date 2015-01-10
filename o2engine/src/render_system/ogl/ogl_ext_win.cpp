@@ -9,7 +9,7 @@
 OPEN_O2_NAMESPACE
 
 /** Returns addres of function. */
-PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
+PROC getSafeWGLProcAddress(const char* id, LogStream* log)
 {
 	PROC res = wglGetProcAddress(id);
 	if (!res)
@@ -18,9 +18,9 @@ PROC getSafeWGLProcAddress(const char* id, cLogStream* log)
 	return res;
 }
 
-void getGLExtensions( cLogStream* log /*= NULL*/ )
+void getGLExtensions( LogStream* log /*= NULL*/ )
 {
-	cLogStream* llog = log ? log:gLog;
+	LogStream* llog = log ? log:gLog;
 	
 	glGenFramebuffersEXT        = (PFNGLGENFRAMEBUFFERSEXTPROC) getSafeWGLProcAddress("glGenFramebuffersEXT", llog);
 	glBindFramebufferEXT        = (PFNGLBINDFRAMEBUFFEREXTPROC) getSafeWGLProcAddress("glBindFramebufferEXT", llog);

@@ -8,10 +8,10 @@
 
 OPEN_O2_NAMESPACE
 
-class cSerializable;
+class Serializable;
 
 /** Some helping functions for working with xml. */
-struct cXmlTools
+struct XmlTools
 {
 	/** Loads xml file. */
 	static bool loadFromFile(const string& fileName, pugi::xml_document& xmlDoc, bool isConfigFile = true);

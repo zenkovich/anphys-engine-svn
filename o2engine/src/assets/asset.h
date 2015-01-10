@@ -35,13 +35,13 @@ public:
 	string getPath() const;
 	uint32 getFileId() const;
 
-	void save(const string& path);
+	void save(const string& path, bool rebuildAssetsImmediately = true);
 
 protected:
 	virtual void saveData() = 0;
 };
 
-struct asAssetInfo: public cSerializable
+struct asAssetInfo: public Serializable
 {
 public:
 	enum Type { TP_FILE, TP_IMAGE, TP_ATLAS, TP_FOLDER };

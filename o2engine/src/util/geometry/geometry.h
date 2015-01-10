@@ -6,7 +6,7 @@
 OPEN_O2_NAMESPACE
 	
 /** Geometry interface. Processing point colliding, AABB, positioning. */
-class cGeometry
+class Geometry
 {
 public: 
 	/** Returns true, if point inside. */
@@ -23,22 +23,22 @@ public:
 };
 
 /** Rectangle geometry, aligned by axis. */
-class cRectGeometry:public cGeometry
+class RectGeometry:public Geometry
 {
 	fRect mRect;
 
 public:
 	/** ctor. */
-	cRectGeometry();
+	RectGeometry();
 
 	/** ctor. */
-	cRectGeometry(const fRect& rect);
+	RectGeometry(const fRect& rect);
 
 	/** ctor. */
-	cRectGeometry(float left, float top, float right, float down);
+	RectGeometry(float left, float top, float right, float down);
 
 	/** ctor. */
-	cRectGeometry(const vec2f& minp, const vec2f& maxp);
+	RectGeometry(const vec2f& minp, const vec2f& maxp);
 	
 	/** Returns true, if point inside. */
 	bool isInside(const vec2f& point) const;
@@ -63,7 +63,7 @@ public:
 };
 
 /** Circle geometry. Determined by center position and radius. */
-class cCircleGeometry: public cGeometry
+class CircleGeometry: public Geometry
 {
 	vec2f mCenter;    /**< Center position. */
 	float mRadius;    /**< Radius of circle. */
@@ -71,10 +71,10 @@ class cCircleGeometry: public cGeometry
 
 public:
 	/** ctor. */
-	cCircleGeometry();
+	CircleGeometry();
 
 	/** ctor. */
-	cCircleGeometry(const vec2f& center, float radius);
+	CircleGeometry(const vec2f& center, float radius);
 
 	/** Returns true, if point inside. */
 	bool isInside(const vec2f& point) const;
@@ -92,12 +92,12 @@ public:
 	void set(const vec2f& center, float radius);
 };
 
-class cGroupGeometry:public cGeometry
+class GroupGeometry:public Geometry
 {
-	friend class cGeometry;
+	friend class Geometry;
 
 public:
-	typedef vector< cGeometry* > PartsVec;
+	typedef vector< Geometry* > PartsVec;
 
 protected:
 	PartsVec mParts;
@@ -105,15 +105,15 @@ protected:
 	vec2f    mPosition;
 
 public:
-	cGroupGeometry();
-	~cGroupGeometry();
+	GroupGeometry();
+	~GroupGeometry();
 
 	template<typename T>
 	T& getPart(int idx) { return *((T*)mParts[idx]); }
 
 	int getPartsCount() const;
 	
-	int addPart(cGeometry* geom);
+	int addPart(Geometry* geom);
 	void removePart(int idx);
 	void removeAllParts();
 

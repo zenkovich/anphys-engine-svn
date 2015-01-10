@@ -20,12 +20,12 @@ public:
 
 	PROPERTY(uiCheckBox, bool) checked;  /** Check property. Using set/isChecked. */
 
-	cCallbackChain onCheckOn;            /** On check on event. */
-	cCallbackChain onCheckOff;           /** On check off event. */
+	CallbackChain onCheckOn;            /** On check on event. */
+	CallbackChain onCheckOff;           /** On check off event. */
 
 
 	/** ctor. */
-	uiCheckBox(const cLayout& layout, const string& id = "");
+	uiCheckBox(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiCheckBox(const uiCheckBox& checkbox);

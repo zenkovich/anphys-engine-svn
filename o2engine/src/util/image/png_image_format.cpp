@@ -2,7 +2,7 @@
 
 #include "libpng/png.h"
 
-#include "image.h"
+#include "bitmap.h"
 #include "util/file_system/file.h"
 #include "util/log.h"
 
@@ -13,7 +13,7 @@ void customPngReadFn(png_structp png_ptr, png_bytep outBytes, png_size_t byteCou
 	void* io_ptr = png_get_io_ptr(png_ptr);
 	if (io_ptr == NULL) return;
 
-	cInFile* file = (cInFile*)io_ptr;
+	InFile* file = (InFile*)io_ptr;
 
 	file->readData(outBytes, byteCountToRead);
 }
@@ -23,18 +23,18 @@ void customPngWriteFn(png_structp png_ptr, png_bytep bytes, png_size_t byteCount
 	void* io_ptr = png_get_io_ptr(png_ptr);
 	if (io_ptr == NULL) return;
 
-	cOutFile* file = (cOutFile*)io_ptr;
+	OutFile* file = (OutFile*)io_ptr;
 
 	file->writeData(bytes, byteCountToWrite);
 }
 
 void customPngFlushFn(png_structp png_ptr) {}
 
-bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/, cLogStream* plog /*= NULL*/ )
+bool loadPngImage( const string& fileName, Bitmap* image, bool errors /*= true*/, LogStream* plog /*= NULL*/ )
 {	
-	cLogStream* log = plog ? plog:gLog;
+	LogStream* log = plog ? plog:gLog;
 
-	cInFile pngImageFile(fileName, cFileType::IMAGE);
+	InFile pngImageFile(fileName, FileType::IMAGE);
 	if (!pngImageFile.isOpened())
 	{
 		if (errors) log->error("Can't load PNG file '%s'\n", fileName.c_str());
@@ -117,7 +117,7 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
 	// Allocate the image_data as a big block, to be given to opengl
-	image->create(cImage::FMT_R8G8B8A8, vec2i(twidth, theight));
+	image->create(Bitmap::FMT_R8G8B8A8, vec2i(twidth, theight));
 	png_byte *image_data = image->getData();
 	if (!image_data) 
 	{
@@ -154,11 +154,11 @@ bool loadPngImage( const string& fileName, cImage* image, bool errors /*= true*/
 	return true;
 }
 
-bool savePngImage( const string& fileName, const cImage* image, cLogStream* plog /*= NULL*/ )
+bool savePngImage( const string& fileName, const Bitmap* image, LogStream* plog /*= NULL*/ )
 {
-	cLogStream* log = plog ? plog:gLog;
+	LogStream* log = plog ? plog:gLog;
 
-	cOutFile pngImageFile(fileName);
+	OutFile pngImageFile(fileName);
 	if (!pngImageFile.isOpened())
 	{
 		log->error("Can't save PNG file '%s'\n", fileName.c_str());

@@ -32,15 +32,15 @@ public:
 	PROPERTY(uiButton, string) ccaption; /** C Text caption property. Using set/getCCaption. */
 	PROPERTY(uiButton, wstring) caption; /** Caption property. Using set/getCaption. */
 
-	cCallbackChain onClickEvent;     /** On click event. */
-	cCallbackChain onHoverEvent;     /** On hover event. */
-	cCallbackChain onHoverOffEvent;  /** On hover off event. */
-	cCallbackChain onFocusedEvent;   /** On focused event. */
-	cCallbackChain onFocusLostEvent; /** On focus lost event. */
+	CallbackChain onClickEvent;     /** On click event. */
+	CallbackChain onHoverEvent;     /** On hover event. */
+	CallbackChain onHoverOffEvent;  /** On hover off event. */
+	CallbackChain onFocusedEvent;   /** On focused event. */
+	CallbackChain onFocusLostEvent; /** On focus lost event. */
 
 
 	/** ctor. */
-	uiButton(const cLayout& layout, const string& id = "");
+	uiButton(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiButton(const uiButton& button);
@@ -74,7 +74,7 @@ protected:
 	virtual void localUpdate(float dt);
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	virtual bool localProcessInputMessage(const InputMessage& msg);
 
 	/** Calls when widget focused. */
 	virtual void onFocused();

@@ -33,16 +33,16 @@ void cApplicationBaseInterface::initalizeSystems()
 	srand(time(NULL));
 
 //log
-	cFileLogStream* fileLog = mnew cFileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
-	gLog = mnew cConsoleLogStream(BASIC_LOG_LEVEL);
+	FileLogStream* fileLog = mnew FileLogStream(BASIC_LOG_LEVEL, GLOBAL_LOG_FILENAME);
+	gLog = mnew ConsoleLogStream(BASIC_LOG_LEVEL);
 	fileLog->bindStream(gLog);
-	mLog = mnew cFileLogStream("App", 2, "app_log.txt");
+	mLog = mnew FileLogStream("App", 2, "app_log.txt");
 	gLog->bindStream(mLog);
 
 	mLog->out("All Systems initialized");
 
 //file system
-	mFileSystem = mnew cFileSystem();
+	mFileSystem = mnew FileSystem();
 
 //project config
 	mProjectConfig = mnew ProjectConfig();
@@ -51,17 +51,17 @@ void cApplicationBaseInterface::initalizeSystems()
 	mAssets = mnew Assets();
 
 //input message
-	mInputMessage = mnew cInputMessage();
+	mInputMessage = mnew InputMessage();
 
 //scheduler
-	mScheduler = mnew cScheduler();
+	mScheduler = mnew Scheduler();
 
 //timer
-	mTimer = mnew cTimer();
+	mTimer = mnew Timer();
 	mTimer->reset();
 
 //timers
-	mTimeUtils = mnew cTimeUtil();
+	mTimeUtils = mnew TimeUtil();
 
 //ui
 	mUIController = mnew uiController();
@@ -102,7 +102,7 @@ void cApplicationBaseInterface::processFrame()
 	mScheduler->processAfterFrame(dt);
 }
 
-cInputMessage* cApplicationBaseInterface::getInputMessage()
+InputMessage* cApplicationBaseInterface::getInputMessage()
 {
 	return mInputMessage;
 }
@@ -112,7 +112,7 @@ grRenderSystem* cApplicationBaseInterface::getRenderSystem() const
 	return mRenderSystem;
 }
 
-cLogStream* cApplicationBaseInterface::getLog() const
+LogStream* cApplicationBaseInterface::getLog() const
 {
 	return mLog;
 }
@@ -122,17 +122,17 @@ ProjectConfig* cApplicationBaseInterface::getProjectConfig() const
 	return mProjectConfig;
 }
 
-cFileSystem* cApplicationBaseInterface::getFileSystem() const
+FileSystem* cApplicationBaseInterface::getFileSystem() const
 {
 	return mFileSystem;
 }
 
-cScheduler* cApplicationBaseInterface::getScheduler() const
+Scheduler* cApplicationBaseInterface::getScheduler() const
 {
 	return mScheduler;
 }
 
-cTimeUtil* cApplicationBaseInterface::getTimeUtils() const
+TimeUtil* cApplicationBaseInterface::getTimeUtils() const
 {
 	return mTimeUtils;
 }

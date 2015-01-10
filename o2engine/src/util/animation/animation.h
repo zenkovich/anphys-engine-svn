@@ -11,10 +11,10 @@ OPEN_O2_NAMESPACE
 
 /** Animated parameter. */
 template<typename T>
-class cAnimation: virtual public IAnimation
+class Animation: virtual public IAnimation
 {
 	friend class AnimationTest;
-	typedef vector< cAnimFrame<T> > FramesVec;
+	typedef vector< AnimFrame<T> > FramesVec;
 
 public:
 	
@@ -31,12 +31,12 @@ protected:
 	float         mCurrentFrameDuration;     /**< Duration of current frame. */
 	float         mCurrentFrameInvDuration;  /**< Inverted duration of current frame. */
 
-	cFrameInterpolation<T> mFrameInterp; /**< Frames interpolator. */
+	FrameInterpolation<T> mFrameInterp; /**< Frames interpolator. */
 
 public:
 
 	/** ctor. */
-	cAnimation(int frames = 0, float duration = 1.0f): IAnimation(),
+	Animation(int frames = 0, float duration = 1.0f): IAnimation(),
 		       mCurrentFrame(0), mCurrentFrameBeginTime(0), mCurrentFrameEndTime(0), mCurrentFrameDuration(0),
 		       mCurrentFrameInvDuration(1), mUpdateFunc(NULL)
 	{
@@ -44,13 +44,13 @@ public:
 
 		float frameDuration = (frames == 0) ? 0.0f:duration/(float)frames;
 		for (int i = 0; i < frames; i++)
-			mFrames.push_back(cAnimFrame<T>(mValue, frameDuration));
+			mFrames.push_back(AnimFrame<T>(mValue, frameDuration));
 
 		mDuration = frames*frameDuration;
 	}
 
 	/** dtor. */
-	virtual ~cAnimation() {}
+	virtual ~Animation() {}
 
 	/** Access operator. */
 	T& operator*() { return mValue; }
@@ -79,11 +79,11 @@ public:
 	int addFrame(const T& value, int position = -1, float time = 1.0f, bool bezier = false, 
 		         InterpolationType type = IT_LINEAR, uint32 dataSize = 0, float* data = NULL)
 	{
-		return addFrame(cAnimFrame<T>(value, time, bezier, type, dataSize, data), position);
+		return addFrame(AnimFrame<T>(value, time, bezier, type, dataSize, data), position);
 	}
 
 	/** Add frame. */
-	int addFrame(const cAnimFrame<T>& frm, int position = -1) 
+	int addFrame(const AnimFrame<T>& frm, int position = -1) 
 	{
 		if (mFrames.size() == 0)
 			mDuration -= frm.mTime;
@@ -156,7 +156,7 @@ protected:
 		while (mTime < mCurrentFrameBeginTime && mCurrentFrame > 1)
 		{
 			mCurrentFrame--;
-			cAnimFrame<T>* frm = &mFrames[mCurrentFrame];
+			AnimFrame<T>* frm = &mFrames[mCurrentFrame];
 			mCurrentFrameEndTime = mCurrentFrameBeginTime;
 			mCurrentFrameBeginTime -= frm->mTime;
 			
@@ -167,7 +167,7 @@ protected:
 		while (x && mTime > mCurrentFrameEndTime && mCurrentFrame < (int)mFrames.size() - 1)
 		{
 			mCurrentFrame++;
-			cAnimFrame<T>* frm = &mFrames[mCurrentFrame];
+			AnimFrame<T>* frm = &mFrames[mCurrentFrame];
 			mCurrentFrameBeginTime = mCurrentFrameEndTime;
 			mCurrentFrameEndTime += frm->mTime;
 			updateFrameSupportValues();
