@@ -3,7 +3,7 @@
 
 #include "texture_ogl.h"
 
-#include "util/image/image.h"
+#include "util/image/bitmap.h"
 #include "../render_system.h"
 
 OPEN_O2_NAMESPACE
@@ -42,12 +42,12 @@ void grTextureDef::create( const vec2f& size, grTexFormat::type format /*= grTex
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
-void grTextureDef::createFromImage( cImage* image )
+void grTextureDef::createFromImage( Bitmap* image )
 {
-	cImage::Format imageFormat = image->getFormat();
-	if (imageFormat == cImage::FMT_NONE)
+	Bitmap::Format imageFormat = image->getFormat();
+	if (imageFormat == Bitmap::FMT_NONE)
 		mFormat = grTexFormat::DEFAULT;
-	else if (imageFormat == cImage::FMT_R8G8B8A8)
+	else if (imageFormat == Bitmap::FMT_R8G8B8A8)
 		mFormat = grTexFormat::R8G8B8A8;
 
 	mUsage = grTexUsage::DEFAULT;
@@ -74,8 +74,8 @@ void grTextureDef::createFromImage( cImage* image )
 
 void grTextureDef::createFromFile( const string& fileName )
 {
-	cImage* image = mnew cImage;
-	if (image->load(fileName, cImage::IT_AUTO, renderSystem()->mLog))
+	Bitmap* image = mnew Bitmap;
+	if (image->load(fileName, Bitmap::IT_AUTO, renderSystem()->mLog))
 		createFromImage(image);
 	safe_release(image);
 }

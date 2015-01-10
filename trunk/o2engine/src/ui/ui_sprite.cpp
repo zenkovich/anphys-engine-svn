@@ -2,7 +2,7 @@
 
 OPEN_O2_NAMESPACE
 
-uiSprite::uiSprite(const cLayout& layout, const string& id /*= ""*/):
+uiSprite::uiSprite(const layout& layout, const string& id /*= ""*/):
 	uiWidget(layout, id)
 {
 	layoutUpdated();

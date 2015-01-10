@@ -129,6 +129,8 @@ void abAtlasAssetInfo::initFromConfigs(asAssetConfig* config)
 
 	mName = atlConfig->mName;
 	mMaxSize = atlConfig->mMaxSize;
+	mAttachedToFolder = atlConfig->mAttachedToFolder;
+	mAttachFolderLocation = atlConfig->mAttachFolderLocation;
 }
 
 asAssetConfig* abAtlasAssetInfo::getConfigsSample() const
@@ -137,6 +139,8 @@ asAssetConfig* abAtlasAssetInfo::getConfigsSample() const
 	res->mLocation = mLocation;
 	res->mName = mName;
 	res->mMaxSize= mMaxSize;
+	res->mAttachedToFolder = mAttachedToFolder;
+	res->mAttachFolderLocation = mAttachFolderLocation;
 	return res;
 }
 
@@ -230,9 +234,9 @@ SERIALIZE_INHERITED_METHOD_IMPL(abFolderInfo)
 	return true;
 }
 
-asAssetConfig* abFolderInfo::initFromConfigs() const
+asAssetConfig* abFolderInfo::getConfigsSample() const
 {
-	asPathConfig* res = mnew asPathConfig();
+	asFolderConfig* res = mnew asFolderConfig();
 	res->mLocation = mLocation;
 	return res;
 }

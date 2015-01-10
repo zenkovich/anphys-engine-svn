@@ -12,7 +12,7 @@ class FileInfo
 {
 public:
 	string           mPath;
-	cFileType::value mFileType;
+	FileType::value mFileType;
 	WideTime         mCreatedDate;
 	WideTime         mAccessDate;
 	WideTime         mEditDate;
@@ -41,7 +41,7 @@ protected:
 	void processPathNamesClamping(int charCount);
 };
 
-class FileLocation: public cSerializable
+class FileLocation: public Serializable
 {
 public:
 	string mPath;

@@ -5,12 +5,12 @@
 
 OPEN_O2_NAMESPACE
 
-class cConsoleLogStream:public cLogStream
+class ConsoleLogStream:public LogStream
 {
 public:
-	cConsoleLogStream(uint8 level);
-	cConsoleLogStream(const string& id, uint8 level);
-	~cConsoleLogStream();
+	ConsoleLogStream(uint8 level);
+	ConsoleLogStream(const string& id, uint8 level);
+	~ConsoleLogStream();
 
 protected:
 	void outStrEx(const string& str);

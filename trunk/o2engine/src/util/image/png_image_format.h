@@ -5,11 +5,11 @@
 
 OPEN_O2_NAMESPACE
 
-class cImage;
-class cLogStream;
+class Bitmap;
+class LogStream;
 
-bool loadPngImage(const string& fileName, cImage* image, bool errors = true, cLogStream* plog = NULL);
-bool savePngImage(const string& fileName, const cImage* image, cLogStream* plog = NULL);
+bool loadPngImage(const string& fileName, Bitmap* image, bool errors = true, LogStream* plog = NULL);
+bool savePngImage(const string& fileName, const Bitmap* image, LogStream* plog = NULL);
 
 CLOSE_O2_NAMESPACE
 

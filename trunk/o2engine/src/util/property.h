@@ -11,7 +11,7 @@ OPEN_O2_NAMESPACE
 
 /** Super-duper-mega cpp property! Hello from C#. I think not bad feature :). */
 template<typename _class, typename _type>
-class cProperty: public cPropertyList::Property<_type>
+class Property: public PropertyList::Property<_type>
 {
 	_class* mClass;                         /** Basic class. */
 	
@@ -23,9 +23,9 @@ class cProperty: public cPropertyList::Property<_type>
 
 public:
 	/** ctor. */
-	cProperty(): mSetter(NULL), mGetter(NULL), mClass(NULL) {}
+	Property(): mSetter(NULL), mGetter(NULL), mClass(NULL) {}
 
-	cProperty(const string& name, _class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
+	Property(const string& name, _class* tclass, void* setterFunc, void* getterFunc, bool setterConst = true, bool getterConst = true)
 	{
 		mName = name;
 		mClass = tclass;
@@ -106,7 +106,7 @@ public:
 		onChangeEvent.call();
 	}
 
-	void copy(cProperty& prop) const
+	void copy(Property& prop) const
 	{
 		prop.mClass = mClass;
 		prop.mSetterNonConst = mSetterNonConst;
@@ -115,13 +115,13 @@ public:
 		prop.mGetterNonConst = mGetterNonConst;
 	}
 
-	cProperty& operator=(const _type& value)
+	Property& operator=(const _type& value)
 	{
 		set(value);
 		return *this;
 	}
 	
-	cProperty& operator+=(const _type& value)
+	Property& operator+=(const _type& value)
 	{
 		*this = *this + value;
 		return *this;
@@ -132,7 +132,7 @@ public:
 		return get() + value;
 	}
 	
-	cProperty& operator-=(const _type& value)
+	Property& operator-=(const _type& value)
 	{
 		*this = *this - value;
 		return *this;
@@ -143,7 +143,7 @@ public:
 		return get() - value;
 	}
 	
-	cProperty& operator*=(const _type& value)
+	Property& operator*=(const _type& value)
 	{
 		*this = *this * value;
 		return *this;
@@ -154,7 +154,7 @@ public:
 		return get() * value;
 	}
 	
-	cProperty& operator/=(const _type& value)
+	Property& operator/=(const _type& value)
 	{
 		*this = *this / value;
 		return *this;
@@ -167,7 +167,7 @@ public:
 
 protected:
 	/** Please, don't copy this. */
-	cProperty& operator=(const cProperty& prop) 
+	Property& operator=(const Property& prop) 
 	{ 
 		mClass = prop.mClass;
 		mSetterNonConst = prop.mSetterNonConst;
@@ -180,7 +180,7 @@ protected:
 };
 
 /** Simple macros for highlighting. */
-#define PROPERTY(_CLASS, _TYPE) cProperty<_CLASS, _TYPE>
+#define PROPERTY(_CLASS, _TYPE) Property<_CLASS, _TYPE>
 
 #define REG_PROPERTY(_CLASS, _PROPERTY, _SETTER, _GETTER) \
 	_PROPERTY.init(#_PROPERTY, this, &_CLASS::_SETTER, &_CLASS::_GETTER)

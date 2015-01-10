@@ -8,7 +8,7 @@ OPEN_O2_NAMESPACE
 
 /** Animation frame. Contains template value, interpolation type, bezier, time and some data. */
 template<typename T>
-struct cAnimFrame
+struct AnimFrame
 {
 	T                 mValue;    /** Target value. */
 	float             mTime;     /** Time to that frame. */
@@ -18,15 +18,15 @@ struct cAnimFrame
 	uint32            mDataSize; /** Size of additive data. */
 
 	/** ctor. */
-	cAnimFrame():mTime(0), mDataSize(0), mData(0) {}
+	AnimFrame():mTime(0), mDataSize(0), mData(0) {}
 
 	/** ctor. */
-	cAnimFrame(const T& value, float time = 1.0f, bool bezier = false, InterpolationType type = IT_LINEAR, 
+	AnimFrame(const T& value, float time = 1.0f, bool bezier = false, InterpolationType type = IT_LINEAR, 
 		       uint32 dataSize = 0, float* data = NULL):
 		mValue(value), mTime(time), mType(type), mData(data), mDataSize(dataSize), mBezier(bezier) {}
 
 	/** copy-ctor. */
-	cAnimFrame(const cAnimFrame& frm)
+	AnimFrame(const AnimFrame& frm)
 	{
 		mValue = frm.mValue;
 		mTime = frm.mTime;
@@ -43,12 +43,12 @@ struct cAnimFrame
 	}
 
 	/** dtor. */
-	~cAnimFrame()
+	~AnimFrame()
 	{
 		safe_release(mData);
 	}
 
-	cAnimFrame& operator=(const cAnimFrame& frm)
+	AnimFrame& operator=(const AnimFrame& frm)
 	{
 		safe_release(mData);
 

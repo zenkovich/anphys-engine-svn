@@ -5,11 +5,11 @@
 
 OPEN_O2_NAMESPACE
 
-class cStdAllocator:public IAllocator
+class StdAllocator:public IAllocator
 {
 public:
-	cStdAllocator();
-	~cStdAllocator();
+	StdAllocator();
+	~StdAllocator();
 	
 	void* alloc(uint32 bytes);
 	void* realloc(void* ptr, uint32 bytes);

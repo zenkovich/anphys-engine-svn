@@ -6,7 +6,7 @@
 OPEN_O2_NAMESPACE
 
 uiController::uiController():
-	mFocusWidget(NULL), mBasicWidget(cLayout::both(), "UIController"), mChangedFocusWidget(false)
+	mFocusWidget(NULL), mBasicWidget(layout::both(), "UIController"), mChangedFocusWidget(false)
 {
 }
 

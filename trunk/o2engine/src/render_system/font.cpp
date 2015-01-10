@@ -26,13 +26,13 @@ grFont::~grFont()
 void grFont::create( const string& fontFile )
 {
 	pugi::xml_document doc;
-	cXmlTools::loadFromFile(fontFile, doc);
+	XmlTools::loadFromFile(fontFile, doc);
 }
 
 void grFont::createFromBMFont( const string& fontFile )
 {
 	pugi::xml_document doc;
-	if (!cXmlTools::loadFromFile(fontFile, doc))
+	if (!XmlTools::loadFromFile(fontFile, doc))
 	{
 		renderSystem()->mLog->error("Failed to load BMFont file: %s", fontFile.c_str());
 		return;

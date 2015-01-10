@@ -29,7 +29,7 @@ void asAssetImageBuildingConvertor::convert(abAssetInfo* asset)
 
 	abImageAssetInfo* imgAsset = static_cast<abImageAssetInfo*>(asset);
 
-	cSerializer serializer;
+	Serializer serializer;
 	serializer.serialize(imgAsset->mAtlasName, "atlas");
 
 	string fullPath = mBuildSystem->getBuildedAssetsFolderPath() + "/" + extractExtension(asset->mLocation.mPath) + ".atl_img";

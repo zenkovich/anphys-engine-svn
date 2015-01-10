@@ -1,6 +1,6 @@
 #include "image_asset.h"
 
-#include "util/image/image.h"
+#include "util/image/bitmap.h"
 #include "app/application.h"
 #include "assets.h"
 
@@ -25,7 +25,7 @@ asImage::asImage(const FileLocation& location):
 	loadData();
 }
 
-asImage::asImage(cImage* image):
+asImage::asImage(Bitmap* image):
 	asAsset(), mImage(image)
 {
 }
@@ -35,7 +35,7 @@ asImage::~asImage()
 	safe_release(mImage);
 }
 
-cImage* asImage::getImage()
+Bitmap* asImage::getImage()
 {
 	if (mImage ==  NULL)
 		loadImage();
@@ -43,7 +43,7 @@ cImage* asImage::getImage()
 	return mImage;
 }
 
-void asImage::setImage(cImage* image)
+void asImage::setImage(Bitmap* image)
 {
 	safe_release(mImage);
 	mImage = image;
@@ -57,7 +57,7 @@ asImage& asImage::operator=(const asImage& asset)
 
 void asImage::loadData()
 {
-	cSerializer serializer;
+	Serializer serializer;
 	if (!serializer.load(assets()->getAssetFullPath(mLocation.mPath) + ".atl_img", false))
 	{
 		assets()->mLog->error("Failed to load image asset: %s", mLocation.mPath.c_str());
@@ -69,12 +69,17 @@ void asImage::loadData()
 
 void asImage::loadImage()
 {
-	mImage = mnew cImage(assets()->getAssetSourceFullPath(mLocation.mPath));
+	mImage = mnew Bitmap(assets()->getAssetSourceFullPath(mLocation.mPath));
 }
 
 void asImage::saveData()
 {
-	mImage->save(assets()->getAssetSourceFullPath(mLocation.mPath), cImage::IT_PNG);
+	mImage->save(assets()->getAssetSourceFullPath(mLocation.mPath), Bitmap::IT_PNG);
+}
+
+void asImage::setAtlasName( const string& atlasName )
+{
+	mAtlas = atlasName;
 }
 
 SERIALIZE_METHOD_IMPL(asImage)

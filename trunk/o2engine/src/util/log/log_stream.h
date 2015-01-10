@@ -8,12 +8,12 @@
 OPEN_O2_NAMESPACE
 
 /** Basic log stream. Contains interfaces of outing data, parent and child streams. */
-class cLogStream
+class LogStream
 {
 protected:
-	typedef vector< cLogStream* > LogSteamsVec;
+	typedef vector< LogStream* > LogSteamsVec;
 
-	cLogStream*  mParentStream; /**< Parent stream. NULL if no parent. */
+	LogStream*  mParentStream; /**< Parent stream. NULL if no parent. */
 
 	string       mId;           /**< Name of log stream. */
 	uint8        mLevel;        /**< Log level. */
@@ -21,9 +21,9 @@ protected:
 	LogSteamsVec mChildStreams; /**< Child streams. */
 
 public:
-	cLogStream();
-	cLogStream(const string& id);
-	virtual ~cLogStream();
+	LogStream();
+	LogStream(const string& id);
+	virtual ~LogStream();
 
 	/** Sets log level, for childes too. */
 	void setLevel(uint8 level);
@@ -35,16 +35,16 @@ public:
 	const string& getId() const;
 
 	/** Binding child stream. */
-	void bindStream(cLogStream* stream);
+	void bindStream(LogStream* stream);
 
 	/** Unbinding child stream. Function destroying stream object. */
-	void unbindStream(cLogStream* stream, bool release = true);
+	void unbindStream(LogStream* stream, bool release = true);
 
 	/** Unbind and destroy all child streams. */
 	void unbindAllStreams();
 
 	/** Returns parent stream. Null if no parent. */
-	cLogStream* getParentStream() const;
+	LogStream* getParentStream() const;
 
 	/** Out with low level log. */
 	void out(const char* format, ...);

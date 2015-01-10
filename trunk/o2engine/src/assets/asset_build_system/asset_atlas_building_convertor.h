@@ -7,18 +7,18 @@
 OPEN_O2_NAMESPACE
 
 class abImageAssetInfo;
-class cImage;
+class Bitmap;
 
 class asAssetAtlasBuildingConvertor: public asAssetBuildingConvertor
 {
 public:
-	struct imageDef: public cSerializable
+	struct imageDef: public Serializable
 	{
-		abImageAssetInfo*   mImageAssetInfo;
-		cImage*             mImage;
-		cRectsPacker::rect* mPackRect;
+		abImageAssetInfo*  mImageAssetInfo;
+		Bitmap*            mImage;
+		RectsPacker::rect* mPackRect;
 
-		imageDef(abImageAssetInfo* imageAssetInfo = NULL, cImage* image = NULL, cRectsPacker::rect* packRect = NULL);
+		imageDef(abImageAssetInfo* imageAssetInfo = NULL, Bitmap* image = NULL, RectsPacker::rect* packRect = NULL);
 
 		bool operator==(const imageDef& other);
 
@@ -30,7 +30,7 @@ private:
 	typedef array<imageDef>          ImageDefsArr;
 
 	ImageDefsArr mImageDefs;
-	cRectsPacker mRectsPacker;
+	RectsPacker  mRectsPacker;
 
 public:
 	asAssetAtlasBuildingConvertor();

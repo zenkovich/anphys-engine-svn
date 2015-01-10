@@ -8,7 +8,7 @@
 
 OPEN_O2_NAMESPACE
 
-class cRectsPacker
+class RectsPacker
 {
 public:
 	struct rect
@@ -43,8 +43,8 @@ protected:
 	vec2f      mMaxSize;
 
 public:
-	cRectsPacker(const vec2f&  maxSize = vec2f(512, 512));
-	~cRectsPacker();
+	RectsPacker(const vec2f&  maxSize = vec2f(512, 512));
+	~RectsPacker();
 
 	rect* addRect(const vec2f&  size);
 	void removeRect(rect* remRect);

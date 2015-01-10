@@ -23,7 +23,7 @@ class uiVerLayout;
 class uiRect;
 
 /** UI Skin help class. This load a some user interface skin and gives functions for fast and easy widgets creation. */
-class uiSkinManager: public cSingleton<uiSkinManager>
+class uiSkinManager: public Singleton<uiSkinManager>
 {
 	friend class uiStdSkinInitializer;
 
@@ -50,51 +50,51 @@ public:
 	uiWidget* widget(const vec2f& size, const vec2f& position = vec2f(), const string& id = "");
 
 	/** Creates background rectangle widget. */
-	uiRect* background(const cLayout& layout = cLayout::both(), const string& id = "");
+	uiRect* background(const layout& layout = layout::both(), const string& id = "");
 
 	/** Creates button. */
-	uiButton* button(const string& caption, const cLayout& layout, const string& id = "");
+	uiButton* button(const string& caption, const layout& layout, const string& id = "");
 
 	/** Creates sprite widget from texture. */
-	uiSprite* sprite(const grTexture& texture, const cLayout& layout = cLayout::both(), const string& id = "");
+	uiSprite* sprite(const grTexture& texture, const layout& layout = layout::both(), const string& id = "");
 
 	/** Creates progress bar. */
-	uiProgressBar* progressBar(const cLayout& layout = cLayout::both(), const string& id = "",
+	uiProgressBar* progressBar(const layout& layout = layout::both(), const string& id = "",
 		                       float value = 0, float minValue = 0, float maxValue = 1);
 
 	/** Creates checkbox. */
-	uiCheckBox* checkBox(const string& caption, const cLayout& layout, const string& id = "", bool checked = false);
+	uiCheckBox* checkBox(const string& caption, const layout& layout, const string& id = "", bool checked = false);
 
 	/** Creates horizontal scroll bar. */
-	uiScrollBar* horScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
+	uiScrollBar* horScrollBar(const layout& layout = layout::both(), const string& id = "",
 		                      float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
 
 	/** Creates thin horizontal scroll bar. */
-	uiScrollBar* horThinScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
+	uiScrollBar* horThinScrollBar(const layout& layout = layout::both(), const string& id = "",
 		                          float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
 
 	/** Creates thin horizontal scroll bar. */
-	uiScrollBar* verThinScrollBar(const cLayout& layout = cLayout::both(), const string& id = "",
+	uiScrollBar* verThinScrollBar(const layout& layout = layout::both(), const string& id = "",
 		                          float value = 0, float minValue = 0, float maxValue = 1, float barSize = 0.1f);
 
 	/** Creates edit box. */
-	uiEditBox* editbox(const cLayout& layout = cLayout::both(), const string& id = "", const string& text = "", 
+	uiEditBox* editbox(const layout& layout = layout::both(), const string& id = "", const string& text = "", 
 		               bool multiLine = false);
 
 	/** Creates label. */
-	uiLabel* label(const string& text, const cLayout& layout = cLayout::both(), const string& id = "");
+	uiLabel* label(const string& text, const layout& layout = layout::both(), const string& id = "");
 
 	/** Creates scroll area. */
-	uiScrollArea* scrollArea(const cLayout& layout = cLayout::both(), const string& id = "");
+	uiScrollArea* scrollArea(const layout& layout = layout::both(), const string& id = "");
 
 	/** Creates horizontal layout widget. */
-	uiHorLayout* horLayout(const cLayout& layout = cLayout::both(), const string& id= "", float widgetsDistance = 10.0f);
+	uiHorLayout* horLayout(const layout& layout = layout::both(), const string& id= "", float widgetsDistance = 10.0f);
 
 	/** Creates vertical layout widget. */
-	uiVerLayout* verLayout(const cLayout& layout = cLayout::both(), const string& id= "", float widgetsDistance = 10.0f);
+	uiVerLayout* verLayout(const layout& layout = layout::both(), const string& id= "", float widgetsDistance = 10.0f);
 
 	/** Creates rectangle pad widget. */
-	uiRect* rectPad(const cLayout& layout = cLayout::both(), const string& id = "");
+	uiRect* rectPad(const layout& layout = layout::both(), const string& id = "");
 
 
 	/** Sets button sample. */

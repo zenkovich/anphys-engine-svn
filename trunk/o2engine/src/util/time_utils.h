@@ -31,7 +31,7 @@ struct WideTime
 	}
 };
 
-class cTimeUtil
+class TimeUtil
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
@@ -48,10 +48,10 @@ class cTimeUtil
 	
 public:
 	/** ctor. */
-	cTimeUtil();
+	TimeUtil();
 
 	/** dtor. */
-	~cTimeUtil();
+	~TimeUtil();
 
 	/** Update parameters. */
 	void update(float dt);

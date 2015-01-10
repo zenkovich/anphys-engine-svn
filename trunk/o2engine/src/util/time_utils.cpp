@@ -2,17 +2,17 @@
 
 OPEN_O2_NAMESPACE
 
-cTimeUtil::cTimeUtil():
+TimeUtil::TimeUtil():
 	mApplicationTime(0), mLocalTime(0), mCurrentFrame(0), mDeltaTime(0), mFPS(0), mFPSSum(0),
 	mFramesSum(0), mLastFPSCheckingTime(0)
 {
 }
 
-cTimeUtil::~cTimeUtil()
+TimeUtil::~TimeUtil()
 {
 }
 
-void cTimeUtil::update( float dt )
+void TimeUtil::update( float dt )
 {
 	mDeltaTime = dt;
 	mApplicationTime += dt;
@@ -30,37 +30,37 @@ void cTimeUtil::update( float dt )
 	}
 }
 
-float cTimeUtil::getApplicationTime() const
+float TimeUtil::getApplicationTime() const
 {
 	return mApplicationTime;
 }
 
-float cTimeUtil::getLocalTime() const
+float TimeUtil::getLocalTime() const
 {
 	return mLocalTime;
 }
 
-void cTimeUtil::resetLocalTime()
+void TimeUtil::resetLocalTime()
 {
 	mLocalTime = 0;
 }
 
-void cTimeUtil::setLocalTime( float time )
+void TimeUtil::setLocalTime( float time )
 {
 	mLocalTime = time;
 }
 
-int cTimeUtil::getCurrentFrame() const
+int TimeUtil::getCurrentFrame() const
 {
 	return (int)mCurrentFrame;
 }
 
-float cTimeUtil::getDeltaTime() const
+float TimeUtil::getDeltaTime() const
 {
 	return mDeltaTime;
 }
 
-float cTimeUtil::getFPS() const
+float TimeUtil::getFPS() const
 {
 	return mFPS;
 }

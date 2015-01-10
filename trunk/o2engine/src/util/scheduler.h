@@ -10,7 +10,7 @@
 OPEN_O2_NAMESPACE
 
 /** Scheduler class. Processing tasks at begin and end frame. */
-class cScheduler
+class Scheduler
 {
 	friend class cApplication;
 	friend class cApplicationBaseInterface;
@@ -42,10 +42,10 @@ protected:
 	
 public:	
 	/** ctor. */
-	cScheduler();
+	Scheduler();
 
 	/** dtor. */
-	~cScheduler();
+	~Scheduler();
 
 	/** Adding once time execution callback. Return id of task. */
 	int addTask(ICallback* callback, float execDelay = 0.0f, ExecStage stage = ES_AFTER_FRAME);

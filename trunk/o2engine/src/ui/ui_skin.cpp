@@ -28,11 +28,11 @@ uiSkinManager::uiSkinManager()
 
 uiWidget* uiSkinManager::widget(const vec2f& size, const vec2f& position /*= vec2f()*/, const string& id /*= ""*/)
 {
-	uiWidget* widget = mnew uiWidget(cLayout::fixed(position, size), checkEmptyId(id, "widget"));
+	uiWidget* widget = mnew uiWidget(layout::fixed(position, size), checkEmptyId(id, "widget"));
 	return widget;
 }
 
-uiButton* uiSkinManager::button(const string& caption, const cLayout& layout, const string& id /*= ""*/)
+uiButton* uiSkinManager::button(const string& caption, const layout& layout, const string& id /*= ""*/)
 {
 	uiButton* button = static_cast<uiButton*>(mButtonSample->clone());
 	button->setLayout(layout);
@@ -47,7 +47,7 @@ void uiSkinManager::setButtonSample(uiButton* buttonSample)
 	mButtonSample = buttonSample;
 }
 
-uiRect* uiSkinManager::background(const cLayout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
+uiRect* uiSkinManager::background(const layout& layout /*= uiBothLayout()*/, const string& id /*= ""*/)
 {
 	uiRect* background = static_cast<uiRect*>(mBackgroundSample->clone());
 	background->setLayout(layout);
@@ -61,7 +61,7 @@ void uiSkinManager::setBackgroundSample(uiRect* backgroundSample)
 	mBackgroundSample = backgroundSample;
 }
 
-uiSprite* uiSkinManager::sprite( const grTexture& texture, const cLayout& layout /*= cLayout::both()*/, 
+uiSprite* uiSkinManager::sprite( const grTexture& texture, const layout& layout /*= cLayout::both()*/, 
 	                                   const string& id /*= ""*/ )
 {
 	uiSprite* spriteWidget = mnew uiSprite(layout, checkEmptyId(id, "sprite"));
@@ -85,7 +85,7 @@ void uiSkinManager::setProgressbarSample( uiProgressBar* progressbarSample )
 	mProgressBarSample = progressbarSample;
 }
 
-uiProgressBar* uiSkinManager::progressBar( const cLayout& layout /*= cLayout::both()*/, 
+uiProgressBar* uiSkinManager::progressBar( const layout& layout /*= cLayout::both()*/, 
 	                                       const string& id /*= ""*/, float value /*= 0*/, 
 										   float minValue /*= 0*/, float maxValue /*= 1*/ )
 {
@@ -102,7 +102,7 @@ void uiSkinManager::setCheckBoxSample( uiCheckBox* checkbox )
 	mCheckBoxSample = checkbox;
 }
 
-uiCheckBox* uiSkinManager::checkBox( const string& caption, const cLayout& layout, const string& id /*= ""*/, 
+uiCheckBox* uiSkinManager::checkBox( const string& caption, const layout& layout, const string& id /*= ""*/, 
 	                                       bool checked /*= false*/ )
 {
 	uiCheckBox* checkbox = static_cast<uiCheckBox*>(mCheckBoxSample->clone());
@@ -113,7 +113,7 @@ uiCheckBox* uiSkinManager::checkBox( const string& caption, const cLayout& layou
 	return checkbox;
 }
 
-uiScrollBar* uiSkinManager::horScrollBar( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+uiScrollBar* uiSkinManager::horScrollBar( const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
 	                                      float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/,
 										  float barSize /*= 0.1f*/ )
 {
@@ -126,7 +126,7 @@ uiScrollBar* uiSkinManager::horScrollBar( const cLayout& layout /*= cLayout::bot
 	return scrollbar;
 }
 
-uiScrollBar* uiSkinManager::verThinScrollBar(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+uiScrollBar* uiSkinManager::verThinScrollBar(const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
                                              float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/, 
 										     float barSize /*= 0.1f*/)
 {
@@ -139,7 +139,7 @@ uiScrollBar* uiSkinManager::verThinScrollBar(const cLayout& layout /*= cLayout::
 	return scrollbar;
 }
 
-uiScrollBar* uiSkinManager::horThinScrollBar(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+uiScrollBar* uiSkinManager::horThinScrollBar(const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
 	                                         float value /*= 0*/, float minValue /*= 0*/, float maxValue /*= 1*/, 
 											 float barSize /*= 0.1f*/)
 {
@@ -157,7 +157,7 @@ void uiSkinManager::setHorScrollbarSample( uiScrollBar* scrollbar )
 	mHorScrollbarSample = scrollbar;
 }
 
-uiEditBox* uiSkinManager::editbox( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
+uiEditBox* uiSkinManager::editbox( const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/, 
 	                               const string& text /*= ""*/, bool multiLine /*= false*/ )
 {
 	uiEditBox* src = multiLine ? mMultilineEditBox:mSingleLineEditBoxSample;
@@ -173,7 +173,7 @@ void uiSkinManager::setSingleLineEditBoxSample( uiEditBox* editboxSampl )
 	mSingleLineEditBoxSample = editboxSampl;
 }
 
-uiLabel* uiSkinManager::label(const string& text, const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
+uiLabel* uiSkinManager::label(const string& text, const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
 {
 	uiLabel* res = static_cast<uiLabel*>(mLabelSample->clone());
 	res->setLayout(layout);
@@ -207,7 +207,7 @@ void uiSkinManager::setScrollAreaSample( uiScrollArea* scrollAreaSample )
 	mScrollAreaSample = scrollAreaSample;
 }
 
-uiScrollArea* uiSkinManager::scrollArea( const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/ )
+uiScrollArea* uiSkinManager::scrollArea( const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/ )
 {
 	uiScrollArea* res = static_cast<uiScrollArea*>(mScrollAreaSample->clone());
 	res->setLayout(layout);
@@ -215,13 +215,13 @@ uiScrollArea* uiSkinManager::scrollArea( const cLayout& layout /*= cLayout::both
 	return res;
 }
 
-uiHorLayout* uiSkinManager::horLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, 
+uiHorLayout* uiSkinManager::horLayout(const layout& layout /*= cLayout::both()*/, const string& id/*= ""*/, 
 	                                  float widgetsDistance /*= 10.0f*/)
 {
 	return mnew uiHorLayout(layout, widgetsDistance, checkEmptyId(id, "horlayout"));
 }
 
-uiVerLayout* uiSkinManager::verLayout(const cLayout& layout /*= cLayout::both()*/, const string& id/*= ""*/, float widgetsDistance /*= 10.0f*/)
+uiVerLayout* uiSkinManager::verLayout(const layout& layout /*= cLayout::both()*/, const string& id/*= ""*/, float widgetsDistance /*= 10.0f*/)
 {
 	return mnew uiVerLayout(layout, widgetsDistance, checkEmptyId(id, "verlayout"));
 }
@@ -239,7 +239,7 @@ void uiSkinManager::setRectPadSample(uiRect* padSample)
 	mRectPadSample = padSample;
 }
 
-uiRect* uiSkinManager::rectPad(const cLayout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
+uiRect* uiSkinManager::rectPad(const layout& layout /*= cLayout::both()*/, const string& id /*= ""*/)
 {
 	uiRect* res = mnew uiRect(*mRectPadSample);
 	res->setLayout(layout);

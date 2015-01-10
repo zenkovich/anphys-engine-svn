@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 /** Timer class, Containing elapsed time from last getElapsedTime() call and elapsed time from reset() call. */
-class cTimer
+class Timer
 {
 	LONGLONG      mLastElapsedTime;
 	LARGE_INTEGER mFrequency;
@@ -16,10 +16,10 @@ class cTimer
 
 public:
 	/** ctor. */
-	cTimer();
+	Timer();
 
 	/** dtor. */
-	~cTimer();
+	~Timer();
 	
 	/** Resetting time. */
 	void  reset();

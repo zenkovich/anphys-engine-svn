@@ -3,33 +3,33 @@
 
 OPEN_O2_NAMESPACE
 
-cSerializer::cSerializer(SerializeType type /*= cSerializer::ST_SERIALIZE*/)
+Serializer::Serializer(SerializeType type /*= cSerializer::ST_SERIALIZE*/)
 {
 	mCurrentNode = mRootNode;
 	mLog = gLog;
 	mType = type;
 }
 
-cSerializer::cSerializer(const string& fileName, SerializeType type /*= ST_SERIALIZE*/)
+Serializer::Serializer(const string& fileName, SerializeType type /*= ST_SERIALIZE*/)
 {
 	mCurrentNode = mRootNode;
 	mLog = gLog;
 	load(fileName);
 }
 
-cSerializer::cSerializer(pugi::xml_node& xmlNode, SerializeType type /*= cSerializer::ST_SERIALIZE*/)
+Serializer::Serializer(pugi::xml_node& xmlNode, SerializeType type /*= cSerializer::ST_SERIALIZE*/)
 {
 	mCurrentNode = mRootNode.append_copy(xmlNode);
 	mType = type;
 }
 
-cSerializer::~cSerializer()
+Serializer::~Serializer()
 {
 }
 
-bool cSerializer::load(const string& file, bool stdConfigExt /*= true*/)
+bool Serializer::load(const string& file, bool stdConfigExt /*= true*/)
 {
-	if (!cXmlTools::loadFromFile(file, mRootNode, stdConfigExt))
+	if (!XmlTools::loadFromFile(file, mRootNode, stdConfigExt))
 		return false;
 
 	mCurrentNode = mRootNode;
@@ -38,34 +38,34 @@ bool cSerializer::load(const string& file, bool stdConfigExt /*= true*/)
 	return true;
 }
 
-bool cSerializer::save(const string& file, bool stdConfigExt /*= true*/)
+bool Serializer::save(const string& file, bool stdConfigExt /*= true*/)
 {	
-	return cXmlTools::saveToFile(file, mRootNode, stdConfigExt);
+	return XmlTools::saveToFile(file, mRootNode, stdConfigExt);
 }
 
-bool cSerializer::loadFromString(const string& data)
+bool Serializer::loadFromString(const string& data)
 {
-	return cXmlTools::loadFromString(data, mRootNode);
+	return XmlTools::loadFromString(data, mRootNode);
 }
 
-string cSerializer::saveToString()
+string Serializer::saveToString()
 {
 	string data;
-	cXmlTools::saveToString(data, mRootNode);
+	XmlTools::saveToString(data, mRootNode);
 	return data;
 }
 
-void cSerializer::setLog(cLogStream* logStream)
+void Serializer::setLog(LogStream* logStream)
 {
 	mLog = logStream;
 }
 
-void cSerializer::createNode(const string& id)
+void Serializer::createNode(const string& id)
 {
 	mCurrentNode = mCurrentNode.append_child(id.c_str());
 }
 
-bool cSerializer::getNode(const string& id, bool errors /*= false*/)
+bool Serializer::getNode(const string& id, bool errors /*= false*/)
 {
 	pugi::xml_node node = mCurrentNode.child(id.c_str());
 	if (!node)
@@ -80,17 +80,17 @@ bool cSerializer::getNode(const string& id, bool errors /*= false*/)
 	return true;
 }
 
-void cSerializer::popNode()
+void Serializer::popNode()
 {
 	mCurrentNode = mCurrentNode.parent();
 }
 
-cSerializer::SerializeType cSerializer::getType() const
+Serializer::SerializeType Serializer::getType() const
 {
 	return mType;
 }
 
-bool cSerializer::serialize(cSerializable* object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(Serializable* object, const string& id, bool errors /*= true*/)
 {
 	if (mType == ST_SERIALIZE)
 	{
@@ -116,72 +116,72 @@ bool cSerializer::serialize(cSerializable* object, const string& id, bool errors
 	return true;
 }
 
-bool cSerializer::serialize(int& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(int& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(unsigned int& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(unsigned int& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(float& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(float& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(bool& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(bool& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(string& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(string& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(vec2f& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(vec2f& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(fRect& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(fRect& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(vec2i& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(vec2i& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(iRect& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(iRect& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(color4& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(color4& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-bool cSerializer::serialize(WideTime& object, const string& id, bool errors /*= true*/)
+bool Serializer::serialize(WideTime& object, const string& id, bool errors /*= true*/)
 {
 	return serializeTemp(object, id, errors);
 }
 
-cSerializable* cSerializer::createSerializableSample(const string& type)
+Serializable* Serializer::createSerializableSample(const string& type)
 {
 	return gSerializeTypesContainer::getSample(type);
 }
 
-void gSerializeTypesContainer::regType(cSerializable* type)
+void gSerializeTypesContainer::regType(Serializable* type)
 {
 	mSamples[type->getTypeName()] = type;
 }
 
-cSerializable* gSerializeTypesContainer::getSample(const string& typeName)
+Serializable* gSerializeTypesContainer::getSample(const string& typeName)
 {
 	return mSamples[typeName]->createSample();
 }

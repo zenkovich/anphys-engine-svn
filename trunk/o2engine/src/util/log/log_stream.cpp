@@ -7,25 +7,25 @@
 OPEN_O2_NAMESPACE
 
 
-cLogStream::cLogStream():
+LogStream::LogStream():
 	mParentStream(NULL), mLevel(2)
 {
 
 }
 
-cLogStream::cLogStream( const string& id ):
+LogStream::LogStream( const string& id ):
 	mParentStream(NULL), mId(id), mLevel(2)
 {
 }
 
-cLogStream::~cLogStream()
+LogStream::~LogStream()
 {
 	if (mParentStream)
 		mParentStream->unbindStream(this, false);
 	unbindAllStreams();
 }
 
-void cLogStream::setLevel( uint8 level )
+void LogStream::setLevel( uint8 level )
 {
 	mLevel = level;
 
@@ -33,24 +33,24 @@ void cLogStream::setLevel( uint8 level )
 		(*it)->setLevel(level);
 }
 
-uint8 cLogStream::getLevel() const
+uint8 LogStream::getLevel() const
 {
 	return mLevel;
 }
 
-const string& cLogStream::getId() const
+const string& LogStream::getId() const
 {
 	return mId;
 }
 
-void cLogStream::bindStream( cLogStream* stream )
+void LogStream::bindStream( LogStream* stream )
 {
 	stream->mParentStream = this;
 	stream->mLevel = mLevel;
 	mChildStreams.push_back(stream);
 }
 
-void cLogStream::unbindStream( cLogStream* stream, bool release /*= true*/ )
+void LogStream::unbindStream( LogStream* stream, bool release /*= true*/ )
 {
 	LogSteamsVec::iterator fnd = std::find(mChildStreams.begin(), mChildStreams.end(), stream);
 	if (fnd != mChildStreams.end())
@@ -60,7 +60,7 @@ void cLogStream::unbindStream( cLogStream* stream, bool release /*= true*/ )
 		safe_release(stream);
 }
 
-void cLogStream::unbindAllStreams()
+void LogStream::unbindAllStreams()
 {
 	for (LogSteamsVec::iterator it = mChildStreams.begin(); it != mChildStreams.end(); ++it)
 	{
@@ -70,7 +70,7 @@ void cLogStream::unbindAllStreams()
 	mChildStreams.clear();
 }
 
-void cLogStream::out( const char* format, ... )
+void LogStream::out( const char* format, ... )
 {
 	if (mLevel > 0)
 	{
@@ -86,7 +86,7 @@ void cLogStream::out( const char* format, ... )
 	}
 }
 
-void cLogStream::hout( const char* format, ... )
+void LogStream::hout( const char* format, ... )
 {
 	if (mLevel > 1)
 	{
@@ -102,7 +102,7 @@ void cLogStream::hout( const char* format, ... )
 	}
 }
 
-void cLogStream::error( const char* format, ... )
+void LogStream::error( const char* format, ... )
 {
 	if (mLevel > 0)
 	{
@@ -118,7 +118,7 @@ void cLogStream::error( const char* format, ... )
 	}
 }
 
-void cLogStream::warning( const char* format, ... )
+void LogStream::warning( const char* format, ... )
 {
 	if (mLevel > 0)
 	{
@@ -134,12 +134,12 @@ void cLogStream::warning( const char* format, ... )
 	}
 }
 
-cLogStream* cLogStream::getParentStream() const
+LogStream* LogStream::getParentStream() const
 {
 	return mParentStream;
 }
 
-void cLogStream::outStr( const string& str )
+void LogStream::outStr( const string& str )
 {
 	outStrEx(str);
 
@@ -152,7 +152,7 @@ void cLogStream::outStr( const string& str )
 	}
 }
 
-void cLogStream::outError( const string& str )
+void LogStream::outError( const string& str )
 {
 	outErrorEx(str);
 
@@ -165,7 +165,7 @@ void cLogStream::outError( const string& str )
 	}
 }
 
-void cLogStream::outWarning( const string& str )
+void LogStream::outWarning( const string& str )
 {
 	outWarningEx(str);
 

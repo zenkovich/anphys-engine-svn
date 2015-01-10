@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 typedef int VKey;
 
 /** Input message. Containing pressed, down, released keys, cursors positions. */
-class cInputMessage
+class InputMessage
 {
 	friend class cApplicationBaseInterface;
 	friend class cApplication;
@@ -53,7 +53,7 @@ protected:
 
 public:
 	/** ctor. */
-	cInputMessage();
+	InputMessage();
 
 	/** Returns true if key was pressed at current frame. */
 	bool isKeyPressed(VKey key) const;

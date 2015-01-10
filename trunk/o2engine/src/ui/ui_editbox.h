@@ -22,8 +22,8 @@ class uiEditBox: public uiDrawablesListWidget
 	grText*      mText;                 /** Text drawable. */
 	vec2f        mScroll;               /** Scrolling in pixels. */
 	vec2f        mSmoothScroll;         /** Smoothed scrolling. */
-	cLayout      mClippingLayout;       /** Clipping area layout. */
-	cLayout      mTextLayout;           /** Text layout. */
+	layout      mClippingLayout;       /** Clipping area layout. */
+	layout      mTextLayout;           /** Text layout. */
 				   			       	    
 	grSprite*    mCursorSprite;         /** Cursor sprite drawable. */
 	grMesh*      mSelectionMesh;        /** Selection mesh drawable. */
@@ -47,11 +47,11 @@ public:
 	PROPERTY(uiEditBox, string) ctext; /** C Text caption property. Using set/getCCaption. */
 	PROPERTY(uiEditBox, wstring) text; /** Caption property. Using set/getCaption. */
 
-	cCallbackChain onTextChangeEvent;  /** On text changing event. */
+	CallbackChain onTextChangeEvent;  /** On text changing event. */
 
 
 	/** ctor. */
-	uiEditBox(grFont* font, const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
+	uiEditBox(grFont* font, const layout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
 		      const string& id = "");
 
 	/** copy-ctor. */
@@ -113,16 +113,16 @@ protected:
 	virtual void localUpdate(float dt);
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	virtual bool localProcessInputMessage(const InputMessage& msg);
 
 	/** Processing characters input. */
-	void processInputCharacters(const cInputMessage &msg);
+	void processInputCharacters(const InputMessage &msg);
 
 	/** Processing erasing. */
-	void processErasing(const cInputMessage &msg);
+	void processErasing(const InputMessage &msg);
 
 	/** Processing navigation. */
-	void processNavigation( const cInputMessage &msg );
+	void processNavigation( const InputMessage &msg );
 
 	/** Drawing current widget. */
 	virtual void localDraw();

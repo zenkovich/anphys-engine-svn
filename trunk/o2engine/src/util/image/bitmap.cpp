@@ -1,33 +1,33 @@
-#include "image.h"
+#include "bitmap.h"
 
 #include "png_image_format.h"
 #include "util\log.h"
 
 OPEN_O2_NAMESPACE
 
-cImage::cImage():
+Bitmap::Bitmap():
 	mFormat(FMT_NONE), mData(NULL)
 {
 }
 
-cImage::cImage( Format format, const vec2i& size ):
+Bitmap::Bitmap( Format format, const vec2i& size ):
 	mFormat(format), mSize(size), mData(NULL)
 {
 	create(format, size);
 }
 
-cImage::cImage(const string& fileName, ImageType type /*= IT_AUTO*/, cLogStream* clog /*= NULL*/):
+Bitmap::Bitmap(const string& fileName, ImageType type /*= IT_AUTO*/, LogStream* clog /*= NULL*/):
 	mFormat(FMT_NONE), mData(NULL)
 {
 	load(fileName, type, clog);
 }
 
-cImage::~cImage()
+Bitmap::~Bitmap()
 {
 	safe_release_arr(mData);
 }
 
-void cImage::create( Format format, const vec2i& size )
+void Bitmap::create( Format format, const vec2i& size )
 {
 	if (mData) 
 		safe_release_arr(mData);
@@ -40,9 +40,9 @@ void cImage::create( Format format, const vec2i& size )
 	mData = mnew unsigned char[ size.x*size.y*bpp[format] ];
 }
 
-bool cImage::load( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ )
+bool Bitmap::load( const string& fileName, ImageType type, LogStream* clog /*= NULL*/ )
 {
-	cLogStream* log = clog ? clog:gLog;
+	LogStream* log = clog ? clog:gLog;
 
 	mFilename = fileName;
 
@@ -61,9 +61,9 @@ bool cImage::load( const string& fileName, ImageType type, cLogStream* clog /*= 
 	return false;
 }
 
-bool cImage::save( const string& fileName, ImageType type, cLogStream* clog /*= NULL*/ ) const
+bool Bitmap::save( const string& fileName, ImageType type, LogStream* clog /*= NULL*/ ) const
 {
-	cLogStream* log = clog ? clog:gLog;
+	LogStream* log = clog ? clog:gLog;
 
 	if (type == IT_PNG || type == IT_AUTO)
 	{
@@ -75,39 +75,39 @@ bool cImage::save( const string& fileName, ImageType type, cLogStream* clog /*= 
 	return false;
 }
 
-void cImage::clear( const color4& color )
+void Bitmap::clear( const color4& color )
 {
 	short bpp[] = { 0, 4 };
 
 	memset(mData, color.ARGB(), bpp[mFormat]*mSize.x*mSize.y);
 }
 
-unsigned char* cImage::getData()
+unsigned char* Bitmap::getData()
 {
 	return mData;
 }
 
-vec2i cImage::getSize() const
+vec2i Bitmap::getSize() const
 {
 	return mSize;
 }
 
-cImage::Format cImage::getFormat() const
+Bitmap::Format Bitmap::getFormat() const
 {
 	return mFormat;
 }
 
-const unsigned char* cImage::getDataConst() const
+const unsigned char* Bitmap::getDataConst() const
 {
 	return mData;
 }
 
-const string& cImage::getFilename() const
+const string& Bitmap::getFilename() const
 {
 	return mFilename;
 }
 
-void cImage::copyImage( cImage* img, const vec2i& position /*= vec2f()*/ )
+void Bitmap::copyImage( Bitmap* img, const vec2i& position /*= vec2f()*/ )
 {
 	if (mFormat != img->mFormat)
 		return;
@@ -133,7 +133,7 @@ void cImage::copyImage( cImage* img, const vec2i& position /*= vec2f()*/ )
 	}
 }
 
-void cImage::fill( const color4& color )
+void Bitmap::fill( const color4& color )
 {
 	unsigned long colrDw = color.dword();
 	for (int x = 0; x < mSize.x*mSize.y; x++)

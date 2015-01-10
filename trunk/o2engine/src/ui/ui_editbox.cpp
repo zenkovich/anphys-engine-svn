@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiEditBox);
 
-uiEditBox::uiEditBox( grFont* font, const cLayout& layout, uiScrollBar* horBarSample /*= NULL*/, 
+uiEditBox::uiEditBox( grFont* font, const layout& layout, uiScrollBar* horBarSample /*= NULL*/, 
 	                  uiScrollBar* verBarSample /*= NULL*/, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mHoverState(NULL), mFocusedState(NULL), mText(NULL), mCursorVisibleTimer(0.0f),
 	mMultiLine(false), mHorScrollbar(NULL), mVerScrollbar(NULL), mCursorInsideClipping(false)
@@ -171,7 +171,7 @@ void uiEditBox::localUpdate( float dt )
 	}
 }
 
-bool uiEditBox::localProcessInputMessage( const cInputMessage& msg )
+bool uiEditBox::localProcessInputMessage( const InputMessage& msg )
 {
 	mCursorInsideClipping = mClippingLayout.getRect().isInside(msg.getCursorPos());	
 
@@ -200,7 +200,7 @@ bool uiEditBox::localProcessInputMessage( const cInputMessage& msg )
 	return false;
 }
 
-void uiEditBox::processNavigation( const cInputMessage &msg )
+void uiEditBox::processNavigation( const InputMessage &msg )
 {
 	if (msg.isCursorPressed() && mCursorInsideClipping)
 	{
@@ -336,7 +336,7 @@ void uiEditBox::jumpSelection(bool forward, bool selecting)
 	updateSelectionEndPosition(jumpIdx, selecting);
 }
 
-void uiEditBox::processErasing(const cInputMessage &msg)
+void uiEditBox::processErasing(const InputMessage &msg)
 {
 	if (msg.isKeyPressed(VK_BACK) || msg.isKeyRepeating(VK_BACK))
 	{
@@ -383,18 +383,18 @@ void uiEditBox::processErasing(const cInputMessage &msg)
 	}
 }
 
-void uiEditBox::processInputCharacters(const cInputMessage &msg)
+void uiEditBox::processInputCharacters(const InputMessage &msg)
 {
-	cInputMessage::KeysVec pressedKeys = msg.getPressedKeys();
-	cInputMessage::KeysVec downKeys = msg.getDownKeys();
+	InputMessage::KeysVec pressedKeys = msg.getPressedKeys();
+	InputMessage::KeysVec downKeys = msg.getDownKeys();
 
-	FOREACH(cInputMessage::KeysVec, downKeys, key) 
+	FOREACH(InputMessage::KeysVec, downKeys, key) 
 	{
 		if (msg.isKeyRepeating(key->mKey))
 			pressedKeys.push_back(*key);
 	}
 
-	FOREACH(cInputMessage::KeysVec, pressedKeys, key) 
+	FOREACH(InputMessage::KeysVec, pressedKeys, key) 
 	{
 		char16_t ch = (char16_t)getUnicodeFromVirtualCode(key->mKey);
 		hlog("char %i", (int)ch);

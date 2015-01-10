@@ -4,7 +4,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiHorLayout);
 
-uiHorLayout::uiHorLayout( const cLayout& layout, float widgetsDistance /*= 10.0f*/, const string& id /*= ""*/ ):
+uiHorLayout::uiHorLayout( const layout& layout, float widgetsDistance /*= 10.0f*/, const string& id /*= ""*/ ):
 	uiWidget(layout, id), mWidgetsDistance(widgetsDistance)
 {
 }
@@ -45,7 +45,7 @@ void uiHorLayout::layoutUpdated()
 	float addOffset = 0.0f;
 	FOREACH(WidgetsVec, mChildWidgets, child)
 	{
-		cLayout lt = (*child)->getLayout();
+		layout lt = (*child)->getLayout();
 
 		lt.mLTAbsolute.x = offset;             lt.mLTRelative.x = 0.0f;
 		lt.mRBAbsolute.x = offset + childSize; lt.mRBRelative.x = 0.0f;
@@ -66,7 +66,7 @@ void uiHorLayout::layoutUpdated()
 	offset = 0.0f;
 	FOREACH(WidgetsVec, mChildWidgets, child)
 	{
-		cLayout lt = (*child)->getLayout();
+		layout lt = (*child)->getLayout();
 
 		lt.mLTAbsolute.x = offset;             lt.mLTRelative.x = 0.0f;
 		lt.mRBAbsolute.x = offset + childSize; lt.mRBRelative.x = 0.0f;

@@ -204,7 +204,7 @@
     <ClInclude Include="..\src\util\geometry\geometry.h" />
     <ClInclude Include="..\src\util\graphics\rect_drawable.h" />
     <ClInclude Include="..\src\util\graphics\stretch_rect.h" />
-    <ClInclude Include="..\src\util\image\image.h" />
+    <ClInclude Include="..\src\util\image\bitmap.h" />
     <ClInclude Include="..\src\util\image\png_image_format.h" />
     <ClInclude Include="..\src\util\input\input_message.h" />
     <ClInclude Include="..\src\util\log.h" />
@@ -356,7 +356,7 @@
     <ClCompile Include="..\src\util\geometry\geometry.cpp" />
     <ClCompile Include="..\src\util\graphics\rect_drawable.cpp" />
     <ClCompile Include="..\src\util\graphics\stretch_rect.cpp" />
-    <ClCompile Include="..\src\util\image\image.cpp" />
+    <ClCompile Include="..\src\util\image\bitmap.cpp" />
     <ClCompile Include="..\src\util\image\png_image_format.cpp" />
     <ClCompile Include="..\src\util\input\input_message.cpp" />
     <ClCompile Include="..\src\util\log\console_log_stream.cpp" />

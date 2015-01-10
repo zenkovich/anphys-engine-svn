@@ -14,7 +14,7 @@
 
 OPEN_O2_NAMESPACE
 
-class cLogStream;
+class LogStream;
 class grMesh;
 class grRenderTarget;
 class grTexture;
@@ -37,7 +37,7 @@ protected:
 	TexturesVec    mTextures;      /**< Textures array. */
 	grFontManager* mFontManager;   /**< Font manager. */
 	grCamera*      mCurrentCamera; /**< Current camera. Null if standard camera. */
-	cLogStream*    mLog;           /**< Log stream for render messages. */
+	LogStream*    mLog;           /**< Log stream for render messages. */
 	 
 public:
 	//properties
@@ -73,7 +73,7 @@ public:
 				  	        grTexUsage::type usage = grTexUsage::DEFAULT);
 
 	/** Creates texture from image. */
-	grTexture createTextureFromImage(cImage* image);
+	grTexture createTextureFromImage(Bitmap* image);
 				       
 	/** Creates texture as render target. 
 	 ** note: recommending to use grRenderTarget for rendering to texture*/

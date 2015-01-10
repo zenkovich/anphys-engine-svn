@@ -2,12 +2,12 @@
 
 OPEN_O2_NAMESPACE
 	
-cPropertyList::cPropertyList(const string& name /*= ""*/):
+PropertyList::PropertyList(const string& name /*= ""*/):
 	mPropertyListName(name), mParentPropertyList(NULL)
 {
 }
 
-cPropertyList::~cPropertyList()
+PropertyList::~PropertyList()
 {
 	if (mParentPropertyList)
 		mParentPropertyList->removeChildPropertyList(this, false);
@@ -16,13 +16,13 @@ cPropertyList::~cPropertyList()
 		safe_release(*child);
 }
 
-void cPropertyList::addChildPropertyList(cPropertyList* propList)
+void PropertyList::addChildPropertyList(PropertyList* propList)
 {
 	mChildPropertyLists.push_back(propList);
 	propList->mParentPropertyList = this;
 }
 
-void cPropertyList::removeChildPropertyList(cPropertyList* propList, bool release /*= true*/)
+void PropertyList::removeChildPropertyList(PropertyList* propList, bool release /*= true*/)
 {
 	PropertiesListsVec::iterator fnd = FIND(mChildPropertyLists, propList);
 	if (fnd == mChildPropertyLists.end())
@@ -34,12 +34,12 @@ void cPropertyList::removeChildPropertyList(cPropertyList* propList, bool releas
 	mChildPropertyLists.erase(fnd);
 }
 
-void cPropertyList::removeAllChildPropertyLists()
+void PropertyList::removeAllChildPropertyLists()
 {
 	mChildPropertyLists.clear();
 }
 
-cPropertyList::IProperty* cPropertyList::getPropertyBase( const string& pathName )
+PropertyList::IProperty* PropertyList::getPropertyBase( const string& pathName )
 {
 	int delPos = pathName.find("/");
 	string pathPart = pathName.substr(0, delPos);
@@ -62,16 +62,16 @@ cPropertyList::IProperty* cPropertyList::getPropertyBase( const string& pathName
 	return NULL;
 }
 
-void cPropertyList::setPropertyListName( const string& name )
+void PropertyList::setPropertyListName( const string& name )
 {
 	mPropertyListName = name;
 }
 
 
-string cPropertyList::IProperty::getPath()
+string PropertyList::IProperty::getPath()
 {
 	string res = mName;
-	cPropertyList* propList = mOwnerPropList;
+	PropertyList* propList = mOwnerPropList;
 	while(propList->mParentPropertyList)
 	{
 		res = propList->mPropertyListName + "/" + res;

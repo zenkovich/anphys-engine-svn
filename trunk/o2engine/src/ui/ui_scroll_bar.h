@@ -23,8 +23,8 @@ protected:
 	uiState*  mBarPressedState; /** Bar pressed state. */
 
 	Drawable* mBar;             /** Bar drawable. */
-	cLayout   mBarGeometry;     /** bar clicking geometry. */
-	cLayout   mBackgrGeometry;  /** Background geometry. */
+	layout   mBarGeometry;     /** bar clicking geometry. */
+	layout   mBackgrGeometry;  /** Background geometry. */
 	 
 	bool      mPressed;         /** True, when bar pressed. */
 	bool      mHover;           /** True, when cursor hover bar. */
@@ -37,10 +37,10 @@ public:
 	PROPERTY(uiScrollBar, float) value;    /** Current value. Uses set/getValue. */
 	PROPERTY(uiScrollBar, float) barSize;  /** Current bar size. */
 
-	cCallbackChain onValueChangedEvent; /** On changed value event. */
+	CallbackChain onValueChangedEvent; /** On changed value event. */
 
 	/** ctor. */
-	uiScrollBar(const cLayout& layout, const string& id = "", Type type = TP_HORISONTAL);
+	uiScrollBar(const layout& layout, const string& id = "", Type type = TP_HORISONTAL);
 
 	/** copy-ctor. */
 	uiScrollBar(const uiScrollBar& scrollbar);
@@ -82,10 +82,10 @@ public:
 	float getBarSize() const;
 
 	/** Sets bar geomatry layout. */
-	void setBarGeometryLayout(const cLayout& layout);
+	void setBarGeometryLayout(const layout& layout);
 
 	/** Sets background geometry layout. */
-	void setBackgroundGeometryLayout(const cLayout& layout);
+	void setBackgroundGeometryLayout(const layout& layout);
 
 protected:
 	/** Returns bar drawable. */
@@ -101,7 +101,7 @@ protected:
 	virtual void layoutUpdated();
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	virtual bool localProcessInputMessage(const InputMessage& msg);
 
 	/** Returns true, if point inside current widget. */
 	virtual bool isLocalInside(const vec2f& point) const;

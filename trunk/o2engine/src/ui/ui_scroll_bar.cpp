@@ -4,9 +4,9 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiScrollBar);
 
-uiScrollBar::uiScrollBar( const cLayout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/ ):
+uiScrollBar::uiScrollBar( const layout& layout, const string& id /*= ""*/, Type type /*= TP_HORISONTAL*/ ):
 	uiDrawablesListWidget(layout, id), mBarHoverState(NULL), mBarPressedState(NULL), mType(type), mBar(NULL),
-	mBarGeometry(cLayout::both()), mBackgrGeometry(cLayout::both())
+	mBarGeometry(layout::both()), mBackgrGeometry(layout::both())
 {
 	mMinValue = 0;
 	mMaxValue = 1;
@@ -135,12 +135,12 @@ float uiScrollBar::getBarSize() const
 	return mBarSize;
 }
 
-void uiScrollBar::setBarGeometryLayout( const cLayout& layout )
+void uiScrollBar::setBarGeometryLayout( const layout& layout )
 {
 	mBarGeometry = layout;
 }
 
-void uiScrollBar::setBackgroundGeometryLayout( const cLayout& layout )
+void uiScrollBar::setBackgroundGeometryLayout( const layout& layout )
 {
 	mBackgrGeometry = layout;
 }
@@ -151,7 +151,7 @@ void uiScrollBar::localUpdate( float dt )
 		mBarHoverState->setState(mHover && mCursorInside);
 }
 
-bool uiScrollBar::localProcessInputMessage( const cInputMessage& msg )
+bool uiScrollBar::localProcessInputMessage( const InputMessage& msg )
 {
 	bool res = false;
 	fRect barRect = mBarGeometry.getRect();
@@ -241,9 +241,9 @@ void uiScrollBar::updateBarLayout()
 	float bottomCoef = clamp(topCoef + relBarSize, topCoef, 1.0f);
 
 	if (mType == TP_HORISONTAL)
-		mBar->setLayout( cLayout(vec2f(topCoef, 0.0f), vec2f(), vec2f(bottomCoef, 1.0f)) );
+		mBar->setLayout( layout(vec2f(topCoef, 0.0f), vec2f(), vec2f(bottomCoef, 1.0f)) );
 	else
-		mBar->setLayout( cLayout(vec2f(0.0f, topCoef), vec2f(), vec2f(1.0f, bottomCoef)) );
+		mBar->setLayout( layout(vec2f(0.0f, topCoef), vec2f(), vec2f(1.0f, bottomCoef)) );
 
 	mBar->updateLayoutManual(mGlobalPosition, mSize);
 	mBarGeometry.update(mBar->getLayout().mPosition, mBar->getLayout().mSize);

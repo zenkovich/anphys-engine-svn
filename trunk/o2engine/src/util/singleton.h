@@ -5,11 +5,11 @@
 #include "smart_ptrs.h"
 OPEN_O2_NAMESPACE
 
-template <typename CLASS> class cSingleton
+template <typename CLASS> class Singleton
 {
 public:
-	cSingleton()                        { mInstance = static_cast<CLASS*>(this); }
-	virtual ~cSingleton()               { mInstance = NULL; }
+	Singleton()                        { mInstance = static_cast<CLASS*>(this); }
+	virtual ~Singleton()               { mInstance = NULL; }
 
 	static CLASS&   instance()          { o2assert(mInstance, "Singleton not initialized"); return *mInstance; }
 			    
@@ -24,8 +24,8 @@ protected:
 	static CLASS* mInstance;
 };
 
-#define DECLARE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = NULL
-#define CREATE_SINGLETON(CLASS) template<> CLASS* cSingleton<CLASS>::mInstance = mnew CLASS()
+#define DECLARE_SINGLETON(CLASS) template<> CLASS* Singleton<CLASS>::mInstance = NULL
+#define CREATE_SINGLETON(CLASS) template<> CLASS* Singleton<CLASS>::mInstance = mnew CLASS()
 
 CLOSE_O2_NAMESPACE
 

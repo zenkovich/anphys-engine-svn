@@ -15,7 +15,7 @@ public:
 	DEFINE_TYPE(uiHorLayout);
 
 	/** ctor. */
-	uiHorLayout(const cLayout& layout, float widgetsDistance = 10.0f, const string& id = "");
+	uiHorLayout(const layout& layout, float widgetsDistance = 10.0f, const string& id = "");
 
 	/** copy-ctor. */
 	uiHorLayout(const uiHorLayout& widget);

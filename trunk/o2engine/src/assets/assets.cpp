@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 
 Assets::Assets()
 {
-	mLog = mnew cLogStream("assets");
+	mLog = mnew LogStream("assets");
 	gLog->bindStream(mLog);
 
 	mBuildSystem = mnew AssetBuildSystem(this);
@@ -35,6 +35,12 @@ string Assets::getAssetFullPath(const string& path)
 {
 	return ASSETS_BUILDED_PATH + getAssetRealPath(path);
 }
+
+string Assets::getAssetFullPath( const FileLocation& location )
+{
+	return ASSETS_BUILDED_PATH + getAssetRealPath(location);
+}
+
 
 string Assets::getAssetRealPath( const string& path )
 {
@@ -65,6 +71,16 @@ string Assets::getAssetRealPath( const string& path )
 	return convertedPath;
 }
 
+string Assets::getAssetRealPath( const FileLocation& location )
+{
+	foreach(AssetsInfosArr, mAssetsInfos, fileLocIt)
+		if (fileLocIt->mLocation == location)
+			return fileLocIt->mLocation.mPath;
+
+	return location.mPath;
+}
+
+
 FileLocation Assets::getAssetFileLocation(const string& path)
 {
 	string convertedPath = getAssetRealPath(path);
@@ -73,7 +89,7 @@ FileLocation Assets::getAssetFileLocation(const string& path)
 		if (fileIt->mLocation.mPath == convertedPath)
 			return fileIt->mLocation;
 
-	return FileLocation();
+	return FileLocation(path);
 }
 
 uint32 Assets::generateFileId() const
@@ -91,11 +107,22 @@ void Assets::loadBuildedAssetsInfo()
 {
 	mAssetsInfos.clear();
 
-	cSerializer serializer;
+	Serializer serializer;
 	if (serializer.load(ASSETS_INFO_FILE_PATH))
 	{
 		serializer.serialize(mAssetsInfos, "assets");
 	}
+
+	reloadAssetsConfigs();
+}
+
+void Assets::reloadAssetsConfigs()
+{
+	release_array(AssetsConfigsArr, mAssetsConfigs.mInsideAssets);
+	
+	Serializer serializer;
+	if (serializer.load(ASSETS_FOLDER_CONFIG_FILE_PATH))
+		serializer.serialize(&mAssetsConfigs, "assetsConfigs");
 }
 
 CLOSE_O2_NAMESPACE

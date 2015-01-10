@@ -5,7 +5,7 @@
 
 OPEN_O2_NAMESPACE
 
-cTestAllocator::cTestAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
+TestAllocator::TestAllocator( uint32 size, IAllocator* parentAllocator /*= NULL*/ ):
 	mParentAllocator(parentAllocator), mMemorySize(size)
 {
 	if (parentAllocator)
@@ -24,7 +24,7 @@ cTestAllocator::cTestAllocator( uint32 size, IAllocator* parentAllocator /*= NUL
 	putBlock(mMemory, mMemorySize - sizeof(uint32)*2, true);
 }
 
-cTestAllocator::~cTestAllocator()
+TestAllocator::~TestAllocator()
 {
 	if (mParentAllocator)
 	{
@@ -36,7 +36,7 @@ cTestAllocator::~cTestAllocator()
 	}
 }
 
-void* cTestAllocator::alloc( uint32 bytes )
+void* TestAllocator::alloc( uint32 bytes )
 {	
 	void* res = NULL;
 	char* ptr = mMemory;
@@ -66,12 +66,12 @@ void* cTestAllocator::alloc( uint32 bytes )
 	return res;
 }
 
-void* cTestAllocator::realloc( void* ptr, uint32 bytes )
+void* TestAllocator::realloc( void* ptr, uint32 bytes )
 {
 	return NULL;
 }
 
-void cTestAllocator::free( void* ptr )
+void TestAllocator::free( void* ptr )
 {
 	if (!ptr)
 		return;
@@ -117,7 +117,7 @@ void cTestAllocator::free( void* ptr )
 	putBlock(newLeftSide, newSize, true);
 }
 
-void* cTestAllocator::putBlock( void* ptr, uint32 size, bool clear )
+void* TestAllocator::putBlock( void* ptr, uint32 size, bool clear )
 {
 	uint32 side = size + ((uint32)clear << 31);
 	*(uint32*)ptr = side;
@@ -126,7 +126,7 @@ void* cTestAllocator::putBlock( void* ptr, uint32 size, bool clear )
 	return (void*)((char*)ptr + sizeof(uint32));
 }
 
-void cTestAllocator::dump()
+void TestAllocator::dump()
 {	
 	void* res = NULL;
 	char* ptr = mMemory;

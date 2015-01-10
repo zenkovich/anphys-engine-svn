@@ -16,20 +16,20 @@ class uiScrollArea: public uiDrawablesListWidget
 	vec2f        mSmoothScroll;   /** Smooth scroll. */
 	vec2f        mScroll;         /** Current scrolling. */
 	vec2f        mScrollSpeed;    /** Current scrolling speed. */
-	cLayout      mClippingLayout; /** Crrent clipping layout. */
+	layout      mClippingLayout; /** Crrent clipping layout. */
 
 public:
 	//Type definition
 	DEFINE_TYPE(uiScrollArea);
 
-	cCallbackChain onScrolled;
+	CallbackChain onScrolled;
 
 	//properties
 	PROPERTY(uiScrollArea, vec2f) scroll; /**< Scrolleed offset property. Using setScroll/getScroll. */
 
 
 	/** ctor. */
-	uiScrollArea(const cLayout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
+	uiScrollArea(const layout& layout, uiScrollBar* horBarSample = NULL, uiScrollBar* verBarSample = NULL, 
 		         const string& id = "");
 
 	/** copy-ctor. */
@@ -67,7 +67,7 @@ protected:
 	virtual void localUpdate(float dt);
 
 	/** Processing input message in current widget. */
-	virtual bool localProcessInputMessage(const cInputMessage& msg);
+	virtual bool localProcessInputMessage(const InputMessage& msg);
 
 	/** Calls when widget focused. */
 	virtual void onFocused();

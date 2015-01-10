@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 REGIST_TYPE(uiContextMenu);
 
 
-uiContextMenu::uiContextMenu(const cLayout& layout, const string& id /*= ""*/):
+uiContextMenu::uiContextMenu(const layout& layout, const string& id /*= ""*/):
 	uiDrawablesListWidget(layout, id)
 {
 
@@ -81,7 +81,7 @@ void uiContextMenu::layoutUpdated()
 
 }
 
-bool uiContextMenu::localProcessInputMessage(const cInputMessage& msg)
+bool uiContextMenu::localProcessInputMessage(const InputMessage& msg)
 {
 	return false;
 }

@@ -4,7 +4,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiRect);
 
-uiRect::uiRect(const cLayout& layout, const string& id /*= ""*/):
+uiRect::uiRect(const layout& layout, const string& id /*= ""*/):
 	uiWidget(layout, id)
 {
 	transparency.onChangeEvent.add(callback<uiRect>( this, &uiRect::transparencyChanged));

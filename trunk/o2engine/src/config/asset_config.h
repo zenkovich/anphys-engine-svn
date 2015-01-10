@@ -4,39 +4,52 @@
 #include "public.h"
 #include "util/file_system/file_info.h"
 #include "util/serialize_util.h"
+#include "util/type_indexation.h"
 
 OPEN_O2_NAMESPACE
 
-class asAssetConfig: public cSerializable
+class asAssetConfig: public Serializable
 {
 public:
+	DEFINE_TYPE(asAssetConfig);
+
 	FileLocation mLocation;
-	bool          mIncludeBuild;
+	bool         mIncludeBuild;
 
 public:
 	asAssetConfig();
+	virtual ~asAssetConfig();
 
 	SERIALIZBLE_METHODS(asAssetConfig);
 };
 typedef array<asAssetConfig*> AssetsConfigsArr;
 
-class asPathConfig: public asAssetConfig
+class asFolderConfig: public asAssetConfig
 {
+	friend class AssetBuildSystem;
+
 public:
+	DEFINE_TYPE(asFolderConfig);
+
 	AssetsConfigsArr mInsideAssets;
 
 public:
-	asPathConfig();
-	~asPathConfig();
+	asFolderConfig();
+	~asFolderConfig();
+	
+	asAssetConfig* getAssetConfig(const FileLocation& location);
 
-	asAssetConfig* getAssetConfig(const string& path);
+	SERIALIZBLE_INHERITED_METHODS(asFolderConfig, asAssetConfig);
 
-	SERIALIZBLE_INHERITED_METHODS(asPathConfig, asAssetConfig);
+private:
+	asAssetConfig* getAndRemoveAssetConfig(const FileLocation& location);
 };
 
 class asImageConfig: public asAssetConfig
 {
 public:
+	DEFINE_TYPE(asImageConfig);
+
 	float  mScale;
 	string mAtlas;
 
@@ -49,8 +62,12 @@ public:
 class asAtlasConfig: public asAssetConfig
 {
 public:
-	vec2f  mMaxSize;
-	string mName;
+	DEFINE_TYPE(asAtlasConfig);
+
+	vec2f        mMaxSize;
+	string       mName;
+	bool         mAttachedToFolder;
+	FileLocation mAttachFolderLocation;
 
 public:
 	asAtlasConfig();

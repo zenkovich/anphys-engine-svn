@@ -4,7 +4,7 @@
 
 OPEN_O2_NAMESPACE
 
-bool cScheduler::Task::execute()
+bool Scheduler::Task::execute()
 {
 	if (mVariableRepeatDelay)
 	{
@@ -20,7 +20,7 @@ bool cScheduler::Task::execute()
 }
 
 
-cScheduler::cScheduler()
+Scheduler::Scheduler()
 {
 	mCurrentTasks = &mTasks[0];
 	mNextTasks = &mTasks[1];
@@ -32,7 +32,7 @@ cScheduler::cScheduler()
 	mLastTaskId = 0;
 }
 
-cScheduler::~cScheduler()
+Scheduler::~Scheduler()
 {
 	FOREACH(TaskVec, mTasks[0], it)
 		safe_release(*it);
@@ -44,19 +44,19 @@ cScheduler::~cScheduler()
 		safe_release(*it);
 }
 
-void cScheduler::processBeforeFrame( float dt )
+void Scheduler::processBeforeFrame( float dt )
 {
 	processCurrentTasks(dt, ES_BEFORE_FRAME);
 }
 
-void cScheduler::processAfterFrame( float dt )
+void Scheduler::processAfterFrame( float dt )
 {
 	processCurrentTasks(dt, ES_AFTER_FRAME);
 	tswap(mCurrentTasks, mNextTasks);
 	mNextTasks->clear();
 }
 
-void cScheduler::processCurrentTasks(float dt, ExecStage stage)
+void Scheduler::processCurrentTasks(float dt, ExecStage stage)
 {
 	FOREACH(TaskVec, *mCurrentTasks, task)
 	{
@@ -83,7 +83,7 @@ void cScheduler::processCurrentTasks(float dt, ExecStage stage)
 	}
 }
 
-int cScheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
+int Scheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
 	Task* newTask = getTask(callback, execDelay, -1, stage, false);
@@ -91,7 +91,7 @@ int cScheduler::addTask( ICallback* callback, float execDelay /*= 0.0f*/, ExecSt
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( ICallback* callback, float repeatDelay, float execDelay /*= 0.0f*/, 
+int Scheduler::addRepeatTask( ICallback* callback, float repeatDelay, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
@@ -100,7 +100,7 @@ int cScheduler::addRepeatTask( ICallback* callback, float repeatDelay, float exe
 	return newTask->mId;
 }
 
-int cScheduler::addRepeatTask( IRetCallback<float>* callback, float execDelay /*= 0.0f*/, 
+int Scheduler::addRepeatTask( IRetCallback<float>* callback, float execDelay /*= 0.0f*/, 
 	                            ExecStage stage /*= ES_AFTER_FRAME*/ )
 {
 	TaskVec* tasks = stage == ES_AFTER_FRAME ? mCurrentTasks:mNextTasks;
@@ -109,7 +109,7 @@ int cScheduler::addRepeatTask( IRetCallback<float>* callback, float execDelay /*
 	return newTask->mId;
 }
 
-void cScheduler::clearAllTasks()
+void Scheduler::clearAllTasks()
 {
 	FOREACH(TaskVec, *mCurrentTasks, it)
 		mUnusedTasks.push_back(*it);
@@ -121,7 +121,7 @@ void cScheduler::clearAllTasks()
 	mNextTasks->clear();
 }
 
-void cScheduler::removeTask( int id )
+void Scheduler::removeTask( int id )
 {
 	FOREACH(TaskVec, *mCurrentTasks, it)
 	{
@@ -144,7 +144,7 @@ void cScheduler::removeTask( int id )
 	}
 }
 
-cScheduler::Task* cScheduler::getTask( ICallback* callback, float delay, float repeatDelay, ExecStage stage, 
+Scheduler::Task* Scheduler::getTask( ICallback* callback, float delay, float repeatDelay, ExecStage stage, 
 	                                             bool variableRepeatDelay )
 {
 	Task* res;

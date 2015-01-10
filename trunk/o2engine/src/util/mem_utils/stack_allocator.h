@@ -5,19 +5,19 @@
 
 OPEN_O2_NAMESPACE
 
-class cMutex;
+class Mutex;
 
-class cStackAllocator:public IAllocator
+class StackAllocator:public IAllocator
 {
 	IAllocator* mParentAllocator;
 	char*       mMemory;
 	uint32      mMemorySize;
 	uint32      mUsedMemory;
-	cMutex*     mMutex;
+	Mutex*     mMutex;
 
 public:
-	cStackAllocator(uint32 size, IAllocator* parentAllocator = NULL);
-	~cStackAllocator();
+	StackAllocator(uint32 size, IAllocator* parentAllocator = NULL);
+	~StackAllocator();
 
 	void* alloc(uint32 bytes);
 	void* realloc(void* ptr, uint32 bytes);

@@ -8,34 +8,34 @@
 
 OPEN_O2_NAMESPACE
 
-cConsoleLogStream::cConsoleLogStream(uint8 level):
-	cLogStream()
+ConsoleLogStream::ConsoleLogStream(uint8 level):
+	LogStream()
 {
 	setLevel(level);
 	if (level > 0)
 		initConsole();
 }
 
-cConsoleLogStream::cConsoleLogStream( const string& id, uint8 level ):
-	cLogStream(id)
+ConsoleLogStream::ConsoleLogStream( const string& id, uint8 level ):
+	LogStream(id)
 {
 	setLevel(level);
 	if (level > 0)
 		initConsole();
 }
 
-cConsoleLogStream::~cConsoleLogStream()
+ConsoleLogStream::~ConsoleLogStream()
 {
 	FreeConsole();
 }
 
-void cConsoleLogStream::outStrEx( const string& str )
+void ConsoleLogStream::outStrEx( const string& str )
 {
 	printf(str.c_str());
 	printf("\n");	
 }
 
-void cConsoleLogStream::initConsole()
+void ConsoleLogStream::initConsole()
 {
 	if ( AllocConsole() )
 	{

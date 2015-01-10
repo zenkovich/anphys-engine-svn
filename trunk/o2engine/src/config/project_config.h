@@ -9,7 +9,7 @@ OPEN_O2_NAMESPACE
 
 class ProjectBuildConfig;
 
-class ProjectConfig: public cSerializable
+class ProjectConfig: public Serializable
 {
 	friend class AssetBuildSystem;
 

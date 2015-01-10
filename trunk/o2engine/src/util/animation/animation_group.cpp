@@ -4,22 +4,22 @@
 
 OPEN_O2_NAMESPACE
 
-cAnimationGroup::cAnimationGroup()
+AnimationGroup::AnimationGroup()
 {
 }
 
-cAnimationGroup::~cAnimationGroup()
+AnimationGroup::~AnimationGroup()
 {
 	removeAllAnimations();
 }
 
-void cAnimationGroup::addAnimation( IAnimation* animation )
+void AnimationGroup::addAnimation( IAnimation* animation )
 {
 	mAnimations.push_back(animation);
 	mDuration = max(mDuration, animation->getDuration());
 }
 
-void cAnimationGroup::removeAnimation( IAnimation* animation )
+void AnimationGroup::removeAnimation( IAnimation* animation )
 {
 	AnimationsVec::iterator fnd = std::find(mAnimations.begin(), mAnimations.end(), animation);
 	if (fnd != mAnimations.end())
@@ -35,7 +35,7 @@ void cAnimationGroup::removeAnimation( IAnimation* animation )
 	}
 }
 
-void cAnimationGroup::removeAllAnimations()
+void AnimationGroup::removeAllAnimations()
 {
 	for (AnimationsVec::iterator it = mAnimations.begin(); it != mAnimations.end(); ++it)
 		safe_release(*it);
@@ -44,12 +44,12 @@ void cAnimationGroup::removeAllAnimations()
 	mDuration = 0;
 }
 
-const cAnimationGroup::AnimationsVec& cAnimationGroup::getAnimations() const
+const AnimationGroup::AnimationsVec& AnimationGroup::getAnimations() const
 {
 	return mAnimations;
 }
 
-void cAnimationGroup::play( float begin, float end )
+void AnimationGroup::play( float begin, float end )
 {
 	IAnimation::play(begin, end);
 
@@ -57,12 +57,12 @@ void cAnimationGroup::play( float begin, float end )
 		(*it)->play(begin, end);
 }
 
-void cAnimationGroup::play( bool restart /*= false*/, bool stopAtEnd /*= true*/ )
+void AnimationGroup::play( bool restart /*= false*/, bool stopAtEnd /*= true*/ )
 {
 	IAnimation::play(restart, stopAtEnd);
 }
 
-void cAnimationGroup::setTime( float time )
+void AnimationGroup::setTime( float time )
 {
 	IAnimation::setTime(time);
 
@@ -70,7 +70,7 @@ void cAnimationGroup::setTime( float time )
 		(*it)->setTime(time);
 }
 
-void cAnimationGroup::update( float dt )
+void AnimationGroup::update( float dt )
 {
 	IAnimation::update(dt);
 
@@ -78,7 +78,7 @@ void cAnimationGroup::update( float dt )
 		(*it)->update(dt);
 }
 
-void cAnimationGroup::stop()
+void AnimationGroup::stop()
 {
 	IAnimation::stop();
 

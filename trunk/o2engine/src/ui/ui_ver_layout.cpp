@@ -4,7 +4,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiVerLayout);
 
-uiVerLayout::uiVerLayout( const cLayout& layout, float widgetsDistance /*= 10.0f*/, const string& id /*= ""*/ ):
+uiVerLayout::uiVerLayout( const layout& layout, float widgetsDistance /*= 10.0f*/, const string& id /*= ""*/ ):
 	uiWidget(layout, id), mWidgetsDistance(widgetsDistance)
 {
 }
@@ -45,7 +45,7 @@ void uiVerLayout::layoutUpdated()
 	float addOffset = 0.0f;
 	FOREACH(WidgetsVec, mChildWidgets, child)
 	{
-		cLayout lt = (*child)->getLayout();
+		layout lt = (*child)->getLayout();
 
 		lt.mLTAbsolute.y = offset;             lt.mLTRelative.y = 0.0f;
 		lt.mRBAbsolute.y = offset + childSize; lt.mRBRelative.y = 0.0f;
@@ -66,7 +66,7 @@ void uiVerLayout::layoutUpdated()
 	offset = 0.0f;
 	FOREACH(WidgetsVec, mChildWidgets, child)
 	{
-		cLayout lt = (*child)->getLayout();
+		layout lt = (*child)->getLayout();
 
 		lt.mLTAbsolute.y = offset;             lt.mLTRelative.y = 0.0f;
 		lt.mRBAbsolute.y = offset + childSize; lt.mRBRelative.y = 0.0f;

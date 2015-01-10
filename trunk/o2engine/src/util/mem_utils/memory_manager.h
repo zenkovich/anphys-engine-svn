@@ -8,11 +8,11 @@
 OPEN_O2_NAMESPACE
 
 class IAllocator;
-class cMutex;
+class Mutex;
 
 /** Memory manager, singleton. 
  ** Containg information about allocations, usage of memory, basic allocator if specified. */
-class cMemoryManager
+class MemoryManager
 {
 	friend class IAllocator;
 
@@ -38,17 +38,17 @@ class cMemoryManager
 
 	AllocSignsList* mAllocSigns;      /**< Allocations signatures. */
 	uint32          mUsedMemory;      /**< Size of used and signed memory. */
-	cMutex*         mAllocSignsMutex; /**< Mutex for signs. */
+	Mutex*         mAllocSignsMutex; /**< Mutex for signs. */
 
-	static cMemoryManager mStaticObj;
+	static MemoryManager mStaticObj;
 
 public:
 	IAllocator* mBasicAllocator;
 
-	cMemoryManager();
-	~cMemoryManager();
+	MemoryManager();
+	~MemoryManager();
 
-	static cMemoryManager& instance() { return mStaticObj; }
+	static MemoryManager& instance() { return mStaticObj; }
 
 	static void dump();
 

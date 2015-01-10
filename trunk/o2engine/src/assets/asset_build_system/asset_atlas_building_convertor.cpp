@@ -3,7 +3,7 @@
 #include "asset_build_system.h"
 #include "app/application.h"
 #include "util/file_system/file_system.h"
-#include "util/image/image.h"
+#include "util/image/bitmap.h"
 
 OPEN_O2_NAMESPACE
 
@@ -31,8 +31,8 @@ void asAssetAtlasBuildingConvertor::convert(abAssetInfo* asset)
 
 	foreach(abImageAssetsInfosArr, atlas->mImages, imgIt)
 	{
-		cImage* image = mnew cImage(mBuildSystem->getAssetsFolderPath() + extractExtension((*imgIt)->mLocation.mPath));
-		cRectsPacker::rect* packRect = mRectsPacker.addRect(image->getSize());
+		Bitmap* image = mnew Bitmap(mBuildSystem->getAssetsFolderPath() + extractExtension((*imgIt)->mLocation.mPath));
+		RectsPacker::rect* packRect = mRectsPacker.addRect(image->getSize());
 
 		mImageDefs.add(imageDef(*imgIt, image, packRect));
 	}
@@ -40,7 +40,7 @@ void asAssetAtlasBuildingConvertor::convert(abAssetInfo* asset)
 	mRectsPacker.setMaxSize(atlas->mMaxSize);
 	mRectsPacker.pack();
 
-	cImage resAtlasImage(cImage::FMT_R8G8B8A8, atlas->mMaxSize);
+	Bitmap resAtlasImage(Bitmap::FMT_R8G8B8A8, atlas->mMaxSize);
 
 	foreach(ImageDefsArr, mImageDefs, imgDefIt)
 	{
@@ -48,9 +48,9 @@ void asAssetAtlasBuildingConvertor::convert(abAssetInfo* asset)
 		safe_release(imgDefIt->mImage);
 	}
 
-	resAtlasImage.save(buildedPath + ".png", cImage::IT_PNG);
+	resAtlasImage.save(buildedPath + ".png", Bitmap::IT_PNG);
 
-	cSerializer serializer;
+	Serializer serializer;
 	serializer.serialize(mImageDefs, "images");
 	serializer.save(buildedPath);
 }
@@ -70,8 +70,8 @@ UniqueType asAssetAtlasBuildingConvertor::getConvertingType() const
 }
 
 
-asAssetAtlasBuildingConvertor::imageDef::imageDef( abImageAssetInfo* imageAssetInfo /*= NULL*/, cImage* image /*= NULL*/, 
-	                                               cRectsPacker::rect* packRect /*= NULL*/ ):
+asAssetAtlasBuildingConvertor::imageDef::imageDef( abImageAssetInfo* imageAssetInfo /*= NULL*/, Bitmap* image /*= NULL*/, 
+	                                               RectsPacker::rect* packRect /*= NULL*/ ):
 	mImageAssetInfo(imageAssetInfo), mImage(image), mPackRect(packRect)
 {
 }
@@ -85,6 +85,9 @@ SERIALIZE_METHOD_IMPL(asAssetAtlasBuildingConvertor::imageDef)
 {
 	SERIALIZE_ID(&mImageAssetInfo->mLocation, "location");
 	SERIALIZE_ID(mPackRect->mRect, "rect");
+
+	bool linkedDirectly = !mImageAssetInfo->mAtlasName.empty();
+	SERIALIZE_ID(linkedDirectly, "linkedDirectly");
 
 	return true;
 }

@@ -48,7 +48,7 @@ public:
 	bool isValid();
 };
 
-class ObjectsManager: public cSingleton<ObjectsManager>
+class ObjectsManager: public Singleton<ObjectsManager>
 {
 	friend class Object;
 

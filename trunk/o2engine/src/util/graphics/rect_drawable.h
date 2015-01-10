@@ -10,7 +10,7 @@ OPEN_O2_NAMESPACE
 
 /** Basic rect drawable interface. It could be drawed, determinates by position, size, pivot and color. 
  ** pivot is in local space, in pixels. */
-class IRectDrawable: public virtual IDrawable, public cPropertyList
+class IRectDrawable: public virtual IDrawable, public PropertyList
 {
 protected:
 	vec2f  mPosition; /** Position. */

@@ -6,7 +6,7 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiLabel);
 
-uiLabel::uiLabel(grFont* font, const cLayout& layout, const string& id /*= ""*/):
+uiLabel::uiLabel(grFont* font, const layout& layout, const string& id /*= ""*/):
 	uiWidget(layout, id), mText(NULL)
 {
 	mText = mnew grText(font);

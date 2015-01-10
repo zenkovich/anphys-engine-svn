@@ -2,16 +2,16 @@
 
 OPEN_O2_NAMESPACE
 
-uiDrawablesListWidget::uiDrawablesListWidget(const cLayout& layout, const string& id /*= ""*/):
-	uiWidget(layout, id), mBasicDrawable("basic", NULL, cLayout::both())
+uiDrawablesListWidget::uiDrawablesListWidget(const layout& layout, const string& id /*= ""*/):
+	uiWidget(layout, id), mBasicDrawable("basic", NULL, layout::both())
 {
-	addChildPropertyList(dynamic_cast<cPropertyList*>(&mBasicDrawable));
+	addChildPropertyList(dynamic_cast<PropertyList*>(&mBasicDrawable));
 }
 
 uiDrawablesListWidget::uiDrawablesListWidget(const uiDrawablesListWidget& widget):
 	uiWidget(widget), mBasicDrawable(widget.mBasicDrawable)
 {
-	addChildPropertyList(dynamic_cast<cPropertyList*>(&mBasicDrawable));
+	addChildPropertyList(dynamic_cast<PropertyList*>(&mBasicDrawable));
 	FOREACH(StatesMap, mStates, state)
 		(*state).second->setOwnerWidget( this );
 }
@@ -28,7 +28,7 @@ uiWidget* uiDrawablesListWidget::clone() const
 
 uiDrawablesListWidget::Drawable* uiDrawablesListWidget::addDrawable(IRectDrawable* drawable, 
 	                                                                const string& id, 
-		                                                            const cLayout& layout /*= cLayout::both()*/)
+		                                                            const layout& layout /*= cLayout::both()*/)
 {
 	return addDrawable(mnew Drawable(id, drawable, layout, &mBasicDrawable));
 }
@@ -69,7 +69,7 @@ void uiDrawablesListWidget::localDraw()
 
 
 uiDrawablesListWidget::Drawable::Drawable( const string& name, IRectDrawable* drawable, 
-	                                       const cLayout& layout /*= cLayout::both()*/, 
+	                                       const layout& layout /*= cLayout::both()*/, 
 										   Drawable* parentDrawable /*= NULL*/ )
 {
 	mName = name;
@@ -82,7 +82,7 @@ uiDrawablesListWidget::Drawable::Drawable( const string& name, IRectDrawable* dr
 	if (mDrawable)
 	{
 		mDrawable->setPropertyListName("drawable");
-		addChildPropertyList((dynamic_cast<cPropertyList*>(mDrawable)));
+		addChildPropertyList((dynamic_cast<PropertyList*>(mDrawable)));
 	}
 
 	initializeProperties();
@@ -104,7 +104,7 @@ uiDrawablesListWidget::Drawable::Drawable( const Drawable& drawable )
 	if (mDrawable)
 	{
 		mDrawable->setPropertyListName("drawable");
-		addChildPropertyList((dynamic_cast<cPropertyList*>(mDrawable)));
+		addChildPropertyList((dynamic_cast<PropertyList*>(mDrawable)));
 	}
 
 	FOREACH_CONST(DrawablesVec, drawable.mChildDrawables, drw)
@@ -138,7 +138,7 @@ uiDrawablesListWidget::Drawable& uiDrawablesListWidget::Drawable::operator=(cons
 	if (mDrawable)
 	{
 		mDrawable->setPropertyListName("drawable");
-		addChildPropertyList((dynamic_cast<cPropertyList*>(mDrawable)));
+		addChildPropertyList((dynamic_cast<PropertyList*>(mDrawable)));
 	}
 
 	FOREACH_CONST(DrawablesVec, drw.mChildDrawables, drwi)
@@ -151,12 +151,12 @@ uiDrawablesListWidget::Drawable* uiDrawablesListWidget::Drawable::addChildDrawab
 {
 	mChildDrawables.push_back(drawable);
 	drawable->mParentDrawable = (this);
-	addChildPropertyList((dynamic_cast<cPropertyList*>(drawable)));
+	addChildPropertyList((dynamic_cast<PropertyList*>(drawable)));
 	return drawable;
 }
 
 uiDrawablesListWidget::Drawable* uiDrawablesListWidget::Drawable::addChildDrawable( const string& name, 
-		IRectDrawable* drawable, const cLayout& layout /*= cLayout::both()*/ )
+		IRectDrawable* drawable, const layout& layout /*= cLayout::both()*/ )
 {
 	return addChildDrawable(mnew Drawable(name, drawable, layout));
 }
@@ -186,7 +186,7 @@ void uiDrawablesListWidget::Drawable::removeChildDrawable( Drawable* drawable, b
 	if (fnd == mChildDrawables.end())
 		return;
 	
-	removeChildPropertyList((dynamic_cast<cPropertyList*>(drawable)), false);
+	removeChildPropertyList((dynamic_cast<PropertyList*>(drawable)), false);
 	if (release)
 		safe_release(drawable);
 
@@ -232,7 +232,7 @@ void uiDrawablesListWidget::Drawable::setDrawable( IRectDrawable* drawable )
 {
 	if (mDrawable)
 	{
-		removeChildPropertyList((dynamic_cast<cPropertyList*>(mDrawable)));
+		removeChildPropertyList((dynamic_cast<PropertyList*>(mDrawable)));
 		safe_release(mDrawable);
 	}
 	
@@ -241,7 +241,7 @@ void uiDrawablesListWidget::Drawable::setDrawable( IRectDrawable* drawable )
 	if (mDrawable)
 	{
 		mDrawable->setPropertyListName("drawable");
-		addChildPropertyList((dynamic_cast<cPropertyList*>(mDrawable)));
+		addChildPropertyList((dynamic_cast<PropertyList*>(mDrawable)));
 	}
 }
 
@@ -250,12 +250,12 @@ IRectDrawable* uiDrawablesListWidget::Drawable::getDrawable()
 	return mDrawable;
 }
 
-void uiDrawablesListWidget::Drawable::setLayout( const cLayout& layout )
+void uiDrawablesListWidget::Drawable::setLayout( const layout& layout )
 {
 	mLayout = layout;
 }
 
-cLayout uiDrawablesListWidget::Drawable::getLayout() const
+layout uiDrawablesListWidget::Drawable::getLayout() const
 {
 	return mLayout;
 }

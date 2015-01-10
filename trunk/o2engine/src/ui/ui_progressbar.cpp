@@ -2,7 +2,7 @@
 
 OPEN_O2_NAMESPACE
 
-uiProgressBar::uiProgressBar( const cLayout& layout, const string& id /*= ""*/ ):
+uiProgressBar::uiProgressBar( const layout& layout, const string& id /*= ""*/ ):
 	uiDrawablesListWidget(layout, id), mBar(NULL)
 {
 	mMinValue = 0;
@@ -104,7 +104,7 @@ void uiProgressBar::updateBarLayout()
 	if (!mBar)
 		return;
 
-	mBar->setLayout(cLayout(vec2f(), vec2f(), vec2f((mValue - mMinValue)/(mMaxValue - mMinValue), 1.0f)));
+	mBar->setLayout(layout(vec2f(), vec2f(), vec2f((mValue - mMinValue)/(mMaxValue - mMinValue), 1.0f)));
 	mBar->updateLayout();
 }
 

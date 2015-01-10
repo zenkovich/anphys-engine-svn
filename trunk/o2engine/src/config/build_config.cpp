@@ -10,7 +10,7 @@ ProjectBuildConfig::ProjectBuildConfig(ProjectConfig* projConfig):
 {
 	string cfgFilePath = BUILD_CONFIG_FILE_PATH;
 
-	cSerializer serializer;
+	Serializer serializer;
 	if (!serializer.load(cfgFilePath)) 
 	{
 		logError("Failed to load build config: %s. Initializing default.", cfgFilePath.c_str());
@@ -39,7 +39,7 @@ void ProjectBuildConfig::initializeDefault(const string& configFilePath)
 {
 	mName = "unnamed";
 
-	cSerializer serializer(cSerializer::ST_SERIALIZE);
+	Serializer serializer(Serializer::ST_SERIALIZE);
 	serializer.serialize(mName, "buildName");
 	serializer.save(configFilePath);
 }

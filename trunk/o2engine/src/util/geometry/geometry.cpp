@@ -2,20 +2,20 @@
 
 OPEN_O2_NAMESPACE
 
-cGroupGeometry::cGroupGeometry()
+GroupGeometry::GroupGeometry()
 {
 }
 
-cGroupGeometry::~cGroupGeometry()
+GroupGeometry::~GroupGeometry()
 {
 }
 
-int cGroupGeometry::getPartsCount() const
+int GroupGeometry::getPartsCount() const
 {
 	return mParts.size();
 }
 
-int cGroupGeometry::addPart( cGeometry* geom )
+int GroupGeometry::addPart( Geometry* geom )
 {
 	mParts.push_back(geom);
 	updateAABB();
@@ -23,7 +23,7 @@ int cGroupGeometry::addPart( cGeometry* geom )
 	return mParts.size() - 1;
 }
 
-void cGroupGeometry::removePart( int idx )
+void GroupGeometry::removePart( int idx )
 {
 	if (idx < 0 || idx > (int)mParts.size() - 1)
 		return;
@@ -34,7 +34,7 @@ void cGroupGeometry::removePart( int idx )
 	updateAABB();
 }
 
-void cGroupGeometry::removeAllParts()
+void GroupGeometry::removeAllParts()
 {
 	for (PartsVec::iterator it = mParts.begin(); it != mParts.end(); ++it)
 		safe_release(*it);
@@ -42,7 +42,7 @@ void cGroupGeometry::removeAllParts()
 	mAABB = fRect();
 }
 
-bool cGroupGeometry::isInside( const vec2f& point ) const
+bool GroupGeometry::isInside( const vec2f& point ) const
 {
 	if (!mAABB.isInside(point))
 		return false;
@@ -54,7 +54,7 @@ bool cGroupGeometry::isInside( const vec2f& point ) const
 	return false;
 }
 
-void cGroupGeometry::updateAABB()
+void GroupGeometry::updateAABB()
 {
 	if (mParts.size() == 0)
 		return;
@@ -69,7 +69,7 @@ void cGroupGeometry::updateAABB()
 	}
 }
 
-void cGroupGeometry::setPosition( const vec2f& pos )
+void GroupGeometry::setPosition( const vec2f& pos )
 {
 	vec2f delta = pos - mPosition;
 	mPosition = pos;
@@ -78,90 +78,90 @@ void cGroupGeometry::setPosition( const vec2f& pos )
 		(*it)->setPosition((*it)->getPosition() + delta);
 }
 
-vec2f cGroupGeometry::getPosition() const
+vec2f GroupGeometry::getPosition() const
 {
 	return mPosition;
 }
 
-cRectGeometry::cRectGeometry() :
+RectGeometry::RectGeometry() :
 	mRect() { }
 
-cRectGeometry::cRectGeometry( const fRect& rect ) :
+RectGeometry::RectGeometry( const fRect& rect ) :
 	mRect(rect) { }
 
-cRectGeometry::cRectGeometry( float left, float top, float right, float down ) :
+RectGeometry::RectGeometry( float left, float top, float right, float down ) :
 	mRect(left, top, right, down) { }
 
-cRectGeometry::cRectGeometry( const vec2f& minp, const vec2f& maxp ) :
+RectGeometry::RectGeometry( const vec2f& minp, const vec2f& maxp ) :
 	mRect(minp, maxp) { }
 
-bool cRectGeometry::isInside( const vec2f& point ) const
+bool RectGeometry::isInside( const vec2f& point ) const
 {
 	return mRect.isInside(point);
 }
 
-fRect cRectGeometry::getAABB() const
+fRect RectGeometry::getAABB() const
 {
 	return mRect;
 }
 
-vec2f cRectGeometry::getPosition() const
+vec2f RectGeometry::getPosition() const
 {
 	return mRect.getltCorner();
 }
 
-void cRectGeometry::setPosition( const vec2f& pos )
+void RectGeometry::setPosition( const vec2f& pos )
 {
 	mRect = mRect + (pos - mRect.getltCorner());
 }
 
-void cRectGeometry::setSize( const vec2f& size )
+void RectGeometry::setSize( const vec2f& size )
 {
 	mRect.right = mRect.left + size.x; mRect.down = mRect.top + size.y;
 }
 
-void cRectGeometry::set( const fRect& rect )
+void RectGeometry::set( const fRect& rect )
 {
 	mRect = rect;
 }
 
-void cRectGeometry::set( const vec2f& minp, const vec2f& maxp )
+void RectGeometry::set( const vec2f& minp, const vec2f& maxp )
 {
 	mRect.left = minp.x; mRect.right = maxp.x; 
 	mRect.top = minp.y; mRect.down = maxp.y;
 }
 
 
-cCircleGeometry::cCircleGeometry() :
+CircleGeometry::CircleGeometry() :
 	mRadius(0), mSqrRadius(0) { }
 
-cCircleGeometry::cCircleGeometry( const vec2f& center, float radius ) :
+CircleGeometry::CircleGeometry( const vec2f& center, float radius ) :
 	mCenter(center), mRadius(radius)
 {
 	mSqrRadius = radius*radius;
 }
 
-bool cCircleGeometry::isInside( const vec2f& point ) const
+bool CircleGeometry::isInside( const vec2f& point ) const
 {
 	vec2f d = point - mCenter; return d*d < mSqrRadius;
 }
 
-fRect cCircleGeometry::getAABB() const
+fRect CircleGeometry::getAABB() const
 {
 	return fRect(mCenter - vec2f(mRadius, mRadius), mCenter + vec2f(mRadius, mRadius));
 }
 
-vec2f cCircleGeometry::getPosition() const
+vec2f CircleGeometry::getPosition() const
 {
 	return mCenter;
 }
 
-void cCircleGeometry::setPosition( const vec2f& pos )
+void CircleGeometry::setPosition( const vec2f& pos )
 {
 	mCenter = pos;
 }
 
-void cCircleGeometry::set( const vec2f& center, float radius )
+void CircleGeometry::set( const vec2f& center, float radius )
 {
 	mCenter = center; mRadius = radius;
 }

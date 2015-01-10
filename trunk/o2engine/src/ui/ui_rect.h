@@ -14,11 +14,11 @@ public:
 	DEFINE_TYPE(uiRect);
 
 
-	cStretchRect mStretchRect; /** Stretching rect drawable. */
+	StretchRect mStretchRect; /** Stretching rect drawable. */
 
 
 	/** ctor. */
-	uiRect(const cLayout& layout, const string& id = "");
+	uiRect(const layout& layout, const string& id = "");
 
 	/** copy-ctor. */
 	uiRect(const uiRect& rectWidget);

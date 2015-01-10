@@ -12,12 +12,12 @@
 
 OPEN_O2_NAMESPACE
 	
-cInputMessage::cInputMessage():
+InputMessage::InputMessage():
 	mMouseWheelDelta(0.0f)
 {
 }
 
-bool cInputMessage::isKeyPressed( VKey key ) const
+bool InputMessage::isKeyPressed( VKey key ) const
 {
 	for (KeysVec::const_iterator it = mPressedKeys.cbegin(); it != mPressedKeys.cend(); it++)
 		if (it->mKey == key) return true;
@@ -25,7 +25,7 @@ bool cInputMessage::isKeyPressed( VKey key ) const
 	return false;
 }
 
-bool cInputMessage::isKeyDown( VKey key ) const
+bool InputMessage::isKeyDown( VKey key ) const
 {
 	for (KeysVec::const_iterator it = mDownKeys.cbegin(); it != mDownKeys.cend(); it++)
 		if (it->mKey == key) return true;
@@ -33,7 +33,7 @@ bool cInputMessage::isKeyDown( VKey key ) const
 	return isKeyPressed(key);
 }
 
-bool cInputMessage::isKeyReleased( VKey key ) const
+bool InputMessage::isKeyReleased( VKey key ) const
 {
 	for (KeysVec::const_iterator it = mReleasedKeys.cbegin(); it != mReleasedKeys.cend(); it++)
 		if (it->mKey == key) return true;
@@ -41,7 +41,7 @@ bool cInputMessage::isKeyReleased( VKey key ) const
 	return false;
 }
 
-bool cInputMessage::isKeyRepeating( VKey key, float delay /*= 0.1f*/, float beginDelay /*= 0.5f*/ ) const
+bool InputMessage::isKeyRepeating( VKey key, float delay /*= 0.1f*/, float beginDelay /*= 0.5f*/ ) const
 {
 	float time = getKeyPressingTime(key) - beginDelay;
 	float repeatTime = max(floor(time/delay)*delay, 0.0f);
@@ -49,7 +49,7 @@ bool cInputMessage::isKeyRepeating( VKey key, float delay /*= 0.1f*/, float begi
 	return time - timeUtils()->getDeltaTime() < repeatTime && time > repeatTime;
 }
 
-float cInputMessage::getKeyPressingTime( VKey key ) const
+float InputMessage::getKeyPressingTime( VKey key ) const
 {
 	for (KeysVec::const_iterator it = mDownKeys.cbegin(); it != mDownKeys.cend(); it++)
 		if (it->mKey == key)
@@ -58,7 +58,7 @@ float cInputMessage::getKeyPressingTime( VKey key ) const
 	return 0;
 }
 
-vec2f cInputMessage::getCursorPos( int id /*= 0*/ ) const
+vec2f InputMessage::getCursorPos( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id) 
@@ -70,7 +70,7 @@ vec2f cInputMessage::getCursorPos( int id /*= 0*/ ) const
 	return vec2f();
 }
 
-bool cInputMessage::isCursorPressed( int id /*= 0*/ ) const
+bool InputMessage::isCursorPressed( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id && it->mPressedTime < FLT_EPSILON)
@@ -79,7 +79,7 @@ bool cInputMessage::isCursorPressed( int id /*= 0*/ ) const
 	return false;
 }
 
-bool cInputMessage::isCursorDown( int id /*= 0*/ ) const
+bool InputMessage::isCursorDown( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id)
@@ -88,7 +88,7 @@ bool cInputMessage::isCursorDown( int id /*= 0*/ ) const
 	return false;
 }
 
-bool cInputMessage::isCursorReleased( int id /*= 0*/ ) const
+bool InputMessage::isCursorReleased( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mReleasedCursors.cbegin(); it != mReleasedCursors.cend(); ++it)
 		if (it->mId == id)
@@ -97,7 +97,7 @@ bool cInputMessage::isCursorReleased( int id /*= 0*/ ) const
 	return false;
 }
 
-float cInputMessage::getCursorPressingTime( int id /*= 0*/ ) const
+float InputMessage::getCursorPressingTime( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id)
@@ -106,7 +106,7 @@ float cInputMessage::getCursorPressingTime( int id /*= 0*/ ) const
 	return 0;
 }
 
-vec2f cInputMessage::getCursorDelta( int id /*= 0*/ ) const
+vec2f InputMessage::getCursorDelta( int id /*= 0*/ ) const
 {
 	for (CursorVec::const_iterator it = mCursors.cbegin(); it != mCursors.cend(); ++it)
 		if (it->mId == id)
@@ -118,73 +118,73 @@ vec2f cInputMessage::getCursorDelta( int id /*= 0*/ ) const
 	return vec2f();
 }
 
-bool cInputMessage::isAltCursorPressed() const
+bool InputMessage::isAltCursorPressed() const
 {
 	return isKeyPressed((VKey)-1);
 }
 
-bool cInputMessage::isAltCursorDown() const
+bool InputMessage::isAltCursorDown() const
 {
 	return isKeyDown((VKey)-1);
 }
 
-bool cInputMessage::isAltCursorReleased() const
+bool InputMessage::isAltCursorReleased() const
 {
 	return isKeyReleased((VKey)-1);
 }
 
-float cInputMessage::getAltCursorPressedTime() const
+float InputMessage::getAltCursorPressedTime() const
 {
 	return getKeyPressingTime((VKey)-1);
 }
 
-bool cInputMessage::isAlt2CursorPressed() const
+bool InputMessage::isAlt2CursorPressed() const
 {
 	return isKeyPressed((VKey)-2);
 }
 
-bool cInputMessage::isAlt2CursorDown() const
+bool InputMessage::isAlt2CursorDown() const
 {
 	return isKeyDown((VKey)-2);
 }
 
-bool cInputMessage::isAlt2CursorReleased() const
+bool InputMessage::isAlt2CursorReleased() const
 {
 	return isKeyReleased((VKey)-2);
 }
 
-float cInputMessage::getAlt2CursorPressedTime() const
+float InputMessage::getAlt2CursorPressedTime() const
 {
 	return getKeyPressingTime((VKey)-2);
 }
 
-float cInputMessage::getMouseWheelDelta() const
+float InputMessage::getMouseWheelDelta() const
 {
 	return mMouseWheelDelta;
 }
 
-cInputMessage::CursorVec const& cInputMessage::getCursors() const
+InputMessage::CursorVec const& InputMessage::getCursors() const
 {
 	return mCursors;
 }
 
-cInputMessage::KeysVec const& cInputMessage::getPressedKeys() const
+InputMessage::KeysVec const& InputMessage::getPressedKeys() const
 {
 	return mPressedKeys;
 }
 
-cInputMessage::KeysVec const& cInputMessage::getDownKeys() const
+InputMessage::KeysVec const& InputMessage::getDownKeys() const
 {
 	return mDownKeys;
 }
 
-cInputMessage::KeysVec const& cInputMessage::getReleasedKeys() const
+InputMessage::KeysVec const& InputMessage::getReleasedKeys() const
 {
 	return mReleasedKeys;
 }
 
 
-void cInputMessage::keyPressed( VKey key )
+void InputMessage::keyPressed( VKey key )
 {
 	if (isKeyDown(key))
 		return;
@@ -192,7 +192,7 @@ void cInputMessage::keyPressed( VKey key )
 	mPressedKeys.push_back(key);
 }
 
-void cInputMessage::keyReleased( VKey key )
+void InputMessage::keyReleased( VKey key )
 {
 	for (KeysVec::const_iterator it = mDownKeys.cbegin(); it != mDownKeys.cend(); it++)
 	{
@@ -205,7 +205,7 @@ void cInputMessage::keyReleased( VKey key )
 	mReleasedKeys.push_back(key);
 }
 
-int cInputMessage::cursorPressed( const vec2f& pos )
+int InputMessage::cursorPressed( const vec2f& pos )
 {
 	//find free id
 	int id = 0;
@@ -232,7 +232,7 @@ int cInputMessage::cursorPressed( const vec2f& pos )
 	return id;
 }
 
-void cInputMessage::cursorReleased( int id /*= 0*/ )
+void InputMessage::cursorReleased( int id /*= 0*/ )
 {
 	Cursor releasedCuros(vec2f(), -100);
 	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); it++)
@@ -247,7 +247,7 @@ void cInputMessage::cursorReleased( int id /*= 0*/ )
 	mReleasedCursors.push_back(releasedCuros);
 }
 
-void cInputMessage::setCursorPos( const vec2f& pos, int id /*= 0*/ )
+void InputMessage::setCursorPos( const vec2f& pos, int id /*= 0*/ )
 {
 	for (CursorVec::iterator it = mCursors.begin(); it != mCursors.end(); ++it)
 	{
@@ -265,7 +265,7 @@ void cInputMessage::setCursorPos( const vec2f& pos, int id /*= 0*/ )
 	}
 }
 
-void cInputMessage::update(float dt)
+void InputMessage::update(float dt)
 {
 	mDownKeys.insert(mDownKeys.end(), mPressedKeys.begin(), mPressedKeys.end());
 	mPressedKeys.clear();
@@ -287,29 +287,29 @@ void cInputMessage::update(float dt)
 	mMouseWheelDelta = 0;
 }
 
-void cInputMessage::altCursorPressed( const vec2f& pos )
+void InputMessage::altCursorPressed( const vec2f& pos )
 {
 	keyPressed(-1);
 	setCursorPos(pos);
 }
 
-void cInputMessage::altCursorReleased()
+void InputMessage::altCursorReleased()
 {
 	keyReleased(-1);
 }
 
-void cInputMessage::alt2CursorPressed( const vec2f& pos )
+void InputMessage::alt2CursorPressed( const vec2f& pos )
 {
 	keyPressed(-2);
 	setCursorPos(pos);
 }
 
-void cInputMessage::alt2CursorReleased()
+void InputMessage::alt2CursorReleased()
 {
 	keyReleased(-2);
 }
 
-void cInputMessage::setMouseWheelDelta( float delta )
+void InputMessage::setMouseWheelDelta( float delta )
 {
 	mMouseWheelDelta = delta;
 }

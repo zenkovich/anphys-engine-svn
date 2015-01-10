@@ -5,27 +5,27 @@
 
 OPEN_O2_NAMESPACE
 	
-cInFile::cInFile():
+InFile::InFile():
 	mOpened(false)
 {
 }
 
-cInFile::cInFile( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
+InFile::InFile( const string& filename, FileType::value type /*= cFileType::FT_FILE*/ ):
 	mOpened(false)
 {
 	open(filename, type);
 }
 
-cInFile::~cInFile()
+InFile::~InFile()
 {
 	close();
 }
 
-bool cInFile::open( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
+bool InFile::open( const string& filename, FileType::value type /*= cFileType::FT_FILE*/ )
 {
 	close();
 
-	if (type == cFileType::FILE)
+	if (type == FileType::FILE)
 	{
 		mIfstream.open(filename.c_str(), std::ios::binary);
 
@@ -38,8 +38,8 @@ bool cInFile::open( const string& filename, cFileType::value type /*= cFileType:
 	{
 		bool success = false;
 
-		const cFileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
-		for (cFileSystem::ExtensionsVec::const_iterator it = extensions.cbegin(); it != extensions.cend(); ++it)
+		const FileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
+		for (FileSystem::ExtensionsVec::const_iterator it = extensions.cbegin(); it != extensions.cend(); ++it)
 		{
 			string resFilename = fileSystem()->getResourcePath() + filename + "." + (*it);
 
@@ -61,7 +61,7 @@ bool cInFile::open( const string& filename, cFileType::value type /*= cFileType:
 	return true;
 }
 
-bool cInFile::close()
+bool InFile::close()
 {
 	if (mOpened)
 		mIfstream.close();
@@ -69,7 +69,7 @@ bool cInFile::close()
 	return true;
 }
 
-uint32 cInFile::readFullData( void *dataPtr )
+uint32 InFile::readFullData( void *dataPtr )
 {
 	mIfstream.seekg(0, std::ios::beg);
 	mIfstream.seekg(0, std::ios::end);
@@ -81,65 +81,65 @@ uint32 cInFile::readFullData( void *dataPtr )
 	return length;
 }
 
-void cInFile::readData( void *dataPtr, uint32 bytes )
+void InFile::readData( void *dataPtr, uint32 bytes )
 {
 	mIfstream.read((char*)dataPtr, bytes);
 }
 
-void cInFile::setCaretPos( uint32 pos )
+void InFile::setCaretPos( uint32 pos )
 {
 	mIfstream.seekg(pos, std::ios::beg);
 }
 
-uint32 cInFile::getCaretPos()
+uint32 InFile::getCaretPos()
 {
 	return (uint32)mIfstream.tellg();
 }
 
-uint32 cInFile::getDataSize()
+uint32 InFile::getDataSize()
 {
 	mIfstream.seekg(0, std::ios::beg);
 	mIfstream.seekg(0, std::ios::end);
 	return (long unsigned int)mIfstream.tellg();
 }
 
-const string& cInFile::getFilename() const
+const string& InFile::getFilename() const
 {
 	return mFilename;
 }
 
-bool cInFile::isOpened() const
+bool InFile::isOpened() const
 {
 	return mOpened;
 }
 
 //cOutFile
-cOutFile::cOutFile():
+OutFile::OutFile():
 	mOpened(false)
 {
 
 }
 
-cOutFile::cOutFile( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ ):
+OutFile::OutFile( const string& filename, FileType::value type /*= cFileType::FT_FILE*/ ):
 	mOpened(false)
 {
 	open(filename, type);
 }
 
-cOutFile::~cOutFile()
+OutFile::~OutFile()
 {
 	close();
 }
 
-bool cOutFile::open( const string& filename, cFileType::value type /*= cFileType::FT_FILE*/ )
+bool OutFile::open( const string& filename, FileType::value type /*= cFileType::FT_FILE*/ )
 {
 	close();
 
 	string resFilename = filename;
-	if (type != cFileType::FILE)
+	if (type != FileType::FILE)
 	{
 		string extensionStr;		
-		const cFileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
+		const FileSystem::ExtensionsVec extensions = fileSystem()->getExtensions(type);
 
 		if (extensions.size() > 0)
 			extensionStr = extensions[0];
@@ -159,7 +159,7 @@ bool cOutFile::open( const string& filename, cFileType::value type /*= cFileType
 	return true;
 }
 
-bool cOutFile::close()
+bool OutFile::close()
 {
 	if (mOpened)
 		mOfstream.close();
@@ -167,17 +167,17 @@ bool cOutFile::close()
 	return true;
 }
 
-void cOutFile::writeData( const void* dataPtr, uint32 bytes )
+void OutFile::writeData( const void* dataPtr, uint32 bytes )
 {
 	mOfstream.write((const char*)dataPtr, bytes);
 }
 
-const string& cOutFile::getFilename() const
+const string& OutFile::getFilename() const
 {
 	return mFilename;
 }
 
-bool cOutFile::isOpened() const
+bool OutFile::isOpened() const
 {
 	return mOpened;
 }

@@ -132,9 +132,6 @@
     <ClInclude Include="..\src\render_system\texture.h">
       <Filter>src\render_system</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util\image\image.h">
-      <Filter>src\util\image</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\util\image\png_image_format.h">
       <Filter>src\util\image</Filter>
     </ClInclude>
@@ -576,6 +573,9 @@
     <ClInclude Include="..\src\assets\atlas_asset.h">
       <Filter>src\assets</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\util\image\bitmap.h">
+      <Filter>src\util\image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\render_system\render_system_base_interface.cpp">
@@ -583,9 +583,6 @@
     </ClCompile>
     <ClCompile Include="..\src\render_system\texture_base_interface.cpp">
       <Filter>src\render_system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\image\image.cpp">
-      <Filter>src\util\image</Filter>
     </ClCompile>
     <ClCompile Include="..\src\util\image\png_image_format.cpp">
       <Filter>src\util\image</Filter>
@@ -979,6 +976,9 @@
     </ClCompile>
     <ClCompile Include="..\src\assets\atlas_asset.cpp">
       <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\image\bitmap.cpp">
+      <Filter>src\util\image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

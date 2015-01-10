@@ -1,7 +1,7 @@
 #include "texture.h"
 
 #include "render_system.h"
-#include "util/image/image.h"
+#include "util/image/bitmap.h"
 
 OPEN_O2_NAMESPACE
 
@@ -32,7 +32,7 @@ grTexture grTexture::create( const vec2f& size, grTexFormat::type format /*= grT
 	return grTexture(renderSystem()->createTexture(size, format, usage));
 }
 
-grTexture grTexture::createFromImage( cImage* image )
+grTexture grTexture::createFromImage( Bitmap* image )
 {
 	return grTexture(renderSystem()->createTextureFromImage(image));
 }

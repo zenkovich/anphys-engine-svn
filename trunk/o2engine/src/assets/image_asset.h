@@ -5,27 +5,29 @@
 
 OPEN_O2_NAMESPACE
 
-class cImage;
+class Bitmap;
 
-class asImage: public asAsset, public cSerializable
+class asImage: public asAsset, public Serializable
 {
 	DEFINE_TYPE(asImage);
 
 protected:
-	cImage* mImage;
+	Bitmap* mImage;
 	string  mAtlas;
 
 public:
 	asImage();
 	asImage(const string& location);
 	asImage(const FileLocation& location);
-	asImage(cImage* image);
+	asImage(Bitmap* image);
 	~asImage();
 
 	asImage& operator=(const asImage& asset);
 
-	cImage* getImage();
-	void setImage(cImage* image);
+	Bitmap* getImage();
+	void setImage(Bitmap* image);
+
+	void setAtlasName(const string& atlasName);
 
 	SERIALIZBLE_METHODS(asImage);
 

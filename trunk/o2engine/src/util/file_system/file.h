@@ -6,26 +6,26 @@
 #include "public.h"
 OPEN_O2_NAMESPACE
 
-struct cFileType
+struct FileType
 {
 	enum value { FILE = 0, IMAGE, CONFIG, ATLAS };
 };
 
 /** Input file. */
-class cInFile
+class InFile
 {
 	std::ifstream mIfstream; /**< Input stream. */
 	string        mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:
-	cInFile();
-	cInFile(const string& filename, cFileType::value type = cFileType::FILE);
-	~cInFile();
+	InFile();
+	InFile(const string& filename, FileType::value type = FileType::FILE);
+	~InFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with extension string from file system. */
-	bool open(const string& filename, cFileType::value type = cFileType::FILE);
+	bool open(const string& filename, FileType::value type = FileType::FILE);
 
 	/** Closing file. */
 	bool close();
@@ -53,20 +53,20 @@ public:
 };
 
 /** Output file. */
-class cOutFile
+class OutFile
 {
 	std::ofstream mOfstream; /**< Output stream. */
 	string        mFilename; /**< File name. */
 	bool          mOpened;   /**< True, if file was opened. */
 
 public:
-	cOutFile();
-	cOutFile(const string& filename, cFileType::value type = cFileType::FILE);
-	~cOutFile();
+	OutFile();
+	OutFile(const string& filename, FileType::value type = FileType::FILE);
+	~OutFile();
 
 	/** Opening file with specified extension. If type is cFileType::FT_FILE, file will opened wothout adding extension,
 	  * else file name will be combine with first extension string from file system. */
-	bool open(const string& filename, cFileType::value type = cFileType::FILE);
+	bool open(const string& filename, FileType::value type = FileType::FILE);
 
 	/** Close file. */
 	bool close();

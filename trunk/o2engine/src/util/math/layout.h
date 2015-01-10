@@ -8,7 +8,7 @@
 
 OPEN_O2_NAMESPACE
 
-struct cLayout
+struct layout
 {
 	vec2f mLTRelative;
 	vec2f mLTAbsolute;
@@ -19,7 +19,7 @@ struct cLayout
 	vec2f mMinSize;
 	vec2f mMaxSize;
 
-	cLayout(const vec2f& LTRelative = vec2f(), const vec2f& LTAbsolute = vec2f(), 
+	layout(const vec2f& LTRelative = vec2f(), const vec2f& LTAbsolute = vec2f(), 
 		    const vec2f& RBRelative = vec2f(1, 1), const vec2f& RBAbsolute = vec2f(),
 			const vec2f& minSize = vec2f(), const vec2f& maxSize = vec2f(FLT_MAX, FLT_MAX)):
 		mLTRelative(LTRelative), mLTAbsolute(LTAbsolute), mRBRelative(RBRelative),
@@ -47,62 +47,62 @@ struct cLayout
 		return fRect(mPosition, mPosition + mSize);
 	}
 
-	cLayout& fixWidth(float width) 
+	layout& fixWidth(float width) 
 	{
 		mRBRelative.x = mLTRelative.x;
 		mRBAbsolute.x = mRBAbsolute.x + width;
 		return *this;
 	}
 
-	cLayout& fixHeight(float height) 
+	layout& fixHeight(float height) 
 	{
 		mRBRelative.y = mLTRelative.y;
 		mRBAbsolute.y = mRBAbsolute.y + height;
 		return *this;
 	}
 
-	cLayout& fixSize(const vec2f& size) 
+	layout& fixSize(const vec2f& size) 
 	{
 		return fixHeight(size.y).fixWidth(size.x);
 	}
 
-	cLayout& minWidth(float width) 
+	layout& minWidth(float width) 
 	{
 		mMinSize.x = width;
 		return *this;
 	}
 
-	cLayout& minHeight(float height) 
+	layout& minHeight(float height) 
 	{
 		mMinSize.y = height;
 		return *this;
 	}
 
-	cLayout& minSize(const vec2f& size) 
+	layout& minSize(const vec2f& size) 
 	{
 		mMinSize = size;
 		return *this;
 	}
 
-	cLayout& maxWidth(float width) 
+	layout& maxWidth(float width) 
 	{
 		mMaxSize.x = width;
 		return *this;
 	}
 
-	cLayout& maxHeight(float height) 
+	layout& maxHeight(float height) 
 	{
 		mMaxSize.y = height;
 		return *this;
 	}
 
-	cLayout& maxSize(const vec2f& size) 
+	layout& maxSize(const vec2f& size) 
 	{
 		mMaxSize = size;
 		return *this;
 	}
 
-	cLayout& absPosition(const vec2f& position)
+	layout& absPosition(const vec2f& position)
 	{
 		vec2f dd = position - mLTAbsolute;
 		mLTAbsolute += dd;
@@ -110,49 +110,49 @@ struct cLayout
 		return *this;
 	}
 
-	cLayout& leftTopAbs(const vec2f& position)
+	layout& leftTopAbs(const vec2f& position)
 	{
 		mLTAbsolute = position;
 		return *this;
 	}
 
-	cLayout& rightDownAbs(const vec2f& position)
+	layout& rightDownAbs(const vec2f& position)
 	{
 		mRBAbsolute = position;
 		return *this;
 	}
 
-	cLayout& leftTopRel(const vec2f& relPosition)
+	layout& leftTopRel(const vec2f& relPosition)
 	{
 		mLTRelative = relPosition;
 		return *this;
 	}
 
-	cLayout& rightDownRel(const vec2f& relPosition)
+	layout& rightDownRel(const vec2f& relPosition)
 	{
 		mRBRelative = relPosition;
 		return *this;
 	}
 
-	cLayout& leftAbs(float value) 
+	layout& leftAbs(float value) 
 	{
 		mLTAbsolute.x = value;
 		return *this;
 	}
 
-	cLayout& rightAbs(float value) 
+	layout& rightAbs(float value) 
 	{
 		mRBAbsolute.x = value;
 		return *this;
 	}
 
-	cLayout& topAbs(float value) 
+	layout& topAbs(float value) 
 	{
 		mLTAbsolute.y = value;
 		return *this;
 	}
 
-	cLayout& downAbs(float value) 
+	layout& downAbs(float value) 
 	{
 		mRBAbsolute.y = value;
 		return *this;
@@ -198,19 +198,19 @@ struct cLayout
 		return mPosition + mSize; 
 	}
 
-	static cLayout both(const fRect& border = fRect())
+	static layout both(const fRect& border = fRect())
 	{
-		return cLayout(vec2f(), vec2f(border.left, border.top), vec2f(1, 1), vec2f(-border.right, -border.down));
+		return layout(vec2f(), vec2f(border.left, border.top), vec2f(1, 1), vec2f(-border.right, -border.down));
 	}
 
-	static cLayout relative(const vec2f& relSize, const vec2f& relPos = vec2f()) 
+	static layout relative(const vec2f& relSize, const vec2f& relPos = vec2f()) 
 	{
-		return cLayout(relPos, vec2f(), relPos + relSize, vec2f());
+		return layout(relPos, vec2f(), relPos + relSize, vec2f());
 	}
 
-	static cLayout fixed(const vec2f& size, const vec2f& position = vec2f())
+	static layout fixed(const vec2f& size, const vec2f& position = vec2f())
 	{
-		return cLayout(vec2f(), position, vec2f(0, 0), size + position, size, size);
+		return layout(vec2f(), position, vec2f(0, 0), size + position, size, size);
 	}
 };
 

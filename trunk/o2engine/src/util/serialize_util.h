@@ -10,21 +10,21 @@
 
 OPEN_O2_NAMESPACE
 
-class cLogStream;
-class cSerializer;
+class LogStream;
+class Serializer;
 
 /** Serializable object interface. */
-class cSerializable 
+class Serializable 
 {
-	friend class cSerializer;
+	friend class Serializer;
 
 public:
-	cCallbackChain onBeginSerializeEvent; /** Calls when serialization begins. */
-	cCallbackChain onDeserializedEvent;   /** Calls when serialization complete. */
+	CallbackChain onBeginSerializeEvent; /** Calls when serialization begins. */
+	CallbackChain onDeserializedEvent;   /** Calls when serialization complete. */
 
 	/** Serialization function. */
-	virtual bool serialize(cSerializer* serializer) = 0; 
-	virtual cSerializable* createSample() const = 0;
+	virtual bool serialize(Serializer* serializer) = 0; 
+	virtual Serializable* createSample() const = 0;
 	virtual string getTypeName() const = 0;
 
 protected:
@@ -34,11 +34,11 @@ protected:
 
 struct gSerializeTypesContainer
 {
-	typedef std::map<string, cSerializable*> SamplesMap;
+	typedef std::map<string, Serializable*> SamplesMap;
 
 	static SamplesMap mSamples;
-	static void regType(cSerializable* type);
-	static cSerializable* getSample(const string& typeName);
+	static void regType(Serializable* type);
+	static Serializable* getSample(const string& typeName);
 	static void outputRegisteredSamples();
 };
 
@@ -53,29 +53,29 @@ struct gSerializeTypesInitializer
 };
 
 /** Basic serialize object, need to serialize data structures. */
-class cSerializer
+class Serializer
 {
 public:
 	enum SerializeType { ST_SERIALIZE = 0, ST_DESERIALIZE };
 
 private:
-	cLogStream*        mLog;         /** Serialization log, where puts errors. */
+	LogStream*        mLog;         /** Serialization log, where puts errors. */
 	pugi::xml_document mRootNode;    /** Root serialization xml document. */
 	pugi::xml_node     mCurrentNode; /** Current xml node. */
 	SerializeType      mType;        /** Serialization type. */
 
 public:
 	/** ctor. */
-	cSerializer(SerializeType type = cSerializer::ST_SERIALIZE);
+	Serializer(SerializeType type = Serializer::ST_SERIALIZE);
 
 	/** ctor. Loading file and setting deserialize type. */
-	cSerializer(const string& fileName, SerializeType type = cSerializer::ST_SERIALIZE);
+	Serializer(const string& fileName, SerializeType type = Serializer::ST_SERIALIZE);
 
 	/** ctor. Getting xml node and setting type. */
-	cSerializer(pugi::xml_node& xmlNode, SerializeType type = cSerializer::ST_SERIALIZE);
+	Serializer(pugi::xml_node& xmlNode, SerializeType type = Serializer::ST_SERIALIZE);
 
 	/** dtor. */
-	~cSerializer();
+	~Serializer();
 
 	/** Returns serialization type. */
 	SerializeType getType() const;
@@ -93,7 +93,7 @@ public:
 	string saveToString();
 
 	/** Sets log. If log not setted - using global log. */
-	void setLog(cLogStream* logStream);
+	void setLog(LogStream* logStream);
 
 	/** Creates inherited node. */
 	void createNode(const string& id);
@@ -105,7 +105,7 @@ public:
 	void popNode();
 
 	/** Serialize object. */
-	bool serialize(cSerializable* object, const string& id, bool errors = true);
+	bool serialize(Serializable* object, const string& id, bool errors = true);
 
 	/** Serialize object. */
 	bool serialize(int& object, const string& id, bool errors = true);
@@ -147,7 +147,7 @@ public:
 		if (mType == ST_SERIALIZE)
 		{
 			createNode(id);
-			cXmlTools::toXmlNode(object, mCurrentNode);
+			XmlTools::toXmlNode(object, mCurrentNode);
 			popNode();
 			return true;
 		}
@@ -156,7 +156,7 @@ public:
 			if (!getNode(id, errors))
 				return false;
 
-			cXmlTools::fromXmlNode(object, mCurrentNode);
+			XmlTools::fromXmlNode(object, mCurrentNode);
 			popNode();
 		}
 			
@@ -326,37 +326,37 @@ public:
 	}
 
 private:
-	static cSerializable* createSerializableSample(const string& type);
+	static Serializable* createSerializableSample(const string& type);
 };
 
-#define FIRST_SERIALIZATION() std::map<string, cSerializable*> gSerializeTypesContainer::mSamples
+#define FIRST_SERIALIZATION() std::map<string, Serializable*> gSerializeTypesContainer::mSamples
 
 /** Implementation of serialize method. You must define class. */
 #define SERIALIZE_METHOD_IMPL(CLASS)                  \
 	gSerializeTypesInitializer<CLASS> CLASS::RegType; \
-	bool CLASS::serialize(cSerializer* serializer)
+	bool CLASS::serialize(Serializer* serializer)
 
 /** Implementation of serialize method for inherited class. */
 #define SERIALIZE_INHERITED_METHOD_IMPL(CLASS)        \
 	gSerializeTypesInitializer<CLASS> CLASS::RegType; \
-	bool CLASS::serializeInh(cSerializer* serializer)  
+	bool CLASS::serializeInh(Serializer* serializer)  
 
 /** Declaration of serialize methods. */
 #define SERIALIZBLE_METHODS(CLASS)                                       \
 	static gSerializeTypesInitializer<CLASS> RegType;                    \
-	virtual cSerializable* createSample() const { return mnew CLASS(); } \
+	virtual Serializable* createSample() const { return mnew CLASS(); } \
 	virtual string getTypeName() const { return #CLASS; }                \
-	bool CLASS::serialize(cSerializer* serializer)
+	bool CLASS::serialize(Serializer* serializer)
 
 /** Declaration of inherited serialize methods. */
 #define SERIALIZBLE_INHERITED_METHODS(CLASS, BASIC_CLASS)                \
 	static gSerializeTypesInitializer<CLASS> RegType;           \
-	virtual cSerializable* createSample() const { return mnew CLASS(); } \
+	virtual Serializable* createSample() const { return mnew CLASS(); } \
 	virtual string getTypeName() const { return #CLASS; }                \
-	virtual bool serializeInh(cSerializer* serializer);                  \
-	virtual bool serialize(cSerializer* serializer)                      \
+	virtual bool serializeInh(Serializer* serializer);                  \
+	virtual bool serialize(Serializer* serializer)                      \
 	{                               							         \
-		if (serializer->getType() == cSerializer::ST_SERIALIZE)	         \
+		if (serializer->getType() == Serializer::ST_SERIALIZE)	         \
 			serializer->createNode(#BASIC_CLASS);				         \
 		else													         \
 			serializer->getNode(#BASIC_CLASS, true);			         \

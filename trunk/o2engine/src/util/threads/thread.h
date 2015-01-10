@@ -12,7 +12,7 @@ OPEN_O2_NAMESPACE
 //class ICallback;
 
 /** Thread starter class. Uses POSIX. */
-class cThread
+class Thread
 {
 public:
 	enum ThreadPriority { TP_NORMAL = 0, TP_LOW, TP_HIGHT };
@@ -23,20 +23,20 @@ protected:
 	bool       mStarted;    /** True, when started. */
 
 	/** copy ctor. */
-	cThread(const cThread& thread) {}
+	Thread(const Thread& thread) {}
 
 	/** copy operator. */
-	cThread& operator=(const cThread& thread) { return *this; }
+	Thread& operator=(const Thread& thread) { return *this; }
 
 	/** Thead function. Here calls mThreadFunc. */
 	static void* threadFunc(void* arg);
 
 public:
 	/** ctor. */
-	cThread();
+	Thread();
 
 	/** dtor. */
-	~cThread();
+	~Thread();
 
 	/** Starts function with priority. */
 	int start(ICallback* threadCallback, ThreadPriority threadPriority = TP_NORMAL);

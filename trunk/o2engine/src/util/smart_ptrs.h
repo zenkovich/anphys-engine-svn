@@ -9,19 +9,19 @@
 OPEN_O2_NAMESPACE
 	
 template<typename T, bool arr>
-class cAutoPtr
+class AutoPtr
 {
 	T* mObjPtr;
 
 public:
-	cAutoPtr():mObjPtr(NULL) {}
+	AutoPtr():mObjPtr(NULL) {}
 
-	cAutoPtr(T* objPtr) 
+	AutoPtr(T* objPtr) 
 	{
 		mObjPtr = objPtr; 
 	}
 
-	~cAutoPtr() 
+	~AutoPtr() 
 	{
 		if(arr)
 		{
@@ -48,7 +48,7 @@ public:
 	T* operator->() { return mObjPtr; }
 	T& operator*() { return *mObjPtr; }
 	
-	cAutoPtr& operator=(T* objPtr)
+	AutoPtr& operator=(T* objPtr)
 	{
 		if(arr)
 		{
@@ -63,11 +63,11 @@ public:
 	}
 
 private:
-	cAutoPtr& operator=(const cAutoPtr* ptr) { return *this; }
+	AutoPtr& operator=(const AutoPtr* ptr) { return *this; }
 };
 
-#define autoPtr(type) cAutoPtr<type, false>
-#define autoArr(type) cAutoPtr<type, true>
+#define autoPtr(type) AutoPtr<type, false>
+#define autoArr(type) AutoPtr<type, true>
 
 CLOSE_O2_NAMESPACE
 

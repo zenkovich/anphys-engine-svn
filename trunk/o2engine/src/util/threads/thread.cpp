@@ -4,16 +4,16 @@
 
 OPEN_O2_NAMESPACE
 
-cThread::cThread():mStarted(false), mThreadFunc(NULL)
+Thread::Thread():mStarted(false), mThreadFunc(NULL)
 {
 }
 
-cThread::~cThread()
+Thread::~Thread()
 {
 	safe_release(mThreadFunc);
 }
 
-int cThread::start( ICallback* threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
+int Thread::start( ICallback* threadCallback, ThreadPriority threadPriority /*= TP_NORMAL*/ )
 {
 	mThreadFunc = threadCallback;
 
@@ -25,7 +25,7 @@ int cThread::start( ICallback* threadCallback, ThreadPriority threadPriority /*=
 	return res;
 }
 
-int cThread::join()
+int Thread::join()
 {
 	if (!mStarted)
 		return -1;
@@ -33,7 +33,7 @@ int cThread::join()
 	return pthread_join(mThreadId, NULL);
 }
 
-int cThread::cancel()
+int Thread::cancel()
 {
 	if (!mStarted)
 		return -1;
@@ -41,9 +41,9 @@ int cThread::cancel()
 	return pthread_cancel(mThreadId);
 }
 
-void* cThread::threadFunc( void* arg )
+void* Thread::threadFunc( void* arg )
 {
-	cThread* threadObj = reinterpret_cast<cThread*>(arg);
+	Thread* threadObj = reinterpret_cast<Thread*>(arg);
 	threadObj->mThreadFunc->call();
 	pthread_exit(NULL);
 	return NULL;

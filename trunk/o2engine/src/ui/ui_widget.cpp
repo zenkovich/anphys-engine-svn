@@ -8,10 +8,10 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(uiWidget);
 
-uiWidget::uiWidget( const cLayout& layout, const string& id/* = ""*/ ):
+uiWidget::uiWidget( const layout& layout, const string& id/* = ""*/ ):
 	mId(id), mLayout(layout), mGeometry(NULL), mVisible(true), mFocused(false), mBasicTransparency(1.0f), mParent(NULL),
 	mVisibleState(NULL), mUpdatedAtFrame(0), mProcessedInputAtFrame(0), mDrawedAtFrame(0), mCursorInside(false),
-	mChildsLayout(cLayout::both()), mAbsMinSize(0, 0), mResizeByChilds(false)
+	mChildsLayout(layout::both()), mAbsMinSize(0, 0), mResizeByChilds(false)
 {
 	mLayout = layout;
 	mCheckParentTransparency = callback<uiWidget>(this, &uiWidget::updateResTransparency);
@@ -147,7 +147,7 @@ bool uiWidget::isInside( const vec2f& point ) const
 	return true;
 }
 
-bool uiWidget::processInputMessage( const cInputMessage& msg )
+bool uiWidget::processInputMessage( const InputMessage& msg )
 {
 	if (!mVisible || mProcessedInputAtFrame == timeUtils()->getCurrentFrame())
 		return false;
@@ -333,13 +333,13 @@ vec2f uiWidget::getSize() const
 	return mSize;
 }
 
-void uiWidget::setGeometry(cGeometry* geometry)
+void uiWidget::setGeometry(Geometry* geometry)
 {
 	safe_release(mGeometry);
 	mGeometry = geometry;
 }
 
-cGeometry* uiWidget::getGeometry() const
+Geometry* uiWidget::getGeometry() const
 {
 	return mGeometry;
 }
@@ -430,23 +430,23 @@ void uiWidget::setVisibleParam(bool param)
 	mVisible = param;
 }
 
-void uiWidget::setLayout(const cLayout& layout)
+void uiWidget::setLayout(const layout& layout)
 {
 	setLayoutParams(layout, false);
 }
 
-cLayout uiWidget::getLayout() const
+layout uiWidget::getLayout() const
 {
 	return mLayout;
 }
 
-void uiWidget::setChildsLayout(const cLayout& layout)
+void uiWidget::setChildsLayout(const layout& layout)
 {
 	mChildsLayout = layout;
 	updateLayout();
 }
 
-cLayout uiWidget::getChildsLayout() const
+layout uiWidget::getChildsLayout() const
 {
 	return mChildsLayout;
 }
@@ -491,7 +491,7 @@ void uiWidget::onFocusLost()
 	mFocused = false;
 }
 
-void uiWidget::setLayoutParams( const cLayout& layout, bool onlyDownUpdate )
+void uiWidget::setLayoutParams( const layout& layout, bool onlyDownUpdate )
 {
 	mLayout = layout;
 	mLayout.mMinSize.x = max(mLayout.mMinSize.x, mFixedMinSize.x);

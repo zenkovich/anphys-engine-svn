@@ -15,7 +15,7 @@ public:
 	DEFINE_TYPE(uiVerLayout);
 
 	/** ctor. */
-	uiVerLayout(const cLayout& layout, float widgetsDistance = 10.0f, const string& id = "");
+	uiVerLayout(const layout& layout, float widgetsDistance = 10.0f, const string& id = "");
 
 	/** copy-ctor. */
 	uiVerLayout(const uiVerLayout& widget);

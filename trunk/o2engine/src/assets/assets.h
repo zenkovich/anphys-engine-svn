@@ -8,7 +8,7 @@
 OPEN_O2_NAMESPACE
 
 class asAsset;
-class cLogStream;
+class LogStream;
 class AssetBuildSystem;
 
 class Assets
@@ -19,13 +19,15 @@ class Assets
 	friend class asXmlDoc;
 	friend class abImageAssetInfo;
 	friend class AssetBuildSystem;
+	friend class asAtlas;
 
 public:
 	typedef array<asAsset*> AssetsArr;
 
 protected:
 	AssetsInfosArr    mAssetsInfos;
-	cLogStream*       mLog;
+	asFolderConfig    mAssetsConfigs;
+	LogStream*        mLog;
 	AssetBuildSystem* mBuildSystem;
 	string            mBuildedAssetsPath;
 
@@ -33,10 +35,15 @@ public:
 	Assets();
 	~Assets();
 
-	string getAssetSourceFullPath(const string& path);
-	string getAssetFullPath(const string& path);
+	string getAssetRealPath(const FileLocation& location);
 	string getAssetRealPath(const string& path);
+
+	string getAssetFullPath(const FileLocation& location);
+	string getAssetFullPath(const string& path);
+
 	FileLocation getAssetFileLocation(const string& path);
+
+	string getAssetSourceFullPath(const string& path);
 
 	template<typename _asType>
 	_asType loadAsset(const string& path);
@@ -58,6 +65,7 @@ public:
 protected:
 	void loadBuildedAssetsInfo();
 	uint32 generateFileId() const;
+	void reloadAssetsConfigs();
 };
 
 template<typename _asType>
