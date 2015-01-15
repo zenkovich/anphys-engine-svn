@@ -80,6 +80,12 @@ void asImage::saveData()
 
 	asAssetConfig* config = assets()->mAssetsConfigs.getAssetConfig(mLocation);
 	if (!config)
+	{
+		config = mnew asImageConfig(mLocation, mAtlas);
+		assets()->mAssetsConfigs.addAssetConfig(config);
+	}
+
+	config->
 }
 
 void asImage::setAtlasName( const string& atlasName )

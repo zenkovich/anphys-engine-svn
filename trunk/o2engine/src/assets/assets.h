@@ -27,7 +27,7 @@ public:
 
 protected:
 	AssetsInfosArr    mAssetsInfos;
-	asFolderConfig    mAssetsConfigs;
+	AssetsConfigsArr  mAssetsConfigs;
 	LogStream*        mLog;
 	AssetBuildSystem* mBuildSystem;
 	string            mBuildedAssetsPath;
@@ -67,6 +67,7 @@ protected:
 	void loadBuildedAssetsInfo();
 	uint32 generateFileId() const;
 	void reloadAssetsConfigs();
+	void saveAssetsConfigs();
 };
 
 template<typename _asType>
