@@ -77,7 +77,10 @@ void asFile::setData(char* data, uint32 size)
 void asFile::saveData()
 {
 	OutFile file(assets()->getAssetSourceFullPath(mLocation.mPath));
-	file.writeData(mData, mDataSize);
+
+	if (mData)
+		file.writeData(mData, mDataSize);
+
 	file.close();
 }
 

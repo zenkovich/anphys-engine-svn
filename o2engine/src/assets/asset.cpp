@@ -7,25 +7,22 @@ OPEN_O2_NAMESPACE
 
 REGIST_TYPE(asAsset);
 
-asAsset::asAsset():
-	mData(NULL), mDataSize(0)
+asAsset::asAsset()
 {
 }
 
-asAsset::asAsset(const string& location):
-	mData(NULL), mDataSize(0)
+asAsset::asAsset(const string& location)
 {
 	mLocation = assets()->getAssetFileLocation(location);
 }
 
 asAsset::asAsset(const FileLocation& location):
-	mData(NULL), mDataSize(0)
+	mLocation(location)
 {
-	mLocation = location;
 }
 
 asAsset::asAsset(const asAsset& asset):
-	mData(NULL), mDataSize(0), mLocation()
+	mLocation()
 {
 }
 

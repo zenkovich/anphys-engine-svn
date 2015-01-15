@@ -69,12 +69,17 @@ void asImage::loadData()
 
 void asImage::loadImage()
 {
+	safe_release(mImage);
 	mImage = mnew Bitmap(assets()->getAssetSourceFullPath(mLocation.mPath));
 }
 
 void asImage::saveData()
 {
-	mImage->save(assets()->getAssetSourceFullPath(mLocation.mPath), Bitmap::IT_PNG);
+	if (mImage)
+		mImage->save(assets()->getAssetSourceFullPath(mLocation.mPath), Bitmap::IT_PNG);
+
+	asAssetConfig* config = assets()->mAssetsConfigs.getAssetConfig(mLocation);
+	if (!config)
 }
 
 void asImage::setAtlasName( const string& atlasName )

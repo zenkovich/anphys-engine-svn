@@ -4,6 +4,7 @@
 #include "public.h"
 #include "asset.h"
 #include "util/file_system/file_info.h"
+#include "config/asset_config.h"
 
 OPEN_O2_NAMESPACE
 

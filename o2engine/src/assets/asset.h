@@ -19,8 +19,6 @@ class asAsset
 
 protected:
 	FileLocation mLocation;
-	char*         mData;
-	uint32        mDataSize;
 
 public:
 	asAsset();
@@ -47,8 +45,8 @@ public:
 	enum Type { TP_FILE, TP_IMAGE, TP_ATLAS, TP_FOLDER };
 
 	FileLocation mLocation;
-	Type          mType;
-	WideTime      mWriteTime;
+	Type         mType;
+	WideTime     mWriteTime;
 
 public:
 	asAssetInfo();
