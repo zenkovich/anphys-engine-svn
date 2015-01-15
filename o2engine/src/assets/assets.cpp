@@ -118,11 +118,18 @@ void Assets::loadBuildedAssetsInfo()
 
 void Assets::reloadAssetsConfigs()
 {
-	release_array(AssetsConfigsArr, mAssetsConfigs.mInsideAssets);
+	release_array(AssetsConfigsArr, mAssetsConfigs);
 	
 	Serializer serializer;
 	if (serializer.load(ASSETS_FOLDER_CONFIG_FILE_PATH))
-		serializer.serialize(&mAssetsConfigs, "assetsConfigs");
+		serializer.serialize(mAssetsConfigs, "assetsConfigs");
+}
+
+void Assets::saveAssetsConfigs()
+{	
+	Serializer serializer;
+	serializer.serialize(mAssetsConfigs, "assetsConfigs");
+	serializer.save(ASSETS_FOLDER_CONFIG_FILE_PATH);
 }
 
 CLOSE_O2_NAMESPACE

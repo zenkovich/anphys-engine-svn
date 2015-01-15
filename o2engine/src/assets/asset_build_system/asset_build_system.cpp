@@ -65,7 +65,12 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	assetsPathInfo.clampPathNames();
 
 	//process loading assets infos
-	processLoadingAssetsFolderInfo(assetsPathInfo, mAssets->mAssetsConfigs, mAssetsFolderInfo);
+	AssetsConfigsArr oldAssetsConfigs = mAssets->mAssetsConfigs;
+	mAssets->mAssetsConfigs.clear();
+
+	processLoadingAssetsFolderInfo(assetsPathInfo, oldAssetsConfigs, mAssetsFolderInfo);
+
+	release_array(AssetsConfigsArr, oldAssetsConfigs);
 
 	//add fake basic atlas asset
 	abAtlasAssetInfo* basicAtlas = mnew abAtlasAssetInfo();
@@ -79,12 +84,10 @@ void AssetBuildSystem::loadAssetFolderInfo()
 	mAssetsFolderInfo.linkAtlases();
 
 	//save configs
-	Serializer outSerializer(Serializer::ST_SERIALIZE);
-	outSerializer.serialize(&mAssets->mAssetsConfigs, "assetsConfigs");
-	outSerializer.save(mAssetsFolderConfigFilePath);
+	mAssets->saveAssetsConfigs();
 }
 
-void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asFolderConfig& pathConfig, abFolderInfo& asPathInfo)
+void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, AssetsConfigsArr& configs, abFolderInfo& asPathInfo)
 {
 	foreach(PathInfo::FilesArr, pathInfo.mFiles, fileInfIt)
 	{
@@ -100,13 +103,22 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asFold
 		asFileInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, fileInfIt->mPath);
 		asFileInfo->mWriteTime = fileInfIt->mEditDate;		
 
-		//seek asset config and remove from searched place
-		asAssetConfig* asFileConfig = mAssets->mAssetsConfigs.getAndRemoveAssetConfig(asFileInfo->mLocation);
+		//seek asset config and clone
+		asAssetConfig* asFileConfig = NULL;
+		foreach(AssetsConfigsArr, configs, cfgIt)
+		{
+			if ((*cfgIt)->mLocation == asFileInfo->mLocation)
+			{
+				asFileConfig = (*cfgIt)->clone();
+				break;
+			}
+		}
 
 		//skip if asset not included 
 		if (asFileConfig && !asFileConfig->mIncludeBuild)
 		{
 			safe_release(asFileInfo);
+			mAssets->mAssetsConfigs.add(asFileConfig);
 			continue;
 		}
 
@@ -116,8 +128,8 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asFold
 		else
 			asFileConfig = asFileInfo->getConfigsSample();
 		
-		//add asset config at right place in configs hierarhy
-		pathConfig.mInsideAssets.add(asFileConfig);
+		//add asset config at new assets configs array
+		mAssets->mAssetsConfigs.add(asFileConfig);
 
 		//and add asset info in assets infos hierarhy
 		asPathInfo.addInsideAsset(asFileInfo);
@@ -132,26 +144,36 @@ void AssetBuildSystem::processLoadingAssetsFolderInfo(PathInfo& pathInfo, asFold
 		folderInfo->mLocation.mPath = pathInfIt->mPath;
 		folderInfo->mLocation.mId = tryGetAssetsInfoMetaId(pathInfo, pathInfIt->mPath);	
 		
-		//seek asset config and remove from searched place
-		asAssetConfig* asFldrConfig = mAssets->mAssetsConfigs.getAndRemoveAssetConfig(pathInfIt->mPath);
+		//seek asset config and remove from searched place//seek asset config and clone
+		asAssetConfig* asFldrConfig = NULL;
+		foreach(AssetsConfigsArr, configs, cfgIt)
+		{
+			if ((*cfgIt)->mLocation == folderInfo->mLocation)
+			{
+				asFldrConfig = (*cfgIt)->clone();
+				break;
+			}
+		}
+
 		if (asFldrConfig && !asFldrConfig->mIncludeBuild)
 		{
 			safe_release(folderInfo);
+			mAssets->mAssetsConfigs.add(asFldrConfig);
 			continue;
 		}	
 
 		//create new config, if needs
 		if (!asFldrConfig) 
 			asFldrConfig = folderInfo->getConfigsSample();
-
-		//add asset config at right place in configs hierarhy
-		pathConfig.mInsideAssets.add(asFldrConfig);
+		
+		//add asset config at new assets configs array
+		mAssets->mAssetsConfigs.add(asFldrConfig);
 		
 		//and add asset info in assets infos hierarhy
 		asPathInfo.addInsideAsset(folderInfo);
 
 		//process files inside that folder
-		processLoadingAssetsFolderInfo(*pathInfIt, *(asFolderConfig*)asFldrConfig, *folderInfo);
+		processLoadingAssetsFolderInfo(*pathInfIt, configs, *folderInfo);
 	}
 }
 

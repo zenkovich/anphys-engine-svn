@@ -18,32 +18,15 @@ public:
 
 public:
 	asAssetConfig();
+	asAssetConfig(const FileLocation& location, bool includeBuild = true);
 	virtual ~asAssetConfig();
+
+	virtual asAssetConfig* clone() const;
 
 	SERIALIZBLE_METHODS(asAssetConfig);
 };
 typedef array<asAssetConfig*> AssetsConfigsArr;
 
-class asFolderConfig: public asAssetConfig
-{
-	friend class AssetBuildSystem;
-
-public:
-	DEFINE_TYPE(asFolderConfig);
-
-	AssetsConfigsArr mInsideAssets;
-
-public:
-	asFolderConfig();
-	~asFolderConfig();
-	
-	asAssetConfig* getAssetConfig(const FileLocation& location);
-
-	SERIALIZBLE_INHERITED_METHODS(asFolderConfig, asAssetConfig);
-
-private:
-	asAssetConfig* getAndRemoveAssetConfig(const FileLocation& location);
-};
 
 class asImageConfig: public asAssetConfig
 {
@@ -55,9 +38,13 @@ public:
 
 public:
 	asImageConfig();
+	asImageConfig(const FileLocation& location, const string& atlas = "", float scale = 1.0f, bool includeBuild = true);
+
+	virtual asAssetConfig* clone() const;
 
 	SERIALIZBLE_INHERITED_METHODS(asImageConfig, asAssetConfig);
 };
+
 
 class asAtlasConfig: public asAssetConfig
 {
@@ -71,6 +58,10 @@ public:
 
 public:
 	asAtlasConfig();
+	asAtlasConfig(const FileLocation& location, const string& name, const vec2f maxSize = vec2f(2048, 2048), 
+		          bool includeBuild = true);
+
+	virtual asAssetConfig* clone() const;
 	
 	SERIALIZBLE_INHERITED_METHODS(asAtlasConfig, asAssetConfig);
 };
